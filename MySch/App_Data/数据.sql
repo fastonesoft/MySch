@@ -48,7 +48,7 @@ create table TKey
 	GD	nvarchar(32) not null,	--Valid
 	Name	nvarchar(32) not null,	--Key
 	Fixed	bit not null,	
-	ClassID	nvarchar(32) not null,
+	KeyClassID	nvarchar(32) not null,
 )
 go
 alter table TKey add constraint PK_TKey primary key clustered (ID)
@@ -83,6 +83,15 @@ create unique nonclustered index IN_TAcc_Name on TAcc (Name)
 insert TAcc values ('admin','083c1a7e3e8f6adcb09566055de33853', '系统管理员','c0e5fa241935e64e19c39dc38109c13a','2015-09-10 12:00:00',  0, null)
 go
 
+--样式表
+create table Theme
+(
+	ID	nvarchar(32) not null,
+	GD	nvarchar(32) not null,
+	Name	nvarchar(32) not null,
+	Defaulted	bit not null,
+)
+go
 
 --页面表
 create table TPage
@@ -90,16 +99,23 @@ create table TPage
 	ID	nvarchar(32) not null,
 	GD	nvarchar(32) not null,
 	Name	nvarchar(32) not null,
-	Html	nvarchar(max) not null,
-	Txt	nvarchar(max) not null,
-	Fixed	bit not null,
-	Defaulted	bit not null,
-	Parent	nvarchar(32),
+	ThemeID	nvarchar(32) not null,
 )
 go
 
 alter table TPage add constraint PK_TPage primary key clustered (ID)
 create unique nonclustered index IN_TPage_Name on TPage (Name)
 
+create table TColumn
+(
+	ID	nvarchar(32) not null,
+	GD	nvarchar(32) not null,
+	Name	nvarchar(32) not null,
+	Html	nvarchar(max) not null,
+	Txt	nvarchar(max) not null,
+	Fixed	bit not null,
+	PageID	nvarchar(32) not null,
+)
+go
 
 
