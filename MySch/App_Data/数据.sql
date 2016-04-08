@@ -118,4 +118,41 @@ create table TColumn
 )
 go
 
+--学生表
+create table TStud
+(
+	IDS	nvarchar(18) not null,
+	Name	nvarchar(10) not null
+)
+create table TStudExTable
+(
+	ID	nvarchar(32) not null,
+	Name	nvarchar(32) not null,
 
+)
+go
+create table TStudEx
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(18) not null,
+)
+go
+create table TKao
+(
+	ID	nvarchar(32) not null,
+	Name	nvarchar(32) not null,
+	KeyID	nvarchar(32) not null,	--键值对(考试类型)
+	KaoBegin	datetime not null,
+	KaoEnd	datetime not null
+)
+go
+create table TClassroom
+(
+
+)
+go
+create table TScore
+(
+	
+)
+go
