@@ -126,9 +126,9 @@ create table TStud
 )
 create table TStudExTable
 (
-	ID	nvarchar(32) not null,
+	ID	int not null,
 	Name	nvarchar(32) not null,
-
+	Memo	nvarchar(max)
 )
 go
 create table TStudEx
