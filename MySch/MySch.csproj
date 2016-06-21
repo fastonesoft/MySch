@@ -127,7 +127,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelsEx\MyModels.cs" />
-    <Compile Include="ModelsEx\MySetting.cs" />
+    <Compile Include="ModelsEx\MySetting.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ModelsEx\MyType.cs" />
     <Compile Include="ModelsEx\MyValid.cs" />
     <Compile Include="ModelsEx\MyImageValid.cs" />

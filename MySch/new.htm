@@ -1,0 +1,87 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>拍照测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <style>
+        video { width: 1280px; height: 720px; border: 1px solid #ccc; }
+    </style>
+
+
+</head>
+<body>
+    <video id="video" style="display:block;"></video>
+    <input type="button" title="拍照" value="拍照" onclick="takePhoto();" />
+    <input type="button" title="清除" value="清除" onclick="clearPhoto();" />
+    <div></div>
+    <canvas id="canvas" width="1250" height="870"></canvas>
+
+
+    <script type="text/javascript">
+        window.addEventListener("DOMContentLoaded", function () {
+
+            navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            //window.URLs = window.URL || window.webkitURL || window.mozURL || window.msURL;
+            var constraints = navigator.mozGetUserMedia ? { video: { width: 1920, height: 1080 } } : { video: { mandatory: { minWidth: 1920, minHeight: 1080 } } };
+
+            navigator.getMedia(
+                //{ video: true },
+             constraints,
+            //{
+            //    "video": {
+            //        "width": 1920,
+            //        "height": 1080,
+            //        "frameRate": "25",
+            //        "facingMode": "environment"
+            //    }
+            //},
+
+            // successCallback
+            function (stream) {
+                var video = document.querySelector('video');
+
+                if (navigator.mozGetUserMedia) {
+                    video.mozSrcObject = stream;
+                } else {
+                    var windowURL = window.URL || window.webkitURL;
+                    video.src = windowURL.createObjectURL(stream);
+                }
+
+                video.play();
+                //video.onloadedmetadata = function (e) {
+                //    // Do something with the video here.
+
+                //};
+            },
+
+            // errorCallback
+            function (err) {
+                console.log("The following error occured: " + err);
+            }
+
+         );
+
+        }, false);
+
+        //拍照
+        function takePhoto() {
+            var video = document.querySelector('video');
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+
+            context.drawImage(video, 330, 180, 1920, 1080, 0, 0, 1920, 1080);
+        }
+        //清除
+        function clearPhoto() {
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            context.fillStyle = "#fff";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+    </script>
+</body>
+</html>
