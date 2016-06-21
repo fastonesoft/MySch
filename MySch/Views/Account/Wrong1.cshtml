@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>出错提示</title>
+    <script type="text/javascript">
+        var goTime = 2;
+        var goText = '返回登录';
+        function goLogin() {
+            goTime = goTime - 1;
+            $('#reload').text(goText + '(' + goTime.toString() + ')');
+            if (goTime == 0) {
+                $('#reload').click();
+            }
+        }
+        $(function () {
+            var h = setInterval("goLogin()", 1000);
+            $('#reload').click(function () {
+                //停止
+                clearInterval(h);
+                //登录
+                $.post('/Account/Check', function (d) {
+                    $('#body').html(d);
+                })
+            });
+
+        });
+    </script>
+    <style type="text/css">
+        * { font-size: 9pt; border: 0; margin: 0; padding: 0; }
+        body { font-family: '微软雅黑'; margin: 0 auto; min-width: 980px; }
+        .loginbtn { float: right; margin-right: 63px; width: 111px; height: 35px; text-align: center; background: url(/Images/buttonbg.png) repeat-x; font-size: 14px; font-weight: bold; color: #fff; cursor: pointer; line-height: 35px; }
+        .error { background: url(/Images/404.png) no-repeat center center; margin: 0 auto; width: 500px; padding-top: 65px; }
+        .error h2 { font-size: 22px; padding-left: 154px; }
+        .error p { padding-left: 154px; line-height: 35px; color: #717678; }
+    </style>
+</head>
+<body>
+    <div style="width:100%;padding-top:100px;">
+        <div class="error">
+            <h2>非常遗憾，您不能访问</h2>
+            <p>长时间没有刷新，请重新登录；没有权限，请联系管理员</p>
+            <div class="loginbtn" id="reload">返回登录</div>
+        </div>
+    </div>
+</body>
+</html>

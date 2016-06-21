@@ -38,6 +38,8 @@ create table TKeyClass
 	Fixed	bit not null,
 	Parent	nvarchar(32),
 )
+alter table TKeyClass add constraint PK_TKeyClass primary key clustered (ID)
+create index IN_TKeyClass_Parent on TKeyClass (Parent)
 go
 --键值分类可以无限自我扩展
 
@@ -53,7 +55,6 @@ create table TKey
 go
 alter table TKey add constraint PK_TKey primary key clustered (ID)
 create index IN_TKey_Name on TKey (Name)
-create index IN_TKey_Parent on TKey (Parent)
 go
 
 
@@ -118,41 +119,31 @@ create table TColumn
 )
 go
 
---学生表
-create table TStud
-(
-	IDS	nvarchar(18) not null,
-	Name	nvarchar(10) not null
-)
-create table TStudExTable
-(
-	ID	int not null,
-	Name	nvarchar(32) not null,
-	Memo	nvarchar(max)
-)
-go
-create table TStudEx
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(18) not null,
-)
-go
-create table TKao
-(
-	ID	nvarchar(32) not null,
-	Name	nvarchar(32) not null,
-	KeyID	nvarchar(32) not null,	--键值对(考试类型)
-	KaoBegin	datetime not null,
-	KaoEnd	datetime not null
-)
-go
-create table TClassroom
-(
 
-)
-go
-create table TScore
+--新生报名
+create table TStudReg
 (
-	
+	ID	nvarchar(20) not null,	--身份证号
+	GD	nvarchar(32) not null,	--编号
+	Name	nvarchar(20) not null,	--姓名
+	fromSch	nvarchar(32) not null,	--学校
+	fromClass	int not null,	--班级
+	fromPhoto	nvarchar(32),	--入学时的照片
+	schChoose	bit not null,	--是否择校
 )
+alter table TStudReg add constraint PK_TStudReg primary key clustered (ID)
+create unique nonclustered index IN_TStudReg_GD on TStudReg (GD)
+create unique nonclustered index IN_TStudReg_Name on TStudReg (Name)
+go
+
+--文件记录
+create table TFileInfor
+(
+	Name	nvarchar(40) not null,	--文件名称 GUID + .xxx
+	fileClass	nvarchar(20) not null,	--文件分类
+	fileAuthor	nvarchar(20) not null,	--文件作者
+	updateTime	datetime not null default getdate(),
+)
+alter table TFileInfor add constraint PK_TFileInfor primary key clustered (Name)
+create unique nonclustered index IN_TFileInfor_fileAuthor on TFileInfor (fileAuthor)
 go

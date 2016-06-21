@@ -126,7 +126,29 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsEx\MyModels.cs" />
+    <Compile Include="ModelsEx\MySetting.cs" />
+    <Compile Include="ModelsEx\MyType.cs" />
+    <Compile Include="ModelsEx\MyValid.cs" />
+    <Compile Include="ModelsEx\MyImageValid.cs" />
+    <Compile Include="ModelsEx\MyWxApi.cs" />
+    <Compile Include="Models\Mapping\TAccMap.cs" />
+    <Compile Include="Models\Mapping\TColumnMap.cs" />
+    <Compile Include="Models\Mapping\TFileInforMap.cs" />
+    <Compile Include="Models\Mapping\ThemeMap.cs" />
+    <Compile Include="Models\Mapping\TKeyClassMap.cs" />
+    <Compile Include="Models\Mapping\TKeyMap.cs" />
+    <Compile Include="Models\Mapping\TPageMap.cs" />
+    <Compile Include="Models\Mapping\TStudRegMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
+    <Compile Include="Models\TAcc.cs" />
+    <Compile Include="Models\TColumn.cs" />
+    <Compile Include="Models\TFileInfor.cs" />
+    <Compile Include="Models\Theme.cs" />
+    <Compile Include="Models\TKey.cs" />
+    <Compile Include="Models\TKeyClass.cs" />
+    <Compile Include="Models\TPage.cs" />
+    <Compile Include="Models\TStudReg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +158,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="new.htm" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -146,6 +169,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\my.json2.min.js" />
+    <Content Include="Scripts\my.md5.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -164,11 +189,15 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\camflash.cshtml" />
+    <Content Include="camhtml5.htm" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Logon.cshtml" />
+    <Content Include="Views\Account\Wrong1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Account\" />
     <Folder Include="Controllers\Admin\" />
-    <Folder Include="ModelsEx\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

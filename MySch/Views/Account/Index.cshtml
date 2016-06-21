@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+    //Account/Index
+    string file = DateTime.Now.Ticks.ToString() + ".xls";
+
+    var dd = new Random();
+    var r = dd.NextDouble();
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>校务在线</title>
+
+    <link href="~/Content/Print.css" rel="stylesheet" media="print" />
+
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css?@r.ToString()" rel="stylesheet" />
+    <link href="~/Content/style.css?@r.ToString()" rel="stylesheet" media="screen" />
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.re.js"></script>
+
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+
+    <script src="~/Scripts/md5.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            //登录检测
+            $.post('/Account/Check', function (d) {
+                if (d.error) {
+                    $.messager.alert('错误提示', d.message, 'error');
+                } else {
+                    $('#body').html(d);
+                }
+            })
+        })
+
+    </script>
+
+</head>
+<body id="body">
+</body>
+</html>

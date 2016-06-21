@@ -1,0 +1,119 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>校务在线</title>
+
+    <link href="~/Content/Print.css" rel="stylesheet" media="print" />
+
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css?@r.ToString()" rel="stylesheet" />
+    <link href="~/Content/style.css?@r.ToString()" rel="stylesheet" media="screen" />
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.re.js"></script>
+
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <style>
+        video {
+  width: 307px;
+  height: 250px;
+  border: 1px solid #ccc;
+}
+    </style>
+    <script type="text/javascript">
+
+        //$(function () {
+        //    //登录检测
+        //    $.post('/Account/Check', function (d) {
+        //        if (d.error) {
+        //            $.messager.alert('错误提示', d.message, 'error');
+        //        } else {
+        //            $('#body').html(d);
+        //        }
+        //    })
+        //})
+
+
+
+        // Put event listeners into place
+        window.addEventListener("DOMContentLoaded", function () {
+            var video = document.getElementById("video");
+            videoObj = {
+                video: {
+                    mandatory: {
+                        minWidth: 1280,
+                        minHeight: 720
+                    }
+                }
+            };
+            errBack = function (error) {
+                alert(error.code);
+            };
+
+            // Put video listeners into place
+            if (navigator.getUserMedia) { // Standard
+                navigator.getUserMedia(videoObj, function (stream) {
+                    video.src = stream;
+                    video.play();
+                }, errBack);
+            } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
+                navigator.webkitGetUserMedia(videoObj, function (stream) {
+                    video.src = window.webkitURL.createObjectURL(stream);
+                    video.play();
+                }, errBack);
+            } else if (navigator.mozGetUserMedia) { // Firefox-prefixed
+                navigator.mozGetUserMedia(videoObj, function (stream) {
+                    video.src = window.URL.createObjectURL(stream);
+                    video.play();
+                }, errBack);
+            }
+
+        }, false);
+
+        $(function () {
+            $('#snap').click(function () {
+                var canvas = document.getElementById("canvas");
+                context = canvas.getContext("2d");
+                context.drawImage(video, 0, 0, 640, 480);
+            });
+        })
+
+        //上传图片
+        //var Pic = document.getElementById("myCanvas").toDataURL("image/png");
+        //Pic = Pic.replace(/^data:image\/(png|jpg);base64,/, "")
+        //post
+        //要从Canvas获取图片数据，其核心思路是用canvas的toDataURL将Canvas的数据转换为base64位编码的PNG图像
+        //var imgData=canvas.toDataURL(“image/png”);
+        //imgData格式如下：”data:image/png;base64,xxxxx“
+        //真正图像数据是base64编码逗号之后的部分
+        //服务器端保存
+        //public static void UploadPic (string imageData)
+        //{
+        //string Pic_Path = HttpContext.Current.Server.MapPath("MyPicture.png");
+        //using (FileStream fs = new FileStream(Pic_Path, FileMode.Create))
+        //{
+        //    using (BinaryWriter bw = new BinaryWriter(fs))
+        //{
+        //        byte[] data = Convert.FromBase64String(imageData);
+        //bw.Write(data);
+        //bw.Close();
+        //}
+        //}
+        //}
+
+    </script>
+
+</head>
+<body id="body">
+
+    <video id="video"  autoplay></video>
+    <input type="button" id="snap" value="photo">
+    <canvas id="canvas" ></canvas>
+</body>
+</html>

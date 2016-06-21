@@ -1,0 +1,114 @@
+﻿@model MvcSch.Models.Acc
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <style type="text/css">
+        * { font-size: 9pt; border: 0; margin: 0; padding: 0; }
+        ul { display: block; margin: 0; padding: 0; list-style: none; }
+        li { display: block; margin: 0; padding: 0; list-style: none; }
+        img { border: 0; }
+
+        #cloudBody { width: 100%; height: 100%; position: absolute; z-index: -1; }
+        .my-login-cloud { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: url(/Images/logincloud.png) no-repeat; z-index: 1; opacity: 0.5; }
+        .my-login-top { height: 47px; position: absolute; top: 0; background: url(/Images/loginbg1.png) repeat-x; z-index: 100; width: 100%; }
+        .my-login-top span { color: #fff; line-height: 47px; background: url(/Images/loginsj.png) no-repeat 21px 18px; text-indent: 44px; color: #afc5d2; float: left; }
+        .my-login-top ul { float: right; padding-right: 30px; }
+        .my-login-top ul li { float: left; margin-left: 20px; line-height: 47px; }
+        .my-login-top ul li a { color: #afc5d2; }
+        .my-login-top ul li a:hover { color: #fff; }
+        .my-login-body { background: url(/Images/loginbg3.png) no-repeat center center; width: 100%; height: 585px; overflow: hidden; position: absolute; }
+        .my-login-box { width: 692px; height: 336px; background: url(/Images/logininfo.png) no-repeat; }
+        .my-login-box ul { margin-top: 88px; margin-left: 285px; }
+        .my-login-box ul li label { color: #687f92; padding-left: 25px; }
+        .my-login-box ul li label a { color: #687f92; }
+        .my-login-box ul li label a:hover { color: #3d96c9; }
+        .my-login-box ul li label input { margin-right: 5px; }
+        .my-login-user { width: 299px; height: 48px; background: url(/Images/loginuser.png) no-repeat; border: none; line-height: 48px; padding-left: 44px; font-size: 14px; font-weight: bold; }
+        .my-login-pwd { width: 299px; height: 48px; background: url(/Images/loginpassword.png) no-repeat; border: none; line-height: 48px; padding-left: 44px; font-size: 14px; color: #90a2bc; }
+        .my-login-btn { float: right; margin-right: 63px; width: 111px; height: 35px; text-align: center; background: url(/Images/loginbtmbg.png) repeat-x; font-size: 14px; font-weight: bold; color: #fff; cursor: pointer; line-height: 35px; }
+        #userError { float: left; color: red; margin-left: 5px; cursor: default; }
+    </style>
+
+    <script language="javascript">
+        $(function () {
+            //容器样式设置
+            $('#body').attr('style', 'background-color: #1c77ac; background-image:url(/Images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;');
+            //窗体大小调整
+            $(window).resize(function () {
+                var awid = $(window).width();
+                var ahei = $(window).height();
+
+                $('.my-login-body').height(ahei);
+                $('.my-login-box').css({ 'position': 'absolute', 'left': (awid - 692) / 2, 'top': (ahei - 336) / 2 });
+                $('#cloud1').css({ 'left': awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
+                $('#cloud2').css({ 'left': awid / 2 + awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
+            });
+            $(window).resize();
+            //验证
+            var form = $('form').revalidate();
+            //登录
+            $('#userLogin').click(function () {
+                if (!form.validate().form()) {
+                    var id = form.find('.field-validation-error').attr('data-valmsg-for');
+                    $('#' + id).focus();
+                    return false;
+                }
+
+                $('#Pwd').val(hex_md5($('#Pwd').val()));
+                //通过验证，提交
+                $.post('/Account/Login', form.serialize(), function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        location.reload();
+                    }
+                });
+            });
+            //响应回车
+            $(document).keypress(function (e) {
+                if (e.which == 13) {
+                    $('#userLogin').click();
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+    <div id="cloudBody">
+        <div id="cloud1" class="my-login-cloud"></div>
+        <div id="cloud2" class="my-login-cloud"></div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="my-login-body">
+            <div class="my-login-box">
+                <ul>
+                    <li style="margin-bottom:25px;">
+                        @Html.TextBoxFor(a => a.ID, new { @class = "my-login-user" })
+                    </li>
+                    <li>
+                        @Html.PasswordFor(a => a.Pwd, new { @class = "my-login-pwd" })
+                    </li>
+                    <li style="height:36px;line-height:36px;">
+                        <span id="userError">
+                            @Html.ValidationMessageFor(a => a.ID)
+                            @Html.ValidationMessageFor(a => a.Pwd)
+                        </span>
+                    </li>
+                    <li style="height:35px;"><input id="userLogin" type="button" class="my-login-btn" value="登录" /></li>
+                </ul>
+            </div>
+        </div>
+    }
+</body>
+</html>
