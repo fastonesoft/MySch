@@ -50,6 +50,13 @@ namespace MySch.ModelsEx
         }
     }
 
+    public class ErrorModel
+    {
+        public bool error { get; set; }
+        public string message { get; set; }
+    }
+
+
     public class WX_AuthorModel
     {
         public string timestamp { get; set; }

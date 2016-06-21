@@ -21,11 +21,14 @@
 
 
     <script type="text/javascript">
+        var wid = 1280;
+        var hei = 720;      
+
         window.addEventListener("DOMContentLoaded", function () {
 
             navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
             //window.URLs = window.URL || window.webkitURL || window.mozURL || window.msURL;
-            var constraints = navigator.mozGetUserMedia ? { video: { width: 1920, height: 1080 } } : { video: { mandatory: { minWidth: 1920, minHeight: 1080 } } };
+            var constraints = navigator.mozGetUserMedia ? { video: { width: wid, height: hei } } : { video: { mandatory: { minWidth: wid, minHeight: hei } } };
 
             navigator.getMedia(
                 //{ video: true },

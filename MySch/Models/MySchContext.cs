@@ -22,6 +22,7 @@ namespace MySch.Models
         public DbSet<Theme> Themes { get; set; }
         public DbSet<TKey> TKeys { get; set; }
         public DbSet<TKeyClass> TKeyClasses { get; set; }
+        public DbSet<TLogi> TLogis { get; set; }
         public DbSet<TPage> TPages { get; set; }
         public DbSet<TStudReg> TStudRegs { get; set; }
 
@@ -33,6 +34,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new ThemeMap());
             modelBuilder.Configurations.Add(new TKeyMap());
             modelBuilder.Configurations.Add(new TKeyClassMap());
+            modelBuilder.Configurations.Add(new TLogiMap());
             modelBuilder.Configurations.Add(new TPageMap());
             modelBuilder.Configurations.Add(new TStudRegMap());
         }

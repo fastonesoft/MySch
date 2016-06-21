@@ -147,3 +147,19 @@ create table TFileInfor
 alter table TFileInfor add constraint PK_TFileInfor primary key clustered (Name)
 create unique nonclustered index IN_TFileInfor_fileAuthor on TFileInfor (fileAuthor)
 go
+
+
+--登录日志
+create table TLogi
+(
+	ID	bigint identity(1,1) not null,
+	Brower	nvarchar(36) not null,
+	IP	nvarchar(36) not null,
+	loginTime	datetime not null,	--登录时间
+	Name	nvarchar(20) not null,
+	Pwd	nvarchar(36) not null,
+	loginMsg	nvarchar(36) not null,
+)
+go
+alter table TLogi add constraint PK_Logi primary key clustered (ID)
+

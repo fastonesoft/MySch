@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySch.ModelsEx;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,22 +9,11 @@ namespace MySch.Controllers
 {
     public class HomeController :BaseController
     {
+        //用户：界面
+        //不能使用POST方式
         public ActionResult Index()
-        {            
-            return View();
-        }
-
-        public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
+            ViewBag.UserName = MyLogin.GetLogin(Session).Name;
             return View();
         }
     }

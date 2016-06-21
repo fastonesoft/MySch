@@ -1,31 +1,148 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    Layout = null;
+    //User/Index
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<!DOCTYPE html>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<html>
+<head>
+    <title>用户首页</title>
+
+    <script type="text/javascript">
+        $(function () {
+            //清除登录样式
+            $('#body').removeAttr('style');
+
+            //切换到系统后台
+            $('#toAdmin').click(function () {
+                $.post('/Admin/Index', function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        $('#body').html(d);
+                    }
+                })
+            })
+
+            //退出登录
+            $('#logoff').click(function () {
+                $.post('/Account/Logoff', function (d) {
+                    if (d.ok) location.reload();
+                })
+            });
+
+            //顶部导航切换
+            $(".nav li a").click(function () {
+                $(".nav li a.selected").removeClass("selected")
+                $(this).addClass("selected");
+
+                //导航更新
+                var num = $(this).attr('num');
+                var s = $.validator.format('.title[num={0}]', num);
+                var objs = $(s);
+                objs.click();
+                objs.next().children(':first-child').click();
+            });
+            //菜单切换
+            $(".menuson li").click(function () {
+                $(".menuson li.active").removeClass("active")
+                $(this).addClass("active");
+
+                //顶部更新
+                var num = $(this).parent().prev().attr('num');
+                $(".nav li a.selected").removeClass("selected")
+                var s = $.validator.format('.nav li a[num={0}]', num);
+                $(s).addClass("selected");
+
+                //菜单动作
+                var url = $(this).attr('dest');
+                var name = $(this).find('a').text();
+                var icon = $(this).attr('icon');
+                //添加页面
+                easyobj.addTab('#user-tab', name, url, icon)
+            });
+            //菜单点击
+            $('.title').click(function () {
+                $(this).parent().siblings().find('ul').slideUp();
+                var $ul = $(this).next('ul');
+                if ($ul.is(':visible')) {
+                    //$ul.slideUp();
+                } else {
+                    $ul.slideDown();
+                }
+            });
+
+            //布局
+            $('#user-lay').layout({
+                border: false,
+                fit: true
+            });
+
+            //分页
+            $('#user-tab').tabs({
+                border: false,
+                fit: true
+            });
+
+        })
+    </script>
+
+</head>
+<body>
+    <div id="user-lay" class="bodyer">
+        <div data-options="region:'north',border:false" style="height:88px;">
+            <div class="header noprint">
+                <div class="topleft">
+                    <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" /></a>
+                </div>
+
+                <ul class="nav">
+                    <li><a num="0" href="javascript:void(0);"><img src="/Images/pp08.png" /><h2>新生报名</h2></a></li>
+                </ul>
+
+                <div class="topright">
+                    <ul>
+                        <li><span><img src="/Images/help.png" title="帮助" class="helpimg" /></span></li>
+                        <li><a href="javascript:void(0);" id="logoff">退出</a></li>
+                    </ul>
+
+                    <div class="user">
+                        <span id="toAdmin">@ViewBag.UserName</span>
+                        <b>0</b>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div data-options="region:'west',border:false" style="width:187px;">
+            <div class="left noprint">
+                <div class="lefttop"><img src="/Images/m04s.png" />导航菜单</div>
+
+                <dl class="leftmenu">
+
+                    <dd>
+                        <div class="title" num="0">
+                            <img src="/Images/leftico04.png" />新生报名
+                        </div>
+                        <ul class="menuson">
+                            <li dest="/Client/Studs" icon="icon-system"><cite></cite><a href="javascript:void(0);">学生注册</a><i></i></li>
+                        </ul>
+                    </dd>
+
+                </dl>
+
+            </div>
+        </div>
+
+        <div data-options="region:'center',border:false">
+            <div id="user-tab">
+                <div title="&nbsp;系统首页&nbsp;" data-options="iconCls:'icon-tip'" style="padding:8px;">
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+</body>
+</html>
