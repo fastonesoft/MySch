@@ -1,0 +1,92 @@
+﻿@model MySch.Models.TAcc
+
+@{
+    Layout = null;
+    //Adminuser/Del
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#dialog-form').dialog({
+            title: '用户删除',
+            width: 410,
+            height: 280,
+            closable: false,
+            closed: false,
+            cache: false,
+            modal: true,
+            buttons: [{
+                text: '删除',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var form = $('form');
+                    if (!form.validate().form()) {
+                        //错误输入聚焦
+                        form.find('.field-validation-error').first().prev().find('input').focus();
+                        return false;
+                    }
+                    //通过验证，添加
+                    $.post('/Adminuser/DelTokey', form.serialize(), function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            //关窗口
+                            $('#dialog-form').dialogClose();
+                            //更新网格
+                            var row = $('#users-grid').datagrid('getSelected');
+                            var index = $('#users-grid').datagrid('getRowIndex', row);
+                            $('#users-grid').datagrid('deleteRow', index);
+                        }
+                    });
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-no',
+                handler: function () {
+                    $('#dialog-form').dialogClose();
+                }
+            }],
+            onClose: function () {
+                //启用按钮
+                $('.easyui-linkbutton').linkbutton('enable');
+                //清除提示
+                $('div.tooltip').remove();
+                $('div.combo-p').remove();
+            },
+        });
+    })
+
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.ID)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.ID, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.ID)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Pwd)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Pwd, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Pwd)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed, new { @disabled = "disabled" })</div>
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.GD)
+}

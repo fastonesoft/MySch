@@ -23,7 +23,7 @@
 
             //切换到前台
             $('#toUser').click(function () {
-                $.post('/Client/Index', function (d) {
+                $.post('/Account/Check', function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
                     } else {

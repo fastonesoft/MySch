@@ -63,6 +63,34 @@
         if (replace) {
             container.empty();
             error.removeClass("input-validation-error").appendTo(container);
+
+            //添加：提示；前提：必须是窗口输入控件
+            if ($(inputElement).hasClass('textbox-text')) {
+                //错误：提示
+                if (error.html() != "") {
+                    //错误：添加样式
+                    $(inputElement).addClass('validatebox-invalid').parent().addClass('validatebox-invalid');
+                    //错误：添加提示
+                    $(inputElement).tooltip({
+                        //track: true,
+                        position: 'right',
+                        content: error.text(),
+                        hideDelay: 1000,
+                        onShow: function () {
+                            $(this).tooltip('tip').css({
+                                color: '#000',
+                                borderColor: '#CC9933',
+                                backgroundColor: '#FFFFCC'
+                            });
+                        },
+                    });
+                } else {
+                    //正确：去除样式
+                    $(inputElement).removeClass('validatebox-invalid').parent().removeClass('validatebox-invalid');
+                    //正确：销毁提示
+                    $(inputElement).tooltip('destroy');
+                }
+            }
         }
         else {
             error.hide();

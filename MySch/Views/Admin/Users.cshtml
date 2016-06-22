@@ -18,7 +18,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-add"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/Adminuser/Add', function (d) {
+                    $.post('/AdminUser/Add', function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -35,7 +35,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-edit"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/Adminuser/Edit', { id: row.AccGD }, function (d) {
+                    $.post('/AdminUser/Edit', { id: row.GD }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -52,7 +52,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-no"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/Adminuser/Del', { id: row.AccGD }, function (d) {
+                    $.post('/AdminUser/Del', { id: row.GD }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -68,7 +68,7 @@
                     } else {
                         $('#users-grid').datagrid('loading');
                         //读取部分
-                        $.post('/Adminuser/Search', { text: text }, function (d) {
+                        $.post('/AdminUser/Search', { text: text }, function (d) {
                             if (d.error) {
                                 $.messager.alert('错误提示', d.message, 'error');
                             } else {
@@ -85,7 +85,7 @@
                 fit: true,
                 striped: true,
                 rownumbers: true,
-                fitColumns: true,
+                fitColumns: false,
                 remoteSort: false,
                 //singleSelect: true,
                 checkOnSelect: true,
@@ -94,36 +94,40 @@
 
                 columns: [[
                     {
-                        field: 'AccGD',
+                        field: 'GD',
                         checkbox: true,
-                        width: 100
+                        width: 80
                     },
                     {
                         title: '帐号',
-                        field: 'AccID',
+                        field: 'ID',
                         align: 'center',
                         sortable: true,
-                        width: 100
+                        width: 120
                     },
                     {
                         title: '姓名',
-                        field: 'AccName',
+                        field: 'Name',
                         align: 'center',
                         sortable: true,
                         width: 100
                     },
                     {
                         title: '注册时间',
-                        field: 'AccRegTime',
+                        field: 'RegTime',
                         align: 'center',
                         sortable: true,
-                        width: 100,
+                        width: 150,
+                        formatter: function (value, row, index) {
+                            //日期整形
+                            return formatDate(value);
+                        }
                     },
                     {
                         title: '是否可用',
-                        field: 'AccFixed',
+                        field: 'Fixed',
                         halign: 'center',
-                        width: 100,
+                        width: 80,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                             //return value.ok ? null : value.message;

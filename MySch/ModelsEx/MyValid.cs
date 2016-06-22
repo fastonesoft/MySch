@@ -14,7 +14,7 @@ namespace MySch.Models
     {
         [DisplayName("用户帐号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^admin$|^[a-z]\d{8,11}$", ErrorMessage = "{0}：格式为x321284xxyyy；")]
+        [RegularExpression(@"^admin$|^\d{8,20}$|^[a-zA-Z]{8,32}$", ErrorMessage = "{0}：为数字、字母组")]
         public string ID { get; set; }
 
         public string GD { get; set; }

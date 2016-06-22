@@ -30,7 +30,6 @@
             var constraints = navigator.mozGetUserMedia ? { video: { width: wid, height: hei } } : { video: { mandatory: { minWidth: wid, minHeight: hei } } };
 
             navigator.getMedia(
-                //{ video: true },
              constraints,
             //{
             //    "video": {
@@ -74,7 +73,7 @@
             var canvas = document.getElementById('canvas');
             var context = canvas.getContext('2d');
 
-            context.drawImage(video, 80, 120, wid, hei, 0, 0, wid, hei);
+            context.drawImage(video, 140, 100, wid, hei, 0, 0, wid, hei);
         }
         //清除
         function clearPhoto() {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MySch.Dal
 {
@@ -75,65 +76,65 @@ namespace MySch.Dal
             }
         }
 
-        ///// <summary>
-        ///// 添加数据
-        ///// </summary>
-        ///// <param name="modelstate">模型状态</param>
-        ///// <param name="entity">数据实体</param>
-        ///// <returns></returns>
-        //public static void Add(ModelStateDictionary modelstate, TEntity entity)
-        //{
-        //    if (modelstate.IsValid)
-        //    {
-        //        //验证通过、添加数据
-        //        Add(entity);
-        //    }
-        //    else
-        //    {
-        //        //验证失败
-        //        throw new Exception("验证：数据无法通过，不能添加！");
-        //    }
-        //}
+        /// <summary>
+        /// 添加数据
+        /// </summary>
+        /// <param name="modelstate">模型状态</param>
+        /// <param name="entity">数据实体</param>
+        /// <returns></returns>
+        public static void Add(ModelStateDictionary modelstate, TEntity entity)
+        {
+            if (modelstate.IsValid)
+            {
+                //验证通过、添加数据
+                Add(entity);
+            }
+            else
+            {
+                //验证失败
+                throw new Exception("验证：数据无法通过，不能添加！");
+            }
+        }
 
-        ///// <summary>
-        ///// 删除数据
-        ///// </summary>
-        ///// <param name="modelstate">数据模型</param>
-        ///// <param name="entity">数据实体</param>
-        ///// <returns></returns>
-        //public static void Delete(ModelStateDictionary modelstate, TEntity entity)
-        //{
-        //    if (modelstate.IsValid)
-        //    {
-        //        //验证通过、提交删除
-        //        Delete(entity);
-        //    }
-        //    else
-        //    {
-        //        //验证失败
-        //        throw new Exception("验证：数据无法通过，不能删除！");
-        //    }
-        //}
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="modelstate">数据模型</param>
+        /// <param name="entity">数据实体</param>
+        /// <returns></returns>
+        public static void Delete(ModelStateDictionary modelstate, TEntity entity)
+        {
+            if (modelstate.IsValid)
+            {
+                //验证通过、提交删除
+                Delete(entity);
+            }
+            else
+            {
+                //验证失败
+                throw new Exception("验证：数据无法通过，不能删除！");
+            }
+        }
 
-        ///// <summary>
-        ///// 更新数据
-        ///// </summary>
-        ///// <param name="modelstate">模型状态</param>
-        ///// <param name="entity">模型实体</param>
-        ///// <returns></returns>
-        //public static void Update(ModelStateDictionary modelstate, TEntity entity)
-        //{
-        //    if (modelstate.IsValid)
-        //    {
-        //        //验证通过、提交修改
-        //        Update(entity);
-        //    }
-        //    else
-        //    {
-        //        //验证失败
-        //        throw new Exception("验证：数据无法通过，不能修改！");
-        //    }
-        //}
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        /// <param name="modelstate">模型状态</param>
+        /// <param name="entity">模型实体</param>
+        /// <returns></returns>
+        public static void Update(ModelStateDictionary modelstate, TEntity entity)
+        {
+            if (modelstate.IsValid)
+            {
+                //验证通过、提交修改
+                Update(entity);
+            }
+            else
+            {
+                //验证失败
+                throw new Exception("验证：数据无法通过，不能修改！");
+            }
+        }
     }
 
 }
