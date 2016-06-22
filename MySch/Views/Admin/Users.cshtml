@@ -1,0 +1,185 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户列表</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            users = {
+                add: function () {
+                    //禁用
+                    $('.easyui-linkbutton[iconcls="icon-add"]').linkbutton('disable');
+                    //打开窗口
+                    $.post('/Adminuser/Add', function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                edit: function () {
+                    var row = $('#users-grid').datagrid('getSelected');
+                    if (!row) {
+                        $.messager.alert('错误提示', '未选定修改的帐号！', 'error');
+                        return false;
+                    }
+                    //禁用
+                    $('.easyui-linkbutton[iconcls="icon-edit"]').linkbutton('disable');
+                    //打开窗口
+                    $.post('/Adminuser/Edit', { id: row.AccGD }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                del: function () {
+                    var row = $('#users-grid').datagrid('getSelected');
+                    if (!row) {
+                        $.messager.alert('错误提示', '未选定删除的帐号！', 'error');
+                        return false;
+                    }
+                    //禁用
+                    $('.easyui-linkbutton[iconcls="icon-no"]').linkbutton('disable');
+                    //打开窗口
+                    $.post('/Adminuser/Del', { id: row.AccGD }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                search: function () {
+                    var text = $.trim($('#users-grid-text').val());
+                    if (text.length == 0) {
+                        //刷新
+                        $('#users-grid').datagrid('load');
+                    } else {
+                        $('#users-grid').datagrid('loading');
+                        //读取部分
+                        $.post('/Adminuser/Search', { text: text }, function (d) {
+                            if (d.error) {
+                                $.messager.alert('错误提示', d.message, 'error');
+                            } else {
+                                $('#users-grid').datagrid('loadData', d);
+                                $('#users-grid').datagrid('loaded');
+                            }
+                        });
+                    }
+                },
+            }
+
+            //数据表格
+            $('#users-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: true,
+                remoteSort: false,
+                //singleSelect: true,
+                checkOnSelect: true,
+                url: '/Admin/UsersPage',
+                loadMsg: '数据加载中，请稍候……',
+
+                columns: [[
+                    {
+                        field: 'AccGD',
+                        checkbox: true,
+                        width: 100
+                    },
+                    {
+                        title: '帐号',
+                        field: 'AccID',
+                        align: 'center',
+                        sortable: true,
+                        width: 100
+                    },
+                    {
+                        title: '姓名',
+                        field: 'AccName',
+                        align: 'center',
+                        sortable: true,
+                        width: 100
+                    },
+                    {
+                        title: '注册时间',
+                        field: 'AccRegTime',
+                        align: 'center',
+                        sortable: true,
+                        width: 100,
+                    },
+                    {
+                        title: '是否可用',
+                        field: 'AccFixed',
+                        halign: 'center',
+                        width: 100,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (!value) {
+                                return "background:url('/Content/themes/icons/ok.png') no-repeat center center;";
+                            } else {
+                                return "background:url('/Content/themes/icons/no.png') no-repeat center center;";
+                            }
+                        }
+                    }
+                ]],
+
+                toolbar: '#users-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="users-grid"></table>
+    <div id="users-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="users.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="users.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="users.del();">删除</a>
+                    </td>
+                    <td style="width:10px;"></td>
+                    <td>
+                        <span class="textbox">
+                            <input class="textbox-text" id="users-grid-text" />
+                        </span>
+                    </td>
+                    <td style="padding-left:5px;">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="users.search();">查询</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

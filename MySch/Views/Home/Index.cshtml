@@ -28,7 +28,7 @@
             //退出登录
             $('#logoff').click(function () {
                 $.post('/Account/Logoff', function (d) {
-                    if (d.ok) location.reload();
+                    if (!d.error) location.reload();
                 })
             });
 

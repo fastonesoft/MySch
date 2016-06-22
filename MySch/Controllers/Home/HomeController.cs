@@ -5,9 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers
+namespace MySch.Controllers.Home
 {
-    public class HomeController :BaseController
+    public class RoleController : BaseController
     {
         //用户：界面
         //不能使用POST方式

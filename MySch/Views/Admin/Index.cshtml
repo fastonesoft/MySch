@@ -1,0 +1,189 @@
+﻿@{
+    Layout = null;
+    //Admin/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>后台管理</title>
+
+    <script type="text/javascript">
+        $(function () {
+            //清除登录样式
+            $('#body').removeAttr('style');
+
+            //退出登录
+            $('#logoff').click(function () {
+                $.post('/Account/Logoff', function (d) {
+                    if (!d.error) location.reload();
+                })
+            });
+
+            //切换到前台
+            $('#toUser').click(function () {
+                $.post('/Client/Index', function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        $('#body').html(d);
+                    }
+                })
+            })
+
+            //顶部导航切换
+            $(".nav li a").click(function () {
+                $(".nav li a.selected").removeClass("selected")
+                $(this).addClass("selected");
+
+                //导航更新
+                var num = $(this).attr('num');
+                var s = $.validator.format('.title[num={0}]', num);
+                var objs = $(s);
+                objs.click();
+                objs.next().children(':first-child').click();
+            });
+
+            //菜单切换
+            $(".menuson li").click(function () {
+                $(".menuson li.active").removeClass("active")
+                $(this).addClass("active");
+
+                //顶部更新
+                var num = $(this).parent().prev().attr('num');
+                $(".nav li a.selected").removeClass("selected")
+                var s = $.validator.format('.nav li a[num={0}]', num);
+                $(s).addClass("selected");
+
+                //菜单动作
+                var url = $(this).attr('dest');
+                var name = $(this).find('a').text();
+                var icon = $(this).attr('icon');
+                //添加页面
+                easyobj.addTab('#admin-tab', name, url, icon)
+            });
+
+            //菜单点击
+            $('.title').click(function () {
+                $(this).parent().siblings().find('ul').slideUp();
+                var $ul = $(this).next('ul');
+                if ($ul.is(':visible')) {
+                    //$ul.slideUp();
+                } else {
+                    $ul.slideDown();
+                }
+            });
+
+            //布局
+            $('#admin-lay').layout({
+                border: false,
+                fit: true
+            });
+
+            //分页
+            $('#admin-tab').tabs({
+                border: false,
+                fit: true
+            });
+
+        })
+    </script>
+
+</head>
+<body>
+    <div id="admin-lay" class="bodyer">
+        <div data-options="region:'north',border:false" style="height:88px;">
+            <div class="header noprint">
+                <div class="topleft">
+                    <a href="javasript:void()"><img src="/Images/logo.png" title="系统首页" /></a>
+                </div>
+
+                <ul class="nav">
+                    <li><a num="0" href="javascript:void(0);"><img src="/Images/icon028.png" /><h2>系统设置</h2></a></li>
+                    <li><a num="1" href="javascript:void(0);"><img src="/Images/nav04.png" /><h2>页面设置</h2></a></li>
+                    <li><a num="2" href="javascript:void(0);"><img src="/Images/nav01.png" /><h2>权限设置</h2></a></li>
+                    <li><a num="3" href="javascript:void(0);"><img src="/Images/pp10.png" /><h2>用户管理</h2></a></li>
+                </ul>
+
+                <div class="topright">
+                    <ul>
+                        <li><span><img src="/Images/help.png" title="帮助" class="helpimg" /></span></li>
+                        <li><a href="javascript:void(0);" id="logoff">退出</a></li>
+                    </ul>
+
+                    <div class="user">
+                        <span id="toUser">@ViewBag.UserName</span>
+                        <b>0</b>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div data-options="region:'west',border:false" style="width:187px;">
+            <div class="left noprint">
+                <div class="lefttop"><img src="/Images/m04s.png" />导航菜单</div>
+
+                <dl class="leftmenu">
+
+                    <dd>
+                        <div class="title" num="0">
+                            <img src="/Images/leftico04.png" />系统设置
+                        </div>
+                        <ul class="menuson">
+                            <li dest="/AKeya/" icon="icon-system"><cite></cite><a href="javascript:void(0);">系统键值</a><i></i></li>
+                            <li dest="/Admin/Schs" icon="icon-system"><cite></cite><a href="javascript:void(0);">校区设置</a><i></i></li>
+                            <li dest="/Admin/GrdSets" icon="icon-system"><cite></cite><a href="javascript:void(0);">学制编排</a><i></i></li>
+                            <li dest="/Admin/Grds" icon="icon-system"><cite></cite><a href="javascript:void(0);">年级设置</a><i></i></li>
+                            <li dest="/Admin/Clas" icon="icon-system"><cite></cite><a href="javascript:void(0);">班额配置</a><i></i></li>
+                            <li dest="/Admin/Subs" icon="icon-system"><cite></cite><a href="javascript:void(0);">学科设置</a><i></i></li>
+                            <li dest="/Admin/ClaAccs" icon="icon-system"><cite></cite><a href="javascript:void(0);">班级教师</a><i></i></li>
+                            <li dest="/Admin/Studs" icon="icon-system"><cite></cite><a href="javascript:void(0);">班级学生</a><i></i></li>
+                        </ul>
+                    </dd>
+                    <dd>
+                        <div class="title" num="1">
+                            <img src="/Images/leftico01.png" />页面设置
+                        </div>
+                        <ul class="menuson">
+                            <li dest="Base" icon="icon-page"><cite></cite><a href="javascript:void(0);">页面设置</a><i></i></li>
+                            <li dest="Change" icon="icon-page"><cite></cite><a href="javascript:void(0);">栏目设置</a><i></i></li>
+                        </ul>
+                    </dd>
+                    <dd>
+                        <div class="title" num="2">
+                            <img src="/Images/leftico03.png" />权限设置
+                        </div>
+                        <ul class="menuson">
+                            <li dest="/Admin/Conts" icon="icon-role"><cite></cite><a href="javascript:void(0);">权限分类</a><i></i></li>
+                            <li dest="/Admin/Rols" icon="icon-role"><cite></cite><a href="javascript:void(0);">权限记录</a><i></i></li>
+                            <li dest="/Admin/Grps" icon="icon-role"><cite></cite><a href="javascript:void(0);">分组设置</a><i></i></li>
+                            <li dest="/Admin/GrpRols" icon="icon-role"><cite></cite><a href="javascript:void(0);">分组权限</a><i></i></li>
+                        </ul>
+                    </dd>
+                    <dd>
+                        <div class="title" num="3">
+                            <img src="/Images/leftico02.png" />用户设置
+                        </div>
+                        <ul class="menuson">
+                            <li dest="/Admin/Users" icon="icon-user"><cite></cite><a href="javascript:void(0);">用户列表</a><i></i></li>
+                            <li dest="/Admin/GrpAccs" icon="icon-user"><cite></cite><a href="javascript:void(0);">用户分组</a><i></i></li>
+                        </ul>
+                    </dd>
+
+                </dl>
+
+            </div>
+        </div>
+
+        <div data-options="region:'center',border:false">
+            <div id="admin-tab">
+                <div title="&nbsp;系统首页&nbsp;" data-options="iconCls:'icon-tip'" style="padding:8px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

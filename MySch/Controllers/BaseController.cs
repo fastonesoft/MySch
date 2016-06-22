@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySch.ModelsEx;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers
 {
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
         protected override void HandleUnknownAction(string actionName)
         {
@@ -36,4 +37,5 @@ namespace MySch.Controllers
             //}
         }
     }
+
 }

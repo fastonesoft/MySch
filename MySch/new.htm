@@ -7,7 +7,6 @@
     <title>拍照测试</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <style>
-        video { width: 1280px; height: 720px; border: 1px solid #ccc; }
     </style>
 
 
@@ -17,12 +16,12 @@
     <input type="button" title="拍照" value="拍照" onclick="takePhoto();" />
     <input type="button" title="清除" value="清除" onclick="clearPhoto();" />
     <div></div>
-    <canvas id="canvas" width="1250" height="870"></canvas>
+    <canvas id="canvas" width="1420" height="960"></canvas>
 
 
     <script type="text/javascript">
-        var wid = 1280;
-        var hei = 720;      
+        var wid = 1600;
+        var hei = 1200;      
 
         window.addEventListener("DOMContentLoaded", function () {
 
@@ -75,7 +74,7 @@
             var canvas = document.getElementById('canvas');
             var context = canvas.getContext('2d');
 
-            context.drawImage(video, 330, 180, 1920, 1080, 0, 0, 1920, 1080);
+            context.drawImage(video, 80, 120, wid, hei, 0, 0, wid, hei);
         }
         //清除
         function clearPhoto() {
