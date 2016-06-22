@@ -126,7 +126,9 @@
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
-    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RoleController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataADU.cs" />
     <Compile Include="Dal\DataQuery.cs" />
