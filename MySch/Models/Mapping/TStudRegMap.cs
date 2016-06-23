@@ -28,7 +28,10 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(32);
 
             this.Property(t => t.fromPhoto)
-                .HasMaxLength(32);
+                .HasMaxLength(50);
+
+            this.Property(t => t.Memo)
+                .HasMaxLength(50);
 
             // Table & Column Mappings
             this.ToTable("TStudReg");
@@ -39,6 +42,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.fromClass).HasColumnName("fromClass");
             this.Property(t => t.fromPhoto).HasColumnName("fromPhoto");
             this.Property(t => t.schChoose).HasColumnName("schChoose");
+            this.Property(t => t.Memo).HasColumnName("Memo");
         }
     }
 }

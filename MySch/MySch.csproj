@@ -125,11 +125,12 @@
     </Compile>
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\Home\HomeController.cs" />
+    <Compile Include="Controllers\User\StudRegController.cs" />
     <Compile Include="Controllers\RoleAController.cs" />
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataADU.cs" />
     <Compile Include="Dal\DataQuery.cs" />
@@ -353,6 +354,9 @@
     <Content Include="Images\rep06.png" />
     <Content Include="Images\rep07.png" />
     <Content Include="Images\righttop.gif" />
+    <Content Include="Images\ScanA4.png" />
+    <Content Include="Images\ScanH.png" />
+    <Content Include="Images\ScanR.png" />
     <Content Include="Images\sj.png" />
     <Content Include="Images\t05.png" />
     <Content Include="Images\tbg.png" />
@@ -405,14 +409,14 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
     <Content Include="Views\Account\Wrong1.cshtml" />
-    <Content Include="Views\Home\Edit.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Studs.cshtml" />
+    <Content Include="Views\StudReg\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\AdminUser\Add.cshtml" />
     <Content Include="Views\AdminUser\Del.cshtml" />
     <Content Include="Views\AdminUser\Edit.cshtml" />
+    <Content Include="Views\StudReg\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

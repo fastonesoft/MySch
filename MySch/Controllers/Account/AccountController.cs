@@ -96,7 +96,7 @@ namespace MySch.Controllers.Account
                 //要跳转的Action不能使用POST方式
                 //return RedirectToAction("Index", "Client");
                 ViewBag.UserName = login.Name;
-                return View("~/Views/Home/Index.cshtml");
+                return View("~/Views/User/Index.cshtml");
             }
         }
 

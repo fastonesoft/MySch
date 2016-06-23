@@ -12,5 +12,6 @@ namespace MySch.Models
         public int fromClass { get; set; }
         public string fromPhoto { get; set; }
         public bool schChoose { get; set; }
+        public string Memo { get; set; }
     }
 }

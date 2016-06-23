@@ -5,15 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Home
+namespace MySch.Controllers.User
 {
-    public class RoleController : BaseController
+    public class StudRegController : RoleController
     {
-        //用户：界面
-        //不能使用POST方式
+        //学生注册首页
         public ActionResult Index()
         {
-            ViewBag.UserName = MyLogin.GetLogin(Session).Name;
             return View();
         }
     }

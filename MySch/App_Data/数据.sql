@@ -39,7 +39,7 @@ create table TKeyClass
 	Parent	nvarchar(32),
 )
 alter table TKeyClass add constraint PK_TKeyClass primary key clustered (ID)
-create index IN_TKeyClass_Parent on TKeyClass (Parent)
+create index UN_TKeyClass_Parent on TKeyClass (Parent)
 go
 --键值分类可以无限自我扩展
 
@@ -54,7 +54,7 @@ create table TKey
 )
 go
 alter table TKey add constraint PK_TKey primary key clustered (ID)
-create index IN_TKey_Name on TKey (Name)
+create index UN_TKey_Name on TKey (Name)
 go
 
 
@@ -79,8 +79,8 @@ create table TAcc
 )
 go
 alter table TAcc add constraint PK_TAcc primary key clustered (ID)
-create unique nonclustered index IN_TAcc_GD on TAcc (GD)
-create unique nonclustered index IN_TAcc_Name on TAcc (Name)
+create unique nonclustered index UN_TAcc_GD on TAcc (GD)
+create unique nonclustered index UN_TAcc_Name on TAcc (Name)
 --插入管理员
 insert TAcc values ('admin','51e66f66919ee73bc252590bdf3b339c', '系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
 go
@@ -106,7 +106,7 @@ create table TPage
 go
 
 alter table TPage add constraint PK_TPage primary key clustered (ID)
-create unique nonclustered index IN_TPage_Name on TPage (Name)
+create unique nonclustered index UN_TPage_Name on TPage (Name)
 
 create table TColumn
 (
@@ -129,12 +129,14 @@ create table TStudReg
 	Name	nvarchar(20) not null,	--姓名
 	fromSch	nvarchar(32) not null,	--学校
 	fromClass	int not null,	--班级
-	fromPhoto	nvarchar(32),	--入学时的照片
+	fromPhoto	nvarchar(50),	--入学时的照片
 	schChoose	bit not null,	--是否择校
+	Reged	bit not null,	--是否注册
+	Memo	nvarchar(50)	--备注
 )
 alter table TStudReg add constraint PK_TStudReg primary key clustered (ID)
-create unique nonclustered index IN_TStudReg_GD on TStudReg (GD)
-create unique nonclustered index IN_TStudReg_Name on TStudReg (Name)
+create unique nonclustered index UN_TStudReg_GD on TStudReg (GD)
+create index IN_TStudReg_Name on TStudReg (Name)
 go
 
 --文件记录
@@ -146,7 +148,7 @@ create table TFileInfor
 	updateTime	datetime not null default getdate(),
 )
 alter table TFileInfor add constraint PK_TFileInfor primary key clustered (Name)
-create unique nonclustered index IN_TFileInfor_fileAuthor on TFileInfor (fileAuthor)
+create unique nonclustered index UN_TFileInfor_fileAuthor on TFileInfor (fileAuthor)
 go
 
 
