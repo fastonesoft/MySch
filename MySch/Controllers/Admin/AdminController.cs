@@ -9,20 +9,12 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminController : RoleController
+    public class AdminController : RoleAController
     {
         //管理员：首页
         [HttpPost]
         public ActionResult Index()
         {
-            if (MyLogin.GetLogin(Session).ID != "admin")
-            {
-                return Json(new ErrorModel
-                {
-                    error = true,
-                    message = "未授权，无法进入！"
-                });
-            }
             ViewBag.UserName = MyLogin.GetLogin(Session).Name;
             return View();
         }

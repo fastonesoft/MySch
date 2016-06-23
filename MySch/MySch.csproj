@@ -126,6 +126,7 @@
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
+    <Compile Include="Controllers\RoleAController.cs" />
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>

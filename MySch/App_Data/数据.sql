@@ -82,7 +82,7 @@ alter table TAcc add constraint PK_TAcc primary key clustered (ID)
 create unique nonclustered index IN_TAcc_GD on TAcc (GD)
 create unique nonclustered index IN_TAcc_Name on TAcc (Name)
 --插入管理员
-insert TAcc values ('admin','083c1a7e3e8f6adcb09566055de33853', '系统管理员','c0e5fa241935e64e19c39dc38109c13a','2015-09-10 12:00:00',  0, null)
+insert TAcc values ('admin','51e66f66919ee73bc252590bdf3b339c', '系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
 go
 
 --样式表

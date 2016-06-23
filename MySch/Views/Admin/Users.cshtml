@@ -35,7 +35,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-edit"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/AdminUser/Edit', { id: row.GD }, function (d) {
+                    $.post('/AdminUser/Edit', { id: row.ID }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -87,17 +87,12 @@
                 rownumbers: true,
                 fitColumns: false,
                 remoteSort: false,
-                //singleSelect: true,
+                singleSelect: true,
                 checkOnSelect: true,
                 url: '/Admin/UsersPage',
                 loadMsg: '数据加载中，请稍候……',
 
                 columns: [[
-                    {
-                        field: 'GD',
-                        checkbox: true,
-                        width: 80
-                    },
                     {
                         title: '帐号',
                         field: 'ID',

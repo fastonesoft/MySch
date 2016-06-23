@@ -83,10 +83,10 @@
             </span>
             @Html.ValidationMessageFor(a => a.ID)
         </div>
-        <div class="form-item-row">
+      <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>

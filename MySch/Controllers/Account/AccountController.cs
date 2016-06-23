@@ -18,9 +18,9 @@ namespace MySch.Controllers.Account
             //var db = DataQuery<TAcc>.Entity("admin");
             //MyType<TAcc>.GetPropertyInfor(db, "ID");
 
-            //string dd = MyGD.GetGD("Adminacc", "c32128402");
-            //string ee = MyPwd.Password("c32128402", dd, MyMD5.MD5("stone.2"));
-            //return Content(ee);
+            //string dd = MySetting.GetGD("AdminUser", "32128402");
+            //string ee = MyLogin.Password("32128402", dd, MySetting.GetMD5("stone.2.net"));
+            //return Content(dd + "-" + ee);
 
             return View();
         }
@@ -53,7 +53,7 @@ namespace MySch.Controllers.Account
                 return Json(new ErrorModel { error = true, message = "错误：未注册用户，无法登录！" });
             }
             //1.1、验证检测
-            acc.GD = MySetting.GetGD("Adminacc", acc.ID);
+            acc.GD = MySetting.GetGD("AdminUser", acc.ID);
             if (acc.GD != db.GD)
             {
                 MyLogin.AddLog(Request, acc, "提交数据无法验证");

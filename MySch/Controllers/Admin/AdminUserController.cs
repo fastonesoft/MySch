@@ -21,10 +21,10 @@ namespace MySch.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult AddTokey(TAcc acc)
         {
-            acc.GD = Guid.NewGuid().ToString("N");
+            acc.GD = MySetting.GetGD("AdminUser", acc.ID);
             acc.RegTime = DateTime.Now;
             acc.Parent = MyLogin.GetLogin(Session).GD;
-            acc.Pwd = MyLogin.Password(acc.GD, acc.ID, acc.Pwd);
+            acc.Pwd = MyLogin.Password(acc.ID, acc.GD, MySetting.GetMD5(acc.Pwd));
             //添加记录
             DataADU<TAcc>.Add(ModelState, acc);
             return Json(acc);
@@ -33,7 +33,7 @@ namespace MySch.Controllers.Admin
         [HttpPost]
         public ActionResult Edit(string id)
         {
-            var db = DataQuery<TAcc>.Entity(a => a.GD == id);
+            var db = DataQuery<TAcc>.Entity(a => a.ID == id);
             if (db == null)
             {
                 return Json(new ErrorModel { error = true, message = "查询数据出错" });
@@ -53,7 +53,7 @@ namespace MySch.Controllers.Admin
             else
             {
                 //密码如果改变，则重新加密
-                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : MyLogin.Password(acc.GD, acc.ID, acc.Pwd);
+                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : MyLogin.Password(acc.ID, acc.GD, MySetting.GetMD5(acc.Pwd));
                 //管理员admin帐号不能冻结
                 acc.Fixed = acc.ID == "admin" ? false : acc.Fixed;
                 //别的属性直接从数据库拿出来
