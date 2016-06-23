@@ -67,7 +67,7 @@ namespace MySch.Controllers.Admin
         [HttpPost]
         public ActionResult Del(string id)
         {
-            var db = DataQuery<TAcc>.Entity(a => a.GD == id);
+            var db = DataQuery<TAcc>.Entity(a => a.ID == id);
             if (db == null)
             {
                 return Json(new ErrorModel { error = true, message = "查询数据出错" });

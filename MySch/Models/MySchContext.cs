@@ -12,7 +12,7 @@ namespace MySch.Models
         }
 
         public MySchContext()
-            : base("Name=MySchContext")
+            : base("Name=MySchContextIP")
         {
         }
 

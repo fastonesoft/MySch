@@ -19,14 +19,8 @@
                 text: '删除',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var form = $('form');
-                    if (!form.validate().form()) {
-                        //错误输入聚焦
-                        form.find('.field-validation-error').first().prev().find('input').focus();
-                        return false;
-                    }
-                    //通过验证，添加
-                    $.post('/Adminuser/DelTokey', form.serialize(), function (d) {
+                    //直接进行删除操作
+                    $.post('/AdminUser/DelTokey', $('form').serialize(), function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {

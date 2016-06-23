@@ -52,7 +52,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-no"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/AdminUser/Del', { id: row.GD }, function (d) {
+                    $.post('/AdminUser/Del', { id: row.ID }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -101,7 +101,7 @@
                         width: 120
                     },
                     {
-                        title: '姓名',
+                        title: '名称',
                         field: 'Name',
                         align: 'center',
                         sortable: true,

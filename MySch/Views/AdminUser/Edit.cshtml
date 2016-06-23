@@ -10,7 +10,8 @@
         //按键：焦点转移
         $(document).keypress(function (e) {
             if (e.which == 13) {
-                $('.dialog-button a:first').click();
+                //错误输入聚焦
+                $('form').find('.field-validation-error').first().parent().find('input').focus();
             }
         });
         $('#dialog-form').dialog({
@@ -28,7 +29,7 @@
                     var form = $('form');
                     if (!form.validate().form()) {
                         //错误输入聚焦
-                        form.find('.field-validation-error').first().prev().find('input').focus();
+                        form.find('.field-validation-error').first().parent().find('input').focus();
                         return false;
                     }
                     //通过验证，添加
@@ -56,8 +57,8 @@
                 //重置渲染、输入验证、错误聚焦
                 var form = $('form').revalidate();
                 form.validate().form();
-                var id = form.find('.field-validation-error').attr('data-valmsg-for');
-                $('#' + id).focus();
+                //错误输入聚焦
+                $('form').find('.field-validation-error').first().parent().find('input').focus();
             },
             onClose: function () {
                 //启用按钮
