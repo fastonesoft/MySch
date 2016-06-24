@@ -1,0 +1,277 @@
+<style type="text/css">
+*{margin:0;padding:0px; }
+#focus{width:1000px;height:550px;overflow:hidden;position:relative;margin:0 auto;}
+#focus .focus_view{width:1000px;height:550px;overflow: hidden;}
+#focus .focus_view ul{position:relative;width:1000px;height:550px;}
+#focus .focus_view li{position:absolute;width:1000px;height:550px;top:0px;left:0px;filter:alpha(opacity:0);opacity:0}
+#focus .focus_view img{float:left;width:1000px; height:550px;}
+#focus .focus_text{position:absolute;left:0;bottom:0;text-indent:1em;color:#FFF;width:100%;height:80px;font-family:'微软雅黑','黑体';font-size:22px;text-indent:20px;font-weight:100; text-decoration:none; cursor:pointer;overflow:hidden; line-height:76px;background:url(http://mat1.gtimg.com/news/2013pic/png24bg.png) repeat-x center bottom; ;z-index:3; _background:none;  _filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#00000000', endColorstr='#CC000000',gradientType='0') }
+#focus .focus_text h3{line-height:76px;height:76px;overflow:hidden;}
+#focus .focus_text h3 a{font-size:18px;color:#fff;font-family:"微软雅黑", "黑体", Arial, sans-serif;font-weight:normal;text-decoration:none}
+#focus .focus_text li{display:none;width:425px;overflow:hidden;}
+#focus .focus_text li.show{display:block;}
+#focus .focus_slider{width:660px;height:60px;position:absolute;bottom:10px;right:15px;z-index:111;}
+#focus .focus_slider .mask{width:580px;height:60px;overflow:hidden;float:left;margin-left:11px;display:inline;}
+#focus .focus_slider ul{width:1162px;height:56px;margin-left:0px;overflow:hidden;}
+#focus .focus_slider li{float:left;width:75px;height:50px;display:inline;overflow:hidden;margin:3px 5px 3px 3px;}
+#focus .focus_slider li img{width:75px;height:50px;}
+#focus .focus_slider li a{display:block;width:115px;height:64px;overflow:hidden;background:#000;}
+#focus .focus_slider li.current{border:3px solid #FFF;margin:0 2px 0 0;}
+#focus span.prev,#focus span.next{float:left;width:29px;height:42px;cursor:pointer;margin:6px 0 0;background-image:url(http://mat1.gtimg.com/news/2013pic/bntIcon.png); background-repeat: no-repeat;opacity:0.5;filter:alpha(opacity=50);}
+#focus span.prev{background-position: -79px -375px;}
+#focus span.next{background-position: -106px -375px;float:right;}
+#focus span.prev:hover,#focus span.next:hover{opacity:1;filter:alpha(opacity=100);}
+#focus #num{position:absolute;right:10px;top:10px;color:#fff;font-size:14px;display:none;}
+#Pnav01 {margin-top: 32px;}
+#Pnav01 .hd{height: 48px;}
+.style0 .hd h2{left: 0;margin: 0;background: none;color: #222;padding: 0 4px;border-bottom: 2px solid #e23838;height: 40px;}
+.style0 .border{border-width: 2px;top: 40px;}
+.style0 .hd .changeBnt{border: none;background: #f5f5f5;}
+.style0 .hd .changeBnt:hover {background: #ec5353;}
+</style>
+
+<div id="Pnav00">
+<div id="focus">
+    <div id="focus_view" class="focus_view"> <!--大图-->
+        <ul>
+            <li style="opacity: 0; z-index: 1;" bosszone="txtp_jdt_1"><a href="http://news.qq.com/a/20160623/036676.htm#p=1" target="_blank"><img id="bigimg_1" src="http://img1.gtimg.com/news/pics/hv1/32/136/2088/135806912.jpg"></a></li>
+            <li bosszone="txtp_jdt_2" style="z-index: 1; opacity: 0;"><a href="http://news.qq.com/original/tuhua/ceng.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/135/18/2088/135776925.jpg"></a></li>
+            <li bosszone="txtp_jdt_3" style="z-index: 1; opacity: 0;"><a href="http://news.qq.com/a/20160623/003726.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/161/22/2088/135777971.jpg"></a></li>
+            <li bosszone="txtp_jdt_4" style="z-index: 2; opacity: 1;"><a href="http://news.qq.com/original/oneday/2366.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/162/22/2088/135777972.jpg"></a></li>
+            <li bosszone="txtp_jdt_5" style="z-index: 1; opacity: 0;"><a href="http://news.qq.com/a/20160622/045449.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/165/22/2088/135777975.jpg"></a></li>
+            <li bosszone="txtp_jdt_6" style="z-index: 1; opacity: 0;"><a href="http://sports.qq.com/a/20160623/007910.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/sports/pics/hv1/218/24/2088/135778538.jpg"></a></li>
+            <li bosszone="txtp_jdt_7" style="z-index: 1; opacity: 0;"><a href="http://g.pw8l.com/s/1/672/7822.html?uid=321802" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/111/31/2088/135780216.jpg"></a></li>
+            <li bosszone="txtp_jdt_8" style="z-index: 1;"><a href="http://news.qq.com/a/20160623/012465.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/167/22/2088/135777977.jpg"></a></li>
+            <li bosszone="txtp_jdt_9" style="z-index: 1;"><a href="http://news.qq.com/a/20160622/011454.htm" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/254/121/2087/135738284.jpg"></a></li>
+            <li bosszone="txtp_jdt_10" style="z-index: 1;"><a href="http://mm.code.twh5.com/htmlcode/1554.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/131/250/2084/135575981.jpg"></a></li>
+            <li bosszone="txtp_jdt_11" style="z-index: 1;"><a href="http://news.qq.com/original/oneday/2365.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/123/106/2087/135734328.jpg"></a></li>
+            <li bosszone="txtp_jdt_12" style="z-index: 1;"><a href="http://news.qq.com/original/eyan/ey99.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/201/119/2087/135737721.jpg"></a></li>
+            <li bosszone="txtp_jdt_13" style="z-index: 1;"><a href="http://news.qq.com/original/zaixianyingzhan/heroom.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/12/120/2087/135737787.jpg"></a></li>
+            <li bosszone="txtp_jdt_14" style="z-index: 1;"><a href="http://g.pw8l.com/s/1/672/1861.html?uid=321801" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/113/31/2088/135780218.jpg"></a></li>
+        </ul>
+    </div>
+    <div id="focus_text" class="focus_text">  <!--标题-->
+        <ul>
+            <li class="" bosszone="txtp_jdt_1"><h3><a href="http://news.qq.com/a/20160623/036676.htm#p=1" target="_blank">这才是真正的学霸！各省高考状元出炉</a></h3></li>
+            <li bosszone="txtp_jdt_2" class=""><h3><a href="http://news.qq.com/original/tuhua/ceng.html" target="_blank">中国“蹭蹭族”：蹭睡蹭凉蹭WiFi</a></h3></li>
+            <li bosszone="txtp_jdt_3" class=""><h3><a href="http://news.qq.com/a/20160623/003726.htm#p=1" target="_blank">钢厂民工日卸300吨货 每吨仅6毛钱</a></h3></li>
+            <li bosszone="txtp_jdt_4" class="show"><h3><a href="http://news.qq.com/original/oneday/2366.html" target="_blank">点钞员的低调人生：工资不足2000</a></h3></li>
+            <li bosszone="txtp_jdt_5" class=""><h3><a href="http://news.qq.com/a/20160622/045449.htm#p=1" target="_blank">朝鲜夏日生活：女孩穿泳衣游泳</a></h3></li>
+            <li bosszone="txtp_jdt_6" class=""><h3><a href="http://sports.qq.com/a/20160623/007910.htm#p=1" target="_blank">美女主播风采各异 阿根廷主播直播掀裙</a></h3></li>
+            <li bosszone="txtp_jdt_7" class=""><h3><a href="http://g.pw8l.com/s/1/672/7822.html?uid=321802" target="_blank">【推广】坑爹页游广告制作人竟是他？</a></h3></li>
+            <li bosszone="txtp_jdt_8" class=""><h3><a href="http://news.qq.com/a/20160623/012465.htm#p=1" target="_blank">政府大院变市民公园 每晚开放5小时</a></h3></li>
+            <li bosszone="txtp_jdt_9" class=""><h3><a href="http://news.qq.com/a/20160622/011454.htm" target="_blank">美洲豹参加圣火传递仪式时逃跑 被击毙</a></h3></li>
+            <li bosszone="txtp_jdt_10" class=""><h3><a href="http://mm.code.twh5.com/htmlcode/1554.html" target="_blank">【推广】近日一款游戏让网吧火到不行！</a></h3></li>
+            <li bosszone="txtp_jdt_11" class=""><h3><a href="http://news.qq.com/original/oneday/2365.html" target="_blank">“成语女神”毕业 学弟跪求签名</a></h3></li>
+            <li bosszone="txtp_jdt_12" class=""><h3><a href="http://news.qq.com/original/eyan/ey99.html" target="_blank">沈阳“鬼城”：地产泡沫的样本</a></h3></li>
+            <li bosszone="txtp_jdt_13" class=""><h3><a href="http://news.qq.com/original/zaixianyingzhan/heroom.html" target="_blank">女人的房间，一部跨国界的女书</a></h3></li>
+            <li bosszone="txtp_jdt_14" class=""><h3><a href="http://g.pw8l.com/s/1/672/1861.html?uid=321801" target="_blank">【推广】近日这游戏在朋友圈被传疯了</a></h3></li>
+        </ul>
+        <div id="num">4/12</div>
+    </div>
+    <div id="focus_slider" class="focus_slider">   <!--缩略图-->
+        <div><span id="prev" class="prev"></span></div>
+         <div class="mask">
+             <ul>
+                <li class="" bosszone="txtp_jdt_1"><a href="http://news.qq.com/a/20160623/036676.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/32/136/2088/135806912.jpg"> </a></li>
+                <li bosszone="txtp_jdt_2" class=""><a href="http://news.qq.com/original/tuhua/ceng.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/135/18/2088/135776925.jpg"> </a></li>
+                <li bosszone="txtp_jdt_3" class=""><a href="http://news.qq.com/a/20160623/003726.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/161/22/2088/135777971.jpg"> </a></li>
+                <li bosszone="txtp_jdt_4" class="current"><a href="http://news.qq.com/original/oneday/2366.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/162/22/2088/135777972.jpg"> </a></li>
+                <li bosszone="txtp_jdt_5" class=""><a href="http://news.qq.com/a/20160622/045449.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/165/22/2088/135777975.jpg"> </a></li>
+                <li bosszone="txtp_jdt_6" class=""><a href="http://sports.qq.com/a/20160623/007910.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/sports/pics/hv1/218/24/2088/135778538.jpg"> </a></li>
+                <li bosszone="txtp_jdt_7" class=""><a href="http://g.pw8l.com/s/1/672/7822.html?uid=321802" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/111/31/2088/135780216.jpg"> </a></li>
+                <li bosszone="txtp_jdt_8" class=""><a href="http://news.qq.com/a/20160623/012465.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/167/22/2088/135777977.jpg"> </a></li>
+                <li bosszone="txtp_jdt_9" class=""><a href="http://news.qq.com/a/20160622/011454.htm" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/254/121/2087/135738284.jpg"> </a></li>
+                <li bosszone="txtp_jdt_10" class=""><a href="http://mm.code.twh5.com/htmlcode/1554.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/131/250/2084/135575981.jpg"> </a></li>
+                <li bosszone="txtp_jdt_11" class=""><a href="http://news.qq.com/original/oneday/2365.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/123/106/2087/135734328.jpg"> </a></li>
+                <li bosszone="txtp_jdt_12" class=""><a href="http://news.qq.com/original/eyan/ey99.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/201/119/2087/135737721.jpg"> </a></li>
+                <li bosszone="txtp_jdt_13" class=""><a href="http://news.qq.com/original/zaixianyingzhan/heroom.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/12/120/2087/135737787.jpg"> </a></li>
+                <li bosszone="txtp_jdt_14" class=""><a href="http://g.pw8l.com/s/1/672/1861.html?uid=321801" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/113/31/2088/135780218.jpg"> </a></li>
+            </ul>
+        </div>
+        <div><span id="next" class="next"></span></div>
+    </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+(function(){
+    /*-------------------------编辑数据修改-------------------------------*/
+    var data =[
+{img1:'http://img1.gtimg.com/news/pics/hv1/32/136/2088/135806912.jpg',title:'这才是真正的学霸！各省高考状元出炉',slink:'http://news.qq.com/a/20160623/036676.htm#p=1'},{img1:'http://img1.gtimg.com/news/pics/hv1/135/18/2088/135776925.jpg',title:'中国“蹭蹭族”：蹭睡蹭凉蹭WiFi',slink:'http://news.qq.com/original/tuhua/ceng.html'},{img1:'http://img1.gtimg.com/news/pics/hv1/161/22/2088/135777971.jpg',title:'钢厂民工日卸300吨货 每吨仅6毛钱',slink:'http://news.qq.com/a/20160623/003726.htm#p=1'},{img1:'http://img1.gtimg.com/news/pics/hv1/162/22/2088/135777972.jpg',title:'点钞员的低调人生：工资不足2000',slink:'http://news.qq.com/original/oneday/2366.html'},{img1:'http://img1.gtimg.com/news/pics/hv1/165/22/2088/135777975.jpg',title:'朝鲜夏日生活：女孩穿泳衣游泳',slink:'http://news.qq.com/a/20160622/045449.htm#p=1'},
+
+
+
+{img1:'http://img1.gtimg.com/sports/pics/hv1/218/24/2088/135778538.jpg',title:'美女主播风采各异 阿根廷主播直播掀裙',slink:'http://sports.qq.com/a/20160623/007910.htm#p=1'},
+
+<!--↓ 此广告全年投放，保持在第7帧位置，勿改动-->
+{img1:'http://img1.gtimg.com/news/pics/hv1/111/31/2088/135780216.jpg',title:'【推广】坑爹页游广告制作人竟是他？',slink:'http://g.pw8l.com/s/1/672/7822.html?uid=321802'},
+
+{img1:'http://img1.gtimg.com/news/pics/hv1/167/22/2088/135777977.jpg',title:'政府大院变市民公园 每晚开放5小时',slink:'http://news.qq.com/a/20160623/012465.htm#p=1'},{img1:'http://img1.gtimg.com/news/pics/hv1/254/121/2087/135738284.jpg',title:'美洲豹参加圣火传递仪式时逃跑 被击毙',slink:'http://news.qq.com/a/20160622/011454.htm'},
+
+
+
+
+<!--↓ 此广告长期投放，保持在第10帧位置，勿改动-->
+{img1:'http://img1.gtimg.com/news/pics/hv1/131/250/2084/135575981.jpg',title:'【推广】近日一款游戏让网吧火到不行！',slink:'http://mm.code.twh5.com/htmlcode/1554.html'},
+
+{img1:'http://img1.gtimg.com/news/pics/hv1/123/106/2087/135734328.jpg',title:'“成语女神”毕业 学弟跪求签名',slink:'http://news.qq.com/original/oneday/2365.html'},{img1:'http://img1.gtimg.com/news/pics/hv1/201/119/2087/135737721.jpg',title:'沈阳“鬼城”：地产泡沫的样本',slink:'http://news.qq.com/original/eyan/ey99.html'},
+{img1:'http://img1.gtimg.com/news/pics/hv1/12/120/2087/135737787.jpg',title:'女人的房间，一部跨国界的女书',slink:'http://news.qq.com/original/zaixianyingzhan/heroom.html'},
+
+
+
+
+
+
+<!--↓ 此广告全年投放，保持在第14帧位置，勿改动-->
+{img1:'http://img1.gtimg.com/news/pics/hv1/113/31/2088/135780218.jpg',title:'【推广】近日这游戏在朋友圈被传疯了',slink:'http://g.pw8l.com/s/1/672/1861.html?uid=321801'},]
+
+
+  /*-------------------------编辑数据修改-------------------------------*/
+    var aView = G('focus_view');
+    var aImg = G('focus_view').getElementsByTagName('li');
+    var aTxt = G('focus_text').getElementsByTagName('li');
+    var aSmg = G('focus_slider').getElementsByTagName('li');
+    var aaImg = G('focus_view').getElementsByTagName('img');
+    var aaSmg = G('focus_slider').getElementsByTagName('img');
+    var aa0 = G('focus_text').getElementsByTagName('a');
+    var aa1 = G('focus_slider').getElementsByTagName('a');
+    var aa2 = G('focus_view').getElementsByTagName('a');
+    var oUl = G('focus_slider').getElementsByTagName('ul')[0];
+    var oNum = G('num');
+    var oPrev = G('prev');
+    var oNext = G('next');
+    var index = 0;
+    var timer = "";
+    for(var i=0;i<aSmg.length;i++){
+        aSmg[i].index = i;  //当前添加索引
+        aImg[i].index = i;
+        aa0[i].href = aa1[i].href = aa2[i].href = data[i].slink;
+        aa0[i].innerHTML = data[i].title;
+        aaImg[i].src = aaSmg[i].src = data[i].img1;
+        aSmg[i].onmouseover  = function(){
+            
+            stop();
+            index = this.index;
+            // autoPlay();
+            // stop();
+            
+            for(var i=0;i<aSmg.length;i++){
+                aSmg[i].className = '';
+                aTxt[i].className = '';
+                startMove(aImg[i],'opacity',0);
+                aImg[i].style.zIndex = 1;
+            }
+            aSmg[this.index].className = 'current'; 
+            aTxt[this.index].className = 'show';
+            oNum.innerHTML = this.index+1 + '/12';
+            startMove(aImg[this.index],'opacity',100);
+            aImg[this.index].style.zIndex = 2;
+         }
+         aSmg[i].onmouseout  = function(){
+            autoPlay();
+         }
+         aView.onmouseover = function(){
+            stop();
+         }
+         aView.onmouseout = function(){
+            autoPlay();
+         }
+    }
+    function conScroll(){
+        if(parseInt(oUl.style.marginLeft)<0){
+            startMove(oUl,'marginLeft',0);
+            for(var i=0;i<aSmg.length;i++){
+                aTxt[i].className = '';
+                startMove(aImg[i],'opacity',0);
+                aSmg[i].className = '';
+                aImg[i].style.zIndex = 1;
+            }
+            startMove(aImg[0],'opacity',100);
+            aSmg[0].className = 'current';
+            aTxt[0].className = 'show'; 
+            oNum.innerHTML = 1 + '/10';
+            aImg[0].style.zIndex = 2;
+        }else{
+            index = aSmg.length / 2 + 1;
+            startMove(oUl,'marginLeft',-oUl.offsetWidth/2);
+            for(var i=0;i<aSmg.length;i++){
+                aTxt[i].className = '';
+                startMove(aImg[i],'opacity',0);
+                aSmg[i].className = '';
+                aImg[i].style.zIndex = 1;
+            }
+            startMove(aImg[aSmg.length/2],'opacity',100);
+            aSmg[aSmg.length/2].className = 'current';
+            aTxt[aSmg.length/2].className = 'show';
+            oNum.innerHTML = (aSmg.length*0.5 + 1) + '/10';
+            aImg[aSmg.length/2].style.zIndex = 2;
+        }
+    }
+
+    oNext.onclick = oPrev.onclick = conScroll;
+
+    function stop(){
+        clearTimeout(timer);
+    }
+    function autoPlay(){
+        // console.log(index);
+        for(var i=0;i<aSmg.length;i++){
+            aSmg[i].className = '';
+            aTxt[i].className = '';
+            startMove(aImg[i],'opacity',0);
+            aImg[i].style.zIndex = 1;
+        }
+        aSmg[index].className = 'current';  
+        aTxt[index].className = 'show';
+        oNum.innerHTML = index+1 + '/12';
+        startMove(aImg[index],'opacity',100);
+        aImg[index].style.zIndex = 2;
+        index ++;
+        if(index == aSmg.length / 2){
+            index = 0;
+            startMove(oUl,'marginLeft',0);
+        }
+        if(index == aSmg.length){
+            index = 7;
+        }
+        timer = setTimeout(autoPlay, 5000);
+    }
+    autoPlay();
+})();
+function G(id) {
+    return document.getElementById(id)
+};
+function startMove(obj, attr, iTarget) { //轮换动画
+    clearInterval(obj.timer);
+    obj.timer = setInterval(function() {
+        doMove(obj, attr, iTarget);
+    }, 15);
+}
+function doMove(obj, attr, iTarget) {
+    var iCur = 0;
+    if (attr == 'opacity') {
+        iCur = parseInt(100 * getStyle(obj, attr)) || 0;
+    } else {
+        iCur = parseInt(getStyle(obj, attr)) || 0;
+    }
+    var iSpeed = (iTarget - iCur) / 8;
+    iSpeed = (iSpeed > 0) ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+    if (iCur == iTarget) {
+        clearInterval(obj.timer);
+    } else if (attr == 'opacity') {
+        obj.style.filter = 'alpha(opacity=' + (iCur + iSpeed) + ')';
+        obj.style.opacity = (iCur + iSpeed) / 100;
+    } else {
+        obj.style[attr] = iCur + iSpeed + 'px';
+    }
+}
+function getStyle(obj, attr) { //取样式
+    if (obj.currentStyle) {
+        return obj.currentStyle[attr];
+    } else {
+        return getComputedStyle(obj, false)[attr];
+    }
+}
+</script>
