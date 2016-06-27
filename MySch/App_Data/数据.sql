@@ -128,8 +128,11 @@ create table TStudReg
 	GD	nvarchar(32) not null,	--编号
 	Name	nvarchar(20) not null,	--姓名
 	fromSch	nvarchar(32) not null,	--学校
-	fromClass	int not null,	--班级
-	fromPhoto	nvarchar(50),	--入学时的照片
+	fromClass	nvarchar(10) not null,	--班级
+	fromPhoto	nvarchar(40),	--入学时的照片
+	nationID	nvarchar(32),	--全国学籍号
+	readState	nvarchar(20),	--就读状态
+	isProblem	bit not null,	--是否问题学籍
 	schChoose	bit not null,	--是否择校
 	Reged	bit not null,	--是否注册
 	Memo	nvarchar(50)	--备注

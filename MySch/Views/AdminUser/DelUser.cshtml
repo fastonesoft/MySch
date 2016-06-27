@@ -2,7 +2,7 @@
 
 @{
     Layout = null;
-    //Adminuser/Del
+    //AdminUser/DelUser
 }
 
 <script type="text/javascript">
@@ -10,7 +10,7 @@
         $('#dialog-form').dialog({
             title: '用户删除',
             width: 410,
-            height: 280,
+            height: 270,
             closable: false,
             closed: false,
             cache: false,
@@ -56,7 +56,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <div style="padding:20px;">
+    <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.ID)：</div>
             <span class="textbox">

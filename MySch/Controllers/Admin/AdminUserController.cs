@@ -12,7 +12,7 @@ namespace MySch.Controllers.Admin
     public class AdminUserController : RoleController
     {
         [HttpPost]
-        public ActionResult Add()
+        public ActionResult AddUser()
         {
             return View();
         }
@@ -31,7 +31,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Edit(string id)
+        public ActionResult EditUser(string id)
         {
             var db = DataQuery<TAcc>.Entity(a => a.ID == id);
             if (db == null)
@@ -65,7 +65,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Del(string id)
+        public ActionResult DelUser(string id)
         {
             var db = DataQuery<TAcc>.Entity(a => a.ID == id);
             if (db == null)
@@ -105,7 +105,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Search(string text)
+        public ActionResult SearchUser(string text)
         {
             //管理员ParentGD为null，可以查询全部
             //非管理员，只可以查询自己和自己的下属

@@ -32,6 +32,18 @@
                 })
             })
 
+            //tabs关闭动作
+            $('#admin-tab').tabs({
+                onClose: function (title) {
+                    //关闭菜单状态
+                    $(".menuson li a").each(function () {
+                        if ($(this).text() == title) {
+                            $(this).parent().attr('clicked', false);
+                        }
+                    });
+                }
+            });
+
             //顶部导航切换
             $(".nav li a").click(function () {
                 $(".nav li a.selected").removeClass("selected")
@@ -45,25 +57,6 @@
                 objs.next().children(':first-child').click();
             });
 
-            //菜单切换
-            $(".menuson li").click(function () {
-                $(".menuson li.active").removeClass("active")
-                $(this).addClass("active");
-
-                //顶部更新
-                var num = $(this).parent().prev().attr('num');
-                $(".nav li a.selected").removeClass("selected")
-                var s = $.validator.format('.nav li a[num={0}]', num);
-                $(s).addClass("selected");
-
-                //菜单动作
-                var url = $(this).attr('dest');
-                var name = $(this).find('a').text();
-                var icon = $(this).attr('icon');
-                //添加页面
-                easyobj.addTab('#admin-tab', name, url, icon)
-            });
-
             //菜单点击
             $('.title').click(function () {
                 $(this).parent().siblings().find('ul').slideUp();
@@ -73,6 +66,37 @@
                 } else {
                     $ul.slideDown();
                 }
+            });
+
+            //菜单切换
+            $(".menuson li").click(function () {
+                //菜单动作
+                var url = $(this).attr('dest');
+                var name = $(this).find('a').text();
+                var icon = $(this).attr('icon');
+
+                //设置样式
+                $(".menuson li.active").removeClass("active")
+                $(this).addClass("active");
+
+                //顶部更新
+                var num = $(this).parent().prev().attr('num');
+                $(".nav li a.selected").removeClass("selected")
+                var s = $.validator.format('.nav li a[num={0}]', num);
+                $(s).addClass("selected");
+
+                //检查菜单状态
+                var clicked = $(this).attr('clicked');
+                if (clicked === 'true') {
+                    $('#admin-tab').tabs('select', name);
+                    return;
+                };
+
+                //设置菜单单击状态
+                $(this).attr('clicked', true);
+
+                //添加页面
+                easyobj.addTab('#admin-tab', name, url, icon)
             });
 
             //布局
@@ -168,7 +192,7 @@
                             <img src="/Images/leftico02.png" />用户设置
                         </div>
                         <ul class="menuson">
-                            <li dest="/Admin/Users" icon="icon-user"><cite></cite><a href="javascript:void(0);">用户列表</a><i></i></li>
+                            <li dest="/Admin/Users" icon="icon-user" clicked><cite></cite><a href="javascript:void(0);">用户列表</a><i></i></li>
                             <li dest="/Admin/GrpAccs" icon="icon-user"><cite></cite><a href="javascript:void(0);">用户分组</a><i></i></li>
                         </ul>
                     </dd>
@@ -180,7 +204,7 @@
 
         <div data-options="region:'center',border:false">
             <div id="admin-tab">
-                <div title="&nbsp;系统首页&nbsp;" data-options="iconCls:'icon-tip'" style="padding:8px;">
+                <div title="系统首页" data-options="iconCls:'icon-tip'" style="padding:8px;">
                 </div>
             </div>
         </div>

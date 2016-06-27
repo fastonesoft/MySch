@@ -18,7 +18,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-add"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/AdminUser/Add', function (d) {
+                    $.post('/AdminUser/AddUser', function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -35,7 +35,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-edit"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/AdminUser/Edit', { id: row.ID }, function (d) {
+                    $.post('/AdminUser/EditUser', { id: row.ID }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -52,7 +52,7 @@
                     //禁用
                     $('.easyui-linkbutton[iconcls="icon-no"]').linkbutton('disable');
                     //打开窗口
-                    $.post('/AdminUser/Del', { id: row.ID }, function (d) {
+                    $.post('/AdminUser/DelUser', { id: row.ID }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -68,7 +68,7 @@
                     } else {
                         $('#users-grid').datagrid('loading');
                         //读取部分
-                        $.post('/AdminUser/Search', { text: text }, function (d) {
+                        $.post('/AdminUser/SearchUser', { text: text }, function (d) {
                             if (d.error) {
                                 $.messager.alert('错误提示', d.message, 'error');
                             } else {
@@ -167,7 +167,7 @@
                     <td>
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="users.del();">删除</a>
                     </td>
-                    <td style="width:10px;"></td>
+                    <td style="width:5px;"></td>
                     <td>
                         <span class="textbox">
                             <input class="textbox-text" id="users-grid-text" />

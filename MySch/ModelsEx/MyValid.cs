@@ -37,5 +37,23 @@ namespace MySch.Models
     }
 
 
+    public class StudRegValid
+    {
+        [DisplayName("姓名")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{2,30}$", ErrorMessage = "{0}：2-10个中文字符；")]
+        public string Name { get; set; }
+
+        [DisplayName("联系电话")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\d{8}$", ErrorMessage = "{0}：为11位手机号；")]
+        public string Tel { get; set; }
+
+        [DisplayName("身份证号")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^\d{17}[0-9xX]$", ErrorMessage = "{0}：为18位数学字母组合")]
+        public string ID { get; set; }
+    }
+
 
 }

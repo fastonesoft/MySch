@@ -25,6 +25,18 @@
                 })
             })
 
+            //tabs关闭动作
+            $('#user-tab').tabs({
+                onClose: function (title) {
+                    //关闭菜单状态
+                    $(".menuson li a").each(function () {
+                        if ($(this).text() == title) {
+                            $(this).parent().attr('clicked', false);
+                        }
+                    });
+                }
+            });
+
             //退出登录
             $('#logoff').click(function () {
                 $.post('/Account/Logoff', function (d) {
@@ -44,24 +56,6 @@
                 objs.click();
                 objs.next().children(':first-child').click();
             });
-            //菜单切换
-            $(".menuson li").click(function () {
-                $(".menuson li.active").removeClass("active")
-                $(this).addClass("active");
-
-                //顶部更新
-                var num = $(this).parent().prev().attr('num');
-                $(".nav li a.selected").removeClass("selected")
-                var s = $.validator.format('.nav li a[num={0}]', num);
-                $(s).addClass("selected");
-
-                //菜单动作
-                var url = $(this).attr('dest');
-                var name = $(this).find('a').text();
-                var icon = $(this).attr('icon');
-                //添加页面
-                easyobj.addTab('#user-tab', name, url, icon)
-            });
             //菜单点击
             $('.title').click(function () {
                 $(this).parent().siblings().find('ul').slideUp();
@@ -71,6 +65,37 @@
                 } else {
                     $ul.slideDown();
                 }
+            });
+            //菜单切换
+            $(".menuson li").click(function () {
+                //菜单动作
+                var url = $(this).attr('dest');
+                var name = $(this).find('a').text();
+                var icon = $(this).attr('icon');
+
+                //设置样式
+                $(".menuson li.active").removeClass("active")
+                $(this).addClass("active");
+
+                //顶部更新
+                var num = $(this).parent().prev().attr('num');
+                $(".nav li a.selected").removeClass("selected")
+                var s = $.validator.format('.nav li a[num={0}]', num);
+                $(s).addClass("selected");
+
+                //检查菜单状态
+                var clicked = $(this).attr('clicked');
+                if (clicked === 'true') {
+                    $('#user-tab').tabs('select', name);
+                    //阻止
+                    return;
+                };
+
+                //设置菜单单击状态
+                $(this).attr('clicked', true);
+
+                //添加页面
+                easyobj.addTab('#user-tab', name, url, icon)
             });
 
             //布局
@@ -128,8 +153,9 @@
                             <img src="/Images/leftico04.png" />新生报名
                         </div>
                         <ul class="menuson">
-                            <li dest="/Client/Studs" icon="icon-system"><cite></cite><a href="javascript:void(0);">学生注册</a><i></i></li>
-                        </ul>
+                            <li dest="/StudReg/Index" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">学生报名</a><i></i></li>
+                            <li dest="/Admin/Users" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">学生测试</a><i></i></li>
+                       </ul>
                     </dd>
 
                 </dl>
@@ -139,7 +165,7 @@
 
         <div data-options="region:'center',border:false">
             <div id="user-tab">
-                <div title="&nbsp;系统首页&nbsp;" data-options="iconCls:'icon-tip'" style="padding:8px;">
+                <div title="用户首页" data-options="iconCls:'icon-tip'" style="padding:8px;">
                 </div>
             </div>
         </div>

@@ -80,12 +80,10 @@ jQuery.fn.extend({
 
 //add easyui tabs
 easyobj = {
-    addTab: function (id, title, url, icon) {
-        title = '&nbsp;' + title + '&nbsp;';
-
+    addTab: function (id, name, url, icon) {
         var tt = $(id);
-        if (tt.tabs('exists', title)) {
-            tt.tabs('select', title);
+        if (tt.tabs('exists', name)) {
+            tt.tabs('select', name);
         } else {
             //检测是否有权限
             $.post(url, function (d) {
@@ -93,7 +91,7 @@ easyobj = {
                     $.messager.alert('错误提示', d.message, 'error');
                 } else {
                     tt.tabs('add', {
-                        title: title,
+                        title: name,
                         content: d,
                         selected: true,
                         closable: true,
