@@ -207,23 +207,6 @@ namespace MySch.ModelsEx
             }
         }
 
-        public static byte[] GetStream(HttpWebResponse resp)
-        {
-            try
-            {
-                StreamReader read = new StreamReader(resp.GetResponseStream());
-                char[] res = new char[resp.ContentLength];
-                read.Read(res, 0, (int)resp.ContentLength);
-
-                byte[] bb = new byte[100];
-                return null;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         public static string GetHtml(HttpWebResponse resp)
         {
             try
@@ -260,6 +243,18 @@ namespace MySch.ModelsEx
             {
                 throw e;
             }
+        }
+
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies)
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+
+            req.CookieContainer = new CookieContainer();
+            req.CookieContainer.Add(cookies);
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+
+            return (HttpWebResponse)req.GetResponse();
         }
     }
 }

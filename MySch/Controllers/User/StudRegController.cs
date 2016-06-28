@@ -52,15 +52,11 @@ namespace MySch.Controllers.User
                 //string encodingName = resp.ContentEncoding;
                 //return Content(MyHtml.GetHtml(resp, Encoding.GetEncoding("GBK")));
 
-                //Bitmap bit = MyHtml.GetBitmap(resp);
-                //bit.Save(Response.OutputStream, ImageFormat.Jpeg);
-                //bit.Dispose();
+                Bitmap bit = MyHtml.GetBitmap(resp);
+                bit.Save(Response.OutputStream, ImageFormat.Jpeg);
+                bit.Dispose();
+                Response.Flush();
 
-                //Response.Flush();
-
-                byte[] read = MyHtml.GetStream(resp);
-
-                Response.BinaryWrite(read);
             }
         }
 

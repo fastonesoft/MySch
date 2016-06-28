@@ -1,0 +1,301 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>新生注册 - 框架</title>
+
+    <style type="text/css">
+        .user_focus { height: 80px; overflow: hidden; position: relative; margin: 0 auto; }
+        .user_focus .focus_slider { height: 80px; position: absolute; left: 0px; top: 0px; z-index: 111; }
+        .user_focus .focus_slider .mask { height: 80px; overflow: hidden; float: left; display: inline; }
+        .user_focus .focus_slider ul { height: 80px; margin-left: 0px; overflow: hidden; }
+        .user_focus .focus_slider li { float: left; width: 96px; height: 64px; display: inline; overflow: hidden; margin: 8px 0px 0px 8px; }
+        .user_focus .focus_slider li img { width: 96px; height: 64px; }
+        .user_focus .focus_slider li a { display: block; width: 96px; height: 64px; overflow: hidden; background: #000; }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+
+
+            //点击动作
+            studreg = {
+                add: function () {
+                    //禁用
+                    $('.easyui-linkbutton[iconcls="icon-add"]').linkbutton('disable');
+                    //打开窗口
+                    $.post('/StudReg/GetHtml', function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            alert(d);
+                           // $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                edit: function () {
+                    var row = $('#studreg-grid').datagrid('getSelected');
+                    if (!row) {
+                        $.messager.alert('错误提示', '未选定修改的帐号！', 'error');
+                        return false;
+                    }
+                    //禁用
+                    $('.easyui-linkbutton[iconcls="icon-edit"]').linkbutton('disable');
+                    //打开窗口
+                    $.post('/StudReg/EditReg', { id: row.ID }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                del: function () {
+                    var row = $('#studreg-grid').datagrid('getSelected');
+                    if (!row) {
+                        $.messager.alert('错误提示', '未选定删除的帐号！', 'error');
+                        return false;
+                    }
+                    //禁用
+                    $('.easyui-linkbutton[iconcls="icon-no"]').linkbutton('disable');
+                    //打开窗口
+                    $.post('/StudReg/DelReg', { id: row.ID }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                search: function () {
+                    var text = $.trim($('#studreg-grid-text').val());
+                    if (text.length == 0) {
+                        //刷新
+                        $('#studreg-grid').datagrid('load');
+                    } else {
+                        $('#studreg-grid').datagrid('loading');
+                        //读取部分
+                        $.post('/StudReg/SearchReg', { text: text }, function (d) {
+                            if (d.error) {
+                                $.messager.alert('错误提示', d.message, 'error');
+                            } else {
+                                $('#studreg-grid').datagrid('loadData', d);
+                                $('#studreg-grid').datagrid('loaded');
+                            }
+                        });
+                    }
+                },
+            }
+
+            //数据表格
+            $('#studreg-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                //url: '/Admin/UsersPage',
+                loadMsg: '数据加载中，请稍候……',
+
+                columns: [[
+                    {
+                        title: '学校名称',
+                        field: 'fromSch',
+                        align: 'center',
+                        sortable: true,
+                        width: 200
+                    },
+                    {
+                        title: '姓名',
+                        field: 'Name',
+                        align: 'center',
+                        sortable: true,
+                        width: 80
+                    },
+                    {
+                        title: '身份证号',
+                        field: 'ID',
+                        align: 'center',
+                        sortable: true,
+                        width: 150
+                    },
+                    {
+                        title: '班级',
+                        field: 'fromClass',
+                        align: 'center',
+                        sortable: true,
+                        width: 100
+                    },
+                    {
+                        title: '联系电话',
+                        field: 'Tel',
+                        align: 'center',
+                        sortable: true,
+                        width: 100
+                    },
+                    {
+                        title: '全国学籍号',
+                        field: 'nationID',
+                        align: 'center',
+                        sortable: true,
+                        width: 150
+                    },
+                    {
+                        title: '就读状态',
+                        field: 'readState',
+                        align: 'center',
+                        sortable: true,
+                        width: 70
+                    },
+                    {
+                        title: '问题学籍',
+                        field: 'isProblem',
+                        align: 'center',
+                        sortable: true,
+                        width: 70,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
+                        title: '是否择校',
+                        field: 'schChoose',
+                        align: 'center',
+                        sortable: true,
+                        width: 70,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
+                        title: '是否报名',
+                        field: 'Reged',
+                        align: 'center',
+                        sortable: true,
+                        width: 70,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                ]],
+
+                toolbar: '#studreg-grid-tool',
+                pagination: false,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+
+            $('#studreg-grid').datagrid({
+                data: [{
+                    fromSch: '泰州市姜堰区实验初级中学',
+                    Name: '看过的',
+                    ID: '321284200508150254',
+                    fromClass: '小学五年级',
+                    Tel:'13852657065',
+                    nationID: 'G321284200508150254',
+                    readState: '正常',
+                    isProblem: true,
+                    schChoose: true,
+                    Reged:false
+                }]
+            });
+
+
+            //布局
+            $('#studreg-lay').layout({
+                border: true,
+                fit: true
+            });
+
+        })
+    </script>
+</head>
+<body>
+    <div id="studreg-lay" class="easyui-layout">
+        <div data-options="region:'center',border:false">
+            <table id="studreg-grid"></table>
+        </div>
+        <div data-options="region:'south',border:true,iconCls:'icon-system'" style="height:82px;">
+            <div class="user_focus">
+                <div class="focus_slider">
+                    <!--缩略图-->
+                    <div class="mask">
+                        <ul>
+                            <li class="" bosszone="txtp_jdt_1"><a href="http://news.qq.com/a/20160623/036676.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/32/136/2088/135806912.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_2" class=""><a href="http://news.qq.com/original/tuhua/ceng.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/135/18/2088/135776925.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_3" class=""><a href="http://news.qq.com/a/20160623/003726.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/161/22/2088/135777971.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_4" class=""><a href="http://news.qq.com/original/oneday/2366.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/162/22/2088/135777972.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_5" class=""><a href="http://news.qq.com/a/20160622/045449.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/165/22/2088/135777975.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_6" class="current"><a href="http://sports.qq.com/a/20160623/007910.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/sports/pics/hv1/218/24/2088/135778538.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_7" class=""><a href="http://g.pw8l.com/s/1/672/7822.html?uid=321802" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/111/31/2088/135780216.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_8" class=""><a href="http://news.qq.com/a/20160623/012465.htm#p=1" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/167/22/2088/135777977.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_9" class=""><a href="http://news.qq.com/a/20160622/011454.htm" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/254/121/2087/135738284.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_10" class=""><a href="http://mm.code.twh5.com/htmlcode/1554.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/131/250/2084/135575981.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_11" class=""><a href="http://news.qq.com/original/oneday/2365.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/123/106/2087/135734328.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_12" class=""><a href="http://news.qq.com/original/eyan/ey99.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/201/119/2087/135737721.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_13" class=""><a href="http://news.qq.com/original/zaixianyingzhan/heroom.html" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/12/120/2087/135737787.jpg"> </a></li>
+                            <li bosszone="txtp_jdt_14" class=""><a href="http://g.pw8l.com/s/1/672/1861.html?uid=321801" target="_blank"><img src="http://img1.gtimg.com/news/pics/hv1/113/31/2088/135780218.jpg"> </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="studreg-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="studreg.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studreg.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="studreg.del();">取消报名</a>
+                    </td>
+                    <td style="width:5px;"></td>
+                    <td>
+                        <span class="textbox">
+                            <input class="textbox-text" id="studreg-grid-text" />
+                        </span>
+                    </td>
+                    <td style="padding-left:5px;">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studreg.search();">查询</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>
