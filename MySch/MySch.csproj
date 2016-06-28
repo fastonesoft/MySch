@@ -419,6 +419,7 @@
     <Content Include="Views\AdminUser\EditUser.cshtml" />
     <Content Include="Views\StudReg\Index.cshtml" />
     <Content Include="Views\StudReg\AddReg.cshtml" />
+    <Content Include="Views\StudReg\ShowImage.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,7 +1,13 @@
 ﻿using MySch.Models;
+using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -32,5 +38,35 @@ namespace MySch.Controllers.User
 
         //    }
         //}
+
+        public void GetImage()
+        //using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp"))
+        {
+            Response.ContentType = "image/jpeg";
+            Response.Clear();
+            Response.BufferOutput = true;
+
+
+            using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/genImageCode"))
+            {
+                //string encodingName = resp.ContentEncoding;
+                //return Content(MyHtml.GetHtml(resp, Encoding.GetEncoding("GBK")));
+
+                //Bitmap bit = MyHtml.GetBitmap(resp);
+                //bit.Save(Response.OutputStream, ImageFormat.Jpeg);
+                //bit.Dispose();
+
+                //Response.Flush();
+
+                byte[] read = MyHtml.GetStream(resp);
+
+                Response.BinaryWrite(read);
+            }
+        }
+
+        public ActionResult ShowImage()
+        {
+            return View();
+        }
     }
 }

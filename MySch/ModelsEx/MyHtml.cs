@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -152,6 +153,113 @@ namespace MySch.ModelsEx
                 list.Add("发生异常/n/r" + ex.Message);
             }
             return list;
+        }
+
+
+        //-----------------------------------------------
+        //网页抓取分解
+        public static HttpWebResponse GetResponse(string url)
+        {
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+
+                req.CookieContainer = new CookieContainer();
+                req.CookieContainer.Add(new CookieCollection());
+                req.AllowAutoRedirect = false;
+                req.KeepAlive = false;
+                req.Method = "GET";
+                req.Referer = url;
+                req.Timeout = 30000;
+
+                //req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0";
+
+                return (HttpWebResponse)req.GetResponse();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static HttpWebResponse GetResponse(HttpWebRequest req)
+        {
+            try
+            {
+                return (HttpWebResponse)req.GetResponse();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static Bitmap GetBitmap(HttpWebResponse resp)
+        {
+            try
+            {
+                Stream reads = resp.GetResponseStream();
+                return new Bitmap(reads);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static byte[] GetStream(HttpWebResponse resp)
+        {
+            try
+            {
+                StreamReader read = new StreamReader(resp.GetResponseStream());
+                char[] res = new char[resp.ContentLength];
+                read.Read(res, 0, (int)resp.ContentLength);
+
+                byte[] bb = new byte[100];
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static string GetHtml(HttpWebResponse resp)
+        {
+            try
+            {
+                StreamReader sr = new StreamReader(resp.GetResponseStream(), Encoding.Default);
+                return sr.ReadToEnd();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static string GetHtml(HttpWebResponse resp, Encoding encoding)
+        {
+            try
+            {
+                StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
+                return sr.ReadToEnd();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static CookieCollection GetCookies(HttpWebResponse resp)
+        {
+            try
+            {
+                return resp.Cookies;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
