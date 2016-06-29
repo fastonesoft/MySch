@@ -245,16 +245,34 @@ namespace MySch.ModelsEx
             }
         }
 
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies)
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName)
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
 
-            req.CookieContainer = new CookieContainer();
-            req.CookieContainer.Add(cookies);
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
+                req.CookieContainer = new CookieContainer();
+                req.CookieContainer.Add(cookies);
+                req.Method = "POST";
+                req.ContentType = "application/x-www-form-urlencoded";
 
-            return (HttpWebResponse)req.GetResponse();
+                //准备数据
+                Encoding encoding = Encoding.GetEncoding(encodingName);
+                byte[] posts = encoding.GetBytes(data);
+                req.ContentLength = posts.Length;
+
+                //写入提交
+                using (Stream postwriter = req.GetRequestStream())
+                {
+                    postwriter.Write(posts, 0, posts.Length);
+                }
+
+                return (HttpWebResponse)req.GetResponse();
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
         }
     }
 }

@@ -60,6 +60,23 @@ namespace MySch.Controllers.User
             }
         }
 
+        public ActionResult PostResult()
+        {
+            string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
+            try
+            {
+                using (HttpWebResponse resp = MyHtml.GetResponse(url))
+                {
+                    CookieCollection cookies = resp.Cookies;
+                }
+
+            }
+            catch (Exception e)
+            {
+                json
+            }
+        }
+
         public ActionResult ShowImage()
         {
             return View();
