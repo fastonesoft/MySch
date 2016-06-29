@@ -138,6 +138,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsEx\MyCompareImage.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ModelsEx\MyHtml.cs" />
     <Compile Include="ModelsEx\MyLogin.cs" />
     <Compile Include="ModelsEx\MyModels.cs" />
@@ -373,6 +376,32 @@
     <Content Include="Images\ub1.png" />
     <Content Include="Images\user.png" />
     <Content Include="Images\userbg.png" />
+    <Content Include="Images\vbit\a.bmp" />
+    <Content Include="Images\vbit\b.bmp" />
+    <Content Include="Images\vbit\c.bmp" />
+    <Content Include="Images\vbit\d.bmp" />
+    <Content Include="Images\vbit\e.bmp" />
+    <Content Include="Images\vbit\f.bmp" />
+    <Content Include="Images\vbit\g.bmp" />
+    <Content Include="Images\vbit\h.bmp" />
+    <Content Include="Images\vbit\i.bmp" />
+    <Content Include="Images\vbit\j.bmp" />
+    <Content Include="Images\vbit\k.bmp" />
+    <Content Include="Images\vbit\l.bmp" />
+    <Content Include="Images\vbit\m.bmp" />
+    <Content Include="Images\vbit\n.bmp" />
+    <Content Include="Images\vbit\o.bmp" />
+    <Content Include="Images\vbit\p.bmp" />
+    <Content Include="Images\vbit\q.bmp" />
+    <Content Include="Images\vbit\r.bmp" />
+    <Content Include="Images\vbit\s.bmp" />
+    <Content Include="Images\vbit\t.bmp" />
+    <Content Include="Images\vbit\u.bmp" />
+    <Content Include="Images\vbit\v.bmp" />
+    <Content Include="Images\vbit\w.bmp" />
+    <Content Include="Images\vbit\x.bmp" />
+    <Content Include="Images\vbit\y.bmp" />
+    <Content Include="Images\vbit\z.bmp" />
     <Content Include="new.htm" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
