@@ -138,7 +138,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ModelsEx\MyCompareImage.cs">
+    <Compile Include="ModelsEx\MyImageCode.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelsEx\MyHtml.cs" />

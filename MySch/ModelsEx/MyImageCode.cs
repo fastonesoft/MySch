@@ -8,32 +8,26 @@ using System.Web;
 
 namespace MySch.ModelsEx
 {
-    public class MyCompareImage : IDisposable
+    public class MyImageCode : IDisposable
     {
         private int _num;
         private Bitmap _src;
-        private Bitmap[] bits;
+        private Bitmap[] _bits;
+        private Bitmap _CloneBit;
 
         /// <summary>
         /// 创建灰度、黑白图片处理类
         /// </summary>
         /// <param name="src">源图</param>
-        /// <param name="deep">阈值</param>
         /// <param name="minWidth">最小字符宽度</param>
-        public MyCompareImage(Bitmap src, int minWidth)
+        public MyImageCode(Bitmap src, int minWidth)
         {
             _src = src;
 
             //生成所需的图片
-            //一、灰度图
-            //二、黑白图
-            //三、切割
-            //gray = GrayByScan();
-            //bit = BitByScan(gray);
             _CloneBit = cloneBit();
-            _CloneGray = cloneGray();
-
-            bits = SplitBitByPixel(_CloneBit, minWidth);
+            //三、切割
+            _bits = SplitBitByPixel(_CloneBit, minWidth);
         }
 
         public void Dispose()
@@ -42,20 +36,16 @@ namespace MySch.ModelsEx
 
             for (int i = 0; i < _num; i++)
             {
-                bits[i].Dispose();
+                _bits[i].Dispose();
             }
 
             this.Dispose();
         }
         public int BitsNum { get { return _num; } }
-        public Bitmap[] Bits { get { return bits; } }
-
-
-        private Bitmap _CloneBit;
-        private Bitmap _CloneGray;
+        public Bitmap[] Bits { get { return _bits; } }
         public Bitmap CloneBit { get { return _CloneBit; } }
-        public Bitmap CloneGray { get { return _CloneGray; } }
 
+        //黑白
         private Bitmap cloneBit()
         {
             int width = _src.Width;
@@ -65,6 +55,7 @@ namespace MySch.ModelsEx
             return _src.Clone(rect, PixelFormat.Format1bppIndexed);     
         }
 
+        //灰度
         private Bitmap cloneGray()
         {
             int width = _src.Width;
@@ -82,7 +73,6 @@ namespace MySch.ModelsEx
             int dhei = dest.Height;
 
             int count = 0;
-
             //长、宽不匹配
             if (swid != dwid || shei != dhei) return false;
 
@@ -106,7 +96,6 @@ namespace MySch.ModelsEx
             return true;
         }
 
-        #region 黑白 -> 切割  private Bitmap[] SplitBitByPixel(Bitmap bt, int charWid)
         private Bitmap[] SplitBitByPixel(Bitmap bt, int charWid)
         {
             int width = bt.Width;
@@ -171,67 +160,18 @@ namespace MySch.ModelsEx
             }
             return b;
         }
-        #endregion
 
-        #region 比较 -> 完全相同  public static bool CompareTheSame(Bitmap src, Bitmap dest)
-        public static bool CompareTheSame(Bitmap src, Bitmap dest)
-        {
-            int swid = src.Width;
-            int shei = src.Height;
-            int dwid = dest.Width;
-            int dhei = dest.Height;
-
-            //如果长、宽不匹配，则返回false
-            if (swid != dwid || shei != dhei) return false;
-
-            Rectangle rect = new Rectangle(0, 0, swid, shei);
-            BitmapData srcData = src.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-            IntPtr srcPtr = srcData.Scan0;
-            int rowBytes = srcData.Stride;
-            int totalBytes = rowBytes * shei;
-            byte[] srcVals = new byte[totalBytes];
-            Marshal.Copy(srcPtr, srcVals, 0, totalBytes);
-            //解锁位图  
-            src.UnlockBits(srcData);
-
-            BitmapData destData = dest.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-            IntPtr destPtr = destData.Scan0;
-            byte[] destVals = new byte[totalBytes];
-            Marshal.Copy(destPtr, destVals, 0, totalBytes);
-            //解锁位图  
-            dest.UnlockBits(destData);
-
-            for (int y = 0; y < shei; y++)
-            {
-                for (int x = 0; x < swid; x++)
-                {
-                    int k = x * 3;
-                    int rowsBytes = y * rowBytes;
-
-                    for (int z = 0; z < 3; z++)
-                    {
-                        //有一点不同，返回false
-                        if (srcVals[rowsBytes + k + z] != destVals[rowsBytes + k + z]) return false;
-                    }
-                }
-            }
-            //完全相同，返回true
-            return true;
-        }
-        #endregion
-
-
-        #region 检测验证码
+        //检测验证码
         public static string GetValidedCode(Bitmap dest, Bitmap[] src)
         {
             string code = string.Empty;
-            MyCompareImage destBit = new MyCompareImage(dest, 1);
+            MyImageCode destBit = new MyImageCode(dest, 1);
 
             for (int x = 0; x < destBit.BitsNum; x++)
             {
                 for (int y = 0; y < src.Length; y++)
                 {
-                    if (MyCompareImage.CompareBits(destBit.Bits[x], src[y]))
+                    if (MyImageCode.CompareBits(destBit.Bits[x], src[y]))
                     {
                         code += Convert.ToChar(Convert.ToInt16('a') + y);
                         break;
@@ -241,6 +181,52 @@ namespace MySch.ModelsEx
 
             return code;
         }
+
+        #region 比较 -> 完全相同  public static bool CompareTheSame(Bitmap src, Bitmap dest)
+        //public static bool CompareTheSame(Bitmap src, Bitmap dest)
+        //{
+        //    int swid = src.Width;
+        //    int shei = src.Height;
+        //    int dwid = dest.Width;
+        //    int dhei = dest.Height;
+
+        //    //如果长、宽不匹配，则返回false
+        //    if (swid != dwid || shei != dhei) return false;
+
+        //    Rectangle rect = new Rectangle(0, 0, swid, shei);
+        //    BitmapData srcData = src.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+        //    IntPtr srcPtr = srcData.Scan0;
+        //    int rowBytes = srcData.Stride;
+        //    int totalBytes = rowBytes * shei;
+        //    byte[] srcVals = new byte[totalBytes];
+        //    Marshal.Copy(srcPtr, srcVals, 0, totalBytes);
+        //    //解锁位图  
+        //    src.UnlockBits(srcData);
+
+        //    BitmapData destData = dest.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+        //    IntPtr destPtr = destData.Scan0;
+        //    byte[] destVals = new byte[totalBytes];
+        //    Marshal.Copy(destPtr, destVals, 0, totalBytes);
+        //    //解锁位图  
+        //    dest.UnlockBits(destData);
+
+        //    for (int y = 0; y < shei; y++)
+        //    {
+        //        for (int x = 0; x < swid; x++)
+        //        {
+        //            int k = x * 3;
+        //            int rowsBytes = y * rowBytes;
+
+        //            for (int z = 0; z < 3; z++)
+        //            {
+        //                //有一点不同，返回false
+        //                if (srcVals[rowsBytes + k + z] != destVals[rowsBytes + k + z]) return false;
+        //            }
+        //        }
+        //    }
+        //    //完全相同，返回true
+        //    return true;
+        //}
         #endregion
     }
 

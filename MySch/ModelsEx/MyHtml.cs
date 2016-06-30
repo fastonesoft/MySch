@@ -191,7 +191,7 @@ namespace MySch.ModelsEx
                 req.AllowAutoRedirect = false;
                 req.KeepAlive = false;
                 req.Method = "GET";
-                req.Referer = url;
+                //req.Referer = url;
                 req.Timeout = 30000;
 
                 return (HttpWebResponse)req.GetResponse();
@@ -237,8 +237,9 @@ namespace MySch.ModelsEx
 
                 req.CookieContainer = new CookieContainer();
                 req.CookieContainer.Add(cookies);
-                req.Method = "POST";
+                req.AllowAutoRedirect = false;
                 req.ContentType = "application/x-www-form-urlencoded";
+                req.Method = "POST";
 
                 //准备数据
                 byte[] posts = encoding.GetBytes(data);

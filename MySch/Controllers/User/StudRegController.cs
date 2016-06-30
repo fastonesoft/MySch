@@ -39,30 +39,34 @@ namespace MySch.Controllers.User
         //    }
         //}
 
-        public void GetImage()
-        //using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp"))
-        {
-            Response.ContentType = "image/jpeg";
-            Response.Clear();
-            Response.BufferOutput = true;
+        //public void GetImage()
+        ////using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp"))
+        //{
+        //    Response.ContentType = "image/jpeg";
+        //    Response.Clear();
+        //    Response.BufferOutput = true;
 
 
-            using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/genImageCode"))
-            {
-                //string encodingName = resp.ContentEncoding;
-                //return Content(MyHtml.GetHtml(resp, Encoding.GetEncoding("GBK")));
+        //    using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/genImageCode"))
+        //    {
+        //        //string encodingName = resp.ContentEncoding;
+        //        //return Content(MyHtml.GetHtml(resp, Encoding.GetEncoding("GBK")));
 
-                Bitmap bit = MyHtml.GetBitmap(resp);
-                bit.Save(Response.OutputStream, ImageFormat.Jpeg);
-                bit.Dispose();
-                Response.Flush();
-            }
-        }
+        //        Bitmap bit = MyHtml.GetBitmap(resp);
+        //        bit.Save(Response.OutputStream, ImageFormat.Jpeg);
+        //        bit.Dispose();
+        //        Response.Flush();
+        //    }
+        //}
 
-        public ActionResult PostResult()
+        [HttpPost]
+        public ActionResult PostResult(StudRegValid reg)
         {
             try
             {
+                //提交数据验证不过
+                if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+
                 CookieCollection cookies = null;
                 //一、做Get请求网页
                 string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
@@ -90,15 +94,15 @@ namespace MySch.Controllers.User
                     {
                         dest = MyHtml.GetBitmap(resp);
                     }
-                    valid = MyCompareImage.GetValidedCode(dest, srcBit);
+                    valid = MyImageCode.GetValidedCode(dest, srcBit);
                 } while (valid.Length != 5);
 
 
                 //三、做Post请求提交数据
                 Random rnd = new Random();
                 Dictionary<string, string> dicts = new Dictionary<string, string>();
-                dicts.Add("name", "石彧诚");
-                dicts.Add("cid", "321284200508150254");
+                dicts.Add("name", reg.Name);
+                dicts.Add("cid", reg.ID);
                 dicts.Add("randomCode", valid);
                 dicts.Add("v", rnd.NextDouble().ToString());
 
@@ -106,8 +110,11 @@ namespace MySch.Controllers.User
                 //HttpWebResponse postresp = MyHtml.GetResponse(url + "?" + postdata, cookies);
 
                 HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
+                MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK"));
 
-                return Content(MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK")));
+
+
+                return Content();
             }
             catch (Exception e)
             {
