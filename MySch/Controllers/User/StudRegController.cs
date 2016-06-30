@@ -62,55 +62,52 @@ namespace MySch.Controllers.User
 
         public ActionResult PostResult()
         {
-            //Response.ContentType = "image/jpeg";
-            //Response.Clear();
-            //Response.BufferOutput = true;
-
-
-            CookieCollection cookie = null;
-
-
-            //模板图片读取
-            Bitmap[] srcBit = new Bitmap[26];
-            for (int i = 0; i < 26; i++)
-            {
-                srcBit[i] = new Bitmap(Server.MapPath(string.Format("~/Images/vbit/{0}.bmp", Convert.ToChar(Convert.ToInt16('a') + i))));
-            }
-
-            //读取图片
-            Bitmap dest = null;
-            string valid = string.Empty;
-            string imageurl = "http://jcjy.etec.edu.cn/studman2/genImageCode?rnd=" + DateTime.Now.Ticks.ToString();
-
-            //循环读取图片  直到识别出 5 个字符
-            do
-            {
-                using (HttpWebResponse resp = MyHtml.GetResponse(imageurl))
-                {
-                    dest = MyHtml.GetBitmap(resp);
-                    cookie = resp.Cookies;
-                }
-                valid = MyCompareImage.GetValidedCode(dest, srcBit);
-            } while (valid.Length == 5);
-
-            //MyCompareImage.GetValidedCode(dest, srcBit);
-            //ss.CloneGray.Save(Response.OutputStream, ImageFormat.Bmp);
-            //srcBit.Save(Response.OutputStream, ImageFormat.Jpeg);
-            //srcBit.Dispose();
-            //Response.Flush();
-            //return;
-
-
-
-            string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
-            using (HttpWebResponse resp = MyHtml.GetResponse(url))
-            {
-                CookieCollection cookies = resp.Cookies;
-
-            }
             try
             {
+                CookieCollection cookies = null;
+                //一、做Get请求网页
+                string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
+                using (HttpWebResponse resp = MyHtml.GetResponse(url))
+                {
+                    cookies = resp.Cookies;
+                }
 
+
+                //二、做验证图片请求
+                //模板图片读取
+                Bitmap[] srcBit = new Bitmap[26];
+                for (int i = 0; i < 26; i++)
+                {
+                    srcBit[i] = new Bitmap(Server.MapPath(string.Format("~/Images/vbit/{0}.bmp", Convert.ToChar(Convert.ToInt16('a') + i))));
+                }
+                //读取图片
+                Bitmap dest = null;
+                string valid = string.Empty;
+                string imageurl = "http://jcjy.etec.edu.cn/studman2/genImageCode?rnd=" + DateTime.Now.Ticks.ToString();
+                //循环读取图片  直到识别出 5 个字符
+                do
+                {
+                    using (HttpWebResponse resp = MyHtml.GetResponse(imageurl))
+                    {
+                        dest = MyHtml.GetBitmap(resp);
+                    }
+                    valid = MyCompareImage.GetValidedCode(dest, srcBit);
+                } while (valid.Length != 5);
+
+
+                //三、做Post请求提交数据
+                Random rnd = new Random();
+                Dictionary<string, string> dicts = new Dictionary<string, string>();
+                dicts.Add("name", "石彧诚");
+                dicts.Add("cid", "321284200508150254");
+                dicts.Add("randomCode", valid);
+                dicts.Add("v", rnd.NextDouble().ToString());
+
+                string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+                HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
+
+
+                return Content(MyHtml.GetHtml(postresp));
             }
             catch (Exception e)
             {

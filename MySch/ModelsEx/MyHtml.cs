@@ -245,7 +245,7 @@ namespace MySch.ModelsEx
             }
         }
 
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName)
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding)
         {
             try
             {
@@ -257,7 +257,6 @@ namespace MySch.ModelsEx
                 req.ContentType = "application/x-www-form-urlencoded";
 
                 //准备数据
-                Encoding encoding = Encoding.GetEncoding(encodingName);
                 byte[] posts = encoding.GetBytes(data);
                 req.ContentLength = posts.Length;
 
@@ -270,9 +269,21 @@ namespace MySch.ModelsEx
                 return (HttpWebResponse)req.GetResponse();
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
+        }
+
+        public static string DictToPostData(Dictionary<string, string> dicts, Encoding encoding)
+        {
+            string res = string.Empty;
+            foreach (var dict in dicts)
+            {
+                string encodeValue = HttpUtility.UrlEncode(dict.Value, encoding);
+                res += string.Format("{0}={1}&", dict.Key, encodeValue);
+            }
+            //不空，清除尾部多余“&”
+            return res == string.Empty ? string.Empty : res.Substring(0, res.Length - 1);
         }
     }
 }
