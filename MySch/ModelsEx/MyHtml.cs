@@ -172,8 +172,6 @@ namespace MySch.ModelsEx
                 req.Referer = url;
                 req.Timeout = 30000;
 
-                //req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0";
-
                 return (HttpWebResponse)req.GetResponse();
             }
             catch (Exception e)
@@ -182,10 +180,20 @@ namespace MySch.ModelsEx
             }
         }
 
-        public static HttpWebResponse GetResponse(HttpWebRequest req)
+        public static HttpWebResponse GetResponse(string url, CookieCollection cookies)
         {
             try
             {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+
+                req.CookieContainer = new CookieContainer();
+                req.CookieContainer.Add(cookies);
+                req.AllowAutoRedirect = false;
+                req.KeepAlive = false;
+                req.Method = "GET";
+                req.Referer = url;
+                req.Timeout = 30000;
+
                 return (HttpWebResponse)req.GetResponse();
             }
             catch (Exception e)
@@ -193,6 +201,7 @@ namespace MySch.ModelsEx
                 throw e;
             }
         }
+
 
         public static Bitmap GetBitmap(HttpWebResponse resp)
         {
@@ -207,37 +216,12 @@ namespace MySch.ModelsEx
             }
         }
 
-        public static string GetHtml(HttpWebResponse resp)
-        {
-            try
-            {
-                StreamReader sr = new StreamReader(resp.GetResponseStream(), Encoding.Default);
-                return sr.ReadToEnd();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         public static string GetHtml(HttpWebResponse resp, Encoding encoding)
         {
             try
             {
                 StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
                 return sr.ReadToEnd();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public static CookieCollection GetCookies(HttpWebResponse resp)
-        {
-            try
-            {
-                return resp.Cookies;
             }
             catch (Exception e)
             {

@@ -56,7 +56,6 @@ namespace MySch.Controllers.User
                 bit.Save(Response.OutputStream, ImageFormat.Jpeg);
                 bit.Dispose();
                 Response.Flush();
-
             }
         }
 
@@ -87,7 +86,7 @@ namespace MySch.Controllers.User
                 //循环读取图片  直到识别出 5 个字符
                 do
                 {
-                    using (HttpWebResponse resp = MyHtml.GetResponse(imageurl))
+                    using (HttpWebResponse resp = MyHtml.GetResponse(imageurl, cookies))
                     {
                         dest = MyHtml.GetBitmap(resp);
                     }
@@ -104,10 +103,11 @@ namespace MySch.Controllers.User
                 dicts.Add("v", rnd.NextDouble().ToString());
 
                 string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+                //HttpWebResponse postresp = MyHtml.GetResponse(url + "?" + postdata, cookies);
+
                 HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
 
-
-                return Content(MyHtml.GetHtml(postresp));
+                return Content(MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK")));
             }
             catch (Exception e)
             {
