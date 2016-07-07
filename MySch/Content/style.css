@@ -24,6 +24,7 @@ h2{font-weight:normal;}
 .form-item-row {margin-bottom:5px;}
 .form-item-row .field-validation-error {display: none;}
 .form-item-row-left {width:180px; float:left;}
+.form-item-row-left .field-validation-error {display: none;}
 .form-item-row-line {clear:both;}
 .grid-check-img{width:15px;height:12px;border:none;}
 

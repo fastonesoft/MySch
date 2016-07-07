@@ -70,10 +70,12 @@
                 if (error.html() != "") {
                     //错误：添加样式
                     $(inputElement).addClass('validatebox-invalid').parent().addClass('validatebox-invalid');
+                    //位置：
+                    var pos = $(inputElement).attr('position');
                     //错误：添加提示
                     $(inputElement).tooltip({
                         //track: true,
-                        position: 'right',
+                        position: !pos ? 'right' : pos,
                         content: error.text(),
                         hideDelay: 1000,
                         onShow: function () {
