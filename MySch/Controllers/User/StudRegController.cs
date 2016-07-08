@@ -24,100 +24,15 @@ namespace MySch.Controllers.User
             return View();
         }
 
-        //public void GetImage()
-        ////using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp"))
-        //{
-        //    Response.ContentType = "image/jpeg";
-        //    Response.Clear();
-        //    Response.BufferOutput = true;
-
-
-        //    using (HttpWebResponse resp = MyHtml.GetResponse("http://jcjy.etec.edu.cn/studman2/genImageCode"))
-        //    {
-        //        //string encodingName = resp.ContentEncoding;
-        //        //return Content(MyHtml.GetHtml(resp, Encoding.GetEncoding("GBK")));
-
-        //        Bitmap bit = MyHtml.GetBitmap(resp);
-        //        bit.Save(Response.OutputStream, ImageFormat.Jpeg);
-        //        bit.Dispose();
-        //        Response.Flush();
-        //    }
-        //}
-
-        //[HttpPost]StudRegValid reg
-        //public ActionResult PostResult()
-        //{
-        //    try
-        //    {
-        //        //提交数据验证不过
-        //        if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
-
-        //        CookieCollection cookies = null;
-        //        //一、做Get请求网页
-        //        string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
-        //        using (HttpWebResponse resp = MyHtml.GetResponse(url))
-        //        {
-        //            cookies = resp.Cookies;
-        //        }
-
-
-        //        //二、做验证图片请求
-        //        //模板图片读取
-        //        Bitmap[] srcBit = new Bitmap[26];
-        //        for (int i = 0; i < 26; i++)
-        //        {
-        //            srcBit[i] = new Bitmap(Server.MapPath(string.Format("~/Images/vbit/{0}.bmp", Convert.ToChar(Convert.ToInt16('a') + i))));
-        //        }
-        //        //读取图片
-        //        Bitmap dest = null;
-        //        string valid = string.Empty;
-        //        string imageurl = "http://jcjy.etec.edu.cn/studman2/genImageCode?rnd=" + DateTime.Now.Ticks.ToString();
-        //        //循环读取图片  直到识别出 5 个字符
-        //        do
-        //        {
-        //            using (HttpWebResponse resp = MyHtml.GetResponse(imageurl, cookies))
-        //            {
-        //                dest = MyHtml.GetBitmap(resp);
-        //            }
-        //            valid = MyImageCode.GetValidedCode(dest, srcBit);
-        //        } while (valid.Length != 5);
-
-
-        //        //三、做Post请求提交数据
-        //        Random rnd = new Random();
-        //        Dictionary<string, string> dicts = new Dictionary<string, string>();
-        //        dicts.Add("name", "石彧诚");
-        //        dicts.Add("cid", "321284200508150254");
-        //        dicts.Add("randomCode", valid);
-        //        dicts.Add("v", rnd.NextDouble().ToString());
-
-        //        string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
-        //        HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
-        //        string html = MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK"));
-
-        //        Regex reg = new Regex(@"<td>([\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
-
-        //        MatchCollection matchs = reg.Matches(html);
-
-
-        //        int count = matchs.Count;
-        //        for (int i = 0; i < count; i++)
-        //        {
-        //           html += matchs[i].Groups[1];
-        //        }
-
-        //        return Content(html);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
-
+        [HttpPost]
+        public ActionResult Query()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Query(StudQueValid que)
+        public ActionResult QueryToken(StudQueValid que)
         {
             try
             {
@@ -176,7 +91,7 @@ namespace MySch.Controllers.User
 
                 //如果没有找到数据，则返回提示
                 if (matchs.Count == 0) return Json(new ErrorModel { error = true, message = "无学籍记录！检查身份证与姓名是否正确" });
-       
+
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
                 var db = DataQuery<TStudReg>.Entity(a => a.ID == id);
@@ -220,11 +135,11 @@ namespace MySch.Controllers.User
             return db == null ? Json(new ErrorModel { error = true, message = "查询数据出错" }) : Json(db);
         }
 
-        //学生注册
+        //学生编号
         [HttpPost]
-        public ActionResult Reg(string gd)
+        public ActionResult Edit(string id)
         {
-            var db = DataQuery<TStudReg>.Entity(a => a.GD == gd);
+            var db = DataQuery<TStudReg>.Entity(a => a.GD == id);
 
             if (db == null)
             {
@@ -235,6 +150,85 @@ namespace MySch.Controllers.User
                 return View(db);
             }
         }
+
+        //编号提交
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditToken(StudArcValid stud)
+        {
+            try
+            {
+                //提交数据验证不过
+                if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+                //检测编号
+                var db = DataQuery<TStudReg>.Entity(a => a.studNo == stud.studNo);
+                if (db != null) return Json(new ErrorModel { error = true, message = "编号不得重复设置！" });
+
+                //查询
+                TStudReg reg = DataQuery<TStudReg>.Entity(a => a.GD == stud.GD);
+                if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                //修改
+                reg.schChoose = stud.schChoose;
+                reg.studNo = stud.studNo;
+                reg.Memo = stud.Memo;
+                //提交
+                DataADU<TStudReg>.Update(reg);
+                //返回
+                return Json(reg);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
+        }
+
+        //学生注册
+        [HttpPost]
+        public ActionResult Reg(string id)
+        {
+            var db = DataQuery<TStudReg>.Entity(a => a.GD == id);
+
+            if (db == null)
+            {
+                return Json(new ErrorModel { error = true, message = "查询数据出错" });
+            }
+            else
+            {
+                return View(db);
+            }
+        }
+
+        //提交注册
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegToken(StudExtValid stud)
+        {
+            try
+            {
+                //提交数据验证不过
+                if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+                
+                //查询
+                TStudReg reg = DataQuery<TStudReg>.Entity(a => a.GD == stud.GD);
+                if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                //修改
+                reg.Mobil1 = stud.Mobil1;
+                reg.Mobil2 = stud.Mobil2;
+                reg.Name1 = stud.Name1;
+                reg.Name2 = stud.Name2;
+                reg.Home = stud.Home;
+                reg.Permanent = stud.Permanent;
+                //提交
+                DataADU<TStudReg>.Update(reg);
+                //返回
+                return Json(reg);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
+        }
+
 
         //编号查询
         [HttpPost]
@@ -254,20 +248,23 @@ namespace MySch.Controllers.User
         //手动添加数据
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manu(StudManuValid manu)
+        public ActionResult ManuToken(StudManuValid manu)
         {
             try
             {
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
 
+                //身份证号检测
+                MySetting.IDS(manu.ID);
+
                 //检测身份证是否重复
-                var db = DataQuery<TStudReg>.Entity(a => a.ID == manu.MID);
+                var db = DataQuery<TStudReg>.Entity(a => a.ID == manu.ID);
                 if (db != null) return Json(new ErrorModel { error = true, message = "身份证号已注册" });
 
                 TStudReg stud = new TStudReg();
                 stud.fromSch = manu.fromSch;
-                stud.Name = manu.MName;
-                stud.ID = manu.MID;
+                stud.Name = manu.Name;
+                stud.ID = manu.ID;
                 stud.fromGrade = manu.fromGrade;
                 stud.nationID = null;
                 stud.readState = "手动";

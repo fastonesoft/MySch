@@ -457,6 +457,8 @@
     <Content Include="Views\AdminUser\EditUser.cshtml" />
     <Content Include="Views\StudReg\Manu.cshtml" />
     <Content Include="Views\StudReg\ShowImage.cshtml" />
+    <Content Include="Views\StudReg\Query.cshtml" />
+    <Content Include="Views\StudReg\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

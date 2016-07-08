@@ -1,4 +1,4 @@
-﻿@model MySch.Models.StudManuValid
+﻿@model MySch.Models.StudArcValid
 
 @{
     Layout = null;
@@ -15,9 +15,9 @@
             }
         });
         $('#dialog-form').dialog({
-            title: '手动添加',
+            title: '学籍查询',
             width: 350,
-            height: 290,
+            height: 200,
             closable: false,
             closed: false,
             cache: false,
@@ -34,7 +34,7 @@
                         return false;
                     }
                     //通过验证，添加
-                    $.post('/StudReg/ManuToken', form.serialize(), function (d) {
+                    $.post('/StudReg/QueryToken', form.serialize(), function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -91,20 +91,6 @@
                 @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.fromSch)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.fromSch, new { @class = "textbox-text" })
-            </span>
-            @Html.ValidationMessageFor(a => a.fromSch)
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.fromGrade)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.fromGrade, new { @class = "textbox-text" })
-            </span>
-            @Html.ValidationMessageFor(a => a.fromGrade)
         </div>
     </div>
 }

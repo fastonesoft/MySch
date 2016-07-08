@@ -19,9 +19,6 @@
 
     <script type="text/javascript">
         $(function () {
-            //验证表单
-            var form = $('form').revalidate();
-            form.validate().form();
 
             //按键：焦点转移
             $(document).keypress(function (e) {
@@ -33,40 +30,31 @@
             });
 
             //按键测试
-            $('#ID').keypress(function (e) {
+            $('#IDS').keypress(function (e) {
                 if (e.which == 13) {
-                    //输入聚焦
-                    var errorID = $('.field-validation-error:first').attr('data-valmsg-for');
-                    if (errorID == 'ID') {
-                        //有错，重聚焦
-                        $('#' + errorID).focus();
-                    }
-                    else {
-                        //提示开始
-                        $('#studreg-grid').datagrid('loading');
-                        //没错，查询
-                        $.post('/StudReg/Get', { id: $(this).val() }, function (d) {
-                            if (d.error) {
-                                //输入聚焦
-                                var errorID = $('.field-validation-error:first').attr('data-valmsg-for');
-                                if (errorID) $('#' + errorID).focus();
-                            } else {
-                                //成功，将返回数据添加到数据网格
-                                $('#studreg-grid').datagrid({ data: [d] });
-                            }
-                        });
-                        //提示结束
-                        $('#studreg-grid').datagrid('loaded');
-                    }
+                    //提示开始
+                    $('#studreg-grid').datagrid('loading');
+                    //没错，查询
+                    $.post('/StudReg/Get', { id: $(this).val() }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            //成功，将返回数据添加到数据网格
+                            $('#studreg-grid').datagrid({ data: [d] });
+                        }
+                    });
+                    $('#IDS').val('');
+                    //提示结束
+                    $('#studreg-grid').datagrid('loaded');
                 }
             });
-            $('#ID').focus(function () {
-                //清除数据
-                $('#Name').val('');
+            $('#IDS, #studreg-grid-text').focus(function () {
                 //清除网格
+                $(this).val('');
                 $('#studreg-grid').datagrid('loadData', []);
             });
 
+            //编号查询
             $('#studreg-grid-text').keypress(function (e) {
                 if (e.which == 13) {
                     //根据学籍编号查询
@@ -92,59 +80,71 @@
 
             //点击动作
             studreg = {
+                //学籍查询
                 que: function () {
+                    //禁用
+                    $('.easyui-linkbutton').linkbutton('disable');
                     //清除网格
                     $('#studreg-grid').datagrid('loadData', []);
-                    //禁用
-                    $('.easyui-linkbutton').linkbutton('disable');
-                    //验证
-                    var form = $('form');
-                    if (!form.validate().form()) {
-                        //错误输入聚焦
-                        var errorID = $('.field-validation-error:first').attr('data-valmsg-for');
-                        if (errorID) $('#' + errorID).focus();
-                        //启用按钮
-                        $('.easyui-linkbutton').linkbutton('enable');
-                        //
-                        return false;
-                    }
-                    //提示开始
-                    $('#studreg-grid').datagrid('loading');
-                    //正确：提交
-                    $.post('/StudReg/Query', form.serialize(), function (d) {
-                        if (d.error) {
-                            $.messager.alert('错误提示', d.message, 'error');
-                        } else {
-                            //成功，将返回数据添加到数据网格
-                            $('#studreg-grid').datagrid({ data: [d] });
-                        }
-                        //清除输入数据
-                        $('input:text').val('');
-                        //验证表单
-                        var form = $('form').revalidate();
-                        form.validate().form();
-                    });
-                    //启用按钮
-                    $('.easyui-linkbutton').linkbutton('enable');
-                    //提示结束
-                    $('#studreg-grid').datagrid('loaded');
-                },
-                edit: function () {
-                    var row = $('#studreg-grid').datagrid('getSelected');
-                    if (!row) {
-                        $.messager.alert('错误提示', '未选定修改的帐号！', 'error');
-                        return false;
-                    }
-                    //禁用
-                    $('.easyui-linkbutton').linkbutton('disable');
                     //打开窗口
-                    $.post('/StudReg/EditReg', { id: row.ID }, function (d) {
+                    $.post('/StudReg/Query', function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
                     });
+                },
+                add: function () {
+                    //禁用
+                    $('.easyui-linkbutton').linkbutton('disable');
+                    //清除网格
+                    $('#studreg-grid').datagrid('loadData', []);
+                    //打开窗口
+                    $.post('/StudReg/Manu', function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                edit: function () {
+                    //检测选中
+                    var row = $('#studreg-grid').datagrid('getSelected');
+                    if (!row) {
+                        $.messager.alert('错误提示', '错误：未选中要修改的数据行！', 'error');
+                        return false;
+                    }
+                    //禁用
+                    $('.easyui-linkbutton').linkbutton('disable');
+                    //打开窗口
+                    $.post('/StudReg/Edit', { id: row.GD }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+                },
+                reg: function () {
+                    //检测选中
+                    var row = $('#studreg-grid').datagrid('getSelected');
+                    if (!row) {
+                        $.messager.alert('错误提示', '错误：未选中要修改的数据行！', 'error');
+                        return false;
+                    }
+                    //禁用
+                    $('.easyui-linkbutton').linkbutton('disable');
+                    //打开窗口
+                    $.post('/StudReg/Reg', { id: row.GD }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
+
                 }
             }
 
@@ -323,51 +323,37 @@
     </div>
 
     <div id="studreg-grid-tool">
-        <table cellpadding="0" cellspacing="0" style="white-space:nowrap;">
+        <table cellpadding="0" cellspacing="0" style="white-space:nowrap; width:100%;">
             <thead>
                 <tr>
-                    <td>
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true)
-                            <div class="form-item-row" style="margin:5px;">
-                                @Html.LabelFor(a => a.ID)
-                                <span class="textbox">
-                                    @Html.TextBoxFor(a => a.ID, new { @class = "textbox-text", @style = "width:135px;", @position = "top" })
-                                </span>
-                                @Html.ValidationMessageFor(a => a.ID)
-                                @Html.LabelFor(a => a.Name)
-                                <span class="textbox">
-                                    @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:60px;", @position = "top" })
-                                </span>
-                                @Html.ValidationMessageFor(a => a.Name)
-                            </div>
-                        }
+                    <td width="220">
+                        <div class="form-item-row" style="margin:5px;">
+                            <label for="IDS">身份证号</label>
+                            <span class="textbox">
+                                <input class="textbox-text" id="IDS" style="width:135px;" />
+                            </span>
+                        </div>
                     </td>
-                    <td style="padding:0px 5px;">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studreg.que();">学籍查询</a>
-                    </td>
-                    <td style="padding-left:5px;">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studreg.add();">编号</a>
-                    </td>
-                    <td style="padding:0px 5px;">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="studreg.add();">注册</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td style="padding-left:5px;">
+                    <td width="170">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="studreg.que();">查询学籍</a>
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="studreg.add();">手动添加</a>
                     </td>
-                    <td>
-                        <div class="form-item-row" style="margin:5px 5px 5px 62px;">
+                    <td width="10">
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td width="130">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studreg.edit();">编号</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="studreg.reg();">注册</a>
+                    </td>
+                    <td></td>
+                    <td width="160">
+                        <div class="form-item-row" style="margin:5px 5px 5px 5px;">
                             <span class="textbox">
                                 <input class="textbox-text" id="studreg-grid-text" style="width:135px;" />
                             </span>
                         </div>
                     </td>
-                    <td>
+                    <td width="90">
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studreg.que();">编号查询</a>
                     </td>
                 </tr>

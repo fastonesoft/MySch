@@ -24,7 +24,7 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             this.Property(t => t.fromSch)
-                .HasMaxLength(32);
+                .HasMaxLength(20);
 
             this.Property(t => t.fromGrade)
                 .HasMaxLength(10);

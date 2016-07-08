@@ -54,6 +54,7 @@ namespace MySch.Models
     public class StudArcValid
     {
         public string GD { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("是否择校")]
         public bool schChoose { get; set; }
@@ -73,7 +74,7 @@ namespace MySch.Models
         public string GD { get; set; }
 
         [DisplayName("姓名")]
-        public string EName { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("联系电话一")]
         [Required(ErrorMessage = "{0}：不得为空")]
@@ -106,17 +107,6 @@ namespace MySch.Models
         [StringLength(50, ErrorMessage = "{0}：长度不能超过50")]
         [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}省[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$|^[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}|[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$", ErrorMessage = "{0}：X省X市X(市区县)X、X市X(市区县)X、姜堰区X、姜堰区X镇X")]
         public string Permanent { get; set; }
-
-        [DisplayName("是否择校")]
-        public bool schChoose { get; set; }
-
-        [DisplayName("报名编号")]
-        [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{4}(000[1-9]|00[1-9]\d|0[1-9]\d\d|[1-9]\d\d\d)$", ErrorMessage = "{0}：8位数字流水号")]
-        public string studNo { get; set; }
-
-        [DisplayName("备注")]
-        public string Memo { get; set; }
     }
 
     //学籍手动添加
@@ -125,12 +115,12 @@ namespace MySch.Models
         [DisplayName("身份证号")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数学大写X的组合")]
-        public string MID { get; set; }
+        public string ID { get; set; }
 
         [DisplayName("姓名")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}$", ErrorMessage = "{0}：2-10个中文字符")]
-        public string MName { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("毕业学校")]
         [Required(ErrorMessage = "{0}：不得为空")]
@@ -139,7 +129,7 @@ namespace MySch.Models
 
         [DisplayName("毕业年级")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^[\u4e00-\u9fa5]{5}$", ErrorMessage = "{0}：小学X年级（中文）")]
+        [RegularExpression(@"^小学(五|六)年级$", ErrorMessage = "{0}：小学X年级（中文）")]
         public string fromGrade { get; set; }
     }
 
