@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TLogiMap : EntityTypeConfiguration<TLogi>
+    public class TLoginMap : EntityTypeConfiguration<TLogin>
     {
-        public TLogiMap()
+        public TLoginMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -32,7 +32,7 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(36);
 
             // Table & Column Mappings
-            this.ToTable("TLogi");
+            this.ToTable("TLogin");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.Brower).HasColumnName("Brower");
             this.Property(t => t.IP).HasColumnName("IP");

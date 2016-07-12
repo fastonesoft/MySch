@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -54,6 +55,16 @@ namespace MySch.ModelsEx
         public static string GetGD(string action, string id)
         {
             return GetMD5(action + "#" + GetMD5(id) + "#" + action);
+        }
+
+        public static string GetSHA1(string str)
+        {
+            SHA1 sha1 = new SHA1CryptoServiceProvider();
+            byte[] bytes_sha1_in = UTF8Encoding.Default.GetBytes(str);
+            byte[] bytes_sha1_out = sha1.ComputeHash(bytes_sha1_in);
+            string str_sha1_out = BitConverter.ToString(bytes_sha1_out);
+
+            return str_sha1_out.Replace("-", "");
         }
 
         // MD5
@@ -126,6 +137,13 @@ namespace MySch.ModelsEx
         {
             var javas = new JavaScriptSerializer();
             return javas.Deserialize<T>(jsons);
+        }
+
+        //时间戳
+        public static int DateTimeToInt(DateTime dateTime)
+        {
+            var start = new DateTime(1970, 1, 1, 0, 0, 0, dateTime.Kind);
+            return Convert.ToInt32((dateTime - start).TotalSeconds);
         }
 
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class TLogi
+    public partial class TLogin
     {
         public long ID { get; set; }
         public string Brower { get; set; }

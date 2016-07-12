@@ -139,6 +139,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\User\UserController.cs" />
+    <Compile Include="Controllers\Wei\WeiController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataADU.cs" />
     <Compile Include="Dal\DataQuery.cs" />
@@ -165,7 +166,8 @@
     <Compile Include="Models\Mapping\ThemeMap.cs" />
     <Compile Include="Models\Mapping\TKeyClassMap.cs" />
     <Compile Include="Models\Mapping\TKeyMap.cs" />
-    <Compile Include="Models\Mapping\TLogiMap.cs" />
+    <Compile Include="Models\Mapping\TLoginMap.cs" />
+    <Compile Include="Models\Mapping\TLogMap.cs" />
     <Compile Include="Models\Mapping\TPageMap.cs" />
     <Compile Include="Models\Mapping\TStudRegMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
@@ -175,7 +177,8 @@
     <Compile Include="Models\Theme.cs" />
     <Compile Include="Models\TKey.cs" />
     <Compile Include="Models\TKeyClass.cs" />
-    <Compile Include="Models\TLogi.cs" />
+    <Compile Include="Models\TLog.cs" />
+    <Compile Include="Models\TLogin.cs" />
     <Compile Include="Models\TPage.cs" />
     <Compile Include="Models\TStudReg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -459,8 +462,11 @@
     <Content Include="Views\StudReg\ShowImage.cshtml" />
     <Content Include="Views\StudReg\Query.cshtml" />
     <Content Include="Views\StudReg\Edit.cshtml" />
+    <Content Include="Views\StudReg\Reg.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Wei\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

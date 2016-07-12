@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace MySch.Controllers.Account
 {
@@ -21,6 +22,11 @@ namespace MySch.Controllers.Account
             //string dd = MySetting.GetGD("AdminUser", "32128402");
             //string ee = MyLogin.Password("32128402", dd, MySetting.GetMD5("stone.2.net"));
             //return Content(dd + "-" + ee);
+
+          //string   tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile("asdfasdfasd", "SHA1");
+          //string ee = MySetting.GetSHA1("asdfasdfasd");
+          //return Content(tmpStr + "-" + ee);
+
 
             return View();
         }

@@ -86,7 +86,7 @@ namespace MySch.Controllers.User
                 HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
                 string html = MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK"));
                 //分析返回数据
-                Regex regx = new Regex(@"<td>([\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
+                Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
                 MatchCollection matchs = regx.Matches(html);
 
                 //如果没有找到数据，则返回提示
@@ -147,14 +147,15 @@ namespace MySch.Controllers.User
             }
             else
             {
-                return View(db);
+                var res = new StudEditValid { GD = db.GD, Name = db.Name, studNo = db.studNo, Memo = db.Memo, schChoose = db.schChoose };
+                return View(res);
             }
         }
 
         //编号提交
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(StudArcValid stud)
+        public ActionResult EditToken(StudEditValid stud)
         {
             try
             {
@@ -162,15 +163,19 @@ namespace MySch.Controllers.User
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
                 //检测编号
                 var db = DataQuery<TStudReg>.Entity(a => a.studNo == stud.studNo);
-                if (db != null) return Json(new ErrorModel { error = true, message = "编号不得重复设置！" });
+                if (db != null)
+                {
+                    //不是同一条记录，提示重复
+                    if (db.GD != stud.GD) return Json(new ErrorModel { error = true, message = "编号不得重复设置！" });
+                }
 
                 //查询
                 TStudReg reg = DataQuery<TStudReg>.Entity(a => a.GD == stud.GD);
                 if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
                 //修改
-                reg.schChoose = stud.schChoose;
                 reg.studNo = stud.studNo;
                 reg.Memo = stud.Memo;
+                reg.schChoose = stud.schChoose;
                 //提交
                 DataADU<TStudReg>.Update(reg);
                 //返回
@@ -194,20 +199,21 @@ namespace MySch.Controllers.User
             }
             else
             {
-                return View(db);
+                var res = new StudRegValid { GD = db.GD, Name = db.Name, Mobil1 = db.Mobil1, Mobil2 = db.Mobil2, Name1 = db.Name1, Name2 = db.Name2, Home = db.Home, Permanent = db.Permanent };
+                return View(res);
             }
         }
 
         //提交注册
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegToken(StudExtValid stud)
+        public ActionResult RegToken(StudRegValid stud)
         {
             try
             {
                 //提交数据验证不过
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
-                
+
                 //查询
                 TStudReg reg = DataQuery<TStudReg>.Entity(a => a.GD == stud.GD);
                 if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
@@ -218,6 +224,8 @@ namespace MySch.Controllers.User
                 reg.Name2 = stud.Name2;
                 reg.Home = stud.Home;
                 reg.Permanent = stud.Permanent;
+                //注册
+                reg.Reged = true;
                 //提交
                 DataADU<TStudReg>.Update(reg);
                 //返回
@@ -232,9 +240,9 @@ namespace MySch.Controllers.User
 
         //编号查询
         [HttpPost]
-        public ActionResult Search(string sid)
+        public ActionResult Search(string id)
         {
-            var db = DataQuery<TStudReg>.Expression(a => a.studNo.Contains(sid));
+            var db = DataQuery<TStudReg>.Expression(a => a.studNo.Contains(id));
             return Json(db);
         }
 
@@ -287,7 +295,27 @@ namespace MySch.Controllers.User
             {
                 return Json(new ErrorModel { error = true, message = e.Message });
             }
+        }
 
+
+        //微信本机测试用的，
+        public string Reg11()
+        {
+            CookieCollection cookies = null;
+            //一、做Get请求网页
+            string url = "http://localhost:13789/wei";
+            using (HttpWebResponse resp = MyHtml.GetResponse(url))
+            {
+                cookies = resp.Cookies;
+            }
+
+            string posts = string.Empty;
+
+            posts += "<xml><ToUserName><![CDATA[gh_23b54b508d0d]]></ToUserName> <FromUserName><![CDATA[olXXEjidi2cvPU-UQwFOV8inSkPE]]></FromUserName> <CreateTime>1468164953</CreateTime> <MsgType><![CDATA[event]]></MsgType> <Event><![CDATA[subscribe]]></Event> <EventKey><![CDATA[]]></EventKey> </xml>";
+
+            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, posts, Encoding.UTF8);
+            string html = MyHtml.GetHtml(postresp, Encoding.UTF8);
+            return html;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model MySch.Models.StudQueValid
+﻿@model MySch.Models.StudRegValid
 
 @{
     Layout = null;
@@ -15,9 +15,9 @@
             }
         });
         $('#dialog-form').dialog({
-            title: '学籍查询',
+            title: '报名注册',
             width: 350,
-            height: 200,
+            height: 430,
             closable: false,
             closed: false,
             cache: false,
@@ -34,7 +34,7 @@
                         return false;
                     }
                     //通过验证，添加
-                    $.post('/StudReg/QueryToken', form.serialize(), function (d) {
+                    $.post('/StudReg/RegToken', form.serialize(), function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
                         } else {
@@ -79,18 +79,54 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.ID)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.ID, new { @class = "textbox-text" })
-            </span>
-            @Html.ValidationMessageFor(a => a.ID)
-        </div>
-        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name1)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name1, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name1)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name2)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name2, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name2)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Mobil1)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Mobil1, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Mobil1)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Mobil2)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Mobil2, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Mobil2)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Permanent)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Permanent, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Permanent)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Home)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Home, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Home)
+        </div>
     </div>
+    @Html.HiddenFor(a => a.GD)
 }

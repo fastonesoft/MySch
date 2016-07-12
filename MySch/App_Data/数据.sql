@@ -164,7 +164,7 @@ go
 
 
 --登录日志
-create table TLogi
+create table TLogin
 (
 	ID	bigint identity(1,1) not null,
 	Brower	nvarchar(36) not null,
@@ -175,5 +175,15 @@ create table TLogi
 	loginMsg	nvarchar(36) not null,
 )
 go
-alter table TLogi add constraint PK_Logi primary key clustered (ID)
+alter table TLogin add constraint PK_TLogin primary key clustered (ID)
+
+
+create table TLog
+(
+	GD	nvarchar(32) not null,
+	Value	nvarchar(2000) not null,
+	CreateTime	datetime not null default getdate(), 
+)
+go
+alter table TLog add constraint PK_TLog primary key clustered (GD)
 

@@ -65,7 +65,7 @@
                     } else {
                         $('#studreg-grid').datagrid('loading');
                         //编号查询
-                        $.post('/StudReg/Search', { sid: text }, function (d) {
+                        $.post('/StudReg/Search', { id: text }, function (d) {
                             if (d.error) {
                                 //没有记录，清空输入内容
                             } else {
@@ -145,6 +145,10 @@
                         }
                     });
 
+                    ////request
+                    //$.post("/StudReg/Reg11", function (d) {
+                    //    alert(d);
+                    //})
                 }
             }
 
@@ -250,10 +254,10 @@
                     },
                     {
                         title: '报名编号',
-                        field: 'schoolID',
+                        field: 'studNo',
                         align: 'center',
                         sortable: false,
-                        width: 150
+                        width: 100
                     }
                 ]],
 
@@ -326,7 +330,7 @@
         <table cellpadding="0" cellspacing="0" style="white-space:nowrap; width:100%;">
             <thead>
                 <tr>
-                    <td width="220">
+                    <td width="213">
                         <div class="form-item-row" style="margin:5px;">
                             <label for="IDS">身份证号</label>
                             <span class="textbox">
@@ -354,7 +358,7 @@
                         </div>
                     </td>
                     <td width="90">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studreg.que();">编号查询</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studreg.search();">编号查询</a>
                     </td>
                 </tr>
             </thead>

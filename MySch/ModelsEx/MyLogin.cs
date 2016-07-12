@@ -16,7 +16,7 @@ namespace MySch.ModelsEx
             se[MySetting.SESSION_LOGIN] = mo;
 
             //记录成功登录时间
-            var d = new TLogi
+            var d = new TLogin
             {
                 Brower = re.Browser.Browser,
                 IP = re.UserHostAddress,
@@ -25,14 +25,14 @@ namespace MySch.ModelsEx
                 Pwd = acc.Pwd,
                 loginMsg = message
             };
-            DataADU<TLogi>.Add(d);
+            DataADU<TLogin>.Add(d);
         }
         #endregion
 
         #region 登录：日志添加 public static void AddLog(HttpRequestBase re, Acc acc, string message)
         public static void AddLog(HttpRequestBase re, TAcc acc, string message)
         {
-            var db = new TLogi
+            var db = new TLogin
             {
                 Brower = re.Browser.Browser,
                 IP = re.UserHostAddress,
@@ -41,7 +41,7 @@ namespace MySch.ModelsEx
                 Pwd = acc.Pwd,
                 loginMsg = message
             };
-            DataADU<TLogi>.Add(db);
+            DataADU<TLogin>.Add(db);
         }
         #endregion
 
@@ -65,7 +65,7 @@ namespace MySch.ModelsEx
             //同IP登录错误不得超过10次
             //五分钟超过10次，封停
             var logintime = DateTime.Now.AddMinutes(-5);
-            var ip = DataQuery<TLogi>.Expression(a => a.loginTime > logintime && a.IP == re.UserHostAddress);
+            var ip = DataQuery<TLogin>.Expression(a => a.loginTime > logintime && a.IP == re.UserHostAddress);
             if (ip.Count() >= 5)
             {
                 return true;
