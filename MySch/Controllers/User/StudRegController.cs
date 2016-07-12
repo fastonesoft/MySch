@@ -242,8 +242,40 @@ namespace MySch.Controllers.User
         [HttpPost]
         public ActionResult Search(string id)
         {
-            var db = DataQuery<TStudReg>.Expression(a => a.studNo.Contains(id));
-            return Json(db);
+            IEnumerable<TStudReg> db = null;
+
+            Regex regx = new Regex(@"^%(\d+)$|^(\d+)$|^(\d+)%$");
+            Match match = regx.Match(id);
+            if (match.Success)
+            {
+                string value = match.Groups[1].ToString();
+
+                //检测%在输入串的位置
+                int pos = id.IndexOf("%");
+                if (pos == -1)
+                {
+                    //全匹配
+                    db = DataQuery<TStudReg>.Expression(a => a.studNo.Contains(value)).OrderBy(a => a.studNo);
+                }
+                else
+                {
+                    if (pos == 0)
+                    {
+                        //左匹配
+                        db = DataQuery<TStudReg>.Expression(a => a.studNo.StartsWith(value)).OrderBy(a => a.studNo);
+                    }
+                    else
+                    {
+                        //右匹配
+                        db = DataQuery<TStudReg>.Expression(a => a.studNo.EndsWith(value)).OrderBy(a => a.studNo);
+                    }
+                }
+                return Json(db);
+            }
+            else
+            {
+                return Json(new ErrorModel { error = true, message = "查询格式有误" });
+            }
         }
 
         //手动添加窗口
