@@ -26,12 +26,17 @@ namespace MySch.Controllers.Wei
         }
 
         [HttpPost]
-        public string Index()
+        public string Index(WX_Author_Ex au)
         {
+            //检测数据是否来至  微信
+            if (!MyWxApi.CheckSignature(au)) return "";
+
+            //检测数据体
             Stream stream = Request.InputStream;
             Byte[] bytes = new Byte[stream.Length];
             stream.Read(bytes, 0, (int)stream.Length);
             string posts = Encoding.UTF8.GetString(bytes);
+
             //有问题直接返回
             if (string.IsNullOrEmpty(posts)) return "";
 
@@ -68,7 +73,7 @@ namespace MySch.Controllers.Wei
                     {
                         //正确：返回二维码
                         WX_Send_Pic pic = new WX_Send_Pic(rec);
-                        pic.Init("报名信息", "姓名和身份证号已完成学籍查询，请到窗口出示二维码", "http://wu.2fz.cn/wei/code?gd=" + error.message, "");
+                        pic.Init("报名信息", "姓名和身份证号已完成学籍查询，请到窗口出示二维码", "http://58.222.0.150/wei/code?gd=" + error.message, "");
 
                         res = pic.ToXml();
                     }
@@ -89,8 +94,6 @@ namespace MySch.Controllers.Wei
 
                         string msg = string.Empty;
                         msg += "欢迎关注：实验初中报名平台\n";
-                        msg += "输入：学生姓名与身份证号\n";
-                        msg += "石彧诚321284200508150254";
 
                         even.Init(msg);
                         res = even.ToXml();
@@ -132,11 +135,11 @@ namespace MySch.Controllers.Wei
                 Width = 360,
                 Height = 200
             };
-            ZXing.BarcodeWriter writer = new ZXing.BarcodeWriter();
-            writer.Format = BarcodeFormat.QR_CODE;
-            writer.Options = options;
+            ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
+            xing.Format = BarcodeFormat.QR_CODE;
+            xing.Options = options;
 
-            Bitmap bitmap = writer.Write(db.ID);
+            Bitmap bitmap = xing.Write(db.ID);
 
             Response.ContentType = "image/jpeg";
             bitmap.Save(Response.OutputStream, ImageFormat.Jpeg);

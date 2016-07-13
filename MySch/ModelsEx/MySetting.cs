@@ -129,7 +129,7 @@ namespace MySch.ModelsEx
             {
                 throw new Exception("身份证号：校验码验证无法通过！");
             }
-            return true;//符合GB11643-1999标准  
+            return true;//符合GB11643-1999标准
         }
 
         // Json

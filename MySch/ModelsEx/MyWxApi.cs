@@ -16,6 +16,8 @@ namespace MySch.Models
     public class MyWxApi
     {
         #region 验证微信签名
+
+        //验证微信签名
         public static bool CheckSignature(string token, string timestamp, string nonce, string signature)
         {
             string[] ArrTmp = { token, timestamp, nonce };
@@ -38,26 +40,6 @@ namespace MySch.Models
 
         #endregion
 
-        /// <summary>
-        /// 回复单图文
-        /// </summary>
-        /// <param name="FromUserName">发送给谁(openid)</param>
-        /// <param name="ToUserName">来自谁(公众账号ID)</param>
-        /// <param name="Title">标题</param>
-        /// <param name="Description">详情</param>
-        /// <param name="PicUrl">图片地址</param>
-        /// <param name="Url">地址</param>
-        /// <returns>拼凑的XML</returns>
-        public static string ReArticle(string FromUserName, string ToUserName, string Title, string Description, string PicUrl, string Url)
-        {
-            string XML = "<xml><ToUserName><![CDATA[" + FromUserName + "]]></ToUserName><FromUserName><![CDATA[" + ToUserName + "]]></FromUserName>";//发送给谁(openid)，来自谁(公众账号ID)
-            XML += "<CreateTime>" + DateTime.Now + "</CreateTime>";//回复时间戳
-            XML += "<MsgType><![CDATA[news]]></MsgType><Content><![CDATA[]]></Content><ArticleCount>1</ArticleCount><Articles>";
-            XML += "<item><Title><![CDATA[" + Title + "]]></Title><Description><![CDATA[" + Description + "]]></Description><PicUrl><![CDATA[" + PicUrl + "]]></PicUrl><Url><![CDATA[" + Url + "]]></Url></item>";
-            XML += "</Articles><FuncFlag>0</FuncFlag></xml>";
-            return XML;
-        }
-
         #region 自动报名
 
         public static ErrorModel StudReg(string content)
@@ -65,15 +47,18 @@ namespace MySch.Models
             try
             {
                 //首先将输入的格式规则
-                Regex aregx = new Regex(@"([\u4e00-\u9fa5]+)(\d{17}[0-9X])");
+                Regex aregx = new Regex(@"([\u4e00-\u9fa5]+)(\d+[0-9xX])");
                 Match match = aregx.Match(content);
 
                 //匹配不成，没有返回数据
-                if (!match.Success) return new ErrorModel { error = true, message = "请输入：学生姓名身份证号（不需分隔）" };
+                if (!match.Success) return new ErrorModel { error = true, message = "请输入：学生姓名和身份证号（不需分隔）" };
 
                 //成功则取出Name、ID
                 string Name = match.Groups[1].ToString();
-                string ID = match.Groups[2].ToString();
+                string ID = match.Groups[2].ToString().ToUpper();
+
+                //检测身份证号是否有效
+                MySetting.IDS(ID);
 
                 CookieCollection cookies = null;
                 //一、做Get请求网页
@@ -170,6 +155,11 @@ namespace MySch.Models
         public string nonce { get; set; }
         public string signature { get; set; }
         public string echostr { get; set; }
+    }
+
+    public class WX_Author_Ex : WX_Author
+    {
+        //临时用
     }
 
     //消息基类

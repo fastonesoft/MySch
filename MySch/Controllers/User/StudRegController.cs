@@ -39,8 +39,11 @@ namespace MySch.Controllers.User
                 //提交数据验证不过
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
 
-                CookieCollection cookies = null;
+                //身份证号检测
+                MySetting.IDS(que.ID);
+
                 //一、做Get请求网页
+                CookieCollection cookies = null;
                 string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
                 using (HttpWebResponse resp = MyHtml.GetResponse(url))
                 {
@@ -161,6 +164,7 @@ namespace MySch.Controllers.User
             {
                 //提交数据验证不过
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+
                 //检测编号
                 var db = DataQuery<TStudReg>.Entity(a => a.studNo == stud.studNo);
                 if (db != null)
