@@ -60,7 +60,7 @@ namespace MySch.Models
 
         [DisplayName("报名编号")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{2}(00[1-9]|0[1-9]\d|[1-9]\d\d)$", ErrorMessage = "{0}：5位数字号")]
+        [RegularExpression(@"^\d{2}(00[1-9]|0[1-9]\d|[1-9]\d\d)-\d{4}$", ErrorMessage = "{0}：XXXXX-XXXX")]
         public string studNo { get; set; }
 
         [DisplayName("备注")]
