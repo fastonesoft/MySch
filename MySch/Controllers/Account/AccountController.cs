@@ -4,6 +4,9 @@ using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -23,13 +26,53 @@ namespace MySch.Controllers.Account
             //string ee = MyLogin.Password("32128402", dd, MySetting.GetMD5("stone.2.net"));
             //return Content(dd + "-" + ee);
 
-          //string   tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile("asdfasdfasd", "SHA1");
-          //string ee = MySetting.GetSHA1("asdfasdfasd");
-          //return Content(tmpStr + "-" + ee);
+            //string   tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile("asdfasdfasd", "SHA1");
+            //string ee = MySetting.GetSHA1("asdfasdfasd");
+            //return Content(tmpStr + "-" + ee);
 
+            //var db = DataQuery<TStudReg>.All();
+            //foreach( var d in db)
+            //{
+            //    string id = d.ID;
+            //    var log = DataQuery<TLog>.Expression(a => a.Value.Contains(id));
+            //    if(log.Count() >0)
+            //    {
+            //        WX_Rec_Base rec = new WX_Rec_Base();
+            //        rec.XmlInit(log.First().Value);
+            //        rec.XmlToObj();
+
+            //        //将openID写入学生表
+            //        d.OpenID = rec.FromUserName;
+            //        DataADU<TStudReg>.Update(d);
+            //    }
+            //}
+
+            //return RedirectToAction("Reg11","Account");
 
             return View();
         }
+
+
+        //本机测试用的，
+        public string Reg11()
+        {
+            CookieCollection cookies = null;
+            //一、做Get请求网页
+            string url = "http://localhost:13789/wei";
+            using (HttpWebResponse resp = MyHtml.GetResponse(url))
+            {
+                cookies = resp.Cookies;
+            }
+
+            string posts = string.Empty;
+
+            posts += "<xml><ToUserName><![CDATA[gh_23b54b508d0d]]></ToUserName> <FromUserName><![CDATA[olXXEjgAP_rorn1NXmYotM555WxmtIc]]></FromUserName> <CreateTime>1468467491</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[信息登记#程佳伟#321284200508150254]]></Content> <MsgId>6307019849539175383</MsgId> </xml>";
+
+            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, posts, Encoding.UTF8);
+            string html = MyHtml.GetHtml(postresp, Encoding.UTF8);
+            return html;
+        }
+
 
         //用户登录：窗体
         [HttpPost]

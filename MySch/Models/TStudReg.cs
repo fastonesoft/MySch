@@ -23,5 +23,6 @@ namespace MySch.Models
         public string Home { get; set; }
         public string Permanent { get; set; }
         public bool Reged { get; set; }
+        public string OpenID { get; set; }
     }
 }

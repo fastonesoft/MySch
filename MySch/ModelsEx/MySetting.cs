@@ -95,6 +95,11 @@ namespace MySch.ModelsEx
         // IDS
         public static bool IDS(string ids)
         {
+            if(ids.Length != 18) 
+            {
+                throw new Exception("身份证号：长度不满18位!");
+            }
+
             long n = 0;
             if (long.TryParse(ids.Remove(17), out n) == false || n < Math.Pow(10, 16) || long.TryParse(ids.Replace('x', '0').Replace('X', '0'), out n) == false)
             {

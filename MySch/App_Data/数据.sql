@@ -125,16 +125,16 @@ go
 create table TStudReg
 (
 	ID	nvarchar(20) not null,	--身份证号
-	GD	nvarchar(32) not null,	--编号
+	GD	nvarchar(32) not null,	--唯一编号
 	Name	nvarchar(20) not null,	--姓名
-	fromSch	nvarchar(20),	--学校
-	fromGrade	nvarchar(10),	--年级
-	nationID	nvarchar(20),	--全国学籍号
-	readState	nvarchar(20),	--就读状态
-	isProblem	bit not null,	--是否问题学籍
+	FromSch	nvarchar(20),	--学校
+	FromGrade	nvarchar(10),	--年级
+	NationID	nvarchar(20),	--全国学籍号
+	ReadState	nvarchar(20),	--就读状态
+	IsProblem	bit not null,	--是否问题学籍
 	--以上：自动注册时填充
-	schChoose	bit not null,	--是否择校
-	studNo	nvarchar(20),	--报名编号 - 学籍号
+	StudNo	nvarchar(32),	--学籍号-考试编号
+	SchChoose	bit not null,	--是否择校
 	Memo	nvarchar(50),	--备注
 	--以上：归档时填充
 	Mobil1	nvarchar(20),	--联系电话一
@@ -144,10 +144,12 @@ create table TStudReg
 	Home	nvarchar(50),	--家庭地址
 	Permanent	nvarchar(50),	--户籍地址
 	Reged	bit not null,	--是否注册
+	OpenID	nvarchar(32),	--用户ID	
 )
 alter table TStudReg add constraint PK_TStudReg primary key clustered (ID)
 create unique nonclustered index UN_TStudReg_GD on TStudReg (GD)
 create index IN_TStudReg_Name on TStudReg (Name)
+create index IN_TStudReg_StudNo on TStudReg (StudNo)
 go
 
 --文件记录
@@ -186,4 +188,26 @@ create table TLog
 )
 go
 alter table TLog add constraint PK_TLog primary key clustered (GD)
+
+
+create table TMission
+(
+	ID	nvarchar(20) not null,	--任务编号
+	GD	nvarchar(32) not null,
+	Name	nvarchar(32) not null,	--任务名称
+	Regux
+)
+go
+
+create table TMissionClass
+(
+	ID	nvarchar(10) not null,
+	GD	nvarchar(32) not null,
+	Name	nvarchar(32) not null,	--任务分类名称
+)
+go
+--比如：
+--新生报名
+--学籍注册
+
 

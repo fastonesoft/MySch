@@ -59,6 +59,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Permanent)
                 .HasMaxLength(50);
 
+            this.Property(t => t.OpenID)
+                .HasMaxLength(32);
+
             // Table & Column Mappings
             this.ToTable("TStudReg");
             this.Property(t => t.ID).HasColumnName("ID");
@@ -79,6 +82,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Home).HasColumnName("Home");
             this.Property(t => t.Permanent).HasColumnName("Permanent");
             this.Property(t => t.Reged).HasColumnName("Reged");
+            this.Property(t => t.OpenID).HasColumnName("OpenID");
         }
     }
 }

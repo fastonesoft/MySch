@@ -150,6 +150,9 @@ namespace MySch.Controllers.User
             }
             else
             {
+                //已经编号，无需重编
+                if (db.studNo != null) return Json(new ErrorModel { error = true, message = "已经编号，无需重编" });
+                //
                 var res = new StudEditValid { GD = db.GD, Name = db.Name, studNo = db.studNo, Memo = db.Memo, schChoose = db.schChoose };
                 return View(res);
             }
@@ -246,39 +249,24 @@ namespace MySch.Controllers.User
         [HttpPost]
         public ActionResult Search(string id)
         {
-            IEnumerable<TStudReg> db = null;
 
             Regex regx = new Regex(@"^%(\d+)$|^(\d+)$|^(\d+)%$");
             Match match = regx.Match(id);
             if (match.Success)
             {
-                string value = match.Groups[1].ToString();
+                string left = match.Groups[1].ToString();
+                string all = match.Groups[2].ToString();
+                string right = match.Groups[3].ToString();
 
-                //检测%在输入串的位置
-                int pos = id.IndexOf("%");
-                if (pos == -1)
-                {
-                    //全匹配
-                    db = DataQuery<TStudReg>.Expression(a => a.studNo.Contains(value)).OrderBy(a => a.studNo);
-                }
-                else
-                {
-                    if (pos == 0)
-                    {
-                        //左匹配
-                        db = DataQuery<TStudReg>.Expression(a => a.studNo.StartsWith(value)).OrderBy(a => a.studNo);
-                    }
-                    else
-                    {
-                        //右匹配
-                        db = DataQuery<TStudReg>.Expression(a => a.studNo.EndsWith(value)).OrderBy(a => a.studNo);
-                    }
-                }
+                var db = left.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.StartsWith(left)).OrderBy(a => a.studNo) :
+                    right.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.EndsWith(right)).OrderBy(a => a.studNo) :
+                    all.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.Contains(all)).OrderBy(a => a.studNo) : null;
+
                 return Json(db);
             }
             else
             {
-                return Json(new ErrorModel { error = true, message = "查询格式有误" });
+                return Json(new ErrorModel { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
             }
         }
 
@@ -334,24 +322,5 @@ namespace MySch.Controllers.User
         }
 
 
-        //微信本机测试用的，
-        public string Reg11()
-        {
-            CookieCollection cookies = null;
-            //一、做Get请求网页
-            string url = "http://localhost:13789/wei";
-            using (HttpWebResponse resp = MyHtml.GetResponse(url))
-            {
-                cookies = resp.Cookies;
-            }
-
-            string posts = string.Empty;
-
-            posts += "<xml><ToUserName><![CDATA[gh_23b54b508d0d]]></ToUserName> <FromUserName><![CDATA[olXXEjidi2cvPU-UQwFOV8inSkPE]]></FromUserName> <CreateTime>1468164953</CreateTime> <MsgType><![CDATA[event]]></MsgType> <Event><![CDATA[subscribe]]></Event> <EventKey><![CDATA[]]></EventKey> </xml>";
-
-            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, posts, Encoding.UTF8);
-            string html = MyHtml.GetHtml(postresp, Encoding.UTF8);
-            return html;
-        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using MySch.Dal;
-using MySch.ModelsEx;
+using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,13 +11,18 @@ using System.Web;
 using System.Web.Security;
 using System.Xml;
 
-namespace MySch.Models
+namespace MySch.ModelsEx
 {
     public class MyWxApi
     {
-        #region 验证微信签名
-
-        //验证微信签名
+        /// <summary>
+        /// 签名：参数方式验证
+        /// </summary>
+        /// <param name="token">与第三方共同持有</param>
+        /// <param name="timestamp">时间戳</param>
+        /// <param name="nonce"></param>
+        /// <param name="signature">加密后的数据</param>
+        /// <returns></returns>
         public static bool CheckSignature(string token, string timestamp, string nonce, string signature)
         {
             string[] ArrTmp = { token, timestamp, nonce };
@@ -31,6 +36,11 @@ namespace MySch.Models
             return tmpStr == signature ? true : false;
         }
 
+        /// <summary>
+        /// 签名：对象封装方式验证
+        /// </summary>
+        /// <param name="au"></param>
+        /// <returns></returns>
         public static bool CheckSignature(WX_Author au)
         {
             if (au == null) return false;
@@ -38,25 +48,17 @@ namespace MySch.Models
             return CheckSignature("WX1979ToKen", au.timestamp, au.nonce, au.signature);
         }
 
-        #endregion
-
-        #region 自动报名
-
-        public static ErrorModel StudReg(string content)
+        /// <summary>
+        /// 自动报名：以查找省网学籍方式，记录学生信息
+        /// </summary>
+        /// <param name="ID">身份证号</param>
+        /// <param name="Name">学生姓名</param>
+        /// <param name="openID">ID</param>
+        /// <returns></returns>
+        public static string StudReg(string Name, string ID, string openID)
         {
             try
             {
-                //首先将输入的格式规则
-                Regex aregx = new Regex(@"([\u4e00-\u9fa5]+)(\d+[0-9xX])");
-                Match match = aregx.Match(content);
-
-                //匹配不成，没有返回数据
-                if (!match.Success) return new ErrorModel { error = true, message = "请输入：学生姓名和身份证号（不需分隔）" };
-
-                //成功则取出Name、ID
-                string Name = match.Groups[1].ToString();
-                string ID = match.Groups[2].ToString().ToUpper();
-
                 //检测身份证号是否有效
                 MySetting.IDS(ID);
 
@@ -92,7 +94,7 @@ namespace MySch.Models
                     //循环记录
                     errorcount++;
                     //异常退出
-                    if (errorcount > 30) return new ErrorModel { error = true, message = "请确认验证码是否变更" };
+                    if (errorcount > 30) throw new Exception("请确认验证码是否变更");
                 } while (valid.Length != 5);
 
                 //三、准备Post请求数据
@@ -111,13 +113,11 @@ namespace MySch.Models
                 MatchCollection matchs = regx.Matches(html);
 
                 //如果没有找到数据，则返回提示
-                if (matchs.Count == 0) return new ErrorModel { error = true, message = "无学籍记录！检查身份证与姓名是否正确" };
-
+                if (matchs.Count == 0) throw new Exception("无学籍记录！检查身份证与姓名是否正确");
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
                 var db = DataQuery<TStudReg>.Entity(a => a.ID == id);
-                if (db != null) return new ErrorModel { error = true, message = "该身份证号学籍已注册" };
-
+                if (db != null) throw new Exception("该身份证号学籍已注册");
                 //根据返回数据 -> 创建学生报名记录
                 TStudReg stud = new TStudReg();
                 stud.fromSch = matchs[0].Groups[1].ToString();
@@ -134,57 +134,13 @@ namespace MySch.Models
                 stud.Memo = null;
                 //
                 stud.Reged = false;
+                //
+                stud.OpenID = openID;
 
                 //添加
                 DataADU<TStudReg>.Add(stud);
                 //返回
-                return new ErrorModel { error = false, message = stud.GD };
-            }
-            catch (Exception e)
-            {
-                return new ErrorModel { error = true, message = e.Message };
-            }
-        }
-
-        #endregion
-    }
-
-    public class WX_Author
-    {
-        public string timestamp { get; set; }
-        public string nonce { get; set; }
-        public string signature { get; set; }
-        public string echostr { get; set; }
-    }
-
-    public class WX_Author_Ex : WX_Author
-    {
-        //临时用
-    }
-
-    //消息基类
-    public class WX_Message_Base
-    {
-        public string ToUserName { get; set; }
-        public string FromUserName { get; set; }
-        public int CreateTime { get; set; }
-        public string MsgType { get; set; }
-    }
-
-    #region 消息接收类
-
-    public class WX_Rec_Base : WX_Message_Base
-    {
-        private XmlElement _element;
-        public XmlElement Element { get { return _element; } }
-
-        public void XmlInit(string xml)
-        {
-            try
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xml);
-                _element = doc.DocumentElement;
+                return stud.GD;
             }
             catch (Exception e)
             {
@@ -192,11 +148,27 @@ namespace MySch.Models
             }
         }
 
-        public void XmlInit(XmlElement ele)
+        /// <summary>
+        /// 完成学生信息的绑定
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="Name"></param>
+        /// <param name="openID"></param>
+        public static void StudBinding(string Name, string ID, string openID)
         {
             try
             {
-                _element = ele;
+                //检测身份证号是否有效
+                MySetting.IDS(ID);
+
+                var db = DataQuery<TStudReg>.Entity(a => a.ID == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
+                if (db == null) throw new Exception("学生姓名与身份证号不匹配，或者已经完成登记");
+
+                //找到对应学生，绑定
+                db.OpenID = openID;
+
+                //提交更新
+                DataADU<TStudReg>.Update(db);
             }
             catch (Exception e)
             {
@@ -204,11 +176,28 @@ namespace MySch.Models
             }
         }
 
-        public string XmlElement(string name)
+
+        /// <summary>
+        /// 学生报名信息
+        /// </summary>
+        /// <param name="openID">编号</param>
+        /// <returns></returns>
+        public static string StudInfor(string openID)
         {
             try
             {
-                return _element.SelectSingleNode(name).InnerText;
+                var db = DataQuery<TStudReg>.Entity(a => a.OpenID == openID);
+                if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
+                if (string.IsNullOrEmpty(db.studNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
+
+                string res = string.Empty;
+                res += string.Format("姓名：{0}\n", db.Name);
+                res += string.Format("身份：{0}\n", db.ID);
+                res += string.Format("学校：{0}\n", db.fromSch);
+                res += string.Format("年级：{0}\n", db.fromGrade);
+                res += "---------------------------\n";
+                res += string.Format("录取编号：{0}", db.studNo.Substring(db.studNo.Length - 4, 4));
+                return res;
             }
             catch (Exception e)
             {
@@ -216,182 +205,72 @@ namespace MySch.Models
             }
         }
 
-        public virtual void XmlToObj()
+        /// <summary>
+        /// 录取人数统计
+        /// </summary>
+        /// <param name="openID"></param>
+        /// <returns></returns>
+        public static string StudCount(string openID)
         {
             try
             {
-                this.FromUserName = XmlElement("FromUserName");
-                this.ToUserName = XmlElement("ToUserName");
-                this.CreateTime = int.Parse(XmlElement("CreateTime"));
-                this.MsgType = XmlElement("MsgType");
+                var db = DataQuery<TStudReg>.Entity(a => a.OpenID == openID);
+                if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
+                if (string.IsNullOrEmpty(db.studNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
+
+                var count = DataQuery<TStudReg>.Count(a => true);
+                string res = string.Empty;
+                res += string.Format("实验初中2016级新生已录取：{0}人", count);
+
+                return res;
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
-    }
 
-    public class WX_Rec_Text : WX_Rec_Base
-    {
-        public string Content { get; set; }
-        public override void XmlToObj()
+        /// <summary>
+        /// 常用查询命令
+        /// </summary>
+        /// <returns></returns>
+        public static string NormalCommand()
         {
-            try
-            {
-                base.XmlToObj();
-                this.Content = XmlElement("Content");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-    }
+            string res = string.Empty;
 
-    public class WX_Rec_Image : WX_Rec_Base
-    {
-        public string PicUrl { get; set; }
-        public string MediaId { get; set; }
+            res += "--------------------------\n";
+            res += "-----  常用查询命令  -----\n";
+            res += "--------------------------\n";
+            res += "一、报名\n";
+            res += "新生报名#学生姓名#身份证号\n";
+            res += "信息登记#学生姓名#身份证号\n";
+            res += "录取情况\n";
+            res += "录取人数\n\n";
+            res += "二、学籍\n";
+            res += "建设ing\n\n";
+            res += "三、成绩\n";
+            res += "建设ing";
 
-        public override void XmlToObj()
-        {
-            try
-            {
-                base.XmlToObj();
-                this.PicUrl = XmlElement("PicUrl");
-                this.MediaId = XmlElement("MediaId");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-    }
-
-    public class WX_Rec_Event : WX_Rec_Base
-    {
-        public string Event { get; set; }
-        public string EventKey { get; set; }
-
-        public override void XmlToObj()
-        {
-            try
-            {
-                base.XmlToObj();
-                this.Event = XmlElement("Event");
-                this.EventKey = XmlElement("EventKey");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-    }
-
-    public class WX_Rec_Event_Code : WX_Rec_Event
-    {
-        public string Ticket { get; set; }
-
-        public override void XmlToObj()
-        {
-            try
-            {
-                base.XmlToObj();
-                this.Ticket = XmlElement("Ticket");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-    }
-
-    #endregion
-
-
-    //消息发送基本类
-    public class WX_Send_Base : WX_Message_Base
-    {
-        public virtual string ToXml(string con)
-        {
-            this.CreateTime = MySetting.DateTimeToInt(DateTime.Now);
-
-            string xml = string.Empty;
-            xml += string.Format("<ToUserName><![CDATA[{0}]]></ToUserName>", ToUserName);
-            xml += string.Format("<FromUserName><![CDATA[{0}]]></FromUserName>", FromUserName);
-            xml += string.Format("<CreateTime>{0}</CreateTime>", CreateTime);
-            xml += string.Format("<MsgType><![CDATA[{0}]]></MsgType>", MsgType);
-            return string.Format(con, xml);
+            return res;
         }
 
-        public virtual string ToXml()
+        /// <summary>
+        /// 检测ID是否绑定学生
+        /// </summary>
+        /// <param name="openID">ID</param>
+        /// <returns></returns>
+        public static bool Binding(string openID)
         {
-            return ToXml("<xml>{0}</xml>");
+            //ID为空，则没有绑定
+            if (openID.Length == 0) return false;
+
+            //检测是否存在ID记录
+            var db = DataQuery<TStudReg>.Expression(a => a.OpenID == openID);
+
+            //有记录，说明已绑定
+            return db.Count() > 0;
         }
 
-    }
-
-    public class WX_Send_Text : WX_Send_Base
-    {
-        public string Content { get; set; }
-        public WX_Send_Text(WX_Rec_Base rec)
-        {
-            this.MsgType = "text";
-            this.FromUserName = rec.ToUserName;
-            this.ToUserName = rec.FromUserName;
-        }
-
-        public void Init(string content)
-        {
-            this.Content = content;
-        }
-
-        public override string ToXml(string con)
-        {
-            string xml = base.ToXml("{0}");
-            xml += string.Format("<Content><![CDATA[{0}]]></Content>", Content);
-            return string.Format(con, xml);
-        }
-    }
-
-    public class WX_Send_Pic : WX_Send_Base
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string PicUrl { get; set; }
-        public string Url { get; set; }
-
-        public WX_Send_Pic(WX_Rec_Base rec)
-        {
-            this.MsgType = "news";
-            this.FromUserName = rec.ToUserName;
-            this.ToUserName = rec.FromUserName;
-        }
-
-        public void Init(string title, string description, string picurl, string url)
-        {
-            this.Title = title;
-            this.Description = description;
-            this.PicUrl = picurl;
-            this.Url = url;
-        }
-
-        public override string ToXml(string con)
-        {
-            string xml = base.ToXml("{0}");
-            xml += string.Format("<ArticleCount>{0}</ArticleCount>", 1);
-            xml += "<Articles>";
-            xml += "<item>";
-            xml += string.Format("<Title><![CDATA[{0}]]></Title> ", Title);
-            xml += string.Format("<Description><![CDATA[{0}]]></Description>", Description);
-            xml += string.Format("<PicUrl><![CDATA[{0}]]></PicUrl>", PicUrl);
-            xml += string.Format("<Url><![CDATA[{0}]]></Url>", Url);
-            xml += "</item>";
-            xml += "</Articles>";
-            xml += "<FuncFlag>0</FuncFlag>";
-            return string.Format(con, xml);
-        }
     }
 
 

@@ -159,7 +159,10 @@
     <Compile Include="ModelsEx\MyType.cs" />
     <Compile Include="ModelsEx\MyValid.cs" />
     <Compile Include="ModelsEx\MyImageValid.cs" />
-    <Compile Include="ModelsEx\MyWxApi.cs" />
+    <Compile Include="ModelsEx\MyWxApi.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelsEx\MyWxMods.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
     <Compile Include="Models\Mapping\TColumnMap.cs" />
     <Compile Include="Models\Mapping\TFileInforMap.cs" />
@@ -187,7 +190,7 @@
     <Content Include="App_Data\数据.sql" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Print.css" />
+    <Content Include="Content\print.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\default\accordion.css" />
     <Content Include="Content\themes\default\calendar.css" />

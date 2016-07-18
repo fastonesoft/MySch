@@ -12,7 +12,11 @@ namespace MySch.ModelsEx
 {
     public class MyHtml
     {
-        //网页抓取分解
+        /// <summary>
+        /// 网页抓取
+        /// </summary>
+        /// <param name="url">请求网址</param>
+        /// <returns></returns>
         public static HttpWebResponse GetResponse(string url)
         {
             try
@@ -35,6 +39,12 @@ namespace MySch.ModelsEx
             }
         }
 
+        /// <summary>
+        /// 网页抓取
+        /// </summary>
+        /// <param name="url">请求网址</param>
+        /// <param name="cookies">请求Cookies</param>
+        /// <returns></returns>
         public static HttpWebResponse GetResponse(string url, CookieCollection cookies)
         {
             try
@@ -57,7 +67,11 @@ namespace MySch.ModelsEx
             }
         }
 
-
+        /// <summary>
+        /// 读取网页图片
+        /// </summary>
+        /// <param name="resp">请求回应</param>
+        /// <returns></returns>
         public static Bitmap GetBitmap(HttpWebResponse resp)
         {
             try
@@ -71,6 +85,12 @@ namespace MySch.ModelsEx
             }
         }
 
+        /// <summary>
+        /// 读取网页内容
+        /// </summary>
+        /// <param name="resp">请求回应</param>
+        /// <param name="encoding">网页编码</param>
+        /// <returns></returns>
         public static string GetHtml(HttpWebResponse resp, Encoding encoding)
         {
             try
@@ -84,6 +104,14 @@ namespace MySch.ModelsEx
             }
         }
 
+        /// <summary>
+        /// 提交回应数据
+        /// </summary>
+        /// <param name="url">提交地址</param>
+        /// <param name="cookies">请求Cookies</param>
+        /// <param name="data">提交数据</param>
+        /// <param name="encoding">页面编码</param>
+        /// <returns></returns>
         public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding)
         {
             try
@@ -114,6 +142,12 @@ namespace MySch.ModelsEx
             }
         }
 
+        /// <summary>
+        /// 数据字典 转 提交数据
+        /// </summary>
+        /// <param name="dicts">数据字典</param>
+        /// <param name="encoding">数据编码</param>
+        /// <returns></returns>
         public static string DictToPostData(Dictionary<string, string> dicts, Encoding encoding)
         {
             string res = string.Empty;
