@@ -250,7 +250,7 @@ namespace MySch.Controllers.User
         public ActionResult Search(string id)
         {
 
-            Regex regx = new Regex(@"^%(\d+)$|^(\d+)$|^(\d+)%$");
+            Regex regx = new Regex(@"^%(\d+)$|^(-?\d+)$|^(\d+)%$");
             Match match = regx.Match(id);
             if (match.Success)
             {

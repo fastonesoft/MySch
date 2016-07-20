@@ -8,55 +8,13 @@
     <title>新生注册 - 框架</title>
 
     <style type="text/css">
-        .user_focus {
-            height: 80px;
-            overflow: hidden;
-            position: relative;
-            margin: 0 auto;
-        }
-
-            .user_focus .focus_slider {
-                height: 80px;
-                position: absolute;
-                left: 0px;
-                top: 0px;
-                z-index: 111;
-            }
-
-                .user_focus .focus_slider .mask {
-                    height: 80px;
-                    overflow: hidden;
-                    float: left;
-                    display: inline;
-                }
-
-                .user_focus .focus_slider ul {
-                    height: 80px;
-                    margin-left: 0px;
-                    overflow: hidden;
-                }
-
-                .user_focus .focus_slider li {
-                    float: left;
-                    width: 96px;
-                    height: 64px;
-                    display: inline;
-                    overflow: hidden;
-                    margin: 8px 0px 0px 8px;
-                }
-
-                    .user_focus .focus_slider li img {
-                        width: 96px;
-                        height: 64px;
-                    }
-
-                    .user_focus .focus_slider li a {
-                        display: block;
-                        width: 96px;
-                        height: 64px;
-                        overflow: hidden;
-                        background: #000;
-                    }
+        .user_focus { height: 80px; overflow: hidden; position: relative; margin: 0 auto; }
+        .user_focus .focus_slider { height: 80px; position: absolute; left: 0px; top: 0px; z-index: 111; }
+        .user_focus .focus_slider .mask { height: 80px; overflow: hidden; float: left; display: inline; }
+        .user_focus .focus_slider ul { height: 80px; margin-left: 0px; overflow: hidden; }
+        .user_focus .focus_slider li { float: left; width: 96px; height: 64px; display: inline; overflow: hidden; margin: 8px 0px 0px 8px; }
+        .user_focus .focus_slider li img { width: 96px; height: 64px; }
+        .user_focus .focus_slider li a { display: block; width: 96px; height: 64px; overflow: hidden; background: #000; }
     </style>
 
     <script type="text/javascript">
@@ -133,6 +91,8 @@
                     $.post('/StudReg/Query', function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
+                            //启用按钮
+                            $('.easyui-linkbutton').linkbutton('enable');
                         } else {
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
@@ -147,6 +107,8 @@
                     $.post('/StudReg/Manu', function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
+                            //启用按钮
+                            $('.easyui-linkbutton').linkbutton('enable');
                         } else {
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
@@ -165,6 +127,8 @@
                     $.post('/StudReg/Edit', { id: row.GD }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
+                            //启用按钮
+                            $('.easyui-linkbutton').linkbutton('enable');
                         } else {
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
@@ -183,6 +147,8 @@
                     $.post('/StudReg/Reg', { id: row.GD }, function (d) {
                         if (d.error) {
                             $.messager.alert('错误提示', d.message, 'error');
+                            //启用按钮
+                            $('.easyui-linkbutton').linkbutton('enable');
                         } else {
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
@@ -202,12 +168,16 @@
                 rownumbers: true,
                 fitColumns: false,
                 remoteSort: false,
-                singleSelect: true,
+                singleSelect: false,
                 checkOnSelect: true,
                 //url: '/Admin/UsersPage',
                 loadMsg: '数据加载中，请稍候……',
 
                 columns: [[
+                    {
+                        field: 'ck',
+                        checkbox: true
+                    },
                     {
                         title: '学校名称',
                         field: 'fromSch',

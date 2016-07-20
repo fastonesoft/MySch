@@ -31,11 +31,11 @@ namespace MySch.Controllers.Account
             //return Content(tmpStr + "-" + ee);
 
             //var db = DataQuery<TStudReg>.All();
-            //foreach( var d in db)
+            //foreach (var d in db)
             //{
             //    string id = d.ID;
             //    var log = DataQuery<TLog>.Expression(a => a.Value.Contains(id));
-            //    if(log.Count() >0)
+            //    if (log.Count() > 0)
             //    {
             //        WX_Rec_Base rec = new WX_Rec_Base();
             //        rec.XmlInit(log.First().Value);
