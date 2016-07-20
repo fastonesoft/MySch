@@ -288,6 +288,7 @@
     <Content Include="Images\c01.png" />
     <Content Include="Images\c02.png" />
     <Content Include="Images\c03.png" />
+    <Content Include="Images\canvas.jpg" />
     <Content Include="Images\checked.gif" />
     <Content Include="Images\checkedno.gif" />
     <Content Include="Images\close.png" />
@@ -465,6 +466,7 @@
     <Content Include="Views\StudReg\Query.cshtml" />
     <Content Include="Views\StudReg\Edit.cshtml" />
     <Content Include="Views\StudReg\Reg.cshtml" />
+    <Content Include="Views\StudReg\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Wei\" />

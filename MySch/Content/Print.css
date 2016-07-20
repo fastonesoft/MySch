@@ -1,1 +1,8 @@
-﻿.noprint{display:none;}
+﻿.noprint { display: none; }
+.dialog-button { display: none; }
+.panel-header { display: none; }
+.easyui-layout { display: none; }
+.window-shadow { display: none; height:0px;}
+.window-mask { display: none; height:0px;}
+.window { display: none; }
+.tabs-container { display: none; }

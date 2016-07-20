@@ -321,6 +321,11 @@ namespace MySch.Controllers.User
             }
         }
 
+        public ActionResult Print(IEnumerable<TStudReg> rows)
+        {
+            return View(rows);
+        }
+
 
     }
 }

@@ -158,6 +158,25 @@
                     //$.post("/StudReg/Reg11", function (d) {
                     //    alert(d);
                     //})
+                },
+                print: function () {
+                    //检测选中
+                    var rows = $('#studreg-grid').datagrid('getSelections');
+                    console.log(rows);
+                    if (rows.length == 0) {
+                        $.messager.alert('错误提示', '错误：未选中要修改的数据行！', 'error');
+                        return false;
+                    }
+                    //打开窗口
+                    $.post('/StudReg/Print', { rows: rows }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                            //启用按钮
+                            $('.easyui-linkbutton').linkbutton('enable');
+                        } else {
+                            $('<div id="dialog-form">').appendTo('#body').html(d);
+                        }
+                    });
                 }
             }
 
@@ -336,7 +355,8 @@
                     <td width="130">
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studreg.edit();">编号</a>
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="studreg.reg();">注册</a>
-                    </td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-print" plain="true" onclick="studreg.print();">打印</a>
+                   </td>
                     <td></td>
                     <td width="160">
                         <div class="form-item-row" style="margin:5px 5px 5px 5px;">
