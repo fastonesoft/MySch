@@ -321,9 +321,31 @@ namespace MySch.Controllers.User
             }
         }
 
+        [HttpPost]
         public ActionResult Print(IEnumerable<TStudReg> rows)
         {
+            ViewBag.StudNo = DataQuery<TPrint>.Entity(a => a.Name == "No");
+            ViewBag.StudName = DataQuery<TPrint>.Entity(a => a.Name == "Name");
+            ViewBag.School = DataQuery<TPrint>.Entity(a => a.Name == "School");
+
             return View(rows);
+        }
+
+        [HttpPost]
+        public ActionResult PrintPos(IEnumerable<TPrint> pos)
+        {
+            try
+            {
+                foreach (var d in pos)
+                {
+                    DataADU<TPrint>.Update(d);
+                }
+                return Json(new ErrorModel { error = false, message = "打印位置已修改，关闭窗口重来！" });
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
         }
 
 

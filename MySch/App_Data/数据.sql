@@ -152,6 +152,20 @@ create index IN_TStudReg_Name on TStudReg (Name)
 create index IN_TStudReg_StudNo on TStudReg (StudNo)
 go
 
+create table TPrint
+(
+	Name	nvarchar(20) not null,	--
+	X	nvarchar(10) not null,
+	Y	nvarchar(10) not null,
+)
+go
+alter table TPrint add constraint PK_TPrint primary key clustered (Name)
+
+insert TPrint values ('No', '1190px', '90px')
+insert TPrint values ('Name', '850px', '200px')
+insert TPrint values ('School', '940px', '270px')
+go
+
 --文件记录
 create table TFileInfor
 (

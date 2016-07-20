@@ -162,7 +162,6 @@
                 print: function () {
                     //检测选中
                     var rows = $('#studreg-grid').datagrid('getSelections');
-                    console.log(rows);
                     if (rows.length == 0) {
                         $.messager.alert('错误提示', '错误：未选中要修改的数据行！', 'error');
                         return false;
@@ -352,12 +351,17 @@
                     <td width="10">
                         <div class="datagrid-btn-separator"></div>
                     </td>
-                    <td width="130">
+                    <td width="120">
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studreg.edit();">编号</a>
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="studreg.reg();">注册</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-print" plain="true" onclick="studreg.print();">打印</a>
                    </td>
-                    <td></td>
+                    <td width="10">
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td width="130">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-print" plain="true" onclick="studreg.print();">打印</a>
+                    </td>
+      <td></td>
                     <td width="160">
                         <div class="form-item-row" style="margin:5px 5px 5px 5px;">
                             <label for="studreg-grid-text">编号查询</label>

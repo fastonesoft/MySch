@@ -14,68 +14,16 @@ jQuery.fn.extend({
         $(this).parent().remove();
         $('.window-shadow, .window-mask').remove();
     },
-    treeSelect: function () {
-        return $(this).tree('getSelected');
-    },
-    treeCheckeds: function () {
-        return $(this).tree('getChecked');
-    },
-    treeChecked: function () {
-        var nodes = $(this).tree('getChecked');
-        if (nodes.length == 0) return null;
-        return nodes[0];
-    },
-    treeParent: function (node) {
-        return $(this).tree('getParent', node.target);
-    },
-    //更新target的内容
-    treeUpdate: function (node, text, attr) {
-        $(this).tree('update', {
-            target: node.target,
-            text: text,
-            attributes: attr
-        });
-        return this;
-    },
-    treeUpdateText: function (node, text) {
-        $(this).tree('update', {
-            target: node.target,
-            text: text
-        });
-        return this;
-    },
-    treeUpdateAttr: function (node, attr) {
-        $(this).tree('update', {
-            target: node.target,
-            attributes: attr
-        });
-        return this;
-    },
-    //追加到根
-    treeAppend: function (data) {
-        $(this).tree('append', { data: data });
-        return this;
-    },
-    treeAppendTo: function (parent, data) {
-        $(this).tree('append', {
-            parent: parent.target,
-            data: data
-        });
-        return this;
-    },
-    treeData: function (node) {
-        return $(this).tree('getData', node.target);
-    },
-    treeNode: function (target) {
-        return $(this).tree('getNode', target);
-    },
-    //将节点摘下来，数据保存着
-    treePop: function (node) {
-        return $(this).tree('pop', node.target);
-    },
-    treeRemove: function (node) {
-        $(this).tree('remove', node.target);
-    },
+
+    //print
+    printDom: function () {
+        var str = $(this).html();
+        var newWindow = window.open("打印窗口", "_blank");
+        newWindow.document.write(str);
+        newWindow.document.close();
+        newWindow.print();
+        newWindow.close();
+    }
 });
 
 //add easyui tabs

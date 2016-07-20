@@ -2,27 +2,71 @@
 
 @{
     Layout = null;
+
+    var nox = ViewBag.StudNo.X;
+    var noy = ViewBag.StudNo.Y;
+    var namex = ViewBag.StudName.X;
+    var namey = ViewBag.StudName.Y;
+    var schoolx = ViewBag.School.X;
+    var schooly = ViewBag.School.Y;
 }
 
 <script type="text/javascript">
+
+
     $(function () {
+
+        //启用可拖动
+        $('.studno, .studname, .studsch').draggable({
+            scroll: true,
+            onDrag: function (e) {
+                var d = e.data;
+                $(this).css('left', d.left);
+                $(this).css('top', d.top);
+            }
+        });
+
+        //窗口
         $('#dialog-form').dialog({
             title: '录取通知',
-            width: 1280,
+            width: 1350,
             height: 518,
             closable: false,
             closed: false,
             cache: false,
-            modal: false,
+            modal: true,
             buttons: [{
                 text: '修正位置',
                 iconCls: 'icon-edit',
                 handler: function () {
+                    var data = [{
+                        Name: 'No',
+                        X: $('.studno').css('left'),
+                        Y: $('.studno').css('top')
+                    }, {
+                        Name: 'Name',
+                        X: $('.studname').css('left'),
+                        Y: $('.studname').css('top')
+                    }, {
+                        Name: 'School',
+                        X: $('.studsch').css('left'),
+                        Y: $('.studsch').css('top')
+                    }];
+                    //提交
+                    $.post('/StudReg/PrintPos', { pos: data }, function (d) {
+                        if (d.error) {
+                            $.messager.alert('错误提示', d.message, 'error');
+                        } else {
+                            //关窗口
+                            $('#dialog-form').dialogClose();
+                        }
+                    });
                 }
             }, {
                 text: '打印',
                 iconCls: 'icon-ok',
                 handler: function () {
+                    $('#con').printDom();
                 }
             }, {
                 text: '关闭',
@@ -31,8 +75,6 @@
                     $('#dialog-form').dialogClose();
                 }
             }],
-            onOpen: function () {
-            },
             onClose: function () {
                 //启用按钮
                 $('.easyui-linkbutton').linkbutton('enable');
@@ -41,17 +83,18 @@
     })
 
 </script>
-<style type="text/css">
-    .studno { position: absolute; font-size: 36px; left: 1090px; top: 90px; }
-    .studname { position: absolute; font-size: 28px; left: 750px; top: 200px; }
-    .studsch { position: absolute; font-size: 28px; left: 840px; top: 265px; }
-</style>
-<div style=" padding:20px 20px 0px 20px;">
+<div id="con" style=" padding:0px;">
+
+    <style type="text/css">
+        .studno { position: absolute; font-size: 36px; left: @nox; top: @noy; }
+        .studname { position: absolute; font-size: 28px; left: @namex; top:@namey; }
+        .studsch { position: absolute; font-size: 24px; left: @schoolx; top: @schooly; }
+    </style>
 
     @{
         foreach (var stud in Model)
         {
-            <div style="height:400px;background: url(/Images/canvas.jpg) no-repeat center top; position: relative;">
+            <div style="height:440px;background: url(/Images/canvas.jpg) no-repeat left top; position: relative;">
                 <div class="studno">@stud.studNo.Substring(stud.studNo.Length - 4, 4)</div>
                 <div class="studname">@stud.Name</div>
                 <div class="studsch">@stud.fromSch</div>

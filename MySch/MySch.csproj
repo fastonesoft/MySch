@@ -172,6 +172,7 @@
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
     <Compile Include="Models\Mapping\TPageMap.cs" />
+    <Compile Include="Models\Mapping\TPrintMap.cs" />
     <Compile Include="Models\Mapping\TStudRegMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\TAcc.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
     <Compile Include="Models\TPage.cs" />
+    <Compile Include="Models\TPrint.cs" />
     <Compile Include="Models\TStudReg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

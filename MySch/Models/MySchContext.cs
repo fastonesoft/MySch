@@ -25,6 +25,7 @@ namespace MySch.Models
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
         public DbSet<TPage> TPages { get; set; }
+        public DbSet<TPrint> TPrints { get; set; }
         public DbSet<TStudReg> TStudRegs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -38,6 +39,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());
             modelBuilder.Configurations.Add(new TPageMap());
+            modelBuilder.Configurations.Add(new TPrintMap());
             modelBuilder.Configurations.Add(new TStudRegMap());
         }
     }
