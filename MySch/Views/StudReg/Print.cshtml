@@ -29,7 +29,7 @@
         //窗口
         $('#dialog-form').dialog({
             title: '录取通知',
-            width: 1350,
+            width: 1100,
             height: 518,
             closable: false,
             closed: false,
@@ -86,20 +86,25 @@
 <div id="con" style=" padding:0px;">
 
     <style type="text/css">
-        .studno { position: absolute; font-size: 36px; left: @nox; top: @noy; }
-        .studname { position: absolute; font-size: 28px; left: @namex; top:@namey; }
-        .studsch { position: absolute; font-size: 24px; left: @schoolx; top: @schooly; }
+        .studno { position: absolute; font-family:'黑体'; font-size: 22pt; left: @nox; top: @noy; }
+        .studname { position: absolute; font-family:'宋体'; font-size: 16pt; left: @namex; top:@namey; }
+        .studsch { position: absolute; font-family:'宋体'; font-size: 14pt; left: @schoolx; top: @schooly; }
     </style>
 
     @{
+        int num = 0;
         foreach (var stud in Model)
         {
+            num++;
             <div style="height:440px;background: url(/Images/canvas.jpg) no-repeat left top; position: relative;">
                 <div class="studno">@stud.studNo.Substring(stud.studNo.Length - 4, 4)</div>
                 <div class="studname">@stud.Name</div>
-                <div class="studsch">@stud.fromSch</div>
+                <div class="studsch">@stud.fromSch.Replace("泰州市", "")</div>
             </div>
-            <div style="page-break-after:always;"></div>
+            if (num != Model.Count())
+            {
+                <div style="page-break-after:always;"></div>
+            }
         }
     }
 

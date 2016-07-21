@@ -52,6 +52,7 @@
                 //清除网格
                 $(this).val('');
                 $('#studreg-grid').datagrid('loadData', []);
+
             });
 
             //编号查询
@@ -183,6 +184,7 @@
             $('#studreg-grid').datagrid({
                 fit: true,
                 striped: true,
+                nowrap: true,
                 rownumbers: true,
                 fitColumns: false,
                 remoteSort: false,
@@ -288,7 +290,13 @@
                         field: 'studNo',
                         align: 'center',
                         sortable: true,
-                        width: 100
+                        width: 100,
+                        sorter: function (a, b) {
+                            a = a.split('-');
+                            b = b.split('-');
+
+                            return (a[1] > b[1] ? 1 : -1);
+                        }
                     }
                 ]],
 
@@ -354,14 +362,14 @@
                     <td width="120">
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studreg.edit();">编号</a>
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="studreg.reg();">注册</a>
-                   </td>
+                    </td>
                     <td width="10">
                         <div class="datagrid-btn-separator"></div>
                     </td>
                     <td width="130">
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-print" plain="true" onclick="studreg.print();">打印</a>
                     </td>
-      <td></td>
+                    <td></td>
                     <td width="160">
                         <div class="form-item-row" style="margin:5px 5px 5px 5px;">
                             <label for="studreg-grid-text">编号查询</label>
@@ -404,7 +412,7 @@
             </div>
         </div>
     </div>
-*@    
+*@
 
 
 -->
