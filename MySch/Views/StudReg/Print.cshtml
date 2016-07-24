@@ -16,23 +16,6 @@
 
     $(function () {
 
-        //启用可拖动
-        $('.studno, .studname, .studsch').draggable({
-            scroll: true,
-            onDrag: function (e) {
-                console.log(e);
-                if (e.ctrlKey)
-                {
-                    //按下ctrl键，整体移动
-
-                } else {
-                    var d = e.data;
-                    $(this).css('left', d.left);
-                    $(this).css('top', d.top);
-                }
-            }
-        });
-
         //窗口
         $('#dialog-form').dialog({
             title: '录取通知',
@@ -87,6 +70,42 @@
                 $('.easyui-linkbutton').linkbutton('enable');
             },
         });
+
+        if ($('.dragcon').length > 1) {
+            //清除按钮
+            $('.dialog-button a:first').remove();
+        }
+        else {
+            //启用可拖动
+            $('.candrag').draggable({
+                scroll: true,
+                onDrag: function (e) {
+                    var d = e.data;
+                    if (e.ctrlKey) {
+                        //按下ctrl键，整体移动
+                        var dragname = Number($(this).attr('name'));
+                        var dragxy = $(this).position();
+                        //计算偏移
+                        var offsetxy = { left: dragxy.left - initpos[dragname].left, top: dragxy.top - initpos[dragname].top };
+                        //同步
+                        $('.candrag').each(function () {
+                            var eachname = Number($(this).attr('name'));
+                            if (eachname != dragname) {
+                                var eachxy = { left: initpos[eachname].left + offsetxy.left, top: initpos[eachname].top + offsetxy.top };
+                                $(this).css('left', eachxy.left);
+                                $(this).css('top', eachxy.top);
+                            }
+                        });
+                    }
+                }
+            });
+
+            //记录初始偏移量
+            initpos = [];
+            initpos.push($('.studno').position());
+            initpos.push($('.studname').position());
+            initpos.push($('.studsch').position());
+        }
     })
 
 </script>
@@ -103,10 +122,10 @@
         foreach (var stud in Model)
         {
             num++;
-            <div style="height:440px;background: url(/Images/canvas.jpg) no-repeat left top; position: relative;">
-                <div class="studno">@stud.studNo.Substring(stud.studNo.Length - 4, 4)</div>
-                <div class="studname">@stud.Name</div>
-                <div class="studsch">@stud.fromSch.Replace("泰州市", "")</div>
+            <div class="dragcon" style="height:440px;background: url(/Images/canvas.jpg) no-repeat left top; position: relative;">
+                <div name="0" class="candrag studno">@stud.studNo.Substring(stud.studNo.Length - 4, 4)</div>
+                <div name="1" class="candrag studname">@stud.Name</div>
+                <div name="2" class="candrag studsch">@stud.fromSch.Replace("泰州市", "")</div>
             </div>
             if (num != Model.Count())
             {

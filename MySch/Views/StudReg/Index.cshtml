@@ -84,6 +84,8 @@
             studreg = {
                 //学籍查询
                 que: function () {
+                    //清除窗口残留
+                    $('<div id="dialog-form">').remove();
                     //禁用
                     $('.easyui-linkbutton').linkbutton('disable');
                     //清除网格
@@ -100,6 +102,8 @@
                     });
                 },
                 add: function () {
+                    //清除窗口残留
+                    $('<div id="dialog-form">').remove();
                     //禁用
                     $('.easyui-linkbutton').linkbutton('disable');
                     //清除网格
@@ -116,6 +120,8 @@
                     });
                 },
                 edit: function () {
+                    //清除窗口残留
+                    $('<div id="dialog-form">').remove();
                     //检测选中
                     var row = $('#studreg-grid').datagrid('getSelected');
                     if (!row) {
@@ -136,6 +142,8 @@
                     });
                 },
                 reg: function () {
+                    //清除窗口残留
+                    $('<div id="dialog-form">').remove();
                     //检测选中
                     var row = $('#studreg-grid').datagrid('getSelected');
                     if (!row) {
@@ -161,6 +169,8 @@
                     //})
                 },
                 print: function () {
+                    //清除窗口残留
+                    $('<div id="dialog-form">').remove();
                     //检测选中
                     var rows = $('#studreg-grid').datagrid('getSelections');
                     if (rows.length == 0) {
