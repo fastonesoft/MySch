@@ -20,9 +20,16 @@
         $('.studno, .studname, .studsch').draggable({
             scroll: true,
             onDrag: function (e) {
-                var d = e.data;
-                $(this).css('left', d.left);
-                $(this).css('top', d.top);
+                console.log(e);
+                if (e.ctrlKey)
+                {
+                    //按下ctrl键，整体移动
+
+                } else {
+                    var d = e.data;
+                    $(this).css('left', d.left);
+                    $(this).css('top', d.top);
+                }
             }
         });
 
