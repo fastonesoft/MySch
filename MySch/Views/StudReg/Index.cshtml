@@ -29,30 +29,30 @@
                 }
             });
 
-            //按键测试
-            $('#IDS').keypress(function (e) {
-                if (e.which == 13) {
-                    //提示开始
-                    $('#studreg-grid').datagrid('loading');
-                    //没错，查询
-                    $.post('/StudReg/Get', { id: $(this).val() }, function (d) {
-                        if (d.error) {
-                            $.messager.alert('错误提示', d.message, 'error');
-                        } else {
-                            //成功，将返回数据添加到数据网格
-                            $('#studreg-grid').datagrid({ data: [d] });
-                        }
-                    });
-                    $('#IDS').val('');
-                    //提示结束
-                    $('#studreg-grid').datagrid('loaded');
-                }
-            });
+            //聚集
             $('#IDS, #studreg-grid-text').focus(function () {
                 //清除网格
                 $(this).val('');
-                $('#studreg-grid').datagrid('loadData', []);
+                $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
+            });
 
+            //身份查询
+            $('#IDS').keypress(function (e) {
+                if (e.which == 13) {
+                    //身份证号查询
+                    var text = $.trim($(this).val());
+                    if (text.length == 0) {
+                        //清除网格
+                        $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
+                    } else {
+                        $('#studreg-grid').datagrid({
+                            url: '/StudReg/Get',
+                            queryParams: { id: text }
+                        })
+                    }
+                    //清空
+                    $(this).val('');
+                }
             });
 
             //编号查询
@@ -62,21 +62,16 @@
                     var text = $.trim($(this).val());
                     if (text.length == 0) {
                         //清除网格
-                        $('#studreg-grid').datagrid('loadData', []);
+                        $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
                     } else {
-                        $('#studreg-grid').datagrid('loading');
                         //编号查询
-                        $.post('/StudReg/Search', { id: text }, function (d) {
-                            if (d.error) {
-                                //没有记录，清空输入内容
-                                $.messager.alert('错误提示', d.message, 'error');
-                            } else {
-                                $('#studreg-grid').datagrid('loadData', d);
-                            }
-                        });
-                        $('#studreg-grid-text').val('');
-                        $('#studreg-grid').datagrid('loaded');
+                        $('#studreg-grid').datagrid({
+                            url: '/StudReg/Search',
+                            queryParams: { id: text }
+                        })
                     }
+                    //清空
+                    $(this).val('');
                 }
             });
 
@@ -84,12 +79,10 @@
             studreg = {
                 //学籍查询
                 que: function () {
-                    //清除窗口残留
-                    $('<div id="dialog-form">').remove();
                     //禁用
                     $('.easyui-linkbutton').linkbutton('disable');
                     //清除网格
-                    $('#studreg-grid').datagrid('loadData', []);
+                    $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
                     //打开窗口
                     $.post('/StudReg/Query', function (d) {
                         if (d.error) {
@@ -97,17 +90,18 @@
                             //启用按钮
                             $('.easyui-linkbutton').linkbutton('enable');
                         } else {
+                            //清除
+                            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+                            //加载
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
                     });
                 },
                 add: function () {
-                    //清除窗口残留
-                    $('<div id="dialog-form">').remove();
                     //禁用
                     $('.easyui-linkbutton').linkbutton('disable');
                     //清除网格
-                    $('#studreg-grid').datagrid('loadData', []);
+                    $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
                     //打开窗口
                     $.post('/StudReg/Manu', function (d) {
                         if (d.error) {
@@ -115,13 +109,14 @@
                             //启用按钮
                             $('.easyui-linkbutton').linkbutton('enable');
                         } else {
+                            //清除
+                            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+                            //加载
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
                     });
                 },
                 edit: function () {
-                    //清除窗口残留
-                    $('<div id="dialog-form">').remove();
                     //检测选中
                     var row = $('#studreg-grid').datagrid('getSelected');
                     if (!row) {
@@ -137,13 +132,14 @@
                             //启用按钮
                             $('.easyui-linkbutton').linkbutton('enable');
                         } else {
+                            //清除
+                            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+                            //加载
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
                     });
                 },
                 reg: function () {
-                    //清除窗口残留
-                    $('<div id="dialog-form">').remove();
                     //检测选中
                     var row = $('#studreg-grid').datagrid('getSelected');
                     if (!row) {
@@ -159,18 +155,14 @@
                             //启用按钮
                             $('.easyui-linkbutton').linkbutton('enable');
                         } else {
+                            //清除
+                            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+                            //加载
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
                     });
-
-                    ////request
-                    //$.post("/StudReg/Reg11", function (d) {
-                    //    alert(d);
-                    //})
                 },
                 print: function () {
-                    //清除窗口残留
-                    $('<div id="dialog-form">').remove();
                     //检测选中
                     var rows = $('#studreg-grid').datagrid('getSelections');
                     if (rows.length == 0) {
@@ -184,6 +176,9 @@
                             //启用按钮
                             $('.easyui-linkbutton').linkbutton('enable');
                         } else {
+                            //清除
+                            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+                            //加载
                             $('<div id="dialog-form">').appendTo('#body').html(d);
                         }
                     });
@@ -200,62 +195,24 @@
                 remoteSort: false,
                 singleSelect: false,
                 checkOnSelect: true,
-                //url: '/Admin/UsersPage',
-                loadMsg: '数据加载中，请稍候……',
-
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
                 columns: [[
+                    { field: 'ck', checkbox: true },
+                    { title: '学校名称', field: 'fromSch', halign:'center', sortable: true, width: 170 },
+                    { title: '姓名', field: 'Name', align: 'center', sortable: true, width: 60 },
+                    { title: '身份证号', field: 'ID', align: 'center', sortable: true, width: 150 },
+                    { title: '年级', field: 'fromGrade', align: 'center', sortable: true, width: 80 },
+                    { title: '全国学籍号', field: 'nationID', align: 'center', sortable: false, width: 150 },
+                    { title: '就读状态', field: 'readState', align: 'center', sortable: true, width: 60 },
                     {
-                        field: 'ck',
-                        checkbox: true
-                    },
-                    {
-                        title: '学校名称',
-                        field: 'fromSch',
-                        align: 'center',
-                        sortable: true,
-                        width: 170
-                    },
-                    {
-                        title: '姓名',
-                        field: 'Name',
-                        align: 'center',
-                        sortable: true,
-                        width: 60
-                    },
-                    {
-                        title: '身份证号',
-                        field: 'ID',
-                        align: 'center',
-                        sortable: true,
-                        width: 150
-                    },
-                    {
-                        title: '年级',
-                        field: 'fromGrade',
-                        align: 'center',
-                        sortable: true,
-                        width: 80
-                    },
-                    {
-                        title: '全国学籍号',
-                        field: 'nationID',
-                        align: 'center',
-                        sortable: false,
-                        width: 150
-                    },
-                    {
-                        title: '就读状态',
-                        field: 'readState',
-                        align: 'center',
-                        sortable: true,
-                        width: 60
-                    },
-                    {
-                        title: '无问题学籍',
-                        field: 'isProblem',
-                        align: 'center',
-                        sortable: false,
-                        width: 70,
+                        title: '无问题学籍', field: 'isProblem', align: 'center', sortable: false, width: 70,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                         },
@@ -266,11 +223,7 @@
                         }
                     },
                     {
-                        title: '是否择校',
-                        field: 'schChoose',
-                        align: 'center',
-                        sortable: false,
-                        width: 60,
+                        title: '是否择校', field: 'schChoose', align: 'center', sortable: false, width: 60,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                         },
@@ -281,11 +234,7 @@
                         }
                     },
                     {
-                        title: '是否注册',
-                        field: 'Reged',
-                        align: 'center',
-                        sortable: false,
-                        width: 60,
+                        title: '是否注册', field: 'Reged', align: 'center', sortable: false, width: 60,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                         },
@@ -296,11 +245,7 @@
                         }
                     },
                     {
-                        title: '报名编号',
-                        field: 'studNo',
-                        align: 'center',
-                        sortable: true,
-                        width: 100,
+                        title: '报名编号', field: 'studNo', align: 'center', sortable: true, width: 100,
                         sorter: function (a, b) {
                             a = a.split('-');
                             b = b.split('-');
@@ -311,27 +256,11 @@
                 ]],
 
                 toolbar: '#studreg-grid-tool',
-                pagination: true,
+                pagination: false,
                 pageSize: 100,
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
-
-            //测试数据
-            //$('#studreg-grid').datagrid({
-            //    data: [{
-            //        fromSch: '泰州市姜堰区实验初级中学',
-            //        Name: '看过的',
-            //        ID: '321284200508150254',
-            //        fromClass: '小学五年级',
-            //        Tel: '13852657065',
-            //        nationID: 'G321284200508150254',
-            //        readState: '正常',
-            //        isProblem: true,
-            //        schChoose: true,
-            //        Reged: false
-            //    }]
-            //});
 
 
             //布局

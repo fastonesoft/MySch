@@ -133,9 +133,21 @@ namespace MySch.Controllers.User
         [HttpPost]
         public ActionResult Get(string id)
         {
-            var db = DataQuery<TStudReg>.Entity(a => a.ID == id);
+            try
+            {
+                //身份证检测
+                MySetting.IDS(id);
 
-            return db == null ? Json(new ErrorModel { error = true, message = "查询数据出错" }) : Json(db);
+                var db = DataQuery<TStudReg>.Expression(a => a.ID == id);
+
+                //返回：easyui datagrid数据格式
+                var res = db == null ? null : new { total = db.Count(), rows = db };
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
         }
 
         //学生编号
@@ -250,7 +262,7 @@ namespace MySch.Controllers.User
         public ActionResult Search(string id)
         {
 
-            Regex regx = new Regex(@"^%(\d+)$|^(-?\d+)$|^(\d+)%$");
+            Regex regx = new Regex(@"^%(\d+)$|^(\d*-?\d*)$|^(\d+)%$");
             Match match = regx.Match(id);
             if (match.Success)
             {
@@ -262,7 +274,9 @@ namespace MySch.Controllers.User
                     right.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.EndsWith(right)).OrderBy(a => a.studNo) :
                     all.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.Contains(all)).OrderBy(a => a.studNo) : null;
 
-                return Json(db);
+                //返回：easyui datagrid数据格式
+                var res = db == null ? null : new { total = db.Count(), rows = db };
+                return Json(res);
             }
             else
             {

@@ -92,8 +92,8 @@
                             var eachname = Number($(this).attr('name'));
                             if (eachname != dragname) {
                                 var eachxy = { left: initpos[eachname].left + offsetxy.left, top: initpos[eachname].top + offsetxy.top };
-                                $(this).css('left', eachxy.left);
                                 $(this).css('top', eachxy.top);
+                                $(this).css('left', eachxy.left);
                             }
                         });
                     }
