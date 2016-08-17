@@ -1,5 +1,5 @@
-﻿using MySch.Dal;
-using MySch.Models;
+﻿using MySch.Bll;
+using MySch.Dal;
 using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,13 @@ namespace MySch.Controllers.Admin
 {
     public class AdminUserController : RoleController
     {
+        //用户列表：界面
+        [HttpPost]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult AddUser()
         {
@@ -19,108 +26,123 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(TAcc acc)
+        public ActionResult AddTokey(BllAcc acc)
         {
-            acc.GD = MySetting.GetGD("AdminUser", acc.ID);
-            acc.RegTime = DateTime.Now;
-            acc.Parent = MyLogin.GetLogin(Session).GD;
-            acc.Pwd = MyLogin.Password(acc.ID, acc.GD, MySetting.GetMD5(acc.Pwd));
-            //添加记录
-            DataADU<TAcc>.Add(ModelState, acc);
-            return Json(acc);
+            try
+            {
+                acc.ID = MySetting.GetGD("AdminUser", acc.IDS);
+                acc.RegTime = DateTime.Now;
+                acc.Parent = MyLogin.GetLogin(Session).ID;
+                acc.Pwd = MyLogin.Password(acc.IDS, acc.ID, MySetting.GetMD5(acc.Pwd));
+
+                //添加记录
+                acc.ToAdd(ModelState);
+                return Json(acc);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
         }
 
         [HttpPost]
         public ActionResult EditUser(string id)
         {
-            var db = DataQuery<TAcc>.Entity(a => a.ID == id);
-            if (db == null)
+            try
             {
-                return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                var db = BllAcc.GetEntity<BllAcc>(id);
+                return View(db);
             }
-            return View(db);
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(TAcc acc)
+        public ActionResult EditTokey(BllAcc acc)
         {
-            var db = DataQuery<TAcc>.Entity(a => a.GD == acc.GD && a.ID == acc.ID);
-            if (db == null)
+            try
             {
-                return Json(new ErrorModel { error = true, message = "提交数据有误" });
-            }
-            else
-            {
+                var db = BllAcc.GetEntity<BllAcc>(a => a.ID == acc.ID && a.IDS == acc.IDS);
+
                 //密码如果改变，则重新加密
-                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : MyLogin.Password(acc.ID, acc.GD, MySetting.GetMD5(acc.Pwd));
+                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : MyLogin.Password(acc.IDS, acc.ID, MySetting.GetMD5(acc.Pwd));
                 //管理员admin帐号不能冻结
-                acc.Fixed = acc.ID == "admin" ? false : acc.Fixed;
+                acc.Fixed = acc.IDS == "admin" ? false : acc.Fixed;
                 //别的属性直接从数据库拿出来
                 acc.RegTime = db.RegTime;
                 acc.Parent = db.Parent;
-                DataADU<TAcc>.Update(ModelState, acc);
+                //
+                acc.ToUpdate(ModelState);
+
                 return Json(acc);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
             }
         }
 
         [HttpPost]
         public ActionResult DelUser(string id)
         {
-            var db = DataQuery<TAcc>.Entity(a => a.ID == id);
-            if (db == null)
+            try
             {
-                return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                var db = BllAcc.GetEntity<BllAcc>(id);
+                return View(db);
             }
-            return View(db);
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(TAcc acc)
+        public ActionResult DelTokey(BllAcc acc)
         {
-            //管理员帐号保护
-            if (acc.ID == "admin")
+            try
             {
-                return Json(new ErrorModel { error = true, message = "系统管理员，无法删除！" });
-            }
-            //其它正常操作
-            var db = DataQuery<TAcc>.Entity(a => a.GD == acc.GD && a.ID == acc.ID);
-            if (db == null)
-            {
-                return Json(new ErrorModel { error = true, message = "提交数据有误" });
-            }
-            else
-            {
-                if (DataQuery<TAcc>.Expression(a => a.Parent == db.GD).Count() != 0)
+                //管理员帐号保护
+                if (acc.IDS == "admin")
+                {
+                    return Json(new ErrorModel { error = true, message = "系统管理员，无法删除！" });
+                }
+
+                //其它正常操作
+                var db = BllAcc.GetEntity<BllAcc>(a => a.ID == acc.ID && a.IDS == acc.IDS);
+
+                if (BllAcc.GetEntitys<List<BllAcc>>(a => a.Parent == db.ID).Count() != 0)
                 {
                     return Json(new ErrorModel { error = true, message = "有下级用户，无法删除" });
                 }
                 else
                 {
-                    DataADU<TAcc>.Delete(db);
-                    return Json(db);
+                    acc.ToDelete(ModelState);
+                    return Json(acc);
                 }
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
             }
         }
 
-        [HttpPost]
-        public ActionResult SearchUser(string text)
-        {
-            //管理员ParentGD为null，可以查询全部
-            //非管理员，只可以查询自己和自己的下属
-            string myself = MyLogin.GetLogin(Session).GD;
-            string parent = MyLogin.GetLogin(Session).Parent;
-            var db = parent == null ?
-                DataQuery<TAcc>.Expression(a => a.Name.Contains(text) || a.ID.Contains(text)) :
-                DataQuery<TAcc>.Expression(a => (a.Name.Contains(text) || a.ID.Contains(text)) && (a.Parent == myself || a.GD == myself));
+        //[HttpPost]
+        //public ActionResult SearchUser(string text)
+        //{
+        //    //管理员ParentGD为null，可以查询全部
+        //    //非管理员，只可以查询自己和自己的下属
+        //    string myself = MyLogin.GetLogin(Session).GD;
+        //    string parent = MyLogin.GetLogin(Session).Parent;
+        //    var db = parent == null ?
+        //        DataCRUD<TAcc>.Expression(a => a.Name.Contains(text) || a.ID.Contains(text)) :
+        //        DataCRUD<TAcc>.Expression(a => (a.Name.Contains(text) || a.ID.Contains(text)) && (a.Parent == myself || a.GD == myself));
 
-            var res = new
-            {
-                total = db.Count(),
-                rows = db
-            };
-            return Json(res);
-        }
+        //    var res = new { total = db.Count(), rows = db };
+        //    return Json(res);
+        //}
     }
 }

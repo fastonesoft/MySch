@@ -15,7 +15,7 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(32);
 
-            this.Property(t => t.GD)
+            this.Property(t => t.IDS)
                 .IsRequired()
                 .HasMaxLength(32);
 
@@ -33,7 +33,7 @@ namespace MySch.Models.Mapping
             // Table & Column Mappings
             this.ToTable("TAcc");
             this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.GD).HasColumnName("GD");
+            this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Pwd).HasColumnName("Pwd");
             this.Property(t => t.RegTime).HasColumnName("RegTime");

@@ -57,7 +57,7 @@ namespace MySch.Controllers.Wei
                 log.CreateTime = DateTime.Now;
                 log.GD = Guid.NewGuid().ToString("N");
                 log.Value = posts;
-                DataADU<TLog>.Add(log);
+                DataCRUD<TLog>.Add(log);
 
                 switch (rec.MsgType)
                 {
@@ -207,7 +207,7 @@ namespace MySch.Controllers.Wei
                 logr.CreateTime = DateTime.Now;
                 logr.GD = Guid.NewGuid().ToString("N");
                 logr.Value = res;
-                DataADU<TLog>.Add(logr);
+                DataCRUD<TLog>.Add(logr);
 
                 return res;
             }
@@ -222,7 +222,7 @@ namespace MySch.Controllers.Wei
 
         public void Code(string gd)
         {
-            var db = DataQuery<TStudReg>.Entity(a => a.GD == gd);
+            var db = DataCRUD<TStudReg>.Entity(a => a.ID == gd);
             if (db == null) Response.End();
 
             QrCodeEncodingOptions options = new QrCodeEncodingOptions
@@ -236,7 +236,7 @@ namespace MySch.Controllers.Wei
             xing.Format = BarcodeFormat.QR_CODE;
             xing.Options = options;
 
-            Bitmap bitmap = xing.Write(db.ID);
+            Bitmap bitmap = xing.Write(db.IDS);
 
             Response.ContentType = "image/jpeg";
             bitmap.Save(Response.OutputStream, ImageFormat.Jpeg);

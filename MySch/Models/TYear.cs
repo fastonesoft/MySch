@@ -3,12 +3,10 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class TKeyClass
+    public partial class TYear
     {
         public string ID { get; set; }
-        public string GD { get; set; }
-        public string Name { get; set; }
+        public int IDS { get; set; }
         public bool Fixed { get; set; }
-        public string Parent { get; set; }
     }
 }

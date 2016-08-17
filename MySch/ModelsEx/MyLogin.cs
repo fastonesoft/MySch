@@ -1,5 +1,4 @@
-﻿using MySch.Dal;
-using MySch.Models;
+﻿using MySch.Bll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +15,23 @@ namespace MySch.ModelsEx
         /// <param name="req"></param>
         /// <param name="acc"></param>
         /// <param name="message"></param>
-        public static void SaveLog(HttpSessionStateBase session, HttpRequestBase req, TAcc acc, string message)
+        public static void SaveLog(HttpSessionStateBase session, HttpRequestBase req, BllAcc acc, string message)
         {
             LoginModel mo = new LoginModel(req.UserHostAddress, req.UserHostName, req.Browser.Browser, acc);
             session[MySetting.SESSION_LOGIN] = mo;
 
             //记录成功登录时间
-            var d = new TLogin
+            var d = new BllLogin
             {
+                ID = Guid.NewGuid().ToString("N"),
                 Brower = req.Browser.Browser,
                 IP = req.UserHostAddress,
                 loginTime = DateTime.Now,
-                Name = acc.ID,
+                Name = acc.IDS,
                 Pwd = acc.Pwd,
                 loginMsg = message
             };
-            DataADU<TLogin>.Add(d);
+            d.ToAdd();
         }
 
         /// <summary>
@@ -40,18 +40,20 @@ namespace MySch.ModelsEx
         /// <param name="req"></param>
         /// <param name="acc"></param>
         /// <param name="message"></param>
-        public static void AddLog(HttpRequestBase req, TAcc acc, string message)
+        public static void AddLog(HttpRequestBase req, BllAcc acc, string message)
         {
-            var db = new TLogin
+            var db = new BllLogin
             {
+                ID = Guid.NewGuid().ToString("N"),
                 Brower = req.Browser.Browser,
                 IP = req.UserHostAddress,
                 loginTime = DateTime.Now,
-                Name = acc.ID,
+                Name = acc.IDS,
                 Pwd = acc.Pwd,
                 loginMsg = message
             };
-            DataADU<TLogin>.Add(db);
+
+            db.ToAdd();
         }
 
         /// <summary>
@@ -80,12 +82,12 @@ namespace MySch.ModelsEx
         /// <param name="req"></param>
         /// <param name="acc"></param>
         /// <returns></returns>
-        public static bool FixedOfIP(HttpRequestBase req, TAcc acc)
+        public static bool FixedOfIP(HttpRequestBase req, BllAcc acc)
         {
             //同IP登录错误不得超过10次
             //五分钟超过10次，封停
             var logintime = DateTime.Now.AddMinutes(-5);
-            var ips = DataQuery<TLogin>.Expression(a => a.loginTime > logintime && a.IP == req.UserHostAddress);
+            var ips = BllLogin.GetEntitys<List<BllLogin>>(a => a.loginTime > logintime && a.IP == req.UserHostAddress);
 
             return ips.Count() >= 5;
         }

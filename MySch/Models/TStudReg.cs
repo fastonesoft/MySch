@@ -5,8 +5,8 @@ namespace MySch.Models
 {
     public partial class TStudReg
     {
+        public string IDS { get; set; }
         public string ID { get; set; }
-        public string GD { get; set; }
         public string Name { get; set; }
         public string fromSch { get; set; }
         public string fromGrade { get; set; }

@@ -126,23 +126,35 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Bll\ApiBll.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\ApiEasyUI.cs" />
+    <Compile Include="Bll\ApiJson.cs" />
+    <Compile Include="Bll\Bll.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\BllAcc.cs" />
+    <Compile Include="Bll\BllLogin.cs" />
+    <Compile Include="Bll\BllYear.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminCodeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\Admin\AdminController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
+    <Compile Include="Controllers\Admin\AdminYearController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\User\StudRegController.cs" />
-    <Compile Include="Controllers\RoleAController.cs" />
+    <Compile Include="Controllers\Stud\StudRegController.cs" />
+    <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Controllers\Wei\WeiController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
-    <Compile Include="Dal\DataADU.cs" />
-    <Compile Include="Dal\DataQuery.cs" />
-    <Compile Include="Dal\DataTake.cs" />
+    <Compile Include="Dal\DataCRUD.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -163,28 +175,18 @@
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
-    <Compile Include="Models\Mapping\TColumnMap.cs" />
-    <Compile Include="Models\Mapping\TFileInforMap.cs" />
-    <Compile Include="Models\Mapping\ThemeMap.cs" />
-    <Compile Include="Models\Mapping\TKeyClassMap.cs" />
-    <Compile Include="Models\Mapping\TKeyMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
-    <Compile Include="Models\Mapping\TPageMap.cs" />
     <Compile Include="Models\Mapping\TPrintMap.cs" />
     <Compile Include="Models\Mapping\TStudRegMap.cs" />
+    <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\TAcc.cs" />
-    <Compile Include="Models\TColumn.cs" />
-    <Compile Include="Models\TFileInfor.cs" />
-    <Compile Include="Models\Theme.cs" />
-    <Compile Include="Models\TKey.cs" />
-    <Compile Include="Models\TKeyClass.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
-    <Compile Include="Models\TPage.cs" />
     <Compile Include="Models\TPrint.cs" />
     <Compile Include="Models\TStudReg.cs" />
+    <Compile Include="Models\TYear.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -435,18 +437,16 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\easyui-lang-zh_CN.js" />
-    <None Include="Scripts\jquery-3.1.0.intellisense.js" />
-    <Content Include="Scripts\jquery-3.1.0.js" />
-    <Content Include="Scripts\jquery-3.1.0.min.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.0.min.map" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery.easyui.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\my.easyui.js" />
     <Content Include="Scripts\my.valid.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -467,14 +467,13 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Account\camflash.cshtml" />
     <Content Include="camhtml5.htm" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
     <Content Include="Views\Account\Wrong1.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Account\Main.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\AdminUser\Index.cshtml" />
     <Content Include="Views\AdminUser\AddUser.cshtml" />
     <Content Include="Views\AdminUser\DelUser.cshtml" />
     <Content Include="Views\AdminUser\EditUser.cshtml" />
@@ -483,6 +482,8 @@
     <Content Include="Views\StudReg\Edit.cshtml" />
     <Content Include="Views\StudReg\Reg.cshtml" />
     <Content Include="Views\StudReg\Print.cshtml" />
+    <Content Include="Views\AdminYear\Index.cshtml" />
+    <Content Include="Views\AdminCode\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Wei\" />

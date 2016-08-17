@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    //AdminUser
 }
 
 <!DOCTYPE html>
@@ -15,50 +16,13 @@
             //点击动作
             users = {
                 add: function () {
-                    //禁用
-                    $('.easyui-linkbutton[iconcls="icon-add"]').linkbutton('disable');
-                    //打开窗口
-                    $.post('/AdminUser/AddUser', function (d) {
-                        if (d.error) {
-                            $.messager.alert('错误提示', d.message, 'error');
-                        } else {
-                            $('<div id="dialog-form">').appendTo('#body').html(d);
-                        }
-                    });
+                    DataGridNone('AdminUser', 'AddUser');
                 },
                 edit: function () {
-                    var row = $('#users-grid').datagrid('getSelected');
-                    if (!row) {
-                        $.messager.alert('错误提示', '未选定修改的帐号！', 'error');
-                        return false;
-                    }
-                    //禁用
-                    $('.easyui-linkbutton[iconcls="icon-edit"]').linkbutton('disable');
-                    //打开窗口
-                    $.post('/AdminUser/EditUser', { id: row.ID }, function (d) {
-                        if (d.error) {
-                            $.messager.alert('错误提示', d.message, 'error');
-                        } else {
-                            $('<div id="dialog-form">').appendTo('#body').html(d);
-                        }
-                    });
+                    DataGridRow('#users-grid', 'AdminUser', 'EditUser');
                 },
                 del: function () {
-                    var row = $('#users-grid').datagrid('getSelected');
-                    if (!row) {
-                        $.messager.alert('错误提示', '未选定删除的帐号！', 'error');
-                        return false;
-                    }
-                    //禁用
-                    $('.easyui-linkbutton[iconcls="icon-no"]').linkbutton('disable');
-                    //打开窗口
-                    $.post('/AdminUser/DelUser', { id: row.ID }, function (d) {
-                        if (d.error) {
-                            $.messager.alert('错误提示', d.message, 'error');
-                        } else {
-                            $('<div id="dialog-form">').appendTo('#body').html(d);
-                        }
-                    });
+                    DataGridRow('#users-grid', 'AdminUser', 'DelUser');
                 },
                 search: function () {
                     var text = $.trim($('#users-grid-text').val());
@@ -90,39 +54,27 @@
                 singleSelect: true,
                 checkOnSelect: true,
                 url: '/Admin/UsersPage',
-                loadMsg: '数据加载中，请稍候……',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
 
                 columns: [[
+                    { title: '帐号', field: 'IDS', align: 'center', sortable: true, width: 150 },
+                    { title: '名称', field: 'Name', align: 'center', sortable: true, width: 100 },
                     {
-                        title: '帐号',
-                        field: 'ID',
-                        align: 'center',
-                        sortable: true,
-                        width: 120
-                    },
-                    {
-                        title: '名称',
-                        field: 'Name',
-                        align: 'center',
-                        sortable: true,
-                        width: 100
-                    },
-                    {
-                        title: '注册时间',
-                        field: 'RegTime',
-                        align: 'center',
-                        sortable: true,
-                        width: 150,
+                        title: '注册时间', field: 'RegTime', align: 'center', sortable: true, width: 150,
                         formatter: function (value, row, index) {
                             //日期整形
                             return formatDate(value);
                         }
                     },
                     {
-                        title: '是否可用',
-                        field: 'Fixed',
-                        halign: 'center',
-                        width: 80,
+                        title: '是否可用', field: 'Fixed', halign: 'center', width: 80,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                             //return value.ok ? null : value.message;

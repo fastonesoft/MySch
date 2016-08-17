@@ -1,4 +1,4 @@
-﻿using MySch.Models;
+﻿using MySch.Bll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +22,14 @@ namespace MySch.ModelsEx
     public class LoginModel
     {
         public string ID { get; set; }
-        public string GD { get; set; }
+        public string IDS { get; set; }
         public string Name { get; set; }
         public string Parent { get; set; }
         public BrowserModel Browser { get; set; }
-        public LoginModel(string ip, string dns, string browser, TAcc acc)
+        public LoginModel(string ip, string dns, string browser, BllAcc acc)
         {
             ID = acc.ID;
-            GD = acc.GD;
+            IDS = acc.IDS;
             Name = acc.Name;
             Parent = acc.Parent;
             Browser = new BrowserModel(ip, dns, browser);

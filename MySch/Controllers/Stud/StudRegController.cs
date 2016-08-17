@@ -1,4 +1,5 @@
-﻿using MySch.Dal;
+﻿using MySch.Bll;
+using MySch.Dal;
 using MySch.Models;
 using MySch.ModelsEx;
 using System;
@@ -40,7 +41,7 @@ namespace MySch.Controllers.User
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
 
                 //身份证号检测
-                MySetting.IDS(que.ID);
+                MySetting.IDS(que.IDS);
 
                 //一、做Get请求网页
                 CookieCollection cookies = null;
@@ -81,7 +82,7 @@ namespace MySch.Controllers.User
                 Random rnd = new Random();
                 Dictionary<string, string> dicts = new Dictionary<string, string>();
                 dicts.Add("name", que.Name);
-                dicts.Add("cid", que.ID);
+                dicts.Add("cid", que.IDS);
                 dicts.Add("randomCode", valid);
                 dicts.Add("v", rnd.NextDouble().ToString());
                 string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
@@ -97,19 +98,19 @@ namespace MySch.Controllers.User
 
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
-                var db = DataQuery<TStudReg>.Entity(a => a.ID == id);
+                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == id);
                 if (db != null) return Json(new ErrorModel { error = true, message = "该身份证号学籍已注册" });
 
                 //根据返回数据 -> 创建学生报名记录
                 TStudReg stud = new TStudReg();
                 stud.fromSch = matchs[0].Groups[1].ToString();
                 stud.Name = matchs[1].Groups[1].ToString();
-                stud.ID = id;
+                stud.IDS = id;
                 stud.fromGrade = matchs[3].Groups[1].ToString();
                 stud.nationID = matchs[4].Groups[1].ToString();
                 stud.readState = matchs[5].Groups[1].ToString();
                 stud.isProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
-                stud.GD = Guid.NewGuid().ToString("N");
+                stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.schChoose = false;
                 stud.studNo = null;
@@ -118,10 +119,10 @@ namespace MySch.Controllers.User
                 stud.Reged = false;
 
                 //添加
-                DataADU<TStudReg>.Add(stud);
+                DataCRUD<TStudReg>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(stud);
+                return Json(EasyUI<TStudReg>.DataGrid(stud));
             }
             catch (Exception e)
             {
@@ -138,7 +139,7 @@ namespace MySch.Controllers.User
                 //身份证检测
                 MySetting.IDS(id);
 
-                var db = DataQuery<TStudReg>.Expression(a => a.ID == id);
+                var db = DataCRUD<TStudReg>.Expression(a => a.IDS == id);
 
                 //返回：easyui datagrid数据格式
                 var res = db == null ? null : new { total = db.Count(), rows = db };
@@ -154,7 +155,7 @@ namespace MySch.Controllers.User
         [HttpPost]
         public ActionResult Edit(string id)
         {
-            var db = DataQuery<TStudReg>.Entity(a => a.GD == id);
+            var db = DataCRUD<TStudReg>.Entity(a => a.ID == id);
 
             if (db == null)
             {
@@ -165,7 +166,7 @@ namespace MySch.Controllers.User
                 //已经编号，无需重编
                 if (db.studNo != null) return Json(new ErrorModel { error = true, message = "已经编号，无需重编" });
                 //
-                var res = new StudEditValid { GD = db.GD, Name = db.Name, studNo = db.studNo, Memo = db.Memo, schChoose = db.schChoose };
+                var res = new StudEditValid { ID = db.ID, Name = db.Name, studNo = db.studNo, Memo = db.Memo, schChoose = db.schChoose };
                 return View(res);
             }
         }
@@ -181,22 +182,22 @@ namespace MySch.Controllers.User
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
 
                 //检测编号
-                var db = DataQuery<TStudReg>.Entity(a => a.studNo == stud.studNo);
+                var db = DataCRUD<TStudReg>.Entity(a => a.studNo == stud.studNo);
                 if (db != null)
                 {
                     //不是同一条记录，提示重复
-                    if (db.GD != stud.GD) return Json(new ErrorModel { error = true, message = "编号不得重复设置！" });
+                    if (db.ID != stud.ID) return Json(new ErrorModel { error = true, message = "编号不得重复设置！" });
                 }
 
                 //查询
-                TStudReg reg = DataQuery<TStudReg>.Entity(a => a.GD == stud.GD);
+                TStudReg reg = DataCRUD<TStudReg>.Entity(a => a.ID == stud.ID);
                 if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
                 //修改
                 reg.studNo = stud.studNo;
                 reg.Memo = stud.Memo;
                 reg.schChoose = stud.schChoose;
                 //提交
-                DataADU<TStudReg>.Update(reg);
+                DataCRUD<TStudReg>.Update(reg);
                 //返回
                 return Json(reg);
             }
@@ -210,7 +211,7 @@ namespace MySch.Controllers.User
         [HttpPost]
         public ActionResult Reg(string id)
         {
-            var db = DataQuery<TStudReg>.Entity(a => a.GD == id);
+            var db = DataCRUD<TStudReg>.Entity(a => a.ID == id);
 
             if (db == null)
             {
@@ -218,7 +219,7 @@ namespace MySch.Controllers.User
             }
             else
             {
-                var res = new StudRegValid { GD = db.GD, Name = db.Name, Mobil1 = db.Mobil1, Mobil2 = db.Mobil2, Name1 = db.Name1, Name2 = db.Name2, Home = db.Home, Permanent = db.Permanent };
+                var res = new StudRegValid { ID = db.ID, Name = db.Name, Mobil1 = db.Mobil1, Mobil2 = db.Mobil2, Name1 = db.Name1, Name2 = db.Name2, Home = db.Home, Permanent = db.Permanent };
                 return View(res);
             }
         }
@@ -234,7 +235,7 @@ namespace MySch.Controllers.User
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
 
                 //查询
-                TStudReg reg = DataQuery<TStudReg>.Entity(a => a.GD == stud.GD);
+                TStudReg reg = DataCRUD<TStudReg>.Entity(a => a.ID == stud.ID);
                 if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
                 //修改
                 reg.Mobil1 = stud.Mobil1;
@@ -246,7 +247,7 @@ namespace MySch.Controllers.User
                 //注册
                 reg.Reged = true;
                 //提交
-                DataADU<TStudReg>.Update(reg);
+                DataCRUD<TStudReg>.Update(reg);
                 //返回
                 return Json(reg);
             }
@@ -270,9 +271,9 @@ namespace MySch.Controllers.User
                 string all = match.Groups[2].ToString();
                 string right = match.Groups[3].ToString();
 
-                var db = left.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.StartsWith(left)).OrderBy(a => a.studNo) :
-                    right.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.EndsWith(right)).OrderBy(a => a.studNo) :
-                    all.Length > 0 ? DataQuery<TStudReg>.Expression(a => a.studNo.Contains(all)).OrderBy(a => a.studNo) : null;
+                var db = left.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.studNo.StartsWith(left)).OrderBy(a => a.studNo) :
+                    right.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.studNo.EndsWith(right)).OrderBy(a => a.studNo) :
+                    all.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.studNo.Contains(all)).OrderBy(a => a.studNo) : null;
 
                 //返回：easyui datagrid数据格式
                 var res = db == null ? null : new { total = db.Count(), rows = db };
@@ -301,21 +302,21 @@ namespace MySch.Controllers.User
                 if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
 
                 //身份证号检测
-                MySetting.IDS(manu.ID);
+                MySetting.IDS(manu.IDS);
 
                 //检测身份证是否重复
-                var db = DataQuery<TStudReg>.Entity(a => a.ID == manu.ID);
+                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == manu.IDS);
                 if (db != null) return Json(new ErrorModel { error = true, message = "身份证号已注册" });
 
                 TStudReg stud = new TStudReg();
                 stud.fromSch = manu.fromSch;
                 stud.Name = manu.Name;
-                stud.ID = manu.ID;
+                stud.IDS = manu.IDS;
                 stud.fromGrade = manu.fromGrade;
                 stud.nationID = null;
                 stud.readState = "手动";
                 stud.isProblem = true;
-                stud.GD = Guid.NewGuid().ToString("N");
+                stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.schChoose = false;
                 stud.studNo = null;
@@ -324,10 +325,10 @@ namespace MySch.Controllers.User
                 stud.Reged = false;
 
                 //添加
-                DataADU<TStudReg>.Add(stud);
+                DataCRUD<TStudReg>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(stud);
+                return Json(EasyUI<TStudReg>.DataGrid(stud));
             }
             catch (Exception e)
             {
@@ -338,9 +339,9 @@ namespace MySch.Controllers.User
         [HttpPost]
         public ActionResult Print(IEnumerable<TStudReg> rows)
         {
-            ViewBag.StudNo = DataQuery<TPrint>.Entity(a => a.Name == "No");
-            ViewBag.StudName = DataQuery<TPrint>.Entity(a => a.Name == "Name");
-            ViewBag.School = DataQuery<TPrint>.Entity(a => a.Name == "School");
+            ViewBag.StudNo = DataCRUD<TPrint>.Entity(a => a.Name == "No");
+            ViewBag.StudName = DataCRUD<TPrint>.Entity(a => a.Name == "Name");
+            ViewBag.School = DataCRUD<TPrint>.Entity(a => a.Name == "School");
 
             return View(rows);
         }
@@ -352,7 +353,7 @@ namespace MySch.Controllers.User
             {
                 foreach (var d in pos)
                 {
-                    DataADU<TPrint>.Update(d);
+                    DataCRUD<TPrint>.Update(d);
                 }
                 return Json(new ErrorModel { error = false, message = "打印位置已修改，关闭窗口重来！" });
             }

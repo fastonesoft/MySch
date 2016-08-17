@@ -1,4 +1,4 @@
-﻿@model MySch.Models.TAcc
+﻿@model MySch.Bll.BllAcc
 
 @{
     Layout = null;
@@ -78,11 +78,11 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.ID)：</div>
+            <div>@Html.LabelFor(a => a.IDS)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.ID, new { @class = "textbox-text", @readonly = "readonly" })
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
-            @Html.ValidationMessageFor(a => a.ID)
+            @Html.ValidationMessageFor(a => a.IDS)
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
@@ -102,5 +102,5 @@
             <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
         </div>
     </div>
-    @Html.HiddenFor(a => a.GD)
+    @Html.HiddenFor(a => a.ID)
 }

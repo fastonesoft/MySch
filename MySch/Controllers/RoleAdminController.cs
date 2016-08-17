@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers
 {
-    public abstract class RoleAController :BaseController
+    public abstract class RoleAdminController :BaseController
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -28,7 +28,7 @@ namespace MySch.Controllers
 
                 return;
             };
-            if (MyLogin.GetLogin(Session).ID != "admin")
+            if (MyLogin.GetLogin(Session).IDS != "admin")
             {
                 filterContext.Result = Json(new ErrorModel
                 {

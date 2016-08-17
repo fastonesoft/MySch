@@ -11,11 +11,11 @@ namespace MySch.Models.Mapping
             this.HasKey(t => t.ID);
 
             // Properties
-            this.Property(t => t.ID)
+            this.Property(t => t.IDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.GD)
+            this.Property(t => t.ID)
                 .IsRequired()
                 .HasMaxLength(32);
 
@@ -64,8 +64,8 @@ namespace MySch.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("TStudReg");
+            this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.GD).HasColumnName("GD");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.fromSch).HasColumnName("fromSch");
             this.Property(t => t.fromGrade).HasColumnName("fromGrade");

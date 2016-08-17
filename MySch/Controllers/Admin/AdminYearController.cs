@@ -4,11 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.User
+namespace MySch.Controllers.Admin
 {
-    public class UserController : RoleController
+    public class AdminYearController : RoleController
     {
-        // GET: User
         public ActionResult Index()
         {
             return View();

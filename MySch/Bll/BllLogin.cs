@@ -1,9 +1,12 @@
+﻿using MySch.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace MySch.Models
+namespace MySch.Bll
 {
-    public partial class TLogin
+    public class BllLogin : Bll<TLogin>
     {
         public string ID { get; set; }
         public int IDS { get; set; }

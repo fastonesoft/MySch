@@ -29,34 +29,6 @@ go
 
 use MySch
 
---键值分类
-create table TKeyClass
-(
-	ID	nvarchar(32) not null,
-	GD	nvarchar(32) not null,
-	Name	nvarchar(32) not null,
-	Fixed	bit not null,
-	Parent	nvarchar(32),
-)
-alter table TKeyClass add constraint PK_TKeyClass primary key clustered (ID)
-create index UN_TKeyClass_Parent on TKeyClass (Parent)
-go
---键值分类可以无限自我扩展
-
---键值对
-create table TKey
-(
-	ID	nvarchar(32) not null,	--Value
-	GD	nvarchar(32) not null,	--Valid
-	Name	nvarchar(32) not null,	--Key
-	Fixed	bit not null,	
-	KeyClassID	nvarchar(32) not null,
-)
-go
-alter table TKey add constraint PK_TKey primary key clustered (ID)
-create index UN_TKey_Name on TKey (Name)
-go
-
 
 --用户表
 if exists
@@ -69,8 +41,8 @@ go
 create table TAcc
 (
 	--注册资料
-	ID	nvarchar(32) not null,	--帐号代码x321284xxx
-	GD	nvarchar(32) not null,
+	ID	nvarchar(32) not null,	
+	IDS	nvarchar(32) not null,	--帐号代码x321284xxx
 	Name	nvarchar(32) not null,	--帐号全称、姓名
 	Pwd	nvarchar(32) not null,
 	RegTime	datetime not null default getdate(),
@@ -79,11 +51,68 @@ create table TAcc
 )
 go
 alter table TAcc add constraint PK_TAcc primary key clustered (ID)
-create unique nonclustered index UN_TAcc_GD on TAcc (GD)
+create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
 create unique nonclustered index UN_TAcc_Name on TAcc (Name)
 --插入管理员
-insert TAcc values ('admin','51e66f66919ee73bc252590bdf3b339c', '系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
+insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
 go
+
+--微日志
+create table TLog
+(
+	GD	nvarchar(32) not null,
+	Value	nvarchar(2000) not null,
+	CreateTime	datetime not null default getdate(), 
+)
+go
+alter table TLog add constraint PK_TLog primary key clustered (GD)
+
+
+--新生报名
+create table TStudReg
+(
+	ID	nvarchar(32) not null,	--唯一编号
+	IDS	nvarchar(20) not null,	--身份证号
+	Name	nvarchar(20) not null,	--姓名
+	FromSch	nvarchar(20),	--学校
+	FromGrade	nvarchar(10),	--年级
+	NationID	nvarchar(20),	--全国学籍号
+	ReadState	nvarchar(20),	--就读状态
+	IsProblem	bit not null,	--是否问题学籍
+	--以上：自动注册时填充
+	StudNo	nvarchar(32),	--学籍号-考试编号
+	SchChoose	bit not null,	--是否择校
+	Memo	nvarchar(50),	--备注
+	--以上：归档时填充
+	Mobil1	nvarchar(20),	--联系电话一
+	Mobil2	nvarchar(20),	--联系电话二
+	Name1	nvarchar(20),	--第一监护人
+	Name2	nvarchar(20),	--第二监护人
+	Home	nvarchar(50),	--家庭地址
+	Permanent	nvarchar(50),	--户籍地址
+	Reged	bit not null,	--是否注册
+	OpenID	nvarchar(32),	--用户ID	
+)
+alter table TStudReg add constraint PK_TStudReg primary key clustered (ID)
+create unique nonclustered index UN_TStudReg_IDS on TStudReg (IDS)
+create index IN_TStudReg_Name on TStudReg (Name)
+create index IN_TStudReg_StudNo on TStudReg (StudNo)
+go
+
+create table TPrint
+(
+	Name	nvarchar(20) not null,	--
+	X	nvarchar(10) not null,
+	Y	nvarchar(10) not null,
+)
+go
+alter table TPrint add constraint PK_TPrint primary key clustered (Name)
+
+insert TPrint values ('No', '1190px', '90px')
+insert TPrint values ('Name', '850px', '200px')
+insert TPrint values ('School', '940px', '270px')
+go
+
 
 --样式表
 create table Theme
@@ -121,51 +150,6 @@ create table TColumn
 go
 
 
---新生报名
-create table TStudReg
-(
-	ID	nvarchar(20) not null,	--身份证号
-	GD	nvarchar(32) not null,	--唯一编号
-	Name	nvarchar(20) not null,	--姓名
-	FromSch	nvarchar(20),	--学校
-	FromGrade	nvarchar(10),	--年级
-	NationID	nvarchar(20),	--全国学籍号
-	ReadState	nvarchar(20),	--就读状态
-	IsProblem	bit not null,	--是否问题学籍
-	--以上：自动注册时填充
-	StudNo	nvarchar(32),	--学籍号-考试编号
-	SchChoose	bit not null,	--是否择校
-	Memo	nvarchar(50),	--备注
-	--以上：归档时填充
-	Mobil1	nvarchar(20),	--联系电话一
-	Mobil2	nvarchar(20),	--联系电话二
-	Name1	nvarchar(20),	--第一监护人
-	Name2	nvarchar(20),	--第二监护人
-	Home	nvarchar(50),	--家庭地址
-	Permanent	nvarchar(50),	--户籍地址
-	Reged	bit not null,	--是否注册
-	OpenID	nvarchar(32),	--用户ID	
-)
-alter table TStudReg add constraint PK_TStudReg primary key clustered (ID)
-create unique nonclustered index UN_TStudReg_GD on TStudReg (GD)
-create index IN_TStudReg_Name on TStudReg (Name)
-create index IN_TStudReg_StudNo on TStudReg (StudNo)
-go
-
-create table TPrint
-(
-	Name	nvarchar(20) not null,	--
-	X	nvarchar(10) not null,
-	Y	nvarchar(10) not null,
-)
-go
-alter table TPrint add constraint PK_TPrint primary key clustered (Name)
-
-insert TPrint values ('No', '1190px', '90px')
-insert TPrint values ('Name', '850px', '200px')
-insert TPrint values ('School', '940px', '270px')
-go
-
 --文件记录
 create table TFileInfor
 (
@@ -182,7 +166,8 @@ go
 --登录日志
 create table TLogin
 (
-	ID	bigint identity(1,1) not null,
+	ID	nvarchar(32) not null,
+	IDS	int identity(1,1) not null,
 	Brower	nvarchar(36) not null,
 	IP	nvarchar(36) not null,
 	loginTime	datetime not null,	--登录时间
@@ -192,36 +177,177 @@ create table TLogin
 )
 go
 alter table TLogin add constraint PK_TLogin primary key clustered (ID)
+create unique nonclustered index UN_TLogin_IDS on TLogin (IDS)
 
 
-create table TLog
+
+
+--级设置
+create table TYear
 (
-	GD	nvarchar(32) not null,
-	Value	nvarchar(2000) not null,
-	CreateTime	datetime not null default getdate(), 
+	ID	nvarchar(32) not null,
+	IDS	int not null,	--级
+	Fixed	bit not null
 )
 go
-alter table TLog add constraint PK_TLog primary key clustered (GD)
+alter table TYear add constraint PK_TYear primary key clustered (ID)
+create unique nonclustered index UN_TYear_IDS on TYear (IDS)
+
+insert TYear values (REPLACE(NEWID(), '-',''), 2004, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2005, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2006, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2007, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2008, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2009, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2010, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2011, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2012, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2013, 1)
+insert TYear values (REPLACE(NEWID(), '-',''), 2014, 0)
+insert TYear values (REPLACE(NEWID(), '-',''), 2015, 0)
+insert TYear values (REPLACE(NEWID(), '-',''), 2016, 0)
+
+delete from Tstudreg where ID = '321284200508150254'
 
 
-create table TMission
+--学校
+create table TSchool
 (
-	ID	nvarchar(20) not null,	--任务编号
+	ID	nvarchar(20) not null,	--32128441402
 	GD	nvarchar(32) not null,
-	Name	nvarchar(32) not null,	--任务名称
-	Regux
+	Name	nvarchar(32) not null,	--学校名称
+	Fixed	bit not null	--是否撤销
+)
+go
+alter table TSchool add constraint PK_TSchool primary key clustered (ID)
+create unique nonclustered index UN_TSchool_GD on TSchool (GD)
+create index IN_TSchool_Name on TSchool (Name)
+
+
+
+--年级设置
+create table TGradeSet
+(
+	ID	int not null,
+	GD	nvarchar(32) not null,
+	Name	nvarchar(20) not null,
+	Fixed	bit not null	--是否使用
 )
 go
 
-create table TMissionClass
+insert TGradeSet values (1, REPLACE(NEWID(), '-',''), '一年级', 1)
+insert TGradeSet values (2, REPLACE(NEWID(), '-',''), '二年级', 1)
+insert TGradeSet values (3, REPLACE(NEWID(), '-',''), '三年级', 1)
+insert TGradeSet values (4, REPLACE(NEWID(), '-',''), '四年级', 1)
+insert TGradeSet values (5, REPLACE(NEWID(), '-',''), '五年级', 1)
+insert TGradeSet values (6, REPLACE(NEWID(), '-',''), '六年级', 1)
+insert TGradeSet values (7, REPLACE(NEWID(), '-',''), '七年级', 0)
+insert TGradeSet values (8, REPLACE(NEWID(), '-',''), '八年级', 0)
+insert TGradeSet values (9, REPLACE(NEWID(), '-',''), '九年级', 0)
+go
+alter table TGradeSet add constraint PK_TGradeSet primary key clustered (ID)
+create unique nonclustered index UN_TGradeSet_GD on TGradeSet (GD)
+
+
+
+--年级
+create table TGrade
 (
-	ID	nvarchar(10) not null,
+	ID	nvarchar(20) not null,	--g200402
 	GD	nvarchar(32) not null,
-	Name	nvarchar(32) not null,	--任务分类名称
+	Name	nvarchar(20) not null,	--
+	YearID	int not null,
+	SchoolID	nvarchar(20) not null		
 )
 go
---比如：
---新生报名
---学籍注册
+alter table TGrade add constraint PK_TGrade primary key clustered (ID)
+create unique nonclustered index UN_TGrade_GD on TGrade (GD)
+create index IN_TGrade_Name on TGrade (Name)
 
+
+
+--用户班级：班主任设置
+create table TClassMaster
+(
+	ID	nvarchar(20) not null,	--班级编号：20150701
+	GD	nvarchar(32) not null,	--编码
+	StepID	int not null,	--级
+	GradeID	int not null,	--年级
+	AccID	nvarchar(20)
+)
+go
+
+
+--条码生成
+create table TCode
+(
+	ID	nvarchar(32) not null
+)
+go
+alter table TCode add constraint PK_TCode primary key clustered (ID)
+
+
+
+--以上先做
+--用户学科：课任老师
+
+
+
+
+
+--分班测试
+create table TClassNew
+(
+	GD	nvarchar(32) not null,
+	ID	nvarchar(20) not null,
+	OClassID	nvarchar(20) not null,
+	NClassID	nvarchar(20) not null,
+	SameGroup	nvarchar(32),
+	Needed	bit,
+	Score1	float,
+	Score2	float,
+	Score3	float,
+	Score4	float,
+	Total	float,
+)
+go
+
+--教室设置
+create table TRoom
+(
+	ID	nvarchar(10) not null,	--教室编号：101、201、205
+	GD	nvarchar(32) not null,
+	Num	int
+)
+go
+
+
+
+--键值分类
+create table TKeyClass
+(
+	ID	nvarchar(32) not null,
+	GD	nvarchar(32) not null,
+	Name	nvarchar(32) not null,
+	Fixed	bit not null,
+	Parent	nvarchar(32),
+)
+alter table TKeyClass add constraint PK_TKeyClass primary key clustered (ID)
+create index UN_TKeyClass_Parent on TKeyClass (Parent)
+go
+--键值分类可以无限自我扩展
+
+--键值对
+create table TKey
+(
+	ID	nvarchar(32) not null,	--Value
+	GD	nvarchar(32) not null,	--Valid
+	Name	nvarchar(32) not null,	--Key
+	Fixed	bit not null,	
+	KeyClassID	nvarchar(32) not null,
+)
+go
+alter table TKey add constraint PK_TKey primary key clustered (ID)
+create index UN_TKey_Name on TKey (Name)
+go
 

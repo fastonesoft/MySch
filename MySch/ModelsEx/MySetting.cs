@@ -95,9 +95,9 @@ namespace MySch.ModelsEx
         // IDS
         public static bool IDS(string ids)
         {
-            if(ids.Length != 18) 
+            if (ids.Length != 18)
             {
-                throw new Exception("身份证号：长度不满18位!");
+                throw new Exception("身份证号：长度不满18位！");
             }
 
             long n = 0;
@@ -142,6 +142,12 @@ namespace MySch.ModelsEx
         {
             var javas = new JavaScriptSerializer();
             return javas.Deserialize<T>(jsons);
+        }
+
+        public static string ToJsons(object obj)
+        {
+            var javas = new JavaScriptSerializer();
+            return javas.Serialize(obj);
         }
 
         //时间戳

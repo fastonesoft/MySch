@@ -50,16 +50,6 @@ easyobj = {
                     });
                 }
             })
-            .error(function () {
-                $.messager.alert('错误提示', '请求页面不存在，请重试', 'error');
-            })
-            .complete(function () {
-                $.messager.show({
-                    title: '操作提示',
-                    msg: url + ' 请求完成！',
-                    timeout: 2000,
-                });
-            })
         }
     }
 }
@@ -97,7 +87,7 @@ function formatDate(value, format) {
     return (new Date(parseInt(value.substring(value.indexOf('(') + 1, value.indexOf(')'))))).format(format);
 }
 
-//防止unobtrusive里面变误删除
+//防止unobtrusive里面变误删除（在这里没有用，拷贝过去才行）
 function onError(error, inputElement) {  // 'this' is the form element
     var container = $(this).find("[data-valmsg-for='" + escapeAttributeValue(inputElement[0].name) + "']"),
         replaceAttrValue = container.attr("data-valmsg-replace"),

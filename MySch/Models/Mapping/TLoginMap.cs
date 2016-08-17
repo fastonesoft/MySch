@@ -11,6 +11,13 @@ namespace MySch.Models.Mapping
             this.HasKey(t => t.ID);
 
             // Properties
+            this.Property(t => t.ID)
+                .IsRequired()
+                .HasMaxLength(32);
+
+            this.Property(t => t.IDS)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
             this.Property(t => t.Brower)
                 .IsRequired()
                 .HasMaxLength(36);
@@ -34,6 +41,7 @@ namespace MySch.Models.Mapping
             // Table & Column Mappings
             this.ToTable("TLogin");
             this.Property(t => t.ID).HasColumnName("ID");
+            this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Brower).HasColumnName("Brower");
             this.Property(t => t.IP).HasColumnName("IP");
             this.Property(t => t.loginTime).HasColumnName("loginTime");

@@ -116,18 +116,18 @@ namespace MySch.ModelsEx
                 if (matchs.Count == 0) throw new Exception("无学籍记录！检查身份证与姓名是否正确");
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
-                var db = DataQuery<TStudReg>.Entity(a => a.ID == id);
+                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == id);
                 if (db != null) throw new Exception("该身份证号学籍已注册");
                 //根据返回数据 -> 创建学生报名记录
                 TStudReg stud = new TStudReg();
                 stud.fromSch = matchs[0].Groups[1].ToString();
                 stud.Name = matchs[1].Groups[1].ToString();
-                stud.ID = id;
+                stud.IDS = id;
                 stud.fromGrade = matchs[3].Groups[1].ToString();
                 stud.nationID = matchs[4].Groups[1].ToString();
                 stud.readState = matchs[5].Groups[1].ToString();
                 stud.isProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
-                stud.GD = Guid.NewGuid().ToString("N");
+                stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.schChoose = false;
                 stud.studNo = null;
@@ -138,9 +138,9 @@ namespace MySch.ModelsEx
                 stud.OpenID = openID;
 
                 //添加
-                DataADU<TStudReg>.Add(stud);
+                DataCRUD<TStudReg>.Add(stud);
                 //返回
-                return stud.GD;
+                return stud.ID;
             }
             catch (Exception e)
             {
@@ -161,14 +161,14 @@ namespace MySch.ModelsEx
                 //检测身份证号是否有效
                 MySetting.IDS(ID);
 
-                var db = DataQuery<TStudReg>.Entity(a => a.ID == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
+                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
                 if (db == null) throw new Exception("学生姓名与身份证号不匹配，或者已经完成登记");
 
                 //找到对应学生，绑定
                 db.OpenID = openID;
 
                 //提交更新
-                DataADU<TStudReg>.Update(db);
+                DataCRUD<TStudReg>.Update(db);
             }
             catch (Exception e)
             {
@@ -186,13 +186,13 @@ namespace MySch.ModelsEx
         {
             try
             {
-                var db = DataQuery<TStudReg>.Entity(a => a.OpenID == openID);
+                var db = DataCRUD<TStudReg>.Entity(a => a.OpenID == openID);
                 if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
                 if (string.IsNullOrEmpty(db.studNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
 
                 string res = string.Empty;
                 res += string.Format("姓名：{0}\n", db.Name);
-                res += string.Format("身份：{0}\n", db.ID);
+                res += string.Format("身份：{0}\n", db.IDS);
                 res += string.Format("学校：{0}\n", db.fromSch);
                 res += string.Format("年级：{0}\n", db.fromGrade);
                 res += "---------------------------\n";
@@ -214,11 +214,11 @@ namespace MySch.ModelsEx
         {
             try
             {
-                var db = DataQuery<TStudReg>.Entity(a => a.OpenID == openID);
+                var db = DataCRUD<TStudReg>.Entity(a => a.OpenID == openID);
                 if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
                 if (string.IsNullOrEmpty(db.studNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
 
-                var count = DataQuery<TStudReg>.Count(a => true);
+                var count = DataCRUD<TStudReg>.Count(a => true);
                 string res = string.Empty;
                 res += string.Format("实验初中2016级新生已录取：{0}人", count);
 
@@ -265,7 +265,7 @@ namespace MySch.ModelsEx
             if (openID.Length == 0) return false;
 
             //检测是否存在ID记录
-            var db = DataQuery<TStudReg>.Expression(a => a.OpenID == openID);
+            var db = DataCRUD<TStudReg>.Expression(a => a.OpenID == openID);
 
             //有记录，说明已绑定
             return db.Count() > 0;

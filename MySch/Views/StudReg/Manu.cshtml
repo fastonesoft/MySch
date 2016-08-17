@@ -41,7 +41,7 @@
                             //关窗口
                             $('#dialog-form').dialogClose();
                             //成功，将返回数据添加到数据网格
-                            $('#studreg-grid').datagrid({ data: [d] });
+                            $('#studreg-grid').datagrid('loadData', d);
                         }
                     });
                 }

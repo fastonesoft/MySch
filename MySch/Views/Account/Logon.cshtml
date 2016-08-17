@@ -1,4 +1,4 @@
-﻿@model MySch.Models.TAcc
+﻿@model MySch.Bll.BllAcc
 
 @{
     Layout = null;
@@ -94,14 +94,14 @@
             <div class="my-login-box">
                 <ul>
                     <li style="margin-bottom:25px;">
-                        @Html.TextBoxFor(a => a.ID, new { @class = "my-login-user" })
+                        @Html.TextBoxFor(a => a.IDS, new { @class = "my-login-user" })
                     </li>
                     <li>
                         @Html.PasswordFor(a => a.Pwd, new { @class = "my-login-pwd" })
                     </li>
                     <li style="height:36px;line-height:36px;">
                         <span id="userError">
-                            @Html.ValidationMessageFor(a => a.ID)
+                            @Html.ValidationMessageFor(a => a.IDS)
                             @Html.ValidationMessageFor(a => a.Pwd)
                         </span>
                     </li>

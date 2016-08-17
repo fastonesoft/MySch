@@ -1,0 +1,96 @@
+﻿@{
+    Layout = null;
+    //AdminCode
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>条码生成</title>
+    <script type="text/javascript">
+        $(function () {
+            //点击动作
+            codeprint = {
+                //学籍查询
+                que: function () {
+                    //清除网格
+                    $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
+                    DataGridNone('StudReg', 'Query');
+                },
+                add: function () {
+                    //清除网格
+                    $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
+                    DataGridNone('StudReg', 'Manu');
+                },
+                edit: function () {
+                    DataGridRow('#studreg-grid', 'StudReg', 'Edit');
+                },
+                reg: function () {
+                    DataGridRow('#studreg-grid', 'StudReg', 'Reg');
+                },
+                print: function () {
+                    DataGridRows('#studreg-grid', 'StudReg', 'Print');
+                }
+            }
+
+            //数据表格
+            $('#codeprint-grid').datagrid({
+                fit: true,
+                striped: true,
+                nowrap: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: false,
+                checkOnSelect: true,
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                columns: [[
+                    { field: 'ck', checkbox: true },
+                    { title: '身份证号', field: 'ID', align: 'center', sortable: true, width: 100 },
+                ]],
+
+                toolbar: '#codeprint-grid-tool',
+                pagination: false,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+
+        })
+    </script>
+</head>
+<body>
+    <div id="codeprint-lay" class="easyui-layout">
+        <div data-options="region:'center',border:false">
+            <table id="codeprint-grid"></table>
+        </div>
+    </div>
+
+    <div id="codeprint-grid-tool">
+        <table cellpadding="0" cellspacing="0" style="white-space:nowrap; width:100%;">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="studreg.add();">手动添加</a>
+                    </td>
+                    <td width="10">
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td width="130">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-print" plain="true" onclick="studreg.print();">打印</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

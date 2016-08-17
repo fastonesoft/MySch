@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace MySch.Bll
+{
+    public class ApiEasyUI<Entity> where Entity : class
+    {
+        /// <summary>
+        /// 将实体数据输出为DataGrid格式
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public static object DataGrid(Entity entity)
+        {
+            if (entity == null)
+            {
+                return new { total = 0, rows = new object[] { } };
+            }
+            else
+            {
+                List<object> objes = new List<object>();
+                objes.Add(entity);
+                return new { total = 1, rows = objes };
+            }
+        }
+
+        /// <summary>
+        /// 将数组输出为DataGrid格式
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        public static object DataGrid(List<Entity> entities)
+        {
+            if (entities == null)
+            {
+                return new { total = 0, rows = new object[] { } };
+            }
+            else
+            {
+                return new { total = entities.Count(), rows = entities };
+            }
+        }
+    }
+}
