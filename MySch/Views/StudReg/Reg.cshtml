@@ -41,7 +41,7 @@
                             //关窗口
                             $('#dialog-form').dialogClose();
                             //成功，将返回数据添加到数据网格
-                            $('#studreg-grid').datagrid({ data: [d] });
+                            $('#studreg-grid').datagrid('loadData', { total: 1, rows: [d] });
                         }
                     });
                 }
@@ -128,5 +128,5 @@
             @Html.ValidationMessageFor(a => a.Home)
         </div>
     </div>
-    @Html.HiddenFor(a => a.GD)
+    @Html.HiddenFor(a => a.ID)
 }

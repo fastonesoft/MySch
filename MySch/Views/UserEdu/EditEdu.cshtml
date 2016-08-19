@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.BllAcc
+﻿@model MySch.Bll.BllEdu
 
 @{
     Layout = null;
@@ -19,19 +19,12 @@
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Pwd)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.Pwd, new { @class = "textbox-text", @readonly = "readonly" })
-            </span>
-            @Html.ValidationMessageFor(a => a.Pwd)
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed, new { @disabled = "disabled" })</div>
+            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
@@ -39,7 +32,14 @@
 
 <script type="text/javascript">
     $(function () {
-        //删除对话框
-        DialogDel('用户删除', 410, 270, '/AdminUser/DelTokey', '#users-grid');
+        //按键：焦点转移
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                //错误输入聚焦
+                $('.field-validation-error:first').parent().find('input').focus();
+            }
+        });
+        //修改对话框
+        DialogEdit('学制修改', 410, 220, '/UserEdu/EditTokey', '#edus-grid');
     })
 </script>

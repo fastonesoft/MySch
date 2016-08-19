@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+    //UserEdu/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>学制编排</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            edus = {
+                add: function () {
+                    DataGridNone('/UserEdu/AddEdu');
+                },
+                edit: function () {
+                    DataGridRow('#edus-grid', '/UserEdu/EditEdu');
+                },
+                del: function () {
+                    DataGridRow('#edus-grid', '/UserEdu/DelEdu');
+                }
+            }
+
+            //数据表格
+            $('#edus-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/UserEdu/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '学制编号', field: 'IDS', align: 'center', sortable: true, width: 100 },
+                    { title: '学制名称', field: 'Name', align: 'center', sortable: true, width: 100 },
+                    {
+                        title: '是否启用', field: 'Fixed', halign: 'center', width: 80,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            } else {
+                                return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
+                            }
+                        }
+                    }
+                ]],
+
+                toolbar: '#edus-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="edus-grid"></table>
+    <div id="edus-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="edus.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="edus.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="edus.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

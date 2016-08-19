@@ -114,6 +114,41 @@ insert TPrint values ('School', '940px', '270px')
 go
 
 
+
+--学制编排
+create table TEducation
+(
+	ID	nvarchar(32) not null,
+	IDS	int not null,
+	Name	nvarchar(20) not null,
+	Fixed	bit not null	--是否使用
+)
+go
+
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 1, '一年级', 0)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 2, '二年级', 0)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 3, '三年级', 0)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 4, '四年级', 0)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 5, '五年级', 0)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 6, '六年级', 0)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 7, '七年级', 1)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 8, '八年级', 1)
+insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 9, '九年级', 1)
+
+go
+alter table TEducation add constraint PK_TEducation primary key clustered (ID)
+create unique nonclustered index UN_TEducation_GD on TEducation (IDS)
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------
+---以下不算
+
 --样式表
 create table Theme
 (
@@ -180,34 +215,44 @@ alter table TLogin add constraint PK_TLogin primary key clustered (ID)
 create unique nonclustered index UN_TLogin_IDS on TLogin (IDS)
 
 
+--年度
+create table TYear
+(
+	ID	nvarchar(32) not null,
+	IDS	int not null,	--年度开始
+	Ends	int not null,	--年度结束
+	IsCurrent	bit not null,	--是否当前年度
+)
+go
+alter table TStep add constraint PK_TStep primary key clustered (ID)
+create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 
 
 --级设置
-create table TYear
+create table TStep
 (
 	ID	nvarchar(32) not null,
 	IDS	int not null,	--级
 	Fixed	bit not null
 )
 go
-alter table TYear add constraint PK_TYear primary key clustered (ID)
-create unique nonclustered index UN_TYear_IDS on TYear (IDS)
+alter table TStep add constraint PK_TStep primary key clustered (ID)
+create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 
-insert TYear values (REPLACE(NEWID(), '-',''), 2004, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2005, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2006, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2007, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2008, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2009, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2010, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2011, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2012, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2013, 1)
-insert TYear values (REPLACE(NEWID(), '-',''), 2014, 0)
-insert TYear values (REPLACE(NEWID(), '-',''), 2015, 0)
-insert TYear values (REPLACE(NEWID(), '-',''), 2016, 0)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2004, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2005, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2006, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2007, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2008, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2009, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2010, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2011, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2012, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2013, 1)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2014, 0)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2015, 0)
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2016, 0)
 
-delete from Tstudreg where ID = '321284200508150254'
 
 
 --学校
@@ -223,30 +268,6 @@ alter table TSchool add constraint PK_TSchool primary key clustered (ID)
 create unique nonclustered index UN_TSchool_GD on TSchool (GD)
 create index IN_TSchool_Name on TSchool (Name)
 
-
-
---年级设置
-create table TGradeSet
-(
-	ID	int not null,
-	GD	nvarchar(32) not null,
-	Name	nvarchar(20) not null,
-	Fixed	bit not null	--是否使用
-)
-go
-
-insert TGradeSet values (1, REPLACE(NEWID(), '-',''), '一年级', 1)
-insert TGradeSet values (2, REPLACE(NEWID(), '-',''), '二年级', 1)
-insert TGradeSet values (3, REPLACE(NEWID(), '-',''), '三年级', 1)
-insert TGradeSet values (4, REPLACE(NEWID(), '-',''), '四年级', 1)
-insert TGradeSet values (5, REPLACE(NEWID(), '-',''), '五年级', 1)
-insert TGradeSet values (6, REPLACE(NEWID(), '-',''), '六年级', 1)
-insert TGradeSet values (7, REPLACE(NEWID(), '-',''), '七年级', 0)
-insert TGradeSet values (8, REPLACE(NEWID(), '-',''), '八年级', 0)
-insert TGradeSet values (9, REPLACE(NEWID(), '-',''), '九年级', 0)
-go
-alter table TGradeSet add constraint PK_TGradeSet primary key clustered (ID)
-create unique nonclustered index UN_TGradeSet_GD on TGradeSet (GD)
 
 
 
@@ -351,3 +372,6 @@ alter table TKey add constraint PK_TKey primary key clustered (ID)
 create index UN_TKey_Name on TKey (Name)
 go
 
+
+
+delete from tstudreg where ids = '321284200508150254'

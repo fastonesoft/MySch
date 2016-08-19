@@ -135,21 +135,23 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\BllAcc.cs" />
+    <Compile Include="Bll\BllEdu.cs" />
     <Compile Include="Bll\BllLogin.cs" />
     <Compile Include="Bll\BllYear.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
-    <Compile Include="Controllers\Admin\AdminCodeController.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Controllers\Users\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
-    <Compile Include="Controllers\Admin\AdminYearController.cs" />
+    <Compile Include="Controllers\Users\UserEduController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Stud\StudRegController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\RoleController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\Users\UserYearController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Wei\WeiController.cs" />
@@ -175,6 +177,7 @@
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
+    <Compile Include="Models\Mapping\TEducationMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
     <Compile Include="Models\Mapping\TPrintMap.cs" />
@@ -182,6 +185,7 @@
     <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\TAcc.cs" />
+    <Compile Include="Models\TEducation.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
     <Compile Include="Models\TPrint.cs" />
@@ -281,7 +285,7 @@
     <Content Include="Content\themes\icons\sum.png" />
     <Content Include="Content\themes\icons\tip.png" />
     <Content Include="Content\themes\icons\undo.png" />
-    <Content Include="ddsdf.htm" />
+    <Content Include="tooltip.htm" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -482,8 +486,11 @@
     <Content Include="Views\StudReg\Edit.cshtml" />
     <Content Include="Views\StudReg\Reg.cshtml" />
     <Content Include="Views\StudReg\Print.cshtml" />
-    <Content Include="Views\AdminYear\Index.cshtml" />
-    <Content Include="Views\AdminCode\Index.cshtml" />
+    <Content Include="Views\YearSet\Index.cshtml" />
+    <Content Include="Views\UserEdu\Index.cshtml" />
+    <Content Include="Views\UserEdu\AddEdu.cshtml" />
+    <Content Include="Views\UserEdu\DelEdu.cshtml" />
+    <Content Include="Views\UserEdu\EditEdu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Wei\" />

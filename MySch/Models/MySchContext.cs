@@ -17,6 +17,7 @@ namespace MySch.Models
         }
 
         public DbSet<TAcc> TAccs { get; set; }
+        public DbSet<TEducation> TEducations { get; set; }
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
         public DbSet<TPrint> TPrints { get; set; }
@@ -26,6 +27,7 @@ namespace MySch.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new TAccMap());
+            modelBuilder.Configurations.Add(new TEducationMap());
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());
             modelBuilder.Configurations.Add(new TPrintMap());

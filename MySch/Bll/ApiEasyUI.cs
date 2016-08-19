@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MySch.Bll
 {
-    public class ApiEasyUI<Entity> where Entity : class
+    public class ApiEasyUI<Entity> 
     {
         /// <summary>
         /// 将实体数据输出为DataGrid格式
@@ -32,7 +32,7 @@ namespace MySch.Bll
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public static object DataGrid(List<Entity> entities)
+        public static object DataGrids(List<Entity> entities)
         {
             if (entities == null)
             {

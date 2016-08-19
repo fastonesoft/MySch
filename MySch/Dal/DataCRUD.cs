@@ -92,11 +92,11 @@ namespace MySch.Dal
             }
         }
 
-        public static int Count(Expression<Func<TEntity, bool>> whereFunc)
+        public static int Count(Expression<Func<TEntity, bool>> where)
         {
             using (BaseContext db = new BaseContext())
             {
-                return db.Set<TEntity>().Count(whereFunc);
+                return db.Set<TEntity>().Count(where);
             }
 
         }
@@ -104,13 +104,13 @@ namespace MySch.Dal
         /// <summary>
         /// 根据表达式查询记录
         /// </summary>
-        /// <param name="whereFunc"></param>
+        /// <param name="where"></param>
         /// <returns></returns>
-        public static IEnumerable<TEntity> Expression(Expression<Func<TEntity, bool>> whereFunc)
+        public static IEnumerable<TEntity> Expression(Expression<Func<TEntity, bool>> where)
         {
             using (BaseContext db = new BaseContext())
             {
-                return db.Set<TEntity>().Where(whereFunc).ToList();
+                return db.Set<TEntity>().Where(where).ToList();
             }
         }
 
@@ -130,13 +130,13 @@ namespace MySch.Dal
         /// <summary>
         /// 根据表达式查询记录，如果找到唯一记录，则，返回记录本身；否则为：空
         /// </summary>
-        /// <param name="whereFunc"></param>
+        /// <param name="where"></param>
         /// <returns></returns>
-        public static TEntity Entity(Expression<Func<TEntity, bool>> whereFunc)
+        public static TEntity Entity(Expression<Func<TEntity, bool>> where)
         {
             using (BaseContext db = new BaseContext())
             {
-                var res = db.Set<TEntity>().Where(whereFunc);
+                var res = db.Set<TEntity>().Where(where);
                 return res.Count() == 1 ? res.Single() : null;
             }
         }
@@ -171,14 +171,14 @@ namespace MySch.Dal
         /// <summary>
         /// 检查数据内容是否存在
         /// </summary>
-        /// <param name="whereFunc">查询条件表达式</param>
+        /// <param name="where">查询条件表达式</param>
         /// <param name="count">返回查询记录数</param>
         /// <returns></returns>
-        public static bool CheckExists(Expression<Func<TEntity, bool>> whereFunc, out int count)
+        public static bool CheckExists(Expression<Func<TEntity, bool>> where, out int count)
         {
             using (BaseContext db = new BaseContext())
             {
-                var res = db.Set<TEntity>().Where(whereFunc);
+                var res = db.Set<TEntity>().Where(where);
                 count = res.Count();
                 return count != 0;
             }
@@ -187,74 +187,76 @@ namespace MySch.Dal
         /// <summary>
         /// 检查数据内容是否存在
         /// </summary>
-        /// <param name="whereFunc">查询条件表达式</param>
+        /// <param name="where">查询条件表达式</param>
         /// <returns></returns>
-        public static bool CheckExists(Expression<Func<TEntity, bool>> whereFunc)
+        public static bool CheckExists(Expression<Func<TEntity, bool>> where)
         {
             int count = 0;
-            return CheckExists(whereFunc, out count);
+            return CheckExists(where, out count);
         }
 
         /// <summary>
         /// 检查数据记录是否唯一
         /// </summary>
-        /// <param name="whereFunc">查询条件表达式</param>
+        /// <param name="where">查询条件表达式</param>
         /// <returns></returns>
-        public static bool CheckUnique(Expression<Func<TEntity, bool>> whereFunc)
+        public static bool CheckUnique(Expression<Func<TEntity, bool>> where)
         {
             using (BaseContext db = new BaseContext())
             {
-                return db.Set<TEntity>().Count(whereFunc) == 1;
+                return db.Set<TEntity>().Count(where) == 1;
             }
         }
 
-
-
         /// <summary>
-        /// 根据Lamda查询条件读取第X页的数据（升序）
+        /// 根据Lambda查询条件读取第X页的数据（升序）
         /// </summary>
-        /// <param name="whereFunc">Lamda查询条件</param>
-        /// <param name="orderFunc">Lamda排序条件</param>
-        /// <param name="pagesize">每页数据</param>
-        /// <param name="pageindex">页码</param>
-        /// <param name="getmany">获得实际数据值</param>
+        /// <typeparam name="TKey">排序字段类型</typeparam>
+        /// <param name="where">Lambda查询条件</param>
+        /// <param name="order">Lambda排序条件</param>
+        /// <param name="pageIndex">数据页索引</param>
+        /// <param name="pageSize">数据页大小</param>
+        /// <param name="gets">实际读取记录数</param>
+        /// <param name="total">查询数据总数</param>
         /// <returns></returns>
-        public static IEnumerable<TEntity> TakePage<TKey>(Expression<Func<TEntity, bool>> whereFunc, Expression<Func<TEntity, TKey>> orderFunc, int page, int rows, out int many, out int total)
+        public static IEnumerable<TEntity> TakePage<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order, int pageIndex, int pageSize, out int gets, out int total)
         {
             using (BaseContext db = new BaseContext())
             {
-                rows = rows <= 0 ? 10 : rows;
-                int skip = (page - 1) * rows;
+                pageSize = pageSize <= 0 ? 10 : pageSize;
+                int skip = (pageIndex - 1) * pageSize;
                 skip = skip < 0 ? 0 : skip;
 
-                var list = db.Set<TEntity>().Where(whereFunc).OrderBy(orderFunc).Skip(skip).Take(rows);
-                many = list.Count();
-                total = db.Set<TEntity>().Count(whereFunc);
+                var list = db.Set<TEntity>().Where(where).OrderBy(order).Skip(skip).Take(pageSize);
+                gets = list.Count();
+                total = db.Set<TEntity>().Count(where);
 
                 return list.ToList();
             }
         }
 
         /// <summary>
-        /// 根据Lamda查询条件读取第X页的数据（降序）
+        /// 根据Lambda查询条件读取第X页的数据（降序）
         /// </summary>
-        /// <param name="whereFunc">Lamda查询条件</param>
-        /// <param name="orderFunc">Lamda排序条件</param>
-        /// <param name="pagesize">每页数据</param>
-        /// <param name="pageindex">页码</param>
-        /// <param name="getmany">获得实际数据值</param>
+        /// <typeparam name="TKey">排序字段类型</typeparam>
+        /// <param name="where">Lambda查询条件</param>
+        /// <param name="order">Lambda排序条件</param>
+        /// <param name="pageIndex">数据页索引</param>
+        /// <param name="pageSize">数据页大小</param>
+        /// <param name="gets">实际读取记录数</param>
+        /// <param name="total">查询数据总数</param>
         /// <returns></returns>
-        public static IEnumerable<TEntity> TakePageDesc<TKey>(Expression<Func<TEntity, bool>> whereFunc, Expression<Func<TEntity, TKey>> orderFunc, int page, int rows, out int many, out int total)
+        public static IEnumerable<TEntity> TakePageDesc<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order, int pageIndex, int pageSize, out int gets, out int total)
         {
             using (BaseContext db = new BaseContext())
             {
-                rows = rows <= 0 ? 10 : rows;
-                int skip = (page - 1) * rows;
+                pageSize = pageSize <= 0 ? 10 : pageSize;
+                int skip = (pageIndex - 1) * pageSize;
                 skip = skip < 0 ? 0 : skip;
 
-                var list = db.Set<TEntity>().Where(whereFunc).OrderByDescending(orderFunc).Skip(skip).Take(rows);
-                many = list.Count();
-                total = db.Set<TEntity>().Count(whereFunc);
+                var list = db.Set<TEntity>().Where(where).OrderByDescending(order).Skip(skip).Take(pageSize);
+                gets = list.Count();
+                total = db.Set<TEntity>().Count(where);
 
                 return list.ToList();
             }
@@ -263,28 +265,28 @@ namespace MySch.Dal
         /// <summary>
         /// 根据Lamda查询条件读取数据（升序）
         /// </summary>
-        /// <param name="whereFunc">Lamda查询条件</param>
-        /// <param name="orderFunc">Lamda排序条件</param>
+        /// <param name="where">Lamda查询条件</param>
+        /// <param name="order">Lamda排序条件</param>
         /// <returns></returns>
-        public static IEnumerable<TEntity> TakeOrder<TKey>(Expression<Func<TEntity, bool>> whereFunc, Expression<Func<TEntity, TKey>> orderFunc)
+        public static IEnumerable<TEntity> TakeOrder<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order)
         {
             using (BaseContext db = new BaseContext())
             {
-                return db.Set<TEntity>().Where(whereFunc).OrderBy(orderFunc).ToList();
+                return db.Set<TEntity>().Where(where).OrderBy(order).ToList();
             }
         }
 
         /// <summary>
         /// 根据Lamda查询条件读取数据（降序）
         /// </summary>
-        /// <param name="whereFunc">Lamda查询条件</param>
-        /// <param name="orderFunc">Lamda排序条件</param>
+        /// <param name="where">Lamda查询条件</param>
+        /// <param name="order">Lamda排序条件</param>
         /// <returns></returns>
-        public static IEnumerable<TEntity> TakeOrderDesc<TKey>(Expression<Func<TEntity, bool>> whereFunc, Expression<Func<TEntity, TKey>> orderFunc)
+        public static IEnumerable<TEntity> TakeOrderDesc<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order)
         {
             using (BaseContext db = new BaseContext())
             {
-                return db.Set<TEntity>().Where(whereFunc).OrderByDescending(orderFunc).ToList();
+                return db.Set<TEntity>().Where(where).OrderByDescending(order).ToList();
             }
         }
 

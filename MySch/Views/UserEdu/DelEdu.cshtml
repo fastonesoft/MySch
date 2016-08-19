@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.BllAcc
+﻿@model MySch.Bll.BllEdu
 
 @{
     Layout = null;
@@ -24,13 +24,6 @@
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Pwd)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.Pwd, new { @class = "textbox-text", @readonly = "readonly" })
-            </span>
-            @Html.ValidationMessageFor(a => a.Pwd)
-        </div>
-        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed, new { @disabled = "disabled" })</div>
         </div>
     </div>
@@ -40,6 +33,6 @@
 <script type="text/javascript">
     $(function () {
         //删除对话框
-        DialogDel('用户删除', 410, 270, '/AdminUser/DelTokey', '#users-grid');
+        DialogDel('学制删除', 410, 220, '/UserEdu/DelTokey', '#edus-grid');
     })
 </script>

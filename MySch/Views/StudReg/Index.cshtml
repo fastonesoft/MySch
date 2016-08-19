@@ -29,7 +29,7 @@
                 }
             });
 
-            //聚集
+            //聚焦
             $('#IDS, #studreg-grid-text').focus(function () {
                 //清除网格
                 $(this).val('');
@@ -37,43 +37,9 @@
             });
 
             //身份查询
-            $('#IDS').keypress(function (e) {
-                if (e.which == 13) {
-                    //身份证号查询
-                    var text = $.trim($(this).val());
-                    if (text.length == 0) {
-                        //清除网格
-                        $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
-                    } else {
-                        $('#studreg-grid').datagrid({
-                            url: '/StudReg/Get',
-                            queryParams: { id: text }
-                        })
-                    }
-                    //清空
-                    $(this).val('');
-                }
-            });
-
+            DataGridSearchPress('#IDS', '#studreg-grid', '/StudReg/Get')
             //编号查询
-            $('#studreg-grid-text').keypress(function (e) {
-                if (e.which == 13) {
-                    //根据学籍编号查询
-                    var text = $.trim($(this).val());
-                    if (text.length == 0) {
-                        //清除网格
-                        $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
-                    } else {
-                        //编号查询
-                        $('#studreg-grid').datagrid({
-                            url: '/StudReg/Search',
-                            queryParams: { id: text }
-                        })
-                    }
-                    //清空
-                    $(this).val('');
-                }
-            });
+            DataGridSearchPress('#studreg-grid-text', '#studreg-grid', '/StudReg/Search')
 
             //点击动作
             studreg = {
@@ -81,21 +47,21 @@
                 que: function () {
                     //清除网格
                     $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
-                    DataGridNone('StudReg', 'Query');
+                    DataGridNone('/StudReg/Query');
                 },
                 add: function () {
                     //清除网格
                     $('#studreg-grid').datagrid('loadData', { total: 0, rows: [] });
-                    DataGridNone('StudReg', 'Manu');
+                    DataGridNone('/StudReg/Manu');
                 },
                 edit: function () {
-                    DataGridRow('#studreg-grid', 'StudReg', 'Edit');
+                    DataGridRow('#studreg-grid', '/StudReg/Edit');
                 },
                 reg: function () {
-                    DataGridRow('#studreg-grid', 'StudReg', 'Reg');
+                    DataGridRow('#studreg-grid', '/StudReg/Reg');
                 },
                 print: function () {
-                    DataGridRows('#studreg-grid', 'StudReg', 'Print');
+                    DataGridRows('#studreg-grid', '/StudReg/Print');
                 }
             }
 

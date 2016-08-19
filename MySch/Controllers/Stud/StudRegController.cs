@@ -122,7 +122,7 @@ namespace MySch.Controllers.User
                 DataCRUD<TStudReg>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(EasyUI<TStudReg>.DataGrid(stud));
+                return Json(ApiEasyUI<TStudReg>.DataGrid(stud));
             }
             catch (Exception e)
             {
@@ -328,7 +328,7 @@ namespace MySch.Controllers.User
                 DataCRUD<TStudReg>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(EasyUI<TStudReg>.DataGrid(stud));
+                return Json(ApiEasyUI<TStudReg>.DataGrid(stud));
             }
             catch (Exception e)
             {

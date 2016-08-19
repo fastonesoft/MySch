@@ -2,73 +2,7 @@
 
 @{
     Layout = null;
-    //AdminUser/AddUser
 }
-
-<script type="text/javascript">
-    $(function () {
-        //按键：焦点转移
-        $(document).keypress(function (e) {
-            if (e.which == 13) {
-                //错误输入聚焦
-                $('.field-validation-error:first').parent().find('input').focus();
-            }
-        });
-        $('#dialog-form').dialog({
-            title: '用户添加',
-            width: 410,
-            height: 270,
-            closable: false,
-            closed: false,
-            cache: false,
-            modal: true,
-            buttons: [{
-                text: '添加',
-                iconCls: 'icon-ok',
-                handler: function () {
-                    var form = $('form');
-                    if (!form.validate().form()) {
-                        //错误输入聚焦
-                        $('.field-validation-error:first').parent().find('input').focus();
-                        return false;
-                    }
-                    //通过验证，添加
-                    $.post('/AdminUser/AddTokey', form.serialize(), function (d) {
-                        if (d.error) {
-                            $.messager.alert('错误提示', d.message, 'error');
-                        } else {
-                            //关窗口
-                            $('#dialog-form').dialogClose();
-                            //更新网格
-                            $('#users-grid').datagrid('appendRow', d);
-                        }
-                    });
-                }
-            }, {
-                text: '取消',
-                iconCls: 'icon-no',
-                handler: function () {
-                    $('#dialog-form').dialogClose();
-                }
-            }],
-            onOpen: function () {
-                //重置渲染、输入验证、错误聚焦
-                var form = $('form').revalidate();
-                form.validate().form();
-                //错误输入聚焦
-                $('.field-validation-error:first').parent().find('input').focus();
-            },
-            onClose: function () {
-                //启用按钮
-                $('.easyui-linkbutton').linkbutton('enable');
-                //清除提示
-                $('div.tooltip').remove();
-                $('div.combo-p').remove();
-            },
-        });
-    })
-
-</script>
 
 @using (Html.BeginForm())
 {
@@ -101,3 +35,17 @@
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    $(function () {
+        //按键：焦点转移
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                //错误输入聚焦
+                $('.field-validation-error:first').parent().find('input').focus();
+            }
+        });
+        //添加对话框
+        DialogAdd('用户添加', 410, 270, '/AdminUser/AddTokey', '#users-grid');
+    })
+</script>

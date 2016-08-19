@@ -33,7 +33,7 @@ namespace MySch.Controllers
                 filterContext.Result = Json(new ErrorModel
                 {
                     error = true,
-                    message = "未授权，无法进入后台！"
+                    message = "权限：未经授权，无法进入后台！"
                 }, JsonRequestBehavior.AllowGet);
 
                 return;

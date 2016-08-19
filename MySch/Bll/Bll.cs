@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace MySch.Bll
 {
@@ -128,6 +127,7 @@ namespace MySch.Bll
 
         /// <summary>
         /// JSON方式：将 实体对象 -> 表示数据
+        /// 以ID主键查询方式获取实体对象
         /// </summary>
         /// <typeparam name="BllEntity"></typeparam>
         /// <param name="id"></param>
@@ -148,6 +148,14 @@ namespace MySch.Bll
                 throw e;
             }
         }
+
+        /// <summary>
+        /// JSON方式：将 实体对象 -> 表示数据
+        /// 条件Lambda查询获取单一实体对象
+        /// </summary>
+        /// <typeparam name="BllEntity"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
         public static BllEntity GetEntity<BllEntity>(Expression<Func<Entity, bool>> func)
         {
             try
@@ -162,13 +170,20 @@ namespace MySch.Bll
                 throw e;
             }
         }
-        public static BllEntitys GetEntitys<BllEntitys>(Expression<Func<Entity, bool>> func)
+
+        /// <summary>
+        /// JSON方式：将 实体对象 -> 表示数据
+        /// 条件Lambda查询获取多个实体对象
+        /// </summary>
+        /// <typeparam name="BllEntity"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static List<BllEntity> GetEntitys<BllEntity>(Expression<Func<Entity, bool>> func)
         {
             try
             {
                 var entitys = DataCRUD<Entity>.Expression(func);
-
-                return ApiJson<BllEntitys>.JsonEntity(entitys);
+                return ApiJson<List<BllEntity>>.JsonEntity(entitys);
             }
             catch (Exception e)
             {
@@ -176,13 +191,46 @@ namespace MySch.Bll
             }
         }
 
-        public static BllEntitys GetEntitysToDataGrid<BllEntitys>(Expression<Func<Entity, bool>> func)
+        /// <summary>
+        /// JSON方式：将 实体对象 -> 表示数据
+        /// 一、条件Lambda查询获取多个实体对象
+        /// 二、以EasyUI的DataGrid的形式返回
+        /// </summary>
+        /// <typeparam name="BllEntity"></typeparam>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static object GetEntitysToDataGrid<BllEntity>(Expression<Func<Entity, bool>> where)
         {
             try
             {
-                var entitys = DataCRUD<Entity>.Expression(func);
-                var entitys_bll = ApiJson<BllEntitys>.JsonEntity(entitys);
-                return ApiEasyUI<BllEntitys>.DataGrid()
+                var entitys = DataCRUD<Entity>.Expression(where);
+                //转换：实体对象 - 表示数据
+                var entitys_bll = ApiJson<List<BllEntity>>.JsonEntity(entitys);
+                //输出：转换成DataGrid的数据
+                return ApiEasyUI<BllEntity>.DataGrids(entitys_bll);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 数据排序方式
+        /// </summary>
+        public enum OrderType { ASC, DESC }
+
+        public static object GetPagesToDataGrid<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize, OrderType ordertype)
+        {
+            try
+            {
+                int gets, total;
+                //读取：分页实体对象
+                var pages = ordertype == OrderType.ASC ? DataCRUD<Entity>.TakePage<Key>(where, order, pageIndex, pageSize, out  gets, out  total) : DataCRUD<Entity>.TakePageDesc<Key>(where, order, pageIndex, pageSize, out gets, out total);
+                //转换：实体对象 - 表示数据
+                var pages_bll = ApiJson<List<BllEntity>>.JsonEntity(pages);
+                //输出：转换成DataGrid的数据
+                return ApiEasyUI<BllEntity>.DataGrids(pages_bll);
             }
             catch (Exception e)
             {

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminUserController : RoleAdminController
+    public class UserController : RoleController
     {
         //用户列表：界面
         [HttpPost]
@@ -22,34 +22,6 @@ namespace MySch.Controllers.Admin
         public ActionResult AddUser()
         {
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult EditUser(string id)
-        {
-            try
-            {
-                var db = BllAcc.GetEntity<BllAcc>(id);
-                return View(db);
-            }
-            catch (Exception e)
-            {
-                return Json(new ErrorModel { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        public ActionResult DelUser(string id)
-        {
-            try
-            {
-                var db = BllAcc.GetEntity<BllAcc>(id);
-                return View(db);
-            }
-            catch (Exception e)
-            {
-                return Json(new ErrorModel { error = true, message = e.Message });
-            }
         }
 
         [HttpPost]
@@ -66,6 +38,20 @@ namespace MySch.Controllers.Admin
                 //添加记录
                 acc.ToAdd(ModelState);
                 return Json(acc);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditUser(string id)
+        {
+            try
+            {
+                var db = BllAcc.GetEntity<BllAcc>(id);
+                return View(db);
             }
             catch (Exception e)
             {
@@ -92,6 +78,20 @@ namespace MySch.Controllers.Admin
                 acc.ToUpdate(ModelState);
 
                 return Json(acc);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorModel { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DelUser(string id)
+        {
+            try
+            {
+                var db = BllAcc.GetEntity<BllAcc>(id);
+                return View(db);
             }
             catch (Exception e)
             {
@@ -132,7 +132,7 @@ namespace MySch.Controllers.Admin
 
         //用户列表：分页数据
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
+        public ActionResult Pages(int page = 1, int rows = 100)
         {
             try
             {
@@ -150,8 +150,9 @@ namespace MySch.Controllers.Admin
             }
         }
 
+
         [HttpPost]
-        public ActionResult Search(string id)
+        public ActionResult Search(string name)
         {
             try
             {
@@ -160,7 +161,7 @@ namespace MySch.Controllers.Admin
                 string myself = login.ID;
                 string parent = login.Parent;
                 //查询帐号、名称（只显示自己 及 下属）
-                var res = BllAcc.GetEntitysToDataGrid<BllAcc>(a => (a.Name.Contains(id) || a.IDS.Contains(id)) && (a.Parent == myself || a.ID == myself));
+                var res = BllAcc.GetEntitysToDataGrid<BllAcc>(a => (a.Name.Contains(name) || a.IDS.Contains(name)) && (a.Parent == myself || a.ID == myself));
                 return Json(res);
             }
             catch (Exception e)

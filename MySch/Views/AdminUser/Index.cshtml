@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //AdminUser
+    //AdminUser/Index
 }
 
 <!DOCTYPE html>
@@ -16,34 +16,23 @@
             //点击动作
             users = {
                 add: function () {
-                    DataGridNone('AdminUser', 'AddUser');
+                    DataGridNone('/AdminUser/AddUser');
                 },
                 edit: function () {
-                    DataGridRow('#users-grid', 'AdminUser', 'EditUser');
+                    DataGridRow('#users-grid', '/AdminUser/EditUser');
                 },
                 del: function () {
-                    DataGridRow('#users-grid', 'AdminUser', 'DelUser');
+                    DataGridRow('#users-grid', '/AdminUser/DelUser');
                 },
                 search: function () {
-                    var text = $.trim($('#users-grid-text').val());
-                    if (text.length == 0) {
-                        //刷新
-                        $('#users-grid').datagrid('load');
-                    } else {
-                        $('#users-grid').datagrid('loading');
-                        //读取部分
-                        $.post('/AdminUser/SearchUser', { text: text }, function (d) {
-                            if (d.error) {
-                                $.messager.alert('错误提示', d.message, 'error');
-                            } else {
-                                $('#users-grid').datagrid('loadData', d);
-                                $('#users-grid').datagrid('loaded');
-                            }
-                        });
-                    }
+                    DataGridSearch('#users-grid-text', '#users-grid', '/AdminUser/Search');
                 },
+                refresh: function () {
+                    DataGridRefresh('#users-grid', '/AdminUser/DataGrid')
+                }
             }
-
+            //用户查询
+            DataGridSearchPress('#users-grid-text', '#users-grid', '/AdminUser/Search')
             //数据表格
             $('#users-grid').datagrid({
                 fit: true,
@@ -53,7 +42,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/Admin/UsersPage',
+                url: '/AdminUser/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -128,7 +117,13 @@
                     <td style="padding-left:5px;">
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="users.search();">查询</a>
                     </td>
-                </tr>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="users.refresh();">刷新</a>
+                    </td>
+ </tr>
             </thead>
         </table>
     </div>

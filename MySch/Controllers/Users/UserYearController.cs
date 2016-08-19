@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminYearController : RoleController
+    public class UserYearController : RoleController
     {
         public ActionResult Index()
         {
