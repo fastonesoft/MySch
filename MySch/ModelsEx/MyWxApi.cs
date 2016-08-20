@@ -1,4 +1,5 @@
-﻿using MySch.Dal;
+﻿using MySch.Bll;
+using MySch.Dal;
 using MySch.Models;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace MySch.ModelsEx
             Array.Sort(ArrTmp);
             string tmpStr = string.Join("", ArrTmp);
 
-            tmpStr = MySetting.GetSHA1(tmpStr);
+            tmpStr = Setting.GetSHA1(tmpStr);
             tmpStr = tmpStr.ToLower();
 
             return tmpStr == signature ? true : false;
@@ -60,7 +61,7 @@ namespace MySch.ModelsEx
             try
             {
                 //检测身份证号是否有效
-                MySetting.IDS(ID);
+                Setting.IDS(ID);
 
                 CookieCollection cookies = null;
                 //一、做Get请求网页
@@ -159,7 +160,7 @@ namespace MySch.ModelsEx
             try
             {
                 //检测身份证号是否有效
-                MySetting.IDS(ID);
+                Setting.IDS(ID);
 
                 var db = DataCRUD<TStudReg>.Entity(a => a.IDS == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
                 if (db == null) throw new Exception("学生姓名与身份证号不匹配，或者已经完成登记");

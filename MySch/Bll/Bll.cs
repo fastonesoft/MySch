@@ -141,7 +141,7 @@ namespace MySch.Bll
                 if (entity == null) throw new Exception("业务逻辑：未查到主键对应实体！");
 
                 //再序列化成所要的对象
-                return ApiJson<BllEntity>.JsonEntity(entity);
+                return JsonApi<BllEntity>.JsonEntity(entity);
             }
             catch (Exception e)
             {
@@ -163,7 +163,7 @@ namespace MySch.Bll
                 var entity = DataCRUD<Entity>.Entity(func);
                 if (entity == null) throw new Exception("业务逻辑：无相关记录或存在多个实体！");
 
-                return ApiJson<BllEntity>.JsonEntity(entity);
+                return JsonApi<BllEntity>.JsonEntity(entity);
             }
             catch (Exception e)
             {
@@ -183,7 +183,7 @@ namespace MySch.Bll
             try
             {
                 var entitys = DataCRUD<Entity>.Expression(func);
-                return ApiJson<List<BllEntity>>.JsonEntity(entitys);
+                return JsonApi<List<BllEntity>>.JsonEntity(entitys);
             }
             catch (Exception e)
             {
@@ -205,20 +205,15 @@ namespace MySch.Bll
             {
                 var entitys = DataCRUD<Entity>.Expression(where);
                 //转换：实体对象 - 表示数据
-                var entitys_bll = ApiJson<List<BllEntity>>.JsonEntity(entitys);
+                var entitys_bll = JsonApi<List<BllEntity>>.JsonEntity(entitys);
                 //输出：转换成DataGrid的数据
-                return ApiEasyUI<BllEntity>.DataGrids(entitys_bll);
+                return EasyUI<BllEntity>.DataGrids(entitys_bll);
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
-
-        /// <summary>
-        /// 数据排序方式
-        /// </summary>
-        public enum OrderType { ASC, DESC }
 
         public static object GetPagesToDataGrid<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize, OrderType ordertype)
         {
@@ -228,9 +223,9 @@ namespace MySch.Bll
                 //读取：分页实体对象
                 var pages = ordertype == OrderType.ASC ? DataCRUD<Entity>.TakePage<Key>(where, order, pageIndex, pageSize, out  gets, out  total) : DataCRUD<Entity>.TakePageDesc<Key>(where, order, pageIndex, pageSize, out gets, out total);
                 //转换：实体对象 - 表示数据
-                var pages_bll = ApiJson<List<BllEntity>>.JsonEntity(pages);
+                var pages_bll = JsonApi<List<BllEntity>>.JsonEntity(pages);
                 //输出：转换成DataGrid的数据
-                return ApiEasyUI<BllEntity>.DataGrids(pages_bll);
+                return EasyUI<BllEntity>.DataGrids(pages_bll);
             }
             catch (Exception e)
             {

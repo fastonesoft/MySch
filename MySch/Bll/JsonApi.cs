@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +7,7 @@ using System.Web.Script.Serialization;
 
 namespace MySch.Bll
 {
-    public class ApiJson<Entity>
+    public class JsonApi<Entity>
     {
         /// <summary>
         /// JSON方式：将 对象 -> 实体
@@ -17,11 +18,10 @@ namespace MySch.Bll
         {
             try
             {
-                //将对象转成json
+                //这里不能用Newtonsoft.Json
+                //原因：未知，暂时这样
                 var javas = new JavaScriptSerializer();
-                string jsons = javas.Serialize(obj);
-
-                //再序列化成所要的对象
+                var jsons = javas.Serialize(obj);
                 return javas.Deserialize<Entity>(jsons);
             }
             catch (Exception e)

@@ -1,5 +1,5 @@
 ﻿using MySch.Bll;
-using MySch.Dal;
+using MySch.Bll.Entity;
 using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
@@ -22,12 +22,12 @@ namespace MySch.Controllers.Account
             //var db = DataCRUD<TAcc>.Entity("admin");
             //MyType<TAcc>.GetPropertyInfor(db, "ID");
 
-            //string dd = MySetting.GetGD("AdminUser", "32128402");
-            //string ee = MyLogin.Password("32128402", dd, MySetting.GetMD5("stone.2.net"));
+            //string dd = ApiSetting.GetGD("AdminUser", "32128402");
+            //string ee = MyLogin.Password("32128402", dd, ApiSetting.GetMD5("stone.2.net"));
             //return Content(dd + "-" + ee);
 
             //string   tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile("asdfasdfasd", "SHA1");
-            //string ee = MySetting.GetSHA1("asdfasdfasd");
+            //string ee = ApiSetting.GetSHA1("asdfasdfasd");
             //return Content(tmpStr + "-" + ee);
 
             //var db = DataCRUD<TStudReg>.All();
@@ -67,51 +67,51 @@ namespace MySch.Controllers.Account
             try
             {
                 //封IP
-                if (MyLogin.FixedOfIP(Request, acc))
+                if (BllLogin.FixedOfIP(Request, acc))
                 {
                     //MyLogin.AddLog(Request, acc, "登录动作过频");
                     //动作过频，不能记录
-                    return Json(new ErrorModel { error = true, message = "错误：登录动作过频，请稍等！" });
+                    return Json(new BllError { error = true, message = "错误：登录动作过频，请稍等！" });
                 }
 
                 //1、检测用户名是否正确
                 var db = BllAcc.GetEntity<BllAcc>(a => a.IDS == acc.IDS);
                 if (db == null)
                 {
-                    MyLogin.AddLog(Request, acc, "未注册用户");
-                    return Json(new ErrorModel { error = true, message = "错误：未注册用户，无法登录！" });
+                    BllLogin.AddLog(Request, acc, "未注册用户");
+                    return Json(new BllError { error = true, message = "错误：未注册用户，无法登录！" });
                 }
                 //1.1、验证检测
-                acc.ID = MySetting.GetGD("AdminUser", acc.IDS);
+                acc.ID = Setting.GetGD("AdminUser", acc.IDS);
                 if (acc.ID != db.ID)
                 {
-                    MyLogin.AddLog(Request, acc, "提交数据无法验证");
-                    return Json(new ErrorModel { error = true, message = "错误：提交数据无法通过验证！" });
+                    BllLogin.AddLog(Request, acc, "提交数据无法验证");
+                    return Json(new BllError { error = true, message = "错误：提交数据无法通过验证！" });
                 }
 
                 //2、检测密码是否正确
-                if (MyLogin.Password(acc.IDS, acc.ID, acc.Pwd) != db.Pwd)
+                if (BllLogin.Password(acc.IDS, acc.ID, acc.Pwd) != db.Pwd)
                 {
-                    MyLogin.AddLog(Request, acc, "密码有误");
-                    return Json(new ErrorModel { error = true, message = "错误：密码有误，请重新输入！" });
+                    BllLogin.AddLog(Request, acc, "密码有误");
+                    return Json(new BllError { error = true, message = "错误：密码有误，请重新输入！" });
                 }
 
                 if (db.Fixed)
                 {
                     //登录失败：添加日志
-                    MyLogin.AddLog(Request, db, "用户被冻结");
-                    return Json(new ErrorModel { error = true, message = "错误：用户被冻结，请联系管理员！" });
+                    BllLogin.AddLog(Request, db, "用户被冻结");
+                    return Json(new BllError { error = true, message = "错误：用户被冻结，请联系管理员！" });
                 }
                 else
                 {
                     //登录成功：记录，并，退出
-                    MyLogin.SaveLog(Session, Request, db, "登录成功");
-                    return Json(new ErrorModel { error = false, message = string.Format("用户：{0}成功登录！", db.IDS) });
+                    BllLogin.SaveLog(Session, Request, db, "登录成功");
+                    return Json(new BllError { error = false, message = string.Format("用户：{0}成功登录！", db.IDS) });
                 }
             }
             catch (Exception e)
             {
-            return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -119,7 +119,7 @@ namespace MySch.Controllers.Account
         [HttpPost]
         public ActionResult Check()
         {
-            var login = MyLogin.GetLogin(Session);
+            var login = BllLogin.GetLogin(Session);
             if (login == null)
             {
                 return View("Logon");
@@ -138,8 +138,8 @@ namespace MySch.Controllers.Account
         [HttpPost]
         public ActionResult Logoff()
         {
-            Session[MySetting.SESSION_LOGIN] = null;
-            return Json(new ErrorModel { error = false, message = "退出成功" });
+            Session[Setting.SESSION_LOGIN] = null;
+            return Json(new BllError { error = false, message = "退出成功" });
         }
 
         //用户主操作页面

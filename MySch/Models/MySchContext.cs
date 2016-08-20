@@ -20,6 +20,7 @@ namespace MySch.Models
         public DbSet<TEducation> TEducations { get; set; }
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
+        public DbSet<TPart> TParts { get; set; }
         public DbSet<TPrint> TPrints { get; set; }
         public DbSet<TStudReg> TStudRegs { get; set; }
         public DbSet<TYear> TYears { get; set; }
@@ -30,6 +31,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TEducationMap());
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());
+            modelBuilder.Configurations.Add(new TPartMap());
             modelBuilder.Configurations.Add(new TPrintMap());
             modelBuilder.Configurations.Add(new TStudRegMap());
             modelBuilder.Configurations.Add(new TYearMap());

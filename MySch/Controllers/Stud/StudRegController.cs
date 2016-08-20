@@ -38,10 +38,10 @@ namespace MySch.Controllers.User
             try
             {
                 //提交数据验证不过
-                if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //身份证号检测
-                MySetting.IDS(que.IDS);
+                Setting.IDS(que.IDS);
 
                 //一、做Get请求网页
                 CookieCollection cookies = null;
@@ -75,7 +75,7 @@ namespace MySch.Controllers.User
                     //循环记录
                     errorcount++;
                     //异常退出
-                    if (errorcount > 30) return Json(new ErrorModel { error = true, message = "请确认验证码是否变更" });
+                    if (errorcount > 30) return Json(new BllError { error = true, message = "请确认验证码是否变更" });
                 } while (valid.Length != 5);
 
                 //三、准备Post请求数据
@@ -94,12 +94,12 @@ namespace MySch.Controllers.User
                 MatchCollection matchs = regx.Matches(html);
 
                 //如果没有找到数据，则返回提示
-                if (matchs.Count == 0) return Json(new ErrorModel { error = true, message = "无学籍记录！检查身份证与姓名是否正确" });
+                if (matchs.Count == 0) return Json(new BllError { error = true, message = "无学籍记录！检查身份证与姓名是否正确" });
 
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
                 var db = DataCRUD<TStudReg>.Entity(a => a.IDS == id);
-                if (db != null) return Json(new ErrorModel { error = true, message = "该身份证号学籍已注册" });
+                if (db != null) return Json(new BllError { error = true, message = "该身份证号学籍已注册" });
 
                 //根据返回数据 -> 创建学生报名记录
                 TStudReg stud = new TStudReg();
@@ -122,11 +122,11 @@ namespace MySch.Controllers.User
                 DataCRUD<TStudReg>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(ApiEasyUI<TStudReg>.DataGrid(stud));
+                return Json(EasyUI<TStudReg>.DataGrid(stud));
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -137,7 +137,7 @@ namespace MySch.Controllers.User
             try
             {
                 //身份证检测
-                MySetting.IDS(id);
+                Setting.IDS(id);
 
                 var db = DataCRUD<TStudReg>.Expression(a => a.IDS == id);
 
@@ -147,7 +147,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -159,12 +159,12 @@ namespace MySch.Controllers.User
 
             if (db == null)
             {
-                return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                return Json(new BllError { error = true, message = "查询数据出错" });
             }
             else
             {
                 //已经编号，无需重编
-                if (db.studNo != null) return Json(new ErrorModel { error = true, message = "已经编号，无需重编" });
+                if (db.studNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
                 //
                 var res = new StudEditValid { ID = db.ID, Name = db.Name, studNo = db.studNo, Memo = db.Memo, schChoose = db.schChoose };
                 return View(res);
@@ -179,19 +179,19 @@ namespace MySch.Controllers.User
             try
             {
                 //提交数据验证不过
-                if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //检测编号
                 var db = DataCRUD<TStudReg>.Entity(a => a.studNo == stud.studNo);
                 if (db != null)
                 {
                     //不是同一条记录，提示重复
-                    if (db.ID != stud.ID) return Json(new ErrorModel { error = true, message = "编号不得重复设置！" });
+                    if (db.ID != stud.ID) return Json(new BllError { error = true, message = "编号不得重复设置！" });
                 }
 
                 //查询
                 TStudReg reg = DataCRUD<TStudReg>.Entity(a => a.ID == stud.ID);
-                if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
                 //修改
                 reg.studNo = stud.studNo;
                 reg.Memo = stud.Memo;
@@ -203,7 +203,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -215,7 +215,7 @@ namespace MySch.Controllers.User
 
             if (db == null)
             {
-                return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                return Json(new BllError { error = true, message = "查询数据出错" });
             }
             else
             {
@@ -232,11 +232,11 @@ namespace MySch.Controllers.User
             try
             {
                 //提交数据验证不过
-                if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //查询
                 TStudReg reg = DataCRUD<TStudReg>.Entity(a => a.ID == stud.ID);
-                if (reg == null) return Json(new ErrorModel { error = true, message = "查询数据出错" });
+                if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
                 //修改
                 reg.Mobil1 = stud.Mobil1;
                 reg.Mobil2 = stud.Mobil2;
@@ -253,7 +253,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -281,7 +281,7 @@ namespace MySch.Controllers.User
             }
             else
             {
-                return Json(new ErrorModel { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
+                return Json(new BllError { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
             }
         }
 
@@ -299,14 +299,14 @@ namespace MySch.Controllers.User
         {
             try
             {
-                if (!ModelState.IsValid) return Json(new ErrorModel { error = true, message = "提交数据有误" });
+                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //身份证号检测
-                MySetting.IDS(manu.IDS);
+                Setting.IDS(manu.IDS);
 
                 //检测身份证是否重复
                 var db = DataCRUD<TStudReg>.Entity(a => a.IDS == manu.IDS);
-                if (db != null) return Json(new ErrorModel { error = true, message = "身份证号已注册" });
+                if (db != null) return Json(new BllError { error = true, message = "身份证号已注册" });
 
                 TStudReg stud = new TStudReg();
                 stud.fromSch = manu.fromSch;
@@ -328,11 +328,11 @@ namespace MySch.Controllers.User
                 DataCRUD<TStudReg>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(ApiEasyUI<TStudReg>.DataGrid(stud));
+                return Json(EasyUI<TStudReg>.DataGrid(stud));
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -355,11 +355,11 @@ namespace MySch.Controllers.User
                 {
                     DataCRUD<TPrint>.Update(d);
                 }
-                return Json(new ErrorModel { error = false, message = "打印位置已修改，关闭窗口重来！" });
+                return Json(new BllError { error = false, message = "打印位置已修改，关闭窗口重来！" });
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 

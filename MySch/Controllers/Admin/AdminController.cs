@@ -1,7 +1,4 @@
-﻿using MySch.Bll;
-using MySch.Dal;
-using MySch.Models;
-using MySch.ModelsEx;
+﻿using MySch.Bll.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +13,7 @@ namespace MySch.Controllers.Admin
         [HttpPost]
         public ActionResult Index()
         {
-            ViewBag.UserName = MyLogin.GetLogin(Session).Name;
+            ViewBag.UserName = BllLogin.GetLogin(Session).Name;
             return View();
         }
     }

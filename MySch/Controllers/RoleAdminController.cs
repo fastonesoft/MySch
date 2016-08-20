@@ -1,4 +1,5 @@
-﻿using MySch.ModelsEx;
+﻿using MySch.Bll;
+using MySch.Bll.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,12 @@ namespace MySch.Controllers
             base.OnActionExecuting(filterContext);
 
             //一、获取动作名称
-            string actid = MySetting.ActionUrl(filterContext);
+            string actid = Setting.ActionUrl(filterContext);
 
             //二、后台进入拦截
-            if (MyLogin.GetLogin(Session) == null)
+            if (BllLogin.GetLogin(Session) == null)
             {
-                filterContext.Result = Json(new ErrorModel
+                filterContext.Result = Json(new BllError
                 {
                     error = true,
                     message = "动作：没有登录，不能进行相关操作！"
@@ -28,9 +29,9 @@ namespace MySch.Controllers
 
                 return;
             };
-            if (MyLogin.GetLogin(Session).IDS != "admin")
+            if (BllLogin.GetLogin(Session).IDS != "admin")
             {
-                filterContext.Result = Json(new ErrorModel
+                filterContext.Result = Json(new BllError
                 {
                     error = true,
                     message = "权限：未经授权，无法进入后台！"

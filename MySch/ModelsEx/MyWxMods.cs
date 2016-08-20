@@ -1,5 +1,5 @@
-﻿using MySch.Dal;
-using MySch.Models;
+﻿using MySch.Bll;
+using MySch.Dal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -172,7 +172,7 @@ namespace MySch.ModelsEx
     {
         public virtual string ToXml(string con)
         {
-            this.CreateTime = MySetting.DateTimeToInt(DateTime.Now);
+            this.CreateTime = Setting.DateTimeToInt(DateTime.Now);
 
             string xml = string.Empty;
             xml += string.Format("<ToUserName><![CDATA[{0}]]></ToUserName>", ToUserName);

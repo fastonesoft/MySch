@@ -1,11 +1,17 @@
-﻿using MySch.Bll;
+﻿using MySch.Bll.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.ModelsEx
+namespace MySch.Bll
 {
+
+    /// <summary>
+    /// 数据排序方式
+    /// </summary>
+    public enum OrderType { ASC, DESC }
+
     public class BrowserModel
     {
         public string IP { get; set; }
@@ -36,27 +42,11 @@ namespace MySch.ModelsEx
         }
     }
 
-    public class ResultModel
-    {
-        public bool ok { get; set; }
-        public string message { get; set; }
-        public object result { get; set; }
-
-        public ResultModel(bool o, string m, object r)
-        {
-            ok = o;
-            message = m;
-            result = r;
-        }
-    }
-
-    public class ErrorModel
+    //出错返回类
+    public class BllError
     {
         public bool error { get; set; }
         public string message { get; set; }
     }
-
-
-
 
 }

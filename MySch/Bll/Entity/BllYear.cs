@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Bll
+namespace MySch.Bll.Entity
 {
     public class BllYear : Bll<TYear>
     {

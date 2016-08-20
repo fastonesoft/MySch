@@ -1,6 +1,5 @@
 ﻿using MySch.Bll;
-using MySch.Dal;
-using MySch.ModelsEx;
+using MySch.Bll.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +29,10 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                acc.ID = MySetting.GetGD("AdminUser", acc.IDS);
+                acc.ID = Setting.GetGD("AdminUser", acc.IDS);
                 acc.RegTime = DateTime.Now;
-                acc.Parent = MyLogin.GetLogin(Session).ID;
-                acc.Pwd = MyLogin.Password(acc.IDS, acc.ID, MySetting.GetMD5(acc.Pwd));
+                acc.Parent = BllLogin.GetLogin(Session).ID;
+                acc.Pwd = BllLogin.Password(acc.IDS, acc.ID, Setting.GetMD5(acc.Pwd));
 
                 //添加记录
                 acc.ToAdd(ModelState);
@@ -41,7 +40,7 @@ namespace MySch.Controllers.Admin
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -55,7 +54,7 @@ namespace MySch.Controllers.Admin
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -68,7 +67,7 @@ namespace MySch.Controllers.Admin
                 var db = BllAcc.GetEntity<BllAcc>(a => a.ID == acc.ID && a.IDS == acc.IDS);
 
                 //密码如果改变，则重新加密
-                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : MyLogin.Password(acc.IDS, acc.ID, MySetting.GetMD5(acc.Pwd));
+                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : BllLogin.Password(acc.IDS, acc.ID, Setting.GetMD5(acc.Pwd));
                 //管理员admin帐号不能冻结
                 acc.Fixed = acc.IDS == "admin" ? false : acc.Fixed;
                 //别的属性直接从数据库拿出来
@@ -81,7 +80,7 @@ namespace MySch.Controllers.Admin
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -95,7 +94,7 @@ namespace MySch.Controllers.Admin
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -126,7 +125,7 @@ namespace MySch.Controllers.Admin
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -136,17 +135,17 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var login = MyLogin.GetLogin(Session);
+                var login = BllLogin.GetLogin(Session);
 
                 string myself = login.ID;
                 string parent = login.Parent;
 
-                var res = BllAcc.GetPagesToDataGrid<BllAcc, string>(a => a.Parent == myself, a => a.IDS, page, rows, BllAcc.OrderType.ASC);
+                var res = BllAcc.GetPagesToDataGrid<BllAcc, string>(a => a.Parent == myself, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -157,7 +156,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 //查询自己和自己的下属
-                var login = MyLogin.GetLogin(Session);
+                var login = BllLogin.GetLogin(Session);
                 string myself = login.ID;
                 string parent = login.Parent;
                 //查询帐号、名称（只显示自己 及 下属）
@@ -166,7 +165,7 @@ namespace MySch.Controllers.Admin
             }
             catch (Exception e)
             {
-                return Json(new ErrorModel { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
     }

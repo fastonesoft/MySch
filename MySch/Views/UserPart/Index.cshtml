@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+    //UserPart/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>校区设置</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            parts = {
+                add: function () {
+                    DataGridNone('/UserPart/AddPart');
+                },
+                edit: function () {
+                    DataGridRow('#parts-grid', '/UserPart/EditPart');
+                },
+                del: function () {
+                    DataGridRow('#parts-grid', '/UserPart/DelPart');
+                }
+            }
+
+            //数据表格
+            $('#parts-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/UserPart/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '校区编号', field: 'IDS', align: 'center', sortable: true, width: 100 },
+                    { title: '校区名称', field: 'Name', align: 'center', sortable: true, width: 100 },
+                    {
+                        title: '是否启用', field: 'Fixed', halign: 'center', width: 80,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            } else {
+                                return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
+                            }
+                        }
+                    }
+                ]],
+
+                toolbar: '#parts-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="parts-grid"></table>
+    <div id="parts-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="parts.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="parts.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="parts.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

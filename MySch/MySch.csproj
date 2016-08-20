@@ -129,29 +129,36 @@
     <Compile Include="Bll\ApiBll.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\ApiEasyUI.cs" />
-    <Compile Include="Bll\ApiJson.cs" />
+    <Compile Include="Bll\EasyUI.cs" />
+    <Compile Include="Bll\Entity\BllPart.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\JsonApi.cs" />
+    <Compile Include="Bll\Setting.cs" />
     <Compile Include="Bll\Bll.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\BllAcc.cs" />
-    <Compile Include="Bll\BllEdu.cs" />
-    <Compile Include="Bll\BllLogin.cs" />
-    <Compile Include="Bll\BllYear.cs" />
+    <Compile Include="Bll\Entity\BllAcc.cs" />
+    <Compile Include="Bll\Models.cs" />
+    <Compile Include="Bll\Entity\BllEdu.cs" />
+    <Compile Include="Bll\Entity\BllLogin.cs" />
+    <Compile Include="Bll\Entity\BllYear.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Users\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
-    <Compile Include="Controllers\Users\UserEduController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Stud\StudRegController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\Users\UserYearController.cs">
+    <Compile Include="Controllers\Users\UserEduController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\Users\UserPartController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Wei\WeiController.cs" />
@@ -164,11 +171,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelsEx\MyHtml.cs" />
-    <Compile Include="ModelsEx\MyLogin.cs" />
-    <Compile Include="ModelsEx\MyModels.cs" />
-    <Compile Include="ModelsEx\MySetting.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ModelsEx\MyType.cs" />
     <Compile Include="ModelsEx\MyValid.cs" />
     <Compile Include="ModelsEx\MyImageValid.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Models\Mapping\TEducationMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
+    <Compile Include="Models\Mapping\TPartMap.cs" />
     <Compile Include="Models\Mapping\TPrintMap.cs" />
     <Compile Include="Models\Mapping\TStudRegMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
@@ -188,6 +191,7 @@
     <Compile Include="Models\TEducation.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
+    <Compile Include="Models\TPart.cs" />
     <Compile Include="Models\TPrint.cs" />
     <Compile Include="Models\TStudReg.cs" />
     <Compile Include="Models\TYear.cs" />
@@ -491,8 +495,13 @@
     <Content Include="Views\UserEdu\AddEdu.cshtml" />
     <Content Include="Views\UserEdu\DelEdu.cshtml" />
     <Content Include="Views\UserEdu\EditEdu.cshtml" />
+    <Content Include="Views\UserPart\Index.cshtml" />
+    <Content Include="Views\UserPart\AddPart.cshtml" />
+    <Content Include="Views\UserPart\DelPart.cshtml" />
+    <Content Include="Views\UserPart\EditPart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Bll\View\" />
     <Folder Include="Views\Wei\" />
   </ItemGroup>
   <ItemGroup>

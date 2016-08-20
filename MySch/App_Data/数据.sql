@@ -42,8 +42,8 @@ create table TAcc
 (
 	--注册资料
 	ID	nvarchar(32) not null,	
-	IDS	nvarchar(32) not null,	--帐号代码x321284xxx
-	Name	nvarchar(32) not null,	--帐号全称、姓名
+	IDS	nvarchar(20) not null,	--帐号代码x321284xxx
+	Name	nvarchar(20) not null,	--帐号全称、姓名
 	Pwd	nvarchar(32) not null,
 	RegTime	datetime not null default getdate(),
 	Fixed	bit not null,
@@ -56,17 +56,6 @@ create unique nonclustered index UN_TAcc_Name on TAcc (Name)
 --插入管理员
 insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
 go
-
---微日志
-create table TLog
-(
-	GD	nvarchar(32) not null,
-	Value	nvarchar(2000) not null,
-	CreateTime	datetime not null default getdate(), 
-)
-go
-alter table TLog add constraint PK_TLog primary key clustered (GD)
-
 
 --新生报名
 create table TStudReg
@@ -137,13 +126,60 @@ insert TEducation values (Lower(REPLACE(NEWID(), '-','')), 9, '九年级', 1)
 
 go
 alter table TEducation add constraint PK_TEducation primary key clustered (ID)
-create unique nonclustered index UN_TEducation_GD on TEducation (IDS)
+create unique nonclustered index UN_TEducation_IDS on TEducation (IDS)
 
 
+--校区设置
+create table TPart
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,
+	Fixed	bit not null,
+	AccIDS	nvarchar(32) not null
+)
+go
+alter table TPart add constraint PK_TPart primary key clustered (ID)
+alter table TPart add constraint FK_TPart_AccID foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_TPart_IDS on TPart (IDS)
+create unique nonclustered index UN_TPart_Name on TPart (Name)
 
+--生源分组
+create table TStep
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	int not null,	--级
+	Fixed	bit not null,	--是否毕业
+)
+go
+alter table TStep add constraint PK_TStep primary key clustered (ID)
+create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 
+--校区生源
+create table TPartSt
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	PartIDS	nvarchar(20) not null,
+	StepIDS	nvarchar(20) not null,
+)
+go
+alter table TPartSt add constraint PK_TPartSt primary key clustered (ID)
+alter table TPartSt add constraint FK_TPartSt_PartIDS foreign key (PartIDS) references TPart (IDS)
+alter table TPartSt add constraint FK_TPartSt_StepIDS foreign key (StepIDS) references TStep (IDS)
+create unique nonclustered index UN_TPartSt_IDS on TPart (IDS)
+go
 
-
+--校区生源 查询
+create view QPartSt
+as
+select a.*, PartName = b.Name, StepName = c.Name
+from TPartSt a left join TPart b
+on a.PartIDS = b.IDS
+left join TStep c
+on a.StepIDS = c.IDS
+go
 
 
 -------------------------------------------------------------------
@@ -371,6 +407,20 @@ go
 alter table TKey add constraint PK_TKey primary key clustered (ID)
 create index UN_TKey_Name on TKey (Name)
 go
+
+
+
+
+--微日志
+create table TLog
+(
+	GD	nvarchar(32) not null,
+	Value	nvarchar(2000) not null,
+	CreateTime	datetime not null default getdate(), 
+)
+go
+alter table TLog add constraint PK_TLog primary key clustered (GD)
+
 
 
 

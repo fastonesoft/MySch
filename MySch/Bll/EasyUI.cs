@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MySch.Bll
 {
-    public class ApiEasyUI<Entity> 
+    public class EasyUI<Entity> 
     {
         /// <summary>
         /// 将实体数据输出为DataGrid格式

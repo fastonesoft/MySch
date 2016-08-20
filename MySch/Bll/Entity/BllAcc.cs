@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll
+namespace MySch.Bll.Entity
 {
     public class BllAcc : Bll<TAcc>
     {

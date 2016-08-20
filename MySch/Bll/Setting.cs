@@ -5,11 +5,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
-namespace MySch.ModelsEx
+namespace MySch.Bll
 {
-    public class MySetting
+    public class Setting
     {
         public const string SESSION_VALIDATE_CODE_LOGIN = "ValidateImageCodeLogin";
 
@@ -135,19 +134,6 @@ namespace MySch.ModelsEx
                 throw new Exception("身份证号：校验码验证无法通过！");
             }
             return true;//符合GB11643-1999标准
-        }
-
-        // Json
-        public static T JsonsTo<T>(string jsons)
-        {
-            var javas = new JavaScriptSerializer();
-            return javas.Deserialize<T>(jsons);
-        }
-
-        public static string ToJsons(object obj)
-        {
-            var javas = new JavaScriptSerializer();
-            return javas.Serialize(obj);
         }
 
         //时间戳

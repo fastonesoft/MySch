@@ -1,13 +1,24 @@
-﻿using MySch.Bll;
+﻿using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.ModelsEx
+namespace MySch.Bll.Entity
 {
-    public class MyLogin
+    public class BllLogin : Bll<TLogin>
     {
+        public string ID { get; set; }
+        public int IDS { get; set; }
+        public string Brower { get; set; }
+        public string IP { get; set; }
+        public System.DateTime loginTime { get; set; }
+        public string Name { get; set; }
+        public string Pwd { get; set; }
+        public string loginMsg { get; set; }
+
+
+
         /// <summary>
         /// 登录：成功记录
         /// </summary>
@@ -18,7 +29,7 @@ namespace MySch.ModelsEx
         public static void SaveLog(HttpSessionStateBase session, HttpRequestBase req, BllAcc acc, string message)
         {
             LoginModel mo = new LoginModel(req.UserHostAddress, req.UserHostName, req.Browser.Browser, acc);
-            session[MySetting.SESSION_LOGIN] = mo;
+            session[Setting.SESSION_LOGIN] = mo;
 
             //记录成功登录时间
             var d = new BllLogin
@@ -63,7 +74,7 @@ namespace MySch.ModelsEx
         /// <returns></returns>
         public static LoginModel GetLogin(HttpSessionStateBase session)
         {
-            return session[MySetting.SESSION_LOGIN] as LoginModel;
+            return session[Setting.SESSION_LOGIN] as LoginModel;
         }
 
         /// <summary>
@@ -101,7 +112,8 @@ namespace MySch.ModelsEx
         /// <returns></returns>
         public static string Password(string id, string gd, string password)
         {
-            return MySetting.GetMD5(gd + "#" + id + "#" + password);
+            return Setting.GetMD5(gd + "#" + id + "#" + password);
         }
+
     }
 }
