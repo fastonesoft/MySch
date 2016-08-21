@@ -1,0 +1,53 @@
+﻿@model MySch.Bll.Entity.BllPartSt
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 20px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.PartIDS)：</div>
+            <input id="PartIDS" name="PartIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.StepIDS)：</div>
+            <input id="StepIDS" name="StepIDS" style="width:156px;" />
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.AccIDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+        var parts = $.parseJSON('@Html.Raw(ViewBag.Parts)');
+        var steps = $.parseJSON('@Html.Raw(ViewBag.Steps)');
+
+        //加载选择框
+        $('#PartIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: parts,
+            readonly: true
+        });
+        $('#StepIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: steps,
+            readonly: true
+        });
+        //删除对话框
+        DialogDel('校区分级删除', 410, 250, '/UserPartSt/DelTokey', '#partsts-grid');
+    })
+</script>

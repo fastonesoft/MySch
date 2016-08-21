@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllEdu
+﻿@model MySch.Bll.Entity.BllPartSt
 
 @{
     Layout = null;
@@ -17,16 +17,14 @@
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Name)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
-            </span>
-            @Html.ValidationMessageFor(a => a.Name)
+            <div>@Html.LabelFor(a => a.PartIDS)：</div>
+            <input id="PartIDS" name="PartIDS" style="width:156px;"/>
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
+            <div>@Html.LabelFor(a => a.StepIDS)：</div>
+            <input id="StepIDS" name="StepIDS" style="width:156px;" />
         </div>
-    </div>
+ </div>
 }
 
 <script type="text/javascript">
@@ -38,7 +36,24 @@
                 $('.field-validation-error:first').parent().find('input').focus();
             }
         });
+
+        var parts = $.parseJSON('@Html.Raw(ViewBag.Parts)');
+        var steps = $.parseJSON('@Html.Raw(ViewBag.Steps)');
+
+        //加载选择框
+        $('#PartIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: parts,
+            panelHeight: 100
+        });
+        $('#StepIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: steps
+        });
+
         //添加对话框
-        DialogAdd('学制添加', 410, 220, '/UserEdu/AddTokey', '#edus-grid');
+        DialogAdd('校区分级添加', 410, 250, '/UserPartSt/AddTokey', '#partsts-grid');
     })
 </script>

@@ -8,24 +8,22 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllPart : BllEntity<TPart>
+    public class BllStep : BllEntity<TStep>
     {
         public string ID { get; set; }
 
-        [DisplayName("校区编号")]
+        [DisplayName("分级编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{10,20}$", ErrorMessage = "{0}：用10-20位数字设置；")]
+        [RegularExpression(@"^\d{12,20}$", ErrorMessage = "{0}：用12-20位数字设置；")]
         public string IDS { get; set; }
 
-        [DisplayName("校区名称")]
+        [DisplayName("分级名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^[\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个中文字符；")]
-        public string Name { get; set; }
+        [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：用4位数字设置；")]
+        public int Name { get; set; }
 
-        [DisplayName("是否启用")]
+        [DisplayName("是否毕业")]
         public bool Fixed { get; set; }
-
-        //用户帐号
         public string AccIDS { get; set; }
     }
 }

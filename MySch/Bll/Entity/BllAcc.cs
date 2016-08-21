@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllAcc : Bll<TAcc>
+    public class BllAcc : BllEntity<TAcc>
     {
         [DisplayName("用户帐号")]
         [Required(ErrorMessage = "{0}不得为空；")]

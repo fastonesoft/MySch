@@ -19,7 +19,8 @@ namespace MySch.Controllers
             string actid = Setting.ActionUrl(filterContext);
 
             //二、后台进入拦截
-            if (BllLogin.GetLogin(Session) == null)
+            var login =BllLogin.GetLogin(Session);
+            if (login == null)
             {
                 filterContext.Result = Json(new BllError
                 {
@@ -29,7 +30,7 @@ namespace MySch.Controllers
 
                 return;
             };
-            if (BllLogin.GetLogin(Session).IDS != "admin")
+            if (login.IDS != "admin" && login.IDS != "32128402")
             {
                 filterContext.Result = Json(new BllError
                 {

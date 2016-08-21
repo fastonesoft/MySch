@@ -129,13 +129,19 @@
     <Compile Include="Bll\ApiBll.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\BllBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Bll\EasyUI.cs" />
+    <Compile Include="Bll\Entity\BllStep.cs" />
+    <Compile Include="Bll\Entity\BllPartSt.cs" />
     <Compile Include="Bll\Entity\BllPart.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\JsonApi.cs" />
+    <Compile Include="Bll\Jsons.cs" />
+    <Compile Include="Bll\Model\Combo.cs" />
     <Compile Include="Bll\Setting.cs" />
-    <Compile Include="Bll\Bll.cs">
+    <Compile Include="Bll\BllEntity.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Entity\BllAcc.cs" />
@@ -143,6 +149,7 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
+    <Compile Include="Bll\View\QllPartSt.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Users\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
@@ -158,6 +165,8 @@
     <Compile Include="Controllers\Users\UserEduController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Users\UserStepController.cs" />
+    <Compile Include="Controllers\Users\UserPartStController.cs" />
     <Compile Include="Controllers\Users\UserPartController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -178,21 +187,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
+    <Compile Include="Models\Mapping\QPartStMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
     <Compile Include="Models\Mapping\TEducationMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
     <Compile Include="Models\Mapping\TPartMap.cs" />
+    <Compile Include="Models\Mapping\TPartStMap.cs" />
     <Compile Include="Models\Mapping\TPrintMap.cs" />
+    <Compile Include="Models\Mapping\TStepMap.cs" />
     <Compile Include="Models\Mapping\TStudRegMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
+    <Compile Include="Models\QPartSt.cs" />
     <Compile Include="Models\TAcc.cs" />
     <Compile Include="Models\TEducation.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
     <Compile Include="Models\TPart.cs" />
+    <Compile Include="Models\TPartSt.cs" />
     <Compile Include="Models\TPrint.cs" />
+    <Compile Include="Models\TStep.cs" />
     <Compile Include="Models\TStudReg.cs" />
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -499,9 +514,17 @@
     <Content Include="Views\UserPart\AddPart.cshtml" />
     <Content Include="Views\UserPart\DelPart.cshtml" />
     <Content Include="Views\UserPart\EditPart.cshtml" />
+    <Content Include="Views\UserStep\Index.cshtml" />
+    <Content Include="Views\UserStep\EditStep.cshtml" />
+    <Content Include="Views\UserStep\AddStep.cshtml" />
+    <Content Include="Views\UserStep\DelStep.cshtml" />
+    <Content Include="Views\UserPartSt\Index.cshtml" />
+    <Content Include="Views\UserPartSt\AddPartSt.cshtml" />
+    <Content Include="Views\UserPartSt\DelPartSt.cshtml" />
+    <Content Include="Views\UserPartSt\EditPartSt.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Bll\View\" />
+    <Folder Include="Bll\Inferface\" />
     <Folder Include="Views\Wei\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllEdu
+﻿@model MySch.Bll.Entity.BllStep
 
 @{
     Layout = null;
@@ -12,7 +12,7 @@
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.IDS)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
@@ -27,6 +27,8 @@
             <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
         </div>
     </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.AccIDS)
 }
 
 <script type="text/javascript">
@@ -38,7 +40,7 @@
                 $('.field-validation-error:first').parent().find('input').focus();
             }
         });
-        //添加对话框
-        DialogAdd('学制添加', 410, 220, '/UserEdu/AddTokey', '#edus-grid');
+        //修改对话框
+        DialogEdit('分级修改', 410, 220, '/UserStep/EditTokey', '#steps-grid');
     })
 </script>

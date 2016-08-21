@@ -1,0 +1,89 @@
+﻿@{
+    Layout = null;
+    //UserPartSt/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>校区分级</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            partsts = {
+                add: function () {
+                    DataGridNone('/UserPartSt/AddPartSt');
+                },
+                edit: function () {
+                    DataGridRow('#partsts-grid', '/UserPartSt/EditPartSt');
+                },
+                del: function () {
+                    DataGridRow('#partsts-grid', '/UserPartSt/DelPartSt');
+                }
+            }
+
+            //数据表格
+            $('#partsts-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/UserPartSt/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '校区分级编号', field: 'IDS', align: 'center', sortable: true, width: 150 },
+                    { title: '校区名称', field: 'PartName', align: 'center', sortable: true, width: 100 },
+                    { title: '分级名称', field: 'StepName', align: 'center', sortable: true, width: 100 }
+                ]],
+
+                toolbar: '#partsts-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="partsts-grid"></table>
+    <div id="partsts-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="partsts.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="partsts.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="partsts.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

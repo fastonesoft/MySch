@@ -101,7 +101,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var res = BllEdu.GetPagesToDataGrid<BllEdu, int>(a => true, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllEdu.GetDataGridPages<BllEdu, int>(a => true, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

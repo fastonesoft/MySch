@@ -55,7 +55,25 @@ create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
 create unique nonclustered index UN_TAcc_Name on TAcc (Name)
 --插入管理员
 insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
+insert TAcc values ('02b7f4a7710ac87488ab1f13b8e22a65','32128402','姜堰区实验初中','fe9cad83ab25c5474cc26be3f010f281','2015-09-10 12:00:00',  0, '51e66f66919ee73bc252590bdf3b339c')
 go
+
+
+--登录日志
+create table TLogin
+(
+	ID	nvarchar(32) not null,
+	IDS	int identity(1,1) not null,
+	Brower	nvarchar(36) not null,
+	IP	nvarchar(36) not null,
+	loginTime	datetime not null,	--登录时间
+	Name	nvarchar(20) not null,
+	Pwd	nvarchar(36) not null,
+	loginMsg	nvarchar(36) not null,
+)
+go
+alter table TLogin add constraint PK_TLogin primary key clustered (ID)
+create unique nonclustered index UN_TLogin_IDS on TLogin (IDS)
 
 --新生报名
 create table TStudReg
@@ -133,10 +151,10 @@ create unique nonclustered index UN_TEducation_IDS on TEducation (IDS)
 create table TPart
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
+	IDS	nvarchar(20) not null,	--3212840202
 	Name	nvarchar(20) not null,
 	Fixed	bit not null,
-	AccIDS	nvarchar(32) not null
+	AccIDS	nvarchar(20) not null
 )
 go
 alter table TPart add constraint PK_TPart primary key clustered (ID)
@@ -144,37 +162,51 @@ alter table TPart add constraint FK_TPart_AccID foreign key (AccIDS) references 
 create unique nonclustered index UN_TPart_IDS on TPart (IDS)
 create unique nonclustered index UN_TPart_Name on TPart (Name)
 
---生源分组
+--分级设置
 create table TStep
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
+	IDS	nvarchar(20) not null,	--321284022016
 	Name	int not null,	--级
 	Fixed	bit not null,	--是否毕业
+	AccIDS	nvarchar(20) not null
 )
 go
 alter table TStep add constraint PK_TStep primary key clustered (ID)
+alter table TStep add constraint FK_TStep_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TStep_IDS on TStep (IDS)
+go
 
---校区生源
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022016', 2016, 0, 'admin')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022015', 2015, 0, 'admin')
+
+--校区分级
 create table TPartSt
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
+	IDS	nvarchar(20) not null,	--3212840202201601
 	PartIDS	nvarchar(20) not null,
 	StepIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(20) not null,
 )
 go
 alter table TPartSt add constraint PK_TPartSt primary key clustered (ID)
 alter table TPartSt add constraint FK_TPartSt_PartIDS foreign key (PartIDS) references TPart (IDS)
 alter table TPartSt add constraint FK_TPartSt_StepIDS foreign key (StepIDS) references TStep (IDS)
-create unique nonclustered index UN_TPartSt_IDS on TPart (IDS)
+alter table TPartSt add constraint FK_TPartSt_AccIDS foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_TPartSt_IDS on TPartSt (IDS)
 go
 
---校区生源 查询
+--校区分级 查询
 create view QPartSt
 as
-select a.*, PartName = b.Name, StepName = c.Name
+select a.ID
+,a.IDS
+,PartIDS
+,StepIDS
+,a.AccIDS
+,ISNULL(b.Name, '哪所学校') as PartName
+,ISNULL(c.Name, 2016) as StepName 
 from TPartSt a left join TPart b
 on a.PartIDS = b.IDS
 left join TStep c
@@ -234,46 +266,9 @@ create unique nonclustered index UN_TFileInfor_fileAuthor on TFileInfor (fileAut
 go
 
 
---登录日志
-create table TLogin
-(
-	ID	nvarchar(32) not null,
-	IDS	int identity(1,1) not null,
-	Brower	nvarchar(36) not null,
-	IP	nvarchar(36) not null,
-	loginTime	datetime not null,	--登录时间
-	Name	nvarchar(20) not null,
-	Pwd	nvarchar(36) not null,
-	loginMsg	nvarchar(36) not null,
-)
-go
-alter table TLogin add constraint PK_TLogin primary key clustered (ID)
-create unique nonclustered index UN_TLogin_IDS on TLogin (IDS)
 
 
---年度
-create table TYear
-(
-	ID	nvarchar(32) not null,
-	IDS	int not null,	--年度开始
-	Ends	int not null,	--年度结束
-	IsCurrent	bit not null,	--是否当前年度
-)
-go
-alter table TStep add constraint PK_TStep primary key clustered (ID)
-create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 
-
---级设置
-create table TStep
-(
-	ID	nvarchar(32) not null,
-	IDS	int not null,	--级
-	Fixed	bit not null
-)
-go
-alter table TStep add constraint PK_TStep primary key clustered (ID)
-create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 
 insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2004, 1)
 insert TStep values (Lower(REPLACE(NEWID(), '-','')), 2005, 1)

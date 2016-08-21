@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Bll.Entity
 {
-    public class BllYear : Bll<TYear>
+    public class BllYear : BllEntity<TYear>
     {
         [DisplayName("级")]
         [Required(ErrorMessage = "{0}不得为空；")]

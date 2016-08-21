@@ -140,7 +140,7 @@ namespace MySch.Controllers.Admin
                 string myself = login.ID;
                 string parent = login.Parent;
 
-                var res = BllAcc.GetPagesToDataGrid<BllAcc, string>(a => a.Parent == myself, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllAcc.GetDataGridPages<BllAcc, string>(a => a.Parent == myself, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)
@@ -160,7 +160,7 @@ namespace MySch.Controllers.Admin
                 string myself = login.ID;
                 string parent = login.Parent;
                 //查询帐号、名称（只显示自己 及 下属）
-                var res = BllAcc.GetEntitysToDataGrid<BllAcc>(a => (a.Name.Contains(name) || a.IDS.Contains(name)) && (a.Parent == myself || a.ID == myself));
+                var res = BllAcc.GetDataGridEntitys<BllAcc>(a => (a.Name.Contains(name) || a.IDS.Contains(name)) && (a.Parent == myself || a.ID == myself));
                 return Json(res);
             }
             catch (Exception e)

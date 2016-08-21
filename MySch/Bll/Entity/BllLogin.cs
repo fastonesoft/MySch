@@ -6,7 +6,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllLogin : Bll<TLogin>
+    public class BllLogin : BllEntity<TLogin>
     {
         public string ID { get; set; }
         public int IDS { get; set; }

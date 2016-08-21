@@ -30,8 +30,8 @@ namespace MySch.Bll
         {
             try
             {
-                string jsons = JsonConvert.SerializeObject(obj, Formatting.Indented);
-                var entity = JsonConvert.DeserializeObject<Entity>(jsons);
+                //表示数据 -> 实体对象
+                var entity = Jsons<Entity>.JsonEntity(obj);
                 //实体对象：添加
                 DataCRUD<Entity>.Add(entity);
             }

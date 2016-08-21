@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class UserPartController : RoleController
+    public class UserStepController : RoleController
     {
         public ActionResult Index()
         {
@@ -16,17 +16,17 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult AddPart()
+        public ActionResult AddStep()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult EditPart(string id)
+        public ActionResult EditStep(string id)
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllStep.GetEntity<BllStep>(id);
                 return View(db);
             }
             catch (Exception e)
@@ -36,11 +36,11 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult DelPart(string id)
+        public ActionResult DelStep(string id)
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllStep.GetEntity<BllStep>(id);
                 return View(db);
             }
             catch (Exception e)
@@ -51,18 +51,17 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPart part)
+        public ActionResult AddTokey(BllStep step)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-
-                part.AccIDS = login.IDS;
-                part.ID = Guid.NewGuid().ToString("N");
+                step.AccIDS = login.IDS;
+                step.ID = Guid.NewGuid().ToString("N");
 
                 //添加
-                part.ToAdd(ModelState);
-                return Json(part);
+                step.ToAdd(ModelState);
+                return Json(step);
             }
             catch (Exception e)
             {
@@ -72,12 +71,12 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPart part)
+        public ActionResult EditTokey(BllStep step)
         {
             try
             {
-                part.ToUpdate(ModelState);
-                return Json(part);
+                step.ToUpdate(ModelState);
+                return Json(step);
             }
             catch (Exception e)
             {
@@ -87,12 +86,12 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPart part)
+        public ActionResult DelTokey(BllStep step)
         {
             try
             {
-                part.ToDelete(ModelState);
-                return Json(part);
+                step.ToDelete(ModelState);
+                return Json(step);
             }
             catch (Exception e)
             {
@@ -107,7 +106,7 @@ namespace MySch.Controllers.Admin
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllPart.GetDataGridPages<BllPart, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllStep.GetDataGridPages<BllStep, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

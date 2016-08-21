@@ -17,11 +17,11 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.IDS)
                 .IsRequired()
-                .HasMaxLength(32);
+                .HasMaxLength(20);
 
             this.Property(t => t.Name)
                 .IsRequired()
-                .HasMaxLength(32);
+                .HasMaxLength(20);
 
             this.Property(t => t.Pwd)
                 .IsRequired()

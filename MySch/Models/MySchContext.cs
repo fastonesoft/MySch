@@ -21,9 +21,12 @@ namespace MySch.Models
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
         public DbSet<TPart> TParts { get; set; }
+        public DbSet<TPartSt> TPartSts { get; set; }
         public DbSet<TPrint> TPrints { get; set; }
+        public DbSet<TStep> TSteps { get; set; }
         public DbSet<TStudReg> TStudRegs { get; set; }
         public DbSet<TYear> TYears { get; set; }
+        public DbSet<QPartSt> QPartSts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -32,9 +35,12 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());
             modelBuilder.Configurations.Add(new TPartMap());
+            modelBuilder.Configurations.Add(new TPartStMap());
             modelBuilder.Configurations.Add(new TPrintMap());
+            modelBuilder.Configurations.Add(new TStepMap());
             modelBuilder.Configurations.Add(new TStudRegMap());
             modelBuilder.Configurations.Add(new TYearMap());
+            modelBuilder.Configurations.Add(new QPartStMap());
         }
     }
 }
