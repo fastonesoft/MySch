@@ -25,7 +25,5 @@ namespace MySch.Bll.Entity
         [DisplayName("是否启用")]
         public bool Fixed { get; set; }
 
-        //用户帐号
-        public string AccIDS { get; set; }
     }
 }

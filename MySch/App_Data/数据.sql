@@ -237,23 +237,6 @@ insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200602', '321
 insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200502', '3212840204', '321284022005', '32128402')
 insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200402', '3212840204', '321284022004', '32128402')
 
---校区分级 查询
-go
-create view QPartStep
-as
-select a.ID
-,a.IDS
-,PartIDS
-,StepIDS
-,a.AccIDS
-,ISNULL(b.Name, '哪所学校') as PartName
-,ISNULL(c.Name, 2016) as StepName 
-from TPartStep a left join TPart b
-on a.PartIDS = b.IDS
-left join TStep c
-on a.StepIDS = c.IDS
-go
-
 --年度设置
 create table TYear
 (

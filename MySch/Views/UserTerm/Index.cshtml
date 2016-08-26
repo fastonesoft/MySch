@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //UserYear/Index
+    //UserTerm/Index
 }
 
 <!DOCTYPE html>
@@ -8,26 +8,26 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>年度设置</title>
+    <title>学期设置</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            years = {
+            terms = {
                 add: function () {
-                    DataGridNone('/UserYear/AddYear');
+                    DataGridNone('/UserTerm/AddTerm');
                 },
                 edit: function () {
-                    DataGridRow('#years-grid', '/UserYear/EditYear');
+                    DataGridRow('#terms-grid', '/UserTerm/EditTerm');
                 },
                 del: function () {
-                    DataGridRow('#years-grid', '/UserYear/DelYear');
+                    DataGridRow('#terms-grid', '/UserTerm/DelTerm');
                 }
             }
 
             //数据表格
-            $('#years-grid').datagrid({
+            $('#terms-grid').datagrid({
                 fit: true,
                 striped: true,
                 rownumbers: true,
@@ -35,7 +35,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserYear/DataGrid',
+                url: '/UserTerm/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -46,10 +46,11 @@
                 },
 
                 columns: [[
-                    { title: '年度编号', field: 'IDS', align: 'center', sortable: true, width: 150 },
-                    { title: '年度名称', field: 'Name', align: 'center', sortable: true, width: 100 },
+                    { title: '学期编号', field: 'IDS', align: 'center', sortable: true, width: 150 },
+                    { title: '学期名称', field: 'Name', align: 'center', sortable: true, width: 100 },
+                    { title: '年度名称', field: 'YearName', align: 'center', sortable: true, width: 100 },
                     {
-                        title: '当前年度', field: 'IsCurrent', halign: 'center', width: 100,
+                        title: '当前学期', field: 'IsCurrent', halign: 'center', width: 100,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                             //return value.ok ? null : value.message;
@@ -62,7 +63,7 @@
                     }
                 ]],
 
-                toolbar: '#years-grid-tool',
+                toolbar: '#terms-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -72,25 +73,25 @@
     </script>
 </head>
 <body>
-    <table id="years-grid"></table>
-    <div id="years-grid-tool">
+    <table id="terms-grid"></table>
+    <div id="terms-grid-tool">
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="years.add();">添加</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="terms.add();">添加</a>
                     </td>
                     <td>
                         <div class="datagrid-btn-separator"></div>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="years.edit();">修改</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="terms.edit();">修改</a>
                     </td>
                     <td>
                         <div class="datagrid-btn-separator"></div>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="years.del();">删除</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="terms.del();">删除</a>
                     </td>
                 </tr>
             </thead>

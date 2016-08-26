@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class UserPartStepController : RoleController
+    public class UserTermController : RoleController
     {
         public ActionResult Index()
         {
@@ -18,16 +18,14 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult AddPartStep()
+        public ActionResult AddTerm()
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, null);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, null);
-
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
+                
                 return View();
             }
             catch (Exception e)
@@ -37,17 +35,15 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult EditPartStep(string id)
+        public ActionResult EditTerm(string id)
         {
             try
             {
-                var entity = BllPartStep.GetEntity<BllPartStep>(id);
+                var entity = BllTerm.GetEntity<BllTerm>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, entity.StepIDS);
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
 
                 return View(entity);
             }
@@ -58,17 +54,15 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult DelPartStep(string id)
+        public ActionResult DelTerm(string id)
         {
             try
             {
-                var entity = BllPartStep.GetEntity<BllPartStep>(id);
+                var entity = BllTerm.GetEntity<BllTerm>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, entity.StepIDS);
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
 
                 return View(entity);
             }
@@ -80,19 +74,23 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPartStep partstep)
+        public ActionResult AddTokey(BllTerm term)
         {
             try
             {
+                if(term.IsCurrent)
+                {
+                    //清除当前
+                    BllTerm.UnSelectCurrent();
+                }
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                partstep.AccIDS = login.IDS;
-                partstep.ID = Guid.NewGuid().ToString("N");
+                term.AccIDS = login.IDS;
+                term.ID = Guid.NewGuid().ToString("N");
                 //添加
-                partstep.ToAdd(ModelState);
+                term.ToAdd(ModelState);
                 //查询 视图数据
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
-                return Json(qpartstep);
+                return Json(term);
             }
             catch (Exception e)
             {
@@ -102,15 +100,19 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPartStep partstep)
+        public ActionResult EditTokey(BllTerm term)
         {
             try
             {
+                if(term.IsCurrent)
+                {
+                    //清除当前
+                    BllTerm.UnSelectCurrent();
+                }
                 //更新
-                partstep.ToUpdate(ModelState);
+                term.ToUpdate(ModelState);
                 //查询 视图数据
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
-                return Json(qpartstep);
+                return Json(term);
             }
             catch (Exception e)
             {
@@ -120,15 +122,14 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPartStep partstep)
+        public ActionResult DelTokey(BllTerm term)
         {
             try
             {
                 //查询 视图数据 保存
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
                 //删除
-                partstep.ToDelete(ModelState);
-                return Json(qpartstep);
+                term.ToDelete(ModelState);
+                return Json(term);
             }
             catch (Exception e)
             {
@@ -142,7 +143,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllPartStep.GetDataGridQPages(a => a.AccIDS == login.IDS,  page, rows);
+                var res = QllTerm.GetDataGridQPages(a => a.AccIDS == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

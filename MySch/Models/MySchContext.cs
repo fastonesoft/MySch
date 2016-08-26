@@ -28,7 +28,6 @@ namespace MySch.Models
         public DbSet<TStudReg> TStudRegs { get; set; }
         public DbSet<TTerm> TTerms { get; set; }
         public DbSet<TYear> TYears { get; set; }
-        public DbSet<QPartStep> QPartSteps { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -44,7 +43,6 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TStudRegMap());
             modelBuilder.Configurations.Add(new TTermMap());
             modelBuilder.Configurations.Add(new TYearMap());
-            modelBuilder.Configurations.Add(new QPartStepMap());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllYear
+﻿@model MySch.Bll.Entity.BllTerm
 
 @{
     Layout = null;
@@ -12,7 +12,7 @@
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.IDS)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text" })
             </span>
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
@@ -24,11 +24,13 @@
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.YearIDS)：</div>
+            <input id="YearIDS" name="YearIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent)</div>
         </div>
     </div>
-    @Html.HiddenFor(a => a.ID)
-    @Html.HiddenFor(a => a.AccIDS)
 }
 
 <script type="text/javascript">
@@ -40,7 +42,7 @@
                 $('.field-validation-error:first').parent().find('input').focus();
             }
         });
-        //修改对话框
-        ReDialogEdit('年度修改', 410, 220, '/UserYear/EditTokey', '#years-grid');
+        //添加对话框
+        ReDialogAdd('学期添加', 410, 250, '/UserTerm/AddTokey', '#terms-grid');
     })
 </script>

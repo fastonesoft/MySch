@@ -64,6 +64,11 @@ namespace MySch.Controllers.Admin
         {
             try
             {
+                if(year.IsCurrent)
+                {
+                    //清除当前
+                    BllYear.UnSelectCurrent();
+                }
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
                 year.AccIDS = login.IDS;

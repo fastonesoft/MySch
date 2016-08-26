@@ -295,8 +295,6 @@ namespace MySch.Dal
                 throw new Exception("数据层：排序查询（降），出错！");
             }
         }
-
-
     }
 
 }

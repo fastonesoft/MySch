@@ -25,6 +25,5 @@ namespace MySch.Bll.Entity
         [DisplayName("是否毕业")]
         public bool Fixed { get; set; }
 
-        public string AccIDS { get; set; }
     }
 }

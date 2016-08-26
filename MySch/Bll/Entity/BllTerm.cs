@@ -11,38 +11,41 @@ using System.Web.Mvc;
 
 namespace MySch.Bll.Entity
 {
-    public class BllYear : BllEntity<TYear>
+    public class BllTerm : BllEntity<TTerm>
     {
         public string ID { get; set; }
 
-        [DisplayName("年度编号")]
+        [DisplayName("学期编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字！")]
+        [RegularExpression(@"^\d{14}$", ErrorMessage = "{0}：用14位数字！")]
         public string IDS { get; set; }
 
-        [DisplayName("年度名称")]
+        [DisplayName("学期名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：为4位数字！")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个中文字符；")]
         public int Name { get; set; }
 
-        [DisplayName("当前年度")]
+        [DisplayName("当前学期")]
         public bool IsCurrent { get; set; }
+
+        [DisplayName("年度编号")]
+        public string YearIDS { get; set; }
 
 
         public static void UnSelectCurrent()
         {
             try
             {
-                var years = DataCRUD<TYear>.Expression(a => a.IsCurrent);
+                var years = DataCRUD<TTerm>.Expression(a => a.IsCurrent);
                 foreach (var year in years)
                 {
                     year.IsCurrent = false;
-                    DataCRUD<TYear>.Update(year);
+                    DataCRUD<TTerm>.Update(year);
                 }
             }
             catch (Exception)
             {
-                new Exception("业务逻辑：清除当前年度出错！");
+                new Exception("业务逻辑：清除当前学期出错！");
             }
         }
     }

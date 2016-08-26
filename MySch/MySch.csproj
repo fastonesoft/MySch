@@ -133,11 +133,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\EasyUI.cs" />
+    <Compile Include="Bll\Entity\BllGrade.cs" />
     <Compile Include="Bll\Entity\BllStep.cs" />
     <Compile Include="Bll\Entity\BllPartStep.cs" />
     <Compile Include="Bll\Entity\BllPart.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\Entity\BllTerm.cs" />
     <Compile Include="Bll\Jsons.cs" />
     <Compile Include="Bll\Model\Combo.cs" />
     <Compile Include="Bll\Setting.cs" />
@@ -149,7 +151,11 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
-    <Compile Include="Bll\View\QllPartStep.cs" />
+    <Compile Include="Bll\View\QllGrade.cs" />
+    <Compile Include="Bll\View\QllPartStep.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\View\QllTerm.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Users\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
@@ -165,6 +171,8 @@
     <Compile Include="Controllers\Users\UserEduController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Users\UserGradeController.cs" />
+    <Compile Include="Controllers\Users\UserTermController.cs" />
     <Compile Include="Controllers\Users\UserYearController.cs" />
     <Compile Include="Controllers\Users\UserStepController.cs" />
     <Compile Include="Controllers\Users\UserPartStepController.cs" />
@@ -188,7 +196,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
-    <Compile Include="Models\Mapping\QPartStepMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
@@ -202,7 +209,6 @@
     <Compile Include="Models\Mapping\TTermMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
-    <Compile Include="Models\QPartStep.cs" />
     <Compile Include="Models\TAcc.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
@@ -531,6 +537,10 @@
     <Content Include="Views\UserYear\AddYear.cshtml" />
     <Content Include="Views\UserYear\DelYear.cshtml" />
     <Content Include="Views\UserYear\EditYear.cshtml" />
+    <Content Include="Views\UserTerm\AddTerm.cshtml" />
+    <Content Include="Views\UserTerm\DelYear.cshtml" />
+    <Content Include="Views\UserTerm\EditYear.cshtml" />
+    <Content Include="Views\UserTerm\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />

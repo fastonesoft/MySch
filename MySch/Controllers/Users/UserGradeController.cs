@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class UserPartStepController : RoleController
+    public class UserGradeController : RoleController
     {
         public ActionResult Index()
         {
@@ -18,7 +18,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult AddPartStep()
+        public ActionResult AddGrade()
         {
             try
             {
@@ -37,11 +37,11 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult EditPartStep(string id)
+        public ActionResult EditGrade(string id)
         {
             try
             {
-                var entity = BllPartStep.GetEntity<BllPartStep>(id);
+                var entity = BllGrade.GetEntity<BllGrade>(id);
 
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -58,11 +58,11 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult DelPartStep(string id)
+        public ActionResult DelGrade(string id)
         {
             try
             {
-                var entity = BllPartStep.GetEntity<BllPartStep>(id);
+                var entity = BllGrade.GetEntity<BllGrade>(id);
 
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -80,7 +80,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPartStep partstep)
+        public ActionResult AddTokey(BllGrade partstep)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace MySch.Controllers.Admin
                 //添加
                 partstep.ToAdd(ModelState);
                 //查询 视图数据
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
+                var qpartstep = QllGrade.GetEntity<QllGrade>(partstep.ID);
                 return Json(qpartstep);
             }
             catch (Exception e)
@@ -102,14 +102,14 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPartStep partstep)
+        public ActionResult EditTokey(BllGrade partstep)
         {
             try
             {
                 //更新
                 partstep.ToUpdate(ModelState);
                 //查询 视图数据
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
+                var qpartstep = QllGrade.GetEntity<QllGrade>(partstep.ID);
                 return Json(qpartstep);
             }
             catch (Exception e)
@@ -120,12 +120,12 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPartStep partstep)
+        public ActionResult DelTokey(BllGrade partstep)
         {
             try
             {
                 //查询 视图数据 保存
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
+                var qpartstep = QllGrade.GetEntity<QllGrade>(partstep.ID);
                 //删除
                 partstep.ToDelete(ModelState);
                 return Json(qpartstep);
@@ -142,7 +142,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllPartStep.GetDataGridQPages(a => a.AccIDS == login.IDS,  page, rows);
+                var res = QllGrade.GetDataGridQPages(a => a.AccIDS == login.IDS,  page, rows);
                 return Json(res);
             }
             catch (Exception e)

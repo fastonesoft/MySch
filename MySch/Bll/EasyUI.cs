@@ -32,7 +32,7 @@ namespace MySch.Bll
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public static object DataGrids(List<Entity> entities)
+        public static object DataGrids(IEnumerable<Entity> entities)
         {
             if (entities == null)
             {
