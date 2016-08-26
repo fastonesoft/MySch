@@ -23,7 +23,7 @@ namespace MySch.Bll.Entity
         [DisplayName("学期名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^[\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个中文字符；")]
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("当前学期")]
         public bool IsCurrent { get; set; }
@@ -31,6 +31,7 @@ namespace MySch.Bll.Entity
         [DisplayName("年度编号")]
         public string YearIDS { get; set; }
 
+        public string AccIDS { get; set; }
 
         public static void UnSelectCurrent()
         {

@@ -23,11 +23,12 @@ namespace MySch.Bll.Entity
         [DisplayName("年度名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：为4位数字！")]
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("当前年度")]
         public bool IsCurrent { get; set; }
 
+        public string AccIDS { get; set; }
 
         public static void UnSelectCurrent()
         {

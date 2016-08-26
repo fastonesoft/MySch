@@ -17,7 +17,7 @@ namespace MySch.Bll.View
         public string AccIDS { get; set; }
 
         public string PartName { get; set; }
-        public int StepName { get; set; }
+        public string StepName { get; set; }
 
         //多表连接查询
         public static object GetDataGridQPages(Expression<Func<QllPartStep, bool>> where, int pageIndex, int pageSize)

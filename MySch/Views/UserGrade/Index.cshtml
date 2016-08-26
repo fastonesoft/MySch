@@ -1,0 +1,90 @@
+﻿@{
+    Layout = null;
+    //UserGrade/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>年级设置</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            grades = {
+                add: function () {
+                    DataGridNone('/UserGrade/AddGrade');
+                },
+                edit: function () {
+                    DataGridRow('#grades-grid', '/UserGrade/EditGrade');
+                },
+                del: function () {
+                    DataGridRow('#grades-grid', '/UserGrade/DelGrade');
+                }
+            }
+
+            //数据表格
+            $('#grades-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/UserGrade/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '年级编号', field: 'IDS', align: 'center', sortable: true, width: 150 },
+                    { title: '校区分级', field: 'Name', align: 'center', sortable: true, width: 150 },
+                    { title: '年度名称', field: 'YearName', align: 'center', sortable: true, width: 100 },
+                    { title: '年级名称', field: 'EduName', align: 'center', sortable: true, width: 100 }
+                ]],
+
+                toolbar: '#grades-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="grades-grid"></table>
+    <div id="grades-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="grades.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="grades.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="grades.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

@@ -17,10 +17,11 @@ namespace MySch.Bll.View
         public string YearIDS { get; set; }
         public string AccIDS { get; set; }
 
+        public string Name { get; set; }
         public string EduName { get; set; }
         public string PartName { get; set; }
-        public int StepName { get; set; }
-        public int YearName { get; set; }
+        public string StepName { get; set; }
+        public string YearName { get; set; }
 
         //多表连接查询
         public static object GetDataGridQPages(Expression<Func<QllGrade, bool>> where, int pageIndex, int pageSize)
@@ -51,6 +52,7 @@ namespace MySch.Bll.View
                                       EduIDS = g.EduIDS,
                                       YearIDS = g.YearIDS,
                                       AccIDS = g.AccIDS,
+                                      Name = p.Name + " - " + s.Name + "级",
                                       EduName = e.Name,
                                       PartName = p.Name,
                                       StepName = s.Name,

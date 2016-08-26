@@ -139,42 +139,5 @@ namespace MySch.Bll
                 throw e;
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="BllEntity"></typeparam>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        public static List<Combo> GetCombos(Expression<Func<Entity, bool>> where)
-        {
-            try
-            {
-                var combos = new List<Combo>();
-                var entitys = DataCRUD<Entity>.Expression(where);
-                foreach (var entity in entitys)
-                {
-                    //反射
-                    Type entity_type = entity.GetType();
-                    var entity_props = entity_type.GetProperties();
-
-                    var entity_ids = entity_props.FirstOrDefault(a => a.Name == "IDS");
-                    var entity_ids_value = entity_ids.GetValue(entity);
-
-                    var entity_name = entity_props.FirstOrDefault(a => a.Name == "Name");
-                    var entity_name_value = entity_name.GetValue(entity);
-
-                    //转换
-                    var combo = new Combo { id = entity_ids_value.ToString(), text = entity_name_value.ToString(), selected = false };
-                    combos.Add(combo);
-                }
-                return combos;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
     }
 }

@@ -20,10 +20,11 @@ namespace MySch.Bll.Entity
         [DisplayName("分级名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：用4位数字设置；")]
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("是否毕业")]
         public bool Fixed { get; set; }
 
+        public string AccIDS { get; set; }
     }
 }

@@ -1,0 +1,66 @@
+﻿@model MySch.Bll.Entity.BllGrade
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 20px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.PartStepIDS)：</div>
+            <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.YearIDS)：</div>
+            <input id="YearIDS" name="YearIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.EduIDS)：</div>
+            <input id="EduIDS" name="EduIDS" style="width:156px;" />
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.AccIDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        var edus = $.parseJSON('@Html.Raw(ViewBag.Edus)');
+        var years = $.parseJSON('@Html.Raw(ViewBag.Years)');
+        var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
+
+        //加载选择框
+        $('#EduIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            readonly: true,
+            data: edus
+        });
+        $('#YearIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            readonly: true,
+            data: years
+        });
+        $('#PartStepIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            readonly: true,
+            data: partsteps,
+        });
+
+        //删除对话框
+        ReDialogDel('年级删除', 410, 285, '/UserGrade/DelTokey', '#grades-grid');
+    })
+</script>

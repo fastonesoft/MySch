@@ -16,7 +16,7 @@ namespace MySch.Bll.View
         public bool IsCurrent { get; set; }
         public string AccIDS { get; set; }
 
-        public int YearName { get; set; }
+        public string YearName { get; set; }
 
         //多表连接查询
         public static object GetDataGridQPages(Expression<Func<QllTerm, bool>> where, int pageIndex, int pageSize)

@@ -541,6 +541,10 @@
     <Content Include="Views\UserTerm\DelYear.cshtml" />
     <Content Include="Views\UserTerm\EditYear.cshtml" />
     <Content Include="Views\UserTerm\Index.cshtml" />
+    <Content Include="Views\UserGrade\Index.cshtml" />
+    <Content Include="Views\UserGrade\AddGrade.cshtml" />
+    <Content Include="Views\UserGrade\DelGrade.cshtml" />
+    <Content Include="Views\UserGrade\EditGrade.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />

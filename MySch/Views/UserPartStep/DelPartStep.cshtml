@@ -38,14 +38,14 @@
         $('#PartIDS').combobox({
             valueField: 'id',
             textField: 'text',
+            readonly: true,
             data: parts,
-            readonly: true
         });
         $('#StepIDS').combobox({
             valueField: 'id',
             textField: 'text',
+            readonly: true,
             data: steps,
-            readonly: true
         });
         //删除对话框
         DialogDel('校区分级删除', 410, 250, '/UserPartStep/DelTokey', '#partsteps-grid');

@@ -1,0 +1,68 @@
+﻿@model MySch.Bll.Entity.BllGrade
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 20px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.PartStepIDS)：</div>
+            <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.YearIDS)：</div>
+            <input id="YearIDS" name="YearIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.EduIDS)：</div>
+            <input id="EduIDS" name="EduIDS" style="width:156px;" />
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(function () {
+        //按键：焦点转移
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                //错误输入聚焦
+                $('.field-validation-error:first').parent().find('input').focus();
+            }
+        });
+
+        var edus = $.parseJSON('@Html.Raw(ViewBag.Edus)');
+        var years = $.parseJSON('@Html.Raw(ViewBag.Years)');
+        var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
+
+        //加载选择框
+        $('#EduIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: edus
+        });
+        $('#YearIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: years
+        });
+        $('#PartStepIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: partsteps,
+        });
+
+        //添加对话框
+        ReDialogAdd('年级添加', 410, 285, '/UserGrade/AddTokey', '#grades-grid');
+    })
+</script>

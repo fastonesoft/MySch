@@ -23,10 +23,13 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, null);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, null);
+                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = BllPartStep.GetPartSteps(a => a.AccIDS == login.IDS);
+
+                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, null);
+                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
+                ViewBag.PartSteps = Combo.ToComboJsons<BllPartStep>(partsteps, null);
 
                 return View();
             }
@@ -44,10 +47,13 @@ namespace MySch.Controllers.Admin
                 var entity = BllGrade.GetEntity<BllGrade>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, entity.StepIDS);
+                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = BllPartStep.GetPartSteps(a => a.AccIDS == login.IDS);
+
+                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
+                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.PartSteps = Combo.ToComboJsons<BllPartStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -65,10 +71,13 @@ namespace MySch.Controllers.Admin
                 var entity = BllGrade.GetEntity<BllGrade>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, entity.StepIDS);
+                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = BllPartStep.GetPartSteps(a => a.AccIDS == login.IDS);
+
+                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
+                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.PartSteps = Combo.ToComboJsons<BllPartStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -80,19 +89,19 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllGrade partstep)
+        public ActionResult AddTokey(BllGrade grade)
         {
             try
             {
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                partstep.AccIDS = login.IDS;
-                partstep.ID = Guid.NewGuid().ToString("N");
+                grade.AccIDS = login.IDS;
+                grade.ID = Guid.NewGuid().ToString("N");
                 //添加
-                partstep.ToAdd(ModelState);
+                grade.ToAdd(ModelState);
                 //查询 视图数据
-                var qpartstep = QllGrade.GetEntity<QllGrade>(partstep.ID);
-                return Json(qpartstep);
+                var qgrade = QllGrade.GetEntity<QllGrade>(grade.ID);
+                return Json(qgrade);
             }
             catch (Exception e)
             {
@@ -102,15 +111,15 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllGrade partstep)
+        public ActionResult EditTokey(BllGrade grade)
         {
             try
             {
                 //更新
-                partstep.ToUpdate(ModelState);
+                grade.ToUpdate(ModelState);
                 //查询 视图数据
-                var qpartstep = QllGrade.GetEntity<QllGrade>(partstep.ID);
-                return Json(qpartstep);
+                var qgrade = QllGrade.GetEntity<QllGrade>(grade.ID);
+                return Json(qgrade);
             }
             catch (Exception e)
             {
@@ -120,15 +129,15 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllGrade partstep)
+        public ActionResult DelTokey(BllGrade grade)
         {
             try
             {
                 //查询 视图数据 保存
-                var qpartstep = QllGrade.GetEntity<QllGrade>(partstep.ID);
+                var qgrade = QllGrade.GetEntity<QllGrade>(grade.ID);
                 //删除
-                partstep.ToDelete(ModelState);
-                return Json(qpartstep);
+                grade.ToDelete(ModelState);
+                return Json(qgrade);
             }
             catch (Exception e)
             {
@@ -142,7 +151,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllGrade.GetDataGridQPages(a => a.AccIDS == login.IDS,  page, rows);
+                var res = QllGrade.GetDataGridQPages(a => a.AccIDS == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

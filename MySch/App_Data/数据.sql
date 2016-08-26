@@ -172,7 +172,7 @@ create table TStep
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--32128402XXXX
-	Name	int not null,	--级
+	Name	nvarchar(10) not null,	--级
 	Fixed	bit not null,	--是否毕业
 	AccIDS	nvarchar(20) not null
 )
@@ -182,19 +182,19 @@ alter table TStep add constraint FK_TStep_AccIDS foreign key (AccIDS) references
 create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 go
 
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022016', 2016, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022015', 2015, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022014', 2014, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022013', 2013, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022012', 2012, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022011', 2011, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022010', 2010, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022009', 2009, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022008', 2008, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022007', 2007, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022006', 2006, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022005', 2005, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022004', 2004, 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022016', '2016', 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022015', '2015', 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022014', '2014', 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022013', '2013', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022012', '2012', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022011', '2011', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022010', '2010', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022009', '2009', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022008', '2008', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022007', '2007', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022006', '2006', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022005', '2005', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '321284022004', '2004', 1, '32128402')
 
 --校区分级
 create table TPartStep
@@ -242,7 +242,7 @@ create table TYear
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--年度编号32128402XXXX
-	Name	int not null,	--年度2016
+	Name	nvarchar(10) not null,	--年度2016
 	IsCurrent	bit not null,	--当前年度
 	AccIDS	nvarchar(20) not null	--所属学校
 )
@@ -251,19 +251,19 @@ alter table TYear add constraint PK_TYear primary key clustered (ID)
 alter table TYear add constraint FK_TYear_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TYear_IDS on TYear (IDS)
 go
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022016', 2016, 1, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022015', 2015, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022014', 2014, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022013', 2013, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022012', 2012, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022011', 2011, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022010', 2010, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022009', 2009, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022008', 2008, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022007', 2007, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022006', 2006, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022005', 2005, 0, '32128402')
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022004', 2004, 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022016', '2016', 1, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022015', '2015', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022014', '2014', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022013', '2013', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022012', '2012', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022011', '2011', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022010', '2010', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022009', '2009', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022008', '2008', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022007', '2007', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022006', '2006', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022005', '2005', 0, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022004', '2004', 0, '32128402')
 
 
 --学期设置
@@ -337,57 +337,56 @@ insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090107', '3212
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080107', '32128402200801', '321284022008', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070107', '32128402200701', '321284022007', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060107', '32128402200601', '321284022006', '3212840207', '32128402')
+--			        
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220150108', '32128402201501', '321284022016', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220140108', '32128402201401', '321284022015', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220130108', '32128402201301', '321284022014', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220120108', '32128402201201', '321284022013', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110108', '32128402201101', '321284022012', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100108', '32128402201001', '321284022011', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090108', '32128402200901', '321284022010', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080108', '32128402200801', '321284022009', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070108', '32128402200701', '321284022008', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060108', '32128402200601', '321284022007', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050108', '32128402200501', '321284022006', '3212840208', '32128402')
+--			        
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220140109', '32128402201401', '321284022016', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220130109', '32128402201301', '321284022015', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220120109', '32128402201201', '321284022014', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110109', '32128402201101', '321284022013', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100109', '32128402201001', '321284022012', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090109', '32128402200901', '321284022011', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080109', '32128402200801', '321284022010', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070109', '32128402200701', '321284022009', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060109', '32128402200601', '321284022008', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050109', '32128402200501', '321284022007', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220040109', '32128402200401', '321284022006', '3212840209', '32128402')
 --
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220150108', '32128402201501', '321284022015', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220140108', '32128402201401', '321284022014', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220130108', '32128402201301', '321284022013', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220120108', '32128402201201', '321284022012', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110108', '32128402201101', '321284022011', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100108', '32128402201001', '321284022010', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090108', '32128402200901', '321284022009', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080108', '32128402200801', '321284022008', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070108', '32128402200701', '321284022007', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060108', '32128402200601', '321284022006', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050108', '32128402200501', '321284022005', '3212840208', '32128402')
---
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220140109', '32128402201401', '321284022014', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220130109', '32128402201301', '321284022013', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220120109', '32128402201201', '321284022012', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110109', '32128402201101', '321284022011', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100109', '32128402201001', '321284022010', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090109', '32128402200901', '321284022009', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080109', '32128402200801', '321284022008', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070109', '32128402200701', '321284022007', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060109', '32128402200601', '321284022006', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050109', '32128402200501', '321284022005', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220040109', '32128402200401', '321284022004', '3212840209', '32128402')
---
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110209', '32128402201102', '321284022011', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100209', '32128402201002', '321284022010', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090209', '32128402200902', '321284022009', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080209', '32128402200802', '321284022008', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070209', '32128402200702', '321284022007', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060209', '32128402200602', '321284022006', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050209', '32128402200502', '321284022005', '3212840209', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220040209', '32128402200402', '321284022004', '3212840209', '32128402')
---		     
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110208', '32128402201102', '321284022011', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100208', '32128402201002', '321284022010', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090208', '32128402200902', '321284022009', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080208', '32128402200802', '321284022008', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070208', '32128402200702', '321284022007', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060208', '32128402200602', '321284022006', '3212840208', '32128402')
-insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050208', '32128402200502', '321284022005', '3212840208', '32128402')
---		     
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110207', '32128402201102', '321284022011', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100207', '32128402201002', '321284022010', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090207', '32128402200902', '321284022009', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080207', '32128402200802', '321284022008', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070207', '32128402200702', '321284022007', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060207', '32128402200602', '321284022006', '3212840207', '32128402')
-
-
-
+--			        
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110208', '32128402201102', '321284022012', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100208', '32128402201002', '321284022011', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090208', '32128402200902', '321284022010', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080208', '32128402200802', '321284022009', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070208', '32128402200702', '321284022008', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060208', '32128402200602', '321284022007', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050208', '32128402200502', '321284022006', '3212840208', '32128402')
+--			        
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220110209', '32128402201102', '321284022013', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220100209', '32128402201002', '321284022012', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220090209', '32128402200902', '321284022011', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220080209', '32128402200802', '321284022010', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220070209', '32128402200702', '321284022009', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220060209', '32128402200602', '321284022008', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220050209', '32128402200502', '321284022007', '3212840209', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '3212840220040209', '32128402200402', '321284022006', '3212840209', '32128402')
+--			        
+			        
 
 
 
