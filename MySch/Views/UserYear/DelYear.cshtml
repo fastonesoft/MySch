@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllEdu
+﻿@model MySch.Bll.Entity.BllYear
 
 @{
     Layout = null;
@@ -19,12 +19,12 @@
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
+            <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent, new { @disabled = "disabled" })</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
@@ -33,14 +33,7 @@
 
 <script type="text/javascript">
     $(function () {
-        //按键：焦点转移
-        $(document).keypress(function (e) {
-            if (e.which == 13) {
-                //错误输入聚焦
-                $('.field-validation-error:first').parent().find('input').focus();
-            }
-        });
-        //修改对话框
-        DialogEdit('学制修改', 410, 220, '/UserEdu/EditTokey', '#edus-grid');
+        //删除对话框
+        DialogDel('年度删除', 410, 220, '/UserYear/DelTokey', '#years-grid');
     })
 </script>

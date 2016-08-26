@@ -14,7 +14,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("分级编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{12,20}$", ErrorMessage = "{0}：用12-20位数字设置；")]
+        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字设置；")]
         public string IDS { get; set; }
 
         [DisplayName("分级名称")]
@@ -24,6 +24,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("是否毕业")]
         public bool Fixed { get; set; }
+
         public string AccIDS { get; set; }
     }
 }

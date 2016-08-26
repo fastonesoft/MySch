@@ -17,6 +17,27 @@ function DataGridNone(url) {
     });
 }
 
+function DataGridNone(url, gridID, gridUrl)
+{
+    //禁用
+    $('.easyui-linkbutton').linkbutton('disable');
+    //打开窗口
+    $.post(url, function (d) {
+        if (d.error) {
+            $.messager.alert('错误提示', d.message, 'error');
+            //启用按钮
+            $('.easyui-linkbutton').linkbutton('enable');
+        } else {
+            //清除
+            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            //加载
+            $('<div id="dialog-form">').appendTo('#body').html(d);
+            //刷新
+            $(gridID).datagrid({ url: gridUrl });
+        }
+    });
+}
+
 function DataGridRow(gridID, url) {
     //选择网格
     var row = $(gridID).datagrid('getSelected');
@@ -24,7 +45,6 @@ function DataGridRow(gridID, url) {
         $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
         return false;
     }
-    console.log(row);
     //禁用
     $('.easyui-linkbutton').linkbutton('disable');
     //打开窗口
@@ -40,6 +60,32 @@ function DataGridRow(gridID, url) {
         }
     });
 }
+
+function DataGridRow(url, gridID, gridUrl) {
+    //选择网格
+    var row = $(gridID).datagrid('getSelected');
+    if (!row) {
+        $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
+        return false;
+    }
+    //禁用
+    $('.easyui-linkbutton').linkbutton('disable');
+    //打开窗口
+    $.post(url, { id: row.ID }, function (d) {
+        if (d.error) {
+            $.messager.alert('错误提示', d.message, 'error');
+            $('.easyui-linkbutton').linkbutton('enable');
+        } else {
+            //清除
+            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            //加载
+            $('<div id="dialog-form">').appendTo('#body').html(d);
+            //刷新
+            $(gridID).datagrid({ url: gridUrl });
+        }
+    });
+}
+
 
 function DataGridRows(gridID, url) {
     //选择网格

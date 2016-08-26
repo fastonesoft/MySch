@@ -76,76 +76,90 @@ namespace MySch.Dal
             }
         }
 
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-
+        /////////////////////////
+        ////       查询      ////
+        /////////////////////////
 
         /// <summary>
-        /// 默认排序方式，查询所有数据
+        /// 表达式统计
         /// </summary>
+        /// <param name="where"></param>
         /// <returns></returns>
-        public static IEnumerable<TEntity> All()
-        {
-            using (BaseContext db = new BaseContext())
-            {
-                return db.Set<TEntity>().ToList();
-            }
-        }
-
         public static int Count(Expression<Func<TEntity, bool>> where)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                return db.Set<TEntity>().Count(where);
+                using (BaseContext db = new BaseContext())
+                {
+                    return db.Set<TEntity>().Count(where);
+                }
             }
-
+            catch (Exception)
+            {
+                throw new Exception("数据层：表达式统计，异常！");
+            }
         }
 
         /// <summary>
-        /// 根据表达式查询记录
+        /// 表达式查询
+        /// 根据Lambda查询数据集
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
         public static IEnumerable<TEntity> Expression(Expression<Func<TEntity, bool>> where)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                return db.Set<TEntity>().Where(where).ToList();
+                using (BaseContext db = new BaseContext())
+                {
+                    return db.Set<TEntity>().Where(where).ToList();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：表达式查询，异常！");
             }
         }
 
         /// <summary>
-        /// 根据主键id查询数据
+        /// 主键实体查询
         /// </summary>
         /// <param name="id">主键id</param>
         /// <returns></returns>
         public static TEntity Entity(params object[] id)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                return db.Set<TEntity>().Find(id);
+                using (BaseContext db = new BaseContext())
+                {
+                    return db.Set<TEntity>().Find(id);
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：主键实体查询，出错！");
             }
         }
 
         /// <summary>
+        /// 表达式实体查询
         /// 根据表达式查询记录，如果找到唯一记录，则，返回记录本身；否则为：空
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
         public static TEntity Entity(Expression<Func<TEntity, bool>> where)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                var res = db.Set<TEntity>().Where(where);
-                return res.Count() == 1 ? res.Single() : null;
+                using (BaseContext db = new BaseContext())
+                {
+                    var res = db.Set<TEntity>().Where(where);
+                    return res.Count() == 1 ? res.Single() : null;
+                }
             }
-        }
-
-        public static TEntity Max()
-        {
-            using (BaseContext db = new BaseContext())
+            catch
             {
-                return db.Set<TEntity>().AsQueryable().Max();
+                throw new Exception("数据层：表达式实体查询，出错！");
             }
         }
 
@@ -168,47 +182,9 @@ namespace MySch.Dal
         //    }
         //}
 
-        /// <summary>
-        /// 检查数据内容是否存在
-        /// </summary>
-        /// <param name="where">查询条件表达式</param>
-        /// <param name="count">返回查询记录数</param>
-        /// <returns></returns>
-        public static bool CheckExists(Expression<Func<TEntity, bool>> where, out int count)
-        {
-            using (BaseContext db = new BaseContext())
-            {
-                var res = db.Set<TEntity>().Where(where);
-                count = res.Count();
-                return count != 0;
-            }
-        }
 
         /// <summary>
-        /// 检查数据内容是否存在
-        /// </summary>
-        /// <param name="where">查询条件表达式</param>
-        /// <returns></returns>
-        public static bool CheckExists(Expression<Func<TEntity, bool>> where)
-        {
-            int count = 0;
-            return CheckExists(where, out count);
-        }
-
-        /// <summary>
-        /// 检查数据记录是否唯一
-        /// </summary>
-        /// <param name="where">查询条件表达式</param>
-        /// <returns></returns>
-        public static bool CheckUnique(Expression<Func<TEntity, bool>> where)
-        {
-            using (BaseContext db = new BaseContext())
-            {
-                return db.Set<TEntity>().Count(where) == 1;
-            }
-        }
-
-        /// <summary>
+        /// 分布查询（升）
         /// 根据Lambda查询条件读取第X页的数据（升序）
         /// </summary>
         /// <typeparam name="TKey">排序字段类型</typeparam>
@@ -221,21 +197,29 @@ namespace MySch.Dal
         /// <returns></returns>
         public static IEnumerable<TEntity> TakePage<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order, int pageIndex, int pageSize, out int gets, out int total)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                pageSize = pageSize <= 0 ? 10 : pageSize;
-                int skip = (pageIndex - 1) * pageSize;
-                skip = skip < 0 ? 0 : skip;
+                using (BaseContext db = new BaseContext())
+                {
+                    pageSize = pageSize <= 0 ? 10 : pageSize;
+                    int skip = (pageIndex - 1) * pageSize;
+                    skip = skip < 0 ? 0 : skip;
 
-                var list = db.Set<TEntity>().Where(where).OrderBy(order).Skip(skip).Take(pageSize);
-                gets = list.Count();
-                total = db.Set<TEntity>().Count(where);
+                    var list = db.Set<TEntity>().Where(where).OrderBy(order).Skip(skip).Take(pageSize);
+                    gets = list.Count();
+                    total = db.Set<TEntity>().Count(where);
 
-                return list.ToList();
+                    return list.ToList();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：分布查询（升），出错！");
             }
         }
 
         /// <summary>
+        /// 分布查询（降）
         /// 根据Lambda查询条件读取第X页的数据（降序）
         /// </summary>
         /// <typeparam name="TKey">排序字段类型</typeparam>
@@ -248,21 +232,29 @@ namespace MySch.Dal
         /// <returns></returns>
         public static IEnumerable<TEntity> TakePageDesc<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order, int pageIndex, int pageSize, out int gets, out int total)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                pageSize = pageSize <= 0 ? 10 : pageSize;
-                int skip = (pageIndex - 1) * pageSize;
-                skip = skip < 0 ? 0 : skip;
+                using (BaseContext db = new BaseContext())
+                {
+                    pageSize = pageSize <= 0 ? 10 : pageSize;
+                    int skip = (pageIndex - 1) * pageSize;
+                    skip = skip < 0 ? 0 : skip;
 
-                var list = db.Set<TEntity>().Where(where).OrderByDescending(order).Skip(skip).Take(pageSize);
-                gets = list.Count();
-                total = db.Set<TEntity>().Count(where);
+                    var list = db.Set<TEntity>().Where(where).OrderByDescending(order).Skip(skip).Take(pageSize);
+                    gets = list.Count();
+                    total = db.Set<TEntity>().Count(where);
 
-                return list.ToList();
+                    return list.ToList();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：分布查询（降），出错！");
             }
         }
 
         /// <summary>
+        /// 排序查询（升）
         /// 根据Lamda查询条件读取数据（升序）
         /// </summary>
         /// <param name="where">Lamda查询条件</param>
@@ -270,9 +262,16 @@ namespace MySch.Dal
         /// <returns></returns>
         public static IEnumerable<TEntity> TakeOrder<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                return db.Set<TEntity>().Where(where).OrderBy(order).ToList();
+                using (BaseContext db = new BaseContext())
+                {
+                    return db.Set<TEntity>().Where(where).OrderBy(order).ToList();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：排序查询（升），出错！");
             }
         }
 
@@ -284,9 +283,16 @@ namespace MySch.Dal
         /// <returns></returns>
         public static IEnumerable<TEntity> TakeOrderDesc<TKey>(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TKey>> order)
         {
-            using (BaseContext db = new BaseContext())
+            try
             {
-                return db.Set<TEntity>().Where(where).OrderByDescending(order).ToList();
+                using (BaseContext db = new BaseContext())
+                {
+                    return db.Set<TEntity>().Where(where).OrderByDescending(order).ToList();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：排序查询（降），出错！");
             }
         }
 

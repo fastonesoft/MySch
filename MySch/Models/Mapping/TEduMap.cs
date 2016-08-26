@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TPartStMap : EntityTypeConfiguration<TPartSt>
+    public class TEduMap : EntityTypeConfiguration<TEdu>
     {
-        public TPartStMap()
+        public TEduMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -19,11 +19,7 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.PartIDS)
-                .IsRequired()
-                .HasMaxLength(20);
-
-            this.Property(t => t.StepIDS)
+            this.Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(20);
 
@@ -32,11 +28,11 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("TPartSt");
+            this.ToTable("TEdu");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.PartIDS).HasColumnName("PartIDS");
-            this.Property(t => t.StepIDS).HasColumnName("StepIDS");
+            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Fixed).HasColumnName("Fixed");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }
     }

@@ -1,5 +1,7 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.Model;
+using MySch.Bll.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class UserEduController : RoleController
+    public class UserYearController : RoleController
     {
         public ActionResult Index()
         {
@@ -16,18 +18,11 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult AddEdu()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult EditEdu(string id)
+        public ActionResult AddYear()
         {
             try
             {
-                var db = BllEdu.GetEntity<BllEdu>(id);
-                return View(db);
+                return View();
             }
             catch (Exception e)
             {
@@ -36,12 +31,26 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult DelEdu(string id)
+        public ActionResult EditYear(string id)
         {
             try
             {
-                var db = BllEdu.GetEntity<BllEdu>(id);
-                return View(db);
+                var entity = BllYear.GetEntity<BllYear>(id);
+                return View(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DelYear(string id)
+        {
+            try
+            {
+                var entity = BllYear.GetEntity<BllYear>(id);
+                return View(entity);
             }
             catch (Exception e)
             {
@@ -51,18 +60,18 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllEdu edu)
+        public ActionResult AddTokey(BllYear year)
         {
             try
             {
+                //设置用户
                 var login = BllLogin.GetLogin(Session);
-
-                edu.AccIDS = login.IDS;
-                edu.ID = Guid.NewGuid().ToString("N");
-
+                year.AccIDS = login.IDS;
+                year.ID = Guid.NewGuid().ToString("N");
                 //添加
-                edu.ToAdd(ModelState);
-                return Json(edu);
+                year.ToAdd(ModelState);
+                //查询 视图数据
+                return Json(year);
             }
             catch (Exception e)
             {
@@ -72,12 +81,19 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllEdu edu)
+        public ActionResult EditTokey(BllYear year)
         {
             try
             {
-                edu.ToUpdate(ModelState);
-                return Json(edu);
+                if(year.IsCurrent)
+                {
+                    //清除当前
+                    BllYear.UnSelectCurrent();
+                }
+                //更新
+                year.ToUpdate(ModelState);
+                //查询 视图数据
+                return Json(year);
             }
             catch (Exception e)
             {
@@ -87,12 +103,14 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllEdu edu)
+        public ActionResult DelTokey(BllYear year)
         {
             try
             {
-                edu.ToDelete(ModelState);
-                return Json(edu);
+                //查询 视图数据 保存
+                //删除
+                year.ToDelete(ModelState);
+                return Json(year);
             }
             catch (Exception e)
             {
@@ -106,8 +124,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-
-                var res = BllEdu.GetDataGridPages<BllEdu, string >(a => a.AccIDS == login.IDS,  a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllYear.GetDataGridPages<BllYear, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)
@@ -115,7 +132,5 @@ namespace MySch.Controllers.Admin
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
-
-
     }
 }

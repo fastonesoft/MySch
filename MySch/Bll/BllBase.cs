@@ -48,11 +48,11 @@ namespace MySch.Bll
         /// <typeparam name="BllEntity"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static BllEntity GetEntity<BllEntity>(Expression<Func<Entity, bool>> func)
+        public static BllEntity GetEntity<BllEntity>(Expression<Func<Entity, bool>> where)
         {
             try
             {
-                var entity = DataCRUD<Entity>.Entity(func);
+                var entity = DataCRUD<Entity>.Entity(where);
                 if (entity == null) throw new Exception("业务逻辑：无相关记录或存在多个实体！");
 
                 return Jsons<BllEntity>.JsonEntity(entity);

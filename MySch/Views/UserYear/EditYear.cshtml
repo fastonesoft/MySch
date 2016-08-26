@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllEdu
+﻿@model MySch.Bll.Entity.BllYear
 
 @{
     Layout = null;
@@ -24,7 +24,7 @@
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
+            <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent)</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
@@ -41,6 +41,6 @@
             }
         });
         //修改对话框
-        DialogEdit('学制修改', 410, 220, '/UserEdu/EditTokey', '#edus-grid');
+        DialogEdit('年度修改', 410, 220, '/UserYear/EditTokey', '#years-grid');
     })
 </script>

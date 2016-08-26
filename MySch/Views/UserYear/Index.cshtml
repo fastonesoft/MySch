@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+    //UserYear/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>年度设置</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            years = {
+                add: function () {
+                    DataGridNone('/UserYear/AddYear', '#years-grid', '/UserYear/DataGrid');
+                },
+                edit: function () {
+                    DataGridRow('/UserYear/EditYear', '#years-grid', '/UserYear/DataGrid');
+                },
+                del: function () {
+                    DataGridRow('/UserYear/DelYear', '#years-grid', '/UserYear/DataGrid');
+                }
+            }
+
+            //数据表格
+            $('#years-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/UserYear/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '年度编号', field: 'IDS', align: 'center', sortable: true, width: 150 },
+                    { title: '年度名称', field: 'Name', align: 'center', sortable: true, width: 100 },
+                    {
+                        title: '当前年度', field: 'IsCurrent', halign: 'center', width: 100,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    }
+                ]],
+
+                toolbar: '#years-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="years-grid"></table>
+    <div id="years-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="years.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="years.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="years.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,4 +1,5 @@
-﻿using MySch.Models;
+﻿using MySch.Dal;
+using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,21 +13,38 @@ namespace MySch.Bll.Entity
 {
     public class BllYear : BllEntity<TYear>
     {
-        [DisplayName("级")]
+        public string ID { get; set; }
+
+        [DisplayName("年度编号")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字！")]
+        public string IDS { get; set; }
+
+        [DisplayName("年度名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：为4位数字！")]
-        public int IDS { get; set; }
-        public string ID { get; set; }
-        public bool Fixed { get; set; }
+        public int Name { get; set; }
 
-        //创建新的BLL实体
-        public BllYear(int aid)
+        [DisplayName("当前年度")]
+        public bool IsCurrent { get; set; }
+
+        public string AccIDS { get; set; }
+
+        public static void UnSelectCurrent()
         {
-            IDS = aid;
-            ID = Guid.NewGuid().ToString("N");
-            Fixed = false;
+            try
+            {
+                var years = DataCRUD<TYear>.Expression(a => a.IsCurrent);
+                foreach (var year in years)
+                {
+                    year.IsCurrent = false;
+                    DataCRUD<TYear>.Update(year);
+                }
+            }
+            catch (Exception)
+            {
+                new Exception("业务逻辑：清除当前年度出错！");
+            }
         }
-
-
     }
 }

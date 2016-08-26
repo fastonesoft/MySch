@@ -14,7 +14,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("校区编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{10,20}$", ErrorMessage = "{0}：用10-20位数字设置；")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
         public string IDS { get; set; }
 
         [DisplayName("校区名称")]

@@ -8,13 +8,13 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllPartSt : BllEntity<TPartSt>
+    public class BllPartStep : BllEntity<TPartStep>
     {
         public string ID { get; set; }
 
         [DisplayName("校区分级")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{16,20}$", ErrorMessage = "{0}：用16-20位数字设置；")]
+        [RegularExpression(@"^\d{14}$", ErrorMessage = "{0}：用14位数字设置；")]
         public string IDS { get; set; }
 
         [DisplayName("校区编号")]

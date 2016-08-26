@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class UserPartStController : RoleController
+    public class UserPartStepController : RoleController
     {
         public ActionResult Index()
         {
@@ -18,7 +18,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult AddPartSt()
+        public ActionResult AddPartStep()
         {
             try
             {
@@ -37,11 +37,11 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult EditPartSt(string id)
+        public ActionResult EditPartStep(string id)
         {
             try
             {
-                var entity = BllPartSt.GetEntity<BllPartSt>(id);
+                var entity = BllPartStep.GetEntity<BllPartStep>(id);
 
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -58,11 +58,11 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult DelPartSt(string id)
+        public ActionResult DelPartStep(string id)
         {
             try
             {
-                var entity = BllPartSt.GetEntity<BllPartSt>(id);
+                var entity = BllPartStep.GetEntity<BllPartStep>(id);
 
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -80,19 +80,19 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPartSt partst)
+        public ActionResult AddTokey(BllPartStep partstep)
         {
             try
             {
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                partst.AccIDS = login.IDS;
-                partst.ID = Guid.NewGuid().ToString("N");
+                partstep.AccIDS = login.IDS;
+                partstep.ID = Guid.NewGuid().ToString("N");
                 //添加
-                partst.ToAdd(ModelState);
+                partstep.ToAdd(ModelState);
                 //查询 视图数据
-                var qpartst = QllPartSt.GetEntity<QllPartSt>(partst.ID);
-                return Json(qpartst);
+                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
+                return Json(qpartstep);
             }
             catch (Exception e)
             {
@@ -102,15 +102,15 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPartSt partst)
+        public ActionResult EditTokey(BllPartStep partstep)
         {
             try
             {
                 //更新
-                partst.ToUpdate(ModelState);
+                partstep.ToUpdate(ModelState);
                 //查询 视图数据
-                var qpartst = QllPartSt.GetEntity<QllPartSt>(partst.ID);
-                return Json(qpartst);
+                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
+                return Json(qpartstep);
             }
             catch (Exception e)
             {
@@ -120,15 +120,15 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPartSt partst)
+        public ActionResult DelTokey(BllPartStep partstep)
         {
             try
             {
                 //查询 视图数据 保存
-                var qpartst = QllPartSt.GetEntity<QllPartSt>(partst.ID);
+                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
                 //删除
-                partst.ToDelete(ModelState);
-                return Json(qpartst);
+                partstep.ToDelete(ModelState);
+                return Json(qpartstep);
             }
             catch (Exception e)
             {
@@ -142,7 +142,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllPartSt.GetDataGridPages<QllPartSt, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = QllPartStep.GetDataGridPages<QllPartStep, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)
