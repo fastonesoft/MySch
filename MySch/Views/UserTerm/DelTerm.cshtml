@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllYear
+﻿@model MySch.Bll.Entity.BllTerm
 
 @{
     Layout = null;
@@ -24,6 +24,10 @@
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.YearIDS)：</div>
+            <input id="YearIDS" name="YearIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent, new { @disabled = "disabled" })</div>
         </div>
     </div>
@@ -33,7 +37,17 @@
 
 <script type="text/javascript">
     $(function () {
+
+        var years = $.parseJSON('@Html.Raw(ViewBag.Years)');
+
+        $('#YearIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: years,
+            readonly: true,
+        });
+
         //删除对话框
-        ReDialogDel('年度删除', 410, 220, '/UserYear/DelTokey', '#years-grid');
+        ReDialogDel('学期删除', 410, 270, '/UserTerm/DelTokey', '#terms-grid');
     })
 </script>

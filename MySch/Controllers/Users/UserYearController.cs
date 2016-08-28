@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Admin
+namespace MySch.Controllers.Users
 {
     public class UserYearController : RoleController
     {
@@ -60,23 +60,23 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllYear year)
+        public ActionResult AddTokey(BllYear entity)
         {
             try
             {
-                if(year.IsCurrent)
+                if(entity.IsCurrent)
                 {
                     //清除当前
                     BllYear.UnSelectCurrent();
                 }
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                year.AccIDS = login.IDS;
-                year.ID = Guid.NewGuid().ToString("N");
+                entity.AccIDS = login.IDS;
+                entity.ID = Guid.NewGuid().ToString("N");
                 //添加
-                year.ToAdd(ModelState);
+                entity.ToAdd(ModelState);
                 //查询 视图数据
-                return Json(year);
+                return Json(entity);
             }
             catch (Exception e)
             {
@@ -86,19 +86,19 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllYear year)
+        public ActionResult EditTokey(BllYear entity)
         {
             try
             {
-                if(year.IsCurrent)
+                if(entity.IsCurrent)
                 {
                     //清除当前
                     BllYear.UnSelectCurrent();
                 }
                 //更新
-                year.ToUpdate(ModelState);
+                entity.ToUpdate(ModelState);
                 //查询 视图数据
-                return Json(year);
+                return Json(entity);
             }
             catch (Exception e)
             {
@@ -108,14 +108,14 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllYear year)
+        public ActionResult DelTokey(BllYear entity)
         {
             try
             {
                 //查询 视图数据 保存
                 //删除
-                year.ToDelete(ModelState);
-                return Json(year);
+                entity.ToDelete(ModelState);
+                return Json(entity);
             }
             catch (Exception e)
             {

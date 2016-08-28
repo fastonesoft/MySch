@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.User
+namespace MySch.Controllers.Stud
 {
     public class StudRegController : RoleController
     {

@@ -1,0 +1,73 @@
+﻿@model MySch.Bll.Entity.BllBan
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 20px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.GradeIDS)：</div>
+            <input id="GradeIDS" name="GradeIDS" style="width:210px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.MasterIDS)：</div>
+            <input id="MasterIDS" name="MasterIDS" style="width:210px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.GroupIDS)：</div>
+            <input id="GroupIDS" name="GroupIDS" style="width:210px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.AccIDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        var grades = $.parseJSON('@Html.Raw(ViewBag.Grades)');
+        var groups = $.parseJSON('@Html.Raw(ViewBag.Groups)');
+        var masters = $.parseJSON('@Html.Raw(ViewBag.Masters)');
+
+        //加载选择框
+        $('#GradeIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: grades,
+            readonly: true,
+        });
+        $('#GroupIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: groups,
+            readonly: true,
+        });
+        $('#MasterIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: masters,
+            readonly: true,
+        });
+
+        //删除对话框
+        ReDialogDel('班级删除', 410, 330, '/UserBan/DelTokey', '#bans-grid');
+    })
+</script>

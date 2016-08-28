@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Admin
+namespace MySch.Controllers.Users
 {
     public class UserPartController : RoleController
     {
@@ -51,18 +51,18 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPart part)
+        public ActionResult AddTokey(BllPart entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
-                part.AccIDS = login.IDS;
-                part.ID = Guid.NewGuid().ToString("N");
+                entity.AccIDS = login.IDS;
+                entity.ID = Guid.NewGuid().ToString("N");
 
                 //添加
-                part.ToAdd(ModelState);
-                return Json(part);
+                entity.ToAdd(ModelState);
+                return Json(entity);
             }
             catch (Exception e)
             {
@@ -72,12 +72,12 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPart part)
+        public ActionResult EditTokey(BllPart entity)
         {
             try
             {
-                part.ToUpdate(ModelState);
-                return Json(part);
+                entity.ToUpdate(ModelState);
+                return Json(entity);
             }
             catch (Exception e)
             {
@@ -87,12 +87,12 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPart part)
+        public ActionResult DelTokey(BllPart entity)
         {
             try
             {
-                part.ToDelete(ModelState);
-                return Json(part);
+                entity.ToDelete(ModelState);
+                return Json(entity);
             }
             catch (Exception e)
             {

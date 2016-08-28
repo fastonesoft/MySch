@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Admin
+namespace MySch.Controllers.Users
 {
     public class UserController : RoleController
     {

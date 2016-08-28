@@ -32,7 +32,7 @@ namespace MySch.Bll
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public static object DataGrids(IEnumerable<Entity> entities)
+        public static object DataGrids(IEnumerable<Entity> entities, int total)
         {
             if (entities == null)
             {
@@ -40,7 +40,7 @@ namespace MySch.Bll
             }
             else
             {
-                return new { total = entities.Count(), rows = entities };
+                return new { total = total, rows = entities };
             }
         }
     }

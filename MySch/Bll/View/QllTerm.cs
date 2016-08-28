@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class QllTerm : BllBase<TTerm>
+    public class QllTerm
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -19,7 +19,7 @@ namespace MySch.Bll.View
         public string YearName { get; set; }
 
         //多表连接查询
-        public static object GetDataGridQPages(Expression<Func<QllTerm, bool>> where, int pageIndex, int pageSize)
+        public static object GetDataGridPages(Expression<Func<QllTerm, bool>> where, int pageIndex, int pageSize)
         {
             try
             {
@@ -27,14 +27,16 @@ namespace MySch.Bll.View
                 //读取：分页实体对象
                 using (BaseContext db = new BaseContext())
                 {
-                    var terms = db.TTerms.Join(db.TYears, t => t.YearIDS, y => y.IDS, (t, y) => new QllTerm
+                    int total = db.TTerms.Count();
+
+                    var entitys = db.TTerms.Join(db.TYears, t => t.YearIDS, y => y.IDS, (t, y) => new QllTerm
                     {
                         ID = t.ID,
                         IDS = t.IDS,
                         Name = t.Name,
                         IsCurrent = t.IsCurrent,
                         AccIDS = t.AccIDS,
-                        YearName = y.Name
+                        YearName = y.Name.ToString()
                     })
                     .Where(where)
                     .OrderBy(a => a.IDS)
@@ -43,7 +45,7 @@ namespace MySch.Bll.View
                     .ToList();
 
                     //输出：转换成DataGrid的数据
-                    return EasyUI<QllTerm>.DataGrids(terms);
+                    return EasyUI<QllTerm>.DataGrids(entitys, total);
                 }
             }
             catch (Exception e)

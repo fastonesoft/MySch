@@ -99,7 +99,7 @@ namespace MySch.Bll
                 //转换：实体对象 - 表示数据
                 var entitys_bll = Jsons<List<BllEntity>>.JsonEntity(entitys);
                 //输出：转换成DataGrid的数据
-                return EasyUI<BllEntity>.DataGrids(entitys_bll);
+                return EasyUI<BllEntity>.DataGrids(entitys_bll, entitys.Count());
             }
             catch (Exception e)
             {
@@ -132,7 +132,7 @@ namespace MySch.Bll
                 var pages_bll = Jsons<List<BllEntity>>.JsonEntity(pages);
 
                 //输出：转换成DataGrid的数据
-                return EasyUI<BllEntity>.DataGrids(pages_bll);
+                return EasyUI<BllEntity>.DataGrids(pages_bll, total);
             }
             catch (Exception e)
             {

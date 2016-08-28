@@ -1,9 +1,11 @@
-﻿using MySch.Models;
+﻿using MySch.Dal;
+using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace MySch.Bll.Entity
@@ -31,8 +33,6 @@ namespace MySch.Bll.Entity
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
         public string EduIDS { get; set; }
-
-        public string Name { get; set; }
 
         public string AccIDS { get; set; }
     }

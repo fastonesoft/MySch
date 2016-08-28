@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Users
 {
-    public class UserGradeController : RoleController
+    public class UserBanController : RoleController
     {
         public ActionResult Index()
         {
@@ -18,18 +18,17 @@ namespace MySch.Controllers.Users
         }
 
         [HttpPost]
-        public ActionResult AddGrade()
+        public ActionResult AddBan()
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
-                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys(a => a.AccIDS == login.IDS);
+                var grades = QllGrade.GetEntitys(a => a.AccIDS == login.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
 
-                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, null);
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
-                ViewBag.PartSteps = Combo.ToComboJsons<QllPartStep>(partsteps, null);
+                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, null);
+                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, null);
+                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, null);
 
                 return View();
             }
@@ -40,20 +39,19 @@ namespace MySch.Controllers.Users
         }
 
         [HttpPost]
-        public ActionResult EditGrade(string id)
+        public ActionResult EditBan(string id)
         {
             try
             {
-                var entity = BllGrade.GetEntity<BllGrade>(id);
+                var entity = BllBan.GetEntity<BllBan>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
-                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys(a => a.AccIDS == login.IDS);
+                var grades = QllGrade.GetEntitys(a => a.AccIDS == login.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
 
-                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = Combo.ToComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
+                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
+                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
 
                 return View(entity);
             }
@@ -64,20 +62,19 @@ namespace MySch.Controllers.Users
         }
 
         [HttpPost]
-        public ActionResult DelGrade(string id)
+        public ActionResult DelBan(string id)
         {
             try
             {
-                var entity = BllGrade.GetEntity<BllGrade>(id);
+                var entity = BllBan.GetEntity<BllBan>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
-                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys(a => a.AccIDS == login.IDS);
+                var grades = QllGrade.GetEntitys(a => a.AccIDS == login.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
 
-                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = Combo.ToComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
+                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
+                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
 
                 return View(entity);
             }
@@ -89,7 +86,7 @@ namespace MySch.Controllers.Users
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllGrade entity)
+        public ActionResult AddTokey(BllBan entity)
         {
             try
             {
@@ -100,7 +97,7 @@ namespace MySch.Controllers.Users
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = QllGrade.GetEntity(a => a.ID == entity.ID);
+                var qentity = QllBan.GetEntity<QllBan>(entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -111,14 +108,14 @@ namespace MySch.Controllers.Users
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllGrade entity)
+        public ActionResult EditTokey(BllBan entity)
         {
             try
             {
                 //更新
                 entity.ToUpdate(ModelState);
                 //查询 视图数据
-                var qentity = QllGrade.GetEntity(a => a.ID == entity.ID);
+                var qentity = QllBan.GetEntity<QllBan>(entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -129,12 +126,12 @@ namespace MySch.Controllers.Users
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllGrade entity)
+        public ActionResult DelTokey(BllBan entity)
         {
             try
             {
                 //查询 视图数据 保存
-                var qentity = QllGrade.GetEntity(a => a.ID == entity.ID);
+                var qentity = QllBan.GetEntity<QllBan>(entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -151,7 +148,7 @@ namespace MySch.Controllers.Users
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllGrade.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
+                var res = QllBan.GetDataGridPages<QllBan, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

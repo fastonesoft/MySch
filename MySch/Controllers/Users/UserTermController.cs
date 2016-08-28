@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Admin
+namespace MySch.Controllers.Users
 {
     public class UserTermController : RoleController
     {
@@ -74,23 +74,23 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllTerm term)
+        public ActionResult AddTokey(BllTerm entity)
         {
             try
             {
-                if(term.IsCurrent)
+                if(entity.IsCurrent)
                 {
                     //清除当前
                     BllTerm.UnSelectCurrent();
                 }
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                term.AccIDS = login.IDS;
-                term.ID = Guid.NewGuid().ToString("N");
+                entity.AccIDS = login.IDS;
+                entity.ID = Guid.NewGuid().ToString("N");
                 //添加
-                term.ToAdd(ModelState);
+                entity.ToAdd(ModelState);
                 //查询 视图数据
-                return Json(term);
+                return Json(entity);
             }
             catch (Exception e)
             {
@@ -100,19 +100,19 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllTerm term)
+        public ActionResult EditTokey(BllTerm entity)
         {
             try
             {
-                if(term.IsCurrent)
+                if(entity.IsCurrent)
                 {
                     //清除当前
                     BllTerm.UnSelectCurrent();
                 }
                 //更新
-                term.ToUpdate(ModelState);
+                entity.ToUpdate(ModelState);
                 //查询 视图数据
-                return Json(term);
+                return Json(entity);
             }
             catch (Exception e)
             {
@@ -122,14 +122,14 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllTerm term)
+        public ActionResult DelTokey(BllTerm entity)
         {
             try
             {
                 //查询 视图数据 保存
                 //删除
-                term.ToDelete(ModelState);
-                return Json(term);
+                entity.ToDelete(ModelState);
+                return Json(entity);
             }
             catch (Exception e)
             {
@@ -143,7 +143,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllTerm.GetDataGridQPages(a => a.AccIDS == login.IDS, page, rows);
+                var res = QllTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

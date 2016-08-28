@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Admin
+namespace MySch.Controllers.Users
 {
     public class UserPartStepController : RoleController
     {
@@ -80,19 +80,19 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPartStep partstep)
+        public ActionResult AddTokey(BllPartStep entity)
         {
             try
             {
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                partstep.AccIDS = login.IDS;
-                partstep.ID = Guid.NewGuid().ToString("N");
+                entity.AccIDS = login.IDS;
+                entity.ID = Guid.NewGuid().ToString("N");
                 //添加
-                partstep.ToAdd(ModelState);
+                entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
-                return Json(qpartstep);
+                var qentity = QllPartStep.GetEntity(a => a.ID == entity.ID);
+                return Json(qentity);
             }
             catch (Exception e)
             {
@@ -102,15 +102,15 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPartStep partstep)
+        public ActionResult EditTokey(BllPartStep entity)
         {
             try
             {
                 //更新
-                partstep.ToUpdate(ModelState);
+                entity.ToUpdate(ModelState);
                 //查询 视图数据
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
-                return Json(qpartstep);
+                var qentity = QllPartStep.GetEntity(a=>a.ID == entity.ID);
+                return Json(qentity);
             }
             catch (Exception e)
             {
@@ -120,15 +120,15 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPartStep partstep)
+        public ActionResult DelTokey(BllPartStep entity)
         {
             try
             {
                 //查询 视图数据 保存
-                var qpartstep = QllPartStep.GetEntity<QllPartStep>(partstep.ID);
+                var qentity = QllPartStep.GetEntity(a => a.ID == entity.ID);
                 //删除
-                partstep.ToDelete(ModelState);
-                return Json(qpartstep);
+                entity.ToDelete(ModelState);
+                return Json(qentity);
             }
             catch (Exception e)
             {
@@ -142,7 +142,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllPartStep.GetDataGridQPages(a => a.AccIDS == login.IDS,  page, rows);
+                var res = QllPartStep.GetDataGridPages(a => a.AccIDS == login.IDS,  page, rows);
                 return Json(res);
             }
             catch (Exception e)

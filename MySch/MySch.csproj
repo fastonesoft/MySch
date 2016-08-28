@@ -133,6 +133,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\EasyUI.cs" />
+    <Compile Include="Bll\Entity\BllBan.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Bll\Entity\BllGrade.cs" />
     <Compile Include="Bll\Entity\BllStep.cs" />
     <Compile Include="Bll\Entity\BllPartStep.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
+    <Compile Include="Bll\View\QllBan.cs" />
     <Compile Include="Bll\View\QllGrade.cs" />
     <Compile Include="Bll\View\QllPartStep.cs">
       <SubType>Code</SubType>
@@ -171,6 +175,7 @@
     <Compile Include="Controllers\Users\UserEduController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Users\UserBanController.cs" />
     <Compile Include="Controllers\Users\UserGradeController.cs" />
     <Compile Include="Controllers\Users\UserTermController.cs" />
     <Compile Include="Controllers\Users\UserYearController.cs" />
@@ -196,7 +201,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
+    <Compile Include="Models\Mapping\QBanMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
+    <Compile Include="Models\Mapping\TBanMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
@@ -209,7 +216,9 @@
     <Compile Include="Models\Mapping\TTermMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
+    <Compile Include="Models\QBan.cs" />
     <Compile Include="Models\TAcc.cs" />
+    <Compile Include="Models\TBan.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
     <Compile Include="Models\TLog.cs" />
@@ -538,13 +547,17 @@
     <Content Include="Views\UserYear\DelYear.cshtml" />
     <Content Include="Views\UserYear\EditYear.cshtml" />
     <Content Include="Views\UserTerm\AddTerm.cshtml" />
-    <Content Include="Views\UserTerm\DelYear.cshtml" />
-    <Content Include="Views\UserTerm\EditYear.cshtml" />
+    <Content Include="Views\UserTerm\DelTerm.cshtml" />
+    <Content Include="Views\UserTerm\EditTerm.cshtml" />
     <Content Include="Views\UserTerm\Index.cshtml" />
     <Content Include="Views\UserGrade\Index.cshtml" />
     <Content Include="Views\UserGrade\AddGrade.cshtml" />
     <Content Include="Views\UserGrade\DelGrade.cshtml" />
     <Content Include="Views\UserGrade\EditGrade.cshtml" />
+    <Content Include="Views\UserBan\Index.cshtml" />
+    <Content Include="Views\UserBan\EditBan.cshtml" />
+    <Content Include="Views\UserBan\AddBan.cshtml" />
+    <Content Include="Views\UserBan\DelBan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />

@@ -44,20 +44,20 @@
         $('#EduIDS').combobox({
             valueField: 'id',
             textField: 'text',
+            data: edus,
             readonly: true,
-            data: edus
         });
         $('#YearIDS').combobox({
             valueField: 'id',
             textField: 'text',
+            data: years,
             readonly: true,
-            data: years
         });
         $('#PartStepIDS').combobox({
             valueField: 'id',
             textField: 'text',
-            readonly: true,
             data: partsteps,
+            readonly: true,
         });
 
         //删除对话框

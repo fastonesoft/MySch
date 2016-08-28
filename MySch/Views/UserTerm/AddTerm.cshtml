@@ -42,7 +42,16 @@
                 $('.field-validation-error:first').parent().find('input').focus();
             }
         });
+
+        var years = $.parseJSON('@Html.Raw(ViewBag.Years)');
+
+        $('#YearIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: years,
+        });
+
         //添加对话框
-        ReDialogAdd('学期添加', 410, 250, '/UserTerm/AddTokey', '#terms-grid');
+        ReDialogAdd('学期添加', 410, 270, '/UserTerm/AddTokey', '#terms-grid');
     })
 </script>
