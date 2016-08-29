@@ -597,6 +597,34 @@ on b.GroupIDS = gp.IDS
 go
 
 
+
+create table TStudent
+(
+	ID	nvarchar(32) not null,	--唯一编号
+	IDS	nvarchar(20) not null,	--身份证号
+	Name	nvarchar(20) not null,	--姓名
+	FromSch	nvarchar(20),	--学校
+	FromGrade	nvarchar(10),	--年级
+	NationID	nvarchar(20),	--全国学籍号
+	ReadState	nvarchar(20),	--就读状态
+	IsProblem	bit not null,	--是否问题学籍
+
+	--以上：归档时填充
+	Mobil1	nvarchar(20),	--联系电话一
+	Mobil2	nvarchar(20),	--联系电话二
+	Name1	nvarchar(20),	--第一监护人
+	Name2	nvarchar(20),	--第二监护人
+	Home	nvarchar(50),	--家庭地址
+	Permanent	nvarchar(50),	--户籍地址
+	Reged	bit not null,	--是否注册
+	OpenID	nvarchar(32),	--用户ID	
+	
+)
+go
+
+
+
+
 -------------------------------------------------------------------
 ---以下不算
 
