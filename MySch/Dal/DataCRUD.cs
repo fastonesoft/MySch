@@ -201,10 +201,7 @@ namespace MySch.Dal
             {
                 using (BaseContext db = new BaseContext())
                 {
-                    pageSize = pageSize <= 0 ? 10 : pageSize;
                     int skip = (pageIndex - 1) * pageSize;
-                    skip = skip < 0 ? 0 : skip;
-
                     var list = db.Set<TEntity>().Where(where).OrderBy(order).Skip(skip).Take(pageSize);
                     gets = list.Count();
                     total = db.Set<TEntity>().Count(where);
@@ -236,10 +233,7 @@ namespace MySch.Dal
             {
                 using (BaseContext db = new BaseContext())
                 {
-                    pageSize = pageSize <= 0 ? 10 : pageSize;
                     int skip = (pageIndex - 1) * pageSize;
-                    skip = skip < 0 ? 0 : skip;
-
                     var list = db.Set<TEntity>().Where(where).OrderByDescending(order).Skip(skip).Take(pageSize);
                     gets = list.Count();
                     total = db.Set<TEntity>().Count(where);

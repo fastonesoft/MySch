@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Users
+namespace MySch.Controllers.User
 {
     public class UserController : RoleController
     {
@@ -18,9 +18,37 @@ namespace MySch.Controllers.Users
         }
 
         [HttpPost]
-        public ActionResult AddUser()
+        public ActionResult Add()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                var db = BllAcc.GetEntity<BllAcc>(id);
+                return View(db);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Del(string id)
+        {
+            try
+            {
+                var db = BllAcc.GetEntity<BllAcc>(id);
+                return View(db);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
         }
 
         [HttpPost]
@@ -37,20 +65,6 @@ namespace MySch.Controllers.Users
                 //添加记录
                 acc.ToAdd(ModelState);
                 return Json(acc);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        public ActionResult EditUser(string id)
-        {
-            try
-            {
-                var db = BllAcc.GetEntity<BllAcc>(id);
-                return View(db);
             }
             catch (Exception e)
             {
@@ -77,20 +91,6 @@ namespace MySch.Controllers.Users
                 acc.ToUpdate(ModelState);
 
                 return Json(acc);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        public ActionResult DelUser(string id)
-        {
-            try
-            {
-                var db = BllAcc.GetEntity<BllAcc>(id);
-                return View(db);
             }
             catch (Exception e)
             {

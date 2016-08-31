@@ -6,9 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Users
+namespace MySch.Controllers.User
 {
-    public class UserPartController : RoleController
+    public class UserStepController : RoleController
     {
         public ActionResult Index()
         {
@@ -16,17 +16,17 @@ namespace MySch.Controllers.Users
         }
 
         [HttpPost]
-        public ActionResult AddPart()
+        public ActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult EditPart(string id)
+        public ActionResult Edit(string id)
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllStep.GetEntity<BllStep>(id);
                 return View(db);
             }
             catch (Exception e)
@@ -36,11 +36,11 @@ namespace MySch.Controllers.Users
         }
 
         [HttpPost]
-        public ActionResult DelPart(string id)
+        public ActionResult Del(string id)
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllStep.GetEntity<BllStep>(id);
                 return View(db);
             }
             catch (Exception e)
@@ -51,12 +51,11 @@ namespace MySch.Controllers.Users
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPart entity)
+        public ActionResult AddTokey(BllStep entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-
                 entity.AccIDS = login.IDS;
                 entity.ID = Guid.NewGuid().ToString("N");
 
@@ -72,7 +71,7 @@ namespace MySch.Controllers.Users
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPart entity)
+        public ActionResult EditTokey(BllStep entity)
         {
             try
             {
@@ -87,7 +86,7 @@ namespace MySch.Controllers.Users
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPart entity)
+        public ActionResult DelTokey(BllStep entity)
         {
             try
             {
@@ -107,7 +106,7 @@ namespace MySch.Controllers.Users
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllPart.GetDataGridPages<BllPart, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllStep.GetDataGridPages<BllStep, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

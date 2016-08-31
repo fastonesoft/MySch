@@ -16,13 +16,13 @@
             //点击动作
             users = {
                 add: function () {
-                    DataGridNone('/AdminUser/AddUser');
+                    DataGridNone('/AdminUser/Add');
                 },
                 edit: function () {
-                    DataGridRow('#users-grid', '/AdminUser/EditUser');
+                    DataGridRow('#users-grid', '/AdminUser/Edit');
                 },
                 del: function () {
-                    DataGridRow('#users-grid', '/AdminUser/DelUser');
+                    DataGridRow('#users-grid', '/AdminUser/Del');
                 },
                 search: function () {
                     DataGridSearch('#users-grid-text', '#users-grid', '/AdminUser/Search');
