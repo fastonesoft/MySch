@@ -18,6 +18,7 @@ namespace MySch.Models
 
         public DbSet<TAcc> TAccs { get; set; }
         public DbSet<TBan> TBans { get; set; }
+        public DbSet<TBanStud> TBanStuds { get; set; }
         public DbSet<TEdu> TEdus { get; set; }
         public DbSet<TGrade> TGrades { get; set; }
         public DbSet<TLog> TLogs { get; set; }
@@ -35,6 +36,7 @@ namespace MySch.Models
         {
             modelBuilder.Configurations.Add(new TAccMap());
             modelBuilder.Configurations.Add(new TBanMap());
+            modelBuilder.Configurations.Add(new TBanStudMap());
             modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new TGradeMap());
             modelBuilder.Configurations.Add(new TLogMap());

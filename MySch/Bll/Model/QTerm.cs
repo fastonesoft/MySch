@@ -6,9 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace MySch.Bll.View
+namespace MySch.Bll.Model
 {
-    public class QllTerm
+    public class QTerm
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -19,7 +19,7 @@ namespace MySch.Bll.View
         public string YearName { get; set; }
 
         //多表连接查询
-        public static object GetDataGridPages(Expression<Func<QllTerm, bool>> where, int pageIndex, int pageSize)
+        public static object GetDataGridPages(Expression<Func<QTerm, bool>> where, int pageIndex, int pageSize)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace MySch.Bll.View
                 {
                     int total = db.TTerms.Count();
 
-                    var entitys = db.TTerms.Join(db.TYears, t => t.YearIDS, y => y.IDS, (t, y) => new QllTerm
+                    var entitys = db.TTerms.Join(db.TYears, t => t.YearIDS, y => y.IDS, (t, y) => new QTerm
                     {
                         ID = t.ID,
                         IDS = t.IDS,
@@ -45,7 +45,7 @@ namespace MySch.Bll.View
                     .ToList();
 
                     //输出：转换成DataGrid的数据
-                    return EasyUI<QllTerm>.DataGrids(entitys, total);
+                    return EasyUI<QTerm>.DataGrids(entitys, total);
                 }
             }
             catch (Exception e)

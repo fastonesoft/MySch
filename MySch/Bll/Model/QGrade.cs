@@ -6,9 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace MySch.Bll.View
+namespace MySch.Bll.Model
 {
-    public class QllGrade
+    public class QGrade
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -24,7 +24,7 @@ namespace MySch.Bll.View
         public string YearName { get; set; }
 
         //多表连接查询
-        public static object GetDataGridPages(Expression<Func<QllGrade, bool>> where, int pageIndex, int pageSize)
+        public static object GetDataGridPages(Expression<Func<QGrade, bool>> where, int pageIndex, int pageSize)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace MySch.Bll.View
                                   on ps.PartIDS equals p.IDS
                                   join s in db.TSteps
                                   on ps.StepIDS equals s.IDS
-                                  select new QllGrade
+                                  select new QGrade
                                   {
                                       ID = g.ID,
                                       IDS = g.IDS,
@@ -67,7 +67,7 @@ namespace MySch.Bll.View
                                   .ToList();
 
                     //输出：转换成DataGrid的数据
-                    return EasyUI<QllGrade>.DataGrids(entitys, total);
+                    return EasyUI<QGrade>.DataGrids(entitys, total);
                 }
             }
             catch (Exception e)
@@ -76,7 +76,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static IEnumerable<QllGrade> GetEntitys(Expression<Func<QllGrade, bool>> where)
+        public static IEnumerable<QGrade> GetEntitys(Expression<Func<QGrade, bool>> where)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace MySch.Bll.View
                                   on ps.PartIDS equals p.IDS
                                   join s in db.TSteps
                                   on ps.StepIDS equals s.IDS
-                                  select new QllGrade
+                                  select new QGrade
                                   {
                                       ID = g.ID,
                                       IDS = g.IDS,
@@ -120,7 +120,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static QllGrade GetEntity(Expression<Func<QllGrade, bool>> where)
+        public static QGrade GetEntity(Expression<Func<QGrade, bool>> where)
         {
             try
             {

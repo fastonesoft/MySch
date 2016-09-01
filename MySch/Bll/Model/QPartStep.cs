@@ -6,9 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace MySch.Bll.View
+namespace MySch.Bll.Model
 {
-    public class QllPartStep
+    public class QPartStep
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -21,7 +21,7 @@ namespace MySch.Bll.View
         public string StepName { get; set; }
 
         //多表连接查询
-        public static object GetDataGridPages(Expression<Func<QllPartStep, bool>> where, int pageIndex, int pageSize)
+        public static object GetDataGridPages(Expression<Func<QPartStep, bool>> where, int pageIndex, int pageSize)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace MySch.Bll.View
                                      on ps.PartIDS equals p.IDS
                                      join s in db.TSteps
                                      on ps.StepIDS equals s.IDS
-                                     select new QllPartStep
+                                     select new QPartStep
                                      {
                                          ID = ps.ID,
                                          IDS = ps.IDS,
@@ -55,7 +55,7 @@ namespace MySch.Bll.View
                                      .ToList();
 
                     //输出：转换成DataGrid的数据
-                    return EasyUI<QllPartStep>.DataGrids(entitys, total);
+                    return EasyUI<QPartStep>.DataGrids(entitys, total);
                 }
             }
             catch (Exception e)
@@ -64,7 +64,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static IEnumerable<QllPartStep> GetEntitys(Expression<Func<QllPartStep, bool>> where)
+        public static IEnumerable<QPartStep> GetEntitys(Expression<Func<QPartStep, bool>> where)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace MySch.Bll.View
                                    on ps.PartIDS equals p.IDS
                                    join s in db.TSteps
                                    on ps.StepIDS equals s.IDS
-                                   select new QllPartStep
+                                   select new QPartStep
                                    {
                                        ID = ps.ID,
                                        IDS = ps.IDS,
@@ -99,7 +99,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static QllPartStep GetEntity(Expression<Func<QllPartStep, bool>> where)
+        public static QPartStep GetEntity(Expression<Func<QPartStep, bool>> where)
         {
             try
             {

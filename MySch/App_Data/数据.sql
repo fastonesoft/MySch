@@ -597,7 +597,7 @@ on b.GroupIDS = gp.IDS
 go
 
 
-
+--学生表
 create table TStudent
 (
 	ID	nvarchar(32) not null,	--唯一编号
@@ -608,7 +608,10 @@ create table TStudent
 	NationID	nvarchar(20),	--全国学籍号
 	ReadState	nvarchar(20),	--就读状态
 	IsProblem	bit not null,	--是否问题学籍
-
+	--
+	StudNo	nvarchar(32),	--学籍号-考试编号
+	SchChoose	bit not null,	--是否择校
+	Memo	nvarchar(50),	--备注
 	--以上：归档时填充
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二
@@ -618,11 +621,36 @@ create table TStudent
 	Permanent	nvarchar(50),	--户籍地址
 	Reged	bit not null,	--是否注册
 	OpenID	nvarchar(32),	--用户ID	
-	
 )
 go
+alter table TStudent add constraint PK_TStudent primary key clustered (ID)
+create unique nonclustered index UN_TStudent_IDS on TStudent (IDS)
+create index IN_TStudent_Name on TStudent (Name)
+create index IN_TStudent_StudNo on TStudent (StudNo)
+go
 
+--班级学生
+create table TBanStud
+(
+	ID	nvarchar(32) not null,
+	IDS	as BanIDS + StudIDS,
+	BanIDS	nvarchar(20) not null,
+	StudIDS	nvarchar(20) not null,
+)
+go
+alter table TBanStud add constraint PK_TBanStud primary key clustered (ID)
+alter table TBanStud add constraint FK_TBanStud_BanIDS foreign key (BanIDS) references TBan (IDS)
+alter table TBanStud add constraint FK_TBanStud_StudIDS foreign key (StudIDS) references TStudent (IDS)
+create unique nonclustered index UN_TBanStud_IDS on TBanStud (IDS)
 
+--班级学生查询
+create view QBanStud
+as
+select a.*, b.
+from TBanStud a left join QBan b
+on a.BanIDS = b.IDS
+left join TStudent c
+on a.StudIDS = c.IDS
 
 
 -------------------------------------------------------------------

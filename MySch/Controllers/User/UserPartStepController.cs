@@ -91,7 +91,7 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = QllPartStep.GetEntity(a => a.ID == entity.ID);
+                var qentity = QPartStep.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -109,7 +109,7 @@ namespace MySch.Controllers.User
                 //更新
                 entity.ToUpdate(ModelState);
                 //查询 视图数据
-                var qentity = QllPartStep.GetEntity(a=>a.ID == entity.ID);
+                var qentity = QPartStep.GetEntity(a=>a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -125,7 +125,7 @@ namespace MySch.Controllers.User
             try
             {
                 //查询 视图数据 保存
-                var qentity = QllPartStep.GetEntity(a => a.ID == entity.ID);
+                var qentity = QPartStep.GetEntity(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -142,7 +142,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllPartStep.GetDataGridPages(a => a.AccIDS == login.IDS,  page, rows);
+                var res = QPartStep.GetDataGridPages(a => a.AccIDS == login.IDS,  page, rows);
                 return Json(res);
             }
             catch (Exception e)

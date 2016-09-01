@@ -143,7 +143,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
+                var res = QTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)
