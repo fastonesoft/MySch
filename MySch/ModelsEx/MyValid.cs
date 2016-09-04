@@ -32,14 +32,14 @@ namespace MySch.Models
         [DisplayName("报名编号")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^\d{2}(00[1-9]|0[1-9]\d|[1-9]\d\d)-\d{4}$", ErrorMessage = "{0}：XXXXX-XXXX")]
-        public string studNo { get; set; }
+        public string StudNo { get; set; }
 
         [DisplayName("备注")]
         [StringLength(20, ErrorMessage="{0}：长度不能超过20")]
         public string Memo { get; set; }
 
         [DisplayName("是否择校")]
-        public bool schChoose { get; set; }
+        public bool SchChoose { get; set; }
     }
     
     //学籍手动添加
@@ -58,12 +58,12 @@ namespace MySch.Models
         [DisplayName("毕业学校")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^[\u4e00-\u9fa5]{4,20}$", ErrorMessage = "{0}：4-20个中文字符")]
-        public string fromSch { get; set; }
+        public string FromSch { get; set; }
 
         [DisplayName("毕业年级")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^小学(五|六)年级$", ErrorMessage = "{0}：小学X年级（中文）")]
-        public string fromGrade { get; set; }
+        public string FromGrade { get; set; }
     }
 
     //学籍注册

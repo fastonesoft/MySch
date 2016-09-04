@@ -22,20 +22,6 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Edit(string id)
-        {
-            try
-            {
-                var db = BllPart.GetEntity<BllPart>(id);
-                return View(db);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
         public ActionResult Del(string id)
         {
             try
@@ -56,27 +42,13 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-
                 entity.AccIDS = login.IDS;
+
                 entity.ID = Guid.NewGuid().ToString("N");
+                entity.IDS = entity.AccIDS + entity.Value;
 
                 //添加
                 entity.ToAdd(ModelState);
-                return Json(entity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPart entity)
-        {
-            try
-            {
-                entity.ToUpdate(ModelState);
                 return Json(entity);
             }
             catch (Exception e)
@@ -91,6 +63,9 @@ namespace MySch.Controllers.User
         {
             try
             {
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;
+                
                 entity.ToDelete(ModelState);
                 return Json(entity);
             }

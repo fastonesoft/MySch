@@ -10,23 +10,16 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.IDS)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text" })
-            </span>
-            @Html.ValidationMessageFor(a => a.IDS)
-        </div>
-        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.PartStepIDS)：</div>
             <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.YearIDS)：</div>
-            <input id="YearIDS" name="YearIDS" style="width:156px;" />
-        </div>
-        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.EduIDS)：</div>
             <input id="EduIDS" name="EduIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.YearIDS)：</div>
+            <input id="YearIDS" name="YearIDS" style="width:156px;" />
         </div>
     </div>
 }
@@ -46,6 +39,11 @@
         var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
 
         //加载选择框
+        $('#PartStepIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: partsteps,
+        });
         $('#EduIDS').combobox({
             valueField: 'id',
             textField: 'text',
@@ -56,11 +54,6 @@
             valueField: 'id',
             textField: 'text',
             data: years,
-        });
-        $('#PartStepIDS').combobox({
-            valueField: 'id',
-            textField: 'text',
-            data: partsteps,
         });
 
         //添加对话框

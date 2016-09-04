@@ -8,7 +8,7 @@ namespace MySch.Models
         public string ID { get; set; }
         public string IDS { get; set; }
         public string Name { get; set; }
-        public bool Fixed { get; set; }
+        public bool Graduated { get; set; }
         public string AccIDS { get; set; }
     }
 }

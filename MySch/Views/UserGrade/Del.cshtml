@@ -10,27 +10,20 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.IDS)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
-            </span>
-            @Html.ValidationMessageFor(a => a.IDS)
-        </div>
-        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.PartStepIDS)：</div>
             <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.YearIDS)：</div>
-            <input id="YearIDS" name="YearIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.EduIDS)：</div>
             <input id="EduIDS" name="EduIDS" style="width:156px;" />
         </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.YearIDS)：</div>
+            <input id="YearIDS" name="YearIDS" style="width:156px;" />
+        </div>
     </div>
     @Html.HiddenFor(a => a.ID)
-    @Html.HiddenFor(a => a.AccIDS)
+    @Html.HiddenFor(a => a.IDS)
 }
 
 <script type="text/javascript">
@@ -41,6 +34,12 @@
         var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
 
         //加载选择框
+        $('#PartStepIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: partsteps,
+            readonly: true,
+        });
         $('#EduIDS').combobox({
             valueField: 'id',
             textField: 'text',
@@ -51,12 +50,6 @@
             valueField: 'id',
             textField: 'text',
             data: years,
-            readonly: true,
-        });
-        $('#PartStepIDS').combobox({
-            valueField: 'id',
-            textField: 'text',
-            data: partsteps,
             readonly: true,
         });
 

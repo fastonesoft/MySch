@@ -21,7 +21,11 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.Name)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(10);
+
+            this.Property(t => t.Value)
+                .IsRequired()
+                .HasMaxLength(2);
 
             this.Property(t => t.AccIDS)
                 .IsRequired()
@@ -32,6 +36,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Value).HasColumnName("Value");
             this.Property(t => t.Fixed).HasColumnName("Fixed");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }

@@ -85,14 +85,14 @@
                 },
                 columns: [[
                     { field: 'ck', checkbox: true },
-                    { title: '学校名称', field: 'fromSch', halign:'center', sortable: true, width: 170 },
+                    { title: '学校名称', field: 'FromSch', halign:'center', sortable: true, width: 170 },
                     { title: '姓名', field: 'Name', align: 'center', sortable: true, width: 60 },
                     { title: '身份证号', field: 'IDS', align: 'center', sortable: true, width: 150 },
-                    { title: '年级', field: 'fromGrade', align: 'center', sortable: true, width: 80 },
-                    { title: '全国学籍号', field: 'nationID', align: 'center', sortable: false, width: 150 },
-                    { title: '就读状态', field: 'readState', align: 'center', sortable: true, width: 100 },
+                    { title: '年级', field: 'FromGrade', align: 'center', sortable: true, width: 80 },
+                    { title: '全国学籍号', field: 'NationID', align: 'center', sortable: false, width: 150 },
+                    { title: '就读状态', field: 'ReadState', align: 'center', sortable: true, width: 100 },
                     {
-                        title: '无问题学籍', field: 'isProblem', align: 'center', sortable: false, width: 80,
+                        title: '无问题学籍', field: 'IsProblem', align: 'center', sortable: false, width: 80,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                         },
@@ -125,7 +125,7 @@
                         }
                     },
                     {
-                        title: '报名编号', field: 'studNo', align: 'center', sortable: true, width: 100,
+                        title: '报名编号', field: 'StudNo', align: 'center', sortable: true, width: 100,
                         sorter: function (a, b) {
                             a = a.split('-');
                             b = b.split('-');

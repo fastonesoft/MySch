@@ -123,9 +123,9 @@
         {
             num++;
             <div class="dragcon" style="height:440px;background: url(/Images/canvas.jpg) no-repeat left top; position: relative;">
-                <div name="0" class="candrag studno">@stud.studNo.Substring(stud.studNo.Length - 4, 4)</div>
+                <div name="0" class="candrag studno">@stud.StudNo.Substring(stud.StudNo.Length - 4, 4)</div>
                 <div name="1" class="candrag studname">@stud.Name</div>
-                <div name="2" class="candrag studsch">@stud.fromSch.Replace("泰州市", "")</div>
+                <div name="2" class="candrag studsch">@stud.FromSch.Replace("泰州市", "")</div>
             </div>
             if (num != Model.Count())
             {

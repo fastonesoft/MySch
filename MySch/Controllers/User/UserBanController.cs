@@ -23,37 +23,14 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var grades = QGrade.GetEntitys(a => a.AccIDS == login.IDS);
+                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
 
-                ViewBag.Grades = Combo.ToComboJsons<QGrade>(grades, null);
+                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, null);
                 ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, null);
                 ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, null);
 
                 return View();
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Edit(string id)
-        {
-            try
-            {
-                var entity = BllBan.GetEntity<BllBan>(id);
-
-                var login = BllLogin.GetLogin(Session);
-                var grades = QGrade.GetEntitys(a => a.AccIDS == login.IDS);
-                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
-
-                ViewBag.Grades = Combo.ToComboJsons<QGrade>(grades, entity.GradeIDS);
-                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
-                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
-
-                return View(entity);
             }
             catch (Exception e)
             {
@@ -69,10 +46,10 @@ namespace MySch.Controllers.User
                 var entity = BllBan.GetEntity<BllBan>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var grades = QGrade.GetEntitys(a => a.AccIDS == login.IDS);
+                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
 
-                ViewBag.Grades = Combo.ToComboJsons<QGrade>(grades, entity.GradeIDS);
+                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
                 ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
                 ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
 
@@ -94,28 +71,12 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
                 entity.ID = Guid.NewGuid().ToString("N");
+                entity.IDS = entity.GradeIDS + entity.Name.ToString("D2");
+
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = RllBan.GetEntity<RllBan>(entity.ID);
-                return Json(qentity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllBan entity)
-        {
-            try
-            {
-                //更新
-                entity.ToUpdate(ModelState);
-                //查询 视图数据
-                var qentity = RllBan.GetEntity<RllBan>(entity.ID);
+                var qentity = QllBan.GetEntity<QllBan>(entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -130,8 +91,12 @@ namespace MySch.Controllers.User
         {
             try
             {
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;
+
                 //查询 视图数据 保存
-                var qentity = RllBan.GetEntity<RllBan>(entity.ID);
+                var qentity = QllBan.GetEntity<QllBan>(entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -148,7 +113,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = RllBan.GetDataGridPages<RllBan, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = QllBan.GetDataGridPages<QllBan, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

@@ -7,9 +7,9 @@ namespace MySch.Models
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public string Name { get; set; }
         public bool IsCurrent { get; set; }
         public string YearIDS { get; set; }
+        public string SemesterIDS { get; set; }
         public string AccIDS { get; set; }
     }
 }

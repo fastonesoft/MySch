@@ -31,7 +31,7 @@ namespace MySch.Bll
             {
                 if (model.IsValid)
                 {
-                    ApiBll<Entity>.Add(this);
+                    BllApi<Entity>.Add(this);
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace MySch.Bll
             {
                 if (model.IsValid)
                 {
-                    ApiBll<Entity>.Update(this);
+                    BllApi<Entity>.Update(this);
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace MySch.Bll
             {
                 if (model.IsValid)
                 {
-                    ApiBll<Entity>.Delete(this);
+                    BllApi<Entity>.Delete(this);
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace MySch.Bll
         {
             try
             {
-                ApiBll<Entity>.Add(this);
+                BllApi<Entity>.Add(this);
             }
             catch (Exception e)
             {
@@ -101,7 +101,7 @@ namespace MySch.Bll
         {
             try
             {
-                ApiBll<Entity>.Update(this);
+                BllApi<Entity>.Update(this);
             }
             catch (Exception e)
             {
@@ -113,7 +113,7 @@ namespace MySch.Bll
         {
             try
             {
-                ApiBll<Entity>.Delete(this);
+                BllApi<Entity>.Delete(this);
             }
             catch (Exception e)
             {

@@ -103,17 +103,17 @@ namespace MySch.Controllers.Student
 
                 //根据返回数据 -> 创建学生报名记录
                 TStudReg stud = new TStudReg();
-                stud.fromSch = matchs[0].Groups[1].ToString();
+                stud.FromSch = matchs[0].Groups[1].ToString();
                 stud.Name = matchs[1].Groups[1].ToString();
                 stud.IDS = id;
-                stud.fromGrade = matchs[3].Groups[1].ToString();
-                stud.nationID = matchs[4].Groups[1].ToString();
-                stud.readState = matchs[5].Groups[1].ToString();
-                stud.isProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
+                stud.FromGrade = matchs[3].Groups[1].ToString();
+                stud.NationID = matchs[4].Groups[1].ToString();
+                stud.ReadState = matchs[5].Groups[1].ToString();
+                stud.IsProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
-                stud.schChoose = false;
-                stud.studNo = null;
+                stud.SchChoose = false;
+                stud.StudNo = null;
                 stud.Memo = null;
                 //
                 stud.Reged = false;
@@ -164,9 +164,9 @@ namespace MySch.Controllers.Student
             else
             {
                 //已经编号，无需重编
-                if (db.studNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
+                if (db.StudNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
                 //
-                var res = new StudEditValid { ID = db.ID, Name = db.Name, studNo = db.studNo, Memo = db.Memo, schChoose = db.schChoose };
+                var res = new StudEditValid { ID = db.ID, Name = db.Name, StudNo = db.StudNo, Memo = db.Memo, SchChoose = db.SchChoose };
                 return View(res);
             }
         }
@@ -182,7 +182,7 @@ namespace MySch.Controllers.Student
                 if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //检测编号
-                var db = DataCRUD<TStudReg>.Entity(a => a.studNo == stud.studNo);
+                var db = DataCRUD<TStudReg>.Entity(a => a.StudNo == stud.StudNo);
                 if (db != null)
                 {
                     //不是同一条记录，提示重复
@@ -193,9 +193,9 @@ namespace MySch.Controllers.Student
                 TStudReg reg = DataCRUD<TStudReg>.Entity(a => a.ID == stud.ID);
                 if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
                 //修改
-                reg.studNo = stud.studNo;
+                reg.StudNo = stud.StudNo;
                 reg.Memo = stud.Memo;
-                reg.schChoose = stud.schChoose;
+                reg.SchChoose = stud.SchChoose;
                 //提交
                 DataCRUD<TStudReg>.Update(reg);
                 //返回
@@ -271,9 +271,9 @@ namespace MySch.Controllers.Student
                 string all = match.Groups[2].ToString();
                 string right = match.Groups[3].ToString();
 
-                var db = left.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.studNo.StartsWith(left)).OrderBy(a => a.studNo) :
-                    right.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.studNo.EndsWith(right)).OrderBy(a => a.studNo) :
-                    all.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.studNo.Contains(all)).OrderBy(a => a.studNo) : null;
+                var db = left.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.StudNo.StartsWith(left)).OrderBy(a => a.StudNo) :
+                    right.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.StudNo.EndsWith(right)).OrderBy(a => a.StudNo) :
+                    all.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.StudNo.Contains(all)).OrderBy(a => a.StudNo) : null;
 
                 //返回：easyui datagrid数据格式
                 var res = db == null ? null : new { total = db.Count(), rows = db };
@@ -309,17 +309,17 @@ namespace MySch.Controllers.Student
                 if (db != null) return Json(new BllError { error = true, message = "身份证号已注册" });
 
                 TStudReg stud = new TStudReg();
-                stud.fromSch = manu.fromSch;
+                stud.FromSch = manu.FromSch;
                 stud.Name = manu.Name;
                 stud.IDS = manu.IDS;
-                stud.fromGrade = manu.fromGrade;
-                stud.nationID = null;
-                stud.readState = "手动";
-                stud.isProblem = true;
+                stud.FromGrade = manu.FromGrade;
+                stud.NationID = null;
+                stud.ReadState = "手动";
+                stud.IsProblem = true;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
-                stud.schChoose = false;
-                stud.studNo = null;
+                stud.SchChoose = false;
+                stud.StudNo = null;
                 stud.Memo = null;
                 //
                 stud.Reged = false;

@@ -35,25 +35,6 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Edit(string id)
-        {
-            try
-            {
-                var entity = BllTerm.GetEntity<BllTerm>(id);
-
-                var login = BllLogin.GetLogin(Session);
-                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
-
-                return View(entity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
         public ActionResult Del(string id)
         {
             try
@@ -100,28 +81,6 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllTerm entity)
-        {
-            try
-            {
-                if(entity.IsCurrent)
-                {
-                    //清除当前
-                    BllTerm.UnSelectCurrent();
-                }
-                //更新
-                entity.ToUpdate(ModelState);
-                //查询 视图数据
-                return Json(entity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult DelTokey(BllTerm entity)
         {
             try
@@ -143,7 +102,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
+                var res = QllTerm.GetDataGridPages<QllTerm, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

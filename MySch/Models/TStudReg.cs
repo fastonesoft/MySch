@@ -5,16 +5,16 @@ namespace MySch.Models
 {
     public partial class TStudReg
     {
-        public string IDS { get; set; }
         public string ID { get; set; }
+        public string IDS { get; set; }
         public string Name { get; set; }
-        public string fromSch { get; set; }
-        public string fromGrade { get; set; }
-        public string nationID { get; set; }
-        public string readState { get; set; }
-        public bool isProblem { get; set; }
-        public bool schChoose { get; set; }
-        public string studNo { get; set; }
+        public string FromSch { get; set; }
+        public string FromGrade { get; set; }
+        public string NationID { get; set; }
+        public string ReadState { get; set; }
+        public bool IsProblem { get; set; }
+        public string StudNo { get; set; }
+        public bool SchChoose { get; set; }
         public string Memo { get; set; }
         public string Mobil1 { get; set; }
         public string Mobil2 { get; set; }

@@ -12,9 +12,6 @@ namespace MySch.Bll.Entity
     {
         public string ID { get; set; }
 
-        [DisplayName("分级编号")]
-        [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字设置；")]
         public string IDS { get; set; }
 
         [DisplayName("分级名称")]

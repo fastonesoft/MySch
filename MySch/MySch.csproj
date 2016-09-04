@@ -126,7 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Bll\ApiBll.cs">
+    <Compile Include="Bll\BllApi.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\BllBase.cs">
@@ -154,12 +154,19 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
-    <Compile Include="Bll\View\RllBan.cs" />
-    <Compile Include="Bll\Model\QGrade.cs" />
-    <Compile Include="Bll\Model\QPartStep.cs">
+    <Compile Include="Bll\View\QllBan.cs" />
+    <Compile Include="Bll\View\QllBanStud.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Model\QTerm.cs" />
+    <Compile Include="Bll\View\QllGrade.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\View\QllPartStep.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\View\QllTerm.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
@@ -202,7 +209,12 @@
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
     <Compile Include="Models\Mapping\QBanMap.cs" />
+    <Compile Include="Models\Mapping\QBanStudMap.cs" />
+    <Compile Include="Models\Mapping\QGradeMap.cs" />
+    <Compile Include="Models\Mapping\QPartStepMap.cs" />
+    <Compile Include="Models\Mapping\QTermMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
+    <Compile Include="Models\Mapping\TBanFenMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
     <Compile Include="Models\Mapping\TBanStudMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
@@ -212,14 +224,21 @@
     <Compile Include="Models\Mapping\TPartMap.cs" />
     <Compile Include="Models\Mapping\TPartStepMap.cs" />
     <Compile Include="Models\Mapping\TPrintMap.cs" />
+    <Compile Include="Models\Mapping\TSemesterMap.cs" />
     <Compile Include="Models\Mapping\TStepMap.cs" />
+    <Compile Include="Models\Mapping\TStudentMap.cs" />
     <Compile Include="Models\Mapping\TStudRegMap.cs" />
     <Compile Include="Models\Mapping\TTermMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\QBan.cs" />
+    <Compile Include="Models\QBanStud.cs" />
+    <Compile Include="Models\QGrade.cs" />
+    <Compile Include="Models\QPartStep.cs" />
+    <Compile Include="Models\QTerm.cs" />
     <Compile Include="Models\TAcc.cs" />
     <Compile Include="Models\TBan.cs" />
+    <Compile Include="Models\TBanFen.cs" />
     <Compile Include="Models\TBanStud.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
@@ -228,7 +247,9 @@
     <Compile Include="Models\TPart.cs" />
     <Compile Include="Models\TPartStep.cs" />
     <Compile Include="Models\TPrint.cs" />
+    <Compile Include="Models\TSemester.cs" />
     <Compile Include="Models\TStep.cs" />
+    <Compile Include="Models\TStudent.cs" />
     <Compile Include="Models\TStudReg.cs" />
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
@@ -542,7 +563,6 @@
     <Content Include="Views\UserPartStep\Index.cshtml" />
     <Content Include="Views\UserPartStep\Add.cshtml" />
     <Content Include="Views\UserPartStep\Del.cshtml" />
-    <Content Include="Views\UserPartStep\Edit.cshtml" />
     <Content Include="Views\UserYear\Index.cshtml" />
     <Content Include="Views\UserYear\Add.cshtml" />
     <Content Include="Views\UserYear\Del.cshtml" />

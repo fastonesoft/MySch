@@ -14,9 +14,6 @@ namespace MySch.Bll.Entity
     {
         public string ID { get; set; }
 
-        [DisplayName("年级编号")]
-        [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{16}$", ErrorMessage = "{0}：用16位数字设置；")]
         public string IDS { get; set; }
 
         [DisplayName("校区分级")]

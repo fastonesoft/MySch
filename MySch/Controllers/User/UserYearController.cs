@@ -72,7 +72,9 @@ namespace MySch.Controllers.User
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
+
                 entity.ID = Guid.NewGuid().ToString("N");
+                entity.IDS = entity.AccIDS + entity.Name;
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据

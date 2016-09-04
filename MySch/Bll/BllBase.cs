@@ -70,12 +70,12 @@ namespace MySch.Bll
         /// <typeparam name="BllEntity"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static List<BllEntity> GetEntitys<BllEntity>(Expression<Func<Entity, bool>> where)
+        public static IEnumerable<BllEntity> GetEntitys<BllEntity>(Expression<Func<Entity, bool>> where)
         {
             try
             {
                 var entitys = DataCRUD<Entity>.Expression(where);
-                return Jsons<List<BllEntity>>.JsonEntity(entitys);
+                return Jsons<IEnumerable<BllEntity>>.JsonEntity(entitys);
             }
             catch (Exception e)
             {

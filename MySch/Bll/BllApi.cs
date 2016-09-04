@@ -19,7 +19,7 @@ namespace MySch.Bll
     /// 三、删除：基本同上
     /// </summary>
     /// <typeparam name="Entity"></typeparam>
-    public class ApiBll<Entity> where Entity : class
+    public class BllApi<Entity> where Entity : class
     {
         /// <summary>
         /// JSON方式： 将 表示数据 -> 实体对象

@@ -15,10 +15,12 @@ namespace MySch.Bll.Entity
     {
         public string ID { get; set; }
 
-        [DisplayName("学期编号")]
-        [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{14}$", ErrorMessage = "{0}：用14位数字！")]
         public string IDS { get; set; }
+
+        [DisplayName("学期代码")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^\d{2}$", ErrorMessage = "{0}：用2位数字！")]
+        public string Value { get; set; }
 
         [DisplayName("学期名称")]
         [Required(ErrorMessage = "{0}不得为空；")]

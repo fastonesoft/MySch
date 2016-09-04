@@ -121,17 +121,17 @@ namespace MySch.ModelsEx
                 if (db != null) throw new Exception("该身份证号学籍已注册");
                 //根据返回数据 -> 创建学生报名记录
                 TStudReg stud = new TStudReg();
-                stud.fromSch = matchs[0].Groups[1].ToString();
+                stud.FromSch = matchs[0].Groups[1].ToString();
                 stud.Name = matchs[1].Groups[1].ToString();
                 stud.IDS = id;
-                stud.fromGrade = matchs[3].Groups[1].ToString();
-                stud.nationID = matchs[4].Groups[1].ToString();
-                stud.readState = matchs[5].Groups[1].ToString();
-                stud.isProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
+                stud.FromGrade = matchs[3].Groups[1].ToString();
+                stud.NationID = matchs[4].Groups[1].ToString();
+                stud.ReadState = matchs[5].Groups[1].ToString();
+                stud.IsProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
-                stud.schChoose = false;
-                stud.studNo = null;
+                stud.SchChoose = false;
+                stud.StudNo = null;
                 stud.Memo = null;
                 //
                 stud.Reged = false;
@@ -189,15 +189,15 @@ namespace MySch.ModelsEx
             {
                 var db = DataCRUD<TStudReg>.Entity(a => a.OpenID == openID);
                 if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
-                if (string.IsNullOrEmpty(db.studNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
+                if (string.IsNullOrEmpty(db.StudNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
 
                 string res = string.Empty;
                 res += string.Format("姓名：{0}\n", db.Name);
                 res += string.Format("身份：{0}\n", db.IDS);
-                res += string.Format("学校：{0}\n", db.fromSch);
-                res += string.Format("年级：{0}\n", db.fromGrade);
+                res += string.Format("学校：{0}\n", db.FromSch);
+                res += string.Format("年级：{0}\n", db.FromGrade);
                 res += "---------------------------\n";
-                res += string.Format("录取编号：{0}", db.studNo.Substring(db.studNo.Length - 4, 4));
+                res += string.Format("录取编号：{0}", db.StudNo.Substring(db.StudNo.Length - 4, 4));
                 return res;
             }
             catch (Exception e)
@@ -217,7 +217,7 @@ namespace MySch.ModelsEx
             {
                 var db = DataCRUD<TStudReg>.Entity(a => a.OpenID == openID);
                 if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
-                if (string.IsNullOrEmpty(db.studNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
+                if (string.IsNullOrEmpty(db.StudNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
 
                 var count = DataCRUD<TStudReg>.Count(a => true);
                 string res = string.Empty;

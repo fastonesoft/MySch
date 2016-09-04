@@ -37,27 +37,6 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Edit(string id)
-        {
-            try
-            {
-                var entity = BllPartStep.GetEntity<BllPartStep>(id);
-
-                var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, entity.StepIDS);
-
-                return View(entity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
         public ActionResult Del(string id)
         {
             try
@@ -87,29 +66,14 @@ namespace MySch.Controllers.User
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
+
                 entity.ID = Guid.NewGuid().ToString("N");
+                entity.IDS = entity.PartIDS + entity.StepIDS.Replace(entity.AccIDS, "");
+
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = QPartStep.GetEntity(a => a.ID == entity.ID);
-                return Json(qentity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPartStep entity)
-        {
-            try
-            {
-                //更新
-                entity.ToUpdate(ModelState);
-                //查询 视图数据
-                var qentity = QPartStep.GetEntity(a=>a.ID == entity.ID);
+                var qentity = QllPartStep.GetEntity<QllPartStep>(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -124,8 +88,12 @@ namespace MySch.Controllers.User
         {
             try
             {
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;
+
                 //查询 视图数据 保存
-                var qentity = QPartStep.GetEntity(a => a.ID == entity.ID);
+                var qentity = QllPartStep.GetEntity<QllPartStep>(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -142,7 +110,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QPartStep.GetDataGridPages(a => a.AccIDS == login.IDS,  page, rows);
+                var res = QllPartStep.GetDataGridPages<QllPartStep,string>(a => a.AccIDS == login.IDS, a=>a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

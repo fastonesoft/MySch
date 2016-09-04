@@ -12,10 +12,12 @@ namespace MySch.Bll.Entity
     {
         public string ID { get; set; }
 
-        [DisplayName("学制编号")]
-        [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
         public string IDS { get; set; }
+
+        [DisplayName("学制代码")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^\d{2}$", ErrorMessage = "{0}：用2位数字设置；")]
+        public string Value { get; set; }
 
 
         [DisplayName("学制名称")]

@@ -86,11 +86,11 @@
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.studNo)：</div>
+            <div>@Html.LabelFor(a => a.StudNo)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.studNo, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.StudNo, new { @class = "textbox-text" })
             </span>
-            @Html.ValidationMessageFor(a => a.studNo)
+            @Html.ValidationMessageFor(a => a.StudNo)
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Memo)：</div>
@@ -100,7 +100,7 @@
             @Html.ValidationMessageFor(a => a.Memo)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.schChoose)：@Html.CheckBoxFor(a => a.schChoose)</div>
+            <div>@Html.LabelFor(a => a.SchChoose)：@Html.CheckBoxFor(a => a.SchChoose)</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
