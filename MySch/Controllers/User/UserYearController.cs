@@ -97,6 +97,9 @@ namespace MySch.Controllers.User
                     //清除当前
                     BllYear.UnSelectCurrent();
                 }
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;                
                 //更新
                 entity.ToUpdate(ModelState);
                 //查询 视图数据
@@ -114,7 +117,9 @@ namespace MySch.Controllers.User
         {
             try
             {
-                //查询 视图数据 保存
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(entity);

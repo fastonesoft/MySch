@@ -39,6 +39,29 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                var entity = BllBan.GetEntity<BllBan>(id);
+
+                var login = BllLogin.GetLogin(Session);
+                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
+
+                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
+                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
+                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
+
+                return View(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
         public ActionResult Del(string id)
         {
             try
@@ -70,13 +93,36 @@ namespace MySch.Controllers.User
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
+
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.GradeIDS + entity.Name.ToString("D2");
+                entity.IDS = entity.GradeIDS + entity.Num.ToString("D2");
 
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
                 var qentity = QllBan.GetEntity<QllBan>(entity.ID);
+                return Json(qentity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTokey(BllBan entity)
+        {
+            try
+            {
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;
+
+                //更新
+                entity.ToUpdate(ModelState);
+                //查询 视图数据
+                var qentity = BllBan.GetEntity<BllBan>(entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)

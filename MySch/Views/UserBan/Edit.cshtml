@@ -14,11 +14,11 @@
             <input id="GradeIDS" name="GradeIDS" style="width:210px;" />
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Name)：</div>
+            <div>@Html.LabelFor(a => a.Num)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+                @Html.TextBoxFor(a => a.Num, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
             </span>
-            @Html.ValidationMessageFor(a => a.Name)
+            @Html.ValidationMessageFor(a => a.Num)
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.MasterIDS)：</div>
@@ -40,6 +40,7 @@
             if (e.which == 13) {
                 //错误输入聚焦
                 $('.field-validation-error:first').parent().find('input').focus();
+                return false;
             }
         });
 

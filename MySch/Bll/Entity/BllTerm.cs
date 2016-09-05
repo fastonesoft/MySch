@@ -17,21 +17,18 @@ namespace MySch.Bll.Entity
 
         public string IDS { get; set; }
 
-        [DisplayName("学期代码")]
-        [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{2}$", ErrorMessage = "{0}：用2位数字！")]
-        public string Value { get; set; }
-
-        [DisplayName("学期名称")]
-        [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^[\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个中文字符；")]
-        public string Name { get; set; }
-
         [DisplayName("当前学期")]
         public bool IsCurrent { get; set; }
 
         [DisplayName("年度编号")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字设置；")]
         public string YearIDS { get; set; }
+
+        [DisplayName("学期编号")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
+        public string SemesterIDS { get; set; }
 
         public string AccIDS { get; set; }
 
@@ -51,5 +48,6 @@ namespace MySch.Bll.Entity
                 new Exception("业务逻辑：清除当前学期出错！");
             }
         }
+
     }
 }

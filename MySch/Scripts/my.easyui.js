@@ -366,11 +366,6 @@ function ReDialogEdit(title, width, height, postUrl, gridID) {
             //重置渲染、输入验证、错误聚焦
             var form = $('form').revalidate();
             form.validate().form();
-            //对输入框的焦点变换同样做验证
-            $('#dialog-form :text').change(function () {
-                var form = $('form').revalidate();
-                form.validate().form();
-            })
             //错误输入聚焦
             $('.field-validation-error:first').parent().find('input').focus();
         },

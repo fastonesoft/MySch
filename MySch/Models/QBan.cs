@@ -7,7 +7,7 @@ namespace MySch.Models
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public int Name { get; set; }
+        public int Num { get; set; }
         public string GradeIDS { get; set; }
         public string MasterIDS { get; set; }
         public string GroupIDS { get; set; }
@@ -15,7 +15,7 @@ namespace MySch.Models
         public string PartStepIDS { get; set; }
         public string YearIDS { get; set; }
         public string EduIDS { get; set; }
-        public string BanName { get; set; }
+        public string Name { get; set; }
         public string GradeName { get; set; }
         public string MasterName { get; set; }
         public string GroupName { get; set; }

@@ -12,7 +12,7 @@ namespace MySch.Bll.View
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public int Name { get; set; }
+        public int Num { get; set; }
         public string GradeIDS { get; set; }
         public string MasterIDS { get; set; }
         public string GroupIDS { get; set; }
@@ -22,7 +22,7 @@ namespace MySch.Bll.View
         public string StepIDS { get; set; }
         public string YearIDS { get; set; }
         public string EduIDS { get; set; }
-        public string BanName { get; set; }
+        public string Name { get; set; }
         public string GradeName { get; set; }
         public string PartStepName { get; set; }
         public string PartName { get; set; }

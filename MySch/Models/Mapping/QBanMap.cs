@@ -8,7 +8,7 @@ namespace MySch.Models.Mapping
         public QBanMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.IDS, t.Name, t.GradeIDS, t.AccIDS, t.Graduated });
+            this.HasKey(t => new { t.ID, t.IDS, t.Num, t.GradeIDS, t.AccIDS, t.Graduated });
 
             // Properties
             this.Property(t => t.ID)
@@ -19,7 +19,7 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Name)
+            this.Property(t => t.Num)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             this.Property(t => t.GradeIDS)
@@ -45,7 +45,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.EduIDS)
                 .HasMaxLength(20);
 
-            this.Property(t => t.BanName)
+            this.Property(t => t.Name)
                 .HasMaxLength(49);
 
             this.Property(t => t.GradeName)
@@ -61,7 +61,7 @@ namespace MySch.Models.Mapping
             this.ToTable("QBan");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Num).HasColumnName("Num");
             this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
             this.Property(t => t.MasterIDS).HasColumnName("MasterIDS");
             this.Property(t => t.GroupIDS).HasColumnName("GroupIDS");
@@ -69,7 +69,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.PartStepIDS).HasColumnName("PartStepIDS");
             this.Property(t => t.YearIDS).HasColumnName("YearIDS");
             this.Property(t => t.EduIDS).HasColumnName("EduIDS");
-            this.Property(t => t.BanName).HasColumnName("BanName");
+            this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.GradeName).HasColumnName("GradeName");
             this.Property(t => t.MasterName).HasColumnName("MasterName");
             this.Property(t => t.GroupName).HasColumnName("GroupName");

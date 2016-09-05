@@ -136,6 +136,7 @@
     <Compile Include="Bll\Entity\BllBan.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\Entity\BllSemes.cs" />
     <Compile Include="Bll\Entity\BllGrade.cs" />
     <Compile Include="Bll\Entity\BllStep.cs" />
     <Compile Include="Bll\Entity\BllPartStep.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\User\UserSemesController.cs" />
     <Compile Include="Controllers\User\UserEduController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -216,7 +218,6 @@
     <Compile Include="Models\Mapping\TAccMap.cs" />
     <Compile Include="Models\Mapping\TBanFenMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
-    <Compile Include="Models\Mapping\TBanStudMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
@@ -239,7 +240,6 @@
     <Compile Include="Models\TAcc.cs" />
     <Compile Include="Models\TBan.cs" />
     <Compile Include="Models\TBanFen.cs" />
-    <Compile Include="Models\TBanStud.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
     <Compile Include="Models\TLog.cs" />
@@ -579,6 +579,9 @@
     <Content Include="Views\UserBan\Edit.cshtml" />
     <Content Include="Views\UserBan\Add.cshtml" />
     <Content Include="Views\UserBan\Del.cshtml" />
+    <Content Include="Views\UserSemes\Add.cshtml" />
+    <Content Include="Views\UserSemes\Del.cshtml" />
+    <Content Include="Views\UserSemes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />

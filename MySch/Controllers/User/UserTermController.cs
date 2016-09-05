@@ -24,9 +24,34 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+
                 ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
-                
+                ViewBag.Semesters = Combo.ToComboJsons<BllSemes>(semes, null);
+             
                 return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                var entity = BllTerm.GetEntity<BllTerm>(id);
+
+                var login = BllLogin.GetLogin(Session);
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+
+                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.Semesters = Combo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
+
+                return View(entity);
             }
             catch (Exception e)
             {
@@ -43,7 +68,10 @@ namespace MySch.Controllers.User
 
                 var login = BllLogin.GetLogin(Session);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+
                 ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.Semesters = Combo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
 
                 return View(entity);
             }
@@ -67,9 +95,35 @@ namespace MySch.Controllers.User
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
+
                 entity.ID = Guid.NewGuid().ToString("N");
                 //添加
                 entity.ToAdd(ModelState);
+                //查询 视图数据
+                return Json(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTokey(BllTerm entity)
+        {
+            try
+            {
+                if (entity.IsCurrent)
+                {
+                    //清除当前
+                    BllTerm.UnSelectCurrent();
+                }
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;                
+                //更新
+                entity.ToUpdate(ModelState);
                 //查询 视图数据
                 return Json(entity);
             }
@@ -85,7 +139,9 @@ namespace MySch.Controllers.User
         {
             try
             {
-                //查询 视图数据 保存
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(entity);

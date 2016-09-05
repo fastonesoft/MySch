@@ -7,7 +7,7 @@ namespace MySch.Models
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public int Name { get; set; }
+        public int Num { get; set; }
         public string GradeIDS { get; set; }
         public string MasterIDS { get; set; }
         public string GroupIDS { get; set; }

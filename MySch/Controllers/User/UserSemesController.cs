@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.User
 {
-    public class UserPartController : RoleController
+    public class UserSemesController : RoleController
     {
         public ActionResult Index()
         {
@@ -26,7 +26,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllSemes.GetEntity<BllSemes>(id);
                 return View(db);
             }
             catch (Exception e)
@@ -40,7 +40,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllSemes.GetEntity<BllSemes>(id);
                 return View(db);
             }
             catch (Exception e)
@@ -51,7 +51,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPart entity)
+        public ActionResult AddTokey(BllSemes entity)
         {
             try
             {
@@ -73,13 +73,13 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllPart entity)
+        public ActionResult EditTokey(BllSemes entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
-
+                
                 entity.ToUpdate(ModelState);
                 return Json(entity);
             }
@@ -91,13 +91,13 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPart entity)
+        public ActionResult DelTokey(BllSemes entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
-
+                
                 entity.ToDelete(ModelState);
                 return Json(entity);
             }
@@ -114,7 +114,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllPart.GetDataGridPages<BllPart, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllSemes.GetDataGridPages<BllSemes, string >(a => a.AccIDS == login.IDS,  a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)
@@ -122,5 +122,7 @@ namespace MySch.Controllers.User
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //UserGrade/Index
+    //UserSemes/Index
 }
 
 <!DOCTYPE html>
@@ -8,26 +8,23 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>年级设置</title>
+    <title>学制编排</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            grades = {
+            semes = {
                 add: function () {
-                    DataGridNone('/UserGrade/Add');
-                },
-                edit: function () {
-                    DataGridRow('#grades-grid', '/UserGrade/Edit');
+                    DataGridNone('/UserSemes/Add');
                 },
                 del: function () {
-                    DataGridRow('#grades-grid', '/UserGrade/Del');
+                    DataGridRow('#semes-grid', '/UserSemes/Del');
                 }
             }
 
             //数据表格
-            $('#grades-grid').datagrid({
+            $('#semes-grid').datagrid({
                 fit: true,
                 striped: true,
                 rownumbers: true,
@@ -35,7 +32,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserGrade/DataGrid',
+                url: '/UserSemes/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -46,11 +43,11 @@
                 },
 
                 columns: [[
-                    { title: '年级名称', field: 'Name', align: 'center',  width: 200 },
-                    { title: '年度名称', field: 'YearName', align: 'center',  width: 100 },
+                    { title: '学期代码', field: 'Value', align: 'center',  width: 100 },
+                    { title: '学期名称', field: 'Name', align: 'center',  width: 100 },
                 ]],
 
-                toolbar: '#grades-grid-tool',
+                toolbar: '#semes-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -60,25 +57,19 @@
     </script>
 </head>
 <body>
-    <table id="grades-grid"></table>
-    <div id="grades-grid-tool">
+    <table id="semes-grid"></table>
+    <div id="semes-grid-tool">
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="grades.add();">添加</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="semes.add();">添加</a>
                     </td>
                     <td>
                         <div class="datagrid-btn-separator"></div>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="grades.edit();">修改</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="grades.del();">删除</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="semes.del();">删除</a>
                     </td>
                 </tr>
             </thead>

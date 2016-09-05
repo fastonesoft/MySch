@@ -467,7 +467,7 @@ create table TBan
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--3212840220160107XX
-	Name	int not null,
+	Num	int not null,
 	GradeIDS	nvarchar(20) not null,
 	MasterIDS	nvarchar(20),
 	GroupIDS	nvarchar(20),
@@ -643,7 +643,7 @@ select b.*
 ,PartStepIDS = g.PartStepIDS
 ,g.YearIDS
 ,g.EduIDS
-,BanName = g.Name + '（' + CAST(b.Name as nvarchar(5)) + '）班'
+,BanName = g.Name + '（' + CAST(b.Num as nvarchar(5)) + '）班'
 ,GradeName = g.Name
 ,MasterName = m.Name
 ,GroupName = p.Name

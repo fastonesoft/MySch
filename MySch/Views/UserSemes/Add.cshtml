@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllPart
+﻿@model MySch.Bll.Entity.BllSemes
 
 @{
     Layout = null;
@@ -23,9 +23,6 @@
             </span>
             @Html.ValidationMessageFor(a => a.Value)
         </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
-        </div>
     </div>
 }
 
@@ -40,6 +37,6 @@
             }
         });
         //添加对话框
-        DialogAdd('校区添加', 410, 220, '/UserPart/AddTokey', '#parts-grid');
+        DialogAdd('学期添加', 410, 220, '/UserSemes/AddTokey', '#semes-grid');
     })
 </script>

@@ -20,7 +20,7 @@ namespace MySch.Bll.Entity
         public string Name { get; set; }
 
         [DisplayName("是否毕业")]
-        public bool Fixed { get; set; }
+        public bool Graduated { get; set; }
 
         public string AccIDS { get; set; }
     }

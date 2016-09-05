@@ -37,7 +37,7 @@ namespace MySch.Models.Mapping
             this.ToTable("TBan");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Num).HasColumnName("Num");
             this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
             this.Property(t => t.MasterIDS).HasColumnName("MasterIDS");
             this.Property(t => t.GroupIDS).HasColumnName("GroupIDS");

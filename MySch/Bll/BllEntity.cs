@@ -16,14 +16,6 @@ namespace MySch.Bll
     /// <typeparam name="Entity"></typeparam>
     public class BllEntity<Entity> : BllBase<Entity> where Entity : class
     {
-        //数据输出到EasyUI的DataGrid
-        public object ToDataGrid()
-        {
-            List<object> objes = new List<object>();
-            objes.Add(this);
-            return new { total = 1, rows = objes };
-        }
-
         //通过反射的方式 将 表示数据 -> 实体对象
         public void ToAdd(ModelStateDictionary model)
         {
