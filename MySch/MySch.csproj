@@ -136,8 +136,10 @@
     <Compile Include="Bll\Entity\BllBan.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Entity\BllSemes.cs" />
     <Compile Include="Bll\Entity\BllGrade.cs" />
+    <Compile Include="Bll\Entity\BllSemes.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Bll\Entity\BllStep.cs" />
     <Compile Include="Bll\Entity\BllPartStep.cs" />
     <Compile Include="Bll\Entity\BllPart.cs">
