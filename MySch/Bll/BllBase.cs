@@ -74,7 +74,7 @@ namespace MySch.Bll
         {
             try
             {
-                var entitys = DataCRUD<Entity>.Expression(where);
+                var entitys = DataCRUD<Entity>.Entitys(where);
                 return Jsons<IEnumerable<BllEntity>>.JsonEntity(entitys);
             }
             catch (Exception e)
@@ -95,7 +95,7 @@ namespace MySch.Bll
         {
             try
             {
-                var entitys = DataCRUD<Entity>.Expression(where);
+                var entitys = DataCRUD<Entity>.Entitys(where);
                 //转换：实体对象 - 表示数据
                 var entitys_bll = Jsons<List<BllEntity>>.JsonEntity(entitys);
                 //输出：转换成DataGrid的数据

@@ -133,6 +133,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\EasyUI.cs" />
+    <Compile Include="Bll\Entity\BllStudent.cs" />
     <Compile Include="Bll\Entity\BllBan.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -145,6 +146,7 @@
     <Compile Include="Bll\Entity\BllPart.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\Entity\BllStudentIn.cs" />
     <Compile Include="Bll\Entity\BllTerm.cs" />
     <Compile Include="Bll\Jsons.cs" />
     <Compile Include="Bll\Model\Combo.cs" />
@@ -170,7 +172,9 @@
     <Compile Include="Bll\View\QllTerm.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\StudHttp.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Student\StudentController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
       <SubType>Code</SubType>

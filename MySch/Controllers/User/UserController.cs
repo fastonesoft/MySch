@@ -11,6 +11,8 @@ namespace MySch.Controllers.User
     public class UserController : RoleController
     {
         //用户列表：界面
+        //TODO：
+        //学校管理员，用户界面
         [HttpPost]
         public ActionResult Index()
         {

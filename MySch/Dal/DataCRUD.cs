@@ -106,7 +106,7 @@ namespace MySch.Dal
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public static IEnumerable<TEntity> Expression(Expression<Func<TEntity, bool>> where)
+        public static IEnumerable<TEntity> Entitys(Expression<Func<TEntity, bool>> where)
         {
             try
             {

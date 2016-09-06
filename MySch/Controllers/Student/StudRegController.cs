@@ -139,7 +139,7 @@ namespace MySch.Controllers.Student
                 //身份证检测
                 Setting.IDS(id);
 
-                var db = DataCRUD<TStudReg>.Expression(a => a.IDS == id);
+                var db = DataCRUD<TStudReg>.Entitys(a => a.IDS == id);
 
                 //返回：easyui datagrid数据格式
                 var res = db == null ? null : new { total = db.Count(), rows = db };
@@ -271,9 +271,9 @@ namespace MySch.Controllers.Student
                 string all = match.Groups[2].ToString();
                 string right = match.Groups[3].ToString();
 
-                var db = left.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.StudNo.StartsWith(left)).OrderBy(a => a.StudNo) :
-                    right.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.StudNo.EndsWith(right)).OrderBy(a => a.StudNo) :
-                    all.Length > 0 ? DataCRUD<TStudReg>.Expression(a => a.StudNo.Contains(all)).OrderBy(a => a.StudNo) : null;
+                var db = left.Length > 0 ? DataCRUD<TStudReg>.Entitys(a => a.StudNo.StartsWith(left)).OrderBy(a => a.StudNo) :
+                    right.Length > 0 ? DataCRUD<TStudReg>.Entitys(a => a.StudNo.EndsWith(right)).OrderBy(a => a.StudNo) :
+                    all.Length > 0 ? DataCRUD<TStudReg>.Entitys(a => a.StudNo.Contains(all)).OrderBy(a => a.StudNo) : null;
 
                 //返回：easyui datagrid数据格式
                 var res = db == null ? null : new { total = db.Count(), rows = db };

@@ -34,7 +34,7 @@ namespace MySch.Controllers.Account
             //foreach (var d in db)
             //{
             //    string id = d.ID;
-            //    var log = DataCRUD<TLog>.Expression(a => a.Value.Contains(id));
+            //    var log = DataCRUD<TLog>.Entitys(a => a.Value.Contains(id));
             //    if (log.Count() > 0)
             //    {
             //        WX_Rec_Base rec = new WX_Rec_Base();

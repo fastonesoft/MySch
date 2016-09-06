@@ -36,7 +36,7 @@ namespace MySch.Bll.Entity
         {
             try
             {
-                var years = DataCRUD<TTerm>.Expression(a => a.IsCurrent);
+                var years = DataCRUD<TTerm>.Entitys(a => a.IsCurrent);
                 foreach (var year in years)
                 {
                     year.IsCurrent = false;

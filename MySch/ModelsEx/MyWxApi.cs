@@ -266,7 +266,7 @@ namespace MySch.ModelsEx
             if (openID.Length == 0) return false;
 
             //检测是否存在ID记录
-            var db = DataCRUD<TStudReg>.Expression(a => a.OpenID == openID);
+            var db = DataCRUD<TStudReg>.Entitys(a => a.OpenID == openID);
 
             //有记录，说明已绑定
             return db.Count() > 0;
