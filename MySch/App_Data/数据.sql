@@ -643,7 +643,7 @@ select b.*
 ,PartStepIDS = g.PartStepIDS
 ,g.YearIDS
 ,g.EduIDS
-,BanName = g.Name + '（' + CAST(b.Num as nvarchar(5)) + '）班'
+,Name = g.Name + '（' + CAST(b.Num as nvarchar(5)) + '）班'
 ,GradeName = g.Name
 ,MasterName = m.Name
 ,GroupName = p.Name

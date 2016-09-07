@@ -39,6 +39,18 @@ namespace MySch.ModelsEx
             }
         }
 
+        public static CookieCollection GetCookies(string url)
+        {
+            try
+            {
+                return GetResponse(url).Cookies;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         /// <summary>
         /// 网页抓取
         /// </summary>
@@ -78,6 +90,19 @@ namespace MySch.ModelsEx
             {
                 Stream reads = resp.GetResponseStream();
                 return new Bitmap(reads);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static Bitmap GetBitmap(string url, CookieCollection cookies)
+        {
+            try
+            {
+                var resp = GetResponse(url, cookies);
+                return GetBitmap(resp);
             }
             catch (Exception e)
             {

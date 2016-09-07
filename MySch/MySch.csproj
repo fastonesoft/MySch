@@ -172,7 +172,7 @@
     <Compile Include="Bll\View\QllTerm.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\StudHttp.cs" />
+    <Compile Include="Bll\Html.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
