@@ -27,7 +27,7 @@ namespace MySch.ModelsEx
             //生成所需的图片
             _CloneBit = cloneBit();
             //三、切割
-            _bits = SplitBitByPixel(_CloneBit, minWidth);
+            _bits = splitBitByPixel(_CloneBit, minWidth);
         }
 
         public void Dispose()
@@ -65,38 +65,7 @@ namespace MySch.ModelsEx
             return _src.Clone(rect, PixelFormat.Format4bppIndexed);
         }
 
-        private static bool CompareBits(Bitmap src, Bitmap dest)
-        {
-            int swid = src.Width;
-            int shei = src.Height;
-            int dwid = dest.Width;
-            int dhei = dest.Height;
-
-            int count = 0;
-            //长、宽不匹配
-            if (swid != dwid || shei != dhei) return false;
-
-            for (int y = 0; y < shei; y++)
-            {
-                for (int x = 0; x < swid; x++)
-                {
-                    Color scolor = src.GetPixel(x, y);
-                    Color dcolor = dest.GetPixel(x, y);
-                    //颜色不同，退出
-                    //if (scolor != dcolor) return false;
-                    if (scolor != dcolor )
-                    {
-                        count++;
-                    }
-                }
-            }
-
-            //完全相同，返回true
-            if (count > 0) return false;
-            return true;
-        }
-
-        private Bitmap[] SplitBitByPixel(Bitmap bt, int charWid)
+        private Bitmap[] splitBitByPixel(Bitmap bt, int charWid)
         {
             int width = bt.Width;
             int height = bt.Height;
@@ -159,6 +128,37 @@ namespace MySch.ModelsEx
                 }
             }
             return b;
+        }
+
+        private static bool CompareBits(Bitmap src, Bitmap dest)
+        {
+            int swid = src.Width;
+            int shei = src.Height;
+            int dwid = dest.Width;
+            int dhei = dest.Height;
+
+            int count = 0;
+            //长、宽不匹配
+            if (swid != dwid || shei != dhei) return false;
+
+            for (int y = 0; y < shei; y++)
+            {
+                for (int x = 0; x < swid; x++)
+                {
+                    Color scolor = src.GetPixel(x, y);
+                    Color dcolor = dest.GetPixel(x, y);
+                    //颜色不同，退出
+                    //if (scolor != dcolor) return false;
+                    if (scolor != dcolor )
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            //完全相同，返回true
+            if (count > 0) return false;
+            return true;
         }
 
         //检测验证码

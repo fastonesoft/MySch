@@ -1,4 +1,5 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Action;
 using MySch.Bll.Entity;
 using MySch.ModelsEx;
 using System;
@@ -48,6 +49,7 @@ namespace MySch.Controllers.Account
             //}
 
             //return RedirectToAction("Reg11","Account");
+            return Content(AutoXue.Login("http://xjgl.jse.edu.cn/uids/index.jsp", "http://xjgl.jse.edu.cn/uids/genImageCode?rnd=", "http://xjgl.jse.edu.cn/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP"));
 
             return View();
         }

@@ -172,7 +172,7 @@
     <Compile Include="Bll\View\QllTerm.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Html.cs" />
+    <Compile Include="Bll\Action\AutoXue.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
@@ -353,6 +353,7 @@
     <Content Include="Content\themes\icons\sum.png" />
     <Content Include="Content\themes\icons\tip.png" />
     <Content Include="Content\themes\icons\undo.png" />
+    <Content Include="ddd.html" />
     <Content Include="tooltip.htm" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -588,6 +589,7 @@
     <Content Include="Views\UserSemes\Add.cshtml" />
     <Content Include="Views\UserSemes\Del.cshtml" />
     <Content Include="Views\UserSemes\Index.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />
