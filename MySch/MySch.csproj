@@ -126,6 +126,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Bll\Action\AutoXue.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Bll\BllApi.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -172,7 +175,6 @@
     <Compile Include="Bll\View\QllTerm.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Action\AutoXue.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
