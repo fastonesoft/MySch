@@ -37,9 +37,6 @@ namespace MySch.Bll.Action
             dicts.Add("randomCode", code);
             dicts.Add("v", (new Random()).NextDouble().ToString());
 
-            //提交查询
-            Post(postUrl, cookies, dicts);
-
             //TODO，处理
 
             //最后返回
@@ -86,8 +83,24 @@ namespace MySch.Bll.Action
             return MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK"));
         }
 
+        public static string Post(string url, CookieCollection cookies, Dictionary<string, string> dicts, string requrl)
+        {
+            string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
 
-        public static string Login(string url, string validUrl, string postUrl, string name, string pwd)
+            CookieCollection cook = postresp.Cookies;
+            return MyHtml.GetHtml(requrl, cook, Encoding.GetEncoding("GBK"));
+        }
+
+        public static CookieCollection PostCookies(string url, CookieCollection cookies, Dictionary<string, string> dicts)
+        {
+            string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
+
+            return postresp.Cookies;
+        }
+
+        public static string Login(string url, string validUrl, string postUrl, string redirectUrl, string name, string pwd)
         {
             try
             {
@@ -107,7 +120,14 @@ namespace MySch.Bll.Action
                 dicts.Add("encrypt", "1");
 
                 //提交查询
-                return Post(postUrl, cookies, dicts);
+                cookies = PostCookies(postUrl, cookies, dicts);
+                var studName = "黄笑";
+                var studCid = "320981200405161741";
+                studName = HttpUtility.UrlEncode(studName,Encoding.GetEncoding("GBK"));
+
+                var jsonurl = "http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName="+studName+"&cid="+studCid;
+
+                return MyHtml.GetHtml(jsonurl, cookies, Encoding.Default);
             }
             catch (Exception e)
             {

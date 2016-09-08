@@ -129,6 +129,21 @@ namespace MySch.ModelsEx
             }
         }
 
+        public static string GetHtml(string url, CookieCollection cookies,  Encoding encoding)
+        {
+            try
+            {
+                var resp = GetResponse(url, cookies);
+                
+                StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
+                return sr.ReadToEnd();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         /// <summary>
         /// 提交回应数据
         /// </summary>
@@ -146,6 +161,36 @@ namespace MySch.ModelsEx
                 req.CookieContainer = new CookieContainer();
                 req.CookieContainer.Add(cookies);
                 req.AllowAutoRedirect = false;
+                req.ContentType = "application/x-www-form-urlencoded";
+                req.Method = "POST";
+
+                //准备数据
+                byte[] posts = encoding.GetBytes(data);
+                req.ContentLength = posts.Length;
+
+                //写入提交
+                using (Stream postwriter = req.GetRequestStream())
+                {
+                    postwriter.Write(posts, 0, posts.Length);
+                }
+
+                return (HttpWebResponse)req.GetResponse();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding, bool redirect)
+        {
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+
+                req.CookieContainer = new CookieContainer();
+                req.CookieContainer.Add(cookies);
+                req.AllowAutoRedirect = redirect;
                 req.ContentType = "application/x-www-form-urlencoded";
                 req.Method = "POST";
 

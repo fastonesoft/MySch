@@ -49,7 +49,10 @@ namespace MySch.Controllers.Account
             //}
 
             //return RedirectToAction("Reg11","Account");
-            return Content(AutoXue.Login("http://xjgl.jse.edu.cn/uids/index.jsp", "http://xjgl.jse.edu.cn/uids/genImageCode?rnd=", "http://xjgl.jse.edu.cn/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP"));
+            //return Content(AutoXue.Login("http://58.213.155.172/uids/index.jsp",
+            //    "http://58.213.155.172/uids/genImageCode?rnd=",
+            //    "http://58.213.155.172/uids/login!login.action",
+            //    "http://58.213.155.172/studman2/studman/stud_report/preStudentReportNewAct.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP"));
 
             return View();
         }
