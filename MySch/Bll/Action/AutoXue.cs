@@ -100,7 +100,7 @@ namespace MySch.Bll.Action
             return postresp.Cookies;
         }
 
-        public static string Login(string url, string validUrl, string postUrl, string redirectUrl, string name, string pwd)
+        public static CookieCollection Login(string url, string validUrl, string postUrl, string redirectUrl, string name, string pwd)
         {
             try
             {
@@ -119,20 +119,20 @@ namespace MySch.Bll.Action
                 dicts.Add("appId", "");
                 dicts.Add("encrypt", "1");
 
-                //提交查询
-                cookies = PostCookies(postUrl, cookies, dicts);
-                var studName = "黄笑";
-                var studCid = "320981200405161741";
-                studName = HttpUtility.UrlEncode(studName,Encoding.GetEncoding("GBK"));
-
-                var jsonurl = "http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName="+studName+"&cid="+studCid;
-
-                return MyHtml.GetHtml(jsonurl, cookies, Encoding.Default);
+                //提交登录
+                return PostCookies(postUrl, cookies, dicts);
             }
             catch (Exception e)
             {
                 throw e;
             }
+        }
+
+        public static string GetStudent(string name, string ids, CookieCollection cookies)
+        {
+            name = HttpUtility.UrlEncode(name, Encoding.GetEncoding("GBK"));
+            var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, ids);
+            return MyHtml.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
         }
     }
 }

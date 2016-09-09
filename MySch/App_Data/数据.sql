@@ -680,7 +680,8 @@ create table TStudent
 	Home	nvarchar(50),	--家庭地址
 	Permanent	nvarchar(50),	--户籍地址
 	Reged	bit not null,	--是否注册
-	OpenID	nvarchar(32),	--用户ID	
+	OpenID	nvarchar(32),	--用户ID
+	AccIDS	nvarchar(20) not null,	--学校编号	
 )
 go
 alter table TStudent add constraint PK_TStudent primary key clustered (ID)
