@@ -5,15 +5,15 @@ using System.Web;
 
 namespace MySch.Bll.Model
 {
-    public class Combo
+    public class EasyCombo
     {
         public string id { get; set; }
         public string text { get; set; }
         public bool selected { get; set; }
 
-        public static IEnumerable<Combo> ToCombo<Entity>(IEnumerable<Entity> entitys, string selected)
+        public static IEnumerable<EasyCombo> ToEasyCombo<Entity>(IEnumerable<Entity> entitys, string selected)
         {
-            var combos = new List<Combo>();
+            var combos = new List<EasyCombo>();
             foreach (var entity in entitys)
             {
                 //反射
@@ -27,7 +27,7 @@ namespace MySch.Bll.Model
                 var entity_name_value = entity_name.GetValue(entity);
 
                 //转换
-                var combo = new Combo
+                var combo = new EasyCombo
                 {
                     id = entity_ids_value.ToString(),
                     text = entity_name_value.ToString(),
@@ -41,9 +41,9 @@ namespace MySch.Bll.Model
             return combos;
         }
 
-        public static string ToComboJsons<Entity>(IEnumerable<Entity> entitys, string selected)
+        public static string ToEasyComboJsons<Entity>(IEnumerable<Entity> entitys, string selected)
         {
-            var combos = ToCombo<Entity>(entitys, selected);
+            var combos = ToEasyCombo<Entity>(entitys, selected);
             return Jsons.ToJsons(combos);
         }
     }

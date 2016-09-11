@@ -22,7 +22,6 @@ namespace MySch.Bll.View
         public bool Fixed { get; set; }
         public Nullable<int> Score { get; set; }
         public string GradeName { get; set; }
-        public string StepEduName { get; set; }
         public bool Graduated { get; set; }
         public string StudName { get; set; }
         public string StudSex { get; set; }

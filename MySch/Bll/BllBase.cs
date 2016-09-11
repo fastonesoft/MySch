@@ -139,5 +139,14 @@ namespace MySch.Bll
                 throw e;
             }
         }
+
+        public static object GetTrees<BllEntity, Key>(Expression<Func<Entity, bool>> where)
+        {
+            var entitys = DataCRUD<Entity>.Entitys(where);
+            //转换：实体对象 - 表示数据
+            var entitys_bll = Jsons<List<BllEntity>>.JsonEntity(entitys);
+            //输出：树Json
+            return EasyTree.ToTreeJsons<BllEntity>(entitys_bll);
+        }
     }
 }

@@ -27,9 +27,9 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, null);
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
-                ViewBag.PartSteps = Combo.ToComboJsons<QllPartStep>(partsteps, null);
+                ViewBag.Edus = EasyCombo.ToEasyComboJsons<BllEdu>(edus, null);
+                ViewBag.Years = EasyCombo.ToEasyComboJsons<BllYear>(years, null);
+                ViewBag.PartSteps = EasyCombo.ToEasyComboJsons<QllPartStep>(partsteps, null);
 
                 return View();
             }
@@ -51,9 +51,9 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = Combo.ToComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.Edus = EasyCombo.ToEasyComboJsons<BllEdu>(edus, entity.EduIDS);
+                ViewBag.Years = EasyCombo.ToEasyComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.PartSteps = EasyCombo.ToEasyComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -75,9 +75,9 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = Combo.ToComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.Edus = EasyCombo.ToEasyComboJsons<BllEdu>(edus, entity.EduIDS);
+                ViewBag.Years = EasyCombo.ToEasyComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.PartSteps = EasyCombo.ToEasyComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }

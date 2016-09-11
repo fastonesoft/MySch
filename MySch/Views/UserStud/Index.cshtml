@@ -47,7 +47,7 @@
                 },
 
                 columns: [[
-                    { title: '分级年级', field: 'StepEduName', align: 'center', width: 120 },
+                    { title: '分级年级', field: 'Name', align: 'center', width: 120 },
                     { title: '姓名', field: 'StudName', align: 'center', width: 70 },
                     { title: '性别', field: 'StudSex', align: 'center', width: 50 },
                     { title: '身份证号', field: 'CID', align: 'center', width: 150 },
@@ -114,16 +114,23 @@
             });
 
             $('#studs-tree').tree({
-                url: '',
-                fit:true,
-                loadFilter: function(d){
+                fit: true,
+                url: '/UserStud/GradeTree',
+                loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
                         return { total: 0, rows: [] };
                     } else {
                         return d;
                     }
-                }
+                },
+                onClick: function (node) {
+                    if (node.isLeaf) return;
+
+                    $('#studins-grid').treegrid({
+                        queryParams: { id: node.id }
+                    })
+                },
             });
 
             $('#studs-sb').splitbutton({

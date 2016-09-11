@@ -26,8 +26,8 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
-                ViewBag.Semesters = Combo.ToComboJsons<BllSemes>(semes, null);
+                ViewBag.Years = EasyCombo.ToEasyComboJsons<BllYear>(years, null);
+                ViewBag.Semesters = EasyCombo.ToEasyComboJsons<BllSemes>(semes, null);
 
                 return View();
             }
@@ -48,8 +48,8 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.Semesters = Combo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
+                ViewBag.Years = EasyCombo.ToEasyComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.Semesters = EasyCombo.ToEasyComboJsons<BllSemes>(semes, entity.SemesterIDS);
 
                 return View(entity);
             }
@@ -70,8 +70,8 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.Semesters = Combo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
+                ViewBag.Years = EasyCombo.ToEasyComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.Semesters = EasyCombo.ToEasyComboJsons<BllSemes>(semes, entity.SemesterIDS);
 
                 return View(entity);
             }

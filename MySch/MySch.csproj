@@ -161,8 +161,10 @@
     <Compile Include="Bll\Entity\BllStudentIn.cs" />
     <Compile Include="Bll\Entity\BllTerm.cs" />
     <Compile Include="Bll\Jsons.cs" />
-    <Compile Include="Bll\Model\Combo.cs" />
+    <Compile Include="Bll\Model\EasyCombo.cs" />
     <Compile Include="Bll\Model\Dicts.cs" />
+    <Compile Include="Bll\Model\EasyTree.cs" />
+    <Compile Include="Bll\Model\XueModel.cs" />
     <Compile Include="Bll\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
       <SubType>Code</SubType>

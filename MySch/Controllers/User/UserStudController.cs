@@ -1,4 +1,5 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Action;
 using MySch.Bll.Entity;
 using MySch.Bll.Model;
 using MySch.Bll.View;
@@ -25,8 +26,8 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, null);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, null);
+                ViewBag.Parts = EasyCombo.ToEasyComboJsons<BllPart>(parts, null);
+                ViewBag.Steps = EasyCombo.ToEasyComboJsons<BllStep>(steps, null);
 
                 return View();
             }
@@ -46,8 +47,8 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, entity.StepIDS);
+                ViewBag.Parts = EasyCombo.ToEasyComboJsons<BllPart>(parts, entity.PartIDS);
+                ViewBag.Steps = EasyCombo.ToEasyComboJsons<BllStep>(steps, entity.StepIDS);
 
                 return View(entity);
             }
@@ -117,6 +118,63 @@ namespace MySch.Controllers.User
             {
                 return Json(new BllError { error = true, message = e.Message });
             }
+        }
+
+        [HttpPost]
+        public ActionResult GradeTree(string id = null)
+        {
+            var login = BllLogin.GetLogin(Session);
+            if (id == null)
+            {
+                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false);
+                var res = EasyTree.ToTreeJsons<BllPart>(entitys);
+                return Json(res);
+            }
+            else
+            {
+                var entitys = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS && a.PartIDS == id);
+                var res = EasyTree.ToTreeJsons<QllGrade>(entitys);
+                return Json(res);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GradeCheck(IEnumerable<QllGradeStud> studs)
+        {
+            try
+            {
+                var cookies = AutoXue.Login("http://58.213.155.172/uids/index.jsp",
+                         "http://58.213.155.172/uids/genImageCode?rnd=",
+                         "http://58.213.155.172/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
+
+                int count = 0;
+                foreach (var stud in studs)
+                {
+                    var student = AutoXue.GetStudent(stud.StudName, stud.CID, cookies);
+
+                    XueModel xue = Jsons<IEnumerable<XueModel>>.JsonEntity(student).First();
+
+                    BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(stud.StudIDS);
+                    ins.Name1 = xue.first_guardian_name;
+                    ins.Mobil1 = xue.first_guardian_phone;
+                    ins.Name2 = xue.second_guardian_name;
+                    ins.Mobil2 = xue.second_guardian_phone;
+                    ins.Birth = xue.birth_place;
+                    ins.Home = xue.home_address;
+
+                    ins.Checked = true;
+                    ins.ToUpdate();
+
+                    count++;
+                }
+
+                return Json(new BllError { error = true, message = string.Format("转换成功{0}",count) });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+
         }
     }
 }

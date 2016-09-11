@@ -25,8 +25,8 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, null);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, null);
+                ViewBag.Parts = EasyCombo.ToEasyComboJsons<BllPart>(parts, null);
+                ViewBag.Steps = EasyCombo.ToEasyComboJsons<BllStep>(steps, null);
 
                 return View();
             }
@@ -46,8 +46,8 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = Combo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = Combo.ToComboJsons<BllStep>(steps, entity.StepIDS);
+                ViewBag.Parts = EasyCombo.ToEasyComboJsons<BllPart>(parts, entity.PartIDS);
+                ViewBag.Steps = EasyCombo.ToEasyComboJsons<BllStep>(steps, entity.StepIDS);
 
                 return View(entity);
             }

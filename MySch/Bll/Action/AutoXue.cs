@@ -100,7 +100,7 @@ namespace MySch.Bll.Action
             return postresp.Cookies;
         }
 
-        public static CookieCollection Login(string url, string validUrl, string postUrl, string redirectUrl, string name, string pwd)
+        public static CookieCollection Login(string url, string validUrl, string postUrl, string name, string pwd)
         {
             try
             {

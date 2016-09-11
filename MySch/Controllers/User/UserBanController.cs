@@ -26,9 +26,9 @@ namespace MySch.Controllers.User
                 var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a=>a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, null);
-                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, null);
-                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, null);
+                ViewBag.Grades = EasyCombo.ToEasyComboJsons<QllGrade>(grades, null);
+                ViewBag.Groups = EasyCombo.ToEasyComboJsons<BllAcc>(accs, null);
+                ViewBag.Masters = EasyCombo.ToEasyComboJsons<BllAcc>(accs, null);
 
                 return View();
             }
@@ -49,9 +49,9 @@ namespace MySch.Controllers.User
                 var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
-                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
-                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
+                ViewBag.Grades = EasyCombo.ToEasyComboJsons<QllGrade>(grades, entity.GradeIDS);
+                ViewBag.Groups = EasyCombo.ToEasyComboJsons<BllAcc>(accs, entity.GroupIDS);
+                ViewBag.Masters = EasyCombo.ToEasyComboJsons<BllAcc>(accs, entity.MasterIDS);
 
                 return View(entity);
             }
@@ -72,9 +72,9 @@ namespace MySch.Controllers.User
                 var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
-                ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
-                ViewBag.Masters = Combo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
+                ViewBag.Grades = EasyCombo.ToEasyComboJsons<QllGrade>(grades, entity.GradeIDS);
+                ViewBag.Groups = EasyCombo.ToEasyComboJsons<BllAcc>(accs, entity.GroupIDS);
+                ViewBag.Masters = EasyCombo.ToEasyComboJsons<BllAcc>(accs, entity.MasterIDS);
 
                 return View(entity);
             }

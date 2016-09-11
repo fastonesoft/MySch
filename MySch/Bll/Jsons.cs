@@ -18,10 +18,22 @@ namespace MySch.Bll
         {
             try
             {
-                //这里不能用Newtonsoft.Json
-                //原因：未知，暂时这样
                 var javas = new JavaScriptSerializer();
                 var jsons = javas.Serialize(obj);
+                return JsonEntity(jsons);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static Entity JsonEntity(string jsons)
+        {
+            try
+            {
+                //这里不能用Newtonsoft.Json
+                //原因：未知，暂时这样
 
                 //日期格式修正
                 jsons = Regex.Replace(jsons, @"\\/Date\((\d+)\)\\/", match =>
@@ -32,6 +44,7 @@ namespace MySch.Bll
                     return datetime.ToString("yyyy-MM-dd HH:mm:ss");
                 });
 
+                var javas = new JavaScriptSerializer();
                 return javas.Deserialize<Entity>(jsons);
             }
             catch (Exception e)

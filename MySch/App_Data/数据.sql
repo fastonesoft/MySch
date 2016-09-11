@@ -170,7 +170,7 @@ create table TPart
 	IDS	nvarchar(20) not null,	--32128402XX
 	Name	nvarchar(10) not null,
 	Value	nvarchar(2) not null,
-	Fixed	bit not null,
+	Fixed	bit not null,	--是否不用
 	AccIDS	nvarchar(20) not null
 )
 go
@@ -180,10 +180,10 @@ create unique nonclustered index UN_TPart_IDS on TPart (IDS)
 create unique nonclustered index UN_TPart_Name on TPart (Name)
 
 
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '实验初中', '01', 1, '32128402')
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二附初中', '02', 0, '32128402')
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '二附三水', '03', 0, '32128402')
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '天目学校', '04', 0, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '实验初中', '01', 0, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二附初中', '02', 1, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '二附三水', '03', 1, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '天目学校', '04', 1, '32128402')
 
 --分级设置
 create table TStep
@@ -450,9 +450,10 @@ go
 create view QGrade
 as
 select a.*
-,Name = b.Name + ' - ' + e.Name
+,b.PartIDS
+,Name = b.StepName + ' - ' + e.Name
+,GradeName = b.Name + ' - ' + e.Name
 ,PartStepName = b.Name
-,StepEduName = b.StepName + ' - ' + e.Name
 ,YearName = y.Name
 ,Graduated = ISNULL( b.Graduated, 1)
 ,IsCurrent = ISNULL( y.IsCurrent, 0)
@@ -647,10 +648,9 @@ select b.*
 ,g.YearIDS
 ,g.EduIDS
 ,Name = g.Name + '（' + CAST(b.Num as nvarchar(5)) + '）班'
-,GradeName = g.Name
+,GradeName
 ,MasterName = m.Name
 ,GroupName = p.Name
-,StepEduName = g.StepEduName
 ,Graduated = ISNULL(g.Graduated, 1)
 from TBan b left join QGrade g
 on b.GradeIDS = g.IDS
@@ -785,7 +785,7 @@ create view QGradeStud
 as
 select a.*
 , b.GradeName
-, b.StepEduName
+, Name = 
 , Graduated = ISNULL(b.Graduated, 1)
 , StudName = c.Name
 , StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end

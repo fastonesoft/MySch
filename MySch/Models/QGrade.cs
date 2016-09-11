@@ -11,9 +11,10 @@ namespace MySch.Models
         public string YearIDS { get; set; }
         public string EduIDS { get; set; }
         public string AccIDS { get; set; }
+        public string PartIDS { get; set; }
         public string Name { get; set; }
+        public string GradeName { get; set; }
         public string PartStepName { get; set; }
-        public string StepEduName { get; set; }
         public string YearName { get; set; }
         public bool Graduated { get; set; }
         public bool IsCurrent { get; set; }
