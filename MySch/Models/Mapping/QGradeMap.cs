@@ -8,7 +8,7 @@ namespace MySch.Models.Mapping
         public QGradeMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.IDS, t.PartStepIDS, t.YearIDS, t.EduIDS, t.AccIDS, t.Graduated });
+            this.HasKey(t => t.ID);
 
             // Properties
             this.Property(t => t.ID)
@@ -36,16 +36,16 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             this.Property(t => t.Name)
-                .HasMaxLength(38);
+                .HasMaxLength(46);
 
             this.Property(t => t.PartStepName)
-                .HasMaxLength(25);
+                .HasMaxLength(33);
 
             this.Property(t => t.PartName)
                 .HasMaxLength(10);
 
             this.Property(t => t.StepName)
-                .HasMaxLength(10);
+                .HasMaxLength(20);
 
             this.Property(t => t.YearName)
                 .HasMaxLength(10);

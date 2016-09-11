@@ -59,7 +59,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.AccIDS + entity.Name;
+                entity.IDS = entity.AccIDS + entity.Value;
 
                 //添加
                 entity.ToAdd(ModelState);

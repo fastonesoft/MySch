@@ -148,6 +148,7 @@ create table TEdu
 )
 go
 alter table TEdu add constraint PK_TEdu primary key clustered (ID)
+alter table TEdu add constraint FK_TEdu_AccID foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TEdu_IDS on TEdu (IDS)
 
 
@@ -189,7 +190,8 @@ create table TStep
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--32128402XXXXYY
-	Name	nvarchar(10) not null,	--级
+	Name	nvarchar(20) not null,	--级
+	Value	nvarchar(10) not null,	--级编号
 	Graduated	bit not null,	--是否毕业
 	AccIDS	nvarchar(20) not null
 )
@@ -199,19 +201,19 @@ alter table TStep add constraint FK_TStep_AccIDS foreign key (AccIDS) references
 create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 go
 
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', '201601', 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', '201501', 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201401', '201401', 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201301', '201301', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201201', '201201', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201101', '201101', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201001', '201001', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200901', '200901', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200801', '200801', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200701', '200701', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200601', '200601', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200501', '200501', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200401', '200401', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', '2016级', '201601', 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', '2015级', '201501', 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201401', '2014级', '201401', 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201301', '2013级', '201301', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201201', '2012级', '201201', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201101', '2011级', '201101', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201001', '2010级', '201001', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200901', '2009级', '200901', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200801', '2008级', '200801', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200701', '2007级', '200701', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200601', '2006级', '200601', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200501', '2005级', '200501', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200401', '2004级', '200401', 1, '32128402')
 
 --校区分级
 create table TPartStep
@@ -261,7 +263,7 @@ go
 create view QPartStep
 as
 select a.*
-,Name = b.Name + ' - ' + c.Name + '级'
+,Name = b.Name + ' - ' + c.Name
 ,b.Name as PartName, c.Name as StepName
 ,Graduated = ISNULL(c.Graduated, 1)
 from TPartStep a left join TPart b
@@ -482,157 +484,157 @@ alter table TBan add constraint FK_TBan_AccIDS foreign key (AccIDS) references T
 create unique nonclustered index UN_TBan_IDS on TBan (IDS)
 
 --2016级
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160701', 1, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160702', 2, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160703', 3, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160704', 4, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160705', 5, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160706', 6, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160707', 7, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160708', 8, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160709', 9, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160710', 10, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160711', 11, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160712', 12, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160713', 13, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160714', 14, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160715', 15, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160716', 16, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160717', 17, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160718', 18, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160719', 19, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160720', 20, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160721', 21, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160722', 22, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160723', 23, '3212840201201607', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120160724', 24, '3212840201201607', null, null, '32128402')
---2015
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150801', 1, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150802', 2, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150803', 3, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150804', 4, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150805', 5, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150806', 6, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150807', 7, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150808', 8, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150809', 9, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150810', 10, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150811', 11, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150812', 12, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150813', 13, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150814', 14, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150815', 15, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150816', 16, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150817', 17, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150818', 18, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150819', 19, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150820', 20, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150821', 21, '3212840201201508', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150822', 22, '3212840201201508', null, null, '32128402')
---
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150701', 1, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150702', 2, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150703', 3, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150704', 4, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150705', 5, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150706', 6, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150707', 7, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150708', 8, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150709', 9, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150710', 10, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150711', 11, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150712', 12, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150713', 13, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150714', 14, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150715', 15, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150716', 16, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150717', 17, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150718', 18, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150719', 19, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150720', 20, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150721', 21, '3212840201201507', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120150722', 22, '3212840201201507', null, null, '32128402')
---2014
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140901', 1, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140902', 2, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140903', 3, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140904', 4, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140905', 5, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140906', 6, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140907', 7, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140908', 8, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140909', 9, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140910', 10, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140911', 11, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140912', 12, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140913', 13, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140914', 14, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140915', 15, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140916', 16, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140917', 17, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140918', 18, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140919', 19, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140920', 20, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140921', 21, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140922', 22, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140923', 23, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140924', 24, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140925', 25, '3212840201201409', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140926', 26, '3212840201201409', null, null, '32128402')
---
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140801', 1, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140802', 2, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140803', 3, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140804', 4, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140805', 5, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140806', 6, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140807', 7, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140808', 8, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140809', 9, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140810', 10, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140811', 11, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140812', 12, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140813', 13, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140814', 14, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140815', 15, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140816', 16, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140817', 17, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140818', 18, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140819', 19, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140820', 20, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140821', 21, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140822', 22, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140823', 23, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140824', 24, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140825', 25, '3212840201201408', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140826', 26, '3212840201201408', null, null, '32128402')
---
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140701', 1, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140702', 2, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140703', 3, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140704', 4, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140705', 5, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140706', 6, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140707', 7, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140708', 8, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140709', 9, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140710', 10, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140711', 11, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140712', 12, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140713', 13, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140714', 14, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140715', 15, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140716', 16, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140717', 17, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140718', 18, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140719', 19, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140720', 20, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140721', 21, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140722', 22, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140723', 23, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140724', 24, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140725', 25, '3212840201201407', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '321284020120140726', 26, '3212840201201407', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010701', 1, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010702', 2, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010703', 3, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010704', 4, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010705', 5, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010706', 6, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010707', 7, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010708', 8, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010709', 9, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010710', 10, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010711', 11, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010712', 12, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010713', 13, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010714', 14, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010715', 15, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010716', 16, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010717', 17, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010718', 18, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010719', 19, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010720', 20, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010721', 21, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010722', 22, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010723', 23, '321284020120160107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010724', 24, '321284020120160107', null, null, '32128402')
+--2015		    
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010801', 1, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010802', 2, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010803', 3, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010804', 4, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010805', 5, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010806', 6, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010807', 7, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010808', 8, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010809', 9, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010810', 10, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010811', 11, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010812', 12, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010813', 13, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010814', 14, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010815', 15, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010816', 16, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010817', 17, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010818', 18, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010819', 19, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010820', 20, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010821', 21, '321284020120150108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010822', 22, '321284020120150108', null, null, '32128402')
+--		    
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010701', 1, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010702', 2, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010703', 3, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010704', 4, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010705', 5, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010706', 6, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010707', 7, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010708', 8, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010709', 9, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010710', 10, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010711', 11, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010712', 12, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010713', 13, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010714', 14, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010715', 15, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010716', 16, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010717', 17, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010718', 18, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010719', 19, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010720', 20, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010721', 21, '321284020120150107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012015010722', 22, '321284020120150107', null, null, '32128402')
+--2014		    
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010901', 1, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010902', 2, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010903', 3, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010904', 4, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010905', 5, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010906', 6, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010907', 7, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010908', 8, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010909', 9, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010910', 10, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010911', 11, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010912', 12, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010913', 13, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010914', 14, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010915', 15, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010916', 16, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010917', 17, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010918', 18, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010919', 19, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010920', 20, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010921', 21, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010922', 22, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010923', 23, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010924', 24, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010925', 25, '321284020120140109', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010926', 26, '321284020120140109', null, null, '32128402')
+--		    
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010801', 1, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010802', 2, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010803', 3, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010804', 4, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010805', 5, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010806', 6, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010807', 7, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010808', 8, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010809', 9, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010810', 10, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010811', 11, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010812', 12, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010813', 13, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010814', 14, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010815', 15, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010816', 16, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010817', 17, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010818', 18, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010819', 19, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010820', 20, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010821', 21, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010822', 22, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010823', 23, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010824', 24, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010825', 25, '321284020120140108', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010826', 26, '321284020120140108', null, null, '32128402')
+--		    
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010701', 1, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010702', 2, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010703', 3, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010704', 4, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010705', 5, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010706', 6, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010707', 7, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010708', 8, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010709', 9, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010710', 10, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010711', 11, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010712', 12, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010713', 13, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010714', 14, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010715', 15, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010716', 16, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010717', 17, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010718', 18, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010719', 19, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010720', 20, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010721', 21, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010722', 22, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010723', 23, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010724', 24, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010725', 25, '321284020120140107', null, null, '32128402')
+insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010726', 26, '321284020120140107', null, null, '32128402')
 
 
 --班级查询
@@ -662,17 +664,20 @@ create table TStudent
 (
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(20) not null,	--学生编号
-	CID	nvarchar(20) not null,	--身份证号
 	Name	nvarchar(10) not null,	--姓名
+	CID	nvarchar(20) ,	--身份证号
 	FromSch	nvarchar(20),	--学校
 	FromGrade	nvarchar(10),	--年级
 	NationID	nvarchar(20),	--全国学籍号
 	ReadState	nvarchar(20),	--就读状态
 	IsProblem	bit not null,	--是否问题学籍
+	--
+	PartStepIDS	nvarchar(20) not null,	--校区分级编号
+	--
 	Code	nvarchar(20),	--学籍号
 	--
-	Come	datetime,
-	OutTime	datetime,	
+	Come	date,
+	OutTime	date,	
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二
@@ -686,91 +691,109 @@ create table TStudent
 	AccIDS	nvarchar(20) not null,	--学校编号
 	--
 	OpenID	nvarchar(32),	--用户ID
-
 )
 go
 alter table TStudent add constraint PK_TStudent primary key clustered (ID)
 create unique nonclustered index UN_TStudent_IDS on TStudent (IDS)
+create index IN_TStudent_CID on TStudent (CID)
 create index IN_TStudent_Name on TStudent (Name)
-create index IN_TStudent_StudNo on TStudent (StudNo)
+create index IN_TStudent_Code on TStudent (Code)
+
 go
 
-alter table TBanStud add constraint PK_TBanStud primary key clustered (ID)
-alter table TBanStud add constraint FK_TBanStud_BanIDS foreign key (BanIDS) references TBan (IDS)
-alter table TBanStud add constraint FK_TBanStud_StudIDS foreign key (StudIDS) references TStudent (IDS)
-create unique nonclustered index UN_TBanStud_IDS on TBanStud (IDS)
 
-
---班级学生查询
+--年级学生查询
 go
-create view QBanStud
+create view QGradeStud
 as
 select a.*
-, b.GradeIDS, b.GradeName
+, b.GradeName
 , Graduated = ISNULL(b.Graduated, 1)
-, StudID = c.ID, StudName = c.Name, StudNo = c.StudNo
-, StudSex = case CAST(SUBSTRING(c.IDS , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end
-from TBanStud a left join QBan b
+, StudName = c.Name
+, StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end
+, CID = c.CID
+, Checked = ISNULL(c.Checked, 0)
+from TGradeStud a left join QBan b
 on a.BanIDS = b.IDS
 left join TStudent c
 on a.StudIDS = c.IDS
 go
 
---学生说明
-create table TStudRead
+
+--学生来源
+create table TAdd
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
-	Value	nvarchar(20) not null,
 	Name	nvarchar(10) not null,
+	Value	nvarchar(20) not null,
 	AccIDS	nvarchar(20) not null,
 )
 
 go
 
-alter table TStudRed add constraint PK_TStudRed primary key clustered (ID)
-create unique nonclustered index UN_TStudRed_IDS on TBanStud (IDS)
+alter table TAdd add constraint PK_TAdd primary key clustered (ID)
+create unique nonclustered index UN_TAdd_IDS on TAdd (IDS)
 
-insert TStudRed values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '01', '应届生', '32128402')
-insert TStudRed values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '01', '借读生', '32128402')
-insert TStudRed values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '01', '借考生', '32128402')
-insert TStudRed values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '01', '转入生', '32128402')
-insert TStudRed values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '01', '休学生', '32128402')
-insert TStudRed values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '01', '复学生', '32128402')
-insert TStudRed values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '01', '重读生', '32128402')
+insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
+insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
+insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
+insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
+insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
+insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
 
-
-
---年度班级
-create table TBanStud
+--学生去向
+create table TDel
 (
 	ID	nvarchar(32) not null,
-	IDS	as YearIDS + StudIDS,
-	YearIDS	nvarchar(20) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(10) not null,
+	Value	nvarchar(10) not null,
+	AccIDS	nvarchar(20) not null,
+)
+
+go
+
+alter table TDel add constraint PK_TDel primary key clustered (ID)
+create unique nonclustered index UN_TDel_IDS on TDel (IDS)
+
+insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', '32128402')
+insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休学', '02', '32128402')
+insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '转出', '03', '32128402')
+insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '外借', '04', '32128402')
+insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '辍学', '05', '32128402')
+insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '流生', '06', '32128402')
+
+
+--年度学生
+create table TGradeStud
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,	--GradeIDS + StudIDS流水号
+	GradeIDS	nvarchar(20) not null,
 	StudIDS	nvarchar(20) not null,
 	BanIDS	nvarchar(20) not null,
 	OldBan	nvarchar(10) not null,	--原班级编号、考场号XXYY
 	Choose	bit not null,	--学籍性质：是否择校生
-	ReadIDS	nvarchar(20) not null,
-	
+	AddIDS	nvarchar(20) not null,	--学籍说明，应届、往届……
+	GroupID	nvarchar(32),	--同分组编号，调动要一起调动
+	Fixed	bit not null,	--固定的
+	Score	int,	--总分	
 )
 go
+
+alter table TGradeStud add constraint PK_TGradeStud primary key clustered (ID)
+alter table TGradeStud add constraint FK_TGradeStud_BanIDS foreign key (BanIDS) references TBan (IDS)
+alter table TGradeStud add constraint FK_TGradeStud_StudIDS foreign key (StudIDS) references TStudent (IDS)
+alter table TGradeStud add constraint FK_TGradeStud_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
+alter table TGradeStud add constraint FK_TGradeStud_AddIDS foreign key (AddIDS) references TAdd (IDS)
+create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
 
 
 
 
 -------------------------------------------------------------------
 ---以下不算
-
---样式表
-create table Theme
-(
-	ID	nvarchar(32) not null,
-	GD	nvarchar(32) not null,
-	Name	nvarchar(32) not null,
-	Defaulted	bit not null,
-)
-go
 
 --页面表
 create table TPage
@@ -796,112 +819,3 @@ create table TColumn
 	PageID	nvarchar(32) not null,
 )
 go
-
-
---文件记录
-create table TFileInfor
-(
-	Name	nvarchar(40) not null,	--文件名称 GUID + .xxx
-	fileClass	nvarchar(20) not null,	--文件分类
-	fileAuthor	nvarchar(20) not null,	--文件作者
-	updateTime	datetime not null default getdate(),
-)
-alter table TFileInfor add constraint PK_TFileInfor primary key clustered (Name)
-create unique nonclustered index UN_TFileInfor_fileAuthor on TFileInfor (fileAuthor)
-go
-
-
-
-
-
-
---用户班级：班主任设置
-create table TClassMaster
-(
-	ID	nvarchar(20) not null,	--班级编号：20150701
-	GD	nvarchar(32) not null,	--编码
-	StepID	int not null,	--级
-	GradeID	int not null,	--年级
-	AccID	nvarchar(20)
-)
-go
-
-
---条码生成
-create table TCode
-(
-	ID	nvarchar(32) not null
-)
-go
-alter table TCode add constraint PK_TCode primary key clustered (ID)
-
-
-
---以上先做
---用户学科：课任老师
-
-
-
-
-
---分班测试
-create table TClassNew
-(
-	GD	nvarchar(32) not null,
-	ID	nvarchar(20) not null,
-	OClassID	nvarchar(20) not null,
-	NClassID	nvarchar(20) not null,
-	SameGroup	nvarchar(32),
-	Needed	bit,
-	Score1	float,
-	Score2	float,
-	Score3	float,
-	Score4	float,
-	Total	float,
-)
-go
-
---教室设置
-create table TRoom
-(
-	ID	nvarchar(10) not null,	--教室编号：101、201、205
-	GD	nvarchar(32) not null,
-	Num	int
-)
-go
-
-
-
---键值分类
-create table TKeyClass
-(
-	ID	nvarchar(32) not null,
-	GD	nvarchar(32) not null,
-	Name	nvarchar(32) not null,
-	Fixed	bit not null,
-	Parent	nvarchar(32),
-)
-alter table TKeyClass add constraint PK_TKeyClass primary key clustered (ID)
-create index UN_TKeyClass_Parent on TKeyClass (Parent)
-go
---键值分类可以无限自我扩展
-
---键值对
-create table TKey
-(
-	ID	nvarchar(32) not null,	--Value
-	GD	nvarchar(32) not null,	--Valid
-	Name	nvarchar(32) not null,	--Key
-	Fixed	bit not null,	
-	KeyClassID	nvarchar(32) not null,
-)
-go
-alter table TKey add constraint PK_TKey primary key clustered (ID)
-create index UN_TKey_Name on TKey (Name)
-go
-
-
-
-
-
-delete from tstudreg where ids = '321284200508150254'

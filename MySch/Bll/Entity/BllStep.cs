@@ -16,8 +16,13 @@ namespace MySch.Bll.Entity
 
         [DisplayName("分级名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：用4位数字设置；")]
+        [RegularExpression(@"[\d\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个数学、汉字；")]
         public string Name { get; set; }
+
+        [DisplayName("分级编号")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^\d{6}$", ErrorMessage = "{0}：用6位数字设置；")]
+        public string Value { get; set; }
 
         [DisplayName("是否毕业")]
         public bool Graduated { get; set; }

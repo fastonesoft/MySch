@@ -136,6 +136,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\EasyUI.cs" />
+    <Compile Include="Bll\Entity\BllRead.cs" />
     <Compile Include="Bll\Entity\BllStudent.cs" />
     <Compile Include="Bll\Entity\BllBan.cs">
       <SubType>Code</SubType>
@@ -153,6 +154,7 @@
     <Compile Include="Bll\Entity\BllTerm.cs" />
     <Compile Include="Bll\Jsons.cs" />
     <Compile Include="Bll\Model\Combo.cs" />
+    <Compile Include="Bll\Model\Dicts.cs" />
     <Compile Include="Bll\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
       <SubType>Code</SubType>
@@ -219,17 +221,20 @@
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
     <Compile Include="Models\Mapping\QBanMap.cs" />
-    <Compile Include="Models\Mapping\QBanStudMap.cs" />
     <Compile Include="Models\Mapping\QGradeMap.cs" />
     <Compile Include="Models\Mapping\QPartStepMap.cs" />
     <Compile Include="Models\Mapping\QTermMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
-    <Compile Include="Models\Mapping\TBanFenMap.cs" />
+    <Compile Include="Models\Mapping\TAddMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
+    <Compile Include="Models\Mapping\TColumnMap.cs" />
+    <Compile Include="Models\Mapping\TDelMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
+    <Compile Include="Models\Mapping\TGradeStudMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
+    <Compile Include="Models\Mapping\TPageMap.cs" />
     <Compile Include="Models\Mapping\TPartMap.cs" />
     <Compile Include="Models\Mapping\TPartStepMap.cs" />
     <Compile Include="Models\Mapping\TPrintMap.cs" />
@@ -241,17 +246,20 @@
     <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\QBan.cs" />
-    <Compile Include="Models\QBanStud.cs" />
     <Compile Include="Models\QGrade.cs" />
     <Compile Include="Models\QPartStep.cs" />
     <Compile Include="Models\QTerm.cs" />
     <Compile Include="Models\TAcc.cs" />
+    <Compile Include="Models\TAdd.cs" />
     <Compile Include="Models\TBan.cs" />
-    <Compile Include="Models\TBanFen.cs" />
+    <Compile Include="Models\TColumn.cs" />
+    <Compile Include="Models\TDel.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
+    <Compile Include="Models\TGradeStud.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
+    <Compile Include="Models\TPage.cs" />
     <Compile Include="Models\TPart.cs" />
     <Compile Include="Models\TPartStep.cs" />
     <Compile Include="Models\TPrint.cs" />
@@ -264,6 +272,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\插入所有学生数据.sql" />
     <Content Include="App_Data\数据.sql" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

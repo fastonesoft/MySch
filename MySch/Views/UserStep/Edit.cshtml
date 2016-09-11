@@ -10,6 +10,13 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Value)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Value)
+        </div>
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })

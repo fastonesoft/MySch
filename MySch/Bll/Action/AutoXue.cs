@@ -1,4 +1,5 @@
-﻿using MySch.ModelsEx;
+﻿using MySch.Bll.Model;
+using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -92,9 +93,8 @@ namespace MySch.Bll.Action
             return MyHtml.GetHtml(requrl, cook, Encoding.GetEncoding("GBK"));
         }
 
-        public static CookieCollection PostCookies(string url, CookieCollection cookies, Dictionary<string, string> dicts)
+        public static CookieCollection PostCookies(string url, CookieCollection cookies, string postdata)
         {
-            string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
             HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
 
             return postresp.Cookies;
@@ -111,16 +111,17 @@ namespace MySch.Bll.Action
                 string code = Valid(validUrl, cookies, 30);
 
                 //整理数据
-                Dictionary<string, string> dicts = new Dictionary<string, string>();
+                Dicts dicts = new Dicts();
                 dicts.Add("loginName", name);
                 dicts.Add("pwd", pwd);
                 dicts.Add("randomCode", code);
                 dicts.Add("returnURL", "");
                 dicts.Add("appId", "");
                 dicts.Add("encrypt", "1");
+                var posts = dicts.ToPost("GBK");
 
                 //提交登录
-                return PostCookies(postUrl, cookies, dicts);
+                return PostCookies(postUrl, cookies, posts);
             }
             catch (Exception e)
             {

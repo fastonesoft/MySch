@@ -8,7 +8,7 @@ namespace MySch.Models.Mapping
         public QBanMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.IDS, t.Num, t.GradeIDS, t.AccIDS, t.Graduated });
+            this.HasKey(t => t.ID);
 
             // Properties
             this.Property(t => t.ID)
@@ -46,10 +46,10 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             this.Property(t => t.Name)
-                .HasMaxLength(49);
+                .HasMaxLength(57);
 
             this.Property(t => t.GradeName)
-                .HasMaxLength(38);
+                .HasMaxLength(46);
 
             this.Property(t => t.MasterName)
                 .HasMaxLength(20);

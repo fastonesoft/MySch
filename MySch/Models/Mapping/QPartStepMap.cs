@@ -8,7 +8,7 @@ namespace MySch.Models.Mapping
         public QPartStepMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.IDS, t.PartIDS, t.StepIDS, t.AccIDS, t.Graduated });
+            this.HasKey(t => t.ID);
 
             // Properties
             this.Property(t => t.ID)
@@ -32,13 +32,13 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             this.Property(t => t.Name)
-                .HasMaxLength(25);
+                .HasMaxLength(33);
 
             this.Property(t => t.PartName)
                 .HasMaxLength(10);
 
             this.Property(t => t.StepName)
-                .HasMaxLength(10);
+                .HasMaxLength(20);
 
             // Table & Column Mappings
             this.ToTable("QPartStep");

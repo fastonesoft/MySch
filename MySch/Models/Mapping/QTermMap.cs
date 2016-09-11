@@ -8,7 +8,7 @@ namespace MySch.Models.Mapping
         public QTermMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.IDS, t.IsCurrent, t.YearIDS, t.SemesterIDS, t.AccIDS });
+            this.HasKey(t => t.ID);
 
             // Properties
             this.Property(t => t.ID)
