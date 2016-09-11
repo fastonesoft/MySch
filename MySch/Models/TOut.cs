@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class TDel
+    public partial class TOut
     {
         public string ID { get; set; }
         public string IDS { get; set; }

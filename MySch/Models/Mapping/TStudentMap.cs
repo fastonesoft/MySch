@@ -45,6 +45,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Code)
                 .HasMaxLength(20);
 
+            this.Property(t => t.OutIDS)
+                .HasMaxLength(20);
+
             this.Property(t => t.Mobil1)
                 .HasMaxLength(20);
 
@@ -86,8 +89,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.IsProblem).HasColumnName("IsProblem");
             this.Property(t => t.PartStepIDS).HasColumnName("PartStepIDS");
             this.Property(t => t.Code).HasColumnName("Code");
-            this.Property(t => t.Come).HasColumnName("Come");
-            this.Property(t => t.OutTime).HasColumnName("OutTime");
+            this.Property(t => t.ComeDate).HasColumnName("ComeDate");
+            this.Property(t => t.OutIDS).HasColumnName("OutIDS");
+            this.Property(t => t.OutDate).HasColumnName("OutDate");
             this.Property(t => t.Mobil1).HasColumnName("Mobil1");
             this.Property(t => t.Mobil2).HasColumnName("Mobil2");
             this.Property(t => t.Name1).HasColumnName("Name1");

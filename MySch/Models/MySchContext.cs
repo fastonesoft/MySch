@@ -17,15 +17,15 @@ namespace MySch.Models
         }
 
         public DbSet<TAcc> TAccs { get; set; }
-        public DbSet<TAdd> TAdds { get; set; }
         public DbSet<TBan> TBans { get; set; }
         public DbSet<TColumn> TColumns { get; set; }
-        public DbSet<TDel> TDels { get; set; }
+        public DbSet<TCome> TComes { get; set; }
         public DbSet<TEdu> TEdus { get; set; }
         public DbSet<TGrade> TGrades { get; set; }
         public DbSet<TGradeStud> TGradeStuds { get; set; }
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
+        public DbSet<TOut> TOuts { get; set; }
         public DbSet<TPage> TPages { get; set; }
         public DbSet<TPart> TParts { get; set; }
         public DbSet<TPartStep> TPartSteps { get; set; }
@@ -38,21 +38,22 @@ namespace MySch.Models
         public DbSet<TYear> TYears { get; set; }
         public DbSet<QBan> QBans { get; set; }
         public DbSet<QGrade> QGrades { get; set; }
+        public DbSet<QGradeStud> QGradeStuds { get; set; }
         public DbSet<QPartStep> QPartSteps { get; set; }
         public DbSet<QTerm> QTerms { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new TAccMap());
-            modelBuilder.Configurations.Add(new TAddMap());
             modelBuilder.Configurations.Add(new TBanMap());
             modelBuilder.Configurations.Add(new TColumnMap());
-            modelBuilder.Configurations.Add(new TDelMap());
+            modelBuilder.Configurations.Add(new TComeMap());
             modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new TGradeMap());
             modelBuilder.Configurations.Add(new TGradeStudMap());
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());
+            modelBuilder.Configurations.Add(new TOutMap());
             modelBuilder.Configurations.Add(new TPageMap());
             modelBuilder.Configurations.Add(new TPartMap());
             modelBuilder.Configurations.Add(new TPartStepMap());
@@ -65,6 +66,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TYearMap());
             modelBuilder.Configurations.Add(new QBanMap());
             modelBuilder.Configurations.Add(new QGradeMap());
+            modelBuilder.Configurations.Add(new QGradeStudMap());
             modelBuilder.Configurations.Add(new QPartStepMap());
             modelBuilder.Configurations.Add(new QTermMap());
         }

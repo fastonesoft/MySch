@@ -23,7 +23,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("分级编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字设置；")]
+        [RegularExpression(@"^\d{14}$", ErrorMessage = "{0}：用14位数字设置；")]
         public string StepIDS { get; set; }
 
         public string AccIDS { get; set; }

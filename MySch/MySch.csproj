@@ -136,7 +136,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\EasyUI.cs" />
-    <Compile Include="Bll\Entity\BllRead.cs" />
+    <Compile Include="Bll\Entity\BllCome.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\Entity\BllGradeStud.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bll\Entity\BllOut.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Bll\Entity\BllStudent.cs" />
     <Compile Include="Bll\Entity\BllBan.cs">
       <SubType>Code</SubType>
@@ -165,7 +173,7 @@
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
     <Compile Include="Bll\View\QllBan.cs" />
-    <Compile Include="Bll\View\QllBanStud.cs">
+    <Compile Include="Bll\View\QllGradeStud.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\View\QllGrade.cs">
@@ -178,7 +186,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Account\AccountController.cs" />
-    <Compile Include="Controllers\Student\StudentController.cs" />
+    <Compile Include="Controllers\User\UserOutController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
       <SubType>Code</SubType>
@@ -190,6 +198,8 @@
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\User\UserComeController.cs" />
+    <Compile Include="Controllers\User\UserStudController.cs" />
     <Compile Include="Controllers\User\UserSemesController.cs" />
     <Compile Include="Controllers\User\UserEduController.cs">
       <SubType>Code</SubType>
@@ -222,18 +232,19 @@
     <Compile Include="ModelsEx\MyWxMods.cs" />
     <Compile Include="Models\Mapping\QBanMap.cs" />
     <Compile Include="Models\Mapping\QGradeMap.cs" />
+    <Compile Include="Models\Mapping\QGradeStudMap.cs" />
     <Compile Include="Models\Mapping\QPartStepMap.cs" />
     <Compile Include="Models\Mapping\QTermMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
-    <Compile Include="Models\Mapping\TAddMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
     <Compile Include="Models\Mapping\TColumnMap.cs" />
-    <Compile Include="Models\Mapping\TDelMap.cs" />
+    <Compile Include="Models\Mapping\TComeMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
     <Compile Include="Models\Mapping\TGradeStudMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
+    <Compile Include="Models\Mapping\TOutMap.cs" />
     <Compile Include="Models\Mapping\TPageMap.cs" />
     <Compile Include="Models\Mapping\TPartMap.cs" />
     <Compile Include="Models\Mapping\TPartStepMap.cs" />
@@ -247,18 +258,19 @@
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\QBan.cs" />
     <Compile Include="Models\QGrade.cs" />
+    <Compile Include="Models\QGradeStud.cs" />
     <Compile Include="Models\QPartStep.cs" />
     <Compile Include="Models\QTerm.cs" />
     <Compile Include="Models\TAcc.cs" />
-    <Compile Include="Models\TAdd.cs" />
     <Compile Include="Models\TBan.cs" />
     <Compile Include="Models\TColumn.cs" />
-    <Compile Include="Models\TDel.cs" />
+    <Compile Include="Models\TCome.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
     <Compile Include="Models\TGradeStud.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
+    <Compile Include="Models\TOut.cs" />
     <Compile Include="Models\TPage.cs" />
     <Compile Include="Models\TPart.cs" />
     <Compile Include="Models\TPartStep.cs" />
@@ -364,7 +376,6 @@
     <Content Include="Content\themes\icons\sum.png" />
     <Content Include="Content\themes\icons\tip.png" />
     <Content Include="Content\themes\icons\undo.png" />
-    <Content Include="ddd.html" />
     <Content Include="tooltip.htm" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -600,7 +611,16 @@
     <Content Include="Views\UserSemes\Add.cshtml" />
     <Content Include="Views\UserSemes\Del.cshtml" />
     <Content Include="Views\UserSemes\Index.cshtml" />
-    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\UserCome\Add.cshtml" />
+    <Content Include="Views\UserCome\Del.cshtml" />
+    <Content Include="Views\UserCome\Index.cshtml" />
+    <Content Include="Views\UserOut\Add.cshtml" />
+    <Content Include="Views\UserOut\Del.cshtml" />
+    <Content Include="Views\UserOut\Index.cshtml" />
+    <Content Include="Views\UserStud\Add.cshtml" />
+    <Content Include="Views\UserStud\Del.cshtml" />
+    <Content Include="Views\UserStud\Edit.cshtml" />
+    <Content Include="Views\UserStud\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />

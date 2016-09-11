@@ -41,16 +41,10 @@ namespace MySch.Models.Mapping
             this.Property(t => t.PartStepName)
                 .HasMaxLength(33);
 
-            this.Property(t => t.PartName)
-                .HasMaxLength(10);
-
-            this.Property(t => t.StepName)
-                .HasMaxLength(20);
+            this.Property(t => t.StepEduName)
+                .HasMaxLength(33);
 
             this.Property(t => t.YearName)
-                .HasMaxLength(10);
-
-            this.Property(t => t.EduName)
                 .HasMaxLength(10);
 
             // Table & Column Mappings
@@ -63,11 +57,10 @@ namespace MySch.Models.Mapping
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.PartStepName).HasColumnName("PartStepName");
-            this.Property(t => t.PartName).HasColumnName("PartName");
-            this.Property(t => t.StepName).HasColumnName("StepName");
+            this.Property(t => t.StepEduName).HasColumnName("StepEduName");
             this.Property(t => t.YearName).HasColumnName("YearName");
-            this.Property(t => t.EduName).HasColumnName("EduName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");
+            this.Property(t => t.IsCurrent).HasColumnName("IsCurrent");
         }
     }
 }

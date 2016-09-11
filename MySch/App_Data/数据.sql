@@ -452,11 +452,10 @@ as
 select a.*
 ,Name = b.Name + ' - ' + e.Name
 ,PartStepName = b.Name
-,PartName = b.PartName
-,StepName = b.StepName
+,StepEduName = b.StepName + ' - ' + e.Name
 ,YearName = y.Name
-,EduName = e.Name
 ,Graduated = ISNULL( b.Graduated, 1)
+,IsCurrent = ISNULL( y.IsCurrent, 0)
 from TGrade a left join QPartStep b
 on a.PartStepIDS = b.IDS
 left join TYear y
@@ -464,6 +463,8 @@ on a.YearIDS = y.IDS
 left join TEdu e
 on a.EduIDS = e.IDS
 go
+
+
 
 create table TBan
 (
@@ -649,6 +650,7 @@ select b.*
 ,GradeName = g.Name
 ,MasterName = m.Name
 ,GroupName = p.Name
+,StepEduName = g.StepEduName
 ,Graduated = ISNULL(g.Graduated, 1)
 from TBan b left join QGrade g
 on b.GradeIDS = g.IDS
@@ -657,6 +659,56 @@ on b.MasterIDS = m.IDS
 left join TAcc p
 on b.GroupIDS = p.IDS
 go
+
+
+
+go
+--学生去向
+create table TOut
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(10) not null,
+	Value	nvarchar(10) not null,
+	AccIDS	nvarchar(20) not null,
+)
+
+go
+
+alter table TOut add constraint PK_TOut primary key clustered (ID)
+create unique nonclustered index UN_TOut_IDS on TOut (IDS)
+
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休学', '02', '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '转出', '03', '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '外借', '04', '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '辍学', '05', '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '流生', '06', '32128402')
+
+
+--学生来源
+create table TCome
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(10) not null,
+	Value	nvarchar(20) not null,
+	AccIDS	nvarchar(20) not null,
+)
+
+go
+
+alter table TCome add constraint PK_TCome primary key clustered (ID)
+create unique nonclustered index UN_TCome_IDS on TCome (IDS)
+
+insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
+insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
+insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
+insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
+insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
+insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
+
+
 
 
 --学生表
@@ -676,8 +728,9 @@ create table TStudent
 	--
 	Code	nvarchar(20),	--学籍号
 	--
-	Come	date,
-	OutTime	date,	
+	ComeDate	date,
+	OutIDS	nvarchar(20),	--去向
+	OutDate	date,
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二
@@ -694,76 +747,11 @@ create table TStudent
 )
 go
 alter table TStudent add constraint PK_TStudent primary key clustered (ID)
+alter table TStudent add constraint FK_TStudent_OutIDS foreign key (OutIDS) references TOut (IDS)
 create unique nonclustered index UN_TStudent_IDS on TStudent (IDS)
 create index IN_TStudent_CID on TStudent (CID)
 create index IN_TStudent_Name on TStudent (Name)
 create index IN_TStudent_Code on TStudent (Code)
-
-go
-
-
---年级学生查询
-go
-create view QGradeStud
-as
-select a.*
-, b.GradeName
-, Graduated = ISNULL(b.Graduated, 1)
-, StudName = c.Name
-, StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end
-, CID = c.CID
-, Checked = ISNULL(c.Checked, 0)
-from TGradeStud a left join QBan b
-on a.BanIDS = b.IDS
-left join TStudent c
-on a.StudIDS = c.IDS
-go
-
-
---学生来源
-create table TAdd
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
-	Name	nvarchar(10) not null,
-	Value	nvarchar(20) not null,
-	AccIDS	nvarchar(20) not null,
-)
-
-go
-
-alter table TAdd add constraint PK_TAdd primary key clustered (ID)
-create unique nonclustered index UN_TAdd_IDS on TAdd (IDS)
-
-insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
-insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
-insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
-insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
-insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
-insert TAdd values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
-
---学生去向
-create table TDel
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
-	Name	nvarchar(10) not null,
-	Value	nvarchar(10) not null,
-	AccIDS	nvarchar(20) not null,
-)
-
-go
-
-alter table TDel add constraint PK_TDel primary key clustered (ID)
-create unique nonclustered index UN_TDel_IDS on TDel (IDS)
-
-insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', '32128402')
-insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休学', '02', '32128402')
-insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '转出', '03', '32128402')
-insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '外借', '04', '32128402')
-insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '辍学', '05', '32128402')
-insert TDel values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '流生', '06', '32128402')
-
 
 --年度学生
 create table TGradeStud
@@ -775,10 +763,10 @@ create table TGradeStud
 	BanIDS	nvarchar(20) not null,
 	OldBan	nvarchar(10) not null,	--原班级编号、考场号XXYY
 	Choose	bit not null,	--学籍性质：是否择校生
-	AddIDS	nvarchar(20) not null,	--学籍说明，应届、往届……
+	ComeIDS	nvarchar(20) not null,	--学生来源，应届、往届……
 	GroupID	nvarchar(32),	--同分组编号，调动要一起调动
 	Fixed	bit not null,	--固定的
-	Score	int,	--总分	
+	Score	int,	--总分
 )
 go
 
@@ -786,8 +774,31 @@ alter table TGradeStud add constraint PK_TGradeStud primary key clustered (ID)
 alter table TGradeStud add constraint FK_TGradeStud_BanIDS foreign key (BanIDS) references TBan (IDS)
 alter table TGradeStud add constraint FK_TGradeStud_StudIDS foreign key (StudIDS) references TStudent (IDS)
 alter table TGradeStud add constraint FK_TGradeStud_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
-alter table TGradeStud add constraint FK_TGradeStud_AddIDS foreign key (AddIDS) references TAdd (IDS)
+alter table TGradeStud add constraint FK_TGradeStud_ComeIDS foreign key (ComeIDS) references TCome (IDS)
 create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
+
+
+
+--年级学生查询
+go
+create view QGradeStud
+as
+select a.*
+, b.GradeName
+, b.StepEduName
+, Graduated = ISNULL(b.Graduated, 1)
+, StudName = c.Name
+, StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end
+, CID = c.CID
+, ComeName = d.Name
+, Checked = ISNULL(c.Checked, 0)
+from TGradeStud a left join QBan b
+on a.BanIDS = b.IDS
+left join TStudent c
+on a.StudIDS = c.IDS
+left join TCome d
+on a.ComeIDS = d.IDS
+go
 
 
 

@@ -25,7 +25,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS);
+                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, null);
                 ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
@@ -49,7 +49,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS);
+                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);
@@ -73,7 +73,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS);
+                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = Combo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = Combo.ToComboJsons<BllYear>(years, entity.YearIDS);

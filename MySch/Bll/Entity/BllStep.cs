@@ -19,7 +19,7 @@ namespace MySch.Bll.Entity
         [RegularExpression(@"[\d\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个数学、汉字；")]
         public string Name { get; set; }
 
-        [DisplayName("分级编号")]
+        [DisplayName("分级代码")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{6}$", ErrorMessage = "{0}：用6位数字设置；")]
         public string Value { get; set; }

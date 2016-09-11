@@ -24,8 +24,9 @@ namespace MySch.Bll.Entity
         public bool IsProblem { get; set; }
         public string PartStepIDS { get; set; }
         public string Code { get; set; }
-        public Nullable<System.DateTime> Come { get; set; }
-        public Nullable<System.DateTime> OutTime { get; set; }
+        public Nullable<System.DateTime> ComeDate { get; set; }
+        public string OutIDS { get; set; }
+        public Nullable<System.DateTime> OutDate { get; set; }
         public string Mobil1 { get; set; }
         public string Mobil2 { get; set; }
         public string Name1 { get; set; }

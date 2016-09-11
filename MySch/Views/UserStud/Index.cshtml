@@ -1,0 +1,205 @@
+﻿@{
+    Layout = null;
+    //UserStud/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>学期设置</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            studins = {
+                add: function () {
+                    DataGridNone('/UserStud/Add');
+                },
+                edit: function () {
+                    DataGridRow('#studins-grid', '/UserStud/Edit');
+                },
+                del: function () {
+                    DataGridRow('#studins-grid', '/UserStud/Del');
+                }
+            }
+
+            //数据表格
+            $('#studins-grid').datagrid({
+                fit: true,
+                striped: true,
+                border: false,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/UserStud/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '分级年级', field: 'StepEduName', align: 'center', width: 120 },
+                    { title: '姓名', field: 'StudName', align: 'center', width: 70 },
+                    { title: '性别', field: 'StudSex', align: 'center', width: 50 },
+                    { title: '身份证号', field: 'CID', align: 'center', width: 150 },
+                    { title: '学生来源', field: 'ComeName', align: 'center', width: 70 },
+                    {
+                        title: '资料完整', field: 'Checked', halign: 'center', width: 70,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    }
+                ]],
+
+                toolbar: '#studins-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+
+
+            //数据表格
+            $('#studouts-grid').datagrid({
+                fit: true,
+                striped: true,
+                border: false,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/UserStud/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '分级年级', field: 'Year1Name', align: 'center', width: 120 },
+                    { title: '姓名', field: 'YearName', align: 'center', width: 70 },
+                    { title: '离校说明', field: 'Year2Name', align: 'center', width: 70 },
+                ]],
+
+                toolbar: '#studouts-grid-tool',
+                pagination: false,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+
+
+            $('#studs-lay').layout({
+                border: true,
+                fit: true
+            });
+
+            $('#studs-tree').tree({
+                url: '',
+                fit:true,
+                loadFilter: function(d){
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                }
+            });
+
+            $('#studs-sb').splitbutton({
+                iconCls: 'icon-edit',
+                menu: '#studs-mm'
+            });
+        })
+
+    </script>
+</head>
+<body>
+    <div id="studs-lay">
+        <div data-options="region:'west',border:true, title:'年度选择'" style="width:220px;">
+            <ul id="studs-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true, title:'在校生'">
+            <table id="studins-grid"></table>
+
+            <div id="studins-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0)" id="studs-sb">增加</a>
+                                <div id="studs-mm" style="width:100px;">
+                                    <div>Address</div>
+                                    <div>Link</div>
+                                    <div>Navigation Toolbar</div>
+                                    <div>Bookmark Toolbar</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studins.edit();">修改</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="studins.del();">删除</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div data-options="region:'east',border:true, title:'不在校'" style="width:330px;">
+            <table id="studouts-grid"></table>
+            <div id="studouts-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="studouts.add();">添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studouts.edit();">修改</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="studouts.del();">删除</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -23,8 +23,8 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS);
-                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
+                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a=>a.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
                 ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, null);
                 ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, null);
@@ -46,8 +46,8 @@ namespace MySch.Controllers.User
                 var entity = BllBan.GetEntity<BllBan>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS);
-                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
+                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
                 ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
                 ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
@@ -69,8 +69,8 @@ namespace MySch.Controllers.User
                 var entity = BllBan.GetEntity<BllBan>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS);
-                var accs = BllAcc.GetEntitys<BllAcc>(a => a.IDS == login.IDS);
+                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
                 ViewBag.Grades = Combo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
                 ViewBag.Groups = Combo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);

@@ -1,0 +1,36 @@
+﻿@model MySch.Bll.Entity.BllCome
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 20px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Value)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Value)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+        //删除对话框
+        DialogDel('来源删除', 410, 220, '/UserCome/DelTokey', '#comes-grid');
+    })
+</script>

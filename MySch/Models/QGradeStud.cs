@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class TGradeStud
+    public partial class QGradeStud
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -16,5 +16,13 @@ namespace MySch.Models
         public string GroupID { get; set; }
         public bool Fixed { get; set; }
         public Nullable<int> Score { get; set; }
+        public string GradeName { get; set; }
+        public string StepEduName { get; set; }
+        public bool Graduated { get; set; }
+        public string StudName { get; set; }
+        public string StudSex { get; set; }
+        public string CID { get; set; }
+        public string ComeName { get; set; }
+        public bool Checked { get; set; }
     }
 }

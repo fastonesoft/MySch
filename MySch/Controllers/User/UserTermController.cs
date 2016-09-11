@@ -28,7 +28,7 @@ namespace MySch.Controllers.User
 
                 ViewBag.Years = Combo.ToComboJsons<BllYear>(years, null);
                 ViewBag.Semesters = Combo.ToComboJsons<BllSemes>(semes, null);
-             
+
                 return View();
             }
             catch (Exception e)
@@ -87,7 +87,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                if(entity.IsCurrent)
+                if (entity.IsCurrent)
                 {
                     //清除当前
                     BllTerm.UnSelectCurrent();
@@ -97,6 +97,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
+                entity.IDS = entity.AccIDS + entity.SemesterIDS.Replace(entity.AccIDS, "");
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
@@ -121,7 +122,7 @@ namespace MySch.Controllers.User
                 }
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;                
+                entity.AccIDS = login.IDS;
                 //更新
                 entity.ToUpdate(ModelState);
                 //查询 视图数据

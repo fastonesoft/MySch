@@ -19,6 +19,7 @@ namespace MySch.Models
         public string GradeName { get; set; }
         public string MasterName { get; set; }
         public string GroupName { get; set; }
+        public string StepEduName { get; set; }
         public bool Graduated { get; set; }
     }
 }

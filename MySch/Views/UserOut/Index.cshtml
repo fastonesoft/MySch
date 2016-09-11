@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //UserSemes/Index
+    //UserGo/Index
 }
 
 <!DOCTYPE html>
@@ -8,23 +8,23 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>学制编排</title>
+    <title>学生去向</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            semes = {
+            gos = {
                 add: function () {
-                    DataGridNone('/UserSemes/Add');
+                    DataGridNone('/UserGo/Add');
                 },
                 del: function () {
-                    DataGridRow('#semes-grid', '/UserSemes/Del');
+                    DataGridRow('#gos-grid', '/UserGo/Del');
                 }
             }
 
             //数据表格
-            $('#semes-grid').datagrid({
+            $('#gos-grid').datagrid({
                 fit: true,
                 striped: true,
                 rownumbers: true,
@@ -32,7 +32,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserSemes/DataGrid',
+                url: '/UserGo/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -43,11 +43,11 @@
                 },
 
                 columns: [[
-                    { title: '学期名称', field: 'Name', align: 'center', width: 100 },
-                    { title: '学期代码', field: 'Value', align: 'center', width: 100 },
+                    { title: '去向名称', field: 'Name', align: 'center', width: 100 },
+                    { title: '去向代码', field: 'Value', align: 'center', width: 100 },
                 ]],
 
-                toolbar: '#semes-grid-tool',
+                toolbar: '#gos-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -57,19 +57,19 @@
     </script>
 </head>
 <body>
-    <table id="semes-grid"></table>
-    <div id="semes-grid-tool">
+    <table id="gos-grid"></table>
+    <div id="gos-grid-tool">
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="semes.add();">添加</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="gos.add();">添加</a>
                     </td>
                     <td>
                         <div class="datagrid-btn-separator"></div>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="semes.del();">删除</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="gos.del();">删除</a>
                     </td>
                 </tr>
             </thead>

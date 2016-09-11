@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllStep
+﻿@model MySch.Bll.Entity.BllGo
 
 @{
     Layout = null;
@@ -10,13 +10,6 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Value)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text", @readonly = "readonly" })
-            </span>
-            @Html.ValidationMessageFor(a => a.Value)
-        </div>
-        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
@@ -24,11 +17,13 @@
             @Html.ValidationMessageFor(a => a.Name)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Graduated)：@Html.CheckBoxFor(a => a.Graduated)</div>
+            <div>@Html.LabelFor(a => a.Value)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Value)
         </div>
     </div>
-    @Html.HiddenFor(a => a.ID)
-    @Html.HiddenFor(a => a.IDS)
 }
 
 <script type="text/javascript">
@@ -41,7 +36,7 @@
                 return false;
             }
         });
-        //修改对话框
-        DialogEdit('分级修改', 410, 220, '/UserStep/EditTokey', '#steps-grid');
+        //添加对话框
+        DialogAdd('去向添加', 410, 220, '/UserGo/AddTokey', '#gos-grid');
     })
 </script>

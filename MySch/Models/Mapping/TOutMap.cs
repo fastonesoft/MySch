@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TDelMap : EntityTypeConfiguration<TDel>
+    public class TOutMap : EntityTypeConfiguration<TOut>
     {
-        public TDelMap()
+        public TOutMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -32,7 +32,7 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("TDel");
+            this.ToTable("TOut");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");

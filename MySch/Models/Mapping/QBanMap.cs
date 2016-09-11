@@ -57,6 +57,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.GroupName)
                 .HasMaxLength(20);
 
+            this.Property(t => t.StepEduName)
+                .HasMaxLength(33);
+
             // Table & Column Mappings
             this.ToTable("QBan");
             this.Property(t => t.ID).HasColumnName("ID");
@@ -73,6 +76,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.GradeName).HasColumnName("GradeName");
             this.Property(t => t.MasterName).HasColumnName("MasterName");
             this.Property(t => t.GroupName).HasColumnName("GroupName");
+            this.Property(t => t.StepEduName).HasColumnName("StepEduName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");
         }
     }
