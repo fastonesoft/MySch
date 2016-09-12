@@ -19,7 +19,7 @@
                     DataGridNone('/UserStud/Add');
                 },
                 edit: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Edit');
+                    DataGridRows('#studins-grid', '/UserStud/GradeCheck');
                 },
                 del: function () {
                     DataGridRow('#studins-grid', '/UserStud/Del');
@@ -34,7 +34,7 @@
                 rownumbers: true,
                 fitColumns: false,
                 remoteSort: false,
-                singleSelect: true,
+                singleSelect: false,
                 checkOnSelect: true,
                 url: '/UserStud/DataGrid',
                 loadFilter: function (d) {
@@ -47,6 +47,7 @@
                 },
 
                 columns: [[
+                    { field: 'ck', checkbox: true },
                     { title: '分级年级', field: 'Name', align: 'center', width: 120 },
                     { title: '姓名', field: 'StudName', align: 'center', width: 70 },
                     { title: '性别', field: 'StudSex', align: 'center', width: 50 },
@@ -134,7 +135,7 @@
             });
 
             $('#studs-sb').splitbutton({
-                iconCls: 'icon-edit',
+                iconCls: 'icon-add',
                 menu: '#studs-mm'
             });
         })

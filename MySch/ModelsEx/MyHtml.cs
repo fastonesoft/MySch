@@ -129,17 +129,44 @@ namespace MySch.ModelsEx
             }
         }
 
-        public static string GetHtml(string url, CookieCollection cookies,  Encoding encoding)
+        public static string GetHtml(HttpWebResponse resp, string encodingName)
+        {
+            try
+            {
+                Encoding encoding = Encoding.GetEncoding(encodingName);
+                return GetHtml(resp, encoding);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static string GetHtml(string url, CookieCollection cookies, Encoding encoding)
         {
             try
             {
                 var resp = GetResponse(url, cookies);
-                
+
                 StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
                 return sr.ReadToEnd();
             }
             catch (Exception e)
             {
+                throw e;
+            }
+        }
+
+        public static string GetHtml(string url, CookieCollection cookies, string encodingName)
+        {
+            try
+            {
+                Encoding encoding = Encoding.GetEncoding(encodingName);
+                return GetHtml(url, cookies, encoding);
+            }
+            catch (Exception e)
+            {
+
                 throw e;
             }
         }
@@ -182,6 +209,32 @@ namespace MySch.ModelsEx
             }
         }
 
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName)
+        {
+            try
+            {
+                Encoding encoding = Encoding.GetEncoding(encodingName);
+                return PostResponse(url, cookies, data, encoding);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static string PostResponse(string url, string data, string encodingName, CookieCollection cookies)
+        {
+            try
+            {
+                HttpWebResponse resp = PostResponse(url, cookies, data, encodingName);
+                return GetHtml(resp, encodingName);
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
         public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding, bool redirect)
         {
             try
@@ -208,6 +261,19 @@ namespace MySch.ModelsEx
             }
             catch (Exception e)
             {
+                throw e;
+            }
+        }
+
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName, bool redirect)
+        {
+            try
+            {
+                Encoding encoding = Encoding.GetEncoding(encodingName);
+                return PostResponse(url, cookies, data, encoding, redirect);
+            }
+            catch (Exception e)
+            {                
                 throw e;
             }
         }

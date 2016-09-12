@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MySch.Bll.Model
 {
-    public class XueModel
+    public class XueDetail
     {
         public string biaoshima { get; set; }
         public string birth_place { get; set; }

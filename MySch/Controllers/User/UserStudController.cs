@@ -139,22 +139,22 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult GradeCheck(IEnumerable<QllGradeStud> studs)
+        public ActionResult GradeCheck(IEnumerable<QllGradeStud> rows)
         {
             try
             {
                 var cookies = AutoXue.Login("http://58.213.155.172/uids/index.jsp",
-                         "http://58.213.155.172/uids/genImageCode?rnd=",
+                         "http://58.213.155.172/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
                          "http://58.213.155.172/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
 
                 int count = 0;
-                foreach (var stud in studs)
+                foreach (var stud in rows)
                 {
                     var student = AutoXue.GetStudent(stud.StudName, stud.CID, cookies);
 
-                    XueModel xue = Jsons<IEnumerable<XueModel>>.JsonEntity(student).First();
+                    XueDetail xue = Jsons<IEnumerable<XueDetail>>.JsonEntity(student).First();
 
-                    BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(stud.StudIDS);
+                    BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.IDS == stud.StudIDS);
                     ins.Name1 = xue.first_guardian_name;
                     ins.Mobil1 = xue.first_guardian_phone;
                     ins.Name2 = xue.second_guardian_name;
@@ -168,7 +168,7 @@ namespace MySch.Controllers.User
                     count++;
                 }
 
-                return Json(new BllError { error = true, message = string.Format("转换成功{0}",count) });
+                return Json(new BllError { error = true, message = string.Format("转换成功{0}", count) });
             }
             catch (Exception e)
             {

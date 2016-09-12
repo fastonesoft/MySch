@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,7 +24,7 @@ namespace MySch.Bll.Action
         /// <param name="name"></param>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public static CookieCollection Query(string url, string validUrl, string postUrl, string name, string ids)
+        public static XueQuery Query(string url, string validUrl, string name, string ids)
         {
             //打开登录
             CookieCollection cookies = MyHtml.GetCookies(url);
@@ -32,16 +33,30 @@ namespace MySch.Bll.Action
             string code = Valid(validUrl, cookies, 30);
 
             //整理数据
-            Dictionary<string, string> dicts = new Dictionary<string, string>();
+            Dicts dicts = new Dicts();
             dicts.Add("name", name);
             dicts.Add("cid", ids);
             dicts.Add("randomCode", code);
             dicts.Add("v", (new Random()).NextDouble().ToString());
 
-            //TODO，处理
+            string html = MyHtml.PostResponse(url, dicts.ToPost("GBK"), "GBK", cookies);
 
-            //最后返回
-            return cookies;
+            Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
+            MatchCollection matchs = regx.Matches(html);
+
+            //如果没有找到数据，则返回提示
+            if (matchs.Count == 0)
+                return null;
+            else
+            {
+                XueQuery stud = new XueQuery();
+                stud.Name = matchs[1].Groups[1].ToString();
+                stud.FromSch = matchs[0].Groups[1].ToString();
+                stud.FromGrade = matchs[3].Groups[1].ToString();
+                stud.ReadState = matchs[5].Groups[1].ToString();
+
+                return stud;
+            }
         }
 
         public static string Valid(string validUrl, CookieCollection cookies, int error)

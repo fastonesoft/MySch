@@ -104,11 +104,11 @@ namespace MySch.Controllers.Student
                 //根据返回数据 -> 创建学生报名记录
                 TStudReg stud = new TStudReg();
                 stud.FromSch = matchs[0].Groups[1].ToString();
+                stud.FromGrade = matchs[3].Groups[1].ToString();
+                stud.ReadState = matchs[5].Groups[1].ToString();
+
                 stud.Name = matchs[1].Groups[1].ToString();
                 stud.IDS = id;
-                stud.FromGrade = matchs[3].Groups[1].ToString();
-                stud.NationID = matchs[4].Groups[1].ToString();
-                stud.ReadState = matchs[5].Groups[1].ToString();
                 stud.IsProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //

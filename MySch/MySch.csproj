@@ -164,7 +164,8 @@
     <Compile Include="Bll\Model\EasyCombo.cs" />
     <Compile Include="Bll\Model\Dicts.cs" />
     <Compile Include="Bll\Model\EasyTree.cs" />
-    <Compile Include="Bll\Model\XueModel.cs" />
+    <Compile Include="Bll\Model\XueQuery.cs" />
+    <Compile Include="Bll\Model\XueDetail.cs" />
     <Compile Include="Bll\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
       <SubType>Code</SubType>

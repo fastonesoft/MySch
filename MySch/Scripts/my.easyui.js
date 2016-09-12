@@ -43,6 +43,7 @@ function DataGridRow(gridID, url) {
 function DataGridRows(gridID, url) {
     //选择网格
     var rows = $(gridID).datagrid('getSelections');
+    console.log(rows);
     if (rows.length == 0) {
         $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
         return false;
