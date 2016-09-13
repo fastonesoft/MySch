@@ -461,6 +461,7 @@ select a.*
 ,Name = b.Name + ' - ' + e.Name
 ,TreeName = b.StepName + ' - ' + e.Name
 ,EduName = e.Name
+,PartName = b.PartName
 ,Graduated = ISNULL(b.Graduated, 1)
 ,IsCurrent = ISNULL(y.IsCurrent, 0)
 from TGrade a left join QPartStep b
@@ -656,6 +657,7 @@ select b.*
 ,g.EduIDS
 ,Name = g.Name + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
 ,TreeName = g.EduName + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
+,DataGridName = g.PartName + ' - ' + g.EduName + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
 ,MasterName = m.Name
 ,GroupName = p.Name
 ,Graduated = ISNULL(g.Graduated, 1)
@@ -793,6 +795,7 @@ create view QGradeStud
 as
 select a.*
 , BanName = b.Name
+, b.DataGridName
 , Graduated = ISNULL(b.Graduated, 1)
 , StudName = c.Name
 , StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end

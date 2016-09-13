@@ -16,7 +16,7 @@ namespace MySch.Models
         public string GroupID { get; set; }
         public bool Fixed { get; set; }
         public Nullable<int> Score { get; set; }
-        public string GradeName { get; set; }
+        public string BanName { get; set; }
         public bool Graduated { get; set; }
         public string StudName { get; set; }
         public string StudSex { get; set; }

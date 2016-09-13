@@ -42,8 +42,8 @@ namespace MySch.Models.Mapping
             this.Property(t => t.GroupID)
                 .HasMaxLength(32);
 
-            this.Property(t => t.GradeName)
-                .HasMaxLength(46);
+            this.Property(t => t.BanName)
+                .HasMaxLength(54);
 
             this.Property(t => t.StudName)
                 .HasMaxLength(10);
@@ -70,7 +70,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.GroupID).HasColumnName("GroupID");
             this.Property(t => t.Fixed).HasColumnName("Fixed");
             this.Property(t => t.Score).HasColumnName("Score");
-            this.Property(t => t.GradeName).HasColumnName("GradeName");
+            this.Property(t => t.BanName).HasColumnName("BanName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");
             this.Property(t => t.StudName).HasColumnName("StudName");
             this.Property(t => t.StudSex).HasColumnName("StudSex");

@@ -48,7 +48,7 @@
 
                 columns: [[
                     { field: 'ck', checkbox: true },
-                    { title: '年级班级', field: 'Name', align: 'center', width: 150 },
+                    { title: '年级班级', field: 'DataGridName', align: 'center', width: 180 },
                     { title: '姓名', field: 'StudName', align: 'center', width: 60 },
                     { title: '性别', field: 'StudSex', align: 'center', width: 50 },
                     { title: '身份证号', field: 'CID', align: 'center', width: 150 },
@@ -144,7 +144,7 @@
 </head>
 <body>
     <div id="studs-lay">
-        <div data-options="region:'west',border:true, title:'年度选择'" style="width:220px;">
+        <div data-options="region:'west',border:true, title:'年度选择'" style="width:210px;">
             <ul id="studs-tree"></ul>
         </div>
         <div data-options="region:'center',border:true, title:'在校生'">
@@ -180,7 +180,7 @@
                 </table>
             </div>
         </div>
-        <div data-options="region:'east',border:true, title:'不在校'" style="width:330px;">
+        <div data-options="region:'east',border:true, title:'不在校'" style="width:310px;">
             <table id="studouts-grid"></table>
             <div id="studouts-grid-tool">
                 <table cellpadding="0" cellspacing="0">
