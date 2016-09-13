@@ -17,10 +17,10 @@ namespace MySch.Bll.View
         public string EduIDS { get; set; }
         public string AccIDS { get; set; }
         public string PartIDS { get; set; }
+        public string StepIDS { get; set; }
         public string Name { get; set; }
-        public string GradeName { get; set; }
-        public string PartStepName { get; set; }
-        public string YearName { get; set; }
+        public string TreeName { get; set; }
+        public string EduName { get; set; }
         public bool Graduated { get; set; }
         public bool IsCurrent { get; set; }
     }

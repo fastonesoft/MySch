@@ -11,7 +11,7 @@ namespace MySch.Bll.Model
         public string text { get; set; }
         public bool selected { get; set; }
 
-        public static IEnumerable<EasyCombo> ToEasyCombo<Entity>(IEnumerable<Entity> entitys, string selected)
+        public static IEnumerable<EasyCombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string selectedValue)
         {
             var combos = new List<EasyCombo>();
             foreach (var entity in entitys)
@@ -31,7 +31,7 @@ namespace MySch.Bll.Model
                 {
                     id = entity_ids_value.ToString(),
                     text = entity_name_value.ToString(),
-                    selected = entity_ids_value.ToString() == selected
+                    selected = entity_ids_value.ToString() == selectedValue
                 };
                 //
                 combos.Add(combo);
@@ -41,9 +41,9 @@ namespace MySch.Bll.Model
             return combos;
         }
 
-        public static string ToEasyComboJsons<Entity>(IEnumerable<Entity> entitys, string selected)
+        public static string ToComboJsons<Entity>(IEnumerable<Entity> entitys, string selectedValue)
         {
-            var combos = ToEasyCombo<Entity>(entitys, selected);
+            var combos = ToCombo<Entity>(entitys, selectedValue);
             return Jsons.ToJsons(combos);
         }
     }

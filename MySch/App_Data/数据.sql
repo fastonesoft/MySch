@@ -259,12 +259,14 @@ insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200401', '3
 
 
 --校区分组查询
+drop view QPartStep
 go
 create view QPartStep
 as
 select a.*
 ,Name = b.Name + ' - ' + c.Name
-,b.Name as PartName, c.Name as StepName
+,b.Name as PartName
+,c.Name as StepName
 ,Graduated = ISNULL(c.Graduated, 1)
 from TPartStep a left join TPart b
 on a.PartIDS = b.IDS
@@ -361,10 +363,13 @@ insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201502', 0, '3212
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', 1, '321284022016', '3212840201', '32128402')
 
 --学期查询
+drop view QTerm
 go
 create view QTerm
 as
-select a.*, b.Name as YearName, c.Name as TermName
+select 
+a.*
+, Name = b.Name + '年度 - ' + c.Name
 from TTerm a left join TYear b
 on a.YearIDS = b.IDS
 left join TSemester c
@@ -446,17 +451,18 @@ insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220040109', '32
 
 
 --年级查询
+drop view QGrade
 go
 create view QGrade
 as
 select a.*
 ,b.PartIDS
-,Name = b.StepName + ' - ' + e.Name
-,GradeName = b.Name + ' - ' + e.Name
-,PartStepName = b.Name
-,YearName = y.Name
-,Graduated = ISNULL( b.Graduated, 1)
-,IsCurrent = ISNULL( y.IsCurrent, 0)
+,b.StepIDS
+,Name = b.Name + ' - ' + e.Name
+,TreeName = b.StepName + ' - ' + e.Name
+,EduName = e.Name
+,Graduated = ISNULL(b.Graduated, 1)
+,IsCurrent = ISNULL(y.IsCurrent, 0)
 from TGrade a left join QPartStep b
 on a.PartStepIDS = b.IDS
 left join TYear y
@@ -640,6 +646,7 @@ insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010726', 26,
 
 
 --班级查询
+drop view QBan
 go
 create view QBan
 as
@@ -647,8 +654,8 @@ select b.*
 ,PartStepIDS = g.PartStepIDS
 ,g.YearIDS
 ,g.EduIDS
-,Name = g.Name + '（' + CAST(b.Num as nvarchar(5)) + '）班'
-,GradeName
+,Name = g.Name + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
+,TreeName = g.EduName + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
 ,MasterName = m.Name
 ,GroupName = p.Name
 ,Graduated = ISNULL(g.Graduated, 1)
@@ -780,12 +787,12 @@ create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
 
 
 --年级学生查询
+drop view QGradeStud
 go
 create view QGradeStud
 as
 select a.*
-, b.GradeName
-, Name = 
+, BanName = b.Name
 , Graduated = ISNULL(b.Graduated, 1)
 , StudName = c.Name
 , StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end

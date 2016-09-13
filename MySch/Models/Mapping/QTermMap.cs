@@ -31,11 +31,8 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.YearName)
-                .HasMaxLength(10);
-
-            this.Property(t => t.TermName)
-                .HasMaxLength(20);
+            this.Property(t => t.Name)
+                .HasMaxLength(37);
 
             // Table & Column Mappings
             this.ToTable("QTerm");
@@ -45,8 +42,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.YearIDS).HasColumnName("YearIDS");
             this.Property(t => t.SemesterIDS).HasColumnName("SemesterIDS");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
-            this.Property(t => t.YearName).HasColumnName("YearName");
-            this.Property(t => t.TermName).HasColumnName("TermName");
+            this.Property(t => t.Name).HasColumnName("Name");
         }
     }
 }

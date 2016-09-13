@@ -46,10 +46,10 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             this.Property(t => t.Name)
-                .HasMaxLength(44);
+                .HasMaxLength(54);
 
-            this.Property(t => t.GradeName)
-                .HasMaxLength(46);
+            this.Property(t => t.TreeName)
+                .HasMaxLength(18);
 
             this.Property(t => t.MasterName)
                 .HasMaxLength(20);
@@ -70,7 +70,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.YearIDS).HasColumnName("YearIDS");
             this.Property(t => t.EduIDS).HasColumnName("EduIDS");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.GradeName).HasColumnName("GradeName");
+            this.Property(t => t.TreeName).HasColumnName("TreeName");
             this.Property(t => t.MasterName).HasColumnName("MasterName");
             this.Property(t => t.GroupName).HasColumnName("GroupName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");

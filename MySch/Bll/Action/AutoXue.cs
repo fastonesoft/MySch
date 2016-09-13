@@ -146,9 +146,16 @@ namespace MySch.Bll.Action
 
         public static string GetStudent(string name, string ids, CookieCollection cookies)
         {
-            name = HttpUtility.UrlEncode(name, Encoding.GetEncoding("GBK"));
-            var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, ids);
-            return MyHtml.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
+            try
+            {
+                name = HttpUtility.UrlEncode(name, Encoding.GetEncoding("GBK"));
+                var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, ids);
+                return MyHtml.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }

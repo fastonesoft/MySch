@@ -23,7 +23,7 @@ namespace MySch.Bll.Model
                 var entity_ids = entity_props.FirstOrDefault(a => a.Name == "IDS");
                 var entity_ids_value = entity_ids.GetValue(entity);
 
-                var entity_name = entity_props.FirstOrDefault(a => a.Name == "Name");
+                var entity_name = entity_props.FirstOrDefault(a => a.Name == "TreeName");
                 var entity_name_value = entity_name.GetValue(entity);
 
                 //转换

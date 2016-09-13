@@ -16,7 +16,6 @@ namespace MySch.Bll.View
         public string YearIDS { get; set; }
         public string SemesterIDS { get; set; }
         public string AccIDS { get; set; }
-        public string YearName { get; set; }
-        public string TermName { get; set; }
+        public string Name { get; set; }
     }
 }

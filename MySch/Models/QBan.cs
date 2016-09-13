@@ -16,7 +16,7 @@ namespace MySch.Models
         public string YearIDS { get; set; }
         public string EduIDS { get; set; }
         public string Name { get; set; }
-        public string GradeName { get; set; }
+        public string TreeName { get; set; }
         public string MasterName { get; set; }
         public string GroupName { get; set; }
         public bool Graduated { get; set; }

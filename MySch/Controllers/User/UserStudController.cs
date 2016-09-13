@@ -26,8 +26,8 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = EasyCombo.ToEasyComboJsons<BllPart>(parts, null);
-                ViewBag.Steps = EasyCombo.ToEasyComboJsons<BllStep>(steps, null);
+                ViewBag.Parts = EasyCombo.ToComboJsons<BllPart>(parts, null);
+                ViewBag.Steps = EasyCombo.ToComboJsons<BllStep>(steps, null);
 
                 return View();
             }
@@ -47,8 +47,8 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = EasyCombo.ToEasyComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = EasyCombo.ToEasyComboJsons<BllStep>(steps, entity.StepIDS);
+                ViewBag.Parts = EasyCombo.ToComboJsons<BllPart>(parts, entity.PartIDS);
+                ViewBag.Steps = EasyCombo.ToComboJsons<BllStep>(steps, entity.StepIDS);
 
                 return View(entity);
             }
@@ -152,23 +152,27 @@ namespace MySch.Controllers.User
                 {
                     var student = AutoXue.GetStudent(stud.StudName, stud.CID, cookies);
 
-                    XueDetail xue = Jsons<IEnumerable<XueDetail>>.JsonEntity(student).First();
+                    var xues = Jsons<IEnumerable<XueDetail>>.JsonEntity(student);
+                    if (xues.Count() != 0)
+                    {
+                        XueDetail xue = xues.First();
 
-                    BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.IDS == stud.StudIDS);
-                    ins.Name1 = xue.first_guardian_name;
-                    ins.Mobil1 = xue.first_guardian_phone;
-                    ins.Name2 = xue.second_guardian_name;
-                    ins.Mobil2 = xue.second_guardian_phone;
-                    ins.Birth = xue.birth_place;
-                    ins.Home = xue.home_address;
+                        BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.IDS == stud.StudIDS);
+                        ins.Name1 = xue.first_guardian_name;
+                        ins.Mobil1 = xue.first_guardian_phone;
+                        ins.Name2 = xue.second_guardian_name;
+                        ins.Mobil2 = xue.second_guardian_phone;
+                        ins.Birth = xue.birth_place;
+                        ins.Home = xue.home_address;
 
-                    ins.Checked = true;
-                    ins.ToUpdate();
+                        ins.Checked = true;
+                        ins.ToUpdate();
 
-                    count++;
+                        count++;
+                    }
                 }
 
-                return Json(new BllError { error = true, message = string.Format("转换成功{0}", count) });
+                return Json(new BllError { error = true, message = string.Format("转换成功{0}个学生资料！", count) });
             }
             catch (Exception e)
             {

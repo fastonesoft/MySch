@@ -46,8 +46,8 @@
                 },
 
                 columns: [[
-                    { title: '校区代码', field: 'Value', align: 'center',  width: 100 },
-                    { title: '校区名称', field: 'Name', align: 'center',  width: 100 },
+                    { title: '校区名称', field: 'Name', align: 'center', width: 100 },
+                    { title: '校区代码', field: 'Value', align: 'center', width: 100 },
                     {
                         title: '是否启用', field: 'Fixed', halign: 'center', width: 100,
                         formatter: function (value, row, index) {
@@ -56,9 +56,9 @@
                         },
                         styler: function (value, row, index) {
                             if (value) {
-                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
-                            } else {
                                 return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
+                            } else {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
                             }
                         }
                     }
