@@ -140,13 +140,13 @@ namespace MySch.Bll
             }
         }
 
-        public static object GetTrees<BllEntity, Key>(Expression<Func<Entity, bool>> where)
+        public static object GetTrees<BllEntity, Key>(Expression<Func<Entity, bool>> where, string ids, string name, string state, string memo)
         {
             var entitys = DataCRUD<Entity>.Entitys(where);
             //转换：实体对象 - 表示数据
             var entitys_bll = Jsons<List<BllEntity>>.JsonEntity(entitys);
             //输出：树Json
-            return EasyTree.ToTreeJsons<BllEntity>(entitys_bll);
+            return EasyTree.ToTreeJsons<BllEntity>(entitys_bll, ids, name, state, memo);
         }
     }
 }

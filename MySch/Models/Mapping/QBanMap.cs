@@ -51,6 +51,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.TreeName)
                 .HasMaxLength(18);
 
+            this.Property(t => t.DataGridName)
+                .HasMaxLength(31);
+
             this.Property(t => t.MasterName)
                 .HasMaxLength(20);
 
@@ -71,6 +74,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.EduIDS).HasColumnName("EduIDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.TreeName).HasColumnName("TreeName");
+            this.Property(t => t.DataGridName).HasColumnName("DataGridName");
             this.Property(t => t.MasterName).HasColumnName("MasterName");
             this.Property(t => t.GroupName).HasColumnName("GroupName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");

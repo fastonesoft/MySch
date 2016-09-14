@@ -106,13 +106,21 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
+        public ActionResult DataGrid(string id = null, string memo = null, int page = 1, int rows = 100)
         {
+            var login = BllLogin.GetLogin(Session);
             try
             {
-                var login = BllLogin.GetLogin(Session);
-                var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => true, a => a.IDS, page, rows, OrderType.ASC);
-                return Json(res);
+                if (memo == "Grade")
+                {
+                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.GradeIDS == id, a => a.BanIDS, page, rows, OrderType.ASC);
+                    return Json(res);
+                }
+                else
+                {
+                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.BanIDS == id, a => a.IDS, page, rows, OrderType.ASC);
+                    return Json(res);
+                }
             }
             catch (Exception e)
             {
@@ -121,20 +129,32 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult GradeTree(string id = null)
+        public ActionResult GradeTree(string id = null, string memo = null)
         {
             var login = BllLogin.GetLogin(Session);
+            //校区
             if (id == null)
             {
                 var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false);
-                var res = EasyTree.ToTreeJsons<BllPart>(entitys);
+                var res = EasyTree.ToTree<BllPart>(entitys, "IDS", "Name", "closed", "Part");
                 return Json(res);
             }
             else
             {
-                var entitys = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS && a.PartIDS == id);
-                var res = EasyTree.ToTreeJsons<QllGrade>(entitys);
-                return Json(res);
+                //年级
+                if (memo == "Part")
+                {
+                    var entitys = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
+                    var res = EasyTree.ToTree<QllGrade>(entitys, "IDS", "TreeName", "closed", "Grade");
+                    return Json(res);
+                }
+                else
+                {
+                    //班级
+                    var entitys = QllBan.GetEntitys<QllBan>(a => a.AccIDS == login.IDS && a.GradeIDS == id);
+                    var res = EasyTree.ToTree<QllBan>(entitys, "IDS", "TreeName", "open", "Class");
+                    return Json(res);
+                }
             }
         }
 

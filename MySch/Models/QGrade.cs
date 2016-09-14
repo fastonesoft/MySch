@@ -16,6 +16,7 @@ namespace MySch.Models
         public string Name { get; set; }
         public string TreeName { get; set; }
         public string EduName { get; set; }
+        public string PartName { get; set; }
         public bool Graduated { get; set; }
         public bool IsCurrent { get; set; }
     }

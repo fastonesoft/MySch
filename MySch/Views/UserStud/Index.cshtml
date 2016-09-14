@@ -48,9 +48,9 @@
 
                 columns: [[
                     { field: 'ck', checkbox: true },
-                    { title: '年级班级', field: 'DataGridName', align: 'center', width: 180 },
-                    { title: '姓名', field: 'StudName', align: 'center', width: 60 },
-                    { title: '性别', field: 'StudSex', align: 'center', width: 50 },
+                    { title: '年级班级', field: 'DataGridName', align: 'center', sortable: true, width: 180 },
+                    { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
+                    { title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50 },
                     { title: '身份证号', field: 'CID', align: 'center', width: 150 },
                     { title: '学生来源', field: 'ComeName', align: 'center', sortable: true, width: 70 },
                     {
@@ -110,8 +110,8 @@
 
 
             $('#studs-lay').layout({
+                fit: true,
                 border: true,
-                fit: true
             });
 
             $('#studs-tree').tree({
@@ -125,12 +125,20 @@
                         return d;
                     }
                 },
+                onBeforeLoad: function (node, param) {
+                    if (node) {
+                        param.memo = node.memo;
+                    }
+                },
                 onClick: function (node) {
-                    if (node.isLeaf) return;
-
-                    $('#studins-grid').treegrid({
-                        queryParams: { id: node.id }
-                    })
+                    if (node && (node.memo == 'Class' || node.memo == 'Grade')) {
+                        $('#studins-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                                memo: node.memo,
+                            }
+                        });
+                    }
                 },
             });
 
@@ -144,7 +152,7 @@
 </head>
 <body>
     <div id="studs-lay">
-        <div data-options="region:'west',border:true, title:'年度选择'" style="width:210px;">
+        <div data-options="region:'west',border:true, title:'校区年级'" style="width:180px;">
             <ul id="studs-tree"></ul>
         </div>
         <div data-options="region:'center',border:true, title:'在校生'">
@@ -180,7 +188,7 @@
                 </table>
             </div>
         </div>
-        <div data-options="region:'east',border:true, title:'不在校'" style="width:310px;">
+        <div data-options="region:'east',border:true, title:'不在校'" style="width:315px;">
             <table id="studouts-grid"></table>
             <div id="studouts-grid-tool">
                 <table cellpadding="0" cellspacing="0">

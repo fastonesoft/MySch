@@ -11,7 +11,7 @@ namespace MySch.Bll.Model
         public string text { get; set; }
         public bool selected { get; set; }
 
-        public static IEnumerable<EasyCombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string selectedValue)
+        public static IEnumerable<EasyCombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string idName, string textName, string selectedValue)
         {
             var combos = new List<EasyCombo>();
             foreach (var entity in entitys)
@@ -20,10 +20,10 @@ namespace MySch.Bll.Model
                 Type entity_type = entity.GetType();
                 var entity_props = entity_type.GetProperties();
 
-                var entity_ids = entity_props.FirstOrDefault(a => a.Name == "IDS");
+                var entity_ids = entity_props.FirstOrDefault(a => a.Name == idName);
                 var entity_ids_value = entity_ids.GetValue(entity);
 
-                var entity_name = entity_props.FirstOrDefault(a => a.Name == "Name");
+                var entity_name = entity_props.FirstOrDefault(a => a.Name == textName);
                 var entity_name_value = entity_name.GetValue(entity);
 
                 //转换
@@ -37,14 +37,24 @@ namespace MySch.Bll.Model
                 combos.Add(combo);
             }
             //以id排序
-            combos.OrderBy(a => a.id);
-            return combos;
+            return combos.OrderBy(a => a.id);
+        }
+
+        public static IEnumerable<EasyCombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string selectedValue)
+        {
+            return ToCombo<Entity>(entitys, "IDS", "Name", selectedValue);
+        }
+
+        public static string ToComboJsons<Entity>(IEnumerable<Entity> entitys, string idName, string textName, string selectedValue)
+        {
+            var combos = ToCombo<Entity>(entitys,idName, textName, selectedValue);
+            return Jsons.ToJsons(combos);
         }
 
         public static string ToComboJsons<Entity>(IEnumerable<Entity> entitys, string selectedValue)
         {
-            var combos = ToCombo<Entity>(entitys, selectedValue);
-            return Jsons.ToJsons(combos);
+            return ToComboJsons<Entity>(entitys, "IDS", "Name", selectedValue);
         }
+
     }
 }

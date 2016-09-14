@@ -50,6 +50,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.EduName)
                 .HasMaxLength(10);
 
+            this.Property(t => t.PartName)
+                .HasMaxLength(10);
+
             // Table & Column Mappings
             this.ToTable("QGrade");
             this.Property(t => t.ID).HasColumnName("ID");
@@ -63,6 +66,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.TreeName).HasColumnName("TreeName");
             this.Property(t => t.EduName).HasColumnName("EduName");
+            this.Property(t => t.PartName).HasColumnName("PartName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");
             this.Property(t => t.IsCurrent).HasColumnName("IsCurrent");
         }
