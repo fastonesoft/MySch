@@ -14,8 +14,11 @@ namespace MySch.Models
         public string OldBan { get; set; }
         public bool Choose { get; set; }
         public string ComeIDS { get; set; }
+        public Nullable<System.DateTime> ComeTime { get; set; }
         public string GroupID { get; set; }
         public bool Fixed { get; set; }
         public Nullable<int> Score { get; set; }
+        public string OutIDS { get; set; }
+        public Nullable<System.DateTime> OutTime { get; set; }
     }
 }

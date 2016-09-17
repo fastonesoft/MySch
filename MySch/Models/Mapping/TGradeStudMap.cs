@@ -45,6 +45,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.GroupID)
                 .HasMaxLength(32);
 
+            this.Property(t => t.OutIDS)
+                .HasMaxLength(20);
+
             // Table & Column Mappings
             this.ToTable("TGradeStud");
             this.Property(t => t.ID).HasColumnName("ID");
@@ -56,9 +59,12 @@ namespace MySch.Models.Mapping
             this.Property(t => t.OldBan).HasColumnName("OldBan");
             this.Property(t => t.Choose).HasColumnName("Choose");
             this.Property(t => t.ComeIDS).HasColumnName("ComeIDS");
+            this.Property(t => t.ComeTime).HasColumnName("ComeTime");
             this.Property(t => t.GroupID).HasColumnName("GroupID");
             this.Property(t => t.Fixed).HasColumnName("Fixed");
             this.Property(t => t.Score).HasColumnName("Score");
+            this.Property(t => t.OutIDS).HasColumnName("OutIDS");
+            this.Property(t => t.OutTime).HasColumnName("OutTime");
         }
     }
 }

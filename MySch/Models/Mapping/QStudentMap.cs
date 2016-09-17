@@ -8,7 +8,7 @@ namespace MySch.Models.Mapping
         public QStudentMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.IDS, t.Name, t.IsProblem, t.PartStepIDS, t.Checked, t.AccIDS });
+            this.HasKey(t => t.ID);
 
             // Properties
             this.Property(t => t.ID)

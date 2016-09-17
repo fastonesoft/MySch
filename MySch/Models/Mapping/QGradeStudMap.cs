@@ -45,6 +45,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.GroupID)
                 .HasMaxLength(32);
 
+            this.Property(t => t.OutIDS)
+                .HasMaxLength(20);
+
             this.Property(t => t.BanName)
                 .HasMaxLength(54);
 
@@ -74,9 +77,12 @@ namespace MySch.Models.Mapping
             this.Property(t => t.OldBan).HasColumnName("OldBan");
             this.Property(t => t.Choose).HasColumnName("Choose");
             this.Property(t => t.ComeIDS).HasColumnName("ComeIDS");
+            this.Property(t => t.ComeTime).HasColumnName("ComeTime");
             this.Property(t => t.GroupID).HasColumnName("GroupID");
             this.Property(t => t.Fixed).HasColumnName("Fixed");
             this.Property(t => t.Score).HasColumnName("Score");
+            this.Property(t => t.OutIDS).HasColumnName("OutIDS");
+            this.Property(t => t.OutTime).HasColumnName("OutTime");
             this.Property(t => t.BanName).HasColumnName("BanName");
             this.Property(t => t.DataGridName).HasColumnName("DataGridName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");
