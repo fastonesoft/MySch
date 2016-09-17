@@ -27,6 +27,9 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
+            this.Property(t => t.StudCode)
+                .HasMaxLength(20);
+
             this.Property(t => t.BanIDS)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -46,7 +49,7 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(54);
 
             this.Property(t => t.DataGridName)
-                .HasMaxLength(31);
+                .HasMaxLength(18);
 
             this.Property(t => t.StudName)
                 .HasMaxLength(10);
@@ -66,6 +69,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
             this.Property(t => t.StudIDS).HasColumnName("StudIDS");
+            this.Property(t => t.StudCode).HasColumnName("StudCode");
             this.Property(t => t.BanIDS).HasColumnName("BanIDS");
             this.Property(t => t.OldBan).HasColumnName("OldBan");
             this.Property(t => t.Choose).HasColumnName("Choose");

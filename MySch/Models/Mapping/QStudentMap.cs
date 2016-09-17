@@ -3,12 +3,12 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TStudentMap : EntityTypeConfiguration<TStudent>
+    public class QStudentMap : EntityTypeConfiguration<QStudent>
     {
-        public TStudentMap()
+        public QStudentMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            this.HasKey(t => new { t.ID, t.IDS, t.Name, t.IsProblem, t.PartStepIDS, t.Checked, t.AccIDS });
 
             // Properties
             this.Property(t => t.ID)
@@ -70,8 +70,11 @@ namespace MySch.Models.Mapping
             this.Property(t => t.OpenID)
                 .HasMaxLength(32);
 
+            this.Property(t => t.PartStepName)
+                .HasMaxLength(33);
+
             // Table & Column Mappings
-            this.ToTable("TStudent");
+            this.ToTable("QStudent");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
@@ -92,6 +95,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Checked).HasColumnName("Checked");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
             this.Property(t => t.OpenID).HasColumnName("OpenID");
+            this.Property(t => t.PartStepName).HasColumnName("PartStepName");
         }
     }
 }

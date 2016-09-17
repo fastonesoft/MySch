@@ -106,29 +106,6 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(string id = null, string memo = null, int page = 1, int rows = 100)
-        {
-            var login = BllLogin.GetLogin(Session);
-            try
-            {
-                if (memo == "Grade")
-                {
-                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.GradeIDS == id, a => a.BanIDS, page, rows, OrderType.ASC);
-                    return Json(res);
-                }
-                else
-                {
-                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.BanIDS == id, a => a.IDS, page, rows, OrderType.ASC);
-                    return Json(res);
-                }
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
         public ActionResult GradeTree(string id = null, string memo = null)
         {
             var login = BllLogin.GetLogin(Session);
@@ -155,6 +132,44 @@ namespace MySch.Controllers.User
                     var res = EasyTree.ToTree<QllBan>(entitys, "IDS", "TreeName", "open", "Class");
                     return Json(res);
                 }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid(string id = null, string memo = null, int page = 1, int rows = 100)
+        {
+            var login = BllLogin.GetLogin(Session);
+            try
+            {
+                if (memo == "Grade")
+                {
+                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.GradeIDS == id, a => a.BanIDS, page, rows, OrderType.ASC);
+                    return Json(res);
+                }
+                else
+                {
+                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.BanIDS == id, a => a.IDS, page, rows, OrderType.ASC);
+                    return Json(res);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid2(string id = null, string memo = null)
+        {
+            var login = BllLogin.GetLogin(Session);
+            try
+            {
+                var res = QGradeStudOut.GetDataGrid(id, memo);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 

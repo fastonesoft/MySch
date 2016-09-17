@@ -175,6 +175,7 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
+    <Compile Include="Bll\View\QGradeStudOut.cs" />
     <Compile Include="Bll\View\QllBan.cs" />
     <Compile Include="Bll\View\QllGradeStud.cs">
       <SubType>Code</SubType>
@@ -185,6 +186,7 @@
     <Compile Include="Bll\View\QllPartStep.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\View\QllStudent.cs" />
     <Compile Include="Bll\View\QllTerm.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -237,6 +239,7 @@
     <Compile Include="Models\Mapping\QGradeMap.cs" />
     <Compile Include="Models\Mapping\QGradeStudMap.cs" />
     <Compile Include="Models\Mapping\QPartStepMap.cs" />
+    <Compile Include="Models\Mapping\QStudentMap.cs" />
     <Compile Include="Models\Mapping\QTermMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
@@ -263,6 +266,7 @@
     <Compile Include="Models\QGrade.cs" />
     <Compile Include="Models\QGradeStud.cs" />
     <Compile Include="Models\QPartStep.cs" />
+    <Compile Include="Models\QStudent.cs" />
     <Compile Include="Models\QTerm.cs" />
     <Compile Include="Models\TAcc.cs" />
     <Compile Include="Models\TBan.cs" />

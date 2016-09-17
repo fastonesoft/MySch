@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class TStudent
+    public partial class QStudent
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -25,5 +25,6 @@ namespace MySch.Models
         public bool Checked { get; set; }
         public string AccIDS { get; set; }
         public string OpenID { get; set; }
+        public string PartStepName { get; set; }
     }
 }

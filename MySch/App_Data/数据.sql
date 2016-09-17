@@ -259,7 +259,7 @@ insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200401', '3
 
 
 --校区分组查询
-drop view QPartStep
+--drop view QPartStep
 go
 create view QPartStep
 as
@@ -363,7 +363,7 @@ insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201502', 0, '3212
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', 1, '321284022016', '3212840201', '32128402')
 
 --学期查询
-drop view QTerm
+--drop view QTerm
 go
 create view QTerm
 as
@@ -451,7 +451,7 @@ insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220040109', '32
 
 
 --年级查询
-drop view QGrade
+--drop view QGrade
 go
 create view QGrade
 as
@@ -647,7 +647,7 @@ insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010726', 26,
 
 
 --班级查询
-drop view QBan
+--drop view QBan
 go
 create view QBan
 as
@@ -721,12 +721,13 @@ insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生',
 
 
 --学生表
+--delete from TStudent
 create table TStudent
 (
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(20) not null,	--学生编号
 	Name	nvarchar(10) not null,	--姓名
-	CID	nvarchar(20) ,	--身份证号
+	CID	nvarchar(20),	--身份证号
 	FromSch	nvarchar(20),	--学校
 	FromGrade	nvarchar(10),	--年级
 	NationID	nvarchar(20),	--全国学籍号
@@ -734,12 +735,6 @@ create table TStudent
 	IsProblem	bit not null,	--是否问题学籍
 	--
 	PartStepIDS	nvarchar(20) not null,	--校区分级编号
-	--
-	Code	nvarchar(20),	--学籍号
-	--
-	ComeDate	date,
-	OutIDS	nvarchar(20),	--去向
-	OutDate	date,
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二
@@ -756,11 +751,22 @@ create table TStudent
 )
 go
 alter table TStudent add constraint PK_TStudent primary key clustered (ID)
-alter table TStudent add constraint FK_TStudent_OutIDS foreign key (OutIDS) references TOut (IDS)
 create unique nonclustered index UN_TStudent_IDS on TStudent (IDS)
 create index IN_TStudent_CID on TStudent (CID)
 create index IN_TStudent_Name on TStudent (Name)
-create index IN_TStudent_Code on TStudent (Code)
+
+
+--drop view QStudent
+go
+create view QStudent
+as
+select a.*
+, PartStepName = c.Name
+from TStudent a left join QPartStep c
+on a.PartStepIDS = c.IDS
+go
+
+
 
 --年度学生
 create table TGradeStud
@@ -769,13 +775,17 @@ create table TGradeStud
 	IDS	nvarchar(32) not null,	--GradeIDS + StudIDS流水号
 	GradeIDS	nvarchar(20) not null,
 	StudIDS	nvarchar(20) not null,
+	StudCode	nvarchar(20),	--学籍号
 	BanIDS	nvarchar(20) not null,
 	OldBan	nvarchar(10) not null,	--原班级编号、考场号XXYY
 	Choose	bit not null,	--学籍性质：是否择校生
-	ComeIDS	nvarchar(20) not null,	--学生来源，应届、往届……
+	ComeIDS	nvarchar(20) not null,	--学生来源
+	ComeTime	date,	--进校时间
 	GroupID	nvarchar(32),	--同分组编号，调动要一起调动
 	Fixed	bit not null,	--固定的
 	Score	int,	--总分
+	OutIDS	nvarchar(20),	--离校说明
+	OutTime	date,	--离校时间
 )
 go
 
@@ -789,13 +799,13 @@ create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
 
 
 --年级学生查询
-drop view QGradeStud
+--drop view QGradeStud
 go
 create view QGradeStud
 as
 select a.*
 , BanName = b.Name
-, b.DataGridName
+, DataGridName = b.TreeName
 , Graduated = ISNULL(b.Graduated, 1)
 , StudName = c.Name
 , StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end

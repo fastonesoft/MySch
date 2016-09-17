@@ -48,10 +48,10 @@
 
                 columns: [[
                     { field: 'ck', checkbox: true },
-                    { title: '年级班级', field: 'DataGridName', align: 'center', sortable: true, width: 180 },
+                    { title: '班级', field: 'DataGridName', align: 'center', sortable: true, width: 130 },
                     { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
                     { title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50 },
-                    { title: '身份证号', field: 'CID', align: 'center', width: 150 },
+                    { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
                     { title: '学生来源', field: 'ComeName', align: 'center', sortable: true, width: 70 },
                     {
                         title: '资料完整', field: 'Checked', halign: 'center', sortable: true, width: 70,
@@ -85,7 +85,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserStud/DataGrid',
+                url: '/UserStud/DataGrid2',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -96,8 +96,8 @@
                 },
 
                 columns: [[
-                    { title: '分级年级', field: 'Year1Name', align: 'center', width: 120 },
-                    { title: '姓名', field: 'YearName', align: 'center', width: 70 },
+                    { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
+                    { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
                     { title: '离校说明', field: 'Year2Name', align: 'center', width: 70 },
                 ]],
 
