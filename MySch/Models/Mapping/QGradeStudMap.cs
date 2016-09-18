@@ -83,6 +83,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Score).HasColumnName("Score");
             this.Property(t => t.OutIDS).HasColumnName("OutIDS");
             this.Property(t => t.OutTime).HasColumnName("OutTime");
+            this.Property(t => t.InSch).HasColumnName("InSch");
             this.Property(t => t.BanName).HasColumnName("BanName");
             this.Property(t => t.DataGridName).HasColumnName("DataGridName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");

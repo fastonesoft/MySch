@@ -786,6 +786,7 @@ create table TGradeStud
 	Score	int,	--总分
 	OutIDS	nvarchar(20),	--离校说明
 	OutTime	date,	--离校时间
+	InSch	bit not null,	--是否在校
 )
 go
 

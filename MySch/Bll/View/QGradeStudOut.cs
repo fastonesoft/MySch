@@ -19,45 +19,40 @@ namespace MySch.Bll.View
                 {
                     if (memo == "Grade")
                     {
-                        //查：年度学生
-                        var grades = db.TGradeStuds.Where(a => a.GradeIDS == ids);
-                        //获取当前年度学生记录编号
-                        var grades_max = grades.Max(a => a.IDS);
+                        var grade = db.TGrades.Single(a => a.IDS == ids);
+                        var entitys = from s in db.TStudents
+                                      where s.PartStepIDS == grade.PartStepIDS && !(from g in db.TGradeStuds
+                                                                                    where g.GradeIDS == ids
+                                                                                    select g.StudIDS).Contains(s.IDS)
+                                      select s;
+
+                        var grades_max = db.TGradeStuds.Max(a => a.IDS);
                         var grades_max_prev = grades_max.Substring(0, grades_max.Length - 4);
                         var grades_max_order = int.Parse(grades_max.Substring(grades_max.Length - 4, 4));
-                        //获取当前年度记录
-                        var grade = DataCRUD<TGrade>.Entity(a => a.IDS == ids);
-                        //查：学生库
-                        var students = db.TStudents.Where(a => a.PartStepIDS == grade.PartStepIDS);
-
-                        //检测是否有缺少的学生
-                        foreach (var s in students)
+                        foreach (var entity in entitys)
                         {
-                            //检测当前年度是否存在该学生
-                            var g = grades.Select(a => a.StudIDS == s.IDS);
-                            //重复检测
-                            if (g.Count() > 1)
-                            {
-                                throw new Exception(string.Format("身份证号为{0}学生存在多重记录！", s.CID));
-                            }
-                            //不存在则添加为
-                            if (g.Count() == 0)
-                            {
-                                BllGradeStud gstud = new BllGradeStud();
-                                gstud.ID = Guid.NewGuid().ToString("N");
-                                gstud.IDS = grades_max_prev + grades_max_order++.ToString().PadLeft(4, '0');
-                                gstud.GradeIDS = ids;
-                                //提交添加
-                                gstud.ToAdd();
-                            }
+                            grades_max_order++;
+                            BllGradeStud gstud = new BllGradeStud();
+                            gstud.ID = Guid.NewGuid().ToString("N");
+                            gstud.IDS = grades_max_prev + grades_max_order.ToString().PadLeft(4, '0');
+                            gstud.GradeIDS = ids;
+                            gstud.StudIDS = entity.IDS;
+                            gstud.BanIDS = ids + "01";
+                            gstud.OldBan = "0101";
+                            gstud.Choose = false;
+                            gstud.ComeIDS = "3212840201";
+                            gstud.Fixed = false;
+                            gstud.InSch = false;
+                            //提交
+                            gstud.ToAdd();
                         }
                         //查询显示
-                        return QllGradeStud.GetDataGridEntitys<QllGradeStud>(a => a.GradeIDS == ids);
+                        return QllGradeStud.GetDataGridEntitys<QllGradeStud>(a => a.GradeIDS == ids && a.InSch == false);
                     }
                     else
                     {
                         //班级直接查询，因为：先年级，后班级
-                        return QllGradeStud.GetDataGridEntitys<QllGradeStud>(a => a.BanIDS == ids);
+                        return QllGradeStud.GetDataGridEntitys<QllGradeStud>(a => a.BanIDS == ids && a.InSch == false);
                     }
                 }
             }

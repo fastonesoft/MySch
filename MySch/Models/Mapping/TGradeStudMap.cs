@@ -65,6 +65,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Score).HasColumnName("Score");
             this.Property(t => t.OutIDS).HasColumnName("OutIDS");
             this.Property(t => t.OutTime).HasColumnName("OutTime");
+            this.Property(t => t.InSch).HasColumnName("InSch");
         }
     }
 }

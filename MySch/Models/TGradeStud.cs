@@ -20,5 +20,6 @@ namespace MySch.Models
         public Nullable<int> Score { get; set; }
         public string OutIDS { get; set; }
         public Nullable<System.DateTime> OutTime { get; set; }
+        public bool InSch { get; set; }
     }
 }
