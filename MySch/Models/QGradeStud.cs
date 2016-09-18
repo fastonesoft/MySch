@@ -28,6 +28,7 @@ namespace MySch.Models
         public string StudSex { get; set; }
         public string CID { get; set; }
         public string ComeName { get; set; }
+        public string OutName { get; set; }
         public bool Checked { get; set; }
     }
 }

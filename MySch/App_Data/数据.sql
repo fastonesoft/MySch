@@ -812,6 +812,7 @@ select a.*
 , StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end
 , CID = c.CID
 , ComeName = d.Name
+, OutName = e.Name
 , Checked = ISNULL(c.Checked, 0)
 from TGradeStud a left join QBan b
 on a.BanIDS = b.IDS
@@ -819,6 +820,8 @@ left join TStudent c
 on a.StudIDS = c.IDS
 left join TCome d
 on a.ComeIDS = d.IDS
+left join TOut e
+on a.OutIDS = e.IDS
 go
 
 

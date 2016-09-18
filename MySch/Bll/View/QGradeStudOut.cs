@@ -43,6 +43,7 @@ namespace MySch.Bll.View
                             gstud.ComeIDS = "3212840201";
                             gstud.Fixed = false;
                             gstud.InSch = false;
+                            gstud.OutIDS = "3212840206";
                             //提交
                             gstud.ToAdd();
                         }

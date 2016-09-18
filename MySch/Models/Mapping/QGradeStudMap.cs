@@ -66,6 +66,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.ComeName)
                 .HasMaxLength(10);
 
+            this.Property(t => t.OutName)
+                .HasMaxLength(10);
+
             // Table & Column Mappings
             this.ToTable("QGradeStud");
             this.Property(t => t.ID).HasColumnName("ID");
@@ -91,6 +94,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.StudSex).HasColumnName("StudSex");
             this.Property(t => t.CID).HasColumnName("CID");
             this.Property(t => t.ComeName).HasColumnName("ComeName");
+            this.Property(t => t.OutName).HasColumnName("OutName");
             this.Property(t => t.Checked).HasColumnName("Checked");
         }
     }
