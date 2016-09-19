@@ -175,7 +175,7 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
-    <Compile Include="Bll\View\QGradeStudOut.cs" />
+    <Compile Include="Bll\View\FGradeStudOut.cs" />
     <Compile Include="Bll\View\QllBan.cs" />
     <Compile Include="Bll\View\QllGradeStud.cs">
       <SubType>Code</SubType>

@@ -141,15 +141,23 @@ namespace MySch.Controllers.User
             var login = BllLogin.GetLogin(Session);
             try
             {
-                if (memo == "Grade")
+                if (memo == "Part")
                 {
-                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.GradeIDS == id, a => a.BanIDS, page, rows, OrderType.ASC);
+                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.PartIDS == id && a.InSch, a => a.BanIDS, page, rows, OrderType.ASC);
                     return Json(res);
                 }
                 else
                 {
-                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.BanIDS == id, a => a.IDS, page, rows, OrderType.ASC);
-                    return Json(res);
+                    if (memo == "Grade")
+                    {
+                        var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.GradeIDS == id && a.InSch, a => a.BanIDS, page, rows, OrderType.ASC);
+                        return Json(res);
+                    }
+                    else
+                    {
+                        var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.BanIDS == id && a.InSch, a => a.IDS, page, rows, OrderType.ASC);
+                        return Json(res);
+                    }
                 }
             }
             catch (Exception e)
@@ -164,7 +172,7 @@ namespace MySch.Controllers.User
             var login = BllLogin.GetLogin(Session);
             try
             {
-                var res = QGradeStudOut.GetDataGrid(id, memo);
+                var res = FGradeStudOut.GetDataGrid(id, memo);
                 return Json(res);
             }
             catch (Exception e)
@@ -179,8 +187,8 @@ namespace MySch.Controllers.User
             try
             {
                 var cookies = AutoXue.Login("http://58.213.155.172/uids/index.jsp",
-                         "http://58.213.155.172/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
-                         "http://58.213.155.172/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
+                    "http://58.213.155.172/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
+                    "http://58.213.155.172/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
 
                 int count = 0;
                 foreach (var stud in rows)

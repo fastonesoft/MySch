@@ -48,7 +48,7 @@
 
                 columns: [[
                     { field: 'ck', checkbox: true },
-                    { title: '班级', field: 'DataGridName', align: 'center', sortable: true, width: 130 },
+                    { title: '班级', field: 'DataGridName', align: 'center', sortable: true, width: 110 },
                     { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
                     { title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50 },
                     { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
@@ -98,7 +98,7 @@
                 columns: [[
                     { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
                     { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
-                    { title: '离校说明', field: 'OutName', align: 'center', width: 70 },
+                    { title: '离校说明', field: 'OutName', align: 'center', sortable: true, width: 70 },
                 ]],
 
                 toolbar: '#studouts-grid-tool',
@@ -131,7 +131,7 @@
                     }
                 },
                 onClick: function (node) {
-                    if (node && (node.memo == 'Class' || node.memo == 'Grade')) {
+                    if (node) {
                         $('#studins-grid').datagrid({
                             queryParams: {
                                 id: node.id,
@@ -201,19 +201,13 @@
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="studouts.add();">添加</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="studouts.add();">回校</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studouts.edit();">修改</a>
-                            </td>
-                            <td>
-                                <div class="datagrid-btn-separator"></div>
-                            </td>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="studouts.del();">删除</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studouts.edit();">设置</a>
                             </td>
                         </tr>
                     </thead>

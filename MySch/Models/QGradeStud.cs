@@ -21,6 +21,7 @@ namespace MySch.Models
         public string OutIDS { get; set; }
         public Nullable<System.DateTime> OutTime { get; set; }
         public bool InSch { get; set; }
+        public string PartIDS { get; set; }
         public string BanName { get; set; }
         public string DataGridName { get; set; }
         public bool Graduated { get; set; }

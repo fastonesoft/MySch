@@ -48,6 +48,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.OutIDS)
                 .HasMaxLength(20);
 
+            this.Property(t => t.PartIDS)
+                .HasMaxLength(20);
+
             this.Property(t => t.BanName)
                 .HasMaxLength(54);
 
@@ -87,6 +90,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.OutIDS).HasColumnName("OutIDS");
             this.Property(t => t.OutTime).HasColumnName("OutTime");
             this.Property(t => t.InSch).HasColumnName("InSch");
+            this.Property(t => t.PartIDS).HasColumnName("PartIDS");
             this.Property(t => t.BanName).HasColumnName("BanName");
             this.Property(t => t.DataGridName).HasColumnName("DataGridName");
             this.Property(t => t.Graduated).HasColumnName("Graduated");

@@ -462,6 +462,7 @@ select a.*
 ,TreeName = b.StepName + ' - ' + e.Name
 ,EduName = e.Name
 ,PartName = b.PartName
+,YearName = y.Name
 ,Graduated = ISNULL(b.Graduated, 1)
 ,IsCurrent = ISNULL(y.IsCurrent, 0)
 from TGrade a left join QPartStep b
@@ -693,6 +694,7 @@ insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '转出', '03
 insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '外借', '04', '32128402')
 insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '辍学', '05', '32128402')
 insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '流生', '06', '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', '32128402')
 
 
 --学生来源
@@ -805,6 +807,7 @@ go
 create view QGradeStud
 as
 select a.*
+, PartIDS = f.PartIDS
 , BanName = b.Name
 , DataGridName = b.TreeName
 , Graduated = ISNULL(b.Graduated, 1)
@@ -822,6 +825,8 @@ left join TCome d
 on a.ComeIDS = d.IDS
 left join TOut e
 on a.OutIDS = e.IDS
+left join QGrade f
+on a.GradeIDS = f.IDS
 go
 
 

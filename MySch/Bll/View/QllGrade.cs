@@ -22,6 +22,7 @@ namespace MySch.Bll.View
         public string TreeName { get; set; }
         public string EduName { get; set; }
         public string PartName { get; set; }
+        public string YearName { get; set; }
         public bool Graduated { get; set; }
         public bool IsCurrent { get; set; }
     }
