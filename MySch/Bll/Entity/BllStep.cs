@@ -27,6 +27,9 @@ namespace MySch.Bll.Entity
         [DisplayName("是否毕业")]
         public bool Graduated { get; set; }
 
+        [DisplayName("是否招生")]
+        public bool CanRecruit { get; set; }
+
         public string AccIDS { get; set; }
     }
 }

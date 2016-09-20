@@ -19,5 +19,6 @@ namespace MySch.Bll.View
         public string PartName { get; set; }
         public string StepName { get; set; }
         public bool Graduated { get; set; }
+        public bool CanRecruit { get; set; }
     }
 }

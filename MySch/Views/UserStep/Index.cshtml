@@ -58,7 +58,19 @@
                                 return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
                             }
                         }
-                    }
+                    },
+                    {
+                        title: '是否招生', field: 'CanRecruit', halign: 'center', width: 100,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
                 ]],
 
                 toolbar: '#steps-grid-tool',

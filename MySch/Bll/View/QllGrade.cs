@@ -25,5 +25,6 @@ namespace MySch.Bll.View
         public string YearName { get; set; }
         public bool Graduated { get; set; }
         public bool IsCurrent { get; set; }
+        public bool CanRecruit { get; set; }
     }
 }

@@ -38,6 +38,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Value).HasColumnName("Value");
             this.Property(t => t.Graduated).HasColumnName("Graduated");
+            this.Property(t => t.CanRecruit).HasColumnName("CanRecruit");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }
     }

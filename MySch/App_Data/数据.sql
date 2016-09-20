@@ -193,6 +193,7 @@ create table TStep
 	Name	nvarchar(20) not null,	--级
 	Value	nvarchar(10) not null,	--级编号
 	Graduated	bit not null,	--是否毕业
+	CanRecruit	bit not null,
 	AccIDS	nvarchar(20) not null
 )
 go
@@ -201,19 +202,19 @@ alter table TStep add constraint FK_TStep_AccIDS foreign key (AccIDS) references
 create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 go
 
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', '2016级', '201601', 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', '2015级', '201501', 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201401', '2014级', '201401', 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201301', '2013级', '201301', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201201', '2012级', '201201', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201101', '2011级', '201101', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201001', '2010级', '201001', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200901', '2009级', '200901', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200801', '2008级', '200801', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200701', '2007级', '200701', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200601', '2006级', '200601', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200501', '2005级', '200501', 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200401', '2004级', '200401', 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', '2016级', '201601', 0, 1, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', '2015级', '201501', 0, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201401', '2014级', '201401', 0, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201301', '2013级', '201301', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201201', '2012级', '201201', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201101', '2011级', '201101', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201001', '2010级', '201001', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200901', '2009级', '200901', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200801', '2008级', '200801', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200701', '2007级', '200701', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200601', '2006级', '200601', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200501', '2005级', '200501', 1, 0, '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200401', '2004级', '200401', 1, 0, '32128402')
 
 --校区分级
 create table TPartStep
@@ -268,6 +269,7 @@ select a.*
 ,b.Name as PartName
 ,c.Name as StepName
 ,Graduated = ISNULL(c.Graduated, 1)
+,CanRecruit = ISNULL(c.CanRecruit, 1)
 from TPartStep a left join TPart b
 on a.PartIDS = b.IDS
 left join TStep c
@@ -465,6 +467,7 @@ select a.*
 ,YearName = y.Name
 ,Graduated = ISNULL(b.Graduated, 1)
 ,IsCurrent = ISNULL(y.IsCurrent, 0)
+,CanRecruit = ISNULL(b.CanRecruit, 0)
 from TGrade a left join QPartStep b
 on a.PartStepIDS = b.IDS
 left join TYear y

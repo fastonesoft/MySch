@@ -26,6 +26,9 @@
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Graduated)：@Html.CheckBoxFor(a => a.Graduated)</div>
         </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.CanRecruit)：@Html.CheckBoxFor(a => a.CanRecruit)</div>
+        </div>
     </div>
 }
 
@@ -40,6 +43,6 @@
             }
         });
         //添加对话框
-        DialogAdd('分级添加', 410, 220, '/UserStep/AddTokey', '#steps-grid');
+        DialogAdd('分级添加', 410, 250, '/UserStep/AddTokey', '#steps-grid');
     })
 </script>

@@ -26,6 +26,9 @@
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Graduated)：@Html.CheckBoxFor(a => a.Graduated)</div>
         </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.CanRecruit)：@Html.CheckBoxFor(a => a.CanRecruit)</div>
+        </div>
     </div>
     @Html.HiddenFor(a => a.ID)
     @Html.HiddenFor(a => a.IDS)
@@ -42,6 +45,6 @@
             }
         });
         //修改对话框
-        DialogEdit('分级修改', 410, 220, '/UserStep/EditTokey', '#steps-grid');
+        DialogEdit('分级修改', 410, 250, '/UserStep/EditTokey', '#steps-grid');
     })
 </script>
