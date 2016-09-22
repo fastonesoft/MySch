@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VTerm : VBase<VTerm>
+    public class VTerm
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -15,7 +15,7 @@ namespace MySch.Bll.View
         public bool IsCurrent { get; set; }
         public string AccIDS { get; set; }
 
-        public static override IEnumerable<VTerm> GetEntitys(Expression<Func<VTerm, bool>> where)
+        public static IEnumerable<VTerm> GetEntitys(Expression<Func<VTerm, bool>> where)
         {
             try
             {
@@ -46,5 +46,34 @@ namespace MySch.Bll.View
             }
         }
 
+        public static VTerm GetEntity(Expression<Func<VTerm, bool>> where)
+        {
+            try
+            {
+                var entity = GetEntitys(where);
+                return entity.Count() == 1 ? entity.Single() : null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static object GetDataGridPages(Expression<Func<VTerm, bool>> where, int pageIndex, int pageSize)
+        {
+            try
+            {
+                int skip = (pageIndex - 1) * pageSize;
+
+                var entitys = GetEntitys(where);
+                var takes = entitys.Skip(skip).Take(pageSize);
+
+                return EasyUI<VTerm>.DataGrids(takes, entitys.Count());
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

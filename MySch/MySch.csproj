@@ -160,7 +160,6 @@
     </Compile>
     <Compile Include="Bll\Entity\BllStudentIn.cs" />
     <Compile Include="Bll\Entity\BllTerm.cs" />
-    <Compile Include="Bll\Inferface\IDataGrids.cs" />
     <Compile Include="Bll\Jsons.cs" />
     <Compile Include="Bll\Model\EasyCombo.cs" />
     <Compile Include="Bll\Model\Dicts.cs" />
@@ -176,11 +175,8 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
-    <Compile Include="Bll\View\VBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Bll\View\VGradeStudOut.cs" />
-    <Compile Include="Bll\View\VGradeStud.cs">
+    <Compile Include="Bll\View\VGradeStuds.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\View\VStudent.cs" />
@@ -617,7 +613,9 @@
     <Content Include="Views\UserStud\Edit.cshtml" />
     <Content Include="Views\UserStud\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Bll\Inferface\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

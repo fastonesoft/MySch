@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VPartStep:VBase<VPartStep>
+    public class VPartStep
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -20,7 +20,7 @@ namespace MySch.Bll.View
         public bool CanRecruit { get; set; }
         public string AccIDS { get; set; }
 
-        public static override IEnumerable<VPartStep> GetEntitys(Expression<Func<VPartStep, bool>> where)
+        public static IEnumerable<VPartStep> GetEntitys(Expression<Func<VPartStep, bool>> where)
         {
             try
             {
@@ -53,5 +53,36 @@ namespace MySch.Bll.View
                 throw e;
             }
         }
+
+        public static VPartStep GetEntity(Expression<Func<VPartStep, bool>> where)
+        {
+            try
+            {
+                var entity = GetEntitys(where);
+                return entity.Count() == 1 ? entity.Single() : null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static object GetDataGridPages(Expression<Func<VPartStep, bool>> where, int pageIndex, int pageSize)
+        {
+            try
+            {
+                int skip = (pageIndex - 1) * pageSize;
+
+                var entitys = GetEntitys(where);
+                var takes = entitys.Skip(skip).Take(pageSize);
+
+                return EasyUI<VPartStep>.DataGrids(takes, entitys.Count());
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

@@ -144,19 +144,19 @@ namespace MySch.Controllers.User
             {
                 if (memo == "Part")
                 {
-                    var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.PartIDS == id && a.InSch, a => a.BanIDS, page, rows, OrderType.ASC);
+                    var res = VGradeStuds.GetDataGridPages(a => a.PartIDS == id && a.InSch,  page, rows);
                     return Json(res);
                 }
                 else
                 {
                     if (memo == "Grade")
                     {
-                        var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.GradeIDS == id && a.InSch, a => a.BanIDS, page, rows, OrderType.ASC);
+                        var res = VGradeStuds.GetDataGridPages(a => a.GradeIDS == id && a.InSch,  page, rows);
                         return Json(res);
                     }
                     else
                     {
-                        var res = QllGradeStud.GetDataGridPages<QllGradeStud, string>(a => a.BanIDS == id && a.InSch, a => a.IDS, page, rows, OrderType.ASC);
+                        var res = VGradeStuds.GetDataGridPages(a => a.BanIDS == id && a.InSch,  page, rows);
                         return Json(res);
                     }
                 }
@@ -173,7 +173,7 @@ namespace MySch.Controllers.User
             var login = BllLogin.GetLogin(Session);
             try
             {
-                var res = VGradeStudOut.GetDataGrid(id, memo);
+                var res = VStudOut.GetDataGrids(id, memo);
                 return Json(res);
             }
             catch (Exception e)
@@ -183,7 +183,7 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult GradeCheck(IEnumerable<QllGradeStud> rows)
+        public ActionResult GradeCheck(IEnumerable<VGradeStuds> rows)
         {
             try
             {
@@ -201,7 +201,7 @@ namespace MySch.Controllers.User
                     {
                         XueDetail xue = xues.First();
 
-                        BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.IDS == stud.StudIDS);
+                        BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.CID == stud.CID);
                         ins.Name1 = xue.first_guardian_name;
                         ins.Mobil1 = xue.first_guardian_phone;
                         ins.Name2 = xue.second_guardian_name;
@@ -222,7 +222,6 @@ namespace MySch.Controllers.User
             {
                 return Json(new BllError { error = true, message = e.Message });
             }
-
         }
     }
 }

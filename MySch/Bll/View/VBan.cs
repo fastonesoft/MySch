@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VBan:VBase<VBan>
+    public class VBan
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -21,7 +21,7 @@ namespace MySch.Bll.View
         public bool Graduated { get; set; }
         public string AccIDS { get; set; }
 
-        public static override IEnumerable<VBan> GetEntitys(Expression<Func<VBan, bool>> where)
+        public static  IEnumerable<VBan> GetEntitys(Expression<Func<VBan, bool>> where)
         {
             try
             {
@@ -34,8 +34,10 @@ namespace MySch.Bll.View
                                    join s in db.TSteps on ps.StepIDS equals s.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
-                                   join m in db.TAccs on b.MasterIDS equals m.IDS
-                                   join gp in db.TAccs on b.GroupIDS equals gp.IDS
+                                   join m in db.TAccs on b.MasterIDS equals m.IDS into b_ms
+                                   from b_m in b_ms.DefaultIfEmpty()
+                                   join gp in db.TAccs on b.GroupIDS equals gp.IDS into b_gps
+                                   from b_gp in b_gps.DefaultIfEmpty()
                                    select new VBan
                                    {
                                        ID = b.ID,
@@ -43,10 +45,10 @@ namespace MySch.Bll.View
                                        Num = b.Num,
                                        PartStepIDS = g.PartStepIDS,
                                        GradeIDS = b.GradeIDS,
-                                       Name = p.Name + " - " + s.Name + "级 - " + e.Name + "（" + b.Num + ")班",
-                                       TreeName = e.Name + "（" + b.Num + ")班",
-                                       MasterName = m.Name,
-                                       GroupName = gp.Name,
+                                       Name = p.Name + " - " + s.Name + "级 - " + e.Name + "（" + b.Num + "）班",
+                                       TreeName = e.Name + "（" + b.Num + "）班",
+                                       MasterName = b_m.Name,
+                                       GroupName = b_gp.Name,
                                        Graduated = s.Graduated,
                                        AccIDS = b.AccIDS,
                                    })
@@ -55,6 +57,35 @@ namespace MySch.Bll.View
                                    .ToList();
                     return entitys;
                 }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public static VBan GetEntity(Expression<Func<VBan, bool>> where)
+        {
+            try
+            {
+                var entity = GetEntitys(where);
+                return entity.Count() == 1 ? entity.Single() : null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static object GetDataGridPages(Expression<Func<VBan, bool>> where, int pageIndex, int pageSize)
+        {
+            try
+            {
+                int skip = (pageIndex - 1) * pageSize;
+
+                var entitys = GetEntitys(where);
+                var takes = entitys.Skip(skip).Take(pageSize);
+
+                return EasyUI<VBan>.DataGrids(takes, entitys.Count());
             }
             catch (Exception e)
             {

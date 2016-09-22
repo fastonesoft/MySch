@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VGrade:VBase<VGrade>
+    public class VGrade
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -21,7 +21,7 @@ namespace MySch.Bll.View
         public bool CanRecruit { get; set; }
         public string AccIDS { get; set; }
 
-        public static override IEnumerable<VGrade> GetEntitys(Expression<Func<VGrade, bool>> where)
+        public static  IEnumerable<VGrade> GetEntitys(Expression<Func<VGrade, bool>> where)
         {
             try
             {
@@ -59,5 +59,34 @@ namespace MySch.Bll.View
             }
         }
 
+        public static VGrade GetEntity(Expression<Func<VGrade, bool>> where)
+        {
+            try
+            {
+                var entity = GetEntitys(where);
+                return entity.Count() == 1 ? entity.Single() : null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static object GetDataGridPages(Expression<Func<VGrade, bool>> where, int pageIndex, int pageSize)
+        {
+            try
+            {
+                int skip = (pageIndex - 1) * pageSize;
+
+                var entitys = GetEntitys(where);
+                var takes = entitys.Skip(skip).Take(pageSize);
+
+                return EasyUI<VGrade>.DataGrids(takes, entitys.Count());
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
