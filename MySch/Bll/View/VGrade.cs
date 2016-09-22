@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VGrade
+    public class VGrade:VBase<VGrade>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

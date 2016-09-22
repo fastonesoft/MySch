@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VBan
+    public class VBan:VBase<VBan>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VPartStep
+    public class VPartStep:VBase<VPartStep>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

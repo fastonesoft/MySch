@@ -42,7 +42,5 @@ namespace MySch.Bll.View
                 throw e;
             }
         }
-
-
     }
 }
