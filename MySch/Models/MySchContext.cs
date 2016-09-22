@@ -36,12 +36,6 @@ namespace MySch.Models
         public DbSet<TStudReg> TStudRegs { get; set; }
         public DbSet<TTerm> TTerms { get; set; }
         public DbSet<TYear> TYears { get; set; }
-        public DbSet<QBan> QBans { get; set; }
-        public DbSet<QGrade> QGrades { get; set; }
-        public DbSet<QGradeStud> QGradeStuds { get; set; }
-        public DbSet<QPartStep> QPartSteps { get; set; }
-        public DbSet<QStudent> QStudents { get; set; }
-        public DbSet<QTerm> QTerms { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -65,12 +59,6 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TStudRegMap());
             modelBuilder.Configurations.Add(new TTermMap());
             modelBuilder.Configurations.Add(new TYearMap());
-            modelBuilder.Configurations.Add(new QBanMap());
-            modelBuilder.Configurations.Add(new QGradeMap());
-            modelBuilder.Configurations.Add(new QGradeStudMap());
-            modelBuilder.Configurations.Add(new QPartStepMap());
-            modelBuilder.Configurations.Add(new QStudentMap());
-            modelBuilder.Configurations.Add(new QTermMap());
         }
     }
 }

@@ -37,17 +37,5 @@ namespace MySch.Bll.Entity
         public bool Checked { get; set; }
         public string AccIDS { get; set; }
         public string OpenID { get; set; }
-
-        //学生导入
-        public static IEnumerable<BllStudentIn> Import()
-        {
-            var studs = DataCRUD<TStudReg>.Entitys(a => a.IsProblem == false);
-            foreach(var stud in studs)
-            {
-
-            }
-
-            return null;
-        }
     }
 }

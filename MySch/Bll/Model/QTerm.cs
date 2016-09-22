@@ -19,6 +19,26 @@ namespace MySch.Bll.Model
         public string YearName { get; set; }
 
         //多表连接查询
+        //var query = from a in data.A
+        //            join b in data.B
+        //            on a.bid equals b.id into ab
+        //            from b in ab.DefaultIfEmpty()
+        //            join c in data.C
+        //            on b.cid equals c.id into bc
+        //            from c in bc.DefaultIfEmpty()
+        //            join d in data.D
+        //            on c.did equals d.id into cd
+        //            from d in cd.DefaultIfEmpty()
+        //            join e in data.E
+        //            on d.eid equals e.id into ce
+        //            from e in ce.DefaultIfEmpty()
+        //            select new Signature
+        //            {
+        //                Id = a.Id,
+        //                Name = b == null ? "" : b.Name,
+        //                Pro = c == null ? "" : c.Pro,
+        //                IpAdd = d == null ? "" : d.IpAdd
+        //            }; 
         public static object GetDataGridPages(Expression<Func<QTerm, bool>> where, int pageIndex, int pageSize)
         {
             try

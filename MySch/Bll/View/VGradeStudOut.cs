@@ -9,7 +9,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class FGradeStudOut
+    public class VGradeStudOut
     {
         public static object GetDataGrid(string ids, string memo)
         {

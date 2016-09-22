@@ -1,9 +1,14 @@
+﻿using MySch.Dal;
+using MySch.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Web;
 
-namespace MySch.Models
+namespace MySch.Bll.View
 {
-    public partial class QGradeStud
+    public class VGradeStud 
     {
         public string ID { get; set; }
         public string IDS { get; set; }

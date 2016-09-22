@@ -33,7 +33,7 @@ namespace MySch.Bll
                 if (entity == null) throw new Exception("业务逻辑：未查到主键对应实体！");
 
                 //再序列化成所要的对象
-                return Jsons<BllEntity>.JsonEntity(entity);
+                return Jsons.JsonEntity<BllEntity>(entity);
             }
             catch (Exception e)
             {
@@ -55,7 +55,7 @@ namespace MySch.Bll
                 var entity = DataCRUD<Entity>.Entity(where);
                 if (entity == null) throw new Exception("业务逻辑：无相关记录或存在多个实体！");
 
-                return Jsons<BllEntity>.JsonEntity(entity);
+                return Jsons.JsonEntity<BllEntity>(entity);
             }
             catch (Exception e)
             {
@@ -75,7 +75,7 @@ namespace MySch.Bll
             try
             {
                 var entitys = DataCRUD<Entity>.Entitys(where);
-                return Jsons<IEnumerable<BllEntity>>.JsonEntity(entitys);
+                return Jsons.JsonEntity<IEnumerable<BllEntity>>(entitys);
             }
             catch (Exception e)
             {
@@ -97,7 +97,7 @@ namespace MySch.Bll
             {
                 var entitys = DataCRUD<Entity>.Entitys(where);
                 //转换：实体对象 - 表示数据
-                var entitys_bll = Jsons<List<BllEntity>>.JsonEntity(entitys);
+                var entitys_bll = Jsons.JsonEntity<List<BllEntity>>(entitys);
                 //输出：转换成DataGrid的数据
                 return EasyUI<BllEntity>.DataGrids(entitys_bll, entitys.Count());
             }
@@ -129,7 +129,7 @@ namespace MySch.Bll
                     DataCRUD<Entity>.TakePageDesc<Key>(where, order, pageIndex, pageSize, out gets, out total);
 
                 //转换：实体对象 - 表示数据
-                var pages_bll = Jsons<List<BllEntity>>.JsonEntity(pages);
+                var pages_bll = Jsons.JsonEntity<List<BllEntity>>(pages);
 
                 //输出：转换成DataGrid的数据
                 return EasyUI<BllEntity>.DataGrids(pages_bll, total);
@@ -144,7 +144,7 @@ namespace MySch.Bll
         {
             var entitys = DataCRUD<Entity>.Entitys(where);
             //转换：实体对象 - 表示数据
-            var entitys_bll = Jsons<List<BllEntity>>.JsonEntity(entitys);
+            var entitys_bll = Jsons.JsonEntity<List<BllEntity>>(entitys);
             //输出：树Json
             return EasyTree.ToTreeJsons<BllEntity>(entitys_bll, ids, name, state, memo);
         }

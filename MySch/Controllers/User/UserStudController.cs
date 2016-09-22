@@ -74,7 +74,7 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = QllPartStep.GetEntity<QllPartStep>(a => a.ID == entity.ID);
+                var qentity = VPartStep.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -94,7 +94,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 //查询 视图数据 保存
-                var qentity = QllPartStep.GetEntity<QllPartStep>(a => a.ID == entity.ID);
+                var qentity = VPartStep.GetEntity(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -121,15 +121,15 @@ namespace MySch.Controllers.User
                 //年级
                 if (memo == "Part")
                 {
-                    var entitys = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
-                    var res = EasyTree.ToTree<QllGrade>(entitys, "IDS", "TreeName", "closed", "Grade");
+                    var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
+                    var res = EasyTree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
                     return Json(res);
                 }
                 else
                 {
                     //班级
-                    var entitys = QllBan.GetEntitys<QllBan>(a => a.AccIDS == login.IDS && a.GradeIDS == id);
-                    var res = EasyTree.ToTree<QllBan>(entitys, "IDS", "TreeName", "open", "Class");
+                    var entitys = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
+                    var res = EasyTree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
                     return Json(res);
                 }
             }
@@ -138,6 +138,7 @@ namespace MySch.Controllers.User
         [HttpPost]
         public ActionResult DataGrid(string id = null, string memo = null, int page = 1, int rows = 100)
         {
+
             var login = BllLogin.GetLogin(Session);
             try
             {
@@ -172,7 +173,7 @@ namespace MySch.Controllers.User
             var login = BllLogin.GetLogin(Session);
             try
             {
-                var res = FGradeStudOut.GetDataGrid(id, memo);
+                var res = VGradeStudOut.GetDataGrid(id, memo);
                 return Json(res);
             }
             catch (Exception e)
@@ -195,7 +196,7 @@ namespace MySch.Controllers.User
                 {
                     var student = AutoXue.GetStudent(stud.StudName, stud.CID, cookies);
 
-                    var xues = Jsons<IEnumerable<XueDetail>>.JsonEntity(student);
+                    var xues = Jsons.JsonEntity<IEnumerable<XueDetail>>(student);
                     if (xues.Count() != 0)
                     {
                         XueDetail xue = xues.First();

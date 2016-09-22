@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class QllStudent : BllBase<QStudent>
+    public class VStudent 
     {
         public string ID { get; set; }
         public string IDS { get; set; }

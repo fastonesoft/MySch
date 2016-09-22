@@ -23,10 +23,10 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a=>a.IDS);
+                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = EasyCombo.ToComboJsons<QllGrade>(grades, null);
+                ViewBag.Grades = EasyCombo.ToComboJsons(grades, null);
                 ViewBag.Groups = EasyCombo.ToComboJsons<BllAcc>(accs, null);
                 ViewBag.Masters = EasyCombo.ToComboJsons<BllAcc>(accs, null);
 
@@ -46,10 +46,10 @@ namespace MySch.Controllers.User
                 var entity = BllBan.GetEntity<BllBan>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = EasyCombo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
+                ViewBag.Grades = EasyCombo.ToComboJsons(grades, entity.GradeIDS);
                 ViewBag.Groups = EasyCombo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
                 ViewBag.Masters = EasyCombo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
 
@@ -69,10 +69,10 @@ namespace MySch.Controllers.User
                 var entity = BllBan.GetEntity<BllBan>(id);
 
                 var login = BllLogin.GetLogin(Session);
-                var grades = QllGrade.GetEntitys<QllGrade>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = EasyCombo.ToComboJsons<QllGrade>(grades, entity.GradeIDS);
+                ViewBag.Grades = EasyCombo.ToComboJsons(grades, entity.GradeIDS);
                 ViewBag.Groups = EasyCombo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
                 ViewBag.Masters = EasyCombo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
 
@@ -100,7 +100,7 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = QllBan.GetEntity<QllBan>(entity.ID);
+                var qentity = VBan.GetEntity(a=>a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -142,7 +142,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 //查询 视图数据 保存
-                var qentity = QllBan.GetEntity<QllBan>(entity.ID);
+                var qentity = VBan.GetEntity(a=>a.ID== entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -159,7 +159,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllBan.GetDataGridPages<QllBan, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = VBan.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

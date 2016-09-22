@@ -16,7 +16,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("班级名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{1,2}$", ErrorMessage = "{0}：为1-2位数字！")]
+        [RegularExpression(@"^0[1-9]$|^[1-9]\d$", ErrorMessage = "{0}：为2位数字！")]
         public int Num { get; set; }
 
         [DisplayName("年级编号")]

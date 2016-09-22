@@ -7,20 +7,20 @@ using System.Web.Script.Serialization;
 
 namespace MySch.Bll
 {
-    public class Jsons<Entity>
+    public class Jsons
     {
         /// <summary>
         /// JSON方式：将 对象 -> 实体
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static Entity JsonEntity(object obj)
+        public static Entity JsonEntity<Entity>(object obj)
         {
             try
             {
                 var javas = new JavaScriptSerializer();
                 var jsons = javas.Serialize(obj);
-                return JsonEntity(jsons);
+                return JsonEntity<Entity>(jsons);
             }
             catch (Exception e)
             {
@@ -28,7 +28,7 @@ namespace MySch.Bll
             }
         }
 
-        public static Entity JsonEntity(string jsons)
+        public static Entity JsonEntity<Entity>(string jsons)
         {
             try
             {
@@ -52,13 +52,7 @@ namespace MySch.Bll
                 throw e;
             }
         }
-    }
 
-    /// <summary>
-    /// 转换Json的基类，主要应用于模型输出
-    /// </summary>
-    public class Jsons
-    {
         public static string ToJsons(object obj)
         {
             try

@@ -25,11 +25,11 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = VPartStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, null);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, null);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<QllPartStep>(partsteps, null);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VPartStep>(partsteps, null);
 
                 return View();
             }
@@ -49,11 +49,11 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = VPartStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VPartStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -73,11 +73,11 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = QllPartStep.GetEntitys<QllPartStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = VPartStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<QllPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VPartStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -102,7 +102,7 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = QllGrade.GetEntity<QllGrade>(a => a.ID == entity.ID);
+                var qentity = VGrade.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -124,7 +124,7 @@ namespace MySch.Controllers.User
                 //更新
                 entity.ToUpdate(ModelState);
                 //查询 视图数据
-                var qentity = QllGrade.GetEntity<QllGrade>(a => a.ID == entity.ID);
+                var qentity = VGrade.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -144,7 +144,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 //查询 视图数据 保存
-                var qentity = QllGrade.GetEntity<QllGrade>(a => a.ID == entity.ID);
+                var qentity = VGrade.GetEntity(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -161,7 +161,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = QllGrade.GetDataGridPages<QllGrade, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = VGrade.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

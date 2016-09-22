@@ -31,7 +31,7 @@ namespace MySch.Bll
             try
             {
                 //表示数据 -> 实体对象
-                var entity = Jsons<Entity>.JsonEntity(obj);
+                var entity = Jsons.JsonEntity<Entity>(obj);
                 //实体对象：添加
                 DataCRUD<Entity>.Add(entity);
             }

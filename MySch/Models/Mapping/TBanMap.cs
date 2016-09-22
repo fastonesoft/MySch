@@ -19,6 +19,10 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
+            this.Property(t => t.Num)
+                .IsRequired()
+                .HasMaxLength(10);
+
             this.Property(t => t.GradeIDS)
                 .IsRequired()
                 .HasMaxLength(20);
