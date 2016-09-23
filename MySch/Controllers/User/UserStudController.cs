@@ -144,19 +144,19 @@ namespace MySch.Controllers.User
             {
                 if (memo == "Part")
                 {
-                    var res = VGradeStuds.GetDataGridPages(a => a.PartIDS == id && a.InSch,  page, rows);
+                    var res = VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.InSch,  page, rows);
                     return Json(res);
                 }
                 else
                 {
                     if (memo == "Grade")
                     {
-                        var res = VGradeStuds.GetDataGridPages(a => a.GradeIDS == id && a.InSch,  page, rows);
+                        var res = VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.InSch,  page, rows);
                         return Json(res);
                     }
                     else
                     {
-                        var res = VGradeStuds.GetDataGridPages(a => a.BanIDS == id && a.InSch,  page, rows);
+                        var res = VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.InSch,  page, rows);
                         return Json(res);
                     }
                 }
@@ -183,7 +183,7 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult GradeCheck(IEnumerable<VGradeStuds> rows)
+        public ActionResult GradeCheck(IEnumerable<VGradeStud> rows)
         {
             try
             {

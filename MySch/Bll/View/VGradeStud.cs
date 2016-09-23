@@ -2,13 +2,14 @@
 using MySch.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VGradeStuds
+    public class VGradeStud
     {
         public string CID { get; set; }
         public string PartIDS { get; set; }
@@ -22,17 +23,13 @@ namespace MySch.Bll.View
         public bool Checked { get; set; }
         public bool InSch { get; set; }
 
-        public static IEnumerable<VGradeStuds> GetEntitys(Expression<Func<VGradeStuds, bool>> where)
+        public static IEnumerable<VGradeStud> GetEntitys(Expression<Func<VGradeStud, bool>> where)
         {
             try
             {
                 using (BaseContext db = new BaseContext())
                 {
                     var entitys = (from gs in db.TGradeStuds
-                                   join c in db.TComes on gs.ComeIDS equals c.IDS into gs_cs
-                                   from gs_c in gs_cs.DefaultIfEmpty()
-                                   join o in db.TOuts on gs.OutIDS equals o.IDS into gs_os
-                                   from gs_o in gs_os.DefaultIfEmpty()
                                    join b in db.TBans on gs.BanIDS equals b.IDS
                                    join g in db.TGrades on gs.GradeIDS equals g.IDS
                                    join ps in db.TPartSteps on g.PartStepIDS equals ps.IDS
@@ -41,7 +38,11 @@ namespace MySch.Bll.View
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
                                    join st in db.TStudents on gs.StudIDS equals st.IDS
-                                   select new VGradeStuds
+                                   join c in db.TComes on gs.ComeIDS equals c.IDS into gs_cs
+                                   from gs_c in gs_cs.DefaultIfEmpty()
+                                   join o in db.TOuts on gs.OutIDS equals o.IDS into gs_os
+                                   from gs_o in gs_os.DefaultIfEmpty()
+                                   select new VGradeStud
                                    {
                                        CID = st.CID,
                                        PartIDS = p.IDS,
@@ -67,7 +68,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static VGradeStuds GetEntity(Expression<Func<VGradeStuds, bool>> where)
+        public static VGradeStud GetEntity(Expression<Func<VGradeStud, bool>> where)
         {
             try
             {
@@ -80,7 +81,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static object GetDataGridPages(Expression<Func<VGradeStuds, bool>> where, int pageIndex, int pageSize)
+        public static object GetDataGridPages(Expression<Func<VGradeStud, bool>> where, int pageIndex, int pageSize)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace MySch.Bll.View
                 var entitys = GetEntitys(where);
                 var takes = entitys.Skip(skip).Take(pageSize);
 
-                return EasyUI<VGradeStuds>.DataGrids(takes, entitys.Count());
+                return EasyUI<VGradeStud>.DataGrids(takes, entitys.Count());
             }
             catch (Exception e)
             {

@@ -176,7 +176,7 @@
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
     <Compile Include="Bll\View\VGradeStudOut.cs" />
-    <Compile Include="Bll\View\VGradeStuds.cs">
+    <Compile Include="Bll\View\VGradeStud.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\View\VStudent.cs" />
