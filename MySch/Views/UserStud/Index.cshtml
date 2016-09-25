@@ -16,7 +16,13 @@
             //点击动作
             studins = {
                 add: function () {
-                    DataGridNone('/UserStud/Add');
+                    var node = $('#studs-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
+                        return false;
+                    }
+                    var url = $.validator.format('/UserStud/Add/?id={0}&memo={1}', node.id, node.memo);
+                    DataGridNone(url);
                 },
                 edit: function () {
                     DataGridRows('#studins-grid', '/UserStud/GradeCheck');
@@ -154,10 +160,6 @@
                 },
             });
 
-            $('#studs-sb').splitbutton({
-                iconCls: 'icon-add',
-                menu: '#studs-mm'
-            });
         })
 
     </script>
@@ -175,25 +177,13 @@
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0)" id="studs-sb">增加</a>
-                                <div id="studs-mm" style="width:100px;">
-                                    <div>Address</div>
-                                    <div>Link</div>
-                                    <div>Navigation Toolbar</div>
-                                    <div>Bookmark Toolbar</div>
-                                </div>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-add" iconcls="icon-add">增加</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studins.edit();">修改</a>
-                            </td>
-                            <td>
-                                <div class="datagrid-btn-separator"></div>
-                            </td>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="studins.del();">删除</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-remove" iconcls="icon-remove">减少</a>
                             </td>
                         </tr>
                     </thead>
@@ -222,6 +212,18 @@
         </div>
     </div>
 
-
+    <div id="studs-mm-add" style="width:150px;">
+        <div>批量导入...</div>
+        <div class="menu-sep"></div>
+        <div iconcls="icon-undo" onclick="studins.add();">添加...</div>
+    </div>
+    <div id="studs-mm-remove" style="width:150px;">
+        <div>Cut</div>
+        <div>Copy</div>
+        <div>Paste</div>
+        <div class="menu-sep"></div>
+        <div iconcls="icon-remove">Delete</div>
+        <div>Select All</div>
+    </div>
 </body>
 </html>

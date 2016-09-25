@@ -164,6 +164,7 @@
     <Compile Include="Bll\Model\EasyCombo.cs" />
     <Compile Include="Bll\Model\Dicts.cs" />
     <Compile Include="Bll\Model\EasyTree.cs" />
+    <Compile Include="Bll\Model\XueAdd.cs" />
     <Compile Include="Bll\Model\XueQuery.cs" />
     <Compile Include="Bll\Model\XueDetail.cs" />
     <Compile Include="Bll\Setting.cs" />
@@ -175,7 +176,7 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
-    <Compile Include="Bll\View\VGradeStudOut.cs" />
+    <Compile Include="Bll\View\VStudOut.cs" />
     <Compile Include="Bll\View\VGradeStud.cs">
       <SubType>Code</SubType>
     </Compile>

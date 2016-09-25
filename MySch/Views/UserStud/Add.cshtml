@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllTerm
+﻿@model MySch.Bll.Model.XueAdd
 
 @{
     Layout = null;
@@ -9,17 +9,43 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.YearIDS)：</div>
-            <input id="YearIDS" name="YearIDS" style="width:156px;" />
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.GradeIDS)：</div>
+            <input id="GradeIDS" name="GradeIDS" style="width:156px;" />
         </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.SemesterIDS)：</div>
-            <input id="SemesterIDS" name="SemesterIDS" style="width:156px;" />
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.BanIDS)：</div>
+            <input id="BanIDS" name="BanIDS" style="width:156px;" />
         </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent)</div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
         </div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.CID)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.CID, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.CID)
+        </div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.ComeIDS)：</div>
+            <input id="ComeIDS" name="ComeIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.OldBan)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.OldBan, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.OldBan)
+        </div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.Choose)：@Html.CheckBoxFor(a => a.Choose)</div>
+        </div>
+        <div class="form-item-row-line"></div>
     </div>
 }
 
@@ -34,21 +60,38 @@
             }
         });
 
-        var semes = $.parseJSON('@Html.Raw(ViewBag.Semesters)');
-        var years = $.parseJSON('@Html.Raw(ViewBag.Years)');
+        var bans = $.parseJSON('@Html.Raw(ViewBag.Bans)');
+        var grades = $.parseJSON('@Html.Raw(ViewBag.Grades)');
+        var comes = $.parseJSON('@Html.Raw(ViewBag.Comes)');
 
-        $('#SemesterIDS').combobox({
+        var banreadonly = @Html.Raw(ViewBag.BanReadonly);
+        var gradereadonly = @Html.Raw(ViewBag.GradeReadonly);
+
+        $('#GradeIDS').combobox({
             valueField: 'id',
             textField: 'text',
-            data: semes,
+            data: grades,
+            readonly: gradereadonly,
+            onSelect: function (record) {
+                var url = '/UserBan/GetCombos/' + record.id;
+                $('#BanIDS').combobox({
+                    url: url,
+                });
+            }
         });
-        $('#YearIDS').combobox({
+        $('#BanIDS').combobox({
             valueField: 'id',
             textField: 'text',
-            data: years,
+            data: bans,
+            readonly: banreadonly,
+        });
+        $('#ComeIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: comes,
         });
 
         //添加对话框
-        ReDialogAdd('学期添加', 410, 270, '/UserTerm/AddTokey', '#terms-grid');
+        ReDialogAdd('学生添加', 390, 270, '/UserStud/AddTokey', '#studins-grid');
     })
 </script>

@@ -12,6 +12,7 @@ namespace MySch.Bll.View
         public string ID { get; set; }
         public string IDS { get; set; }
         public string Num { get; set; }
+        public string PartIDS { get; set; }
         public string PartStepIDS { get; set; }
         public string GradeIDS { get; set; }
         public string Name { get; set; }
@@ -43,6 +44,7 @@ namespace MySch.Bll.View
                                        ID = b.ID,
                                        IDS = b.IDS,
                                        Num = b.Num,
+                                       PartIDS = p.IDS,
                                        PartStepIDS = g.PartStepIDS,
                                        GradeIDS = b.GradeIDS,
                                        Name = p.Name + " - " + s.Name + "级 - " + e.Name + "（" + b.Num + "）班",

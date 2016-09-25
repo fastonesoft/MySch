@@ -13,21 +13,60 @@ namespace MySch.Controllers.User
 {
     public class UserStudController : RoleController
     {
+        [HttpPost]
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Add()
+        public ActionResult Add(string id, string memo)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = EasyCombo.ToComboJsons<BllPart>(parts, null);
-                ViewBag.Steps = EasyCombo.ToComboJsons<BllStep>(steps, null);
+
+                if (memo == "Part")
+                {
+                    var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
+                    var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                    var bans = new List<VBan>();
+                    ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", null);
+                    ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, null);
+                    ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                    ViewBag.GradeReadonly = "false";
+                    ViewBag.BanReadonly = "false";
+                }
+                else
+                {
+                    if (memo == "Grade")
+                    {
+                        var grade = VGrade.GetEntity(a => a.IDS == id);
+
+                        var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == grade.PartIDS && a.IsCurrent);
+                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                        var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
+                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", id);
+                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
+                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.GradeReadonly = "true";
+                        ViewBag.BanReadonly = "false";
+                    }
+                    else
+                    {
+                        var ban = VBan.GetEntity(a => a.IDS == id);
+
+                        var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == ban.PartIDS && a.IsCurrent);
+                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                        var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.IDS == id);
+
+                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", ban.GradeIDS);
+                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", id);
+                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.GradeReadonly = "true";
+                        ViewBag.BanReadonly = "true";
+                    }
+                }
 
                 return View();
             }
@@ -60,21 +99,17 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllPartStep entity)
+        public ActionResult AddTokey(XueAdd entity)
         {
             try
             {
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;
-
-                entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.PartIDS + entity.StepIDS.Replace(entity.AccIDS, "");
 
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = VPartStep.GetEntity(a => a.ID == entity.ID);
+                var qentity = VPartStep.GetEntity(a => a.ID == entity.BanIDS);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -144,19 +179,19 @@ namespace MySch.Controllers.User
             {
                 if (memo == "Part")
                 {
-                    var res = VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.InSch,  page, rows);
+                    var res = VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.InSch, page, rows);
                     return Json(res);
                 }
                 else
                 {
                     if (memo == "Grade")
                     {
-                        var res = VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.InSch,  page, rows);
+                        var res = VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.InSch, page, rows);
                         return Json(res);
                     }
                     else
                     {
-                        var res = VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.InSch,  page, rows);
+                        var res = VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.InSch, page, rows);
                         return Json(res);
                     }
                 }

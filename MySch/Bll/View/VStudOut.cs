@@ -99,15 +99,16 @@ namespace MySch.Bll.View
                                           select s;
                             //补缺：把导入数据中以往不正常删除的学生资料，加以恢复
                             //保持，年度学生与学生库的一致
-                            var grades_max = db.TGradeStuds.Max(a => a.IDS);
-                            var grades_max_prev = grades_max.Substring(0, grades_max.Length - 4);
+                            var grades = db.TGradeStuds.Where(a => a.GradeIDS == ids);
+                            var grades_max = grades.Any() ? grades.Max(a => a.IDS) : ids + "0000";
+                            var grades_max_prev = ids;
                             var grades_max_order = int.Parse(grades_max.Substring(grades_max.Length - 4, 4));
                             foreach (var entity in entitys)
                             {
                                 grades_max_order++;
                                 BllGradeStud gstud = new BllGradeStud();
                                 gstud.ID = Guid.NewGuid().ToString("N");
-                                gstud.IDS = grades_max_prev + grades_max_order.ToString().PadLeft(4, '0');
+                                gstud.IDS = grades_max_prev + grades_max_order.ToString("D4");
                                 gstud.GradeIDS = ids;
                                 gstud.StudIDS = entity.IDS;
                                 gstud.BanIDS = ids + "01";

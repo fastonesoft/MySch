@@ -167,5 +167,21 @@ namespace MySch.Controllers.User
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        [HttpPost]
+        public ActionResult GetCombos(string id)
+        {
+            try
+            {
+                var login = BllLogin.GetLogin(Session);
+                var bans = VBan.GetEntitys(a => a.GradeIDS == id);
+                return Json(EasyCombo.ToCombo<VBan>(bans, "IDS", "TreeName", null));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
     }
 }

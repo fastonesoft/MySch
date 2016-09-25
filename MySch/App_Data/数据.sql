@@ -69,7 +69,7 @@ create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
 create unique nonclustered index UN_TAcc_Name on TAcc (Name)
 --插入管理员
 insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
-insert TAcc values ('02b7f4a7710ac87488ab1f13b8e22a65','32128402','姜堰区实验初中','fe9cad83ab25c5474cc26be3f010f281','2015-09-10 12:00:00',  0, '51e66f66919ee73bc252590bdf3b339c')
+insert TAcc values ('02b7f4a7710ac87488ab1f13b8e22a65','32128402','姜堰区实验初中集团','fe9cad83ab25c5474cc26be3f010f281','2015-09-10 12:00:00',  0, '51e66f66919ee73bc252590bdf3b339c')
 go
 
 
@@ -364,19 +364,6 @@ insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', 0, '3212
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201502', 0, '321284022015', '3212840202', '32128402')
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', 1, '321284022016', '3212840201', '32128402')
 
---学期查询
---drop view QTerm
---go
---create view QTerm
---as
---select 
---a.*
---, Name = b.Name + '年度 - ' + c.Name
---from TTerm a left join TYear b
---on a.YearIDS = b.IDS
---left join TSemester c
---on a.SemesterIDS = c.IDS
---go
 
 --年级设置
 create table TGrade
@@ -450,32 +437,6 @@ insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220070109', '32
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220060109', '3212840202200601', '321284022008', '3212840209', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220050109', '3212840202200501', '321284022007', '3212840209', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220040109', '3212840202200401', '321284022006', '3212840209', '32128402')
-
-
-----年级查询
-----drop view QGrade
---go
---create view QGrade
---as
---select a.*
---,b.PartIDS
---,b.StepIDS
---,Name = b.Name + ' - ' + e.Name
---,TreeName = b.StepName + ' - ' + e.Name
---,EduName = e.Name
---,PartName = b.PartName
---,YearName = y.Name
---,Graduated = ISNULL(b.Graduated, 1)
---,IsCurrent = ISNULL(y.IsCurrent, 0)
---,CanRecruit = ISNULL(b.CanRecruit, 0)
---from TGrade a left join QPartStep b
---on a.PartStepIDS = b.IDS
---left join TYear y
---on a.YearIDS = y.IDS
---left join TEdu e
---on a.EduIDS = e.IDS
---go
-
 
 
 create table TBan
@@ -650,30 +611,6 @@ insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010725', '25
 insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010726', '26', '321284020120140107', null, null, '32128402')
 
 
-----班级查询
-----drop view QBan
---go
---create view QBan
---as
---select b.*
---,PartStepIDS = g.PartStepIDS
---,g.YearIDS
---,g.EduIDS
---,Name = g.Name + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
---,TreeName = g.EduName + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
---,DataGridName = g.PartName + ' - ' + g.EduName + '（' + RIGHT('00' + CAST(b.Num as nvarchar(5)), 2) + '）班'
---,MasterName = m.Name
---,GroupName = p.Name
---,Graduated = ISNULL(g.Graduated, 1)
---from TBan b left join QGrade g
---on b.GradeIDS = g.IDS
---left join TAcc m
---on b.MasterIDS = m.IDS
---left join TAcc p
---on b.GroupIDS = p.IDS
---go
-
-
 
 go
 --学生去向
@@ -733,13 +670,9 @@ create table TStudent
 	IDS	nvarchar(20) not null,	--学生编号
 	Name	nvarchar(10) not null,	--姓名
 	CID	nvarchar(20),	--身份证号
-	FromSch	nvarchar(20),	--学校
-	FromGrade	nvarchar(10),	--年级
-	NationID	nvarchar(20),	--全国学籍号
-	ReadState	nvarchar(20),	--就读状态
-	IsProblem	bit not null,	--是否问题学籍
-	--
 	PartStepIDS	nvarchar(20) not null,	--校区分级编号
+	--
+	IsProblem	bit not null,	--是否问题学籍
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二
@@ -747,8 +680,10 @@ create table TStudent
 	Name2	nvarchar(20),	--第二监护人
 	Home	nvarchar(50),	--家庭地址
 	Birth	nvarchar(50),	--户籍地址
-	Memo	nvarchar(50),	--备注
 	Checked	bit not null,	--是否完成信息核对
+	CanModify	bit not null,	--是否能够自我修改
+	--
+	Memo	nvarchar(50),	--备注
 	--
 	AccIDS	nvarchar(20) not null,	--学校编号
 	--
@@ -759,17 +694,6 @@ alter table TStudent add constraint PK_TStudent primary key clustered (ID)
 create unique nonclustered index UN_TStudent_IDS on TStudent (IDS)
 create index IN_TStudent_CID on TStudent (CID)
 create index IN_TStudent_Name on TStudent (Name)
-
-
---drop view QStudent
---go
---create view QStudent
---as
---select a.*
---, PartStepName = c.Name
---from TStudent a left join QPartStep c
---on a.PartStepIDS = c.IDS
---go
 
 
 
@@ -801,37 +725,6 @@ alter table TGradeStud add constraint FK_TGradeStud_StudIDS foreign key (StudIDS
 alter table TGradeStud add constraint FK_TGradeStud_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
 alter table TGradeStud add constraint FK_TGradeStud_ComeIDS foreign key (ComeIDS) references TCome (IDS)
 create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
-
-
-
-----年级学生查询
-----drop view QGradeStud
---go
---create view QGradeStud
---as
---select a.*
---, PartIDS = f.PartIDS
---, BanName = b.Name
---, DataGridName = b.TreeName
---, Graduated = ISNULL(b.Graduated, 1)
---, StudName = c.Name
---, StudSex = case CAST(SUBSTRING(c.CID , 17, 1) as int) % 2 when 1 then '男' when 0 then '女' end
---, CID = c.CID
---, ComeName = d.Name
---, OutName = e.Name
---, Checked = ISNULL(c.Checked, 0)
---from TGradeStud a left join QBan b
---on a.BanIDS = b.IDS
---left join TStudent c
---on a.StudIDS = c.IDS
---left join TCome d
---on a.ComeIDS = d.IDS
---left join TOut e
---on a.OutIDS = e.IDS
---left join QGrade f
---on a.GradeIDS = f.IDS
---go
-
 
 
 

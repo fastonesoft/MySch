@@ -12,9 +12,6 @@ namespace MySch.Bll.Entity
     {
         public string ID { get; set; }
 
-        [DisplayName("身份证号")]
-        [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数学大写X的组合")]
         public string IDS { get; set; }
 
         [DisplayName("姓名")]
@@ -22,15 +19,10 @@ namespace MySch.Bll.Entity
         [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}$", ErrorMessage = "{0}：2-10个中文字符")]
         public string Name { get; set; }
 
-        [DisplayName("毕业学校")]
+        [DisplayName("身份证号")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^[\u4e00-\u9fa5]{4,20}$", ErrorMessage = "{0}：4-20个中文字符")]
-        public string FromSch { get; set; }
-
-        [DisplayName("毕业年级")]
-        [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^小学(五|六)年级$", ErrorMessage = "{0}：小学X年级（中文）")]
-        public string FromGrade { get; set; }
+        [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数学大写X的组合")]
+        public string CID { get; set; }
 
         [DisplayName("第一监护人")]
         [Required(ErrorMessage = "{0}：不得为空")]
@@ -65,7 +57,9 @@ namespace MySch.Bll.Entity
         public string Birth { get; set; }
 
         public bool Checked { get; set; }
+        public bool CanModify { get; set; }
 
         public string OpenID { get; set; }
+        public string AccID { get; set; }
     }
 }

@@ -33,6 +33,22 @@ namespace MySch.Dal
             }
         }
 
+        public static void Add(IEnumerable<TEntity> entitys)
+        {
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    db.Set<TEntity>().AddRange(entitys);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：实体数据无法添加！");
+            }
+        }
+
         /// <summary>
         /// 更新数据
         /// </summary>
@@ -43,11 +59,8 @@ namespace MySch.Dal
             {
                 using (BaseContext db = new BaseContext())
                 {
-                    if (db.Entry<TEntity>(entity).State == EntityState.Detached)
-                    {
-                        db.Entry<TEntity>(entity).State = EntityState.Modified;
-                        db.SaveChanges();
-                    }
+                    db.Entry<TEntity>(entity).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
             }
             catch
@@ -97,6 +110,21 @@ namespace MySch.Dal
             catch (Exception)
             {
                 throw new Exception("数据层：表达式统计，异常！");
+            }
+        }
+
+        public static TResult Max<TResult>(Expression<Func<TEntity, bool>> where, Func<TEntity, TResult> max)
+        {
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    return db.Set<TEntity>().Where(where).Max<TEntity, TResult>(max);
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("数据层：Max查询，异常！");
             }
         }
 

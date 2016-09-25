@@ -13,6 +13,7 @@ namespace MySch.Bll.View
         public string IDS { get; set; }
         public string PartStepIDS { get; set; }
         public string PartIDS { get; set; }
+        public string PartStepName { get; set; }
         public string TreeName { get; set; }
         public string Name { get; set; }
         public string YearName { get; set; }
@@ -39,6 +40,7 @@ namespace MySch.Bll.View
                                        IDS = g.IDS,
                                        PartStepIDS = g.PartStepIDS,
                                        PartIDS = p.IDS,
+                                       PartStepName = p.Name + " - " + s.Name,
                                        TreeName = y.Name + "级 - " + e.Name,
                                        Name = p.Name + " - " + s.Name + " - " + e.Name,
                                        YearName = y.Name,

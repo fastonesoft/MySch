@@ -26,18 +26,6 @@ namespace MySch.Models.Mapping
             this.Property(t => t.CID)
                 .HasMaxLength(20);
 
-            this.Property(t => t.FromSch)
-                .HasMaxLength(20);
-
-            this.Property(t => t.FromGrade)
-                .HasMaxLength(10);
-
-            this.Property(t => t.NationID)
-                .HasMaxLength(20);
-
-            this.Property(t => t.ReadState)
-                .HasMaxLength(20);
-
             this.Property(t => t.PartStepIDS)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -76,20 +64,17 @@ namespace MySch.Models.Mapping
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.CID).HasColumnName("CID");
-            this.Property(t => t.FromSch).HasColumnName("FromSch");
-            this.Property(t => t.FromGrade).HasColumnName("FromGrade");
-            this.Property(t => t.NationID).HasColumnName("NationID");
-            this.Property(t => t.ReadState).HasColumnName("ReadState");
-            this.Property(t => t.IsProblem).HasColumnName("IsProblem");
             this.Property(t => t.PartStepIDS).HasColumnName("PartStepIDS");
+            this.Property(t => t.IsProblem).HasColumnName("IsProblem");
             this.Property(t => t.Mobil1).HasColumnName("Mobil1");
             this.Property(t => t.Mobil2).HasColumnName("Mobil2");
             this.Property(t => t.Name1).HasColumnName("Name1");
             this.Property(t => t.Name2).HasColumnName("Name2");
             this.Property(t => t.Home).HasColumnName("Home");
             this.Property(t => t.Birth).HasColumnName("Birth");
-            this.Property(t => t.Memo).HasColumnName("Memo");
             this.Property(t => t.Checked).HasColumnName("Checked");
+            this.Property(t => t.CanModify).HasColumnName("CanModify");
+            this.Property(t => t.Memo).HasColumnName("Memo");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
             this.Property(t => t.OpenID).HasColumnName("OpenID");
         }
