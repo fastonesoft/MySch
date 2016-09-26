@@ -48,7 +48,7 @@ namespace MySch.Bll.Model
         [Required(ErrorMessage = "{0}：不得为空")]
         public bool Choose { get; set; }
 
-        public void ToAdd(ModelStateDictionary model)
+        public string ToAdd(ModelStateDictionary model)
         {
             try
             {
@@ -92,6 +92,9 @@ namespace MySch.Bll.Model
                     OutIDS = null,
                 };
                 gradestud.ToAdd();
+
+                //返回ID
+                return gradestud.ID;
             }
             catch (Exception e)
             {

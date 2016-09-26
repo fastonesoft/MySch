@@ -41,7 +41,7 @@ namespace MySch.Bll.View
                                        PartStepIDS = g.PartStepIDS,
                                        PartIDS = p.IDS,
                                        PartStepName = p.Name + " - " + s.Name,
-                                       TreeName = y.Name + "级 - " + e.Name,
+                                       TreeName = s.Name + " - " + e.Name,
                                        Name = p.Name + " - " + s.Name + " - " + e.Name,
                                        YearName = y.Name,
                                        Graduated = s.Graduated,

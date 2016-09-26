@@ -17,7 +17,7 @@ function DataGridNone(url) {
     });
 }
 
-function DataGridRow(gridID, url) {
+function DataGridRowID(gridID, url) {
     //选择网格
     var row = $(gridID).datagrid('getSelected');
     if (!row) {
@@ -28,6 +28,29 @@ function DataGridRow(gridID, url) {
     $('.easyui-linkbutton').linkbutton('disable');
     //打开窗口
     $.post(url, { id: row.ID }, function (d) {
+        if (d.error) {
+            $.messager.alert('错误提示', d.message, 'error');
+            $('.easyui-linkbutton').linkbutton('enable');
+        } else {
+            //清除
+            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            //加载
+            $('<div id="dialog-form">').appendTo('#body').html(d);
+        }
+    });
+}
+
+function DataGridRow(gridID, url) {
+    //选择网格
+    var row = $(gridID).datagrid('getSelected');
+    if (!row) {
+        $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
+        return false;
+    }
+    //禁用
+    $('.easyui-linkbutton').linkbutton('disable');
+    //打开窗口
+    $.post(url, { row: row }, function (d) {
         if (d.error) {
             $.messager.alert('错误提示', d.message, 'error');
             $('.easyui-linkbutton').linkbutton('enable');
@@ -427,6 +450,65 @@ function ReDialogDel(title, width, height, postUrl, gridID) {
                 $('#dialog-form').dialogClose();
             }
         }],
+        onClose: function () {
+            //启用按钮
+            $('.easyui-linkbutton').linkbutton('enable');
+            //清除提示
+            $('div.tooltip').remove();
+            $('div.combo-p').remove();
+        },
+    });
+}
+
+//////////////////////////////////////////////////////////////////////////
+//  只显示添加的内容
+//////////////////////////////////////////////////////////////////////////
+
+function DialogEntityReLoad(title, width, height, postUrl, gridID) {
+    $('#dialog-form').dialog({
+        title: title,
+        width: width,
+        height: height,
+        closable: false,
+        closed: false,
+        cache: false,
+        modal: true,
+        buttons: [{
+            text: '开始',
+            iconCls: 'icon-ok',
+            handler: function () {
+                var form = $('form');
+                if (!form.validate().form()) {
+                    //错误输入聚焦
+                    $('.field-validation-error:first').parent().find('input').focus();
+                    return false;
+                }
+                //通过验证，添加
+                $.post(postUrl, form.serialize(), function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        //关窗口
+                        $('#dialog-form').dialogClose();
+                        //更新网格
+                        //$(gridID).datagrid('loadData', d);
+                    }
+                });
+            }
+        }, {
+            text: '取消',
+            iconCls: 'icon-no',
+            handler: function () {
+                $('#dialog-form').dialogClose();
+            }
+        }],
+        onOpen: function () {
+            //重置渲染、输入验证、错误聚焦
+            var form = $('form').revalidate();
+            form.validate().form();
+            //错误输入聚焦
+            $('.field-validation-error:first').parent().find('input').focus();
+        },
         onClose: function () {
             //启用按钮
             $('.easyui-linkbutton').linkbutton('enable');

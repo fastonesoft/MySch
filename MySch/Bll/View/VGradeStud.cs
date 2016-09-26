@@ -2,6 +2,8 @@
 using MySch.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,11 +13,15 @@ namespace MySch.Bll.View
 {
     public class VGradeStud
     {
+        public string ID { get; set; }
+        public string IDS { get; set; }
         public string CID { get; set; }
         public string PartIDS { get; set; }
+        public string PartStepIDS { get; set; }
         public string GradeIDS { get; set; }
         public string BanIDS { get; set; }
         public string BanName { get; set; }
+        public string StudIDS { get; set; }
         public string StudName { get; set; }
         public string StudSex { get; set; }
         public string ComeName { get; set; }
@@ -44,11 +50,15 @@ namespace MySch.Bll.View
                                    from gs_o in gs_os.DefaultIfEmpty()
                                    select new VGradeStud
                                    {
+                                       ID = gs.ID,
+                                       IDS = gs.IDS,
                                        CID = st.CID,
                                        PartIDS = p.IDS,
+                                       PartStepIDS = ps.IDS,
                                        GradeIDS = gs.GradeIDS,
                                        BanIDS = gs.BanIDS,
                                        BanName = e.Name + "（" + b.Num + "）班",
+                                       StudIDS = gs.StudIDS,
                                        StudName = st.Name,
                                        StudSex = st.CID.Substring(16, 1),
                                        ComeName = gs_c.Name,

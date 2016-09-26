@@ -1,0 +1,66 @@
+﻿@model MySch.Bll.Entity.BllGradeDrop
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 20px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.StudName)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.StudName, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.StudName)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.BanIDS)：</div>
+            <input id="BanIDS" name="BanIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.PartStepIDS)：</div>
+            <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
+        </div>
+  </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+    @Html.HiddenFor(a => a.PartIDS)
+    @Html.HiddenFor(a => a.GradeIDS)
+    @Html.HiddenFor(a => a.InSch)
+    @Html.HiddenFor(a => a.OutIDS)
+    @Html.HiddenFor(a => a.StudIDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+        //按键：焦点转移
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                //错误输入聚焦
+                $('.field-validation-error:first').parent().find('input').focus();
+                return false;
+            }
+        });
+
+        var bans = $.parseJSON('@Html.Raw(ViewBag.Bans)');
+        var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
+
+        $('#BanIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: bans,
+            readonly: true,
+        });
+        $('#PartStepIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: partsteps,
+        });
+
+        //添加对话框
+        DialogEntityReLoad('休学办理', 390, 250, '/UserStud/DropTokey', '#studouts-grid');
+    })
+</script>

@@ -23,7 +23,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("年度编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字！")]
+        [RegularExpression(@"^\d{12}$", ErrorMessage = "{0}：用12位数字设置；")]
         public string YearIDS { get; set; }
 
         [DisplayName("学制编号")]

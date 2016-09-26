@@ -76,6 +76,12 @@ namespace MySch.Controllers.User
             }
         }
 
+        /// <summary>
+        /// TODO：信息变更
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="memo"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Edit(string id, string memo)
         {
@@ -132,6 +138,105 @@ namespace MySch.Controllers.User
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+
+        /// <summary>
+        /// 班级调整
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Change(BllBanChange row)
+        {
+            try
+            {
+                var bans = VBan.GetEntitys(a => a.GradeIDS == row.GradeIDS);
+                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", row.BanIDS);
+
+                return View(row);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// 班级调整：提交
+        /// </summary>
+        /// <param name="change"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeTokey(BllBanChange change)
+        {
+            try
+            {
+                change.ToUpdate(ModelState);
+
+                var entitys = VGradeStud.GetEntitys(a => a.ID == change.ID);
+                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// 休学办理
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Drop(BllGradeDrop row)
+        {
+            try
+            {
+                var bans = VBan.GetEntitys(a => a.GradeIDS == row.GradeIDS);
+                var partsteps = VPartStep.GetEntitys(a => a.PartIDS == row.PartIDS && a.Graduated == false);
+                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", row.BanIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VPartStep>(partsteps, "IDS", "Name", row.PartStepIDS);
+
+                return View(row);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        /// <summary>
+        /// 休学办理：提交
+        /// </summary>
+        /// <param name="drop"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DropToken(BllGradeDrop drop)
+        {
+            try
+            {
+                //查询“休学”编号
+                var login = BllLogin.GetLogin(Session);
+                var outs = BllOut.GetEntity<BllOut>(a => a.Name == "休学" && a.AccIDS == login.IDS);
+                //一、变更数据 -> 设置不在校、离校状态
+                drop.InSch = false;
+                drop.OutIDS = outs.IDS;
+                drop.ToUpdate(ModelState);
+                //二、学生库中降级
+                var student = BllStudentDrop.GetEntity<BllStudentDrop>(a => a.IDS == drop.StudIDS);
+                student.PartStepIDS = drop.PartStepIDS;
+                //显示
+                var entitys = VGradeStud.GetEntitys(a => a.ID == drop.ID);
+                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
         [HttpPost]
         public ActionResult Del(string id)
         {
@@ -159,14 +264,11 @@ namespace MySch.Controllers.User
         {
             try
             {
-                //设置用户
-                var login = BllLogin.GetLogin(Session);
-
                 //添加
-                entity.ToAdd(ModelState);
+                var id = entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = VPartStep.GetEntity(a => a.ID == entity.BanIDS);
-                return Json(qentity);
+                var entitys = VGradeStud.GetEntitys(a => a.ID == id);
+                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
             }
             catch (Exception e)
             {
@@ -275,7 +377,7 @@ namespace MySch.Controllers.User
             {
                 var res = string.IsNullOrEmpty(text) ?
                     VStudOut.GetDataGrids(id, memo) :
-                    VStudOut.GetDataGrids(text);
+                    VStudOut.GetDataGrids(id, memo, text);
 
                 return Json(res);
             }

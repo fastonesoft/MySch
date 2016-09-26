@@ -139,6 +139,8 @@
     <Compile Include="Bll\Entity\BllCome.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\Entity\BllBanChange.cs" />
+    <Compile Include="Bll\Entity\BllGradeDrop.cs" />
     <Compile Include="Bll\Entity\BllGradeStud.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -158,6 +160,7 @@
     <Compile Include="Bll\Entity\BllPart.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\Entity\BllStudentDrop.cs" />
     <Compile Include="Bll\Entity\BllStudentIn.cs" />
     <Compile Include="Bll\Entity\BllTerm.cs" />
     <Compile Include="Bll\Jsons.cs" />
@@ -613,6 +616,8 @@
     <Content Include="Views\UserStud\Del.cshtml" />
     <Content Include="Views\UserStud\Edit.cshtml" />
     <Content Include="Views\UserStud\Index.cshtml" />
+    <Content Include="Views\UserStud\Change.cshtml" />
+    <Content Include="Views\UserStud\Drop.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />

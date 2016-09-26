@@ -27,8 +27,11 @@
                 edit: function () {
                     DataGridRows('#studins-grid', '/UserStud/GradeCheck');
                 },
-                del: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Del');
+                change: function () {
+                    DataGridRow('#studins-grid', '/UserStud/Change');
+                },
+                drop: function () {
+                    DataGridRow('#studins-grid', '/UserStud/Drop');
                 },
                 search: function () {
                     var node = $('#studs-tree').tree('getSelected');
@@ -254,9 +257,9 @@
         <div class="menu-sep"></div>
         <div onclick="studins.add();">学籍办理...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-reload" onclick="studins.add();">班级调动...</div>
+        <div iconcls="icon-reload" onclick="studins.change();">班级调动...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="studins.add();">休学...</div>
+        <div iconcls="icon-clear" onclick="studins.drop();">休学...</div>
     </div>
     <div id="studs-mm-remove" style="width:150px;">
         <div>Cut</div>

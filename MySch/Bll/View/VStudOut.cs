@@ -80,12 +80,31 @@ namespace MySch.Bll.View
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static object GetDataGrids(string text)
+        public static object GetDataGrids(string ids, string memo, string text)
         {
             try
             {
-                var studouts = VStudOut.GetEntitys(a => (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
-                return EasyUI<VStudOut>.DataGrids(studouts, studouts.Count());
+                if (memo == "Part")
+                {
+                    //查询显示
+                    var part_entitys = VStudOut.GetEntitys(a => a.PartIDS == ids && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
+                    return EasyUI<VStudOut>.DataGrids(part_entitys, part_entitys.Count());
+                }
+                else
+                {
+                    if (memo == "Grade")
+                    {
+                        //查询显示
+                        var grade_entitys = VStudOut.GetEntitys(a => a.GradeIDS == ids && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
+                        return EasyUI<VStudOut>.DataGrids(grade_entitys, grade_entitys.Count());
+                    }
+                    else
+                    {
+                        //班级直接查询，因为：先年级，后班级
+                        var ban_entitys = VStudOut.GetEntitys(a => a.BanIDS == ids && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
+                        return EasyUI<VStudOut>.DataGrids(ban_entitys, ban_entitys.Count());
+                    }
+                }
             }
             catch (Exception e)
             {
