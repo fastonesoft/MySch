@@ -63,6 +63,21 @@ function DataGridRows(gridID, url) {
         }
     });
 }
+function DataGridSearchQuery(textID, gridIDA, gridIDB, urlA, urlB, query) {
+    var text = $.trim($(textID).val());
+    if (text.length == 0) {
+        //清除网格
+        $(gridIDA).datagrid('loadData', { total: 0, rows: [] });
+        $(gridIDB).datagrid('loadData', { total: 0, rows: [] });
+    } else {
+        //读取数据
+        $(gridIDA).datagrid({ url: urlA, queryParams: query })
+        $(gridIDB).datagrid({ url: urlB, queryParams: query })
+    }
+    //清空查询
+    $(textID).val('');
+}
+
 
 function DataGridSearch(textID, gridID, url) {
     var text = $.trim($(textID).val());

@@ -77,6 +77,62 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
+        public ActionResult Edit(string id, string memo)
+        {
+            try
+            {
+                var login = BllLogin.GetLogin(Session);
+
+                if (memo == "Part")
+                {
+                    var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
+                    var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                    var bans = new List<VBan>();
+                    ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", null);
+                    ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, null);
+                    ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                    ViewBag.GradeReadonly = "false";
+                    ViewBag.BanReadonly = "false";
+                }
+                else
+                {
+                    if (memo == "Grade")
+                    {
+                        var grade = VGrade.GetEntity(a => a.IDS == id);
+
+                        var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == grade.PartIDS && a.IsCurrent);
+                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                        var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
+                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", id);
+                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
+                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.GradeReadonly = "true";
+                        ViewBag.BanReadonly = "false";
+                    }
+                    else
+                    {
+                        var ban = VBan.GetEntity(a => a.IDS == id);
+
+                        var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == ban.PartIDS && a.IsCurrent);
+                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                        var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.IDS == id);
+
+                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", ban.GradeIDS);
+                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", id);
+                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.GradeReadonly = "true";
+                        ViewBag.BanReadonly = "true";
+                    }
+                }
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+        [HttpPost]
         public ActionResult Del(string id)
         {
             try
@@ -171,7 +227,7 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(string id = null, string memo = null, int page = 1, int rows = 100)
+        public ActionResult DataGrid(string id = null, string memo = null, string text = null, int page = 1, int rows = 100)
         {
 
             var login = BllLogin.GetLogin(Session);
@@ -179,19 +235,28 @@ namespace MySch.Controllers.User
             {
                 if (memo == "Part")
                 {
-                    var res = VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.InSch, page, rows);
+                    var res = string.IsNullOrEmpty(text) ?
+                        VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.InSch, page, rows) :
+                        VGradeStud.GetDataGridPages(a => a.PartIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
+
                     return Json(res);
                 }
                 else
                 {
                     if (memo == "Grade")
                     {
-                        var res = VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.InSch, page, rows);
+                        var res = string.IsNullOrEmpty(text) ?
+                            VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.InSch, page, rows) :
+                            VGradeStud.GetDataGridPages(a => a.GradeIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
+
                         return Json(res);
                     }
                     else
                     {
-                        var res = VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.InSch, page, rows);
+                        var res = string.IsNullOrEmpty(text) ?
+                            VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.InSch, page, rows) :
+                            VGradeStud.GetDataGridPages(a => a.BanIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
+
                         return Json(res);
                     }
                 }
@@ -203,12 +268,15 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid2(string id = null, string memo = null)
+        public ActionResult DataGrid2(string id = null, string memo = null, string text = null)
         {
             var login = BllLogin.GetLogin(Session);
             try
             {
-                var res = VStudOut.GetDataGrids(id, memo);
+                var res = string.IsNullOrEmpty(text) ?
+                    VStudOut.GetDataGrids(id, memo) :
+                    VStudOut.GetDataGrids(text);
+
                 return Json(res);
             }
             catch (Exception e)

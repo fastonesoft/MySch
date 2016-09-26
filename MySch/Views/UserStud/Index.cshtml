@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>学期设置</title>
+    <title>年度学生</title>
 
     <script type="text/javascript">
         $(function () {
@@ -29,7 +29,21 @@
                 },
                 del: function () {
                     DataGridRow('#studins-grid', '/UserStud/Del');
-                }
+                },
+                search: function () {
+                    var node = $('#studs-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
+                        return false;
+                    }
+                    var text = $('#studins-text').val();
+                    var param = {
+                        id: node.id,
+                        memo: node.memo,
+                        text: text,
+                    }
+                    DataGridSearchQuery('#studins-text', '#studins-grid', '#studouts-grid', '/UserStud/DataGrid', '/UserStud/DataGrid2', param);
+                },
             }
 
             //数据表格
@@ -148,12 +162,14 @@
                             queryParams: {
                                 id: node.id,
                                 memo: node.memo,
+                                text: null,
                             }
                         });
                         $('#studouts-grid').datagrid({
                             queryParams: {
                                 id: node.id,
                                 memo: node.memo,
+                                text: null,
                             }
                         });
                     }
@@ -183,7 +199,23 @@
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-edit" iconcls="icon-edit">变更</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
                                 <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-remove" iconcls="icon-remove">减少</a>
+                            </td>
+                            <td style="width:8px;"></td>
+                            <td>
+                                <span class="textbox">
+                                    <input class="textbox-text" id="studins-text" style="width:165px;" />
+                                </span>
+                            </td>
+                            <td style="width:8px;"></td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studins.search();">查询</a>
                             </td>
                         </tr>
                     </thead>
@@ -216,6 +248,15 @@
         <div>批量导入...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-undo" onclick="studins.add();">添加...</div>
+    </div>
+    <div id="studs-mm-edit" style="width:150px;">
+        <div iconcls="icon-man" onclick="studins.add();">修改...</div>
+        <div class="menu-sep"></div>
+        <div onclick="studins.add();">学籍办理...</div>
+        <div class="menu-sep"></div>
+        <div iconcls="icon-reload" onclick="studins.add();">班级调动...</div>
+        <div class="menu-sep"></div>
+        <div iconcls="icon-clear" onclick="studins.add();">休学...</div>
     </div>
     <div id="studs-mm-remove" style="width:150px;">
         <div>Cut</div>

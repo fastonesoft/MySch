@@ -75,6 +75,25 @@ namespace MySch.Bll.View
             }
         }
 
+        /// <summary>
+        /// 姓名、身份证查询
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static object GetDataGrids(string text)
+        {
+            try
+            {
+                var studouts = VStudOut.GetEntitys(a => (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
+                return EasyUI<VStudOut>.DataGrids(studouts, studouts.Count());
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
         public static object GetDataGrids(string ids, string memo)
         {
             try
