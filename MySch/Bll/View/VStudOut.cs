@@ -11,10 +11,12 @@ namespace MySch.Bll.View
 {
     public class VStudOut
     {
+        public string ID { get; set; }
         public string CID { get; set; }
         public string PartIDS { get; set; }
         public string GradeIDS { get; set; }
         public string BanIDS { get; set; }
+        public string StepName { get; set; }
         public string StudName { get; set; }
         public string StudSex { get; set; }
         public string OutName { get; set; }
@@ -41,10 +43,12 @@ namespace MySch.Bll.View
                                    join st in db.TStudents on gs.StudIDS equals st.IDS
                                    select new VStudOut
                                    {
+                                       ID = gs.ID,
                                        CID = st.CID,
                                        PartIDS = ps.PartIDS,
                                        GradeIDS = gs.GradeIDS,
                                        BanIDS = gs.BanIDS,
+                                       StepName = s.Name,
                                        StudName = st.Name,
                                        StudSex = st.CID.Substring(16, 1),
                                        OutName = gs_o.Name,

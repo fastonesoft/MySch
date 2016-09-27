@@ -51,7 +51,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllSemes entity)
+        public ActionResult AddToken(BllSemes entity)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllSemes entity)
+        public ActionResult EditToken(BllSemes entity)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllSemes entity)
+        public ActionResult DelToken(BllSemes entity)
         {
             try
             {

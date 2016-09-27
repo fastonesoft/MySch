@@ -153,7 +153,7 @@ function DialogAdd(title, width, height, postUrl, gridID) {
         cache: false,
         modal: true,
         buttons: [{
-            text: '添加',
+            text: '确定',
             iconCls: 'icon-ok',
             handler: function () {
                 var form = $('form');
@@ -208,7 +208,7 @@ function DialogEdit(title, width, height, postUrl, gridID) {
         cache: false,
         modal: true,
         buttons: [{
-            text: '修改',
+            text: '确定',
             iconCls: 'icon-ok',
             handler: function () {
                 var form = $('form');
@@ -270,7 +270,7 @@ function DialogDel(title, width, height, postUrl, gridID) {
         cache: false,
         modal: true,
         buttons: [{
-            text: '删除',
+            text: '确定',
             iconCls: 'icon-ok',
             handler: function () {
                 //直接进行删除操作
@@ -308,7 +308,7 @@ function DialogDel(title, width, height, postUrl, gridID) {
 //  自动更新
 //////////////////////////////////////////////////////////////////////////
 
-function ReDialogAdd(title, width, height, postUrl, gridID) {
+function DialogReload(title, width, height, postUrl, reloadGridID) {
     $('#dialog-form').dialog({
         title: title,
         width: width,
@@ -318,7 +318,7 @@ function ReDialogAdd(title, width, height, postUrl, gridID) {
         cache: false,
         modal: true,
         buttons: [{
-            text: '添加',
+            text: '确定',
             iconCls: 'icon-ok',
             handler: function () {
                 var form = $('form');
@@ -335,7 +335,7 @@ function ReDialogAdd(title, width, height, postUrl, gridID) {
                         //关窗口
                         $('#dialog-form').dialogClose();
                         //更新网格
-                        $(gridID).datagrid('reload');
+                        $(reloadGridID).datagrid('reload');
                     }
                 });
             }
@@ -353,103 +353,6 @@ function ReDialogAdd(title, width, height, postUrl, gridID) {
             //错误输入聚焦
             $('.field-validation-error:first').parent().find('input').focus();
         },
-        onClose: function () {
-            //启用按钮
-            $('.easyui-linkbutton').linkbutton('enable');
-            //清除提示
-            $('div.tooltip').remove();
-            $('div.combo-p').remove();
-        },
-    });
-}
-
-function ReDialogEdit(title, width, height, postUrl, gridID) {
-    $('#dialog-form').dialog({
-        title: title,
-        width: width,
-        height: height,
-        closable: false,
-        closed: false,
-        cache: false,
-        modal: true,
-        buttons: [{
-            text: '修改',
-            iconCls: 'icon-ok',
-            handler: function () {
-                var form = $('form');
-                if (!form.validate().form()) {
-                    //错误输入聚焦
-                    $('.field-validation-error:first').parent().find('input').focus();
-                    return false;
-                }
-                //通过验证，修改
-                $.post(postUrl, form.serialize(), function (d) {
-                    if (d.error) {
-                        $.messager.alert('错误提示', d.message, 'error');
-                    } else {
-                        //关窗口
-                        $('#dialog-form').dialogClose();
-                        //更新网格
-                        $(gridID).datagrid('reload');
-                    }
-                });
-            }
-        }, {
-            text: '取消',
-            iconCls: 'icon-no',
-            handler: function () {
-                $('#dialog-form').dialogClose();
-            }
-        }],
-        onOpen: function () {
-            //重置渲染、输入验证、错误聚焦
-            var form = $('form').revalidate();
-            form.validate().form();
-            //错误输入聚焦
-            $('.field-validation-error:first').parent().find('input').focus();
-        },
-        onClose: function () {
-            //启用按钮
-            $('.easyui-linkbutton').linkbutton('enable');
-            //清除提示
-            $('div.tooltip').remove();
-            $('div.combo-p').remove();
-        },
-    });
-}
-
-function ReDialogDel(title, width, height, postUrl, gridID) {
-    $('#dialog-form').dialog({
-        title: title,
-        width: width,
-        height: height,
-        closable: false,
-        closed: false,
-        cache: false,
-        modal: true,
-        buttons: [{
-            text: '删除',
-            iconCls: 'icon-ok',
-            handler: function () {
-                //直接进行删除操作
-                $.post(postUrl, $('form').serialize(), function (d) {
-                    if (d.error) {
-                        $.messager.alert('错误提示', d.message, 'error');
-                    } else {
-                        //关窗口
-                        $('#dialog-form').dialogClose();
-                        //更新网格
-                        $(gridID).datagrid('reload');
-                    }
-                });
-            }
-        }, {
-            text: '取消',
-            iconCls: 'icon-no',
-            handler: function () {
-                $('#dialog-form').dialogClose();
-            }
-        }],
         onClose: function () {
             //启用按钮
             $('.easyui-linkbutton').linkbutton('enable');
@@ -464,7 +367,7 @@ function ReDialogDel(title, width, height, postUrl, gridID) {
 //  只显示添加的内容
 //////////////////////////////////////////////////////////////////////////
 
-function DialogEntityReLoad(title, width, height, postUrl, gridID) {
+function DialogUpdateGrid(title, width, height, postUrl, reloadGridID, addToGridID) {
     $('#dialog-form').dialog({
         title: title,
         width: width,
@@ -474,7 +377,7 @@ function DialogEntityReLoad(title, width, height, postUrl, gridID) {
         cache: false,
         modal: true,
         buttons: [{
-            text: '开始',
+            text: '确定',
             iconCls: 'icon-ok',
             handler: function () {
                 var form = $('form');
@@ -491,7 +394,8 @@ function DialogEntityReLoad(title, width, height, postUrl, gridID) {
                         //关窗口
                         $('#dialog-form').dialogClose();
                         //更新网格
-                        //$(gridID).datagrid('loadData', d);
+                        $(addToGridID).datagrid('loadData', d);
+                        $(reloadGridID).datagrid('reload');
                     }
                 });
             }

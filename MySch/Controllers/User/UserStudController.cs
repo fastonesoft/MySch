@@ -76,69 +76,23 @@ namespace MySch.Controllers.User
             }
         }
 
-        /// <summary>
-        /// TODO：信息变更
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="memo"></param>
-        /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(string id, string memo)
+        [ValidateAntiForgeryToken]
+        public ActionResult AddToken(XueAdd entity)
         {
             try
             {
-                var login = BllLogin.GetLogin(Session);
-
-                if (memo == "Part")
-                {
-                    var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
-                    var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                    var bans = new List<VBan>();
-                    ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", null);
-                    ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, null);
-                    ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
-                    ViewBag.GradeReadonly = "false";
-                    ViewBag.BanReadonly = "false";
-                }
-                else
-                {
-                    if (memo == "Grade")
-                    {
-                        var grade = VGrade.GetEntity(a => a.IDS == id);
-
-                        var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == grade.PartIDS && a.IsCurrent);
-                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                        var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
-                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", id);
-                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
-                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
-                        ViewBag.GradeReadonly = "true";
-                        ViewBag.BanReadonly = "false";
-                    }
-                    else
-                    {
-                        var ban = VBan.GetEntity(a => a.IDS == id);
-
-                        var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == ban.PartIDS && a.IsCurrent);
-                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                        var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.IDS == id);
-
-                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", ban.GradeIDS);
-                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", id);
-                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
-                        ViewBag.GradeReadonly = "true";
-                        ViewBag.BanReadonly = "true";
-                    }
-                }
-
-                return View();
+                //添加
+                var id = entity.ToAdd(ModelState);
+                //查询 视图数据
+                var entitys = VGradeStud.GetEntitys(a => a.ID == id);
+                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
             }
             catch (Exception e)
             {
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
-
 
         /// <summary>
         /// 班级调整
@@ -168,7 +122,7 @@ namespace MySch.Controllers.User
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeTokey(BllBanChange change)
+        public ActionResult ChangeToken(BllBanChange change)
         {
             try
             {
@@ -227,9 +181,10 @@ namespace MySch.Controllers.User
                 //二、学生库中降级
                 var student = BllStudentDrop.GetEntity<BllStudentDrop>(a => a.IDS == drop.StudIDS);
                 student.PartStepIDS = drop.PartStepIDS;
+                student.ToUpdate();
                 //显示
-                var entitys = VGradeStud.GetEntitys(a => a.ID == drop.ID);
-                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
+                var entitys = VStudOut.GetEntitys(a => a.ID == drop.ID);
+                return Json(EasyUI<VStudOut>.DataGrids(entitys, entitys.Count()));
             }
             catch (Exception e)
             {
@@ -237,66 +192,7 @@ namespace MySch.Controllers.User
             }
         }
 
-        [HttpPost]
-        public ActionResult Del(string id)
-        {
-            try
-            {
-                var entity = BllPartStep.GetEntity<BllPartStep>(id);
-
-                var login = BllLogin.GetLogin(Session);
-                var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                ViewBag.Parts = EasyCombo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = EasyCombo.ToComboJsons<BllStep>(steps, entity.StepIDS);
-
-                return View(entity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(XueAdd entity)
-        {
-            try
-            {
-                //添加
-                var id = entity.ToAdd(ModelState);
-                //查询 视图数据
-                var entitys = VGradeStud.GetEntitys(a => a.ID == id);
-                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllPartStep entity)
-        {
-            try
-            {
-                //设置用户
-                var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;
-
-                //查询 视图数据 保存
-                var qentity = VPartStep.GetEntity(a => a.ID == entity.ID);
-                //删除
-                entity.ToDelete(ModelState);
-                return Json(qentity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [HttpPost]
         public ActionResult GradeTree(string id = null, string memo = null)

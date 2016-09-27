@@ -51,7 +51,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllEdu entity)
+        public ActionResult AddToken(BllEdu entity)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllEdu entity)
+        public ActionResult EditToken(BllEdu entity)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllEdu entity)
+        public ActionResult DelToken(BllEdu entity)
         {
             try
             {

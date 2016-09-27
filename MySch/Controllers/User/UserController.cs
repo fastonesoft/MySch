@@ -55,7 +55,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTokey(BllAcc acc)
+        public ActionResult AddToken(BllAcc acc)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTokey(BllAcc acc)
+        public ActionResult EditToken(BllAcc acc)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelTokey(BllAcc acc)
+        public ActionResult DelToken(BllAcc acc)
         {
             try
             {
