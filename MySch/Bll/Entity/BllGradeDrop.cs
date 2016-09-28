@@ -36,5 +36,6 @@ namespace MySch.Bll.Entity
         //主要修改下面两个属性
         public bool InSch { get; set; }
         public string OutIDS { get; set; }
+        public DateTime OutTime { get; set; }
     }
 }

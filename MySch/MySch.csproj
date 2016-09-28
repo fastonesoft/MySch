@@ -279,7 +279,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\插入所有学生数据.sql" />
+    <Content Include="App_Data\插入学生数据.sql" />
     <Content Include="App_Data\数据.sql" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

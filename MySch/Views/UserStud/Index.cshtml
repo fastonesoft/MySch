@@ -21,8 +21,11 @@
                         $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
                         return false;
                     }
-                    var url = $.validator.format('/UserStud/Add/?id={0}&memo={1}', node.id, node.memo);
-                    DataGridNone(url);
+                    var param = {
+                        id : node.id,
+                        memo: node.memo,
+                    }
+                    DataGridRequest('/UserStud/Add', param);
                 },
                 edit: function () {
                     DataGridRows('#studins-grid', '/UserStud/GradeCheck');

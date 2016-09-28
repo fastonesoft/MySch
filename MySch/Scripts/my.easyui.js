@@ -1,4 +1,22 @@
 ﻿
+function DataGridRequest(url, param) {
+    //禁用
+    $('.easyui-linkbutton').linkbutton('disable');
+    //打开窗口
+    $.post(url, param, function (d) {
+        if (d.error) {
+            $.messager.alert('错误提示', d.message, 'error');
+            //启用按钮
+            $('.easyui-linkbutton').linkbutton('enable');
+        } else {
+            //清除
+            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            //加载
+            $('<div id="dialog-form">').appendTo('#body').html(d);
+        }
+    });
+}
+
 function DataGridNone(url) {
     //禁用
     $('.easyui-linkbutton').linkbutton('disable');

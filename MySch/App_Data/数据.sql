@@ -184,6 +184,17 @@ insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '实验初�
 insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二附初中', '02', 1, '32128402')
 insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '二附三水', '03', 1, '32128402')
 insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '天目学校', '04', 1, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '桥头初中', '11', 0, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '张沐初中', '13', 0, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '白米初中', '14', 0, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840216', '娄庄中学', '16', 0, '32128402')
+
+
+
+
+
+
+
 
 --分级设置
 create table TStep

@@ -177,6 +177,7 @@ namespace MySch.Controllers.User
                 //一、变更数据 -> 设置不在校、离校状态
                 drop.InSch = false;
                 drop.OutIDS = outs.IDS;
+                drop.OutTime = DateTime.Now;
                 drop.ToUpdate(ModelState);
                 //二、学生库中降级
                 var student = BllStudentDrop.GetEntity<BllStudentDrop>(a => a.IDS == drop.StudIDS);
