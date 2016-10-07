@@ -9,7 +9,7 @@ namespace MySch.Models
         public string IDS { get; set; }
         public string Name { get; set; }
         public string CID { get; set; }
-        public string PartStepIDS { get; set; }
+        public string StepIDS { get; set; }
         public bool IsProblem { get; set; }
         public string Mobil1 { get; set; }
         public string Mobil2 { get; set; }

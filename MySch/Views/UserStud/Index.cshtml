@@ -36,6 +36,9 @@
                 drop: function () {
                     DataGridRow('#studins-grid', '/UserStud/Drop');
                 },
+                out:function(){
+                    DataGridRow('#studins-grid', '/UserStud/Out');
+                },
                 search: function () {
                     var node = $('#studs-tree').tree('getSelected');
                     if (!node) {
@@ -49,6 +52,12 @@
                         text: text,
                     }
                     DataGridSearchQuery('#studins-text', '#studins-grid', '#studouts-grid', '/UserStud/DataGrid', '/UserStud/DataGrid2', param);
+                },
+            }
+
+            studouts = {
+                back: function () {
+                    DataGridRow('#studouts-grid', '/UserStud/Back');
                 },
             }
 
@@ -110,8 +119,8 @@
             //数据表格
             $('#studouts-grid').datagrid({
                 fit: true,
-                striped: true,
                 border: false,
+                striped: true,
                 rownumbers: true,
                 fitColumns: false,
                 remoteSort: false,
@@ -236,7 +245,7 @@
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="studouts.add();">回校</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="studouts.back();">回校</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
@@ -254,7 +263,7 @@
     <div id="studs-mm-add" style="width:150px;">
         <div>批量导入...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-undo" onclick="studins.add();">添加...</div>
+        <div iconcls="icon-redo" onclick="studins.add();">添加...</div>
     </div>
     <div id="studs-mm-edit" style="width:150px;">
         <div iconcls="icon-man" onclick="studins.add();">修改...</div>
@@ -262,16 +271,11 @@
         <div onclick="studins.add();">学籍办理...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-reload" onclick="studins.change();">班级调动...</div>
-        <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="studins.drop();">休学...</div>
     </div>
     <div id="studs-mm-remove" style="width:150px;">
-        <div>Cut</div>
-        <div>Copy</div>
-        <div>Paste</div>
+        <div onclick="studins.drop();">休学...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-remove">Delete</div>
-        <div>Select All</div>
-    </div>
+        <div iconcls="icon-clear" onclick="studins.out();">离校...</div>
+ </div>
 </body>
 </html>

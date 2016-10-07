@@ -32,10 +32,6 @@
             @Html.ValidationMessageFor(a => a.CID)
         </div>
         <div class="form-item-row-left">
-            <div>@Html.LabelFor(a => a.ComeIDS)：</div>
-            <input id="ComeIDS" name="ComeIDS" style="width:156px;" />
-        </div>
-        <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.OldBan)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.OldBan, new { @class = "textbox-text" })
@@ -43,9 +39,13 @@
             @Html.ValidationMessageFor(a => a.OldBan)
         </div>
         <div class="form-item-row-left">
-            <div>@Html.LabelFor(a => a.Choose)：@Html.CheckBoxFor(a => a.Choose)</div>
+            <div>@Html.LabelFor(a => a.ComeIDS)：</div>
+            <input id="ComeIDS" name="ComeIDS" style="width:156px;" />
         </div>
         <div class="form-item-row-line"></div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.Choose)：@Html.CheckBoxFor(a => a.Choose)</div>
+        </div>
     </div>
 }
 

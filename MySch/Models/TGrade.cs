@@ -7,7 +7,7 @@ namespace MySch.Models
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public string PartStepIDS { get; set; }
+        public string StepIDS { get; set; }
         public string YearIDS { get; set; }
         public string EduIDS { get; set; }
         public string AccIDS { get; set; }

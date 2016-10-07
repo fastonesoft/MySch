@@ -30,6 +30,7 @@ namespace MySch.Bll.Entity
         [DisplayName("是否招生")]
         public bool CanRecruit { get; set; }
 
+        public string PartIDS { get; set; }
         public string AccIDS { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace MySch.Models
         public string Value { get; set; }
         public bool Graduated { get; set; }
         public bool CanRecruit { get; set; }
+        public string PartIDS { get; set; }
         public string AccIDS { get; set; }
     }
 }

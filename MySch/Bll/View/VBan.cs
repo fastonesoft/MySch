@@ -30,9 +30,8 @@ namespace MySch.Bll.View
                 {
                     var entitys = (from b in db.TBans
                                    join g in db.TGrades on b.GradeIDS equals g.IDS
-                                   join ps in db.TPartSteps on g.PartStepIDS equals ps.IDS
-                                   join p in db.TParts on ps.PartIDS equals p.IDS
-                                   join s in db.TSteps on ps.StepIDS equals s.IDS
+                                   join s in db.TSteps on g.StepIDS equals s.IDS
+                                   join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
                                    join m in db.TAccs on b.MasterIDS equals m.IDS into b_ms
@@ -45,7 +44,6 @@ namespace MySch.Bll.View
                                        IDS = b.IDS,
                                        Num = b.Num,
                                        PartIDS = p.IDS,
-                                       PartStepIDS = g.PartStepIDS,
                                        GradeIDS = b.GradeIDS,
                                        Name = p.Name + " - " + s.Name + "级 - " + e.Name + "（" + b.Num + "）班",
                                        TreeName = e.Name + "（" + b.Num + "）班",

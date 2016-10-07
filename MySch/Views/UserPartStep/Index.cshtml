@@ -26,6 +26,7 @@
             //数据表格
             $('#partsteps-grid').datagrid({
                 fit: true,
+                border: false,
                 striped: true,
                 rownumbers: true,
                 fitColumns: false,
@@ -54,27 +55,78 @@
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
+
+
+            //布局
+            $('#partsteps-lay').layout({
+                fit: true,
+                border: true,
+            });
+
+            $('#partsteps-tree').tree({
+                fit: true,
+                url: '/UserPartStep/GradeTree',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                onBeforeLoad: function (node, param) {
+                    if (node) {
+                        param.memo = node.memo;
+                    }
+                },
+                onClick: function (node) {
+                    if (node) {
+                        $('#studins-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                                memo: node.memo,
+                                text: null,
+                            }
+                        });
+                        $('#studouts-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                                memo: node.memo,
+                                text: null,
+                            }
+                        });
+                    }
+                },
+            });
+
         })
     </script>
 </head>
 <body>
-    <table id="partsteps-grid"></table>
-    <div id="partsteps-grid-tool">
-        <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="partsteps.add();">添加</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="partsteps.del();">删除</a>
-                    </td>
-                </tr>
-            </thead>
-        </table>
+    <div id="partsteps-lay">
+        <div data-options="region:'west',border:true, title:'校区年级'" style="width:180px;">
+            <ul id="partsteps-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true, title:'年级班级'">
+            <table id="partsteps-grid"></table>
+            <div id="partsteps-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="partsteps.add();">添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="partsteps.del();">删除</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

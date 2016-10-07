@@ -38,9 +38,8 @@ namespace MySch.Bll.View
                     var entitys = (from gs in db.TGradeStuds
                                    join b in db.TBans on gs.BanIDS equals b.IDS
                                    join g in db.TGrades on gs.GradeIDS equals g.IDS
-                                   join ps in db.TPartSteps on g.PartStepIDS equals ps.IDS
-                                   join p in db.TParts on ps.PartIDS equals p.IDS
-                                   join s in db.TSteps on ps.StepIDS equals s.IDS
+                                   join s in db.TSteps on g.StepIDS equals s.IDS
+                                   join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
                                    join st in db.TStudents on gs.StudIDS equals st.IDS
@@ -54,7 +53,6 @@ namespace MySch.Bll.View
                                        IDS = gs.IDS,
                                        CID = st.CID,
                                        PartIDS = p.IDS,
-                                       PartStepIDS = ps.IDS,
                                        GradeIDS = gs.GradeIDS,
                                        BanIDS = gs.BanIDS,
                                        BanName = e.Name + "（" + b.Num + "）班",

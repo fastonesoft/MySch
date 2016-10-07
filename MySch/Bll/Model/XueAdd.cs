@@ -41,7 +41,7 @@ namespace MySch.Bll.Model
 
         [DisplayName("学生来源")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：为10位数学；")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数学设置；")]
         public string ComeIDS { get; set; }
 
         [DisplayName("是否择校")]
@@ -57,9 +57,9 @@ namespace MySch.Bll.Model
                 //查询学生信息
                 var grade = VGrade.GetEntity(a => a.IDS == this.GradeIDS);
                 //学生库记录编号
-                var studs = DataCRUD<TStudent>.Entitys(a => a.PartStepIDS == grade.PartStepIDS);
-                var studs_max = studs.Any() ? studs.Max(a => a.IDS) : grade.PartStepIDS + "0000";
-                var studs_max_prev = grade.PartStepIDS;
+                var studs = DataCRUD<TStudent>.Entitys(a => a.StepIDS == grade.StepIDS);
+                var studs_max = studs.Any() ? studs.Max(a => a.IDS) : grade.StepIDS + "0000";
+                var studs_max_prev = grade.StepIDS;
                 var studs_max_order = int.Parse(studs_max.Substring(studs_max.Length - 4, 4)) + 1;
                 //一、学生库添加
                 BllStudentIn stud = new BllStudentIn()
@@ -68,7 +68,7 @@ namespace MySch.Bll.Model
                     IDS = studs_max_prev + studs_max_order.ToString("D4"),
                     Name = this.Name,
                     CID = this.CID,
-                    PartStepIDS = grade.PartStepIDS,
+                    PartStepIDS = grade.StepIDS,
                     AccIDS = grade.AccIDS,
                 };
                 stud.ToAdd();

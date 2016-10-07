@@ -12,6 +12,7 @@ namespace MySch.Bll.View
     public class VStudOut
     {
         public string ID { get; set; }
+        public string IDS { get; set; }
         public string CID { get; set; }
         public string PartIDS { get; set; }
         public string GradeIDS { get; set; }
@@ -21,6 +22,7 @@ namespace MySch.Bll.View
         public string StudSex { get; set; }
         public string OutName { get; set; }
         public bool InSch { get; set; }
+        public bool CanReturn { get; set; }
 
         public static IEnumerable<VStudOut> GetEntitys(Expression<Func<VStudOut, bool>> where)
         {
@@ -35,17 +37,17 @@ namespace MySch.Bll.View
                                    from gs_o in gs_os.DefaultIfEmpty()
                                    join b in db.TBans on gs.BanIDS equals b.IDS
                                    join g in db.TGrades on gs.GradeIDS equals g.IDS
-                                   join ps in db.TPartSteps on g.PartStepIDS equals ps.IDS
-                                   join p in db.TParts on ps.PartIDS equals p.IDS
-                                   join s in db.TSteps on ps.StepIDS equals s.IDS
+                                   join s in db.TSteps on g.StepIDS equals s.IDS
+                                   join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
                                    join st in db.TStudents on gs.StudIDS equals st.IDS
                                    select new VStudOut
                                    {
                                        ID = gs.ID,
+                                       IDS = gs.IDS,
                                        CID = st.CID,
-                                       PartIDS = ps.PartIDS,
+                                       PartIDS = s.PartIDS,
                                        GradeIDS = gs.GradeIDS,
                                        BanIDS = gs.BanIDS,
                                        StepName = s.Name,
@@ -53,6 +55,7 @@ namespace MySch.Bll.View
                                        StudSex = st.CID.Substring(16, 1),
                                        OutName = gs_o.Name,
                                        InSch = gs.InSch,
+                                       CanReturn = gs_o.CanReturn,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.BanIDS)
@@ -135,7 +138,7 @@ namespace MySch.Bll.View
                         {
                             var grade = db.TGrades.Single(a => a.IDS == ids);
                             var entitys = from s in db.TStudents
-                                          where s.PartStepIDS == grade.PartStepIDS && !(from g in db.TGradeStuds
+                                          where s.StepIDS == grade.StepIDS && !(from g in db.TGradeStuds
                                                                                         where g.GradeIDS == ids
                                                                                         select g.StudIDS).Contains(s.IDS)
                                           select s;

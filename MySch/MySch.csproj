@@ -140,6 +140,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Entity\BllBanChange.cs" />
+    <Compile Include="Bll\Entity\BllGradeBack.cs" />
+    <Compile Include="Bll\Entity\BllGradeOut.cs" />
     <Compile Include="Bll\Entity\BllGradeDrop.cs" />
     <Compile Include="Bll\Entity\BllGradeStud.cs">
       <SubType>Code</SubType>
@@ -156,7 +158,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Entity\BllStep.cs" />
-    <Compile Include="Bll\Entity\BllPartStep.cs" />
     <Compile Include="Bll\Entity\BllPart.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -186,7 +187,7 @@
     <Compile Include="Bll\View\VStudent.cs" />
     <Compile Include="Bll\View\VBan.cs" />
     <Compile Include="Bll\View\VGrade.cs" />
-    <Compile Include="Bll\View\VPartStep.cs">
+    <Compile Include="Bll\View\VStep.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\View\VTerm.cs" />
@@ -241,13 +242,13 @@
     <Compile Include="Models\Mapping\TComeMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
+    <Compile Include="Models\Mapping\TGradeStudLogMap.cs" />
     <Compile Include="Models\Mapping\TGradeStudMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
     <Compile Include="Models\Mapping\TOutMap.cs" />
     <Compile Include="Models\Mapping\TPageMap.cs" />
     <Compile Include="Models\Mapping\TPartMap.cs" />
-    <Compile Include="Models\Mapping\TPartStepMap.cs" />
     <Compile Include="Models\Mapping\TPrintMap.cs" />
     <Compile Include="Models\Mapping\TSemesterMap.cs" />
     <Compile Include="Models\Mapping\TStepMap.cs" />
@@ -263,12 +264,12 @@
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
     <Compile Include="Models\TGradeStud.cs" />
+    <Compile Include="Models\TGradeStudLog.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
     <Compile Include="Models\TOut.cs" />
     <Compile Include="Models\TPage.cs" />
     <Compile Include="Models\TPart.cs" />
-    <Compile Include="Models\TPartStep.cs" />
     <Compile Include="Models\TPrint.cs" />
     <Compile Include="Models\TSemester.cs" />
     <Compile Include="Models\TStep.cs" />
@@ -613,11 +614,13 @@
     <Content Include="Views\UserOut\Del.cshtml" />
     <Content Include="Views\UserOut\Index.cshtml" />
     <Content Include="Views\UserStud\Add.cshtml" />
-    <Content Include="Views\UserStud\Del.cshtml" />
     <Content Include="Views\UserStud\Edit.cshtml" />
     <Content Include="Views\UserStud\Index.cshtml" />
     <Content Include="Views\UserStud\Change.cshtml" />
     <Content Include="Views\UserStud\Drop.cshtml" />
+    <Content Include="Views\UserStud\Out.cshtml" />
+    <Content Include="Views\UserOut\Edit.cshtml" />
+    <Content Include="Views\UserStud\Back.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\Inferface\" />

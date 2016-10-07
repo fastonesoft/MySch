@@ -193,99 +193,51 @@ insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840216', '娄庄中�
 
 
 
-
-
-
---分级设置
+--校区分级
 create table TStep
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,	--32128402XXXXYY
+	IDS	nvarchar(20) not null,	--32128402012016XX
 	Name	nvarchar(20) not null,	--级
-	Value	nvarchar(10) not null,	--级编号
+	Value	nvarchar(20) not null,	--级编号
 	Graduated	bit not null,	--是否毕业
 	CanRecruit	bit not null,
-	AccIDS	nvarchar(20) not null
+	PartIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(20) not null,
 )
 go
 alter table TStep add constraint PK_TStep primary key clustered (ID)
+alter table TStep add constraint FK_TStep_PartIDS foreign key (PartIDS) references TPart (IDS)
 alter table TStep add constraint FK_TStep_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 go
 
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', '2016级', '201601', 0, 1, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', '2015级', '201501', 0, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201401', '2014级', '201401', 0, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201301', '2013级', '201301', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201201', '2012级', '201201', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201101', '2011级', '201101', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402201001', '2010级', '201001', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200901', '2009级', '200901', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200801', '2008级', '200801', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200701', '2007级', '200701', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200601', '2006级', '200601', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200501', '2005级', '200501', 1, 0, '32128402')
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '32128402200401', '2004级', '200401', 1, 0, '32128402')
-
---校区分级
-create table TPartStep
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,	--32128402012016XX
-	PartIDS	nvarchar(20) not null,
-	StepIDS	nvarchar(20) not null,
-	AccIDS	nvarchar(20) not null,
-)
-go
-alter table TPartStep add constraint PK_TPartStep primary key clustered (ID)
-alter table TPartStep add constraint FK_TPartStep_PartIDS foreign key (PartIDS) references TPart (IDS)
-alter table TPartStep add constraint FK_TPartStep_StepIDS foreign key (StepIDS) references TStep (IDS)
-alter table TPartStep add constraint FK_TPartStep_AccIDS foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TPartStep_IDS on TPartStep (IDS)
-go
 --实验
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201601', '3212840201', '32128402201601', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201501', '3212840201', '32128402201501', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401', '3212840201', '32128402201401', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201301', '3212840201', '32128402201301', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201201', '3212840201', '32128402201201', '32128402')
---二附		         
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202201101', '3212840202', '32128402201101', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202201001', '3212840202', '32128402201001', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200901', '3212840202', '32128402200901', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200801', '3212840202', '32128402200801', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200701', '3212840202', '32128402200701', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200601', '3212840202', '32128402200601', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200501', '3212840202', '32128402200501', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200401', '3212840202', '32128402200401', '32128402')
---三水		         
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840203201101', '3212840203', '32128402201101', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840203201001', '3212840203', '32128402201001', '32128402')
---天目		         
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200901', '3212840204', '32128402200901', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200801', '3212840204', '32128402200801', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200701', '3212840204', '32128402200701', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200601', '3212840204', '32128402200601', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200501', '3212840204', '32128402200501', '32128402')
-insert TPartStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200401', '3212840204', '32128402200401', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201601', '2016级', '201601', 0, 1, '3212840201', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201501', '2015级', '201501', 0, 0, '3212840201', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401', '2014级', '201401', 0, 0, '3212840201', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201301', '2013级', '201301', 1, 0, '3212840201', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201201', '2012级', '201201', 1, 0, '3212840201', '32128402')
+--二附			      
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202201101', '2011级', '201101', 1, 0, '3212840202', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202201001', '2010级', '201001', 1, 0, '3212840202', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200901', '2009级', '200901', 1, 0, '3212840202', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200801', '2008级', '200801', 1, 0, '3212840202', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200701', '2007级', '200701', 1, 0, '3212840202', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200601', '2006级', '200601', 1, 0, '3212840202', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200501', '2005级', '200501', 1, 0, '3212840202', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840202200401', '2004级', '200401', 1, 0, '3212840202', '32128402')
+--三水			      
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840203201101', '2011级', '201101', 1, 0, '3212840203', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840203201001', '2010级', '201001', 1, 0, '3212840203', '32128402')
+--天目			      
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200901', '2009级', '200901', 1, 0, '3212840204', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200801', '2008级', '200801', 1, 0, '3212840204', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200701', '2007级', '200701', 1, 0, '3212840204', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200601', '2006级', '200601', 1, 0, '3212840204', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200501', '2005级', '200501', 1, 0, '3212840204', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840204200401', '2004级', '200401', 1, 0, '3212840204', '32128402')
 
-
---校区分组查询
-----drop view QPartStep
---go
---create view QPartStep
---as
---select a.*
---,Name = b.Name + ' - ' + c.Name
---,b.Name as PartName
---,c.Name as StepName
---,Graduated = ISNULL(c.Graduated, 1)
---,CanRecruit = ISNULL(c.CanRecruit, 1)
---from TPartStep a left join TPart b
---on a.PartIDS = b.IDS
---left join TStep c
---on a.StepIDS = c.IDS
---go
 
 --年度设置
 create table TYear
@@ -381,14 +333,14 @@ create table TGrade
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--年级编号3212840201201601XX
-	PartStepIDS	nvarchar(20) not null,	--分级
+	StepIDS	nvarchar(20) not null,	--分级
 	YearIDS	nvarchar(20) not null,	--年度
 	EduIDS	nvarchar(20) not null,	--学制
 	AccIDS	nvarchar(20) not null	--用户	
 )
 go
 alter table TGrade add constraint PK_TGrade primary key clustered (ID)
-alter table TGrade add constraint FK_TGrade_PartStepIDS foreign key (PartStepIDS) references TPartStep (IDS)
+alter table TGrade add constraint FK_TGrade_StepIDS foreign key (StepIDS) references TStep (IDS)
 alter table TGrade add constraint FK_TGrade_YearIDS foreign key (YearIDS) references TYear (IDS)
 alter table TGrade add constraint FK_TGrade_EduIDS foreign key (EduIDS) references TEdu (IDS)
 alter table TGrade add constraint FK_TGrade_AccIDS foreign key (AccIDS) references TAcc (IDS)
@@ -565,7 +517,6 @@ insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010922', '22
 insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010923', '23', '321284020120140109', null, null, '32128402')
 insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010924', '24', '321284020120140109', null, null, '32128402')
 insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010925', '25', '321284020120140109', null, null, '32128402')
-insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010926', '26', '321284020120140109', null, null, '32128402')
 --		    
 insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010801', '01', '321284020120140108', null, null, '32128402')
 insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010802', '02', '321284020120140108', null, null, '32128402')
@@ -631,6 +582,7 @@ create table TOut
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(10) not null,
 	Value	nvarchar(10) not null,
+	CanReturn	bit not null,	--能否回校（同届的学校）
 	AccIDS	nvarchar(20) not null,
 )
 
@@ -639,13 +591,14 @@ go
 alter table TOut add constraint PK_TOut primary key clustered (ID)
 create unique nonclustered index UN_TOut_IDS on TOut (IDS)
 
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休学', '02', '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '转出', '03', '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '外借', '04', '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '辍学', '05', '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '流生', '06', '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休学', '02', 0, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '转出', '03', 0, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '外借', '04', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '辍学', '05', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '流生', '06', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '其他', '06', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', 1, '32128402')
 
 
 --学生来源
@@ -681,7 +634,7 @@ create table TStudent
 	IDS	nvarchar(20) not null,	--学生编号
 	Name	nvarchar(10) not null,	--姓名
 	CID	nvarchar(20),	--身份证号
-	PartStepIDS	nvarchar(20) not null,	--校区分级编号
+	StepIDS	nvarchar(20) not null,	--校区分级编号
 	--
 	IsProblem	bit not null,	--是否问题学籍
 	--
@@ -702,6 +655,7 @@ create table TStudent
 )
 go
 alter table TStudent add constraint PK_TStudent primary key clustered (ID)
+alter table TStudent add constraint FK_TStudent_StepIDS foreign key (StepIDS) references TStep (IDS)
 create unique nonclustered index UN_TStudent_IDS on TStudent (IDS)
 create index IN_TStudent_CID on TStudent (CID)
 create index IN_TStudent_Name on TStudent (Name)
@@ -712,7 +666,7 @@ create index IN_TStudent_Name on TStudent (Name)
 create table TGradeStud
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,	--GradeIDS + StudIDS流水号
+	IDS	nvarchar(32) not null,	--GradeIDS + 流水号
 	GradeIDS	nvarchar(20) not null,
 	StudIDS	nvarchar(20) not null,
 	StudCode	nvarchar(20),	--学籍号
@@ -737,7 +691,14 @@ alter table TGradeStud add constraint FK_TGradeStud_GradeIDS foreign key (GradeI
 alter table TGradeStud add constraint FK_TGradeStud_ComeIDS foreign key (ComeIDS) references TCome (IDS)
 create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
 
-
+--TODO学生信息变更记录
+create table TGradeStudLog
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	GradeIDS	nvarchar(20) not null,
+)
+go
 
 -------------------------------------------------------------------
 ---以下不算

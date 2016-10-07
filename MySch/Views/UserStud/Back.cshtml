@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllGradeDrop
+﻿@model MySch.Bll.Entity.BllGradeBack
 
 @{
     Layout = null;
@@ -10,10 +10,6 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.BanIDS)：</div>
-            <input id="BanIDS" name="BanIDS" style="width:156px;" />
-        </div>
-        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.StudName)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.StudName, new { @class = "textbox-text", @readonly = "readonly" })
@@ -21,15 +17,17 @@
             @Html.ValidationMessageFor(a => a.StudName)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.PartStepIDS)：</div>
-            <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
+            <div>@Html.LabelFor(a => a.BanIDS)：</div>
+            <input id="BanIDS" name="BanIDS" style="width:156px;" />
         </div>
-  </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.ComeIDS)：</div>
+            <input id="ComeIDS" name="ComeIDS" style="width:156px;" />
+        </div>
+    </div>
     @Html.HiddenFor(a => a.ID)
     @Html.HiddenFor(a => a.IDS)
-    @Html.HiddenFor(a => a.PartIDS)
     @Html.HiddenFor(a => a.GradeIDS)
-    @Html.HiddenFor(a => a.StudIDS)
 }
 
 <script type="text/javascript">
@@ -44,21 +42,25 @@
         });
 
         var bans = $.parseJSON('@Html.Raw(ViewBag.Bans)');
-        var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
+        var comes = $.parseJSON('@Html.Raw(ViewBag.Comes)');
 
         $('#BanIDS').combobox({
             valueField: 'id',
             textField: 'text',
             data: bans,
-            readonly: true,
         });
-        $('#PartStepIDS').combobox({
+        $('#ComeIDS').combobox({
             valueField: 'id',
             textField: 'text',
-            data: partsteps,
+            data: comes,
         });
 
         //添加对话框
-        DialogUpdateGrid('休学办理', 390, 250, '/UserStud/DropToken', '#studins-grid', '#studouts-grid');
+        DialogGrid('学生回校', 390, 250, '/UserStud/BackToken', function () {
+            var row = $('#studouts-grid').datagrid('getSelected');
+            var index = $('#studouts-grid').datagrid('getRowIndex', row);
+            $('#studouts-grid').datagrid('deleteRow', index);
+            $('#studins-grid').datagrid('reload');
+        });
     })
 </script>

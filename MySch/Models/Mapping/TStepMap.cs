@@ -25,7 +25,11 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.Value)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(20);
+
+            this.Property(t => t.PartIDS)
+                .IsRequired()
+                .HasMaxLength(20);
 
             this.Property(t => t.AccIDS)
                 .IsRequired()
@@ -39,6 +43,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Value).HasColumnName("Value");
             this.Property(t => t.Graduated).HasColumnName("Graduated");
             this.Property(t => t.CanRecruit).HasColumnName("CanRecruit");
+            this.Property(t => t.PartIDS).HasColumnName("PartIDS");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }
     }

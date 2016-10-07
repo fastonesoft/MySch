@@ -18,9 +18,12 @@
                 add: function () {
                     DataGridNone('/UserOut/Add');
                 },
+                edit: function () {
+                    DataGridRowID('#outs-grid', '/UserOut/Edit');
+                },
                 del: function () {
                     DataGridRowID('#outs-grid', '/UserOut/Del');
-                }
+                },
             }
 
             //数据表格
@@ -45,6 +48,20 @@
                 columns: [[
                     { title: '去向名称', field: 'Name', align: 'center', width: 100 },
                     { title: '去向代码', field: 'Value', align: 'center', width: 100 },
+                    {
+                        title: '能否回校', field: 'CanReturn', halign: 'center', width: 100,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            } else {
+                                return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
+                            }
+                        }
+                    }
                 ]],
 
                 toolbar: '#outs-grid-tool',
@@ -64,6 +81,12 @@
                 <tr>
                     <td>
                         <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="outs.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="outs.edit();">修改</a>
                     </td>
                     <td>
                         <div class="datagrid-btn-separator"></div>

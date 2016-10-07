@@ -19,7 +19,7 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.PartStepIDS)
+            this.Property(t => t.StepIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
@@ -39,7 +39,7 @@ namespace MySch.Models.Mapping
             this.ToTable("TGrade");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.PartStepIDS).HasColumnName("PartStepIDS");
+            this.Property(t => t.StepIDS).HasColumnName("StepIDS");
             this.Property(t => t.YearIDS).HasColumnName("YearIDS");
             this.Property(t => t.EduIDS).HasColumnName("EduIDS");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");

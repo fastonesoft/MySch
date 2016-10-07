@@ -10,9 +10,9 @@ function DataGridRequest(url, param) {
             $('.easyui-linkbutton').linkbutton('enable');
         } else {
             //清除
-            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            if ($('.dialog-form').length > 0) $('.dialog-form').remove();
             //加载
-            $('<div id="dialog-form">').appendTo('#body').html(d);
+            $('<div id="dialog-form" class="dialog-form">').appendTo('#body').html(d);
         }
     });
 }
@@ -28,9 +28,9 @@ function DataGridNone(url) {
             $('.easyui-linkbutton').linkbutton('enable');
         } else {
             //清除
-            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            if ($('.dialog-form').length > 0) $('.dialog-form').remove();
             //加载
-            $('<div id="dialog-form">').appendTo('#body').html(d);
+            $('<div id="dialog-form" class="dialog-form">').appendTo('#body').html(d);
         }
     });
 }
@@ -51,9 +51,9 @@ function DataGridRowID(gridID, url) {
             $('.easyui-linkbutton').linkbutton('enable');
         } else {
             //清除
-            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            if ($('.dialog-form').length > 0) $('.dialog-form').remove();
             //加载
-            $('<div id="dialog-form">').appendTo('#body').html(d);
+            $('<div id="dialog-form" class="dialog-form">').appendTo('#body').html(d);
         }
     });
 }
@@ -74,9 +74,9 @@ function DataGridRow(gridID, url) {
             $('.easyui-linkbutton').linkbutton('enable');
         } else {
             //清除
-            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            if ($('.dialog-form').length > 0) $('.dialog-form').remove();
             //加载
-            $('<div id="dialog-form">').appendTo('#body').html(d);
+            $('<div id="dialog-form" class="dialog-form">').appendTo('#body').html(d);
         }
     });
 }
@@ -98,9 +98,9 @@ function DataGridRows(gridID, url) {
             $('.easyui-linkbutton').linkbutton('enable');
         } else {
             //清除
-            if ($('<div id="dialog-form">').length > 0) $('<div id="dialog-form">').remove();
+            if ($('.dialog-form').length > 0) $('.dialog-form').remove();
             //加载
-            $('<div id="dialog-form">').appendTo('#body').html(d);
+            $('<div id="dialog-form" class="dialog-form">').appendTo('#body').html(d);
         }
     });
 }
@@ -260,11 +260,6 @@ function DialogEdit(title, width, height, postUrl, gridID) {
             //重置渲染、输入验证、错误聚焦
             var form = $('form').revalidate();
             form.validate().form();
-            //对输入框的焦点变换同样做验证
-            $('#dialog-form :text').change(function () {
-                var form = $('form').revalidate();
-                form.validate().form();
-            })
             //错误输入聚焦
             $('.field-validation-error:first').parent().find('input').focus();
         },
@@ -440,3 +435,59 @@ function DialogUpdateGrid(title, width, height, postUrl, reloadGridID, addToGrid
         },
     });
 }
+
+function DialogGrid(title, width, height, postUrl, Success) {
+    $('#dialog-form').dialog({
+        title: title,
+        width: width,
+        height: height,
+        closable: false,
+        closed: false,
+        cache: false,
+        modal: true,
+        buttons: [{
+            text: '确定',
+            iconCls: 'icon-ok',
+            handler: function () {
+                var form = $('form');
+                if (!form.validate().form()) {
+                    //错误输入聚焦
+                    $('.field-validation-error:first').parent().find('input').focus();
+                    return false;
+                }
+                //通过验证，添加
+                $.post(postUrl, form.serialize(), function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        //关窗口
+                        $('#dialog-form').dialogClose();
+                        //成功
+                        Success();
+                    }
+                });
+            }
+        }, {
+            text: '取消',
+            iconCls: 'icon-no',
+            handler: function () {
+                $('#dialog-form').dialogClose();
+            }
+        }],
+        onOpen: function () {
+            //重置渲染、输入验证、错误聚焦
+            var form = $('form').revalidate();
+            form.validate().form();
+            //错误输入聚焦
+            $('.field-validation-error:first').parent().find('input').focus();
+        },
+        onClose: function () {
+            //启用按钮
+            $('.easyui-linkbutton').linkbutton('enable');
+            //清除提示
+            $('div.tooltip').remove();
+            $('div.combo-p').remove();
+        },
+    });
+}
+

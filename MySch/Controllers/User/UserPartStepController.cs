@@ -41,13 +41,13 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllPartStep.GetEntity<BllPartStep>(id);
+                var entity = BllStep.GetEntity<BllStep>(id);
 
                 var login = BllLogin.GetLogin(Session);
                 var parts = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var steps = BllStep.GetEntitys<BllStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 ViewBag.Parts = EasyCombo.ToComboJsons<BllPart>(parts, entity.PartIDS);
-                ViewBag.Steps = EasyCombo.ToComboJsons<BllStep>(steps, entity.StepIDS);
+                ViewBag.Steps = EasyCombo.ToComboJsons<BllStep>(steps, entity.IDS);
 
                 return View(entity);
             }
@@ -59,7 +59,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllPartStep entity)
+        public ActionResult AddToken(BllStep entity)
         {
             try
             {
@@ -68,12 +68,12 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.PartIDS + entity.StepIDS.Replace(entity.AccIDS, "");
+                entity.IDS = entity.PartIDS + entity.Value;
 
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = VPartStep.GetEntity(a => a.ID == entity.ID);
+                var qentity = VStep.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -84,7 +84,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(BllPartStep entity)
+        public ActionResult DelToken(BllStep entity)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 //查询 视图数据 保存
-                var qentity = VPartStep.GetEntity(a => a.ID == entity.ID);
+                var qentity = VStep.GetEntity(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -110,7 +110,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = VPartStep.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
+                var res = VStep.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

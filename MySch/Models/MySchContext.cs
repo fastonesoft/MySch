@@ -12,7 +12,7 @@ namespace MySch.Models
         }
 
         public MySchContext()
-            : base("Name=MySchContextIP")
+            : base("Name=MySchContext")
         {
         }
 
@@ -23,12 +23,12 @@ namespace MySch.Models
         public DbSet<TEdu> TEdus { get; set; }
         public DbSet<TGrade> TGrades { get; set; }
         public DbSet<TGradeStud> TGradeStuds { get; set; }
+        public DbSet<TGradeStudLog> TGradeStudLogs { get; set; }
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
         public DbSet<TOut> TOuts { get; set; }
         public DbSet<TPage> TPages { get; set; }
         public DbSet<TPart> TParts { get; set; }
-        public DbSet<TPartStep> TPartSteps { get; set; }
         public DbSet<TPrint> TPrints { get; set; }
         public DbSet<TSemester> TSemesters { get; set; }
         public DbSet<TStep> TSteps { get; set; }
@@ -46,12 +46,12 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new TGradeMap());
             modelBuilder.Configurations.Add(new TGradeStudMap());
+            modelBuilder.Configurations.Add(new TGradeStudLogMap());
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());
             modelBuilder.Configurations.Add(new TOutMap());
             modelBuilder.Configurations.Add(new TPageMap());
             modelBuilder.Configurations.Add(new TPartMap());
-            modelBuilder.Configurations.Add(new TPartStepMap());
             modelBuilder.Configurations.Add(new TPrintMap());
             modelBuilder.Configurations.Add(new TSemesterMap());
             modelBuilder.Configurations.Add(new TStepMap());

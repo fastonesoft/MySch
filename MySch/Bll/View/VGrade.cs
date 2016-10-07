@@ -11,9 +11,8 @@ namespace MySch.Bll.View
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public string PartStepIDS { get; set; }
         public string PartIDS { get; set; }
-        public string PartStepName { get; set; }
+        public string StepIDS { get; set; }
         public string TreeName { get; set; }
         public string Name { get; set; }
         public string YearName { get; set; }
@@ -29,25 +28,23 @@ namespace MySch.Bll.View
                 using (BaseContext db = new BaseContext())
                 {
                     var entitys = (from g in db.TGrades
-                                   join ps in db.TPartSteps on g.PartStepIDS equals ps.IDS
-                                   join p in db.TParts on ps.PartIDS equals p.IDS
-                                   join s in db.TSteps on ps.StepIDS equals s.IDS
+                                   join s in db.TSteps on g.StepIDS equals s.IDS
+                                   join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
                                    select new VGrade
                                    {
                                        ID = g.ID,
                                        IDS = g.IDS,
-                                       PartStepIDS = g.PartStepIDS,
                                        PartIDS = p.IDS,
-                                       PartStepName = p.Name + " - " + s.Name,
+                                       StepIDS = s.IDS,
                                        TreeName = s.Name + " - " + e.Name,
                                        Name = p.Name + " - " + s.Name + " - " + e.Name,
                                        YearName = y.Name,
                                        Graduated = s.Graduated,
                                        IsCurrent = y.IsCurrent,
                                        CanRecruit = s.CanRecruit,
-                                       AccIDS = ps.AccIDS,
+                                       AccIDS = g.AccIDS,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.IDS)

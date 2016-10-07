@@ -25,11 +25,11 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = VPartStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, null);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, null);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VPartStep>(partsteps, null);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, null);
 
                 return View();
             }
@@ -49,11 +49,11 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = VPartStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -73,11 +73,11 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = VPartStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var partsteps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VPartStep>(partsteps, entity.PartStepIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, entity.PartStepIDS);
 
                 return View(entity);
             }

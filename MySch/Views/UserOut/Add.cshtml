@@ -23,7 +23,10 @@
             </span>
             @Html.ValidationMessageFor(a => a.Value)
         </div>
-    </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.CanReturn)：@Html.CheckBoxFor(a => a.CanReturn)</div>
+        </div>
+ </div>
 }
 
 <script type="text/javascript">

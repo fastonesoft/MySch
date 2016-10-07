@@ -10,6 +10,7 @@ namespace MySch.Controllers.User
 {
     public class UserOutController : RoleController
     {
+        [HttpPost]
         public ActionResult Index()
         {
             return View();
@@ -79,7 +80,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
-                
+
                 entity.ToUpdate(ModelState);
                 return Json(entity);
             }
@@ -97,7 +98,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
-                
+
                 entity.ToDelete(ModelState);
                 return Json(entity);
             }
@@ -114,7 +115,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllOut.GetDataGridPages<BllOut, string >(a => a.AccIDS == login.IDS,  a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllOut.GetDataGridPages<BllOut, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)
@@ -122,7 +123,5 @@ namespace MySch.Controllers.User
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
-
-
     }
 }
