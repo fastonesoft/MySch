@@ -118,5 +118,44 @@ namespace MySch.Controllers.User
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        [HttpPost]
+        public ActionResult GradeTree(string id = null, string memo = null)
+        {
+            var login = BllLogin.GetLogin(Session);
+            //校区：所有
+            if (id == null)
+            {
+                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS);
+                var res = EasyTree.ToTree<BllPart>(entitys, "IDS", "Name", "closed", "Part");
+                return Json(res);
+            }
+            else
+            {
+                //年级：所有
+                if (memo == "Part")
+                {
+                    var entitys =VStep.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id);
+                    var res = EasyTree.ToTree(entitys, "IDS", "StepName", "closed", "Step");
+                    return Json(res);
+                }
+                else
+                {
+                    if(memo == "Step")
+                    {
+                        var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.StepIDS == id);
+                        var res = EasyTree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
+                        return Json(res);
+                    }
+                    else
+                    {
+                        //班级：所有
+                        var entitys = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
+                        var res = EasyTree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
+                        return Json(res);
+                    }
+                }
+            }
+        }
     }
 }

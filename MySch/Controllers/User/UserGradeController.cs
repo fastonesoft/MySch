@@ -53,7 +53,7 @@ namespace MySch.Controllers.User
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, entity.PartStepIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, entity.IDS);
 
                 return View(entity);
             }
@@ -77,7 +77,7 @@ namespace MySch.Controllers.User
 
                 ViewBag.Edus = EasyCombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, entity.PartStepIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, entity.IDS);
 
                 return View(entity);
             }
@@ -98,7 +98,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.PartStepIDS + entity.EduIDS.Replace(entity.AccIDS, "");
+                entity.IDS = entity.StepIDS + entity.EduIDS.Replace(entity.AccIDS, "");
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据

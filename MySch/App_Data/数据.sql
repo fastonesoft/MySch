@@ -201,7 +201,7 @@ create table TStep
 	Name	nvarchar(20) not null,	--级
 	Value	nvarchar(20) not null,	--级编号
 	Graduated	bit not null,	--是否毕业
-	CanRecruit	bit not null,
+	CanRecruit	bit not null,	--能否招生
 	PartIDS	nvarchar(20) not null,
 	AccIDS	nvarchar(20) not null,
 )

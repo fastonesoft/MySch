@@ -16,10 +16,10 @@ namespace MySch.Bll.Entity
 
         public string IDS { get; set; }
 
-        [DisplayName("校区分级")]
+        [DisplayName("分级编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{16}$", ErrorMessage = "{0}：用16位数字设置；")]
-        public string PartStepIDS { get; set; }
+        public string StepIDS { get; set; }
 
         [DisplayName("年度编号")]
         [Required(ErrorMessage = "{0}不得为空；")]

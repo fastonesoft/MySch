@@ -14,6 +14,7 @@ namespace MySch.Bll.View
         public string PartIDS { get; set; }
         public string Name { get; set; }
         public string PartName { get; set; }
+        public string StepName { get; set; }
         public bool Graduated { get; set; }
         public bool CanRecruit { get; set; }
         public string AccIDS { get; set; }
@@ -33,6 +34,7 @@ namespace MySch.Bll.View
                                        PartIDS = s.PartIDS,
                                        Name = p.Name + " - " + s.Name,
                                        PartName = p.Name,
+                                       StepName = s.Name,
                                        Graduated = s.Graduated,
                                        CanRecruit = s.CanRecruit,
                                        AccIDS = s.AccIDS,
