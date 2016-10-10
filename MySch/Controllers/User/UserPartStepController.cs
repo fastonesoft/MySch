@@ -105,21 +105,6 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
-        {
-            try
-            {
-                var login = BllLogin.GetLogin(Session);
-                var res = VStep.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
-                return Json(res);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
         public ActionResult GradeTree(string id = null, string memo = null)
         {
             var login = BllLogin.GetLogin(Session);
@@ -135,13 +120,13 @@ namespace MySch.Controllers.User
                 //年级：所有
                 if (memo == "Part")
                 {
-                    var entitys =VStep.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id);
+                    var entitys = VStep.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id);
                     var res = EasyTree.ToTree(entitys, "IDS", "StepName", "closed", "Step");
                     return Json(res);
                 }
                 else
                 {
-                    if(memo == "Step")
+                    if (memo == "Step")
                     {
                         var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.StepIDS == id);
                         var res = EasyTree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
@@ -155,6 +140,57 @@ namespace MySch.Controllers.User
                         return Json(res);
                     }
                 }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid(string id = null, string memo = null, string text = null, int page = 1, int rows = 100)
+        {
+            var login = BllLogin.GetLogin(Session);
+            try
+            {
+                if (memo == "Part")
+                {
+                    var res = string.IsNullOrEmpty(text) ?
+                        VGradeStud.GetDataGridPages(a => a.PartIDS == id, page, rows) :
+                        VGradeStud.GetDataGridPages(a => a.PartIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+
+                    return Json(res);
+                }
+                else
+                {
+                    if (memo == "Step")
+                    {
+                        var res = string.IsNullOrEmpty(text) ?
+                            VGradeStud.GetDataGridPages(a => a.StepIDS == id, page, rows) :
+                            VGradeStud.GetDataGridPages(a => a.StepIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+
+                        return Json(res);
+                    }
+                    else
+                    {
+                        if (memo == "Grade")
+                        {
+                            var res = string.IsNullOrEmpty(text) ?
+                                VGradeStud.GetDataGridPages(a => a.GradeIDS == id, page, rows) :
+                                VGradeStud.GetDataGridPages(a => a.GradeIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+
+                            return Json(res);
+                        }
+                        else
+                        {
+                            var res = string.IsNullOrEmpty(text) ?
+                                VGradeStud.GetDataGridPages(a => a.BanIDS == id, page, rows) :
+                                VGradeStud.GetDataGridPages(a => a.BanIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+
+                            return Json(res);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
     }

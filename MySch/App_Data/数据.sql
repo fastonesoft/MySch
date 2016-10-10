@@ -592,13 +592,27 @@ alter table TOut add constraint PK_TOut primary key clustered (ID)
 create unique nonclustered index UN_TOut_IDS on TOut (IDS)
 
 insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休学', '02', 0, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '转出', '03', 0, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '外借', '04', 1, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '辍学', '05', 1, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '流生', '06', 1, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '其他', '06', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '升学', '02', 0, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '休学', '03', 0, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '转出', '04', 0, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '外借', '05', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '辍学', '06', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '流生', '07', 1, '32128402')
+insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '其他', '08', 1, '32128402')
 insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', 1, '32128402')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 --学生来源
@@ -668,10 +682,10 @@ create table TGradeStud
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(32) not null,	--GradeIDS + 流水号
 	GradeIDS	nvarchar(20) not null,
-	StudIDS	nvarchar(20) not null,
-	StudCode	nvarchar(20),	--学籍号
 	BanIDS	nvarchar(20) not null,
 	OldBan	nvarchar(10) not null,	--原班级编号、考场号XXYY
+	StudIDS	nvarchar(20) not null,
+	StudCode	nvarchar(20),	--学籍号
 	Choose	bit not null,	--学籍性质：是否择校生
 	ComeIDS	nvarchar(20) not null,	--学生来源
 	ComeTime	date,	--进校时间

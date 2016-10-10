@@ -44,9 +44,19 @@
                 },
 
                 columns: [[
-                    { title: '校区分级名称', field: 'Name', align: 'center', width: 150 },
-                    { title: '校区名称', field: 'PartName', align: 'center', width: 100 },
-                    { title: '分级名称', field: 'StepName', align: 'center', width: 100 }
+                    { field: 'ck', checkbox: true },
+                    { title: '分级年级', field: 'BanLongName', align: 'center', width: 150 },
+                    { title: '身份证号', field: 'CID', align: 'center', width: 150 },
+                    { title: '姓名', field: 'StudName', align: 'center', width: 60 },
+                    {
+                        title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50,
+                        formatter: function (value, row, index) {
+                            if (value)
+                                return parseInt(value) % 2 == 0 ? "女" : "男";
+                        },
+                    },
+                    { title: '学生来源', field: 'ComeName', align: 'center', sortable: true, width: 70 },
+                    { title: '学籍状态', field: 'OutName', align: 'center', sortable: true, width: 70 },
                 ]],
 
                 toolbar: '#partsteps-grid-tool',
@@ -81,14 +91,7 @@
                 },
                 onClick: function (node) {
                     if (node) {
-                        $('#studins-grid').datagrid({
-                            queryParams: {
-                                id: node.id,
-                                memo: node.memo,
-                                text: null,
-                            }
-                        });
-                        $('#studouts-grid').datagrid({
+                        $('#partsteps-grid').datagrid({
                             queryParams: {
                                 id: node.id,
                                 memo: node.memo,
