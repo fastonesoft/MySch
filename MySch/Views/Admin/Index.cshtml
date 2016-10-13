@@ -36,7 +36,7 @@
             $('#admin-tab').tabs({
                 onClose: function (title) {
                     //关闭菜单状态
-                    $(".menuson li a").each(function () {
+                    $(".my-menuson li a").each(function () {
                         if ($(this).text() == title) {
                             $(this).parent().attr('clicked', false);
                         }
@@ -45,8 +45,8 @@
             });
 
             //顶部导航切换
-            $(".nav li a").click(function () {
-                $(".nav li a.selected").removeClass("selected")
+            $(".my-nav li a").click(function () {
+                $(".my-nav li a.selected").removeClass("selected")
                 $(this).addClass("selected");
 
                 //导航更新
@@ -69,20 +69,20 @@
             });
 
             //菜单切换
-            $(".menuson li").click(function () {
+            $(".my-menuson li").click(function () {
                 //菜单动作
                 var url = $(this).attr('dest');
                 var name = $(this).find('a').text();
                 var icon = $(this).attr('icon');
 
                 //设置样式
-                $(".menuson li.active").removeClass("active")
+                $(".my-menuson li.active").removeClass("active")
                 $(this).addClass("active");
 
                 //顶部更新
                 var num = $(this).parent().prev().attr('num');
-                $(".nav li a.selected").removeClass("selected")
-                var s = $.validator.format('.nav li a[num={0}]', num);
+                $(".my-nav li a.selected").removeClass("selected")
+                var s = $.validator.format('.my-nav li a[num={0}]', num);
                 $(s).addClass("selected");
 
                 //检查菜单状态
@@ -116,27 +116,27 @@
 
 </head>
 <body>
-    <div id="admin-lay" class="bodyer">
+    <div id="admin-lay" class="my-bodyer">
         <div data-options="region:'north',border:false" style="height:88px;">
-            <div class="header noprint">
-                <div class="topleft">
+            <div class="my-header noprint">
+                <div class="my-topleft">
                     <a href="javasript:void()"><img src="/Images/logo.png" title="系统首页" /></a>
                 </div>
 
-                <ul class="nav">
+                <ul class="my-nav">
                     <li><a num="0" href="javascript:void(0);"><img src="/Images/icon028.png" /><h2>系统设置</h2></a></li>
                     <li><a num="1" href="javascript:void(0);"><img src="/Images/nav04.png" /><h2>页面设置</h2></a></li>
                     <li><a num="2" href="javascript:void(0);"><img src="/Images/nav01.png" /><h2>权限设置</h2></a></li>
                     <li><a num="3" href="javascript:void(0);"><img src="/Images/pp10.png" /><h2>用户管理</h2></a></li>
                 </ul>
 
-                <div class="topright">
+                <div class="my-topright">
                     <ul>
                         <li><span><img src="/Images/help.png" title="帮助" class="helpimg" /></span></li>
                         <li><a href="javascript:void(0);" id="logoff">退出</a></li>
                     </ul>
 
-                    <div class="user">
+                    <div class="my-user">
                         <span id="toUser">@ViewBag.UserName</span>
                         <b>9+</b>
                     </div>
@@ -148,19 +148,18 @@
 
         <div data-options="region:'west',border:false" style="width:187px;">
             <div class="left noprint">
-                <div class="lefttop"><img src="/Images/m04s.png" />导航菜单</div>
+                <div class="my-lefttop"><img src="/Images/m04s.png" />导航菜单</div>
 
-                <dl class="leftmenu">
+                <dl class="my-leftmenu">
 
                     <dd>
                         <div class="title" num="0">
                             <img src="/Images/leftico04.png" />系统设置
                         </div>
-                        <ul class="menuson">
+                        <ul class="my-menuson">
                             <li dest="/UserEdu/" icon="icon-system"><cite></cite><a href="javascript:void(0);">学制编排</a><i></i></li>
                             <li dest="/UserPart/" icon="icon-system"><cite></cite><a href="javascript:void(0);">校区设置</a><i></i></li>
                             <li dest="/UserStep/" icon="icon-system"><cite></cite><a href="javascript:void(0);">分级设置</a><i></i></li>
-                            <li dest="/UserPartStep/" icon="icon-system"><cite></cite><a href="javascript:void(0);">校区分级</a><i></i></li>
                             <li dest="/UserYear/" icon="icon-system"><cite></cite><a href="javascript:void(0);">年度设置</a><i></i></li>
                             <li dest="/UserSemes/" icon="icon-system"><cite></cite><a href="javascript:void(0);">学期配置</a><i></i></li>
                             <li dest="/UserTerm/" icon="icon-system"><cite></cite><a href="javascript:void(0);">学期设置</a><i></i></li>
@@ -169,7 +168,7 @@
                             <li dest="/UserCome/" icon="icon-system"><cite></cite><a href="javascript:void(0);">学生来源</a><i></i></li>
                             <li dest="/UserOut/" icon="icon-system"><cite></cite><a href="javascript:void(0);">学生去向</a><i></i></li>
                             <li dest="/UserStud/" icon="icon-system"><cite></cite><a href="javascript:void(0);">年度学生</a><i></i></li>
-                            <li dest="/UserGraduated/" icon="icon-system"><cite></cite><a href="javascript:void(0);">历届学生</a><i></i></li>
+                            <li dest="/UserHistory/" icon="icon-system"><cite></cite><a href="javascript:void(0);">历年学生</a><i></i></li>
                             <li dest="/UserSub/" icon="icon-system"><cite></cite><a href="javascript:void(0);">学科设置</a><i></i></li>
                             <li dest="/ClassAcc/" icon="icon-system"><cite></cite><a href="javascript:void(0);">班级教师</a><i></i></li>
                             <li dest="/Studs/" icon="icon-system"><cite></cite><a href="javascript:void(0);">班级学生</a><i></i></li>
@@ -179,7 +178,7 @@
                         <div class="title" num="1">
                             <img src="/Images/leftico01.png" />页面设置
                         </div>
-                        <ul class="menuson">
+                        <ul class="my-menuson">
                             <li dest="Base" icon="icon-page"><cite></cite><a href="javascript:void(0);">页面设置</a><i></i></li>
                             <li dest="Change" icon="icon-page"><cite></cite><a href="javascript:void(0);">栏目设置</a><i></i></li>
                         </ul>
@@ -188,7 +187,7 @@
                         <div class="title" num="2">
                             <img src="/Images/leftico03.png" />权限设置
                         </div>
-                        <ul class="menuson">
+                        <ul class="my-menuson">
                             <li dest="/Admin/Conts" icon="icon-role"><cite></cite><a href="javascript:void(0);">权限分类</a><i></i></li>
                             <li dest="/Admin/Rols" icon="icon-role"><cite></cite><a href="javascript:void(0);">权限记录</a><i></i></li>
                             <li dest="/Admin/Grps" icon="icon-role"><cite></cite><a href="javascript:void(0);">分组设置</a><i></i></li>
@@ -199,7 +198,7 @@
                         <div class="title" num="3">
                             <img src="/Images/leftico02.png" />用户设置
                         </div>
-                        <ul class="menuson">
+                        <ul class="my-menuson">
                             <li dest="/AdminUser/" icon="icon-user" clicked><cite></cite><a href="javascript:void(0);">用户列表</a><i></i></li>
                             <li dest="/Admin/GrpAccs" icon="icon-user"><cite></cite><a href="javascript:void(0);">用户分组</a><i></i></li>
                         </ul>

@@ -17,5 +17,15 @@ namespace MySch
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            //解决SessionID
+        }
+
+        protected void Session_End(object sender, EventArgs e)
+        {
+            //解决SessionID
+        }
     }
 }

@@ -215,7 +215,7 @@
     <Compile Include="Controllers\User\UserTermController.cs" />
     <Compile Include="Controllers\User\UserYearController.cs" />
     <Compile Include="Controllers\User\UserStepController.cs" />
-    <Compile Include="Controllers\User\UserPartStepController.cs" />
+    <Compile Include="Controllers\User\UserHistoryController.cs" />
     <Compile Include="Controllers\User\UserPartController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -585,9 +585,9 @@
     <Content Include="Views\UserStep\Edit.cshtml" />
     <Content Include="Views\UserStep\Add.cshtml" />
     <Content Include="Views\UserStep\Del.cshtml" />
-    <Content Include="Views\UserPartStep\Index.cshtml" />
-    <Content Include="Views\UserPartStep\Add.cshtml" />
-    <Content Include="Views\UserPartStep\Del.cshtml" />
+    <Content Include="Views\UserHistory\Index.cshtml" />
+    <Content Include="Views\UserHistory\Add.cshtml" />
+    <Content Include="Views\UserHistory\Del.cshtml" />
     <Content Include="Views\UserYear\Index.cshtml" />
     <Content Include="Views\UserYear\Add.cshtml" />
     <Content Include="Views\UserYear\Del.cshtml" />

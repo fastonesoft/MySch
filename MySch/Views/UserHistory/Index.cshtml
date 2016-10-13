@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //UserPartStep/Index
+    //UserHistory/Index
 }
 
 <!DOCTYPE html>
@@ -8,23 +8,23 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>校区分级</title>
+    <title>历年学生</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            partsteps = {
+            historys = {
                 add: function () {
-                    DataGridNone('/UserPartStep/Add');
+                    DataGridNone('/UserHistory/Add');
                 },
                 del: function () {
-                    DataGridRowID('#partsteps-grid', '/UserPartStep/Del');
+                    DataGridRowID('#historys-grid', '/UserHistory/Del');
                 }
             }
 
             //数据表格
-            $('#partsteps-grid').datagrid({
+            $('#historys-grid').datagrid({
                 fit: true,
                 border: false,
                 striped: true,
@@ -34,7 +34,7 @@
                 sortOrder: 'asc',
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserPartStep/DataGrid',
+                url: '/UserHistory/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -60,7 +60,7 @@
                     { title: '学籍状态', field: 'OutName', align: 'center', sortable: true, remoteSort: false, width: 70 },
                 ]],
 
-                toolbar: '#partsteps-grid-tool',
+                toolbar: '#historys-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -69,14 +69,14 @@
 
 
             //布局
-            $('#partsteps-lay').layout({
+            $('#historys-lay').layout({
                 fit: true,
                 border: true,
             });
 
-            $('#partsteps-tree').tree({
+            $('#historys-tree').tree({
                 fit: true,
-                url: '/UserPartStep/GradeTree',
+                url: '/UserHistory/GradeTree',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -92,7 +92,7 @@
                 },
                 onClick: function (node) {
                     if (node) {
-                        $('#partsteps-grid').datagrid({
+                        $('#historys-grid').datagrid({
                             queryParams: {
                                 id: node.id,
                                 memo: node.memo,
@@ -107,24 +107,24 @@
     </script>
 </head>
 <body>
-    <div id="partsteps-lay">
+    <div id="historys-lay">
         <div data-options="region:'west',border:true, title:'校区年级'" style="width:200px;">
-            <ul id="partsteps-tree"></ul>
+            <ul id="historys-tree"></ul>
         </div>
         <div data-options="region:'center',border:true, title:'年级班级'">
-            <table id="partsteps-grid"></table>
-            <div id="partsteps-grid-tool">
+            <table id="historys-grid"></table>
+            <div id="historys-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="partsteps.add();">添加</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="historys.add();">添加</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="partsteps.del();">删除</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="historys.del();">删除</a>
                             </td>
                         </tr>
                     </thead>

@@ -29,6 +29,7 @@ namespace MySch.Bll.View
         public string OutName { get; set; }
         public bool Checked { get; set; }
         public bool InSch { get; set; }
+        public bool IsCurrent { get; set; }
 
         public static IEnumerable<VGradeStud> GetEntitys(Expression<Func<VGradeStud, bool>> where)
         {
@@ -66,6 +67,7 @@ namespace MySch.Bll.View
                                        OutName = gs_o.Name,
                                        Checked = st.Checked,
                                        InSch = gs.InSch,
+                                       IsCurrent = y.IsCurrent,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.BanIDS)

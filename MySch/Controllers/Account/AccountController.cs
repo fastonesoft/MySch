@@ -57,11 +57,24 @@ namespace MySch.Controllers.Account
             return View();
         }
 
-        //用户登录：窗体
+        //用户登录：检测
         [HttpPost]
-        public ActionResult Logon()
+        public ActionResult Check()
         {
-            return View();
+            var login = BllLogin.GetLogin(Session);
+            if (login == null)
+            {
+                ViewBag.ID = Session.SessionID;
+                return View("Logon");
+            }
+            else
+            {
+                //已登录
+                //要跳转的Action不能使用POST方式
+                //return RedirectToAction("Index", "Client");
+                ViewBag.UserName = login.Name;
+                return View("Main");
+            }
         }
 
         //用户登录：数据提交
@@ -71,6 +84,8 @@ namespace MySch.Controllers.Account
         {
             try
             {
+                return Json(new BllError { error = true, message = Session.SessionID });
+
                 //封IP
                 if (BllLogin.FixedOfIP(Request, acc))
                 {
@@ -120,25 +135,6 @@ namespace MySch.Controllers.Account
             }
         }
 
-        //用户登录：检测
-        [HttpPost]
-        public ActionResult Check()
-        {
-            var login = BllLogin.GetLogin(Session);
-            if (login == null)
-            {
-                return View("Logon");
-            }
-            else
-            {
-                //已登录
-                //要跳转的Action不能使用POST方式
-                //return RedirectToAction("Index", "Client");
-                ViewBag.UserName = login.Name;
-                return View("Main");
-            }
-        }
-
         //用户登录：退出
         [HttpPost]
         public ActionResult Logoff()
@@ -146,14 +142,6 @@ namespace MySch.Controllers.Account
             Session[Setting.SESSION_LOGIN] = null;
             return Json(new BllError { error = false, message = "退出成功" });
         }
-
-        //用户主操作页面
-        [HttpPost]
-        public ActionResult Main()
-        {
-            return View();
-        }
-
 
         //本机测试用的，
         public string Reg11()
