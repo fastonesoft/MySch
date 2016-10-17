@@ -64,8 +64,13 @@ namespace MySch.Controllers.Account
             var login = BllLogin.GetLogin(Session);
             if (login == null)
             {
-                ViewBag.ID = Session.SessionID;
-                return View("Logon");
+                var id = Guid.NewGuid().ToString();
+                Session[Setting.SESSION_LOGIN_GUID] = id;
+                var acc = new BllAcc
+                {
+                    ID = id,
+                };
+                return View("Logon", acc);
             }
             else
             {
@@ -84,8 +89,6 @@ namespace MySch.Controllers.Account
         {
             try
             {
-                return Json(new BllError { error = true, message = Session.SessionID });
-
                 //封IP
                 if (BllLogin.FixedOfIP(Request, acc))
                 {
@@ -100,13 +103,6 @@ namespace MySch.Controllers.Account
                 {
                     BllLogin.AddLog(Request, acc, "未注册用户");
                     return Json(new BllError { error = true, message = "错误：未注册用户，无法登录！" });
-                }
-                //1.1、验证检测
-                acc.ID = Setting.GetGD("AdminUser", acc.IDS);
-                if (acc.ID != db.ID)
-                {
-                    BllLogin.AddLog(Request, acc, "提交数据无法验证");
-                    return Json(new BllError { error = true, message = "错误：提交数据无法通过验证！" });
                 }
 
                 //2、检测密码是否正确
@@ -140,6 +136,7 @@ namespace MySch.Controllers.Account
         public ActionResult Logoff()
         {
             Session[Setting.SESSION_LOGIN] = null;
+            Session.Abandon();
             return Json(new BllError { error = false, message = "退出成功" });
         }
 

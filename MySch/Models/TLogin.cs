@@ -6,12 +6,12 @@ namespace MySch.Models
     public partial class TLogin
     {
         public string ID { get; set; }
-        public int IDS { get; set; }
-        public string Brower { get; set; }
+        public string IDS { get; set; }
         public string IP { get; set; }
-        public System.DateTime loginTime { get; set; }
         public string Name { get; set; }
         public string Pwd { get; set; }
-        public string loginMsg { get; set; }
+        public string Brower { get; set; }
+        public string LoginMsg { get; set; }
+        public System.DateTime LoginTime { get; set; }
     }
 }

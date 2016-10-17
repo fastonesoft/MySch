@@ -57,7 +57,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                acc.ID = Setting.GetGD("AdminUser", acc.IDS);
+                acc.ID = Guid.NewGuid().ToString("N");
                 acc.RegTime = DateTime.Now;
                 acc.Parent = BllLogin.GetLogin(Session).ID;
                 acc.Pwd = BllLogin.Password(acc.IDS, acc.ID, Setting.GetMD5(acc.Pwd));

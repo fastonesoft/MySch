@@ -36,10 +36,25 @@
                 }
             });
 
+            //退出检测
+            window.onbeforeunload = function () {
+                $.post('/Account/Logoff', function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        location.reload();
+                    }
+                })
+            }
+
             //退出登录
             $('#logoff').click(function () {
                 $.post('/Account/Logoff', function (d) {
-                    if (!d.error) location.reload();
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        location.reload();
+                    }
                 })
             });
 

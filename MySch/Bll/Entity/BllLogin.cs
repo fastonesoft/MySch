@@ -9,15 +9,13 @@ namespace MySch.Bll.Entity
     public class BllLogin : BllEntity<TLogin>
     {
         public string ID { get; set; }
-        public int IDS { get; set; }
-        public string Brower { get; set; }
+        public string IDS { get; set; }
         public string IP { get; set; }
-        public System.DateTime loginTime { get; set; }
         public string Name { get; set; }
         public string Pwd { get; set; }
-        public string loginMsg { get; set; }
-
-
+        public string Brower { get; set; }
+        public string LoginMsg { get; set; }
+        public System.DateTime LoginTime { get; set; }
 
         /// <summary>
         /// 登录：成功记录
@@ -35,12 +33,13 @@ namespace MySch.Bll.Entity
             var d = new BllLogin
             {
                 ID = Guid.NewGuid().ToString("N"),
-                Brower = req.Browser.Browser,
+                IDS = Guid.NewGuid().ToString("N"),
                 IP = req.UserHostAddress,
-                loginTime = DateTime.Now,
                 Name = acc.IDS,
                 Pwd = acc.Pwd,
-                loginMsg = message
+                Brower = req.Browser.Browser,
+                LoginMsg = message,
+                LoginTime = DateTime.Now,
             };
             d.ToAdd();
         }
@@ -56,12 +55,13 @@ namespace MySch.Bll.Entity
             var db = new BllLogin
             {
                 ID = Guid.NewGuid().ToString("N"),
-                Brower = req.Browser.Browser,
+                IDS = Guid.NewGuid().ToString("N"),
                 IP = req.UserHostAddress,
-                loginTime = DateTime.Now,
                 Name = acc.IDS,
                 Pwd = acc.Pwd,
-                loginMsg = message
+                LoginMsg = message,
+                Brower = req.Browser.Browser,
+                LoginTime = DateTime.Now,
             };
 
             db.ToAdd();
@@ -98,7 +98,7 @@ namespace MySch.Bll.Entity
             //同IP登录错误不得超过10次
             //五分钟超过10次，封停
             var logintime = DateTime.Now.AddMinutes(-5);
-            var ips = BllLogin.GetEntitys<List<BllLogin>>(a => a.loginTime > logintime && a.IP == req.UserHostAddress);
+            var ips = BllLogin.GetEntitys<List<BllLogin>>(a => a.LoginTime > logintime && a.IP == req.UserHostAddress);
 
             return ips.Count() >= 5;
         }

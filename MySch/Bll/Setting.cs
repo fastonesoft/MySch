@@ -10,6 +10,8 @@ namespace MySch.Bll
 {
     public class Setting
     {
+        //登录加密明文
+        public const string SESSION_LOGIN_GUID = "LoginGUID";
         public const string SESSION_VALIDATE_CODE_LOGIN = "ValidateImageCodeLogin";
 
         /// 验证码长度
@@ -48,12 +50,6 @@ namespace MySch.Bll
         public static string ControllerUrl(Controller control)
         {
             return control.Request.RawUrl.ToString();
-        }
-
-        // GD
-        public static string GetGD(string action, string id)
-        {
-            return GetMD5(action + "#" + GetMD5(id) + "#" + action);
         }
 
         public static string GetSHA1(string str)
@@ -149,7 +145,7 @@ namespace MySch.Bll
             return true;//符合GB11643-1999标准
         }
 
-        //时间戳
+        //时间 -> 整数
         public static int DateTimeToInt(DateTime dateTime)
         {
             var start = new DateTime(1970, 1, 1, 0, 0, 0, dateTime.Kind);

@@ -77,17 +77,17 @@ go
 create table TLogin
 (
 	ID	nvarchar(32) not null,
-	IDS	int identity(1,1) not null,
-	Brower	nvarchar(36) not null,
-	IP	nvarchar(36) not null,
-	loginTime	datetime not null,	--登录时间
+	IDS	nvarchar(32) not null,
+	IP	nvarchar(32) not null,
 	Name	nvarchar(20) not null,
-	Pwd	nvarchar(36) not null,
-	loginMsg	nvarchar(36) not null,
+	Pwd	nvarchar(32) not null,
+	Brower	nvarchar(32) not null,
+	LoginMsg	nvarchar(32) not null,
+	LoginTime	datetime not null,	--登录时间
 )
 go
 alter table TLogin add constraint PK_TLogin primary key clustered (ID)
-create unique nonclustered index UN_TLogin_IDS on TLogin (IDS)
+create index IN_TLogin_Name on TLogin (Name)
 
 --新生报名
 create table TStudReg

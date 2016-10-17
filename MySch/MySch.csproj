@@ -623,7 +623,7 @@
     <Content Include="Views\UserStud\Back.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Bll\Inferface\" />
+    <Folder Include="Bll\UI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

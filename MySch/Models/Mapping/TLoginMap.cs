@@ -16,15 +16,12 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(32);
 
             this.Property(t => t.IDS)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
-            this.Property(t => t.Brower)
                 .IsRequired()
-                .HasMaxLength(36);
+                .HasMaxLength(32);
 
             this.Property(t => t.IP)
                 .IsRequired()
-                .HasMaxLength(36);
+                .HasMaxLength(32);
 
             this.Property(t => t.Name)
                 .IsRequired()
@@ -32,22 +29,26 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.Pwd)
                 .IsRequired()
-                .HasMaxLength(36);
+                .HasMaxLength(32);
 
-            this.Property(t => t.loginMsg)
+            this.Property(t => t.Brower)
                 .IsRequired()
-                .HasMaxLength(36);
+                .HasMaxLength(32);
+
+            this.Property(t => t.LoginMsg)
+                .IsRequired()
+                .HasMaxLength(32);
 
             // Table & Column Mappings
             this.ToTable("TLogin");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Brower).HasColumnName("Brower");
             this.Property(t => t.IP).HasColumnName("IP");
-            this.Property(t => t.loginTime).HasColumnName("loginTime");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Pwd).HasColumnName("Pwd");
-            this.Property(t => t.loginMsg).HasColumnName("loginMsg");
+            this.Property(t => t.Brower).HasColumnName("Brower");
+            this.Property(t => t.LoginMsg).HasColumnName("LoginMsg");
+            this.Property(t => t.LoginTime).HasColumnName("LoginTime");
         }
     }
 }
