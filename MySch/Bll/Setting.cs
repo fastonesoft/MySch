@@ -10,8 +10,8 @@ namespace MySch.Bll
 {
     public class Setting
     {
-        //登录加密明文
-        public const string SESSION_LOGIN_GUID = "LoginGUID";
+        //登录帐号类型：老师，学生？
+        public const string SESSION_LOGIN_TYPE = "LoginType";
         public const string SESSION_VALIDATE_CODE_LOGIN = "ValidateImageCodeLogin";
 
         /// 验证码长度
