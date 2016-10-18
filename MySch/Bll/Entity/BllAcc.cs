@@ -12,7 +12,7 @@ namespace MySch.Bll.Entity
     {
         [DisplayName("用户帐号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^admin$|^\d{8,20}$|^[a-zA-Z]{6,20}$", ErrorMessage = "{0}：为20以内的数字、字母")]
+        [RegularExpression(@"^\d{8}$|^[a-zA-Z]{5,20}$|^\d{17}[\dxX]$", ErrorMessage = "{0}：为20以内的数字、字母")]
         public string IDS { get; set; }
 
         [DisplayName("用户名称")]

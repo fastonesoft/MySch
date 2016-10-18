@@ -60,7 +60,7 @@ namespace MySch.Controllers.Admin
                 acc.ID = Guid.NewGuid().ToString("N");
                 acc.RegTime = DateTime.Now;
                 acc.Parent = BllLogin.GetLogin(Session).ID;
-                acc.Pwd = BllLogin.Password(acc.IDS, acc.ID, Setting.GetMD5(acc.Pwd));
+                acc.Pwd = BllLogin.Password(acc.IDS, acc.Pwd);
 
                 //添加记录
                 acc.ToAdd(ModelState);
@@ -81,7 +81,7 @@ namespace MySch.Controllers.Admin
                 var db = BllAcc.GetEntity<BllAcc>(a => a.ID == acc.ID && a.IDS == acc.IDS);
 
                 //密码如果改变，则重新加密
-                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : BllLogin.Password(acc.IDS, acc.ID, Setting.GetMD5(acc.Pwd));
+                acc.Pwd = acc.Pwd == db.Pwd ? acc.Pwd : BllLogin.Password(acc.IDS, acc.Pwd);
                 //管理员admin帐号不能冻结
                 acc.Fixed = acc.IDS == "admin" ? false : acc.Fixed;
                 //别的属性直接从数据库拿出来

@@ -23,9 +23,8 @@ namespace MySch.Controllers.Account
             //var db = DataCRUD<TAcc>.Entity("admin");
             //MyType<TAcc>.GetPropertyInfor(db, "ID");
 
-            //string dd = ApiSetting.GetGD("AdminUser", "32128402");
-            //string ee = MyLogin.Password("32128402", dd, ApiSetting.GetMD5("stone.2.net"));
-            //return Content(dd + "-" + ee);
+            //string ee = BllLogin.Password("32128402", "stone.2.net");
+            //return Content(ee);
 
             //string   tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile("asdfasdfasd", "SHA1");
             //string ee = ApiSetting.GetSHA1("asdfasdfasd");
@@ -64,11 +63,9 @@ namespace MySch.Controllers.Account
             var login = BllLogin.GetLogin(Session);
             if (login == null)
             {
-                var id = Guid.NewGuid().ToString();
-                Session[Setting.SESSION_LOGIN_GUID] = id;
                 var acc = new BllAcc
                 {
-                    ID = id,
+                    ID = Guid.NewGuid().ToString("N"),
                 };
                 return View("Logon", acc);
             }
@@ -89,10 +86,18 @@ namespace MySch.Controllers.Account
         {
             try
             {
+                //帐号类型检测
+                BllError res = CID.IDS(acc.IDS);
+                if (!res.error)
+                {
+                    //登录成功：记录，并，退出
+                    BllLogin.SaveLog(Session, Request, acc, "登录成功");
+                    return Json(new BllError { error = false, message = string.Format("用户：{0}成功登录！", acc.IDS) });
+                }
+
                 //封IP
                 if (BllLogin.FixedOfIP(Request, acc))
                 {
-                    //MyLogin.AddLog(Request, acc, "登录动作过频");
                     //动作过频，不能记录
                     return Json(new BllError { error = true, message = "错误：登录动作过频，请稍等！" });
                 }
@@ -106,7 +111,7 @@ namespace MySch.Controllers.Account
                 }
 
                 //2、检测密码是否正确
-                if (BllLogin.Password(acc.IDS, acc.ID, acc.Pwd) != db.Pwd)
+                if (BllLogin.Repassword(acc.ID, db.Pwd) != acc.Pwd)
                 {
                     BllLogin.AddLog(Request, acc, "密码有误");
                     return Json(new BllError { error = true, message = "错误：密码有误，请重新输入！" });

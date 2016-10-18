@@ -63,7 +63,6 @@ namespace MySch.Bll.Entity
                 Brower = req.Browser.Browser,
                 LoginTime = DateTime.Now,
             };
-
             db.ToAdd();
         }
 
@@ -104,16 +103,19 @@ namespace MySch.Bll.Entity
         }
 
         /// <summary>
-        /// 密码加密
+        /// 明文加密
         /// </summary>
-        /// <param name="id">帐号名</param>
-        /// <param name="gd">帐号编号</param>
-        /// <param name="password">密文MD5形式</param>
+        /// <param name="ids">帐号</param>
+        /// <param name="pwd">密码明文</param>
         /// <returns></returns>
-        public static string Password(string id, string gd, string password)
+        public static string Password(string ids, string pwd)
         {
-            return Setting.GetMD5(gd + "#" + id + "#" + password);
+            return Setting.GetMD5(Setting.GetMD5(pwd) + ids);
         }
 
+        public static string Repassword(string id, string pwdEncoded)
+        {
+            return Setting.GetMD5(pwdEncoded + id);
+        }
     }
 }

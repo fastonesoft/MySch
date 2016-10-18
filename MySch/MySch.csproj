@@ -135,6 +135,7 @@
     <Compile Include="Bll\BllBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\CID.cs" />
     <Compile Include="Bll\EasyUI.cs" />
     <Compile Include="Bll\Entity\BllCome.cs">
       <SubType>Code</SubType>
