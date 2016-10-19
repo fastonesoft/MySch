@@ -62,7 +62,6 @@
                     return false;
                 }
                 var pwd = hex_md5(hex_md5(hex_md5($('#Pwd').val()) + $('#IDS').val()) + $('#ID').val());
-                alert('pwd:' + hex_md5(hex_md5($('#Pwd').val()) + $('#IDS').val()));
                 $('#Pwd').val(pwd);
                 //通过验证，提交
                 $.post('/Account/Login', form.serialize(), function (d) {

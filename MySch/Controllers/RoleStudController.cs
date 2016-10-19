@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers
 {
-    public abstract class RoleController :BaseController
+    public abstract class RoleStudController :BaseController
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -30,12 +30,12 @@ namespace MySch.Controllers
 
                 return;
             }
-            if (login.Student)
+            if (!login.Student)
             {
                 filterContext.Result = Json(new BllError
                 {
                     error = true,
-                    message = "动作：学生帐号，无法操作！"
+                    message = "动作：不是学生，不必进行该操作！"
                 }, JsonRequestBehavior.AllowGet);
 
                 return;

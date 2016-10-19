@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers
 {
-    public abstract class RoleAdminController :BaseController
+    public abstract class RoleAdminController : BaseController
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -19,7 +19,7 @@ namespace MySch.Controllers
             string actid = Setting.ActionUrl(filterContext);
 
             //二、后台进入拦截
-            var login =BllLogin.GetLogin(Session);
+            var login = BllLogin.GetLogin(Session);
             if (login == null)
             {
                 filterContext.Result = Json(new BllError

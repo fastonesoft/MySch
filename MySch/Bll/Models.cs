@@ -31,13 +31,15 @@ namespace MySch.Bll
         public string IDS { get; set; }
         public string Name { get; set; }
         public string Parent { get; set; }
+        public bool Student { get; set; }
         public BrowserModel Browser { get; set; }
-        public LoginModel(string ip, string dns, string browser, BllAcc acc)
+        public LoginModel(string ip, string dns, string browser, BllAcc acc, bool student)
         {
             ID = acc.ID;
             IDS = acc.IDS;
             Name = acc.Name;
             Parent = acc.Parent;
+            Student = student;
             Browser = new BrowserModel(ip, dns, browser);
         }
     }

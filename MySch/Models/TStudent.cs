@@ -23,9 +23,9 @@ namespace MySch.Models
         public string AccIDS { get; set; }
         public string OpenID { get; set; }
 
-        public static  string StudentLogin()
-        {
+        //public static  string StudentLogin()
+        //{
 
-        }
+        //}
     }
 }

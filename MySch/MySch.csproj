@@ -193,8 +193,8 @@
     </Compile>
     <Compile Include="Bll\View\VTerm.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\RoleStudController.cs" />
     <Compile Include="Controllers\User\UserOutController.cs" />
-    <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
       <SubType>Code</SubType>
     </Compile>

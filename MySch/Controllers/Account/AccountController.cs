@@ -74,16 +74,8 @@ namespace MySch.Controllers.Account
                 //已登录
                 //要跳转的Action不能使用POST方式
                 //return RedirectToAction("Index", "Client");
-                if(Session[Setting.SESSION_LOGIN_TYPE] != null && Session[Setting.SESSION_LOGIN_TYPE] == "Student")
-                {
-                    //学生
-                    return View("Student");
-                }
-                else
-                {
-                    ViewBag.UserName = login.Name;
-                    return View("Main");
-                }
+                ViewBag.UserName = login.Name;
+                return View("Main");
             }
         }
 
@@ -98,16 +90,26 @@ namespace MySch.Controllers.Account
                 BllError res = CID.IDS(acc.IDS);
                 if (!res.error)
                 {
-                    //用学生身份登录
-                    
+                    //用学生身份登录：IDS是身份证，Pwd是身份证后6位
+                    var stud = BllStudent.GetEntity<BllStudent>(a => a.CID == acc.IDS);
+                    if (stud == null) return Json(new BllError { error = true, message = "错误：该身份证号没有注册！" });
+                    acc.Name = stud.Name;
 
-                    //标识为学生
-                    Session[Setting.SESSION_LOGIN_TYPE] = "Student";
-
-
-                    //登录成功：记录，并，退出
-                    BllLogin.SaveLog(Session, Request, acc, "登录成功");
-                    return Json(new BllError { error = false, message = string.Format("用户：{0}成功登录！", acc.IDS) });
+                    //密码处理
+                    var pwd = acc.IDS.Substring(acc.IDS.Length - 6, 6);
+                    pwd = BllLogin.Password(acc.IDS, pwd);
+                    pwd = BllLogin.Repassword(acc.ID, pwd);
+                    if (pwd == acc.Pwd)
+                    {                        
+                        //登录成功：记录，并，退出
+                        BllLogin.SaveLog(Session, Request, acc, "登录成功", true);
+                        return Json(new BllError { error = false, message = string.Format("用户：{0}成功登录！", acc.IDS) });
+                    }
+                    else
+                    {
+                        BllLogin.AddLog(Request, acc, "密码有误");
+                        return Json(new BllError { error = true, message = "错误：密码有误，请重新输入！" });
+                    }
                 }
 
                 //封IP
@@ -141,7 +143,7 @@ namespace MySch.Controllers.Account
                 else
                 {
                     //登录成功：记录，并，退出
-                    BllLogin.SaveLog(Session, Request, db, "登录成功");
+                    BllLogin.SaveLog(Session, Request, db, "登录成功", false);
                     return Json(new BllError { error = false, message = string.Format("用户：{0}成功登录！", db.IDS) });
                 }
             }

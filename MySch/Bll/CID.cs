@@ -19,7 +19,7 @@ namespace MySch.Bll
             string mes;
             bool res = IDS(ids, out mes);
 
-            return new BllError { error = res, message = mes };
+            return new BllError { error = !res, message = mes };
         }
 
         public static bool IDS(string ids, out string message)

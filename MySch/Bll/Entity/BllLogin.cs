@@ -24,9 +24,9 @@ namespace MySch.Bll.Entity
         /// <param name="req"></param>
         /// <param name="acc"></param>
         /// <param name="message"></param>
-        public static void SaveLog(HttpSessionStateBase session, HttpRequestBase req, BllAcc acc, string message)
+        public static void SaveLog(HttpSessionStateBase session, HttpRequestBase req, BllAcc acc, string message, bool student)
         {
-            LoginModel mo = new LoginModel(req.UserHostAddress, req.UserHostName, req.Browser.Browser, acc);
+            var mo = new LoginModel(req.UserHostAddress, req.UserHostName, req.Browser.Browser, acc, student);
             session[Setting.SESSION_LOGIN] = mo;
 
             //记录成功登录时间
