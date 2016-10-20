@@ -15,12 +15,9 @@
 
             //点击动作
             studedits = {
-                add: function () {
-                    DataGridNone('/StudEdit/Add');
+                edit: function () {
+                    DataGridRow('#studedits-grid', '/StudEdit/Edit')
                 },
-                del: function () {
-                    DataGridRowID('#studedits-grid', '/StudEdit/Del');
-                }
             }
 
             //数据表格
@@ -96,13 +93,7 @@
             <thead>
                 <tr>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="studedits.add();">添加</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="studedits.del();">删除</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studedits.edit();">信息更新</a>
                     </td>
                 </tr>
             </thead>

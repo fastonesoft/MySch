@@ -374,6 +374,7 @@
     <Content Include="Content\themes\icons\sum.png" />
     <Content Include="Content\themes\icons\tip.png" />
     <Content Include="Content\themes\icons\undo.png" />
+    <Content Include="Images\pp0801.png" />
     <Content Include="tooltip.htm" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
