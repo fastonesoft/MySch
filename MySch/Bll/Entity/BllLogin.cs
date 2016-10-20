@@ -26,7 +26,16 @@ namespace MySch.Bll.Entity
         /// <param name="message"></param>
         public static void SaveLog(HttpSessionStateBase session, HttpRequestBase req, BllAcc acc, string message, bool student)
         {
-            var mo = new LoginModel(req.UserHostAddress, req.UserHostName, req.Browser.Browser, acc, student);
+            var mo = new LoginModel
+            {
+                ID = acc.ID,
+                IDS = acc.IDS,
+                Name = acc.Name,
+                Parent = acc.Parent,
+                Student = student,
+                IP = req.UserHostAddress,
+                Browser = req.Browser.Browser,
+            };
             session[Setting.SESSION_LOGIN] = mo;
 
             //记录成功登录时间
@@ -81,10 +90,10 @@ namespace MySch.Bll.Entity
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static BrowserModel GetBrowser(HttpRequestBase req)
-        {
-            return new BrowserModel(req.UserHostAddress, req.UserHostName, req.Browser.Browser);
-        }
+        //public static BrowserModel GetBrowser(HttpRequestBase req)
+        //{
+        //    return new BrowserModel(req.UserHostAddress, req.UserHostName, req.Browser.Browser);
+        //}
 
         /// <summary>
         /// 登录：检测当前IP是否被封

@@ -12,19 +12,6 @@ namespace MySch.Bll
     /// </summary>
     public enum OrderType { ASC, DESC }
 
-    public class BrowserModel
-    {
-        public string IP { get; set; }
-        public string DNS { get; set; }
-        public string Browser { get; set; }
-        public BrowserModel(string ip, string dns, string browser)
-        {
-            IP = ip;
-            DNS = dns;
-            Browser = browser;
-        }
-    }
-
     public class LoginModel
     {
         public string ID { get; set; }
@@ -32,16 +19,8 @@ namespace MySch.Bll
         public string Name { get; set; }
         public string Parent { get; set; }
         public bool Student { get; set; }
-        public BrowserModel Browser { get; set; }
-        public LoginModel(string ip, string dns, string browser, BllAcc acc, bool student)
-        {
-            ID = acc.ID;
-            IDS = acc.IDS;
-            Name = acc.Name;
-            Parent = acc.Parent;
-            Student = student;
-            Browser = new BrowserModel(ip, dns, browser);
-        }
+        public string IP { get; set; }
+        public string Browser { get; set; }
     }
 
     //出错返回类

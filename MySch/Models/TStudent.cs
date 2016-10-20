@@ -22,10 +22,5 @@ namespace MySch.Models
         public string Memo { get; set; }
         public string AccIDS { get; set; }
         public string OpenID { get; set; }
-
-        //public static  string StudentLogin()
-        //{
-
-        //}
     }
 }

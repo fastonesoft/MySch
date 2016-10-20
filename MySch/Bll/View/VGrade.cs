@@ -21,7 +21,7 @@ namespace MySch.Bll.View
         public bool CanRecruit { get; set; }
         public string AccIDS { get; set; }
 
-        public static  IEnumerable<VGrade> GetEntitys(Expression<Func<VGrade, bool>> where)
+        public static IEnumerable<VGrade> GetEntitys(Expression<Func<VGrade, bool>> where)
         {
             try
             {

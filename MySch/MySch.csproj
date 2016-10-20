@@ -623,6 +623,7 @@
     <Content Include="Views\UserStud\Out.cshtml" />
     <Content Include="Views\UserOut\Edit.cshtml" />
     <Content Include="Views\UserStud\Back.cshtml" />
+    <Content Include="Views\StudEdit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
