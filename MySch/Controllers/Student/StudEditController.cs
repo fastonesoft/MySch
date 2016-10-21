@@ -27,16 +27,15 @@ namespace MySch.Controllers.Student
             return View();
         }
 
-
         [HttpPost]
         public ActionResult Edit(BllStudent entity)
         {
             try
             {
-                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID);
-                if(db.Fixed)
+                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID && a.IDS == entity.IDS);
+                if (db.Fixed)
                 {
-                    return Json(new BllError { error = true, message = "提示：已确认，无法再修改！" });
+                    return Json(new BllError { error = true, message = "前端：已确认，无法再修改！" });
                 }
                 else
                 {
@@ -71,14 +70,21 @@ namespace MySch.Controllers.Student
         {
             try
             {
-                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID);
-                if (db.Fixed)
+                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID && a.IDS == entity.IDS);
+                if (db.Checked)
                 {
-                    return Json(new BllError { error = true, message = "提示：已确认，无须重复提交！" });
+                    if (db.Fixed)
+                    {
+                        return Json(new BllError { error = true, message = "前端：已确认，无须重复提交！" });
+                    }
+                    else
+                    {
+                        return View(db);
+                    }
                 }
                 else
                 {
-                    return View(db);
+                    return Json(new BllError { error = true, message = "前端：资料未更新，无法确认！" });
                 }
             }
             catch (Exception e)
@@ -86,6 +92,7 @@ namespace MySch.Controllers.Student
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult FixToken(BllStudent entity)
