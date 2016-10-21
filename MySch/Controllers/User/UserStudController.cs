@@ -100,14 +100,14 @@ namespace MySch.Controllers.User
         /// <param name="row"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Change(BllBanChange row)
+        public ActionResult Change(BllBanChange entity)
         {
             try
             {
-                var bans = VBan.GetEntitys(a => a.GradeIDS == row.GradeIDS);
-                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", row.BanIDS);
+                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
+                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
 
-                return View(row);
+                return View(entity);
             }
             catch (Exception e)
             {
@@ -143,25 +143,25 @@ namespace MySch.Controllers.User
         /// <param name="row"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Drop(BllGradeDrop row)
+        public ActionResult Drop(BllGradeDrop entity)
         {
             try
             {
-                var bans = VBan.GetEntitys(a => a.GradeIDS == row.GradeIDS);
-                var partsteps = VStep.GetEntitys(a => a.PartIDS == row.PartIDS && a.Graduated == false).ToList();
+                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
+                var partsteps = VStep.GetEntitys(a => a.PartIDS == entity.PartIDS && a.Graduated == false).ToList();
                 //年级筛选：比当前年级小一级的才显示
                 bool founded = false;
                 int length = partsteps.Count();
                 for (int i = length - 1; i >= 0; i--)
                 {
                     //倒序检查当前年级，发现以后，全部过滤
-                    if (partsteps[i].IDS == row.PartStepIDS) founded = true;
+                    if (partsteps[i].IDS == entity.PartStepIDS) founded = true;
                     if (founded) partsteps.Remove(partsteps[i]);
                 }
-                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", row.BanIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", row.PartStepIDS);
+                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", entity.PartStepIDS);
 
-                return View(row);
+                return View(entity);
             }
             catch (Exception e)
             {
@@ -203,22 +203,22 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Out(BllGradeOut row)
+        public ActionResult Out(BllGradeOut entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var bans = VBan.GetEntitys(a => a.GradeIDS == row.GradeIDS);
+                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
                 var outs = BllOut.GetEntitys<BllOut>(a => a.AccIDS == login.IDS && a.CanReturn);
-                var partsteps = VStep.GetEntitys(a => a.PartIDS == row.PartIDS && a.Graduated == false);
+                var partsteps = VStep.GetEntitys(a => a.PartIDS == entity.PartIDS && a.Graduated == false);
 
 
-                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", row.BanIDS);
+                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
                 ViewBag.Outs = EasyCombo.ToComboJsons<BllOut>(outs, "IDS", "Name", null);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", row.PartStepIDS);
+                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", entity.PartStepIDS);
 
-                return View(row);
+                return View(entity);
             }
             catch (Exception e)
             {
@@ -248,20 +248,20 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Back(BllGradeBack row)
+        public ActionResult Back(BllGradeBack entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var bans = VBan.GetEntitys(a => a.GradeIDS == row.GradeIDS);
+                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
                 var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS);
 
                 ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
                 ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, "IDS", "Name", null);
 
                 //可返回
-                if (row.CanReturn) return View(row);
+                if (entity.CanReturn) return View(entity);
                 //不可返回
                 return Json(new BllError { error = true, message = "错误：此类离校学生无法回校！" });
             }

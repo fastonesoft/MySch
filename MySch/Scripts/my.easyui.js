@@ -68,7 +68,7 @@ function DataGridRow(gridID, url) {
     //禁用
     $('.easyui-linkbutton').linkbutton('disable');
     //打开窗口
-    $.post(url, { row: row }, function (d) {
+    $.post(url, { entity: row }, function (d) {
         if (d.error) {
             $.messager.alert('错误提示', d.message, 'error');
             $('.easyui-linkbutton').linkbutton('enable');
@@ -246,6 +246,9 @@ function DialogEdit(title, width, height, postUrl, gridID) {
                         var row = $(gridID).datagrid('getSelected');
                         var index = $(gridID).datagrid('getRowIndex', row);
                         $(gridID).datagrid('updateRow', { index: index, row: d });
+                        console.log(d);
+                        var row1 = $(gridID).datagrid('getSelected');
+                        console.log(row1);
                     }
                 });
             }
@@ -380,7 +383,7 @@ function DialogReload(title, width, height, postUrl, reloadGridID) {
 //  只显示添加的内容
 //////////////////////////////////////////////////////////////////////////
 
-function DialogUpdateGrid(title, width, height, postUrl, reloadGridID, addToGridID) {
+function DialogUpdateGrids(title, width, height, postUrl, reloadGridID, addToGridID) {
     $('#dialog-form').dialog({
         title: title,
         width: width,

@@ -23,13 +23,6 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.StudIDS)
-                .IsRequired()
-                .HasMaxLength(20);
-
-            this.Property(t => t.StudCode)
-                .HasMaxLength(20);
-
             this.Property(t => t.BanIDS)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -37,6 +30,13 @@ namespace MySch.Models.Mapping
             this.Property(t => t.OldBan)
                 .IsRequired()
                 .HasMaxLength(10);
+
+            this.Property(t => t.StudIDS)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            this.Property(t => t.StudCode)
+                .HasMaxLength(20);
 
             this.Property(t => t.ComeIDS)
                 .IsRequired()
@@ -53,10 +53,10 @@ namespace MySch.Models.Mapping
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
-            this.Property(t => t.StudIDS).HasColumnName("StudIDS");
-            this.Property(t => t.StudCode).HasColumnName("StudCode");
             this.Property(t => t.BanIDS).HasColumnName("BanIDS");
             this.Property(t => t.OldBan).HasColumnName("OldBan");
+            this.Property(t => t.StudIDS).HasColumnName("StudIDS");
+            this.Property(t => t.StudCode).HasColumnName("StudCode");
             this.Property(t => t.Choose).HasColumnName("Choose");
             this.Property(t => t.ComeIDS).HasColumnName("ComeIDS");
             this.Property(t => t.ComeTime).HasColumnName("ComeTime");

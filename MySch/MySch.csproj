@@ -552,6 +552,8 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\StudReg\Index.cshtml" />
+    <Content Include="Views\UserOut\Edit.cshtml" />
+    <Content Include="Views\UserStud\Out.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -621,10 +623,10 @@
     <Content Include="Views\UserStud\Index.cshtml" />
     <Content Include="Views\UserStud\Change.cshtml" />
     <Content Include="Views\UserStud\Drop.cshtml" />
-    <Content Include="Views\UserStud\Out.cshtml" />
-    <Content Include="Views\UserOut\Edit.cshtml" />
     <Content Include="Views\UserStud\Back.cshtml" />
     <Content Include="Views\StudEdit\Index.cshtml" />
+    <Content Include="Views\StudEdit\Edit.cshtml" />
+    <Content Include="Views\StudEdit\Fix.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

@@ -659,7 +659,7 @@ create table TStudent
 	Home	nvarchar(50),	--家庭地址
 	Birth	nvarchar(50),	--户籍地址
 	Checked	bit not null,	--是否完成信息核对
-	CanModify	bit not null,	--是否能够自我修改
+	Fixed	bit not null,	--是否确认
 	--
 	Memo	nvarchar(50),	--备注
 	--

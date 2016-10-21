@@ -8,10 +8,10 @@ namespace MySch.Models
         public string ID { get; set; }
         public string IDS { get; set; }
         public string GradeIDS { get; set; }
-        public string StudIDS { get; set; }
-        public string StudCode { get; set; }
         public string BanIDS { get; set; }
         public string OldBan { get; set; }
+        public string StudIDS { get; set; }
+        public string StudCode { get; set; }
         public bool Choose { get; set; }
         public string ComeIDS { get; set; }
         public Nullable<System.DateTime> ComeTime { get; set; }

@@ -11,7 +11,6 @@ namespace MySch.Bll.Entity
     public class BllStudent : BllEntity<TStudent>
     {
         public string ID { get; set; }
-
         public string IDS { get; set; }
 
         [DisplayName("姓名")]
@@ -53,13 +52,10 @@ namespace MySch.Bll.Entity
         [DisplayName("户籍地址")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [StringLength(50, ErrorMessage = "{0}：长度不能超过50")]
-        [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}省[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$|^[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}|[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$", ErrorMessage = "{0}：X省X市X(市区县)X、X市X(市区县)X、姜堰区X、姜堰区X镇X")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}省[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}|[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{5,20}$", ErrorMessage = "{0}：X省X市X(市区县)X、X市X(市区县)X、姜堰区X、姜堰区X镇X")]
         public string Birth { get; set; }
 
         public bool Checked { get; set; }
-        public bool CanModify { get; set; }
-
-        public string OpenID { get; set; }
-        public string AccID { get; set; }
+        public bool Fixed { get; set; }
     }
 }

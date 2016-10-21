@@ -18,7 +18,7 @@ namespace MySch.Models
         public string Home { get; set; }
         public string Birth { get; set; }
         public bool Checked { get; set; }
-        public bool CanModify { get; set; }
+        public bool Fixed { get; set; }
         public string Memo { get; set; }
         public string AccIDS { get; set; }
         public string OpenID { get; set; }

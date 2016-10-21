@@ -73,7 +73,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Home).HasColumnName("Home");
             this.Property(t => t.Birth).HasColumnName("Birth");
             this.Property(t => t.Checked).HasColumnName("Checked");
-            this.Property(t => t.CanModify).HasColumnName("CanModify");
+            this.Property(t => t.Fixed).HasColumnName("Fixed");
             this.Property(t => t.Memo).HasColumnName("Memo");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
             this.Property(t => t.OpenID).HasColumnName("OpenID");

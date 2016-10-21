@@ -27,6 +27,82 @@ namespace MySch.Controllers.Student
             return View();
         }
 
+
+        [HttpPost]
+        public ActionResult Edit(BllStudent entity)
+        {
+            try
+            {
+                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID);
+                if(db.Fixed)
+                {
+                    return Json(new BllError { error = true, message = "提示：已确认，无法再修改！" });
+                }
+                else
+                {
+                    return View(db);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditToken(BllStudent entity)
+        {
+            try
+            {
+                entity.Checked = true;
+
+                entity.ToUpdate(ModelState);
+                return Json(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Fix(BllStudent entity)
+        {
+            try
+            {
+                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID);
+                if (db.Fixed)
+                {
+                    return Json(new BllError { error = true, message = "提示：已确认，无须重复提交！" });
+                }
+                else
+                {
+                    return View(db);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FixToken(BllStudent entity)
+        {
+            try
+            {
+                entity.Fixed = true;
+
+                entity.ToUpdate(ModelState);
+                return Json(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
         [HttpPost]
         public ActionResult DataGrid(string id = null, int page = 1, int rows = 100)
         {

@@ -22,7 +22,7 @@ namespace MySch.Bll.View
         public string Home { get; set; }
         public string Birth { get; set; }
         public bool Checked { get; set; }
-        public bool CanModify { get; set; }
+        public bool Fixed { get; set; }
 
         public string StepName{get;set;}
 
@@ -48,7 +48,7 @@ namespace MySch.Bll.View
                                        Home = st.Home,
                                        Birth = st.Birth,
                                        Checked = st.Checked,
-                                       CanModify = st.CanModify,
+                                       Fixed = st.Fixed,
                                        StepName = s.Name,
                                    })
                                    .Where(where)
