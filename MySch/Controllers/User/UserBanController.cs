@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.Bll.Model;
 using MySch.Bll.View;
 using System;
@@ -26,9 +27,9 @@ namespace MySch.Controllers.User
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = EasyCombo.ToComboJsons(grades, null);
-                ViewBag.Groups = EasyCombo.ToComboJsons<BllAcc>(accs, null);
-                ViewBag.Masters = EasyCombo.ToComboJsons<BllAcc>(accs, null);
+                ViewBag.Grades = EasyUICombo.ToComboJsons(grades, null);
+                ViewBag.Groups = EasyUICombo.ToComboJsons<BllAcc>(accs, null);
+                ViewBag.Masters = EasyUICombo.ToComboJsons<BllAcc>(accs, null);
 
                 return View();
             }
@@ -49,9 +50,9 @@ namespace MySch.Controllers.User
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = EasyCombo.ToComboJsons(grades, entity.GradeIDS);
-                ViewBag.Groups = EasyCombo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
-                ViewBag.Masters = EasyCombo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
+                ViewBag.Grades = EasyUICombo.ToComboJsons(grades, entity.GradeIDS);
+                ViewBag.Groups = EasyUICombo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
+                ViewBag.Masters = EasyUICombo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
 
                 return View(entity);
             }
@@ -72,9 +73,9 @@ namespace MySch.Controllers.User
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = EasyCombo.ToComboJsons(grades, entity.GradeIDS);
-                ViewBag.Groups = EasyCombo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
-                ViewBag.Masters = EasyCombo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
+                ViewBag.Grades = EasyUICombo.ToComboJsons(grades, entity.GradeIDS);
+                ViewBag.Groups = EasyUICombo.ToComboJsons<BllAcc>(accs, entity.GroupIDS);
+                ViewBag.Masters = EasyUICombo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
 
                 return View(entity);
             }
@@ -175,7 +176,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
                 var bans = VBan.GetEntitys(a => a.GradeIDS == id);
-                return Json(EasyCombo.ToCombo<VBan>(bans, "IDS", "TreeName", null));
+                return Json(EasyUICombo.ToCombo<VBan>(bans, "IDS", "TreeName", null));
             }
             catch (Exception e)
             {

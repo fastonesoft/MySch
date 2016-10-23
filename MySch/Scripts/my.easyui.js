@@ -246,9 +246,6 @@ function DialogEdit(title, width, height, postUrl, gridID) {
                         var row = $(gridID).datagrid('getSelected');
                         var index = $(gridID).datagrid('getRowIndex', row);
                         $(gridID).datagrid('updateRow', { index: index, row: d });
-                        console.log(d);
-                        var row1 = $(gridID).datagrid('getSelected');
-                        console.log(row1);
                     }
                 });
             }

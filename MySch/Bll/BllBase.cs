@@ -1,4 +1,5 @@
-﻿using MySch.Bll.Model;
+﻿using MySch.Bll.Func;
+using MySch.Bll.Model;
 using MySch.Dal;
 using System;
 using System.Collections.Generic;
@@ -146,7 +147,7 @@ namespace MySch.Bll
             //转换：实体对象 - 表示数据
             var entitys_bll = Jsons.JsonEntity<List<BllEntity>>(entitys);
             //输出：树Json
-            return EasyTree.ToTreeJsons<BllEntity>(entitys_bll, ids, name, state, memo);
+            return EasyUITree.ToTreeJsons<BllEntity>(entitys_bll, ids, name, state, memo);
         }
     }
 }

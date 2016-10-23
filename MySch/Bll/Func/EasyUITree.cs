@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Model
+namespace MySch.Bll.Func
 {
-    public class EasyTree
+    public class EasyUITree
     {
         public string id { get; set; }
         public string text { get; set; }
         public string state { get; set; }
         public string memo { get; set; }
 
-        public static IEnumerable<EasyTree> ToTree<Entity>(IEnumerable<Entity> entitys, string ids, string name, string state, string memo)
+        public static IEnumerable<EasyUITree> ToTree<Entity>(IEnumerable<Entity> entitys, string ids, string name, string state, string memo)
         {
-            var trees = new List<EasyTree>();
+            var trees = new List<EasyUITree>();
             foreach (var entity in entitys)
             {
                 //反射
@@ -28,7 +28,7 @@ namespace MySch.Bll.Model
                 var entity_name_value = entity_name.GetValue(entity);
 
                 //转换
-                var tree = new EasyTree
+                var tree = new EasyUITree
                 {
                     id = entity_ids_value.ToString(),
                     text = entity_name_value.ToString(),

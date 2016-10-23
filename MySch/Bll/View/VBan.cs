@@ -1,4 +1,5 @@
-﻿using MySch.Dal;
+﻿using MySch.Bll.Func;
+using MySch.Dal;
 using System;
 using System.Collections.Generic;
 using System.Linq;

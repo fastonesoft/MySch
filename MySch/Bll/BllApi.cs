@@ -1,4 +1,5 @@
-﻿using MySch.Dal;
+﻿using MySch.Bll.Func;
+using MySch.Dal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

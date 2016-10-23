@@ -1,4 +1,5 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Func;
 using MySch.Dal;
 using MySch.Models;
 using MySch.ModelsEx;

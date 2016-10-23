@@ -1,6 +1,7 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Action;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.Bll.Model;
 using MySch.Bll.View;
 using System;
@@ -31,9 +32,9 @@ namespace MySch.Controllers.User
                     var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
                     var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                     var bans = new List<VBan>();
-                    ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", null);
-                    ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, null);
-                    ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                    ViewBag.Grades = EasyUICombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", null);
+                    ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, null);
+                    ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, null);
                     ViewBag.GradeReadonly = "false";
                     ViewBag.BanReadonly = "false";
                 }
@@ -46,9 +47,9 @@ namespace MySch.Controllers.User
                         var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == grade.PartIDS && a.IsCurrent);
                         var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                         var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
-                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", id);
-                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
-                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.Grades = EasyUICombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", id);
+                        ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
+                        ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, null);
                         ViewBag.GradeReadonly = "true";
                         ViewBag.BanReadonly = "false";
                     }
@@ -60,9 +61,9 @@ namespace MySch.Controllers.User
                         var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                         var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.IDS == id);
 
-                        ViewBag.Grades = EasyCombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", ban.GradeIDS);
-                        ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", id);
-                        ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.Grades = EasyUICombo.ToComboJsons<VGrade>(grades, "IDS", "PartStepName", ban.GradeIDS);
+                        ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", id);
+                        ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, null);
                         ViewBag.GradeReadonly = "true";
                         ViewBag.BanReadonly = "true";
                     }
@@ -105,7 +106,7 @@ namespace MySch.Controllers.User
             try
             {
                 var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
-                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
+                ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
 
                 return View(entity);
             }
@@ -158,8 +159,8 @@ namespace MySch.Controllers.User
                     if (partsteps[i].IDS == entity.PartStepIDS) founded = true;
                     if (founded) partsteps.Remove(partsteps[i]);
                 }
-                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", entity.PartStepIDS);
+                ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
+                ViewBag.PartSteps = EasyUICombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -214,9 +215,9 @@ namespace MySch.Controllers.User
                 var partsteps = VStep.GetEntitys(a => a.PartIDS == entity.PartIDS && a.Graduated == false);
 
 
-                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
-                ViewBag.Outs = EasyCombo.ToComboJsons<BllOut>(outs, "IDS", "Name", null);
-                ViewBag.PartSteps = EasyCombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", entity.PartStepIDS);
+                ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
+                ViewBag.Outs = EasyUICombo.ToComboJsons<BllOut>(outs, "IDS", "Name", null);
+                ViewBag.PartSteps = EasyUICombo.ToComboJsons<VStep>(partsteps, "IDS", "Name", entity.PartStepIDS);
 
                 return View(entity);
             }
@@ -257,8 +258,8 @@ namespace MySch.Controllers.User
                 var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
                 var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS);
 
-                ViewBag.Bans = EasyCombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
-                ViewBag.Comes = EasyCombo.ToComboJsons<BllCome>(comes, "IDS", "Name", null);
+                ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
+                ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, "IDS", "Name", null);
 
                 //可返回
                 if (entity.CanReturn) return View(entity);
@@ -303,7 +304,7 @@ namespace MySch.Controllers.User
             if (id == null)
             {
                 var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false);
-                var res = EasyTree.ToTree<BllPart>(entitys, "IDS", "Name", "closed", "Part");
+                var res = EasyUITree.ToTree<BllPart>(entitys, "IDS", "Name", "closed", "Part");
                 return Json(res);
             }
             else
@@ -312,14 +313,14 @@ namespace MySch.Controllers.User
                 if (memo == "Part")
                 {
                     var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
-                    var res = EasyTree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
+                    var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
                     return Json(res);
                 }
                 else
                 {
                     //班级
                     var entitys = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
-                    var res = EasyTree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
+                    var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
                     return Json(res);
                 }
             }

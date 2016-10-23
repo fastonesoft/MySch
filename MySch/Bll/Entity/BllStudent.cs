@@ -11,6 +11,8 @@ namespace MySch.Bll.Entity
     public class BllStudent : BllEntity<TStudent>
     {
         public string ID { get; set; }
+
+        [DisplayName("学生编号")]
         public string IDS { get; set; }
 
         [DisplayName("姓名")]

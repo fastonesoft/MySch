@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.Bll.Model;
 using MySch.Bll.View;
 using System;
@@ -26,8 +27,8 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, null);
-                ViewBag.Semesters = EasyCombo.ToComboJsons<BllSemes>(semes, null);
+                ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, null);
+                ViewBag.Semesters = EasyUICombo.ToComboJsons<BllSemes>(semes, null);
 
                 return View();
             }
@@ -48,8 +49,8 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.Semesters = EasyCombo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
+                ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.Semesters = EasyUICombo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
 
                 return View(entity);
             }
@@ -70,8 +71,8 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Years = EasyCombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.Semesters = EasyCombo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
+                ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.Semesters = EasyUICombo.ToComboJsons<BllSemes>(semes, entity.SemesterIDS);
 
                 return View(entity);
             }

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Script.Serialization;
 
-namespace MySch.Bll
+namespace MySch.Bll.Func
 {
     public class Jsons
     {

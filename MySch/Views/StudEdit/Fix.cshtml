@@ -8,34 +8,44 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <div style="padding:20px 20px 0px 20px;">
-        <table id="studedits-property" style="width:350px"></table>
 
-        <script type="text/javascript">
-            var data =
-                {
-                    "total": 8, "rows": [
-                        { "name": "@Html.DisplayNameFor(a => a.Name)", "value": "@Html.ValueFor(a => a.Name)", "group": "ID Settings", "editor": "text" },
-                        { "name": "@Html.DisplayNameFor(a => a.CID)", "value": "@Html.ValueFor(a => a.CID)", "group": "ID Settings", "editor": "text" },
-                        { "name": "@Html.DisplayNameFor(a => a.Name1)", "value": "@Html.ValueFor(a => a.Name1)", "group": "ID Settings", "editor": "text" },
-                        { "name": "@Html.DisplayNameFor(a => a.Name2)", "value": "@Html.ValueFor(a => a.Name2)", "group": "ID Settings", "editor": "text" },
-                        { "name": "@Html.DisplayNameFor(a => a.Mobil1)", "value": "@Html.ValueFor(a => a.Mobil1)", "group": "ID Settings", "editor": "text" },
-                        { "name": "@Html.DisplayNameFor(a => a.Mobil2)", "value": "@Html.ValueFor(a => a.Mobil2)", "group": "ID Settings", "editor": "text" },
-                        { "name": "@Html.DisplayNameFor(a => a.Birth)", "value": "@Html.ValueFor(a => a.Birth)", "group": "ID Settings", "editor": "text" },
-                        { "name": "@Html.DisplayNameFor(a => a.Home)", "value": "@Html.ValueFor(a => a.Home)", "group": "ID Settings", "editor": "text" },
-                    ]
-                }
-            $('#studedits-property').datagrid('loadData', data);
-        </script>
+    <div style="padding:20px 20px 0px 20px;">
+        <table id="studedits-property"></table>
     </div>
+    <script type="text/javascript">
+        var data = {
+            total: 9, rows: [
+                { name: '@Html.DisplayNameFor(a=>a.IDS)', value: '@Html.ValueFor(a=>a.IDS)', group: '基本信息', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Name)', value: '@Html.ValueFor(a=>a.Name)', group: '基本信息', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.CID)', value: '@Html.ValueFor(a=>a.CID)', group: '基本信息', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Name1)', value: '@Html.ValueFor(a=>a.Name1)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Name2)', value: '@Html.ValueFor(a=>a.Name2)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Birth)', value: '@Html.ValueFor(a=>a.Birth)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Home)', value: '@Html.ValueFor(a=>a.Home)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Mobil1)', value: '@Html.ValueFor(a=>a.Mobil1)', group: '联系方式', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Mobil2)', value: '@Html.ValueFor(a=>a.Mobil2)', group: '联系方式', editor: '' }
+            ]
+        };
+    </script>
+
     @Html.HiddenFor(a => a.ID)
     @Html.HiddenFor(a => a.IDS)
-    @Html.HiddenFor(a => a.Checked)
 }
 
 <script type="text/javascript">
     $(function () {
+        $('#studedits-property').propertygrid({
+            width: 280,
+            data: data,
+            showGroup: true,
+            showHeader: false,
+            columns: [[
+                    { title: '字段', field: 'name', halign: 'center', align: 'right', width: 80 },
+                    { title: '属性', field: 'value', halign: 'center', align: 'left', width: 146 },
+            ]]
+
+        });
         //修改对话框
-        DialogEdit('信息确认', 410, 385, '/StudEdit/FixToken', '#studedits-grid');
+        DialogEdit('信息确认', 336, 410, '/StudEdit/FixToken', '#studedits-grid');
     })
 </script>

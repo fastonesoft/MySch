@@ -1,6 +1,7 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Action;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;

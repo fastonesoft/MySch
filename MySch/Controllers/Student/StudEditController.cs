@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.Bll.View;
 using System;
 using System.Collections.Generic;
@@ -99,10 +100,11 @@ namespace MySch.Controllers.Student
         {
             try
             {
-                entity.Fixed = true;
+                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID && a.IDS == entity.IDS);
 
-                entity.ToUpdate(ModelState);
-                return Json(entity);
+                db.Fixed = true;
+                db.ToUpdate();
+                return Json(db);
             }
             catch (Exception e)
             {

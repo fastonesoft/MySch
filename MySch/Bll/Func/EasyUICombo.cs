@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Model
+namespace MySch.Bll.Func
 {
-    public class EasyCombo
+    public class EasyUICombo
     {
         public string id { get; set; }
         public string text { get; set; }
         public bool selected { get; set; }
 
-        public static IEnumerable<EasyCombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string idName, string textName, string selectedValue)
+        public static IEnumerable<EasyUICombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string idName, string textName, string selectedValue)
         {
-            var combos = new List<EasyCombo>();
+            var combos = new List<EasyUICombo>();
             foreach (var entity in entitys)
             {
                 //反射
@@ -27,7 +27,7 @@ namespace MySch.Bll.Model
                 var entity_name_value = entity_name.GetValue(entity);
 
                 //转换
-                var combo = new EasyCombo
+                var combo = new EasyUICombo
                 {
                     id = entity_ids_value.ToString(),
                     text = entity_name_value.ToString(),
@@ -40,7 +40,7 @@ namespace MySch.Bll.Model
             return combos.OrderBy(a => a.id);
         }
 
-        public static IEnumerable<EasyCombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string selectedValue)
+        public static IEnumerable<EasyUICombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string selectedValue)
         {
             return ToCombo<Entity>(entitys, "IDS", "Name", selectedValue);
         }
