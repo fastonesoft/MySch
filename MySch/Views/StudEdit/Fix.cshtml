@@ -14,7 +14,7 @@
     </div>
     <script type="text/javascript">
         var data = {
-            total: 9, rows: [
+            total: 0, rows: [
                 { name: '@Html.DisplayNameFor(a=>a.IDS)', value: '@Html.ValueFor(a=>a.IDS)', group: '基本信息', editor: '' },
                 { name: '@Html.DisplayNameFor(a=>a.Name)', value: '@Html.ValueFor(a=>a.Name)', group: '基本信息', editor: '' },
                 { name: '@Html.DisplayNameFor(a=>a.CID)', value: '@Html.ValueFor(a=>a.CID)', group: '基本信息', editor: '' },
@@ -26,6 +26,7 @@
                 { name: '@Html.DisplayNameFor(a=>a.Mobil2)', value: '@Html.ValueFor(a=>a.Mobil2)', group: '联系方式', editor: '' }
             ]
         };
+        data.total = data.rows.length;
     </script>
 
     @Html.HiddenFor(a => a.ID)
