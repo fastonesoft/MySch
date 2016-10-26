@@ -199,7 +199,8 @@
     </Compile>
     <Compile Include="Bll\View\VTerm.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
-    <Compile Include="Controllers\Master\MastSelfController.cs" />
+    <Compile Include="Controllers\Master\MastStudController.cs" />
+    <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\RoleStudController.cs" />
     <Compile Include="Controllers\Student\StudEditController.cs" />
     <Compile Include="Controllers\User\UserOutController.cs" />
@@ -634,7 +635,8 @@
     <Content Include="Views\StudEdit\Index.cshtml" />
     <Content Include="Views\StudEdit\Edit.cshtml" />
     <Content Include="Views\StudEdit\Fix.cshtml" />
-    <Content Include="Views\MastSelf\Index.cshtml" />
+    <Content Include="Views\MastBan\Index.cshtml" />
+    <Content Include="Views\MastStud\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

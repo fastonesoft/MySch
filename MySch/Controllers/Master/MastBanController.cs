@@ -9,9 +9,9 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Master
 {
-    public class MastSelfController : RoleController
+    public class MastBanController : RoleController
     {
-        // GET: MastSelf
+        [HttpPost]
         public ActionResult Index()
         {
             return View();
@@ -20,7 +20,6 @@ namespace MySch.Controllers.Master
         [HttpPost]
         public ActionResult DataGrid(string text = null, int page = 1, int rows = 100)
         {
-
             var login = BllLogin.GetLogin(Session);
             //获取当前帐号所对应的班级
             var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");

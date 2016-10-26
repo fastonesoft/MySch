@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //MastSelf/Index
+    //MastBan/Index
 }
 
 <!DOCTYPE html>
@@ -14,35 +14,35 @@
         $(function () {
 
             //点击动作
-            masterselfins = {
+            masterbanins = {
                 edit: function () {
-                    DataGridRow('#masterself-ins-grid', '/MastSelf/Edit');
+                    DataGridRow('#masterban-ins-grid', '/MastSelf/Edit');
                 },
                 unfix: function () {
-                    DataGridRows('#masterself-ins-grid', '/MastSelf/UnFix');
+                    DataGridRows('#masterban-ins-grid', '/MastSelf/UnFix');
                 },
                 out: function () {
-                    DataGridRow('#masterself-ins-grid', '/MastSelf/Out');
+                    DataGridRow('#masterban-ins-grid', '/MastSelf/Out');
                 },
                 search: function () {
-                    var text = $('#masterself-ins-text').val();
+                    var text = $('#masterban-ins-text').val();
                     var param = {
                         id: node.id,
                         memo: node.memo,
                         text: text,
                     }
-                    DataGridSearchQuery('#masterself-ins-text', '#masterself-ins-grid', '#masterself-outs-grid', '/MastSelf/DataGrid', '/MastSelf/DataGrid2', param);
+                    DataGridSearchQuery('#masterban-ins-text', '#masterban-ins-grid', '#masterban-outs-grid', '/MastSelf/DataGrid', '/MastSelf/DataGrid2', param);
                 },
             }
 
-            masterselfouts = {
+            masterbanouts = {
                 back: function () {
-                    DataGridRow('#masterself-outs-grid', '/MastSelf/Back');
+                    DataGridRow('#masterban-outs-grid', '/MastSelf/Back');
                 },
             }
 
             //数据表格
-            $('#masterself-ins-grid').datagrid({
+            $('#masterban-ins-grid').datagrid({
                 fit: true,
                 border: false,
                 striped: true,
@@ -100,7 +100,7 @@
                     },
                 ]],
 
-                toolbar: '#masterself-ins-grid-tool',
+                toolbar: '#masterban-ins-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -109,7 +109,7 @@
 
 
             //数据表格
-            $('#masterself-outs-grid').datagrid({
+            $('#masterban-outs-grid').datagrid({
                 fit: true,
                 border: false,
                 striped: true,
@@ -135,7 +135,7 @@
                     { title: '离校说明', field: 'OutName', align: 'center', sortable: true, width: 70 },
                 ]],
 
-                toolbar: '#masterself-outs-grid-tool',
+                toolbar: '#masterban-outs-grid-tool',
                 pagination: false,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -143,7 +143,7 @@
             });
 
 
-            $('#masters-lay').layout({
+            $('#masterban-lay').layout({
                 fit: true,
                 border: true,
             });
@@ -154,32 +154,32 @@
     </script>
 </head>
 <body>
-    <div id="masters-lay">
+    <div id="masterban-lay">
         <div data-options="region:'center',border:true, title:'在校生'">
-            <table id="masterself-ins-grid"></table>
+            <table id="masterban-ins-grid"></table>
 
-            <div id="masterself-ins-grid-tool">
+            <div id="masterban-ins-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterself-mm-edit" iconcls="icon-edit">变更</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterban-mm-edit" iconcls="icon-edit">变更</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterself-mm-remove" iconcls="icon-remove">减少</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterban-mm-remove" iconcls="icon-remove">减少</a>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
                                 <span class="textbox">
-                                    <input class="textbox-text" id="masterself-ins-text" style="width:165px;" />
+                                    <input class="textbox-text" id="masterban-ins-text" style="width:165px;" />
                                 </span>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="masterselfins.search();">查询</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="masterbanins.search();">查询</a>
                             </td>
                         </tr>
                     </thead>
@@ -187,19 +187,19 @@
             </div>
         </div>
         <div data-options="region:'east',border:true, title:'不在校'" style="width:380px;">
-            <table id="masterself-outs-grid"></table>
-            <div id="masterself-outs-grid-tool">
+            <table id="masterban-outs-grid"></table>
+            <div id="masterban-outs-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="masterselfouts.back();">回校</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="masterbanouts.back();">回校</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="masterselfouts.edit();">设置</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="masterbanouts.edit();">设置</a>
                             </td>
                         </tr>
                     </thead>
@@ -208,15 +208,15 @@
         </div>
     </div>
 
-    <div id="masterself-mm-edit" style="width:150px;">
-        <div iconcls="icon-reload" onclick="masterselfins.unfix();">状态...</div>
+    <div id="masterban-mm-edit" style="width:150px;">
+        <div iconcls="icon-reload" onclick="masterbanins.unfix();">状态...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-man" onclick="masterselfins.edit();">学生信息...</div>
+        <div iconcls="icon-man" onclick="masterbanins.edit();">学生信息...</div>
     </div>
-    <div id="masterself-mm-remove" style="width:150px;">
-        <div onclick="masterselfins.drop();">休学...</div>
+    <div id="masterban-mm-remove" style="width:150px;">
+        <div onclick="masterbanins.drop();">休学...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="masterselfins.out();">离校...</div>
+        <div iconcls="icon-clear" onclick="masterbanins.out();">离校...</div>
     </div>
 </body>
 </html>

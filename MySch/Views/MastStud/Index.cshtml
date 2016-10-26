@@ -1,0 +1,224 @@
+﻿@{
+    Layout = null;
+    //MastStud/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>我的学生</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            masterins = {
+                add: function () {
+                    var node = $('#masterstuds-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
+                        return false;
+                    }
+                    var param = {
+                        id: node.id,
+                        memo: node.memo,
+                    }
+                    DataGridRequest('/MastStud/Add', param);
+                },
+                edit: function () {
+                    DataGridRows('#masterins-grid', '/MastStud/GradeCheck');
+                },
+                change: function () {
+                    DataGridRow('#masterins-grid', '/MastStud/Change');
+                },
+                drop: function () {
+                    DataGridRow('#masterins-grid', '/MastStud/Drop');
+                },
+                out: function () {
+                    DataGridRow('#masterins-grid', '/MastStud/Out');
+                },
+                search: function () {
+                    var node = $('#masterstuds-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
+                        return false;
+                    }
+                    var text = $('#masterins-text').val();
+                    var param = {
+                        id: node.id,
+                        memo: node.memo,
+                        text: text,
+                    }
+                    DataGridSearchQuery('#masterins-text', '#masterins-grid', '#masterouts-grid', '/MastStud/DataGrid', '/MastStud/DataGrid2', param);
+                },
+            }
+
+            masterouts = {
+                back: function () {
+                    DataGridRow('#masterouts-grid', '/MastStud/Back');
+                },
+            }
+
+            //数据表格
+            $('#masterins-grid').datagrid({
+                fit: true,
+                border: false,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: false,
+                checkOnSelect: true,
+                url: '/MastStud/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { field: 'ck', checkbox: true },
+                    { title: '班级', field: 'BanName', align: 'center', sortable: true, width: 110 },
+                    { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
+                    { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
+                    {
+                        title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50,
+                        formatter: function (value, row, index) {
+                            if (value)
+                                return parseInt(value) % 2 == 0 ? "女" : "男";
+                        },
+                    },
+                    { title: '学生来源', field: 'ComeName', align: 'center', sortable: true, width: 70 },
+                    {
+                        title: '资料完整', field: 'Checked', halign: 'center', sortable: true, width: 70,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    }
+                ]],
+
+                onSelect: function (rowIndex, rowData) {
+                    $('#masterstuds-property').propertygrid({
+                        url: '/MastStud/Property',
+                        queryParams: {
+                            entity: rowData,
+                        },
+                    });
+                    //展开
+                    $('#masterstuds-lay').layout('expand', 'east');
+                },
+                onUnselect: function (rowIndex, rowData) {
+                    //折叠
+                    $('#masterstuds-lay').layout('collapse', 'east');
+                },
+
+                toolbar: '#masterins-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+
+            //布局
+            $('#masterstuds-lay').layout({
+                fit: true,
+                border: true,
+            });
+
+            //属性
+            $('#masterstuds-property').propertygrid({
+                width: 280,
+                fit: true,
+                border: false,
+                showGroup: true,
+                showHeader: false,
+                columns: [[
+                        { title: '字段', field: 'name', halign: 'center', align: 'right', width: 80 },
+                        { title: '属性', field: 'value', halign: 'center', align: 'left', width: 146 },
+                ]]
+            });
+
+            $('#masterstuds-tree').tree({
+                fit: true,
+                url: '/MastStud/GradeTree',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                onBeforeLoad: function (node, param) {
+                    if (node) {
+                        param.memo = node.memo;
+                    }
+                },
+                onClick: function (node) {
+                    if (node) {
+                        $('#masterins-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                                memo: node.memo,
+                                text: null,
+                            }
+                        });
+                        $('#masterouts-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                                memo: node.memo,
+                                text: null,
+                            }
+                        });
+                    }
+                },
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+    <div id="masterstuds-lay">
+        <div data-options="region:'west',border:true,title:'校区年级'" style="width:180px;">
+            <ul id="masterstuds-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true,title:'班级学生'">
+            <table id="masterins-grid"></table>
+
+            <div id="masterins-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td style="width:8px;"></td>
+                            <td>
+                                <span class="textbox">
+                                    <input class="textbox-text" id="masterins-text" style="width:165px;" />
+                                </span>
+                            </td>
+                            <td style="width:8px;"></td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="masterins.search();">查询</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div data-options="region:'east',border:true,title:'学生属性'" style="width:280px;">
+            <table id="masterstuds-property"></table>
+        </div>
+    </div>
+</body>
+</html>
