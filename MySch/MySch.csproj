@@ -177,6 +177,7 @@
     <Compile Include="Bll\Model\XueAdd.cs" />
     <Compile Include="Bll\Model\XueQuery.cs" />
     <Compile Include="Bll\Model\XueDetail.cs" />
+    <Compile Include="Bll\ReObject.cs" />
     <Compile Include="Bll\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
       <SubType>Code</SubType>
@@ -633,10 +634,10 @@
     <Content Include="Views\StudEdit\Index.cshtml" />
     <Content Include="Views\StudEdit\Edit.cshtml" />
     <Content Include="Views\StudEdit\Fix.cshtml" />
+    <Content Include="Views\MastSelf\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
-    <Folder Include="Views\MastSelf\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

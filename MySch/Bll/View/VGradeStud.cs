@@ -29,6 +29,7 @@ namespace MySch.Bll.View
         public string ComeName { get; set; }
         public string OutName { get; set; }
         public bool Checked { get; set; }
+        public bool Fixed { get; set; }
         public bool InSch { get; set; }
         public bool IsCurrent { get; set; }
 
@@ -67,6 +68,7 @@ namespace MySch.Bll.View
                                        ComeName = gs_c.Name,
                                        OutName = gs_o.Name,
                                        Checked = st.Checked,
+                                       Fixed = st.Fixed,
                                        InSch = gs.InSch,
                                        IsCurrent = y.IsCurrent,
                                    })

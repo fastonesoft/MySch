@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //UserStud/Index
+    //MastSelf/Index
 }
 
 <!DOCTYPE html>
@@ -8,61 +8,41 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>年度学生</title>
+    <title>我的班级</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            studins = {
-                add: function () {
-                    var node = $('#studs-tree').tree('getSelected');
-                    if (!node) {
-                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
-                        return false;
-                    }
-                    var param = {
-                        id: node.id,
-                        memo: node.memo,
-                    }
-                    DataGridRequest('/UserStud/Add', param);
-                },
+            masterselfins = {
                 edit: function () {
-                    DataGridRows('#studins-grid', '/UserStud/GradeCheck');
+                    DataGridRow('#masterself-ins-grid', '/MastSelf/Edit');
                 },
-                change: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Change');
-                },
-                drop: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Drop');
+                unfix: function () {
+                    DataGridRows('#masterself-ins-grid', '/MastSelf/UnFix');
                 },
                 out: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Out');
+                    DataGridRow('#masterself-ins-grid', '/MastSelf/Out');
                 },
                 search: function () {
-                    var node = $('#studs-tree').tree('getSelected');
-                    if (!node) {
-                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
-                        return false;
-                    }
-                    var text = $('#studins-text').val();
+                    var text = $('#masterself-ins-text').val();
                     var param = {
                         id: node.id,
                         memo: node.memo,
                         text: text,
                     }
-                    DataGridSearchQuery('#studins-text', '#studins-grid', '#studouts-grid', '/UserStud/DataGrid', '/UserStud/DataGrid2', param);
+                    DataGridSearchQuery('#masterself-ins-text', '#masterself-ins-grid', '#masterself-outs-grid', '/MastSelf/DataGrid', '/MastSelf/DataGrid2', param);
                 },
             }
 
-            studouts = {
+            masterselfouts = {
                 back: function () {
-                    DataGridRow('#studouts-grid', '/UserStud/Back');
+                    DataGridRow('#masterself-outs-grid', '/MastSelf/Back');
                 },
             }
 
             //数据表格
-            $('#studins-grid').datagrid({
+            $('#masterself-ins-grid').datagrid({
                 fit: true,
                 border: false,
                 striped: true,
@@ -71,7 +51,7 @@
                 remoteSort: false,
                 singleSelect: false,
                 checkOnSelect: true,
-                url: '/UserStud/DataGrid',
+                url: '/MastSelf/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -105,10 +85,22 @@
                                 return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
                             }
                         }
-                    }
+                    },
+                    {
+                        title: '是否确认', field: 'Fixed', halign: 'center', sortable: true, width: 70,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
                 ]],
 
-                toolbar: '#studins-grid-tool',
+                toolbar: '#masterself-ins-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -117,7 +109,7 @@
 
 
             //数据表格
-            $('#studouts-grid').datagrid({
+            $('#masterself-outs-grid').datagrid({
                 fit: true,
                 border: false,
                 striped: true,
@@ -126,7 +118,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserStud/DataGrid2',
+                url: '/MastSelf/DataGrid2',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -143,7 +135,7 @@
                     { title: '离校说明', field: 'OutName', align: 'center', sortable: true, width: 70 },
                 ]],
 
-                toolbar: '#studouts-grid-tool',
+                toolbar: '#masterself-outs-grid-tool',
                 pagination: false,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -151,87 +143,43 @@
             });
 
 
-            $('#studs-lay').layout({
+            $('#masters-lay').layout({
                 fit: true,
                 border: true,
             });
 
-            $('#studs-tree').tree({
-                fit: true,
-                url: '/UserStud/GradeTree',
-                loadFilter: function (d) {
-                    if (d.error) {
-                        $.messager.alert('错误提示', d.message, 'error');
-                        return { total: 0, rows: [] };
-                    } else {
-                        return d;
-                    }
-                },
-                onBeforeLoad: function (node, param) {
-                    if (node) {
-                        param.memo = node.memo;
-                    }
-                },
-                onClick: function (node) {
-                    if (node) {
-                        $('#studins-grid').datagrid({
-                            queryParams: {
-                                id: node.id,
-                                memo: node.memo,
-                                text: null,
-                            }
-                        });
-                        $('#studouts-grid').datagrid({
-                            queryParams: {
-                                id: node.id,
-                                memo: node.memo,
-                                text: null,
-                            }
-                        });
-                    }
-                },
-            });
 
         })
 
     </script>
 </head>
 <body>
-    <div id="studs-lay">
-        <div data-options="region:'west',border:true, title:'校区年级'" style="width:180px;">
-            <ul id="studs-tree"></ul>
-        </div>
+    <div id="masters-lay">
         <div data-options="region:'center',border:true, title:'在校生'">
-            <table id="studins-grid"></table>
+            <table id="masterself-ins-grid"></table>
 
-            <div id="studins-grid-tool">
+            <div id="masterself-ins-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-add" iconcls="icon-add">增加</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterself-mm-edit" iconcls="icon-edit">变更</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-edit" iconcls="icon-edit">变更</a>
-                            </td>
-                            <td>
-                                <div class="datagrid-btn-separator"></div>
-                            </td>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-remove" iconcls="icon-remove">减少</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterself-mm-remove" iconcls="icon-remove">减少</a>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
                                 <span class="textbox">
-                                    <input class="textbox-text" id="studins-text" style="width:165px;" />
+                                    <input class="textbox-text" id="masterself-ins-text" style="width:165px;" />
                                 </span>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studins.search();">查询</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="masterselfins.search();">查询</a>
                             </td>
                         </tr>
                     </thead>
@@ -239,19 +187,19 @@
             </div>
         </div>
         <div data-options="region:'east',border:true, title:'不在校'" style="width:380px;">
-            <table id="studouts-grid"></table>
-            <div id="studouts-grid-tool">
+            <table id="masterself-outs-grid"></table>
+            <div id="masterself-outs-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="studouts.back();">回校</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="masterselfouts.back();">回校</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="studouts.edit();">设置</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="masterselfouts.edit();">设置</a>
                             </td>
                         </tr>
                     </thead>
@@ -260,22 +208,15 @@
         </div>
     </div>
 
-    <div id="studs-mm-add" style="width:150px;">
-        <div>批量导入...</div>
+    <div id="masterself-mm-edit" style="width:150px;">
+        <div iconcls="icon-reload" onclick="masterselfins.unfix();">状态...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-redo" onclick="studins.add();">添加...</div>
+        <div iconcls="icon-man" onclick="masterselfins.edit();">学生信息...</div>
     </div>
-    <div id="studs-mm-edit" style="width:150px;">
-        <div iconcls="icon-man" onclick="studins.add();">修改...</div>
+    <div id="masterself-mm-remove" style="width:150px;">
+        <div onclick="masterselfins.drop();">休学...</div>
         <div class="menu-sep"></div>
-        <div onclick="studins.add();">学籍办理...</div>
-        <div class="menu-sep"></div>
-        <div iconcls="icon-reload" onclick="studins.change();">班级调动...</div>
-    </div>
-    <div id="studs-mm-remove" style="width:150px;">
-        <div onclick="studins.drop();">休学...</div>
-        <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="studins.out();">离校...</div>
+        <div iconcls="icon-clear" onclick="masterselfins.out();">离校...</div>
     </div>
 </body>
 </html>

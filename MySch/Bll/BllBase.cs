@@ -84,6 +84,24 @@ namespace MySch.Bll
             }
         }
 
+        public static IEnumerable<object> GetEntitys(Expression<Func<Entity, bool>> where, string fieldName)
+        {
+            try
+            {
+                var entitys = DataCRUD<Entity>.Entitys(where);
+                var entitys_fields = from entity in entitys
+                                     select new
+                                     {
+                                         fieldName = ReObject.Entity(entity, fieldName),
+                                     };
+                return entitys_fields;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         /// <summary>
         /// JSON方式：将 实体对象 -> 表示数据
         /// 一、条件Lambda查询获取多个实体对象

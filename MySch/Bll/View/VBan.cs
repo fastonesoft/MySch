@@ -18,9 +18,11 @@ namespace MySch.Bll.View
         public string GradeIDS { get; set; }
         public string Name { get; set; }
         public string TreeName { get; set; }
+        public string MasterIDS { get; set; }
         public string MasterName { get; set; }
         public string GroupName { get; set; }
         public bool Graduated { get; set; }
+        public bool IsCurrent { get; set; }
         public string AccIDS { get; set; }
 
         public static  IEnumerable<VBan> GetEntitys(Expression<Func<VBan, bool>> where)
@@ -35,8 +37,8 @@ namespace MySch.Bll.View
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
-                                   join m in db.TAccs on b.MasterIDS equals m.IDS into b_ms
-                                   from b_m in b_ms.DefaultIfEmpty()
+                                   join mt in db.TAccs on b.MasterIDS equals mt.IDS into b_mts
+                                   from b_mt in b_mts.DefaultIfEmpty()
                                    join gp in db.TAccs on b.GroupIDS equals gp.IDS into b_gps
                                    from b_gp in b_gps.DefaultIfEmpty()
                                    select new VBan
@@ -48,9 +50,11 @@ namespace MySch.Bll.View
                                        GradeIDS = b.GradeIDS,
                                        Name = p.Name + " - " + s.Name + "级 - " + e.Name + "（" + b.Num + "）班",
                                        TreeName = e.Name + "（" + b.Num + "）班",
-                                       MasterName = b_m.Name,
+                                       MasterIDS = b_mt.IDS,
+                                       MasterName = b_mt.Name,
                                        GroupName = b_gp.Name,
                                        Graduated = s.Graduated,
+                                       IsCurrent = y.IsCurrent,
                                        AccIDS = b.AccIDS,
                                    })
                                    .Where(where)
@@ -64,6 +68,25 @@ namespace MySch.Bll.View
                 throw e;
             }
         }
+
+        public static IEnumerable<object> GetEntitys(Expression<Func<VBan, bool>> where, string fieldName)
+        {
+            try
+            {
+                var entitys = GetEntitys(where);
+                var entitys_fields = from entity in entitys
+                                     select new
+                                     {
+                                         fieldName = ReObject.Entity(entity, fieldName),
+                                     };
+                return entitys_fields;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static VBan GetEntity(Expression<Func<VBan, bool>> where)
         {
             try
