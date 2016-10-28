@@ -15,30 +15,6 @@
 
             //点击动作
             masterins = {
-                add: function () {
-                    var node = $('#masterstuds-tree').tree('getSelected');
-                    if (!node) {
-                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
-                        return false;
-                    }
-                    var param = {
-                        id: node.id,
-                        memo: node.memo,
-                    }
-                    DataGridRequest('/MastStud/Add', param);
-                },
-                edit: function () {
-                    DataGridRows('#masterins-grid', '/MastStud/GradeCheck');
-                },
-                change: function () {
-                    DataGridRow('#masterins-grid', '/MastStud/Change');
-                },
-                drop: function () {
-                    DataGridRow('#masterins-grid', '/MastStud/Drop');
-                },
-                out: function () {
-                    DataGridRow('#masterins-grid', '/MastStud/Out');
-                },
                 search: function () {
                     var node = $('#masterstuds-tree').tree('getSelected');
                     if (!node) {
@@ -53,13 +29,7 @@
                     }
                     DataGridSearchQuery('#masterins-text', '#masterins-grid', '#masterouts-grid', '/MastStud/DataGrid', '/MastStud/DataGrid2', param);
                 },
-            }
-
-            masterouts = {
-                back: function () {
-                    DataGridRow('#masterouts-grid', '/MastStud/Back');
-                },
-            }
+            };
 
             //数据表格
             $('#masterins-grid').datagrid({
@@ -201,22 +171,22 @@
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
+                            <td style="width:5px;"></td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="masterins.search();">查询</a>
+                            </td>
                             <td style="width:8px;"></td>
                             <td>
                                 <span class="textbox">
                                     <input class="textbox-text" id="masterins-text" style="width:165px;" />
                                 </span>
                             </td>
-                            <td style="width:8px;"></td>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="masterins.search();">查询</a>
-                            </td>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
-        <div data-options="region:'east',border:true,title:'学生属性'" style="width:280px;">
+        <div data-options="region:'east',border:true,title:'学生属性',collapsed:true" style="width:300px;">
             <table id="masterstuds-property"></table>
         </div>
     </div>

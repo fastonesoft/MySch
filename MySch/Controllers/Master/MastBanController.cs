@@ -20,12 +20,13 @@ namespace MySch.Controllers.Master
         [HttpPost]
         public ActionResult DataGrid(string text = null, int page = 1, int rows = 100)
         {
-            var login = BllLogin.GetLogin(Session);
-            //获取当前帐号所对应的班级
-            var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
-            var bantext = string.Join("-", bansID);
             try
             {
+                var login = BllLogin.GetLogin(Session);
+                //获取当前帐号所对应的班级
+                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
+                var bantext = string.Join("-", bansID);
+
                 var res = string.IsNullOrEmpty(text) ?
                     VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && a.InSch, page, rows) :
                     VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
@@ -41,9 +42,10 @@ namespace MySch.Controllers.Master
         [HttpPost]
         public ActionResult DataGrid2(string id = null, string memo = null, string text = null)
         {
-            var login = BllLogin.GetLogin(Session);
             try
             {
+                var login = BllLogin.GetLogin(Session);
+
                 var res = string.IsNullOrEmpty(text) ?
                     VStudOut.GetDataGrids(id, memo) :
                     VStudOut.GetDataGrids(id, memo, text);
