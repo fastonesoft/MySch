@@ -12,7 +12,7 @@ namespace MySch.Bll.Func
         public string state { get; set; }
         public string memo { get; set; }
 
-        public static IEnumerable<EasyUITree> ToTree<Entity>(IEnumerable<Entity> entitys, string ids, string name, string state, string memo)
+        public static IEnumerable<EasyUITree> ToTree(IEnumerable<object> entitys, string ids, string name, string state, string memo)
         {
             var trees = new List<EasyUITree>();
             foreach (var entity in entitys)
@@ -42,9 +42,9 @@ namespace MySch.Bll.Func
             return trees.OrderBy(a => a.id);
         }
 
-        public static string ToTreeJsons<Entity>(IEnumerable<Entity> entitys, string ids, string name, string state, string memo)
+        public static string ToTreeJsons<Entity>(IEnumerable<Entity> entitys, string ids, string name, string state, string memo) where Entity : class
         {
-            var trees = ToTree<Entity>(entitys, ids, name, state, memo);
+            var trees = ToTree(entitys, ids, name, state, memo);
             return Jsons.ToJsons(trees);
         }
     }

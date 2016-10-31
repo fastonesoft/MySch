@@ -26,7 +26,7 @@ namespace MySch.Controllers.User
             if (id == null)
             {
                 var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS);
-                var res = EasyUITree.ToTree<BllPart>(entitys, "IDS", "Name", "closed", "Part");
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Part");
                 return Json(res);
             }
             else

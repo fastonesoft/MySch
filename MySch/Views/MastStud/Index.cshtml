@@ -16,15 +16,8 @@
             //点击动作
             masterins = {
                 search: function () {
-                    var node = $('#masterstuds-tree').tree('getSelected');
-                    if (!node) {
-                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
-                        return false;
-                    }
                     var text = $('#masterins-text').val();
                     var param = {
-                        id: node.id,
-                        memo: node.memo,
                         text: text,
                     }
                     DataGridSearchQuery('#masterins-text', '#masterins-grid', '#masterouts-grid', '/MastStud/DataGrid', '/MastStud/DataGrid2', param);
@@ -41,7 +34,6 @@
                 remoteSort: false,
                 singleSelect: false,
                 checkOnSelect: true,
-                url: '/MastStud/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -53,7 +45,7 @@
 
                 columns: [[
                     { field: 'ck', checkbox: true },
-                    { title: '班级', field: 'BanName', align: 'center', sortable: true, width: 110 },
+                    { title: '年级班级', field: 'BanLongName', align: 'center', sortable: true, width: 160 },
                     { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
                     { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
                     {
@@ -81,6 +73,14 @@
                 onSelect: function (rowIndex, rowData) {
                     $('#masterstuds-property').propertygrid({
                         url: '/MastStud/Property',
+                        loadFilter: function (d) {
+                            if (d.error) {
+                                $.messager.alert('错误提示', d.message, 'error');
+                                return { total: 0, rows: [] };
+                            } else {
+                                return d;
+                            }
+                        },
                         queryParams: {
                             entity: rowData,
                         },
@@ -127,6 +127,7 @@
                         $.messager.alert('错误提示', d.message, 'error');
                         return { total: 0, rows: [] };
                     } else {
+                        console.log(d);
                         return d;
                     }
                 },
@@ -138,13 +139,7 @@
                 onClick: function (node) {
                     if (node) {
                         $('#masterins-grid').datagrid({
-                            queryParams: {
-                                id: node.id,
-                                memo: node.memo,
-                                text: null,
-                            }
-                        });
-                        $('#masterouts-grid').datagrid({
+                            url: '/MastStud/DataGrid',
                             queryParams: {
                                 id: node.id,
                                 memo: node.memo,
@@ -164,7 +159,7 @@
         <div data-options="region:'west',border:true,title:'校区年级'" style="width:180px;">
             <ul id="masterstuds-tree"></ul>
         </div>
-        <div data-options="region:'center',border:true,title:'班级学生'">
+        <div data-options="region:'center',border:true,title:'年级班级'">
             <table id="masterins-grid"></table>
 
             <div id="masterins-grid-tool">
@@ -186,7 +181,7 @@
                 </table>
             </div>
         </div>
-        <div data-options="region:'east',border:true,title:'学生属性',collapsed:true" style="width:300px;">
+        <div data-options="region:'east',border:true,title:'学生资料',collapsed:true" style="width:300px;">
             <table id="masterstuds-property"></table>
         </div>
     </div>

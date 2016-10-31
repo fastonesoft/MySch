@@ -187,6 +187,7 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
+    <Compile Include="Bll\View\VBanTree.cs" />
     <Compile Include="Bll\View\VStudOut.cs" />
     <Compile Include="Bll\View\VGradeStud.cs">
       <SubType>Code</SubType>

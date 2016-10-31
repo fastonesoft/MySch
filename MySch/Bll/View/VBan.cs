@@ -14,8 +14,9 @@ namespace MySch.Bll.View
         public string IDS { get; set; }
         public string Num { get; set; }
         public string PartIDS { get; set; }
-        public string PartStepIDS { get; set; }
         public string GradeIDS { get; set; }
+        public string PartName { get; set; }
+        public string GradeName { get; set; }
         public string Name { get; set; }
         public string TreeName { get; set; }
         public string MasterIDS { get; set; }
@@ -48,7 +49,9 @@ namespace MySch.Bll.View
                                        Num = b.Num,
                                        PartIDS = p.IDS,
                                        GradeIDS = b.GradeIDS,
-                                       Name = p.Name + " - " + s.Name + "级 - " + e.Name + "（" + b.Num + "）班",
+                                       PartName = p.Name,
+                                       GradeName = e.Name,
+                                       Name = p.Name + " - " + s.Name + " - " + e.Name + "（" + b.Num + "）班",
                                        TreeName = e.Name + "（" + b.Num + "）班",
                                        MasterIDS = b_mt.IDS,
                                        MasterName = b_mt.Name,

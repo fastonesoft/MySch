@@ -46,52 +46,38 @@ namespace MySch.Controllers.Master
         [HttpPost]
         public ActionResult GradeTree(string id = null, string memo = null)
         {
-            var login = BllLogin.GetLogin(Session);
-            //校区
-            if (id == null)
+            try
             {
-                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
-                var bantext = string.Join("-", bansID);
+                //直接获取：我的学生对应的
+                //校区、年级、班级
+                var login = BllLogin.GetLogin(Session);
+                var bans = VBan.GetEntitys(a => a.MasterIDS == login.IDS);
 
-                
-                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false);
-                var res = EasyUITree.ToTree<BllPart>(entitys, "IDS", "Name", "closed", "Part");
-                return Json(res);
-            }
-            else
-            {
-                //年级
-                if (memo == "Part")
+
+                //校区
+                if (id == null)
                 {
-                    var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
-                    var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
+                    var entitys = VBanTree.PartTree(bans);
+                    var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Part");
                     return Json(res);
                 }
                 else
                 {
-                    //班级
-                    var entitys = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
-                    var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
-                    return Json(res);
+                    //年级
+                    if (memo == "Part")
+                    {
+                        var entitys = VBanTree.GradeTree(bans, id);
+                        var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Grade");
+                        return Json(res);
+                    }
+                    else
+                    {
+                        //班级
+                        var entitys = VBanTree.BanTree(bans, id);
+                        var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Class");
+                        return Json(res);
+                    }
                 }
-            }
-        }
-
-        [HttpPost]
-        public ActionResult DataGrid(string text = null, int page = 1, int rows = 100)
-        {
-            try
-            {
-                var login = BllLogin.GetLogin(Session);
-                //获取当前帐号所对应的班级
-                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
-                var bantext = string.Join("-", bansID);
-
-                var res = string.IsNullOrEmpty(text) ?
-                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && a.InSch, page, rows) :
-                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
-
-                return Json(res);
             }
             catch (Exception e)
             {
@@ -100,15 +86,18 @@ namespace MySch.Controllers.Master
         }
 
         [HttpPost]
-        public ActionResult DataGrid2(string id = null, string memo = null, string text = null)
+        public ActionResult DataGrid(string id = null, string text = null, int page = 1, int rows = 100)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
+                //获取当前帐号所对应的班级
+                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS, "IDS");
+                var bantext = string.Join("-", bansID);
 
                 var res = string.IsNullOrEmpty(text) ?
-                    VStudOut.GetDataGrids(id, memo) :
-                    VStudOut.GetDataGrids(id, memo, text);
+                    VGradeStud.GetDataGridPages(a => a.BanIDS == id, page, rows) :
+                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                 return Json(res);
             }
