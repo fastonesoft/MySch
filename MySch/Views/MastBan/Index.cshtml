@@ -16,22 +16,20 @@
             //点击动作
             masterbanins = {
                 edit: function () {
-                    DataGridRow('#masterban-ins-grid', '/MastSelf/Edit');
+                    DataGridRow('#masterban-ins-grid', '/MastBan/Edit');
                 },
                 unfix: function () {
-                    DataGridRows('#masterban-ins-grid', '/MastSelf/UnFix');
+                    DataGridRows('#masterban-ins-grid', '/MastBan/UnFix');
                 },
                 out: function () {
-                    DataGridRow('#masterban-ins-grid', '/MastSelf/Out');
+                    DataGridRow('#masterban-ins-grid', '/MastBan/Out');
                 },
                 search: function () {
                     var text = $('#masterban-ins-text').val();
                     var param = {
-                        id: node.id,
-                        memo: node.memo,
                         text: text,
                     }
-                    DataGridSearchQuery('#masterban-ins-text', '#masterban-ins-grid', '#masterban-outs-grid', '/MastSelf/DataGrid', '/MastSelf/DataGrid2', param);
+                    DataGridSearchQuery('#masterban-ins-text', '#masterban-ins-grid', '#masterban-outs-grid', '/MastBan/DataGrid', '/MastBan/DataGrid2', param);
                 },
             }
 
@@ -51,7 +49,7 @@
                 remoteSort: false,
                 singleSelect: false,
                 checkOnSelect: true,
-                url: '/MastSelf/DataGrid',
+                url: '/MastBan/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -118,7 +116,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/MastSelf/DataGrid2',
+                url: '/MastBan/DataGrid2',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');

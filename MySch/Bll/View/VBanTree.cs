@@ -29,7 +29,7 @@ namespace MySch.Bll.View
                                       Parent = null,
                                   };
 
-                    return entitys.Distinct().ToList();
+                    return entitys.Distinct(a => a.IDS);
                 }
             }
             catch (Exception e)
@@ -53,11 +53,11 @@ namespace MySch.Bll.View
                                   {
                                       ID = g.ID,
                                       IDS = g.IDS,
-                                      Name =s.Name + " - " +  e.Name,
+                                      Name = s.Name + " - " + e.Name,
                                       Parent = s.PartIDS,
                                   };
 
-                    return entitys.ToList();
+                    return entitys.Distinct(a => a.IDS);
                 }
             }
             catch (Exception e)

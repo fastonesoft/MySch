@@ -112,8 +112,8 @@ function DataGridSearchQuery(textID, gridIDA, gridIDB, urlA, urlB, query) {
         $(gridIDB).datagrid('loadData', { total: 0, rows: [] });
     } else {
         //读取数据
-        $(gridIDA).datagrid({ url: urlA, queryParams: query })
-        $(gridIDB).datagrid({ url: urlB, queryParams: query })
+        $(gridIDA).datagrid({ url: urlA, queryParams: query });
+        $(gridIDB).datagrid({ url: urlB, queryParams: query });
     }
     //清空查询
     $(textID).val('');
@@ -127,7 +127,20 @@ function DataGridSearch(textID, gridID, url) {
         $(gridID).datagrid('loadData', { total: 0, rows: [] });
     } else {
         //读取数据
-        $(gridID).datagrid({ url: url, queryParams: { id: text } })
+        $(gridID).datagrid({ url: url, queryParams: { id: text } });
+    }
+    //清空查询
+    $(textID).val('');
+}
+
+function DataGridSearchParam(textID, gridID, url, param) {
+    var text = $.trim($(textID).val());
+    if (text.length == 0) {
+        //清除网格
+        $(gridID).datagrid('loadData', { total: 0, rows: [] });
+    } else {
+        //读取数据
+        $(gridID).datagrid({ url: url, queryParams: param });
     }
     //清空查询
     $(textID).val('');
@@ -141,7 +154,23 @@ function DataGridSearchPress(textID, gridID, url) {
                 //清除网格
                 $(gridID).datagrid('loadData', { total: 0, rows: [] });
             } else {
-                $(gridID).datagrid({ url: url, queryParams: { id: text } })
+                $(gridID).datagrid({ url: url, queryParams: { id: text } });
+            }
+            //清空查询
+            $(this).val('');
+        }
+    });
+}
+
+function DataGridSearchPressParam(textID, gridID, url, paramName) {
+    $(textID).keypress(function (e) {
+        if (e.which == 13) {
+            var text = $.trim($(this).val());
+            if (text.length == 0) {
+                //清除网格
+                $(gridID).datagrid('loadData', { total: 0, rows: [] });
+            } else {
+                $(gridID).datagrid({ url: url, queryParams: { paramName: text } });
             }
             //清空查询
             $(this).val('');
@@ -154,7 +183,7 @@ function DataGridRefresh(gridID, url) {
 }
 
 function DataGridParams(gridID, url, params) {
-    $(gridID).datagrid({ url: url, queryParams: params })
+    $(gridID).datagrid({ url: url, queryParams: params });
 }
 
 //////////////////////////////////////////////////////////////////////////
