@@ -30,7 +30,7 @@ namespace MySch.Bll.Entity
         [DisplayName("校区分级")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{16}$", ErrorMessage = "{0}：用16位数字设置；")]
-        public string PartStepIDS { get; set; }
+        public string StepIDS { get; set; }
 
         [DisplayName("学生去向")]
         [Required(ErrorMessage = "{0}不得为空；")]

@@ -31,7 +31,7 @@ namespace MySch.Bll.Entity
         [DisplayName("校区分级")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{16}$", ErrorMessage = "{0}：用16位数字设置；")]
-        public string PartStepIDS { get; set; }
+        public string StepIDS { get; set; }
 
         //主要修改下面几个属性
         public bool InSch { get; set; }

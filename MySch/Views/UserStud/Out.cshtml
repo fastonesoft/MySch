@@ -10,8 +10,8 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 20px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.PartStepIDS)：</div>
-            <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
+            <div>@Html.LabelFor(a => a.StepIDS)：</div>
+            <input id="StepIDS" name="StepIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.BanIDS)：</div>
@@ -55,7 +55,7 @@
 
         var bans = $.parseJSON('@Html.Raw(ViewBag.Bans)');
         var outs = $.parseJSON('@Html.Raw(ViewBag.Outs)');
-        var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
+        var steps = $.parseJSON('@Html.Raw(ViewBag.Steps)');
 
         $('#BanIDS').combobox({
             valueField: 'id',
@@ -63,10 +63,10 @@
             data: bans,
             readonly: true,
         });
-        $('#PartStepIDS').combobox({
+        $('#StepIDS').combobox({
             valueField: 'id',
             textField: 'text',
-            data: partsteps,
+            data: steps,
             readonly: true,
         });
         $('#OutIDS').combobox({

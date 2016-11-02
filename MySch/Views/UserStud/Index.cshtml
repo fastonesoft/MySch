@@ -18,7 +18,7 @@
                 add: function () {
                     var node = $('#studs-tree').tree('getSelected');
                     if (!node) {
-                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
+                        $.messager.alert('错误提示', '前端：没有选择校区！', 'error');
                         return false;
                     }
                     var param = {
@@ -42,7 +42,7 @@
                 search: function () {
                     var node = $('#studs-tree').tree('getSelected');
                     if (!node) {
-                        $.messager.alert('错误提示', 'UI层：没有选择校区！', 'error');
+                        $.messager.alert('错误提示', '前端：没有选择校区！', 'error');
                         return false;
                     }
                     var text = $('#studins-text').val();
@@ -266,9 +266,9 @@
         <div iconcls="icon-redo" onclick="studins.add();">添加...</div>
     </div>
     <div id="studs-mm-edit" style="width:150px;">
-        <div iconcls="icon-man" onclick="studins.add();">修改...</div>
+        <div iconcls="icon-man">修改...</div>
         <div class="menu-sep"></div>
-        <div onclick="studins.add();">学籍办理...</div>
+        <div>学籍办理...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-reload" onclick="studins.change();">班级调动...</div>
     </div>

@@ -17,6 +17,6 @@ namespace MySch.Bll.Entity
         public string IDS { get; set; }
 
         //修改：校区分级属性，降级
-        public string PartStepIDS { get; set; }
+        public string StepIDS { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace MySch.Bll.Model
                     IDS = studs_max_prev + studs_max_order.ToString("D4"),
                     Name = this.Name,
                     CID = this.CID,
-                    PartStepIDS = grade.StepIDS,
+                    StepIDS = grade.StepIDS,
                     AccIDS = grade.AccIDS,
                 };
                 stud.ToAdd();
