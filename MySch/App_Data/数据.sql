@@ -59,14 +59,13 @@ create table TAcc
 	IDS	nvarchar(20) not null,	--帐号321284xx
 	Name	nvarchar(20) not null,	--帐号全称、姓名
 	Pwd	nvarchar(32) not null,
-	RegTime	datetime not null default getdate(),
+	RegTime	datetime not null,
 	Fixed	bit not null,
 	Parent	nvarchar(32),
 )
 go
 alter table TAcc add constraint PK_TAcc primary key clustered (ID)
 create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
-create unique nonclustered index UN_TAcc_Name on TAcc (Name)
 --插入管理员
 insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
 insert TAcc values ('02b7f4a7710ac87488ab1f13b8e22a65','32128402','姜堰区实验初中集团','67f80f5153bc6717ff4cb47912ba59bf','2015-09-10 12:00:00',  0, '51e66f66919ee73bc252590bdf3b339c')

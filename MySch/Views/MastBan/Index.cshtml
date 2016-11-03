@@ -18,11 +18,8 @@
                 edit: function () {
                     DataGridRow('#masterban-ins-grid', '/MastBan/Edit');
                 },
-                unfix: function () {
-                    DataGridRows('#masterban-ins-grid', '/MastBan/UnFix');
-                },
-                out: function () {
-                    DataGridRow('#masterban-ins-grid', '/MastBan/Out');
+                fix: function () {
+                    DataGridRow('#masterban-ins-grid', '/MastBan/Fix');
                 },
                 search: function () {
                     var text = $('#masterban-ins-text').val();
@@ -207,9 +204,10 @@
     </div>
 
     <div id="masterban-mm-edit" style="width:150px;">
-        <div iconcls="icon-reload" onclick="masterbanins.unfix();">状态...</div>
+        <div iconcls="icon-reload" onclick="masterbanins.unfix();">状态重置...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-man" onclick="masterbanins.edit();">学生信息...</div>
+        <div iconcls="icon-man" onclick="masterbanins.edit();">修改...</div>
+        <div  onclick="masterbanins.fix();">信息确认...</div>
     </div>
     <div id="masterban-mm-remove" style="width:150px;">
         <div onclick="masterbanins.drop();">休学...</div>

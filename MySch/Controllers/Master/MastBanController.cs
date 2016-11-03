@@ -18,6 +18,91 @@ namespace MySch.Controllers.Master
         }
 
         [HttpPost]
+        public ActionResult Edit(VGradeStud entity)
+        {
+            try
+            {
+                var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                if (db.Fixed)
+                {
+                    return Json(new BllError { error = true, message = "前端：已确认，无法再修改！" });
+                }
+                else
+                {
+                  return   View("~/MastStud/Edit", db);
+                    return View(db);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditToken(BllStudent entity)
+        {
+            try
+            {
+                entity.Checked = true;
+
+                entity.ToUpdate(ModelState);
+                return Json(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Fix(VGradeStud entity)
+        {
+            try
+            {
+                var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                if (db.Checked)
+                {
+                    if (db.Fixed)
+                    {
+                        return Json(new BllError { error = true, message = "前端：已确认，无须重复提交！" });
+                    }
+                    else
+                    {
+                        return View(db);
+                    }
+                }
+                else
+                {
+                    return Json(new BllError { error = true, message = "前端：资料未更新，无法确认！" });
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FixToken(BllStudent entity)
+        {
+            try
+            {
+                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID && a.IDS == entity.IDS);
+
+                db.Fixed = true;
+                db.ToUpdate();
+                return Json(db);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
         public ActionResult DataGrid(string text = null, int page = 1, int rows = 100)
         {
             try
@@ -45,6 +130,8 @@ namespace MySch.Controllers.Master
             try
             {
                 var login = BllLogin.GetLogin(Session);
+                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
+                var bantext = string.Join("-", bansID);
 
                 var res = string.IsNullOrEmpty(text) ?
                     VStudOut.GetDataGrids(id, memo) :

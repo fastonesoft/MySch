@@ -17,7 +17,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("用户名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^[\u4e00-\u9fa5]{2,30}$", ErrorMessage = "{0}：2-30个中文字符")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{2,20}$", ErrorMessage = "{0}：2-20个中文字符")]
         public string Name { get; set; }
 
         [DisplayName("用户密码")]

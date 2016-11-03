@@ -74,6 +74,7 @@ namespace MySch.Bll.View
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.BanIDS)
+                                   .ThenBy(a => a.IDS)
                                    .ToList();
                     return entitys;
                 }
