@@ -639,6 +639,10 @@
     <Content Include="Views\StudEdit\Fix.cshtml" />
     <Content Include="Views\MastBan\Index.cshtml" />
     <Content Include="Views\MastStud\Index.cshtml" />
+    <Content Include="Views\MastBan\Edit.cshtml" />
+    <Content Include="Views\MastBan\Fix.cshtml" />
+    <Content Include="Views\MastBan\Back.cshtml" />
+    <Content Include="Views\MastBan\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

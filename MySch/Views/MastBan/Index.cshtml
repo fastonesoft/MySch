@@ -21,6 +21,23 @@
                 fix: function () {
                     DataGridRow('#masterban-ins-grid', '/MastBan/Fix');
                 },
+                unfix: function () {
+                    $.messager.confirm('状态重置', '确定要重置选中学生的确认状态？', function (r) {
+                        if (r) {
+                            DataGridRowsNoForm('#masterban-ins-grid', '/MastBan/UnFix', function (data) {
+                                var selects = $('#masterban-ins-grid').datagrid('getSelections');
+                                //提交成功，刷新网格
+                                for (var i = 0; i < selects.length; i++) {
+                                    var select = selects[i];
+                                    var row = data[i];
+                                    select.Fixed = row.Fixed;
+                                    var index = $('#masterban-ins-grid').datagrid('getRowIndex', select);
+                                    $('#masterban-ins-grid').datagrid('updateRow', { index: index, row: select });
+                                }
+                            });
+                        }
+                    });
+                },
                 search: function () {
                     var text = $('#masterban-ins-text').val();
                     var param = {
@@ -31,8 +48,8 @@
             }
 
             masterbanouts = {
-                back: function () {
-                    DataGridRow('#masterban-outs-grid', '/MastSelf/Back');
+                detail: function () {
+                    DataGridRow('#masterban-outs-grid', '/MastBan/Detail');
                 },
             }
 
@@ -57,7 +74,7 @@
                 },
 
                 columns: [[
-                    { field: 'ck', checkbox: true },
+                    { field: 'ID', checkbox: true },
                     { title: '班级', field: 'BanName', align: 'center', sortable: true, width: 110 },
                     { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
                     { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
@@ -124,7 +141,7 @@
                 },
 
                 columns: [[
-                    { title: '分级', field: 'StepName', align: 'center', sortable: true, width: 60 },
+                    { title: '年级', field: 'StepName', align: 'center', sortable: true, width: 60 },
                     { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
                     { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
                     { title: '离校说明', field: 'OutName', align: 'center', sortable: true, width: 70 },
@@ -136,7 +153,6 @@
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
-
 
             $('#masterban-lay').layout({
                 fit: true,
@@ -181,20 +197,14 @@
                 </table>
             </div>
         </div>
-        <div data-options="region:'east',border:true, title:'不在校'" style="width:380px;">
+        <div data-options="region:'east',border:true, title:'不在校'" style="width:400px;">
             <table id="masterban-outs-grid"></table>
             <div id="masterban-outs-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="masterbanouts.back();">回校</a>
-                            </td>
-                            <td>
-                                <div class="datagrid-btn-separator"></div>
-                            </td>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="masterbanouts.edit();">设置</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-man" plain="true" onclick="masterbanouts.detail();">详细资料</a>
                             </td>
                         </tr>
                     </thead>
@@ -207,7 +217,7 @@
         <div iconcls="icon-reload" onclick="masterbanins.unfix();">状态重置...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-man" onclick="masterbanins.edit();">修改...</div>
-        <div  onclick="masterbanins.fix();">信息确认...</div>
+        <div onclick="masterbanins.fix();">信息确认...</div>
     </div>
     <div id="masterban-mm-remove" style="width:150px;">
         <div onclick="masterbanins.drop();">休学...</div>

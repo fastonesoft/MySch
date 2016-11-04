@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.Bll.View;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,6 @@ namespace MySch.Controllers.Master
                 }
                 else
                 {
-                  return   View("~/MastStud/Edit", db);
                     return View(db);
                 }
             }
@@ -64,14 +64,7 @@ namespace MySch.Controllers.Master
                 var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
                 if (db.Checked)
                 {
-                    if (db.Fixed)
-                    {
-                        return Json(new BllError { error = true, message = "前端：已确认，无须重复提交！" });
-                    }
-                    else
-                    {
-                        return View(db);
-                    }
+                    return View(db);
                 }
                 else
                 {
@@ -102,6 +95,44 @@ namespace MySch.Controllers.Master
             }
         }
 
+
+        [HttpPost]
+        public ActionResult UnFix(IEnumerable<VGradeStud> entitys)
+        {
+            try
+            {
+                foreach (var entity in entitys)
+                {
+                    var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+
+                    db.Fixed = false;
+                    db.ToUpdate();
+
+                    entity.Fixed = false;
+                }
+                return Json(entitys);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //查看离校学生资料
+        [HttpPost]
+        public ActionResult Detail(VStudOut entity)
+        {
+            try
+            {
+                var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                return View(db);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
         [HttpPost]
         public ActionResult DataGrid(string text = null, int page = 1, int rows = 100)
         {
@@ -114,7 +145,7 @@ namespace MySch.Controllers.Master
 
                 var res = string.IsNullOrEmpty(text) ?
                     VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && a.InSch, page, rows) :
-                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
+                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && a.InSch && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                 return Json(res);
             }
@@ -125,7 +156,7 @@ namespace MySch.Controllers.Master
         }
 
         [HttpPost]
-        public ActionResult DataGrid2(string id = null, string memo = null, string text = null)
+        public ActionResult DataGrid2(string text = null)
         {
             try
             {
@@ -134,8 +165,8 @@ namespace MySch.Controllers.Master
                 var bantext = string.Join("-", bansID);
 
                 var res = string.IsNullOrEmpty(text) ?
-                    VStudOut.GetDataGrids(id, memo) :
-                    VStudOut.GetDataGrids(id, memo, text);
+                    VStudOut.GetDataGrids(a => bantext.Contains(a.BanIDS) && a.InSch == false) :
+                    VStudOut.GetDataGrids(a => bantext.Contains(a.BanIDS) && a.InSch == false && (a.CID.Contains(text) || a.StudName.Contains(text)));
 
                 return Json(res);
             }

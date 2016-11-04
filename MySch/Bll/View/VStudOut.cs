@@ -18,6 +18,7 @@ namespace MySch.Bll.View
         public string PartIDS { get; set; }
         public string GradeIDS { get; set; }
         public string BanIDS { get; set; }
+        public string StudIDS { get; set; }
         public string StepName { get; set; }
         public string StudName { get; set; }
         public string StudSex { get; set; }
@@ -51,6 +52,7 @@ namespace MySch.Bll.View
                                        PartIDS = s.PartIDS,
                                        GradeIDS = gs.GradeIDS,
                                        BanIDS = gs.BanIDS,
+                                       StudIDS = st.IDS,
                                        StepName = s.Name,
                                        StudName = st.Name,
                                        StudSex = st.CID.Substring(16, 1),
@@ -76,6 +78,19 @@ namespace MySch.Bll.View
             {
                 var entity = GetEntitys(where);
                 return entity.Count() == 1 ? entity.Single() : null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static object GetDataGrids(Expression<Func<VStudOut, bool>> where)
+        {
+            try
+            {
+                var entitys = VStudOut.GetEntitys(where);
+                return EasyUI<VStudOut>.DataGrids(entitys, entitys.Count());
             }
             catch (Exception e)
             {
@@ -140,8 +155,8 @@ namespace MySch.Bll.View
                             var grade = db.TGrades.Single(a => a.IDS == ids);
                             var entitys = from s in db.TStudents
                                           where s.StepIDS == grade.StepIDS && !(from g in db.TGradeStuds
-                                                                                        where g.GradeIDS == ids
-                                                                                        select g.StudIDS).Contains(s.IDS)
+                                                                                where g.GradeIDS == ids
+                                                                                select g.StudIDS).Contains(s.IDS)
                                           select s;
                             //补缺：把导入数据中以往不正常删除的学生资料，加以恢复
                             //保持，年度学生与学生库的一致

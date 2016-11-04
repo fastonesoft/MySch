@@ -1,0 +1,52 @@
+﻿@model MySch.Bll.Entity.BllStudent
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div style="padding:20px 20px 0px 20px;">
+        <table id="masterbanfixs-property"></table>
+    </div>
+    <script type="text/javascript">
+        var data = {
+            total: 0, rows: [
+                { name: '@Html.DisplayNameFor(a=>a.IDS)', value: '@Html.ValueFor(a=>a.IDS)', group: '基本信息', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Name)', value: '@Html.ValueFor(a=>a.Name)', group: '基本信息', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.CID)', value: '@Html.ValueFor(a=>a.CID)', group: '基本信息', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Name1)', value: '@Html.ValueFor(a=>a.Name1)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Name2)', value: '@Html.ValueFor(a=>a.Name2)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Birth)', value: '@Html.ValueFor(a=>a.Birth)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Home)', value: '@Html.ValueFor(a=>a.Home)', group: '详细资料', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Mobil1)', value: '@Html.ValueFor(a=>a.Mobil1)', group: '联系方式', editor: '' },
+                { name: '@Html.DisplayNameFor(a=>a.Mobil2)', value: '@Html.ValueFor(a=>a.Mobil2)', group: '联系方式', editor: '' }
+            ]
+        };
+        data.total = data.rows.length;
+    </script>
+
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#masterbanfixs-property').propertygrid({
+            width: 280,
+            data: data,
+            showGroup: true,
+            showHeader: false,
+            columns: [[
+                    { title: '字段', field: 'name', halign: 'center', align: 'right', width: 80 },
+                    { title: '属性', field: 'value', halign: 'center', align: 'left', width: 146 },
+            ]]
+
+        });
+        //查看对话框
+        DialogShow('信息查看', 336, 410);
+    })
+</script>

@@ -48,13 +48,13 @@ namespace MySch.Bll.Entity
         [DisplayName("户籍地址")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [StringLength(50, ErrorMessage = "{0}：长度不能超过50")]
-        [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}省[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}|[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{5,20}$", ErrorMessage = "{0}：X省X市X(市区县)X、X市X(市区县)X、姜堰区X、姜堰区X镇X")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}省[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{5,20}$", ErrorMessage = "{0}：X省X市X(市区县)X、X市X(市区县)X、姜堰区X、姜堰区X镇X")]
         public string Birth { get; set; }
 
         [DisplayName("家庭地址")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [StringLength(50, ErrorMessage = "{0}：长度不能超过50")]
-        [RegularExpression(@"^姜堰区[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{5,20}$", ErrorMessage = "{0}：姜堰区X、X镇X")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,20}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{5,20}$", ErrorMessage = "{0}：姜堰区X、X镇X")]
         public string Home { get; set; }
 
         public bool Checked { get; set; }

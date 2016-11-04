@@ -84,7 +84,6 @@ function DataGridRow(gridID, url) {
 function DataGridRows(gridID, url) {
     //选择网格
     var rows = $(gridID).datagrid('getSelections');
-    console.log(rows);
     if (rows.length == 0) {
         $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
         return false;
@@ -104,6 +103,7 @@ function DataGridRows(gridID, url) {
         }
     });
 }
+
 function DataGridSearchQuery(textID, gridIDA, gridIDB, urlA, urlB, query) {
     var text = $.trim($(textID).val());
     if (text.length == 0) {
@@ -186,9 +186,62 @@ function DataGridParams(gridID, url, params) {
     $(gridID).datagrid({ url: url, queryParams: params });
 }
 
+
+/////////////////////////////////////////////////
+//      无窗体动作
+////////////////////////////////////////////////
+function DataGridRowsNoForm(gridID, url, Sucess) {
+    //选择网格
+    var rows = $(gridID).datagrid('getSelections');
+    if (rows.length == 0) {
+        $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
+        return false;
+    }
+    //提交数据
+    $.post(url, { entitys: rows }, function (d) {
+        if (d.error) {
+            $.messager.alert('错误提示', d.message, 'error');
+        } else {
+            //提交成功
+            Sucess(d);
+        }
+    });
+}
+
+
+
+
 //////////////////////////////////////////////////////////////////////////
 //  单独更新
 //////////////////////////////////////////////////////////////////////////
+
+//无动作窗口
+function DialogShow(title, width, height) {
+    $('#dialog-form').dialog({
+        title: title,
+        width: width,
+        height: height,
+        closable: false,
+        closed: false,
+        cache: false,
+        modal: true,
+        buttons: [{
+            text: '关闭',
+            iconCls: 'icon-no',
+            handler: function () {
+                $('#dialog-form').dialogClose();
+            }
+        }],
+        onClose: function () {
+            //启用按钮
+            $('.easyui-linkbutton').linkbutton('enable');
+            //清除提示
+            $('div.tooltip').remove();
+            $('div.combo-p').remove();
+        },
+    });
+}
+
 
 function DialogAdd(title, width, height, postUrl, gridID) {
     $('#dialog-form').dialog({
