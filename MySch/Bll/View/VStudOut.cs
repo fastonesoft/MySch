@@ -63,6 +63,11 @@ namespace MySch.Bll.View
                                    .Where(where)
                                    .OrderBy(a => a.BanIDS)
                                    .ToList();
+                    //性别转换
+                    foreach (var entity in entitys)
+                    {
+                        entity.StudSex = entity.StudSex == null ? null : int.Parse(entity.StudSex) % 2 == 0 ? "女" : "男";
+                    }
                     return entitys;
                 }
             }

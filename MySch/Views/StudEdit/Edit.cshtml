@@ -8,7 +8,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <div style="padding:20px 20px 0px 20px;">
+    <div style="padding:20px 0px 0px 20px;">
         <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
@@ -51,17 +51,18 @@
             </span>
             @Html.ValidationMessageFor(a => a.Mobil2)
         </div>
-        <div class="form-item-row-left">
+        <div class="form-item-row-line"></div>
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Birth)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Birth, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.Birth, new { @class = "textbox-text", @style = "width:311px;" })
             </span>
             @Html.ValidationMessageFor(a => a.Birth)
         </div>
-        <div class="form-item-row-left">
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Home)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Home, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.Home, new { @class = "textbox-text", @style = "width:311px;" })
             </span>
             @Html.ValidationMessageFor(a => a.Home)
         </div>
@@ -83,6 +84,6 @@
         });
 
         //修改对话框
-        DialogEdit('信息更新', 410, 285, '/StudEdit/EditToken', '#studedits-grid');
+        DialogEdit('信息更新', 380, 335, '/StudEdit/EditToken', '#studedits-grid');
     })
 </script>

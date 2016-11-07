@@ -78,13 +78,7 @@
                     { title: '班级', field: 'BanName', align: 'center', sortable: true, width: 110 },
                     { title: '身份证号', field: 'CID', align: 'center', sortable: true, width: 150 },
                     { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
-                    {
-                        title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50,
-                        formatter: function (value, row, index) {
-                            if (value)
-                                return parseInt(value) % 2 == 0 ? "女" : "男";
-                        },
-                    },
+                    { title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50 },
                     { title: '学生来源', field: 'ComeName', align: 'center', sortable: true, width: 70 },
                     {
                         title: '资料完整', field: 'Checked', halign: 'center', sortable: true, width: 70,
@@ -168,19 +162,12 @@
     <div id="masterban-lay">
         <div data-options="region:'center',border:true, title:'在校生'">
             <table id="masterban-ins-grid"></table>
-
             <div id="masterban-ins-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
                                 <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterban-mm-edit" iconcls="icon-edit">变更</a>
-                            </td>
-                            <td>
-                                <div class="datagrid-btn-separator"></div>
-                            </td>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#masterban-mm-remove" iconcls="icon-remove">减少</a>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
@@ -218,11 +205,6 @@
         <div class="menu-sep"></div>
         <div iconcls="icon-man" onclick="masterbanins.edit();">修改...</div>
         <div onclick="masterbanins.fix();">信息确认...</div>
-    </div>
-    <div id="masterban-mm-remove" style="width:150px;">
-        <div onclick="masterbanins.drop();">休学...</div>
-        <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="masterbanins.out();">离校...</div>
     </div>
 </body>
 </html>
