@@ -704,7 +704,107 @@ alter table TGradeStud add constraint FK_TGradeStud_GradeIDS foreign key (GradeI
 alter table TGradeStud add constraint FK_TGradeStud_ComeIDS foreign key (ComeIDS) references TCome (IDS)
 create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
 
---TODO学生信息变更记录
+
+--学科设置
+create table KSub
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Value	nvarchar(10) not null,
+	Name	nvarchar(10) not null,
+	SName	nvarchar(1) not null,
+	AccIDS	nvarchar(20) not null,
+)
+go
+
+alter table KSub add constraint PK_KSub primary key clustered (ID)
+alter table KSub add constraint FK_KSub_AccIDS foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_KSub_IDS on KSub (IDS)
+
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '01', '语文', '语', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '02', '数学', '数', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '03', '英语', '英', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '04', '物理', '物', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '05', '化学', '化', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '06', '政治', '政', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '07', '历史', '历', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '08', '地理', '地', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '09', '生物', '生', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840210', '10', '体育', '体', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '11', '音乐', '音', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840212', '12', '美术', '美', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '13', '信息', '信', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '14', '口语', '口', '32128402')
+insert KSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '15', '听力', '听', '32128402')
+
+
+--年级学科
+create table KGradeSub
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	GradeIDS	nvarchar(20) not null,
+	SubIDS	nvarchar(20) not null,
+	Value	int not null,	--学科分值
+	Scoring	bit not null,	--是否记分
+)
+go
+
+alter table KGradeSub add constraint PK_KGradeSub primary key clustered (ID)
+alter table KGradeSub add constraint FK_KGradeSub_SubIDS foreign key (SubIDS) references KSub (IDS)
+create unique nonclustered index UN_KGradeSub_IDS on KGradeSub (IDS)
+
+insert KGradeSub values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010701', '321284020120160107', '3212840201', 150, 1)
+insert KGradeSub values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010702', '321284020120160107', '3212840202', 150, 1)
+insert KGradeSub values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010703', '321284020120160107', '3212840203', 150, 1)
+
+
+
+
+--班级课任教师
+create table KBanSub
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	BanIDS	nvarchar(20) not null,
+	SubIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(20) not null,
+)
+go
+
+alter table KBanSub add constraint PK_KBanSub primary key clustered (ID)
+alter table KBanSub add constraint FK_KBanSub_BanIDS foreign key (BanIDS) references TBan (IDS)
+alter table KBanSub add constraint FK_KBanSub_SubIDS foreign key (SubIDS) references KSub (IDS)
+alter table KBanSub add constraint FK_KBanSub_AccIDS foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_KBanSub_IDS on KBanSub (IDS)
+
+insert KBanSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401090201', '32128402012014010902', '3212840201', '32128402')
+
+
+create table Kao
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Value	nvarchar(10) not null,
+	Name	nvarchar(20) not null,
+	TermIDS	nvarchar(20) not null,
+	Fixed	bit not null,
+)
+go
+alter table Kao add constraint PK_Kao primary key clustered (ID)
+alter table Kao add constraint FK_Kao_TermIDS foreign key (TermIDS) references TTerm (IDS)
+create unique nonclustered index UN_Kao_IDS on Kao (IDS)
+
+
+
+
+
+insert KBanSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401090201', '32128402012014010902', '3212840201', '32128402')
+
+
+
+
+--TODO学生信息变更记录		    
 create table TGradeStudLog
 (
 	ID	nvarchar(32) not null,

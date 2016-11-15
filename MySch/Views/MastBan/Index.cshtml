@@ -45,6 +45,18 @@
                     }
                     DataGridSearchQuery('#masterban-ins-text', '#masterban-ins-grid', '#masterban-outs-grid', '/MastBan/DataGrid', '/MastBan/DataGrid2', param);
                 },
+                reload: function () {
+                    $('#masterban-ins-grid').datagrid({
+                        queryParams: {
+                            text: null,
+                        }
+                    });
+                    $('#masterban-outs-grid').datagrid({
+                        queryParams: {
+                            text: null,
+                        }
+                    });
+                },
             }
 
             masterbanouts = {
@@ -178,6 +190,10 @@
                             <td style="width:8px;"></td>
                             <td>
                                 <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="masterbanins.search();">查询</a>
+                            </td>
+                            <td style="width:8px;"></td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="masterbanins.reload();">刷新</a>
                             </td>
                         </tr>
                     </thead>
