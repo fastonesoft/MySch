@@ -781,10 +781,12 @@ create unique nonclustered index UN_KBanSub_IDS on KBanSub (IDS)
 insert KBanSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401090201', '32128402012014010902', '3212840201', '32128402')
 
 
+
+
 create table Kao
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
+	IDS	nvarchar(30) not null,
 	Value	nvarchar(10) not null,
 	Name	nvarchar(20) not null,
 	TermIDS	nvarchar(20) not null,
@@ -799,7 +801,7 @@ create unique nonclustered index UN_Kao_IDS on Kao (IDS)
 
 
 
-insert KBanSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401090201', '32128402012014010902', '3212840201', '32128402')
+insert Kao values (Lower(REPLACE(NEWID(), '-','')), '32128402201601001', '001', '学情测试一', '32128402201601', 0)
 
 
 
