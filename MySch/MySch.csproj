@@ -201,6 +201,7 @@
     </Compile>
     <Compile Include="Bll\View\VTerm.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminComController.cs" />
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\RoleStudController.cs" />
@@ -646,6 +647,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
+    <Folder Include="Views\AdminCom\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

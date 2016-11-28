@@ -806,6 +806,34 @@ insert Kao values (Lower(REPLACE(NEWID(), '-','')), '32128402201601001', '001', 
 
 
 
+--数据访问
+create table DataType
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,
+)
+go
+
+create table Data
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,	--名称，英文
+	Title	nvarchar(20) not null,	--标题，中文
+	Command	nvarchar(max) not null,
+	DataTypeIDS	nvarchar(20) not null,
+)
+go
+
+--select * from dbo.XXX where ID = '{0}'
+--select * from dbo.XXX where ID = '{0}' and IDS = '{1}'
+--select * from dbo.XXX where AccID = '{2}'
+--select * from dbo.XXX where IDS like '%{3}%' or ID like '%{3}%'
+--参数怎么传递
+--string.Format(S, AccID, ID, IDS, Query)
+--AccID参数自动获得
+
+
 --TODO学生信息变更记录		    
 create table TGradeStudLog
 (

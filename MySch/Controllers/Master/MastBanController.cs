@@ -2,14 +2,46 @@
 using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.View;
+using MySch.Dal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Dynamic;
 
 namespace MySch.Controllers.Master
 {
+    class dd
+    {
+        public string ID { get; set; }
+        public string IDS { get; set; }
+        public string Text1 { get; set; }
+        public string Text2 { get; set; }
+        public string Text3 { get; set; }
+        public string Text4 { get; set; }
+        public string Text5 { get; set; }
+        public string Text6 { get; set; }
+        public string Text7 { get; set; }
+        public string Text8 { get; set; }
+        public string Text9 { get; set; }
+        public double Value1 { get; set; }
+        public double Value2 { get; set; }
+        public double Value3 { get; set; }
+        public double Value4 { get; set; }
+        public double Value5 { get; set; }
+        public double Value6 { get; set; }
+        public double Value7 { get; set; }
+        public double Value8 { get; set; }
+        public double Value9 { get; set; }
+        public bool X1 { get; set; }
+        public bool X2 { get; set; }
+        public bool X3 { get; set; }
+        public bool X4 { get; set; }
+        public bool X5 { get; set; }
+    }
+
+
     public class MastBanController : RoleController
     {
         [HttpPost]
@@ -169,6 +201,24 @@ namespace MySch.Controllers.Master
                     VStudOut.GetDataGrids(a => bantext.Contains(a.BanIDS) && a.InSch == false && (a.CID.Contains(text) || a.StudName.Contains(text)));
 
                 return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        public ActionResult Command()
+        {
+
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+
+                    var res = db.Database.SqlQuery<dd>("select ID, IDS, Value1 = cast(Value1 as float), Text1 = convert(nvarchar(32) , Value2, 120), X1 = Value3 from dbo.KSubSub").ToList();
+                    return Json(res);
+                }
             }
             catch (Exception e)
             {

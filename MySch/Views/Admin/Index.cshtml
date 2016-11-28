@@ -46,8 +46,7 @@
 
             //顶部导航切换
             $(".my-nav li a").click(function () {
-                $(".my-nav li a.selected").removeClass("selected")
-                $(this).addClass("selected");
+                $(this).siblings().removeClass("selected").addClass("selected");
 
                 //导航更新
                 var num = $(this).attr('num');
