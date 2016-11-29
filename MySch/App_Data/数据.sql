@@ -807,23 +807,15 @@ insert Kao values (Lower(REPLACE(NEWID(), '-','')), '32128402201601001', '001', 
 
 
 --数据访问
-create table DataType
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
-	Name	nvarchar(20) not null,
-)
-go
-
 create table Data
 (
-	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--名称，英文
-	Title	nvarchar(20) not null,	--标题，中文
+	Name	nvarchar(20) not null,	--标题，中文
 	Command	nvarchar(max) not null,
-	DataTypeIDS	nvarchar(20) not null,
 )
 go
+alter table Data add constraint PK_Data primary key clustered (IDS)
+create unique nonclustered index UN_Data_Name on Data (Name)
 
 --select * from dbo.XXX where ID = '{0}'
 --select * from dbo.XXX where ID = '{0}' and IDS = '{1}'
@@ -834,17 +826,6 @@ go
 --AccID参数自动获得
 
 
---TODO学生信息变更记录		    
-create table TGradeStudLog
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,
-	GradeIDS	nvarchar(20) not null,
-)
-go
-
--------------------------------------------------------------------
----以下不算
 
 --页面表
 create table TPage
@@ -870,3 +851,10 @@ create table TColumn
 	PageID	nvarchar(32) not null,
 )
 go
+
+
+
+
+--TODO学生信息变更记录		    
+
+

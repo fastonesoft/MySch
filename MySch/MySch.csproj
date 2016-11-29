@@ -386,7 +386,7 @@
     <Content Include="Content\themes\icons\tip.png" />
     <Content Include="Content\themes\icons\undo.png" />
     <Content Include="Images\pp0801.png" />
-    <Content Include="tooltip.htm" />
+    <Content Include="Html\tooltip.htm" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -527,7 +527,7 @@
     <Content Include="Images\vbit\x.bmp" />
     <Content Include="Images\vbit\y.bmp" />
     <Content Include="Images\vbit\z.bmp" />
-    <Content Include="new.htm" />
+    <Content Include="Html\cam.htm" />
     <Content Include="Images\logininfo.psd" />
     <Content Include="Images\logo.psd" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -574,7 +574,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="camhtml5.htm" />
+    <Content Include="Html\camhtml5.htm" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Logon.cshtml" />
     <Content Include="Views\Account\Wrong1.cshtml" />
@@ -644,10 +644,10 @@
     <Content Include="Views\MastBan\Fix.cshtml" />
     <Content Include="Views\MastBan\Back.cshtml" />
     <Content Include="Views\MastBan\Detail.cshtml" />
+    <Content Include="Views\AdminCom\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
-    <Folder Include="Views\AdminCom\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
