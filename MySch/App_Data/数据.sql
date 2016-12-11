@@ -807,15 +807,15 @@ insert Kao values (Lower(REPLACE(NEWID(), '-','')), '32128402201601001', '001', 
 
 
 --数据访问
-create table Data
+create table Datum
 (
 	IDS	nvarchar(20) not null,	--名称，英文
 	Name	nvarchar(20) not null,	--标题，中文
 	Command	nvarchar(max) not null,
 )
 go
-alter table Data add constraint PK_Data primary key clustered (IDS)
-create unique nonclustered index UN_Data_Name on Data (Name)
+alter table Datum add constraint PK_Datum primary key clustered (IDS)
+create unique nonclustered index UN_Datum_Name on Datum (Name)
 
 --select * from dbo.XXX where ID = '{0}'
 --select * from dbo.XXX where ID = '{0}' and IDS = '{1}'
@@ -825,32 +825,45 @@ create unique nonclustered index UN_Data_Name on Data (Name)
 --string.Format(S, AccID, ID, IDS, Query)
 --AccID参数自动获得
 
+--样式列表
+create table Theme
+(
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,
+	IsCurrent	bit not null,
+	
+)
+go
+alter table Theme add constraint PK_Theme primary key clustered (IDS)
+create unique nonclustered index UN_Theme_Name on Theme (Name)
+
 
 
 --页面表
 create table TPage
 (
-	ID	nvarchar(32) not null,
-	GD	nvarchar(32) not null,
-	Name	nvarchar(32) not null,
-	ThemeID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,
+	Bootup	bit not null,
+	ThemeIDS	nvarchar(20) not null,
 )
 go
+alter table TPage add constraint PK_TPage primary key clustered (IDS)
+alter table TPage add constraint FK_TPage_ThemeIDS foreign key (ThemeIDS) references Theme (IDS)
 
-alter table TPage add constraint PK_TPage primary key clustered (ID)
-create unique nonclustered index UN_TPage_Name on TPage (Name)
 
+--栏目表
 create table TColumn
 (
-	ID	nvarchar(32) not null,
-	GD	nvarchar(32) not null,
-	Name	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,
 	Html	nvarchar(max) not null,
-	Txt	nvarchar(max) not null,
-	Fixed	bit not null,
-	PageID	nvarchar(32) not null,
+ 	Fixed	bit not null,
+	PageIDS	nvarchar(20) not null,
 )
 go
+alter table TColumn add constraint PK_TColumn primary key clustered (IDS)
+alter table TColumn add constraint FK_TColumn_PageIDS foreign key (PageIDS) references TPage (IDS)
 
 
 

@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TPageMap : EntityTypeConfiguration<TPage>
+    public class ThemeMap : EntityTypeConfiguration<Theme>
     {
-        public TPageMap()
+        public ThemeMap()
         {
             // Primary Key
             this.HasKey(t => t.IDS);
@@ -19,22 +19,11 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.ThemeIDS)
-                .IsRequired()
-                .HasMaxLength(20);
-
             // Table & Column Mappings
-            this.ToTable("TPage");
+            this.ToTable("Theme");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.Bootup).HasColumnName("Bootup");
-            this.Property(t => t.ThemeIDS).HasColumnName("ThemeIDS");
-
-            // Relationships
-            this.HasRequired(t => t.Theme)
-                .WithMany(t => t.TPages)
-                .HasForeignKey(d => d.ThemeIDS);
-
+            this.Property(t => t.IsCurrent).HasColumnName("IsCurrent");
         }
     }
 }

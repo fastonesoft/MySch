@@ -16,6 +16,11 @@ namespace MySch.Models
         {
         }
 
+        public DbSet<Datum> Data { get; set; }
+        public DbSet<Kao> Kaos { get; set; }
+        public DbSet<KBanSub> KBanSubs { get; set; }
+        public DbSet<KGradeSub> KGradeSubs { get; set; }
+        public DbSet<KSub> KSubs { get; set; }
         public DbSet<TAcc> TAccs { get; set; }
         public DbSet<TBan> TBans { get; set; }
         public DbSet<TColumn> TColumns { get; set; }
@@ -23,7 +28,7 @@ namespace MySch.Models
         public DbSet<TEdu> TEdus { get; set; }
         public DbSet<TGrade> TGrades { get; set; }
         public DbSet<TGradeStud> TGradeStuds { get; set; }
-        public DbSet<TGradeStudLog> TGradeStudLogs { get; set; }
+        public DbSet<Theme> Themes { get; set; }
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
         public DbSet<TOut> TOuts { get; set; }
@@ -39,6 +44,11 @@ namespace MySch.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new DatumMap());
+            modelBuilder.Configurations.Add(new KaoMap());
+            modelBuilder.Configurations.Add(new KBanSubMap());
+            modelBuilder.Configurations.Add(new KGradeSubMap());
+            modelBuilder.Configurations.Add(new KSubMap());
             modelBuilder.Configurations.Add(new TAccMap());
             modelBuilder.Configurations.Add(new TBanMap());
             modelBuilder.Configurations.Add(new TColumnMap());
@@ -46,7 +56,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new TGradeMap());
             modelBuilder.Configurations.Add(new TGradeStudMap());
-            modelBuilder.Configurations.Add(new TGradeStudLogMap());
+            modelBuilder.Configurations.Add(new ThemeMap());
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());
             modelBuilder.Configurations.Add(new TOutMap());

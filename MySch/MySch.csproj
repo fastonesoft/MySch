@@ -249,14 +249,24 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
+    <Compile Include="Models\Datum.cs" />
+    <Compile Include="Models\Kao.cs" />
+    <Compile Include="Models\KBanSub.cs" />
+    <Compile Include="Models\KGradeSub.cs" />
+    <Compile Include="Models\KSub.cs" />
+    <Compile Include="Models\Mapping\DatumMap.cs" />
+    <Compile Include="Models\Mapping\KaoMap.cs" />
+    <Compile Include="Models\Mapping\KBanSubMap.cs" />
+    <Compile Include="Models\Mapping\KGradeSubMap.cs" />
+    <Compile Include="Models\Mapping\KSubMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
     <Compile Include="Models\Mapping\TColumnMap.cs" />
     <Compile Include="Models\Mapping\TComeMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
-    <Compile Include="Models\Mapping\TGradeStudLogMap.cs" />
     <Compile Include="Models\Mapping\TGradeStudMap.cs" />
+    <Compile Include="Models\Mapping\ThemeMap.cs" />
     <Compile Include="Models\Mapping\TLoginMap.cs" />
     <Compile Include="Models\Mapping\TLogMap.cs" />
     <Compile Include="Models\Mapping\TOutMap.cs" />
@@ -277,7 +287,7 @@
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
     <Compile Include="Models\TGradeStud.cs" />
-    <Compile Include="Models\TGradeStudLog.cs" />
+    <Compile Include="Models\Theme.cs" />
     <Compile Include="Models\TLog.cs" />
     <Compile Include="Models\TLogin.cs" />
     <Compile Include="Models\TOut.cs" />

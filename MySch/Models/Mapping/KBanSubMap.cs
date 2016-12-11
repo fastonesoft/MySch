@@ -3,12 +3,12 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TGradeStudLogMap : EntityTypeConfiguration<TGradeStudLog>
+    public class KBanSubMap : EntityTypeConfiguration<KBanSub>
     {
-        public TGradeStudLogMap()
+        public KBanSubMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.IDS, t.GradeIDS });
+            this.HasKey(t => t.ID);
 
             // Properties
             this.Property(t => t.ID)
@@ -19,15 +19,25 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(32);
 
-            this.Property(t => t.GradeIDS)
+            this.Property(t => t.BanIDS)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            this.Property(t => t.SubIDS)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            this.Property(t => t.AccIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("TGradeStudLog");
+            this.ToTable("KBanSub");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
+            this.Property(t => t.BanIDS).HasColumnName("BanIDS");
+            this.Property(t => t.SubIDS).HasColumnName("SubIDS");
+            this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }
     }
 }
