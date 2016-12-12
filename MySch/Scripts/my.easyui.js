@@ -259,7 +259,7 @@ function DialogAdd(title, width, height, postUrl, gridID) {
                 var form = $('form');
                 if (!form.validate().form()) {
                     //错误输入聚焦
-                    $('.field-validation-error:first').parent().find('input').focus();
+                    $('.input-validation-error:first').focus();
                     return false;
                 }
                 //通过验证，添加
@@ -286,7 +286,7 @@ function DialogAdd(title, width, height, postUrl, gridID) {
             var form = $('form').revalidate();
             form.validate().form();
             //错误输入聚焦
-            $('.field-validation-error:first').parent().find('input').focus();
+            $('.input-validation-error:first').focus();
         },
         onClose: function () {
             //启用按钮
@@ -314,7 +314,7 @@ function DialogEdit(title, width, height, postUrl, gridID) {
                 var form = $('form');
                 if (!form.validate().form()) {
                     //错误输入聚焦
-                    $('.field-validation-error:first').parent().find('input').focus();
+                    $('.input-validation-error:first').focus();
                     return false;
                 }
                 //通过验证，修改
@@ -343,7 +343,7 @@ function DialogEdit(title, width, height, postUrl, gridID) {
             var form = $('form').revalidate();
             form.validate().form();
             //错误输入聚焦
-            $('.field-validation-error:first').parent().find('input').focus();
+            $('.input-validation-error:first').focus();
         },
         onClose: function () {
             //启用按钮
@@ -419,7 +419,7 @@ function DialogReload(title, width, height, postUrl, reloadGridID) {
                 var form = $('form');
                 if (!form.validate().form()) {
                     //错误输入聚焦
-                    $('.field-validation-error:first').parent().find('input').focus();
+                    $('.input-validation-error:first').focus();
                     return false;
                 }
                 //通过验证，添加
@@ -446,7 +446,7 @@ function DialogReload(title, width, height, postUrl, reloadGridID) {
             var form = $('form').revalidate();
             form.validate().form();
             //错误输入聚焦
-            $('.field-validation-error:first').parent().find('input').focus();
+            $('.input-validation-error:first').focus();
         },
         onClose: function () {
             //启用按钮
@@ -478,7 +478,7 @@ function DialogUpdateGrids(title, width, height, postUrl, reloadGridID, addToGri
                 var form = $('form');
                 if (!form.validate().form()) {
                     //错误输入聚焦
-                    $('.field-validation-error:first').parent().find('input').focus();
+                    $('.input-validation-error:first').focus();
                     return false;
                 }
                 //通过验证，添加
@@ -506,7 +506,7 @@ function DialogUpdateGrids(title, width, height, postUrl, reloadGridID, addToGri
             var form = $('form').revalidate();
             form.validate().form();
             //错误输入聚焦
-            $('.field-validation-error:first').parent().find('input').focus();
+            $('.input-validation-error:first').focus();
         },
         onClose: function () {
             //启用按钮
@@ -534,7 +534,7 @@ function DialogGrid(title, width, height, postUrl, Success) {
                 var form = $('form');
                 if (!form.validate().form()) {
                     //错误输入聚焦
-                    $('.field-validation-error:first').parent().find('input').focus();
+                    $('.input-validation-error:first').focus();
                     return false;
                 }
                 //通过验证，添加
@@ -561,7 +561,7 @@ function DialogGrid(title, width, height, postUrl, Success) {
             var form = $('form').revalidate();
             form.validate().form();
             //错误输入聚焦
-            $('.field-validation-error:first').parent().find('input').focus();
+            $('.input-validation-error:first').focus();
         },
         onClose: function () {
             //启用按钮

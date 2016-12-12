@@ -16,7 +16,6 @@ namespace MySch.Models
         {
         }
 
-        public DbSet<Datum> Data { get; set; }
         public DbSet<Kao> Kaos { get; set; }
         public DbSet<KBanSub> KBanSubs { get; set; }
         public DbSet<KGradeSub> KGradeSubs { get; set; }
@@ -25,6 +24,7 @@ namespace MySch.Models
         public DbSet<TBan> TBans { get; set; }
         public DbSet<TColumn> TColumns { get; set; }
         public DbSet<TCome> TComes { get; set; }
+        public DbSet<TDatum> TDatums { get; set; }
         public DbSet<TEdu> TEdus { get; set; }
         public DbSet<TGrade> TGrades { get; set; }
         public DbSet<TGradeStud> TGradeStuds { get; set; }
@@ -44,7 +44,6 @@ namespace MySch.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new DatumMap());
             modelBuilder.Configurations.Add(new KaoMap());
             modelBuilder.Configurations.Add(new KBanSubMap());
             modelBuilder.Configurations.Add(new KGradeSubMap());
@@ -53,6 +52,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TBanMap());
             modelBuilder.Configurations.Add(new TColumnMap());
             modelBuilder.Configurations.Add(new TComeMap());
+            modelBuilder.Configurations.Add(new TDatumMap());
             modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new TGradeMap());
             modelBuilder.Configurations.Add(new TGradeStudMap());

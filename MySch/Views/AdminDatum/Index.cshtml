@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+    //AdminDatum/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>数据访问</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            admindatums = {
+                add: function () {
+                    DataGridNone('/AdminDatum/Add');
+                },
+                edit: function () {
+                    DataGridRowID('#admindatums-grid', '/AdminDatum/Edit');
+                },
+                del: function () {
+                    DataGridRowID('#admindatums-grid', '/AdminDatum/Del');
+                }
+            }
+
+            //数据表格
+            $('#admindatums-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/AdminDatum/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '数据名称', field: 'Name', align: 'center', width: 120 },
+                    { title: '数据编号', field: 'IDS', align: 'center', width: 150 },
+                ]],
+
+                toolbar: '#admindatums-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="admindatums-grid"></table>
+    <div id="admindatums-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="admindatums.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="admindatums.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="admindatums.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

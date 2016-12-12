@@ -8,9 +8,13 @@ namespace MySch.Models.Mapping
         public TPageMap()
         {
             // Primary Key
-            this.HasKey(t => t.IDS);
+            this.HasKey(t => t.ID);
 
             // Properties
+            this.Property(t => t.ID)
+                .IsRequired()
+                .HasMaxLength(32);
+
             this.Property(t => t.IDS)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -25,16 +29,11 @@ namespace MySch.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("TPage");
+            this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Bootup).HasColumnName("Bootup");
             this.Property(t => t.ThemeIDS).HasColumnName("ThemeIDS");
-
-            // Relationships
-            this.HasRequired(t => t.Theme)
-                .WithMany(t => t.TPages)
-                .HasForeignKey(d => d.ThemeIDS);
-
         }
     }
 }

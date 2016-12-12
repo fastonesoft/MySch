@@ -25,6 +25,8 @@ h2{font-weight:normal;}
 .form-item-row .field-validation-error {display: none;}
 .form-item-row-left {width:165px; float:left;margin-bottom:5px;}
 .form-item-row-left .field-validation-error {display: none;}
+.form-item-row-left1 {float:left;margin-bottom:5px;margin-right:5px;}
+.form-item-row-left1 .field-validation-error {display: none;}
 .form-item-row-line {clear:both;}
 .grid-check-img{width:15px;height:12px;border:none;}
 

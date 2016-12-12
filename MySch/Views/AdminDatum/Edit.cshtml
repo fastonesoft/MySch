@@ -1,0 +1,50 @@
+﻿@model MySch.Bll.Entity.BllDatum
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly", @style = "width:300px;" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly", @style = "width:300px;" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+        <div class="form-item-row-line"></div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Command)：</div>
+            <span class="textbox">
+                @Html.TextAreaFor(a => a.Command, new { @class = "textbox-text", @style = "width:615px; height:315px;" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Command)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+}
+
+<script type="text/javascript">
+    $(function () {
+        //按键：焦点转移
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                //错误输入聚焦
+                $('.input-validation-error:first').focus();
+            }
+        });
+        //修改对话框
+        DialogEdit('数据修改', 680, 500, '/AdminDatum/EditToken', '#admindatums-grid');
+    })
+</script>

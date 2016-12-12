@@ -136,6 +136,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Distinct.cs" />
+    <Compile Include="Bll\Entity\BllDatum.cs" />
     <Compile Include="Bll\Func\CID.cs" />
     <Compile Include="Bll\Func\EasyUI.cs" />
     <Compile Include="Bll\Entity\BllCome.cs">
@@ -199,9 +200,12 @@
     <Compile Include="Bll\View\VStep.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\View\VDatum.cs" />
     <Compile Include="Bll\View\VTerm.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
-    <Compile Include="Controllers\Admin\AdminComController.cs" />
+    <Compile Include="Controllers\Admin\AdminDatumController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\RoleStudController.cs" />
@@ -249,12 +253,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
-    <Compile Include="Models\Datum.cs" />
     <Compile Include="Models\Kao.cs" />
     <Compile Include="Models\KBanSub.cs" />
     <Compile Include="Models\KGradeSub.cs" />
     <Compile Include="Models\KSub.cs" />
-    <Compile Include="Models\Mapping\DatumMap.cs" />
     <Compile Include="Models\Mapping\KaoMap.cs" />
     <Compile Include="Models\Mapping\KBanSubMap.cs" />
     <Compile Include="Models\Mapping\KGradeSubMap.cs" />
@@ -263,6 +265,7 @@
     <Compile Include="Models\Mapping\TBanMap.cs" />
     <Compile Include="Models\Mapping\TColumnMap.cs" />
     <Compile Include="Models\Mapping\TComeMap.cs" />
+    <Compile Include="Models\Mapping\TDatumMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
     <Compile Include="Models\Mapping\TGradeStudMap.cs" />
@@ -284,6 +287,7 @@
     <Compile Include="Models\TBan.cs" />
     <Compile Include="Models\TColumn.cs" />
     <Compile Include="Models\TCome.cs" />
+    <Compile Include="Models\TDatum.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
     <Compile Include="Models\TGradeStud.cs" />
@@ -654,7 +658,10 @@
     <Content Include="Views\MastBan\Fix.cshtml" />
     <Content Include="Views\MastBan\Back.cshtml" />
     <Content Include="Views\MastBan\Detail.cshtml" />
-    <Content Include="Views\AdminCom\Index.cshtml" />
+    <Content Include="Views\AdminDatum\Index.cshtml" />
+    <Content Include="Views\AdminDatum\Add.cshtml" />
+    <Content Include="Views\AdminDatum\Del.cshtml" />
+    <Content Include="Views\AdminDatum\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
