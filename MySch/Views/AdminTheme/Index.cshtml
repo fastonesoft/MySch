@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+    //AdminTheme/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>样式设置</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            adminthemes = {
+                add: function () {
+                    DataGridNone('/AdminTheme/Add');
+                },
+                edit: function () {
+                    DataGridRowID('#adminthemes-grid', '/AdminTheme/Edit');
+                },
+                del: function () {
+                    DataGridRowID('#adminthemes-grid', '/AdminTheme/Del');
+                }
+            }
+
+            //数据表格
+            $('#adminthemes-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/AdminTheme/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '样式名称', field: 'Name', align: 'center', width: 120 },
+                    { title: '样式编号', field: 'IDS', align: 'center', width: 150 },
+                    {
+                        title: '当前样式', field: 'IsCurrent', align: 'center', width: 60,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        },
+                    },
+                ]],
+
+                toolbar: '#adminthemes-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="adminthemes-grid"></table>
+    <div id="adminthemes-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="adminthemes.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="adminthemes.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="adminthemes.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

@@ -136,6 +136,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Distinct.cs" />
+    <Compile Include="Bll\Entity\BllTheme.cs" />
     <Compile Include="Bll\Entity\BllDatum.cs" />
     <Compile Include="Bll\Func\CID.cs" />
     <Compile Include="Bll\Func\EasyUI.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Bll\View\VDatum.cs" />
     <Compile Include="Bll\View\VTerm.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminThemeController.cs" />
     <Compile Include="Controllers\Admin\AdminDatumController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -662,6 +664,10 @@
     <Content Include="Views\AdminDatum\Add.cshtml" />
     <Content Include="Views\AdminDatum\Del.cshtml" />
     <Content Include="Views\AdminDatum\Edit.cshtml" />
+    <Content Include="Views\AdminTheme\Add.cshtml" />
+    <Content Include="Views\AdminTheme\Del.cshtml" />
+    <Content Include="Views\AdminTheme\Edit.cshtml" />
+    <Content Include="Views\AdminTheme\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
