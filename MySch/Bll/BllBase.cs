@@ -102,6 +102,18 @@ namespace MySch.Bll
             }
         }
 
+        public static int Count(Expression<Func<Entity, bool>> where)
+        {
+            try
+            {
+                return DataCRUD<Entity>.Count(where);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         /// <summary>
         /// JSON方式：将 实体对象 -> 表示数据
         /// 一、条件Lambda查询获取多个实体对象

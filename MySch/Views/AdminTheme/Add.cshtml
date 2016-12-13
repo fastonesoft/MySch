@@ -9,18 +9,17 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
-        <div class="form-item-row-left">
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:300px;" })
-
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>
-        <div class="form-item-row-left">
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.IDS)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @style = "width:300px;" })
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text" })
             </span>
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
@@ -40,6 +39,6 @@
             }
         });
         //添加对话框
-        DialogAdd('数据添加', 420, 300, '/AdminDatum/AddToken', '#admindatums-grid');
+        DialogReload('模板添加', 320, 220, '/AdminTheme/AddToken', '#adminthemes-grid');
     })
 </script>

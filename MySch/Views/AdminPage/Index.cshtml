@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //AdminTheme/Index
+    //AdminPage/Index
 }
 
 <!DOCTYPE html>
@@ -8,26 +8,26 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>样式设置</title>
+    <title>页面设置</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            adminthemes = {
+            adminpages = {
                 add: function () {
-                    DataGridNone('/AdminTheme/Add');
+                    DataGridNone('/AdminPage/Add');
                 },
                 edit: function () {
-                    DataGridRowID('#adminthemes-grid', '/AdminTheme/Edit');
+                    DataGridRowID('#adminpages-grid', '/AdminPage/Edit');
                 },
                 del: function () {
-                    DataGridRowID('#adminthemes-grid', '/AdminTheme/Del');
+                    DataGridRowID('#adminpages-grid', '/AdminPage/Del');
                 }
             }
 
             //数据表格
-            $('#adminthemes-grid').datagrid({
+            $('#adminpages-grid').datagrid({
                 fit: true,
                 striped: true,
                 rownumbers: true,
@@ -35,7 +35,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/AdminTheme/DataGrid',
+                url: '/AdminPage/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -62,7 +62,7 @@
                     },
                 ]],
 
-                toolbar: '#adminthemes-grid-tool',
+                toolbar: '#adminpages-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -72,25 +72,25 @@
     </script>
 </head>
 <body>
-    <table id="adminthemes-grid"></table>
-    <div id="adminthemes-grid-tool">
+    <table id="adminpages-grid"></table>
+    <div id="adminpages-grid-tool">
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="adminthemes.add();">添加</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="adminpages.add();">添加</a>
                     </td>
                     <td>
                         <div class="datagrid-btn-separator"></div>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="adminthemes.edit();">修改</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="adminpages.edit();">修改</a>
                     </td>
                     <td>
                         <div class="datagrid-btn-separator"></div>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="adminthemes.del();">删除</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="adminpages.del();">删除</a>
                     </td>
                 </tr>
             </thead>

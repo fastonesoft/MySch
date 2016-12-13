@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllTheme
+﻿@model MySch.Bll.Entity.BllPage
 
 @{
     Layout = null;
@@ -24,7 +24,7 @@
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent)</div>
+            <div>@Html.LabelFor(a => a.Bootup)：@Html.CheckBoxFor(a => a.Bootup)</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
@@ -32,7 +32,14 @@
 
 <script type="text/javascript">
     $(function () {
-        //删除对话框
-        DialogReload('模板删除', 320, 220, '/AdminTheme/DelToken', '#adminthemes-grid');
+        //按键：焦点转移
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                //错误输入聚焦
+                $('.input-validation-error:first').focus();
+            }
+        });
+        //修改对话框
+        DialogReload('页面修改', 320, 220, '/AdminPage/EditToken', '#adminpages-grid');
     })
 </script>

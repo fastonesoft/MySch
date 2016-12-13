@@ -70,6 +70,29 @@ namespace MySch.Dal
         }
 
         /// <summary>
+        /// 更新数据集
+        /// </summary>
+        /// <param name="entitys">数据实体集</param>
+        public static void Update(IEnumerable<TEntity> entitys)
+        {
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    foreach (var entity in entitys)
+                    {
+                        db.Entry<TEntity>(entity).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：实体数据集无法更新！");
+            }
+        }
+
+        /// <summary>
         /// 删除数据
         /// </summary>
         /// <param name="entity">数据实体</param>
@@ -86,6 +109,29 @@ namespace MySch.Dal
             catch
             {
                 throw new Exception("数据层：实体数据无法删除！");
+            }
+        }
+
+        /// <summary>
+        /// 删除数据集
+        /// </summary>
+        /// <param name="entitys">数据实体集</param>
+        public static void Delete(IEnumerable<TEntity> entitys)
+        {
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    foreach(var entity in entitys)
+                    {
+                        db.Entry<TEntity>(entity).State = EntityState.Deleted;
+                    }
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：实体数据集无法删除！");
             }
         }
 
