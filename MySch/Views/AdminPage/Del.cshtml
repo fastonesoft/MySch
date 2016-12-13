@@ -24,7 +24,7 @@
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Bootup)：@Html.CheckBoxFor(a => a.Bootup)</div>
+            <div>@Html.LabelFor(a => a.Bootup)：@Html.CheckBoxFor(a => a.Bootup, new { @onclick = "return false" })</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)

@@ -16,7 +16,21 @@
             //点击动作
             adminpages = {
                 add: function () {
-                    DataGridNone('/AdminPage/Add');
+                    var node = $('#adminpages-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', '前端：没有选择相应的模板！', 'error');
+                        return false;
+                    }
+                    var pnode = $('#adminpages-tree').tree('getParent', node.target);
+
+                    var param = node.memo == 'Theme' ? {
+                        id: node.id,
+                        memo: node.memo,
+                    } : {
+                        id: pnode.id,
+                        memo: pnode.memo,
+                    }
+                    DataGridRequest('/AdminPage/Add', param);
                 },
                 edit: function () {
                     DataGridRowID('#adminpages-grid', '/AdminPage/Edit');
@@ -29,6 +43,7 @@
             //数据表格
             $('#adminpages-grid').datagrid({
                 fit: true,
+                border: false,
                 striped: true,
                 rownumbers: true,
                 fitColumns: false,
@@ -46,10 +61,10 @@
                 },
 
                 columns: [[
-                    { title: '模板名称', field: 'Name', align: 'center', width: 120 },
-                    { title: '模板编号', field: 'IDS', align: 'center', width: 150 },
+                    { title: '页面名称', field: 'Name', align: 'center', width: 120 },
+                    { title: '页面编号', field: 'IDS', align: 'center', width: 150 },
                     {
-                        title: '当前模板', field: 'IsCurrent', align: 'center', width: 60,
+                        title: '启动页', field: 'Bootup', align: 'center', width: 60,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                             //return value.ok ? null : value.message;
@@ -68,33 +83,71 @@
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
+
+
+            $('#adminpages-lay').layout({
+                fit: true,
+                border: true,
+            });
+
+            $('#adminpages-tree').tree({
+                fit: true,
+                url: '/AdminTheme/ThemeTree',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                onClick: function (node) {
+                    if (node) {
+                        $('#adminpages-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                                memo: node.memo,
+                            }
+                        });
+                    }
+                },
+            });
+
         })
+
     </script>
 </head>
 <body>
-    <table id="adminpages-grid"></table>
-    <div id="adminpages-grid-tool">
-        <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="adminpages.add();">添加</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="adminpages.edit();">修改</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="adminpages.del();">删除</a>
-                    </td>
-                </tr>
-            </thead>
-        </table>
+    <div id="adminpages-lay">
+        <div data-options="region:'west',border:true, title:'模板页面'" style="width:180px;">
+            <ul id="adminpages-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true">
+            <table id="adminpages-grid"></table>
+            <div id="adminpages-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="adminpages.add();">添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="adminpages.edit();">修改</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="adminpages.del();">删除</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

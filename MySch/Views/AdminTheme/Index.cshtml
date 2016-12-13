@@ -37,6 +37,8 @@
                 checkOnSelect: true,
                 url: '/AdminTheme/DataGrid',
                 loadFilter: function (d) {
+                    console.log(d);
+
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
                         return { total: 0, rows: [] };

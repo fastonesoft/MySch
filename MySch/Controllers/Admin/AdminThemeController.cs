@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.Bll.View;
 using System;
 using System.Collections.Generic;
@@ -58,8 +59,18 @@ namespace MySch.Controllers.Admin
         {
             try
             {
+                //清除当前
+                if (entity.IsCurrent)
+                {
+                    var edits = BllTheme.GetEntitys<BllTheme>(a => a.IsCurrent);
+                    foreach (var edit in edits)
+                    {
+                        edit.IsCurrent = false;
+                        edit.ToUpdate();
+                    }
+                }
+                //添加数据
                 entity.ID = Guid.NewGuid().ToString("N");
-
                 entity.ToAdd(ModelState);
                 return Json(entity);
             }
@@ -113,6 +124,25 @@ namespace MySch.Controllers.Admin
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        [HttpPost]
+        public ActionResult ThemeTree(string id = null)
+        {
+            //模板
+            if (id == null)
+            {
+                var entitys = BllTheme.GetEntitys<BllTheme>(a => true);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Theme");
+                return Json(res);
+            }
+            else
+            {
+                var entitys = BllPage.GetEntitys<BllPage>(a => a.ThemeIDS == id);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Page");
+                return Json(res);
+            }
+        }
+
 
         [HttpPost]
         public ActionResult DataGrid(int page = 1, int rows = 100)
