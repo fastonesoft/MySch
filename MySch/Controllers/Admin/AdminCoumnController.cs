@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminPageController : RoleAdminController
+    public class AdminCoumnController : RoleAdminController
     {
 
         [HttpPost]
@@ -117,12 +117,22 @@ namespace MySch.Controllers.Admin
 
 
         [HttpPost]
-        public ActionResult MenuTree()
+        public ActionResult MenuTree(string id = null)
         {
-            //模板
-            var entitys = BllTheme.GetEntitys<BllTheme>(a => true);
-            var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Theme");
-            return Json(res);
+            if (id == null)
+            {
+                //模板
+                var entitys = BllTheme.GetEntitys<BllTheme>(a => true);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Theme");
+                return Json(res);
+            }
+            else
+            {
+                //页面
+                var entitys = BllPage.GetEntitys<BllPage>(a => a.ThemeIDS == id);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Page");
+                return Json(res);
+            }
         }
 
 

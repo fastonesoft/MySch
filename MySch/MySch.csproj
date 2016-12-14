@@ -205,6 +205,9 @@
     <Compile Include="Bll\View\VDatum.cs" />
     <Compile Include="Bll\View\VTerm.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminCoumnController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\Admin\AdminPageController.cs" />
     <Compile Include="Controllers\Admin\AdminThemeController.cs" />
     <Compile Include="Controllers\Admin\AdminDatumController.cs">
@@ -674,6 +677,10 @@
     <Content Include="Views\AdminPage\Del.cshtml" />
     <Content Include="Views\AdminPage\Edit.cshtml" />
     <Content Include="Views\AdminPage\Index.cshtml" />
+    <Content Include="Views\AdminCoumn\Add.cshtml" />
+    <Content Include="Views\AdminCoumn\Del.cshtml" />
+    <Content Include="Views\AdminCoumn\Edit.cshtml" />
+    <Content Include="Views\AdminCoumn\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

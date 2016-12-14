@@ -126,25 +126,6 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult ThemeTree(string id = null)
-        {
-            //模板
-            if (id == null)
-            {
-                var entitys = BllTheme.GetEntitys<BllTheme>(a => true);
-                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Theme");
-                return Json(res);
-            }
-            else
-            {
-                var entitys = BllPage.GetEntitys<BllPage>(a => a.ThemeIDS == id);
-                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Page");
-                return Json(res);
-            }
-        }
-
-
-        [HttpPost]
         public ActionResult DataGrid(int page = 1, int rows = 100)
         {
             try

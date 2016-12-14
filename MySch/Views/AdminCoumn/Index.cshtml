@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //AdminPage/Index
+    //AdminCoumn/Index
 }
 
 <!DOCTYPE html>
@@ -13,26 +13,26 @@
     <script type="text/javascript">
         $(function () {
             //点击动作
-            adminpages = {
+            admincolumns = {
                 add: function () {
-                    var node = $('#adminpages-tree').tree('getSelected');
+                    var node = $('#admincolumns-tree').tree('getSelected');
                     if (!node) {
                         $.messager.alert('错误提示', '前端：没有选择相应的模板！', 'error');
                         return false;
                     }
                     var param = { id: node.id };
-                    DataGridRequest('/AdminPage/Add', param);
+                    DataGridRequest('/AdminCoumn/Add', param);
                 },
                 edit: function () {
-                    DataGridRowID('#adminpages-grid', '/AdminPage/Edit');
+                    DataGridRowID('#admincolumns-grid', '/AdminCoumn/Edit');
                 },
                 del: function () {
-                    DataGridRowID('#adminpages-grid', '/AdminPage/Del');
+                    DataGridRowID('#admincolumns-grid', '/AdminCoumn/Del');
                 }
             }
 
             //数据表格
-            $('#adminpages-grid').datagrid({
+            $('#admincolumns-grid').datagrid({
                 fit: true,
                 border: false,
                 striped: true,
@@ -41,7 +41,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/AdminPage/DataGrid',
+                url: '/AdminCoumn/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -52,37 +52,37 @@
                 },
 
                 columns: [[
-                    { title: '页面名称', field: 'Name', align: 'center', width: 120 },
-                    { title: '页面编号', field: 'IDS', align: 'center', width: 150 },
+                    { title: '栏目名称', field: 'Name', align: 'center', width: 120 },
+                    { title: '栏目编号', field: 'IDS', align: 'center', width: 150 },
                     {
-                        title: '启动页', field: 'Bootup', align: 'center', width: 60,
+                        title: '是否启用', field: 'Fixed', align: 'center', width: 60,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                             //return value.ok ? null : value.message;
                         },
                         styler: function (value, row, index) {
                             if (value) {
-                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                                return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
                             }
                         },
                     },
                 ]],
 
-                toolbar: '#adminpages-grid-tool',
+                toolbar: '#admincolumns-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
 
-            $('#adminpages-lay').layout({
+            $('#admincolumns-lay').layout({
                 fit: true,
                 border: true,
             });
 
-            $('#adminpages-tree').tree({
+            $('#admincolumns-tree').tree({
                 fit: true,
-                url: '/AdminPage/MenuTree',
+                url: '/AdminCoumn/MenuTree',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -93,7 +93,7 @@
                 },
                 onClick: function (node) {
                     if (node) {
-                        $('#adminpages-grid').datagrid({
+                        $('#admincolumns-grid').datagrid({
                             queryParams: {
                                 id: node.id,
                                 memo: node.memo,
@@ -108,30 +108,30 @@
     </script>
 </head>
 <body>
-    <div id="adminpages-lay">
+    <div id="admincolumns-lay">
         <div data-options="region:'west',border:true, title:'模板页面'" style="width:180px;">
-            <ul id="adminpages-tree"></ul>
+            <ul id="admincolumns-tree"></ul>
         </div>
         <div data-options="region:'center',border:true">
-            <table id="adminpages-grid"></table>
-            <div id="adminpages-grid-tool">
+            <table id="admincolumns-grid"></table>
+            <div id="admincolumns-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="adminpages.add();">添加</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="admincolumns.add();">添加</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="adminpages.edit();">修改</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="admincolumns.edit();">修改</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="adminpages.del();">删除</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="admincolumns.del();">删除</a>
                             </td>
                         </tr>
                     </thead>
