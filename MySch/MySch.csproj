@@ -136,6 +136,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Distinct.cs" />
+    <Compile Include="Bll\Entity\BllColumn.cs" />
     <Compile Include="Bll\Entity\BllPage.cs" />
     <Compile Include="Bll\Entity\BllTheme.cs" />
     <Compile Include="Bll\Entity\BllDatum.cs" />

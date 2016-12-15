@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllPage
+﻿@model MySch.Bll.Entity.BllColumn
 
 @{
     Layout = null;
@@ -10,8 +10,8 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.ThemeIDS)：</div>
-            <input id="ThemeIDS" name="ThemeIDS" style="width:210px;" />
+            <div>@Html.LabelFor(a => a.PageIDS)：</div>
+            <input id="PageIDS" name="PageIDS" style="width:210px;" />
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Name)：</div>
@@ -28,7 +28,7 @@
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Bootup)：@Html.CheckBoxFor(a => a.Bootup)</div>
+            <div>@Html.LabelFor(a => a.)：@Html.CheckBoxFor(a => a.Bootup)</div>
         </div>
     </div>
 }

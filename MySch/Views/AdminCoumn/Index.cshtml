@@ -21,6 +21,10 @@
                         return false;
                     }
                     var param = { id: node.id };
+                    if (node.memo == 'Page') {
+                        var pnode = $('#admincolumns-tree').tree('getParent', node.target);
+                        param = { id: pnode.id };
+                    }
                     DataGridRequest('/AdminCoumn/Add', param);
                 },
                 edit: function () {
@@ -52,8 +56,8 @@
                 },
 
                 columns: [[
-                    { title: '栏目名称', field: 'Name', align: 'center', width: 120 },
-                    { title: '栏目编号', field: 'IDS', align: 'center', width: 150 },
+                    { title: '栏目名称', field: 'Name', align: 'center', width: 150 },
+                    { title: '栏目编号', field: 'IDS', align: 'center', width: 200 },
                     {
                         title: '是否启用', field: 'Fixed', align: 'center', width: 60,
                         formatter: function (value, row, index) {

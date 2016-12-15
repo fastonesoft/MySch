@@ -22,8 +22,8 @@ namespace MySch.Controllers.Admin
         [HttpPost]
         public ActionResult Add(string id)
         {
-            var themes = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
-            ViewBag.Themes = EasyUICombo.ToComboJsons(themes, id);
+            var pages = BllPage.GetEntitys<BllPage>(a => true).OrderBy(a => a.IDS);
+            ViewBag.Pages = EasyUICombo.ToComboJsons(pages, id);
 
             return View();
         }
@@ -35,8 +35,8 @@ namespace MySch.Controllers.Admin
             {
                 var db = BllPage.GetEntity<BllPage>(id);
 
-                var themes = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
-                ViewBag.Themes = EasyUICombo.ToComboJsons(themes, db.ThemeIDS);
+                var pages = BllPage.GetEntitys<BllPage>(a => true).OrderBy(a => a.IDS);
+                ViewBag.Pages = EasyUICombo.ToComboJsons(pages, db.ThemeIDS);
 
                 return View(db);
             }

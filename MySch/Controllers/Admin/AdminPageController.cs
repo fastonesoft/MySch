@@ -70,8 +70,18 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                entity.ID = Guid.NewGuid().ToString("N");
+                //清除当前
+                if (entity.Bootup)
+                {
+                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ThemeIDS == entity.ThemeIDS);
+                    foreach (var edit in edits)
+                    {
+                        edit.Bootup = false;
+                        edit.ToUpdate();
+                    }
+                }
                 //添加数据
+                entity.ID = Guid.NewGuid().ToString("N");
                 entity.ToAdd(ModelState);
                 return Json(entity);
             }
@@ -87,6 +97,16 @@ namespace MySch.Controllers.Admin
         {
             try
             {
+                //清除当前
+                if (entity.Bootup)
+                {
+                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ThemeIDS == entity.ThemeIDS);
+                    foreach (var edit in edits)
+                    {
+                        edit.Bootup = false;
+                        edit.ToUpdate();
+                    }
+                }
                 //更新数据
                 entity.ToUpdate(ModelState);
                 return Json(entity);
@@ -104,7 +124,8 @@ namespace MySch.Controllers.Admin
             try
             {
                 //当前判断
-                if (BllPage.Count(a => a.ThemeIDS == entity.IDS) > 0) throw new Exception("表示层：模板已设置页面数据，不能删除！");
+                if (entity.Bootup) throw new Exception("表示层：启动页，不能删除！");
+                if (BllColumn.Count(a => a.PageIDS == entity.IDS) > 0) throw new Exception("表示层：页面已设置栏目数据，不能删除！");
                 //删除数据
                 entity.ToDelete(ModelState);
                 return Json(entity);
