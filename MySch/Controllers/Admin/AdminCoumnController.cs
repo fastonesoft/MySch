@@ -66,7 +66,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllPage entity)
+        public ActionResult AddToken(BllColumn entity)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllPage entity)
+        public ActionResult EditToken(BllColumn entity)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(BllPage entity)
+        public ActionResult DelToken(BllColumn entity)
         {
             try
             {
