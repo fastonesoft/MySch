@@ -33,10 +33,10 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllPage.GetEntity<BllPage>(id);
+                var db = BllColumn.GetEntity<BllColumn>(id);
 
                 var pages = BllPage.GetEntitys<BllPage>(a => true).OrderBy(a => a.IDS);
-                ViewBag.Pages = EasyUICombo.ToComboJsons(pages, db.ThemeIDS);
+                ViewBag.Pages = EasyUICombo.ToComboJsons(pages, db.PageIDS);
 
                 return View(db);
             }
@@ -51,10 +51,10 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllPage.GetEntity<BllPage>(id);
+                var db = BllColumn.GetEntity<BllColumn>(id);
 
-                var themes = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
-                ViewBag.Themes = EasyUICombo.ToComboJsons(themes, db.ThemeIDS);
+                var pages = BllPage.GetEntitys<BllPage>(a => true).OrderBy(a => a.IDS);
+                ViewBag.Pages = EasyUICombo.ToComboJsons(pages, db.PageIDS);
 
                 return View(db);
             }
@@ -142,8 +142,8 @@ namespace MySch.Controllers.Admin
             try
             {
                 var res = id == null ?
-                    BllPage.GetDataGridPages<BllPage, string>(a => true, a => a.IDS, page, rows, OrderType.ASC) :
-                    BllPage.GetDataGridPages<BllPage, string>(a => a.ThemeIDS == id, a => a.IDS, page, rows, OrderType.ASC);
+                    VColumn.GetDataGridPages(a => true, page, rows) :
+                    VColumn.GetDataGridPages(a => a.PageIDS == id, page, rows);
                 return Json(res);
             }
             catch (Exception e)

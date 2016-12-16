@@ -9,26 +9,35 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.PageIDS)：</div>
-            <input id="PageIDS" name="PageIDS" style="width:210px;" />
-        </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:200px;" })
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:300px;" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.IDS)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @style = "width:200px;" })
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @style = "width:300px;" })
             </span>
             @Html.ValidationMessageFor(a => a.IDS)
         </div>
+        <div class="form-item-row-line"></div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.)：@Html.CheckBoxFor(a => a.Bootup)</div>
+            <div>@Html.LabelFor(a => a.Html)：</div>
+            <span class="textbox">
+                @Html.TextAreaFor(a => a.Html, new { @class = "textbox-text", @style = "width:615px; height:315px;" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Html)
+        </div>
+        <div class="form-item-row-line"></div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.PageIDS)：</div>
+            <input id="PageIDS" name="PageIDS" style="width:625px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
         </div>
     </div>
 }
@@ -43,17 +52,17 @@
             }
         });
 
-        var themes = $.parseJSON('@Html.Raw(ViewBag.Themes)');
+        var pages = $.parseJSON('@Html.Raw(ViewBag.Pages)');
 
         //加载选择框
-        $('#ThemeIDS').combobox({
+        $('#PageIDS').combobox({
             valueField: 'id',
             textField: 'text',
-            data: themes,
+            data: pages,
             readonly: true,
         });
 
         //添加对话框
-        DialogReload('页面添加', 320, 260, '/AdminPage/AddToken', '#adminpages-grid');
+        DialogAdd('栏目添加', 680, 570, '/AdminCoumn/AddToken', '#admincolumns-grid');
     })
 </script>

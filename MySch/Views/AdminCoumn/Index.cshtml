@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>页面设置</title>
+    <title>栏目设置</title>
 
     <script type="text/javascript">
         $(function () {
@@ -17,14 +17,14 @@
                 add: function () {
                     var node = $('#admincolumns-tree').tree('getSelected');
                     if (!node) {
-                        $.messager.alert('错误提示', '前端：没有选择相应的模板！', 'error');
+                        $.messager.alert('错误提示', '前端：没有选择！', 'error');
+                        return false;
+                    }
+                    if (node.memo != 'Page') {
+                        $.messager.alert('错误提示', '前端：没有选择相应的页面！', 'error');
                         return false;
                     }
                     var param = { id: node.id };
-                    if (node.memo == 'Page') {
-                        var pnode = $('#admincolumns-tree').tree('getParent', node.target);
-                        param = { id: pnode.id };
-                    }
                     DataGridRequest('/AdminCoumn/Add', param);
                 },
                 edit: function () {
