@@ -17,7 +17,7 @@
                 add: function () {
                     var node = $('#admincolumns-tree').tree('getSelected');
                     if (!node) {
-                        $.messager.alert('错误提示', '前端：没有选择！', 'error');
+                        $.messager.alert('错误提示', '前端：模板页面，没有选择！', 'error');
                         return false;
                     }
                     if (node.memo != 'Page') {
@@ -56,10 +56,11 @@
                 },
 
                 columns: [[
+                    { title: '页面名称', field: 'PageName', align: 'center', width: 150 },
                     { title: '栏目名称', field: 'Name', align: 'center', width: 150 },
                     { title: '栏目编号', field: 'IDS', align: 'center', width: 200 },
                     {
-                        title: '是否启用', field: 'Fixed', align: 'center', width: 60,
+                        title: '是否禁用', field: 'Fixed', align: 'center', width: 60,
                         formatter: function (value, row, index) {
                             //不输出任何东西
                             //return value.ok ? null : value.message;
@@ -96,7 +97,7 @@
                     }
                 },
                 onClick: function (node) {
-                    if (node) {
+                    if (node && node.memo == 'Page') {
                         $('#admincolumns-grid').datagrid({
                             queryParams: {
                                 id: node.id,

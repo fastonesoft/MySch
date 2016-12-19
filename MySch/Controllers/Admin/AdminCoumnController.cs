@@ -34,6 +34,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var db = BllColumn.GetEntity<BllColumn>(id);
+                db.Html = HttpUtility.UrlDecode(db.Html);
 
                 var pages = BllPage.GetEntitys<BllPage>(a => true).OrderBy(a => a.IDS);
                 ViewBag.Pages = EasyUICombo.ToComboJsons(pages, db.PageIDS);
@@ -52,6 +53,7 @@ namespace MySch.Controllers.Admin
             try
             {
                 var db = BllColumn.GetEntity<BllColumn>(id);
+                db.Html = HttpUtility.UrlDecode(db.Html);
 
                 var pages = BllPage.GetEntitys<BllPage>(a => true).OrderBy(a => a.IDS);
                 ViewBag.Pages = EasyUICombo.ToComboJsons(pages, db.PageIDS);
@@ -103,8 +105,6 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                //当前判断
-                if (BllPage.Count(a => a.ThemeIDS == entity.IDS) > 0) throw new Exception("表示层：模板已设置页面数据，不能删除！");
                 //删除数据
                 entity.ToDelete(ModelState);
                 return Json(entity);

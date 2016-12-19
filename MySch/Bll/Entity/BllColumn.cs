@@ -26,7 +26,7 @@ namespace MySch.Bll.Entity
         [Required(ErrorMessage = "{0}不得为空；")]
         public string Html { get; set; }
         
-        [DisplayName("是否启用")]
+        [DisplayName("是否禁用")]
         [Required(ErrorMessage = "{0}不得为空；")]
         public bool Fixed { get; set; }
 

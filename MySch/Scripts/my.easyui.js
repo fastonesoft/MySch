@@ -1,5 +1,4 @@
-﻿
-function DataGridRequest(url, param) {
+﻿function DataGridRequest(url, param) {
     //禁用
     $('.easyui-linkbutton').linkbutton('disable');
     //打开窗口
