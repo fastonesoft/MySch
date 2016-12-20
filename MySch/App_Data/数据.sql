@@ -856,21 +856,7 @@ create table TPage
 )
 go
 alter table TPage add constraint PK_TPage primary key clustered (ID)
-alter table TPage add constraint FK_TPage_ThemeIDS foreign key (ThemeIDS) references Theme (IDS)
 create unique nonclustered index UN_TPage_IDS on TPage (IDS)
-
-
---栏目表
-create table TColumn
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
-	Name	nvarchar(20) not null,
-	ParentIDS	nvarchar(20) not null,
-)
-go
-alter table TColumn add constraint PK_TColumn primary key clustered (ID)
-create unique nonclustered index UN_TColumn_IDS on TColumn (IDS)
 
 
 

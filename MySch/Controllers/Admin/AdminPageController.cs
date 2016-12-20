@@ -20,23 +20,39 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Add(string id)
+        public ActionResult Add(string id, string memo)
         {
-            var themes = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
-            ViewBag.Themes = EasyUICombo.ToComboJsons(themes, id);
-
+            if (memo == "Theme")
+            {
+                var parents = BllTheme.GetEntitys<BllTheme>(a => a.IDS == id).OrderBy(a => a.IDS);
+                ViewBag.Parents = EasyUICombo.ToComboJsons(parents, id);
+            }
+            else
+            {
+                var parents = BllPage.GetEntitys<BllPage>(a => a.IDS == id).OrderBy(a => a.IDS);
+                ViewBag.Parents = EasyUICombo.ToComboJsons(parents, id);
+            }
             return View();
         }
 
         [HttpPost]
-        public ActionResult Edit(string id)
+        public ActionResult Edit(BllPage entity)
         {
             try
             {
-                var db = BllPage.GetEntity<BllPage>(id);
+                var db = BllPage.GetEntity<BllPage>(a => a.ID == entity.ID);
+                db.Html = HttpUtility.UrlDecode(db.Html);
 
-                var themes = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
-                ViewBag.Themes = EasyUICombo.ToComboJsons(themes, db.ThemeIDS);
+                if (BllTheme.Count(a => a.ID == entity.ID) != 0)
+                {
+                    var parents = BllTheme.GetEntitys<BllTheme>(a => a.IDS == entity.IDS).OrderBy(a => a.IDS);
+                    ViewBag.Parents = EasyUICombo.ToComboJsons(parents, entity.IDS);
+                }
+                else
+                {
+                    var parents = BllPage.GetEntitys<BllPage>(a => a.IDS == entity.ParentIDS).OrderBy(a => a.IDS);
+                    ViewBag.Parents = EasyUICombo.ToComboJsons(parents, entity.ParentIDS);
+                }
 
                 return View(db);
             }
@@ -47,14 +63,14 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Del(string id)
+        public ActionResult Del(string id, string memo)
         {
             try
             {
                 var db = BllPage.GetEntity<BllPage>(id);
 
                 var themes = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
-                ViewBag.Themes = EasyUICombo.ToComboJsons(themes, db.ThemeIDS);
+                ViewBag.Themes = EasyUICombo.ToComboJsons(themes, db.ParentIDS);
 
                 return View(db);
             }
@@ -73,7 +89,7 @@ namespace MySch.Controllers.Admin
                 //清除当前
                 if (entity.Bootup)
                 {
-                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ThemeIDS == entity.ThemeIDS);
+                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ParentIDS == entity.ParentIDS);
                     foreach (var edit in edits)
                     {
                         edit.Bootup = false;
@@ -100,7 +116,7 @@ namespace MySch.Controllers.Admin
                 //清除当前
                 if (entity.Bootup)
                 {
-                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ThemeIDS == entity.ThemeIDS);
+                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ParentIDS == entity.ParentIDS);
                     foreach (var edit in edits)
                     {
                         edit.Bootup = false;
@@ -125,7 +141,7 @@ namespace MySch.Controllers.Admin
             {
                 //当前判断
                 if (entity.Bootup) throw new Exception("表示层：启动页，不能删除！");
-                if (BllColumn.Count(a => a.PageIDS == entity.IDS) > 0) throw new Exception("表示层：页面已设置栏目数据，不能删除！");
+                if (BllPage.Count(a => a.ParentIDS == entity.IDS) > 0) throw new Exception("表示层：存在子页面数据，不能删除！");
                 //删除数据
                 entity.ToDelete(ModelState);
                 return Json(entity);
@@ -138,12 +154,27 @@ namespace MySch.Controllers.Admin
 
 
         [HttpPost]
-        public ActionResult MenuTree()
+        public ActionResult MenuTree(string id = null)
         {
-            //模板
-            var entitys = BllTheme.GetEntitys<BllTheme>(a => true);
-            var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Theme");
-            return Json(res);
+            if (id == null)
+            {
+                //模板
+                var entitys = BllTheme.GetEntitys<BllTheme>(a => true);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Theme");
+                return Json(res);
+            }
+            else
+            {
+                //页面
+                var entitys = BllPage.GetEntitys<BllPage>(a => a.ParentIDS == id);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Page");
+                //叶子
+                foreach (var r in res)
+                {
+                    r.state = BllPage.Count(a => a.ParentIDS == r.id) > 0 ? "closed" : "open";
+                }
+                return Json(res);
+            }
         }
 
 
@@ -154,7 +185,7 @@ namespace MySch.Controllers.Admin
             {
                 var res = id == null ?
                     BllPage.GetDataGridPages<BllPage, string>(a => true, a => a.IDS, page, rows, OrderType.ASC) :
-                    BllPage.GetDataGridPages<BllPage, string>(a => a.ThemeIDS == id, a => a.IDS, page, rows, OrderType.ASC);
+                    BllPage.GetDataGridPages<BllPage, string>(a => a.ParentIDS == id, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)

@@ -22,7 +22,6 @@ namespace MySch.Models
         public DbSet<KSub> KSubs { get; set; }
         public DbSet<TAcc> TAccs { get; set; }
         public DbSet<TBan> TBans { get; set; }
-        public DbSet<TColumn> TColumns { get; set; }
         public DbSet<TCome> TComes { get; set; }
         public DbSet<TDatum> TDatums { get; set; }
         public DbSet<TEdu> TEdus { get; set; }
@@ -50,7 +49,6 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new KSubMap());
             modelBuilder.Configurations.Add(new TAccMap());
             modelBuilder.Configurations.Add(new TBanMap());
-            modelBuilder.Configurations.Add(new TColumnMap());
             modelBuilder.Configurations.Add(new TComeMap());
             modelBuilder.Configurations.Add(new TDatumMap());
             modelBuilder.Configurations.Add(new TEduMap());

@@ -20,14 +20,14 @@
                         $.messager.alert('错误提示', '前端：没有选择相应的模板！', 'error');
                         return false;
                     }
-                    var param = { id: node.id };
+                    var param = { id: node.id, memo: node.memo };
                     DataGridRequest('/AdminPage/Add', param);
                 },
                 edit: function () {
-                    DataGridRowID('#adminpages-grid', '/AdminPage/Edit');
+                    DataGridRow('#adminpages-grid', '/AdminPage/Edit');
                 },
                 del: function () {
-                    DataGridRowID('#adminpages-grid', '/AdminPage/Del');
+                    DataGridRow('#adminpages-grid', '/AdminPage/Del');
                 }
             }
 
@@ -66,6 +66,18 @@
                             }
                         },
                     },
+                    {
+                        title: '是否禁止', field: 'Fixed', align: 'center', width: 60,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                            //return value.ok ? null : value.message;
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        },
+                    },
                 ]],
 
                 toolbar: '#adminpages-grid-tool',
@@ -84,6 +96,7 @@
                 fit: true,
                 url: '/AdminPage/MenuTree',
                 loadFilter: function (d) {
+                    console.log(d);
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
                         return { total: 0, rows: [] };

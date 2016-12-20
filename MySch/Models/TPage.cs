@@ -9,6 +9,8 @@ namespace MySch.Models
         public string IDS { get; set; }
         public string Name { get; set; }
         public bool Bootup { get; set; }
-        public string ThemeIDS { get; set; }
+        public string Html { get; set; }
+        public bool Fixed { get; set; }
+        public string ParentIDS { get; set; }
     }
 }

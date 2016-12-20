@@ -23,7 +23,10 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.ThemeIDS)
+            this.Property(t => t.Html)
+                .IsRequired();
+
+            this.Property(t => t.ParentIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
@@ -33,7 +36,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Bootup).HasColumnName("Bootup");
-            this.Property(t => t.ThemeIDS).HasColumnName("ThemeIDS");
+            this.Property(t => t.Html).HasColumnName("Html");
+            this.Property(t => t.Fixed).HasColumnName("Fixed");
+            this.Property(t => t.ParentIDS).HasColumnName("ParentIDS");
         }
     }
 }
