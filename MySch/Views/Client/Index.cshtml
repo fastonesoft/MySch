@@ -1,79 +1,74 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_Default.cshtml";
 }
 
-<!DOCTYPE html>
+@*@ViewBag.Contents*@
 
-<html>
-<head>
-    <title>用户操作首页</title>
-</head>
-<body>
-    <div id="my-user-lay" class="my-bodyer">
-        <div data-options="region:'north',border:false" style="height:88px;">
-            <div class="my-header noprint">
-                <div class="my-topleft">
-                    <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" /></a>
-                </div>
+<div id="my-user-lay" class="my-bodyer">
+    <div data-options="region:'north',border:false" style="height:88px;">
+        <div class="my-header noprint">
+            <div class="my-topleft">
+                <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" /></a>
+            </div>
 
-                <ul class="my-nav">
-                    <li><a num="0" href="javascript:void(0);"><img src="/Images/pp0801.png" /><h2>学生中心</h2></a></li>
-                    <li><a num="1" href="javascript:void(0);"><img src="/Images/pp10.png" /><h2>教师中心</h2></a></li>
+            <ul class="my-nav">
+                <li><a num="0" href="javascript:void(0);"><img src="/Images/pp0801.png" /><h2>学生中心</h2></a></li>
+                <li><a num="1" href="javascript:void(0);"><img src="/Images/pp10.png" /><h2>教师中心</h2></a></li>
+            </ul>
+
+            <div class="my-topright">
+                <ul>
+                    <li><span><img src="/Images/help.png" title="帮助" class="helpimg" /></span></li>
+                    <li><a href="javascript:void(0);" id="logoff">退出</a></li>
                 </ul>
 
-                <div class="my-topright">
-                    <ul>
-                        <li><span><img src="/Images/help.png" title="帮助" class="helpimg" /></span></li>
-                        <li><a href="javascript:void(0);" id="logoff">退出</a></li>
-                    </ul>
+                <div class="my-user">
+                    <span id="toAdmin">@ViewBag.UserName</span>
+                    <b>0</b>
+                </div>
 
-                    <div class="my-user">
-                        <span id="toAdmin">@ViewBag.UserName</span>
-                        <b>0</b>
+            </div>
+
+        </div>
+    </div>
+
+    <div data-options="region:'west',border:false" style="width:187px;">
+        <div class="left noprint">
+            <div class="my-lefttop"><img src="/Images/m04s.png" />导航菜单</div>
+
+            <dl class="my-leftmenu">
+                <dd>
+                    <div class="title" num="0">
+                        <img src="/Images/leftico04.png" />学生中心
                     </div>
+                    <ul class="my-menuson">
+                        <li dest="/StudEdit/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">学生信息</a><i></i></li>
+                    </ul>
+                </dd>
+                <dd>
+                    <div class="title" num="1">
+                        <img src="/Images/leftico04.png" />教师中心
+                    </div>
+                    <ul class="my-menuson">
+                        <li dest="/StudReg/" icon="icon-user" clicked="false"><cite></cite><a href="javascript:void(0);">我的信息</a><i></i></li>
+                        <li dest="/MastStud/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的学生</a><i></i></li>
+                        <li dest="/MastBan/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的班级</a><i></i></li>
+                        <li dest="/StudReg/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的年级</a><i></i></li>
+                    </ul>
+                </dd>
+            </dl>
 
-                </div>
-
-            </div>
         </div>
+    </div>
 
-        <div data-options="region:'west',border:false" style="width:187px;">
-            <div class="left noprint">
-                <div class="my-lefttop"><img src="/Images/m04s.png" />导航菜单</div>
-
-                <dl class="my-leftmenu">
-                    <dd>
-                        <div class="title" num="0">
-                            <img src="/Images/leftico04.png" />学生中心
-                        </div>
-                        <ul class="my-menuson">
-                            <li dest="/StudEdit/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">学生信息</a><i></i></li>
-                        </ul>
-                    </dd>
-                    <dd>
-                        <div class="title" num="1">
-                            <img src="/Images/leftico04.png" />教师中心
-                        </div>
-                        <ul class="my-menuson">
-                            <li dest="/StudReg/" icon="icon-user" clicked="false"><cite></cite><a href="javascript:void(0);">我的信息</a><i></i></li>
-                            <li dest="/MastStud/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的学生</a><i></i></li>
-                            <li dest="/MastBan/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的班级</a><i></i></li>
-                            <li dest="/StudReg/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的年级</a><i></i></li>
-                        </ul>
-                    </dd>
-                </dl>
-
-            </div>
-        </div>
-
-        <div data-options="region:'center',border:false">
-            <div id="my-user-tab">
-                <div title="用户首页" data-options="iconCls:'icon-tip'" style="padding:8px;">
-                </div>
+    <div data-options="region:'center',border:false">
+        <div id="my-user-tab">
+            <div title="用户首页" data-options="iconCls:'icon-tip'" style="padding:8px;">
             </div>
         </div>
     </div>
-    <script type="text/javascript">
+</div>
+<script type="text/javascript">
     $(function () {
         //清除登录样式
         $('#body').removeAttr('style');
@@ -190,6 +185,5 @@
         });
 
     })
-    </script>
-</body>
-</html>
+</script>
+

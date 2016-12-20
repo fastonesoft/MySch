@@ -850,7 +850,9 @@ create table TPage
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,
 	Bootup	bit not null,
-	ThemeIDS	nvarchar(20) not null,
+	Html	nvarchar(max) not null,
+ 	Fixed	bit not null,
+	ParentIDS	nvarchar(20) not null,
 )
 go
 alter table TPage add constraint PK_TPage primary key clustered (ID)
@@ -864,13 +866,10 @@ create table TColumn
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,
-	Html	nvarchar(max) not null,
- 	Fixed	bit not null,
-	PageIDS	nvarchar(20) not null,
+	ParentIDS	nvarchar(20) not null,
 )
 go
 alter table TColumn add constraint PK_TColumn primary key clustered (ID)
-alter table TColumn add constraint FK_TColumn_PageIDS foreign key (PageIDS) references TPage (IDS)
 create unique nonclustered index UN_TColumn_IDS on TColumn (IDS)
 
 

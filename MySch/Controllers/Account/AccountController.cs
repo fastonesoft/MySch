@@ -74,9 +74,9 @@ namespace MySch.Controllers.Account
             {
                 //已登录
                 //要跳转的Action不能使用POST方式
-                //return RedirectToAction("Index", "Client");
-                ViewBag.UserName = login.Name;
-                return View("Main");
+                return RedirectToAction("Index", "Client");
+                //ViewBag.UserName = login.Name;
+                //return View("Main");
             }
         }
 

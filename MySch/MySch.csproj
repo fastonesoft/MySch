@@ -215,6 +215,7 @@
     <Compile Include="Controllers\Admin\AdminDatumController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Client\ClientController.cs" />
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\RoleStudController.cs" />
@@ -683,6 +684,8 @@
     <Content Include="Views\AdminCoumn\Del.cshtml" />
     <Content Include="Views\AdminCoumn\Edit.cshtml" />
     <Content Include="Views\AdminCoumn\Index.cshtml" />
+    <Content Include="Views\Shared\_Default.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
