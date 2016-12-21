@@ -97,7 +97,7 @@
                             $('#dialog-form').dialogClose();
                             //更新网格
                             $('#adminpages-grid').datagrid('appendRow', d);
-                            //添加叶子
+                            //刷新叶子
                             var node = $('#adminpages-tree').tree('getSelected');
                             $('#adminpages-tree').tree('reload', node.target);
                         }

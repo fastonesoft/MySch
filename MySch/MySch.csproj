@@ -674,10 +674,6 @@
     <Content Include="Views\AdminPage\Del.cshtml" />
     <Content Include="Views\AdminPage\Edit.cshtml" />
     <Content Include="Views\AdminPage\Index.cshtml" />
-    <Content Include="Views\AdminCoumn\Add.cshtml" />
-    <Content Include="Views\AdminCoumn\Del.cshtml" />
-    <Content Include="Views\AdminCoumn\Edit.cshtml" />
-    <Content Include="Views\AdminCoumn\Index.cshtml" />
     <Content Include="Views\Shared\_Default.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
   </ItemGroup>
