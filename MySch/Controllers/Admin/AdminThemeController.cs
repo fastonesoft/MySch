@@ -114,7 +114,7 @@ namespace MySch.Controllers.Admin
             {
                 //当前判断
                 if (entity.IsCurrent) throw new Exception("表示层：当前模板数据，不能删除！");
-                if (BllPage.Count(a => a.ParentIDS == entity.IDS) > 0) throw new Exception("表示层：模板已设置页面数据，不能删除！");
+                if (BllPage.Count(a => a.ParentID == entity.ID) > 0) throw new Exception("表示层：模板已设置页面数据，不能删除！");
 
                 entity.ToDelete(ModelState);
                 return Json(entity);

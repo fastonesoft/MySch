@@ -26,9 +26,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Html)
                 .IsRequired();
 
-            this.Property(t => t.ParentIDS)
+            this.Property(t => t.ParentID)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             // Table & Column Mappings
             this.ToTable("TPage");
@@ -38,7 +38,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Bootup).HasColumnName("Bootup");
             this.Property(t => t.Html).HasColumnName("Html");
             this.Property(t => t.Fixed).HasColumnName("Fixed");
-            this.Property(t => t.ParentIDS).HasColumnName("ParentIDS");
+            this.Property(t => t.ParentID).HasColumnName("ParentID");
         }
     }
 }

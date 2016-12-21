@@ -10,8 +10,8 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.ParentIDS)：</div>
-            <input id="ParentIDS" name="ParentIDS" style="width:625px;" />
+            <div>@Html.LabelFor(a => a.ParentID)：</div>
+            <input id="ParentID" name="ParentID" style="width:625px;" />
         </div>
         <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.Name)：</div>
@@ -59,7 +59,7 @@
         var parents = $.parseJSON('@Html.Raw(ViewBag.Parents)');
 
         //加载选择框
-        $('#ParentIDS').combobox({
+        $('#ParentID').combobox({
             valueField: 'id',
             textField: 'text',
             data: parents,

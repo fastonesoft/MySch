@@ -852,7 +852,7 @@ create table TPage
 	Bootup	bit not null,
 	Html	nvarchar(max) not null,
  	Fixed	bit not null,
-	ParentIDS	nvarchar(20) not null,
+	ParentID	nvarchar(32) not null,
 )
 go
 alter table TPage add constraint PK_TPage primary key clustered (ID)

@@ -11,6 +11,6 @@ namespace MySch.Models
         public bool Bootup { get; set; }
         public string Html { get; set; }
         public bool Fixed { get; set; }
-        public string ParentIDS { get; set; }
+        public string ParentID { get; set; }
     }
 }

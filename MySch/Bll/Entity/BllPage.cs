@@ -35,6 +35,6 @@ namespace MySch.Bll.Entity
 
         [DisplayName("父亲编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        public string ParentIDS { get; set; }
+        public string ParentID { get; set; }
     }
 }
