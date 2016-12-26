@@ -22,7 +22,7 @@ namespace MySch.Bll.Entity
         [RegularExpression(@"^[\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个中文字符")]
         public string Name { get; set; }
 
-        [DisplayName("数据编码")]
+        [DisplayName("查询代码")]
         [Required(ErrorMessage = "{0}不得为空；")]
         public string Command { get; set; }
     }

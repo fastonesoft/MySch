@@ -38,8 +38,7 @@ namespace MySch.Bll.Func
                 //
                 trees.Add(tree);
             }
-            //以id排序
-            return trees.OrderBy(a => a.id);
+            return trees;
         }
 
         public static string ToTreeJsons<Entity>(IEnumerable<Entity> entitys, string ids, string name, string state, string memo) where Entity : class

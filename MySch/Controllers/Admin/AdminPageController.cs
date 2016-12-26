@@ -183,14 +183,14 @@ namespace MySch.Controllers.Admin
             if (id == null)
             {
                 //模板
-                var entitys = BllTheme.GetEntitys<BllTheme>(a => true);
+                var entitys = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "ID", "Name", "closed", "Theme");
                 return Json(res);
             }
             else
             {
                 //页面
-                var entitys = BllPage.GetEntitys<BllPage>(a => a.ParentID == id);
+                var entitys = BllPage.GetEntitys<BllPage>(a => a.ParentID == id).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "ID", "Name", "closed", "Page");
                 //叶子
                 foreach (var r in res)

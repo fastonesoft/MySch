@@ -14,7 +14,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("页面编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^[a-zA-Z]{8,20}$", ErrorMessage = "{0}：为20以内的字母")]
+        [RegularExpression(@"^[a-zA-Z]{6,20}[0-9]{1,3}$", ErrorMessage = "{0}：为20以内的字母")]
         public string IDS { get; set; }
 
         [DisplayName("页面名称")]
@@ -29,7 +29,7 @@ namespace MySch.Bll.Entity
         [Required(ErrorMessage = "{0}不得为空；")]
         public string Html { get; set; }
 
-        [DisplayName("页面脚本")]
+        [DisplayName("脚本样式")]
         public string Script { get; set; }
 
         [DisplayName("是否禁用")]
