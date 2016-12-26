@@ -25,9 +25,12 @@ namespace MySch.Bll.Entity
         [DisplayName("启动页")]
         public bool Bootup { get; set; }
 
-        [DisplayName("页面脚本")]
+        [DisplayName("页面代码")]
         [Required(ErrorMessage = "{0}不得为空；")]
         public string Html { get; set; }
+
+        [DisplayName("页面脚本")]
+        public string Script { get; set; }
 
         [DisplayName("是否禁用")]
         [Required(ErrorMessage = "{0}不得为空；")]

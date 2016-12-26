@@ -10,6 +10,7 @@ namespace MySch.Models
         public string Name { get; set; }
         public bool Bootup { get; set; }
         public string Html { get; set; }
+        public string Script { get; set; }
         public bool Fixed { get; set; }
         public string ParentID { get; set; }
     }

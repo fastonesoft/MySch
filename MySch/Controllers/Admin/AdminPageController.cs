@@ -22,17 +22,24 @@ namespace MySch.Controllers.Admin
         [HttpPost]
         public ActionResult Add(string id, string memo)
         {
-            if (memo == "Theme")
+            try
             {
-                var parents = BllTheme.GetEntitys<BllTheme>(a => a.ID == id).OrderBy(a => a.IDS);
-                ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", id);
+                if (memo == "Theme")
+                {
+                    var parents = BllTheme.GetEntitys<BllTheme>(a => a.ID == id).OrderBy(a => a.IDS);
+                    ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", id);
+                }
+                else
+                {
+                    var parents = BllPage.GetEntitys<BllPage>(a => a.ID == id).OrderBy(a => a.IDS);
+                    ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", id);
+                }
+                return View();
             }
-            else
+            catch (Exception e)
             {
-                var parents = BllPage.GetEntitys<BllPage>(a => a.ID == id).OrderBy(a => a.IDS);
-                ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", id);
+                return Json(new BllError { error = true, message = e.Message });
             }
-            return View();
         }
 
         [HttpPost]
@@ -42,6 +49,7 @@ namespace MySch.Controllers.Admin
             {
                 var db = BllPage.GetEntity<BllPage>(a => a.ID == entity.ID);
                 db.Html = HttpUtility.UrlDecode(db.Html);
+                db.Script = HttpUtility.UrlDecode(db.Script);
 
                 if (BllTheme.Count(a => a.ID == entity.ParentID) != 0)
                 {
@@ -69,6 +77,7 @@ namespace MySch.Controllers.Admin
             {
                 var db = BllPage.GetEntity<BllPage>(a => a.ID == entity.ID);
                 db.Html = HttpUtility.UrlDecode(db.Html);
+                db.Script = HttpUtility.UrlDecode(db.Script);
 
                 if (BllTheme.Count(a => a.ID == entity.ParentID) != 0)
                 {

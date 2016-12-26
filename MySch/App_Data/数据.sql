@@ -849,8 +849,10 @@ create table TPage
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,
+	Value	nvarchar(10)
 	Bootup	bit not null,
 	Html	nvarchar(max) not null,
+	Script	nvarchar(max),
  	Fixed	bit not null,
 	ParentID	nvarchar(32) not null,
 )
