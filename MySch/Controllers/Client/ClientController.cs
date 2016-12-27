@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,10 +68,16 @@ namespace MySch.Controllers.Client
             return View();
         }
 
-        public ActionResult Page(string id)
+        public ActionResult Page(string id = null)
         {
             try
             {
+                if (id == null)
+                {
+                    var entitys = BllPage.GetEntitys<BllPage>(a => a.Bootup).SingleOrDefault();
+                    if (entitys != null) id = entitys.ID;
+                }
+
                 var res = Merge(id, "");
                 return Content(res.Html + res.Script);
             }
@@ -78,6 +85,12 @@ namespace MySch.Controllers.Client
             {
                 return Json(new BllError { error = true, message = e.Message });
             }
+        }
+
+        public ActionResult Data(string id = null)
+        {
+            var entitys = VData.GetEntitys(id);
+            return Json(entitys,JsonRequestBehavior.AllowGet);
         }
     }
 }

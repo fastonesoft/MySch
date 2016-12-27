@@ -237,24 +237,24 @@ namespace MySch.Dal
             }
         }
 
-        ///// <summary>
-        ///// 用SQL参数式查询数据
-        ///// </summary>
-        ///// <param name="sql">带参数的SQL查询</param>
-        ///// <param name="parameters">参数列表</param>
-        ///// <returns></returns>
-        //public static IEnumerable<TEntity> FindByParams(string sql, params object[] parameters)
-        //{
-        //    using (BaseContext db = new BaseContext())
-        //    {
-        //        return db.Set<TEntity>().SqlQuery(sql, parameters).ToList();
+        /// <summary>
+        /// 用SQL参数式查询数据
+        /// </summary>
+        /// <param name="sql">带参数的SQL查询</param>
+        /// <param name="parameters">参数列表</param>
+        /// <returns></returns>
+        public static IEnumerable<TEntity> FindByParams(string sql, params object[] parameters)
+        {
+            using (BaseContext db = new BaseContext())
+            {
+                return db.Set<TEntity>().SqlQuery(sql, parameters).ToList();
 
-        //        //参数模拟使用方法
-        //        //SqlParameter sp1 = new SqlParameter("@ID", SqlDbType.NVarChar, 20);
-        //        //SqlParameter sp2 = new SqlParameter("@Name", SqlDbType.NVarChar, 20);
-        //        //return db.Set<TEntity>().SqlQuery(sql, sp1, sp2).ToList();
-        //    }
-        //}
+                //参数模拟使用方法
+                //SqlParameter sp1 = new SqlParameter("@ID", SqlDbType.NVarChar, 20);
+                //SqlParameter sp2 = new SqlParameter("@Name", SqlDbType.NVarChar, 20);
+                //return db.Set<TEntity>().SqlQuery(sql, sp1, sp2).ToList();
+            }
+        }
 
 
         /// <summary>

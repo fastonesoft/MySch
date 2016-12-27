@@ -18,13 +18,13 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult AddUser()
+        public ActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult EditUser(string id)
+        public ActionResult Edit(string id)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult DelUser(string id)
+        public ActionResult Del(string id)
         {
             try
             {
