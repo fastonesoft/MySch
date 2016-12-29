@@ -136,7 +136,7 @@ go
 
 
 --学制编排
-create table TEdu
+create table AEdu
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -146,20 +146,20 @@ create table TEdu
 	AccIDS	nvarchar(20) not null
 )
 go
-alter table TEdu add constraint PK_TEdu primary key clustered (ID)
-alter table TEdu add constraint FK_TEdu_AccID foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TEdu_IDS on TEdu (IDS)
+alter table AEdu add constraint PK_AEdu primary key clustered (ID)
+alter table AEdu add constraint FK_AEdu_AccID foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_AEdu_IDS on AEdu (IDS)
 
 
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '一年级', '01', 0, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二年级', '02', 0, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '三年级', '03', 0, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '四年级', '04', 0, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '五年级', '05', 0, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '六年级', '06', 0, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '七年级', '07', 1, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '八年级', '08', 1, '32128402')
-insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '九年级', '09', 1, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '一年级', '01', 0, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二年级', '02', 0, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '三年级', '03', 0, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '四年级', '04', 0, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '五年级', '05', 0, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '六年级', '06', 0, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '七年级', '07', 1, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '八年级', '08', 1, '32128402')
+insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '九年级', '09', 1, '32128402')
 
 
 --校区设置
@@ -341,7 +341,7 @@ go
 alter table TGrade add constraint PK_TGrade primary key clustered (ID)
 alter table TGrade add constraint FK_TGrade_StepIDS foreign key (StepIDS) references TStep (IDS)
 alter table TGrade add constraint FK_TGrade_YearIDS foreign key (YearIDS) references TYear (IDS)
-alter table TGrade add constraint FK_TGrade_EduIDS foreign key (EduIDS) references TEdu (IDS)
+alter table TGrade add constraint FK_TGrade_EduIDS foreign key (EduIDS) references AEdu (IDS)
 alter table TGrade add constraint FK_TGrade_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TGrade_IDS on TGrade (IDS)
 --实验
@@ -575,7 +575,7 @@ insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012014010726', '26
 
 go
 --学生去向
-create table TOut
+create table SOut
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -587,18 +587,18 @@ create table TOut
 
 go
 
-alter table TOut add constraint PK_TOut primary key clustered (ID)
-create unique nonclustered index UN_TOut_IDS on TOut (IDS)
+alter table SOut add constraint PK_SOut primary key clustered (ID)
+create unique nonclustered index UN_SOut_IDS on SOut (IDS)
 
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '升学', '02', 0, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '休学', '03', 0, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '转出', '04', 0, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '外借', '05', 1, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '辍学', '06', 1, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '流生', '07', 1, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '其他', '08', 1, '32128402')
-insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', 1, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '升学', '02', 0, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '休学', '03', 0, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '转出', '04', 0, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '外借', '05', 1, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '辍学', '06', 1, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '流生', '07', 1, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '其他', '08', 1, '32128402')
+insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', 1, '32128402')
 
 
 
@@ -615,7 +615,7 @@ insert TOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99
 
 
 --学生来源
-create table TCome
+create table SCome
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -626,22 +626,22 @@ create table TCome
 
 go
 
-alter table TCome add constraint PK_TCome primary key clustered (ID)
-create unique nonclustered index UN_TCome_IDS on TCome (IDS)
+alter table SCome add constraint PK_SCome primary key clustered (ID)
+create unique nonclustered index UN_SCome_IDS on SCome (IDS)
 
-insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
-insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
-insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
-insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
-insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
-insert TCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
+insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
+insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
+insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
+insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
+insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
+insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
 
 
 
 
 --学生表
---delete from TStudent
-create table TStudent
+--delete from Student
+create table Student
 (
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(20) not null,	--学生编号
@@ -667,16 +667,16 @@ create table TStudent
 	OpenID	nvarchar(32),	--用户ID
 )
 go
-alter table TStudent add constraint PK_TStudent primary key clustered (ID)
-alter table TStudent add constraint FK_TStudent_StepIDS foreign key (StepIDS) references TStep (IDS)
-create unique nonclustered index UN_TStudent_IDS on TStudent (IDS)
-create index IN_TStudent_CID on TStudent (CID)
-create index IN_TStudent_Name on TStudent (Name)
+alter table Student add constraint PK_Student primary key clustered (ID)
+alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) references TStep (IDS)
+create unique nonclustered index UN_Student_IDS on Student (IDS)
+create index IN_Student_CID on Student (CID)
+create index IN_Student_Name on Student (Name)
 
 
 
 --年度学生
-create table TGradeStud
+create table StudGrade
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(32) not null,	--GradeIDS + 流水号
@@ -697,12 +697,12 @@ create table TGradeStud
 )
 go
 
-alter table TGradeStud add constraint PK_TGradeStud primary key clustered (ID)
-alter table TGradeStud add constraint FK_TGradeStud_BanIDS foreign key (BanIDS) references TBan (IDS)
-alter table TGradeStud add constraint FK_TGradeStud_StudIDS foreign key (StudIDS) references TStudent (IDS)
-alter table TGradeStud add constraint FK_TGradeStud_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
-alter table TGradeStud add constraint FK_TGradeStud_ComeIDS foreign key (ComeIDS) references TCome (IDS)
-create unique nonclustered index UN_TGradeStud_IDS on TGradeStud (IDS)
+alter table StudGrade add constraint PK_StudGrade primary key clustered (ID)
+alter table StudGrade add constraint FK_StudGrade_BanIDS foreign key (BanIDS) references TBan (IDS)
+alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) references Student (IDS)
+alter table StudGrade add constraint FK_StudGrade_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
+alter table StudGrade add constraint FK_StudGrade_ComeIDS foreign key (ComeIDS) references SCome (IDS)
+create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
 
 
 --学科设置
@@ -807,7 +807,7 @@ insert Kao values (Lower(REPLACE(NEWID(), '-','')), '32128402201601001', '001', 
 
 
 --数据访问
-create table TDatum
+create table ADatum
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--名称，英文
@@ -815,9 +815,9 @@ create table TDatum
 	Command	nvarchar(max) not null,
 )
 go
-alter table TDatum add constraint PK_TDatum primary key clustered (ID)
-create unique nonclustered index UN_TDatum_IDS on TDatum (IDS)
-create unique nonclustered index UN_TDatum_Name on TDatum (Name)
+alter table ADatum add constraint PK_ADatum primary key clustered (ID)
+create unique nonclustered index UN_ADatum_IDS on ADatum (IDS)
+create unique nonclustered index UN_ADatum_Name on ADatum (Name)
 
 --select * from dbo.XXX where ID = '{0}'
 --select * from dbo.XXX where ID = '{0}' and IDS = '{1}'
@@ -828,23 +828,22 @@ create unique nonclustered index UN_TDatum_Name on TDatum (Name)
 --AccID参数自动获得
 
 --样式列表
-create table Theme
+create table ATheme
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,
 	IsCurrent	bit not null,
-	
 )
 go
-alter table Theme add constraint PK_Theme primary key clustered (ID)
-create unique nonclustered index UN_Theme_IDS on Theme (IDS)
-create unique nonclustered index UN_Theme_Name on Theme (Name)
+alter table ATheme add constraint PK_ATheme primary key clustered (ID)
+create unique nonclustered index UN_ATheme_IDS on ATheme (IDS)
+create unique nonclustered index UN_ATheme_Name on ATheme (Name)
 
 
 
 --页面表
-create table TPage
+create table APage
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -856,8 +855,8 @@ create table TPage
 	ParentID	nvarchar(32) not null,
 )
 go
-alter table TPage add constraint PK_TPage primary key clustered (ID)
-create unique nonclustered index UN_TPage_IDS on TPage (IDS)
+alter table APage add constraint PK_APage primary key clustered (ID)
+create unique nonclustered index UN_APage_IDS on APage (IDS)
 
 
 
