@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllOut : BllEntity<TOut>
+    public class BllOut : BllEntity<SOut>
     {
         public string ID { get; set; }
 

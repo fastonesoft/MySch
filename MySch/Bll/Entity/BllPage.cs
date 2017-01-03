@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllPage : BllEntity<TPage>
+    public class BllPage : BllEntity<APage>
     {
         public string ID { get; set; }
 

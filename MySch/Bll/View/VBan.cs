@@ -37,7 +37,7 @@ namespace MySch.Bll.View
                                    join s in db.TSteps on g.StepIDS equals s.IDS
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
-                                   join e in db.TEdus on g.EduIDS equals e.IDS
+                                   join e in db.AEdus on g.EduIDS equals e.IDS
                                    join mt in db.TAccs on b.MasterIDS equals mt.IDS into b_mts
                                    from b_mt in b_mts.DefaultIfEmpty()
                                    join gp in db.TAccs on b.GroupIDS equals gp.IDS into b_gps

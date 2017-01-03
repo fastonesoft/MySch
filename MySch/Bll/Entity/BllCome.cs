@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllCome : BllEntity<TCome>
+    public class BllCome : BllEntity<SCome>
     {
         public string ID { get; set; }
 

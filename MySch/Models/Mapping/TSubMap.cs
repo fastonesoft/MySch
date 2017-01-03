@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class KaoMap : EntityTypeConfiguration<Kao>
+    public class TSubMap : EntityTypeConfiguration<TSub>
     {
-        public KaoMap()
+        public TSubMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -19,26 +19,30 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Name)
-                .IsRequired()
-                .HasMaxLength(20);
-
             this.Property(t => t.Value)
                 .IsRequired()
                 .HasMaxLength(10);
 
-            this.Property(t => t.TermIDS)
+            this.Property(t => t.Name)
+                .IsRequired()
+                .HasMaxLength(10);
+
+            this.Property(t => t.SName)
+                .IsRequired()
+                .HasMaxLength(1);
+
+            this.Property(t => t.AccIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("Kao");
+            this.ToTable("TSub");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Value).HasColumnName("Value");
-            this.Property(t => t.TermIDS).HasColumnName("TermIDS");
-            this.Property(t => t.Fixed).HasColumnName("Fixed");
+            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.SName).HasColumnName("SName");
+            this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }
     }
 }

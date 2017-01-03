@@ -10,7 +10,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllGradeStud : BllEntity<TGradeStud>
+    public class BllGradeStud : BllEntity<StudGrade>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

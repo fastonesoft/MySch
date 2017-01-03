@@ -32,7 +32,7 @@ namespace MySch.Bll.View
                                    join s in db.TSteps on g.StepIDS equals s.IDS
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
-                                   join e in db.TEdus on g.EduIDS equals e.IDS
+                                   join e in db.AEdus on g.EduIDS equals e.IDS
                                    select new VGrade
                                    {
                                        ID = g.ID,

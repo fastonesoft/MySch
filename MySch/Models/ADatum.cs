@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class TOut
+    public partial class ADatum
     {
         public string ID { get; set; }
         public string IDS { get; set; }
         public string Name { get; set; }
-        public string Value { get; set; }
-        public bool CanReturn { get; set; }
-        public string AccIDS { get; set; }
+        public string Command { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllTheme : BllEntity<Theme>
+    public class BllTheme : BllEntity<ATheme>
     {
         public string ID { get; set; }
 

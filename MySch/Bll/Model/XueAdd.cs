@@ -57,7 +57,7 @@ namespace MySch.Bll.Model
                 //查询学生信息
                 var grade = VGrade.GetEntity(a => a.IDS == this.GradeIDS);
                 //学生库记录编号
-                var studs = DataCRUD<TStudent>.Entitys(a => a.StepIDS == grade.StepIDS);
+                var studs = DataCRUD<Student>.Entitys(a => a.StepIDS == grade.StepIDS);
                 var studs_max = studs.Any() ? studs.Max(a => a.IDS) : grade.StepIDS + "0000";
                 var studs_max_prev = grade.StepIDS;
                 var studs_max_order = int.Parse(studs_max.Substring(studs_max.Length - 4, 4)) + 1;
@@ -73,7 +73,7 @@ namespace MySch.Bll.Model
                 };
                 stud.ToAdd();
                 //二、年度学生库添加
-                var grades = DataCRUD<TGradeStud>.Entitys(a => a.GradeIDS == grade.IDS);
+                var grades = DataCRUD<StudGrade>.Entitys(a => a.GradeIDS == grade.IDS);
                 var grades_max = grades.Any() ? grades.Max(a => a.IDS) : grade.IDS + "0000";
                 var grades_max_prev = grade.IDS;
                 var grades_max_order = int.Parse(grades_max.Substring(grades_max.Length - 4, 4)) + 1;

@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TPageMap : EntityTypeConfiguration<TPage>
+    public class KSubGradeMap : EntityTypeConfiguration<KSubGrade>
     {
-        public TPageMap()
+        public KSubGradeMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -19,27 +19,22 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Name)
+            this.Property(t => t.GradeIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Html)
-                .IsRequired();
-
-            this.Property(t => t.ParentID)
+            this.Property(t => t.SubIDS)
                 .IsRequired()
-                .HasMaxLength(32);
+                .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("TPage");
+            this.ToTable("KSubGrade");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.Bootup).HasColumnName("Bootup");
-            this.Property(t => t.Html).HasColumnName("Html");
-            this.Property(t => t.Script).HasColumnName("Script");
-            this.Property(t => t.Fixed).HasColumnName("Fixed");
-            this.Property(t => t.ParentID).HasColumnName("ParentID");
+            this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
+            this.Property(t => t.SubIDS).HasColumnName("SubIDS");
+            this.Property(t => t.DefaultValue).HasColumnName("DefaultValue");
+            this.Property(t => t.DefaultScoring).HasColumnName("DefaultScoring");
         }
     }
 }

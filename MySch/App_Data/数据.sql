@@ -738,7 +738,7 @@ create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
 create table Kao
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(30) not null,
+	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,
 	Value	nvarchar(10) not null,
 	TermIDS	nvarchar(20) not null,
@@ -786,6 +786,7 @@ create table KSubBan
 	SubGradeIDS	nvarchar(20) not null,
 	AccIDS	nvarchar(20) not null,
 	IsMaster	bit not null,	--是否班主任
+	--是否要增加时间？
 )
 go
 
@@ -795,7 +796,6 @@ alter table KSubBan add constraint FK_KSubBan_SubGradeIDS foreign key (SubGradeI
 alter table KSubBan add constraint FK_KSubBan_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_KSubBan_IDS on KSubBan (IDS)
 
-insert KSubBan values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401090201', '32128402012014010902', '3212840201', '32128402')
 
 
 --参加考试学科（这里的Value、Scoring是实际值，Value过滤非法输入）
@@ -803,11 +803,16 @@ create table KSubTest
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
-	SubGradeIDS	nvarchar(20) not null,
+	KaoIDS	nvarchar(20) not null,
+	SubIDS	nvarchar(20) not null,
 	Value	int not null,
 	Scoring	bit not null,
 )
 go
+alter table KSubTest add constraint PK_KSubTest primary key clustered (ID)
+alter table KSubTest add constraint FK_KSubTest_KaoIDS foreign key (KaoIDS) references Kao (IDS)
+alter table KSubTest add constraint FK_KSubTest_SubIDS foreign key (SubIDS) references TSub (IDS)
+create unique nonclustered index UN_KSubTest_IDS on KSubTest (IDS)
 
 --考场设置分类
 create table KRoomType
@@ -815,9 +820,12 @@ create table KRoomType
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,	--考场分类名称（初一、初二、初三）
-	
+	Fixed	bit not null,	--是否启用
 )
 go
+alter table KRoomType add constraint PK_KRoomType primary key clustered (ID)
+create unique nonclustered index UN_KRoomType_IDS on KRoomType (IDS)
+
 
 --考场设置
 create table KRoom
@@ -831,9 +839,63 @@ create table KRoom
 	TypeIDS	nvarchar(20) not null,	--分类编号
 )
 go
+alter table KRoom add constraint PK_KRoom primary key clustered (ID)
+alter table KRoom add constraint FK_KRoom_TypeIDS foreign key (TypeIDS) references KRoomType (IDS)
+create unique nonclustered index UN_KRoom_IDS on KRoom (IDS)
 
---考号设置
 
+--参加考试的人员设置
+create table KStudent
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	KaoIDS	nvarchar(20) not null,
+	StudIDS	nvarchar(20) not null,
+	Room	nvarchar(10),
+	Seat	nvarchar(10),
+	Kao	nvarchar(20),
+)
+go
+alter table KStudent add constraint PK_KStudent primary key clustered (ID)
+alter table KStudent add constraint FK_KStudent_KaoIDS foreign key (KaoIDS) references Kao (IDS)
+alter table KStudent add constraint FK_KStudent_StudIDS foreign key (StudIDS) references Student (IDS)
+create unique nonclustered index UN_KStudent_IDS on KStudent (IDS)
+
+
+--考试成绩
+create table KScore
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	KStudIDS	nvarchar(20) not null,
+	KaoIDS	nvarchar(20) not null,
+	SubIDS	nvarchar(20) not null,
+	Value	float,
+	BanIndex	int,
+	GradeIndex	int,
+	GroupIndex	int,
+	TotalIndex	int,
+)
+go
+alter table KScore add constraint PK_KScore primary key clustered (ID)
+alter table KScore add constraint FK_KScore_KStudIDS foreign key (KStudIDS) references KStudent (IDS)
+alter table KScore add constraint FK_KScore_KaoIDS foreign key (KaoIDS) references Kao (IDS)
+alter table KScore add constraint FK_KScore_SubIDS foreign key (SubIDS) references TSub (IDS)
+create unique nonclustered index UN_KScore_IDS on KScore (IDS)
+
+--考试成绩明细
+create table KScoreDetail
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	ScoreIDS	nvarchar(20) not null,	--成绩编号
+	Name	nvarchar(20) not null,
+	Value	nvarchar(20),
+)
+go
+alter table KScoreDetail add constraint PK_KScoreDetail primary key clustered (ID)
+alter table KScoreDetail add constraint FK_KScoreDetail_ScoreIDS foreign key (ScoreIDS) references KScore (IDS)
+create unique nonclustered index UN_KScoreDetail_IDS on KScoreDetail (IDS)
 
 
 

@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class ThemeMap : EntityTypeConfiguration<Theme>
+    public class KSubBanMap : EntityTypeConfiguration<KSubBan>
     {
-        public ThemeMap()
+        public KSubBanMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -17,18 +17,28 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.IDS)
                 .IsRequired()
+                .HasMaxLength(32);
+
+            this.Property(t => t.BanIDS)
+                .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Name)
+            this.Property(t => t.SubGradeIDS)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            this.Property(t => t.AccIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("Theme");
+            this.ToTable("KSubBan");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.IsCurrent).HasColumnName("IsCurrent");
+            this.Property(t => t.BanIDS).HasColumnName("BanIDS");
+            this.Property(t => t.SubGradeIDS).HasColumnName("SubGradeIDS");
+            this.Property(t => t.AccIDS).HasColumnName("AccIDS");
+            this.Property(t => t.IsMaster).HasColumnName("IsMaster");
         }
     }
 }

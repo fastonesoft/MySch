@@ -86,11 +86,5 @@ namespace MySch.Controllers.Client
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
-
-        public ActionResult Data(string id = null)
-        {
-            var entitys = VData.GetEntitys(id);
-            return Json(entitys,JsonRequestBehavior.AllowGet);
-        }
     }
 }

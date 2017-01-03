@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TOutMap : EntityTypeConfiguration<TOut>
+    public class KRoomMap : EntityTypeConfiguration<KRoom>
     {
-        public TOutMap()
+        public KRoomMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -21,24 +21,25 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.Name)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(20);
 
             this.Property(t => t.Value)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(5);
 
-            this.Property(t => t.AccIDS)
+            this.Property(t => t.TypeIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("TOut");
+            this.ToTable("KRoom");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Value).HasColumnName("Value");
-            this.Property(t => t.CanReturn).HasColumnName("CanReturn");
-            this.Property(t => t.AccIDS).HasColumnName("AccIDS");
+            this.Property(t => t.Hold).HasColumnName("Hold");
+            this.Property(t => t.BeginNum).HasColumnName("BeginNum");
+            this.Property(t => t.TypeIDS).HasColumnName("TypeIDS");
         }
     }
 }

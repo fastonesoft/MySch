@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class KSubMap : EntityTypeConfiguration<KSub>
+    public class ADatumMap : EntityTypeConfiguration<ADatum>
     {
-        public KSubMap()
+        public ADatumMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -19,30 +19,19 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Value)
-                .IsRequired()
-                .HasMaxLength(10);
-
             this.Property(t => t.Name)
-                .IsRequired()
-                .HasMaxLength(10);
-
-            this.Property(t => t.SName)
-                .IsRequired()
-                .HasMaxLength(1);
-
-            this.Property(t => t.AccIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
+            this.Property(t => t.Command)
+                .IsRequired();
+
             // Table & Column Mappings
-            this.ToTable("KSub");
+            this.ToTable("ADatum");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Value).HasColumnName("Value");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.SName).HasColumnName("SName");
-            this.Property(t => t.AccIDS).HasColumnName("AccIDS");
+            this.Property(t => t.Command).HasColumnName("Command");
         }
     }
 }

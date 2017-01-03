@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class KBanSubMap : EntityTypeConfiguration<KBanSub>
+    public class SOutMap : EntityTypeConfiguration<SOut>
     {
-        public KBanSubMap()
+        public SOutMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -17,26 +17,27 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.IDS)
                 .IsRequired()
-                .HasMaxLength(32);
-
-            this.Property(t => t.BanIDS)
-                .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.SubIDS)
+            this.Property(t => t.Name)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(10);
+
+            this.Property(t => t.Value)
+                .IsRequired()
+                .HasMaxLength(10);
 
             this.Property(t => t.AccIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("KBanSub");
+            this.ToTable("SOut");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.BanIDS).HasColumnName("BanIDS");
-            this.Property(t => t.SubIDS).HasColumnName("SubIDS");
+            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Value).HasColumnName("Value");
+            this.Property(t => t.CanReturn).HasColumnName("CanReturn");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }
     }

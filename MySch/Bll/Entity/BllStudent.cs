@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllStudent : BllEntity<TStudent>
+    public class BllStudent : BllEntity<Student>
     {
         public string ID { get; set; }
 

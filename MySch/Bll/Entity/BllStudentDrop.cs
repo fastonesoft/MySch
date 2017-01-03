@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace MySch.Bll.Entity
 {
-    public class BllStudentDrop : BllEntity<TStudent>
+    public class BllStudentDrop : BllEntity<Student>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

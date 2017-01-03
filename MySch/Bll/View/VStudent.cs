@@ -33,7 +33,7 @@ namespace MySch.Bll.View
             {
                 using (BaseContext db = new BaseContext())
                 {
-                    var entitys = (from st in db.TStudents
+                    var entitys = (from st in db.Students
                                    join s in db.TSteps on st.StepIDS equals s.IDS
                                    select new VStudent
                                    {

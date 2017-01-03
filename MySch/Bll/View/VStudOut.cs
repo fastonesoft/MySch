@@ -32,18 +32,18 @@ namespace MySch.Bll.View
             {
                 using (BaseContext db = new BaseContext())
                 {
-                    var entitys = (from gs in db.TGradeStuds
-                                   join c in db.TComes on gs.ComeIDS equals c.IDS into gs_cs
+                    var entitys = (from gs in db.StudGrades
+                                   join c in db.SComes on gs.ComeIDS equals c.IDS into gs_cs
                                    from gs_c in gs_cs.DefaultIfEmpty()
-                                   join o in db.TOuts on gs.OutIDS equals o.IDS into gs_os
+                                   join o in db.SOuts on gs.OutIDS equals o.IDS into gs_os
                                    from gs_o in gs_os.DefaultIfEmpty()
                                    join b in db.TBans on gs.BanIDS equals b.IDS
                                    join g in db.TGrades on gs.GradeIDS equals g.IDS
                                    join s in db.TSteps on g.StepIDS equals s.IDS
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
-                                   join e in db.TEdus on g.EduIDS equals e.IDS
-                                   join st in db.TStudents on gs.StudIDS equals st.IDS
+                                   join e in db.AEdus on g.EduIDS equals e.IDS
+                                   join st in db.Students on gs.StudIDS equals st.IDS
                                    select new VStudOut
                                    {
                                        ID = gs.ID,
@@ -158,14 +158,14 @@ namespace MySch.Bll.View
                         if (memo == "Grade")
                         {
                             var grade = db.TGrades.Single(a => a.IDS == ids);
-                            var entitys = from s in db.TStudents
-                                          where s.StepIDS == grade.StepIDS && !(from g in db.TGradeStuds
+                            var entitys = from s in db.Students
+                                          where s.StepIDS == grade.StepIDS && !(from g in db.StudGrades
                                                                                 where g.GradeIDS == ids
                                                                                 select g.StudIDS).Contains(s.IDS)
                                           select s;
                             //补缺：把导入数据中以往不正常删除的学生资料，加以恢复
                             //保持，年度学生与学生库的一致
-                            var grades = db.TGradeStuds.Where(a => a.GradeIDS == ids);
+                            var grades = db.StudGrades.Where(a => a.GradeIDS == ids);
                             var grades_max = grades.Any() ? grades.Max(a => a.IDS) : ids + "0000";
                             var grades_max_prev = ids;
                             var grades_max_order = int.Parse(grades_max.Substring(grades_max.Length - 4, 4));

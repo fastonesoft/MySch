@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class KaoMap : EntityTypeConfiguration<Kao>
+    public class KSubTestMap : EntityTypeConfiguration<KSubTest>
     {
-        public KaoMap()
+        public KSubTestMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -19,26 +19,22 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Name)
+            this.Property(t => t.KaoIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Value)
-                .IsRequired()
-                .HasMaxLength(10);
-
-            this.Property(t => t.TermIDS)
+            this.Property(t => t.SubIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("Kao");
+            this.ToTable("KSubTest");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.KaoIDS).HasColumnName("KaoIDS");
+            this.Property(t => t.SubIDS).HasColumnName("SubIDS");
             this.Property(t => t.Value).HasColumnName("Value");
-            this.Property(t => t.TermIDS).HasColumnName("TermIDS");
-            this.Property(t => t.Fixed).HasColumnName("Fixed");
+            this.Property(t => t.Scoring).HasColumnName("Scoring");
         }
     }
 }

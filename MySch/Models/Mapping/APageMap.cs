@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class KaoMap : EntityTypeConfiguration<Kao>
+    public class APageMap : EntityTypeConfiguration<APage>
     {
-        public KaoMap()
+        public APageMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -23,22 +23,23 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Value)
-                .IsRequired()
-                .HasMaxLength(10);
+            this.Property(t => t.Html)
+                .IsRequired();
 
-            this.Property(t => t.TermIDS)
+            this.Property(t => t.ParentID)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             // Table & Column Mappings
-            this.ToTable("Kao");
+            this.ToTable("APage");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.Value).HasColumnName("Value");
-            this.Property(t => t.TermIDS).HasColumnName("TermIDS");
+            this.Property(t => t.Bootup).HasColumnName("Bootup");
+            this.Property(t => t.Html).HasColumnName("Html");
+            this.Property(t => t.Script).HasColumnName("Script");
             this.Property(t => t.Fixed).HasColumnName("Fixed");
+            this.Property(t => t.ParentID).HasColumnName("ParentID");
         }
     }
 }

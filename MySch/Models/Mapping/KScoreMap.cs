@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class KGradeSubMap : EntityTypeConfiguration<KGradeSub>
+    public class KScoreMap : EntityTypeConfiguration<KScore>
     {
-        public KGradeSubMap()
+        public KScoreMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -19,7 +19,11 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.GradeIDS)
+            this.Property(t => t.KStudIDS)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            this.Property(t => t.KaoIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
@@ -28,13 +32,17 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("KGradeSub");
+            this.ToTable("KScore");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
+            this.Property(t => t.KStudIDS).HasColumnName("KStudIDS");
+            this.Property(t => t.KaoIDS).HasColumnName("KaoIDS");
             this.Property(t => t.SubIDS).HasColumnName("SubIDS");
             this.Property(t => t.Value).HasColumnName("Value");
-            this.Property(t => t.Scoring).HasColumnName("Scoring");
+            this.Property(t => t.BanIndex).HasColumnName("BanIndex");
+            this.Property(t => t.GradeIndex).HasColumnName("GradeIndex");
+            this.Property(t => t.GroupIndex).HasColumnName("GroupIndex");
+            this.Property(t => t.TotalIndex).HasColumnName("TotalIndex");
         }
     }
 }

@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TStudentMap : EntityTypeConfiguration<TStudent>
+    public class StudentMap : EntityTypeConfiguration<Student>
     {
-        public TStudentMap()
+        public StudentMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -59,7 +59,7 @@ namespace MySch.Models.Mapping
                 .HasMaxLength(32);
 
             // Table & Column Mappings
-            this.ToTable("TStudent");
+            this.ToTable("Student");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");

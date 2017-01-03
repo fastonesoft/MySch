@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class KBanSub
+    public partial class KScoreDetail
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public string BanIDS { get; set; }
-        public string SubIDS { get; set; }
-        public string AccIDS { get; set; }
+        public string ScoreIDS { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

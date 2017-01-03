@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class TDatumMap : EntityTypeConfiguration<TDatum>
+    public class KRoomTypeMap : EntityTypeConfiguration<KRoomType>
     {
-        public TDatumMap()
+        public KRoomTypeMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -23,15 +23,12 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Command)
-                .IsRequired();
-
             // Table & Column Mappings
-            this.ToTable("TDatum");
+            this.ToTable("KRoomType");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.Command).HasColumnName("Command");
+            this.Property(t => t.Fixed).HasColumnName("Fixed");
         }
     }
 }

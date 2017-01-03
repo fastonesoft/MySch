@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class KaoMap : EntityTypeConfiguration<Kao>
+    public class KStudentMap : EntityTypeConfiguration<KStudent>
     {
-        public KaoMap()
+        public KStudentMap()
         {
             // Primary Key
             this.HasKey(t => t.ID);
@@ -19,26 +19,32 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Name)
+            this.Property(t => t.KaoIDS)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Value)
+            this.Property(t => t.StudIDS)
                 .IsRequired()
+                .HasMaxLength(20);
+
+            this.Property(t => t.Room)
                 .HasMaxLength(10);
 
-            this.Property(t => t.TermIDS)
-                .IsRequired()
+            this.Property(t => t.Seat)
+                .HasMaxLength(10);
+
+            this.Property(t => t.Kao)
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("Kao");
+            this.ToTable("KStudent");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.Value).HasColumnName("Value");
-            this.Property(t => t.TermIDS).HasColumnName("TermIDS");
-            this.Property(t => t.Fixed).HasColumnName("Fixed");
+            this.Property(t => t.KaoIDS).HasColumnName("KaoIDS");
+            this.Property(t => t.StudIDS).HasColumnName("StudIDS");
+            this.Property(t => t.Room).HasColumnName("Room");
+            this.Property(t => t.Seat).HasColumnName("Seat");
+            this.Property(t => t.Kao).HasColumnName("Kao");
         }
     }
 }
