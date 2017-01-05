@@ -17,7 +17,7 @@ namespace MySch.Models
         }
 
         public DbSet<ADatum> ADatums { get; set; }
-        public DbSet<AEdu> AEdus { get; set; }
+        public DbSet<TEdu> AEdus { get; set; }
         public DbSet<APage> APages { get; set; }
         public DbSet<ATheme> AThemes { get; set; }
         public DbSet<Kao> Kaos { get; set; }
@@ -50,7 +50,7 @@ namespace MySch.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ADatumMap());
-            modelBuilder.Configurations.Add(new AEduMap());
+            modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new APageMap());
             modelBuilder.Configurations.Add(new AThemeMap());
             modelBuilder.Configurations.Add(new KaoMap());

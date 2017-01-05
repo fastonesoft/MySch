@@ -260,7 +260,7 @@
     </Compile>
     <Compile Include="ModelsEx\MyWxMods.cs" />
     <Compile Include="Models\ADatum.cs" />
-    <Compile Include="Models\AEdu.cs" />
+    <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\APage.cs" />
     <Compile Include="Models\ATheme.cs" />
     <Compile Include="Models\Kao.cs" />
@@ -273,7 +273,7 @@
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
     <Compile Include="Models\Mapping\ADatumMap.cs" />
-    <Compile Include="Models\Mapping\AEduMap.cs" />
+    <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\APageMap.cs" />
     <Compile Include="Models\Mapping\AThemeMap.cs" />
     <Compile Include="Models\Mapping\KaoMap.cs" />

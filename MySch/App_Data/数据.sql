@@ -136,7 +136,7 @@ go
 
 
 --学制编排
-create table AEdu
+create table TEdu
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -146,20 +146,20 @@ create table AEdu
 	AccIDS	nvarchar(20) not null
 )
 go
-alter table AEdu add constraint PK_AEdu primary key clustered (ID)
-alter table AEdu add constraint FK_AEdu_AccID foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_AEdu_IDS on AEdu (IDS)
+alter table TEdu add constraint PK_TEdu primary key clustered (ID)
+alter table TEdu add constraint FK_TEdu_AccID foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_TEdu_IDS on TEdu (IDS)
 
 
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '一年级', '01', 0, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二年级', '02', 0, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '三年级', '03', 0, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '四年级', '04', 0, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '五年级', '05', 0, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '六年级', '06', 0, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '七年级', '07', 1, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '八年级', '08', 1, '32128402')
-insert AEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '九年级', '09', 1, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '一年级', '01', 0, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二年级', '02', 0, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '三年级', '03', 0, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '四年级', '04', 0, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '五年级', '05', 0, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '六年级', '06', 0, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '七年级', '07', 1, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '八年级', '08', 1, '32128402')
+insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '九年级', '09', 1, '32128402')
 
 
 --校区设置
@@ -341,7 +341,7 @@ go
 alter table TGrade add constraint PK_TGrade primary key clustered (ID)
 alter table TGrade add constraint FK_TGrade_StepIDS foreign key (StepIDS) references TStep (IDS)
 alter table TGrade add constraint FK_TGrade_YearIDS foreign key (YearIDS) references TYear (IDS)
-alter table TGrade add constraint FK_TGrade_EduIDS foreign key (EduIDS) references AEdu (IDS)
+alter table TGrade add constraint FK_TGrade_EduIDS foreign key (EduIDS) references TEdu (IDS)
 alter table TGrade add constraint FK_TGrade_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TGrade_IDS on TGrade (IDS)
 --实验

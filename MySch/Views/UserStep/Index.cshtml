@@ -29,6 +29,7 @@
             //数据表格
             $('#steps-grid').datagrid({
                 fit: true,
+                border: false,
                 striped: true,
                 rownumbers: true,
                 fitColumns: false,
@@ -46,7 +47,7 @@
                 },
 
                 columns: [[
-                    { title: '分级名称', field: 'Name', align: 'center',  width: 100 },
+                    { title: '分级名称', field: 'Name', align: 'center', width: 100 },
                     {
                         title: '是否毕业', field: 'Graduated', halign: 'center', width: 100,
                         formatter: function (value, row, index) {
@@ -79,33 +80,70 @@
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
+
+            $('#steps-lay').layout({
+                fit: true,
+                border: true,
+            });
+
+            $('#steps-tree').tree({
+                fit: true,
+                url: '/AdminPage/MenuTree',
+                loadFilter: function (d) {
+                    console.log(d);
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                onClick: function (node) {
+                    if (node) {
+                        $('#adminpages-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                                memo: node.memo,
+                            }
+                        });
+                    }
+                },
+            });
+
         })
     </script>
 </head>
 <body>
-    <table id="steps-grid"></table>
-    <div id="steps-grid-tool">
-        <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="steps.add();">添加</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="steps.edit();">修改</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="steps.del();">删除</a>
-                    </td>
-                </tr>
-            </thead>
-        </table>
+    <div id="steps-lay">
+        <div data-options="region:'west',border:true, title:'校区分级'" style="width:200px;">
+            <ul id="steps-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true">
+            <table id="steps-grid"></table>
+            <div id="steps-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="steps.add();">添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="steps.edit();">修改</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="steps.del();">删除</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>
