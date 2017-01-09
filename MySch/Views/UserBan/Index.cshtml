@@ -16,19 +16,48 @@
             //点击动作
             bans = {
                 add: function () {
-                    DataGridNone('/UserBan/Add');
+                    var node = $('#bans-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', '前端：没有选择相应的校区、年级！', 'error');
+                        return false;
+                    }
+                    if (node.memo != 'Grade') {
+                        $.messager.alert('错误提示', '前端：没有选择相应的年级！', 'error');
+                        return false;
+                    }
+                    var param = { id: node.id };
+                    DataGridRequest('/UserBan/Add', param);
+                },
+                adds: function () {
+                    var node = $('#bans-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', '前端：没有选择相应的校区、年级！', 'error');
+                        return false;
+                    }
+                    if (node.memo != 'Grade') {
+                        $.messager.alert('错误提示', '前端：没有选择相应的年级！', 'error');
+                        return false;
+                    }
+                    var param = { id: node.id };
+                    DataGridRequest('/UserBan/Adds', param);
                 },
                 edit: function () {
                     DataGridRowID('#bans-grid', '/UserBan/Edit');
                 },
                 del: function () {
                     DataGridRowID('#bans-grid', '/UserBan/Del');
-                }
+                },
+                all: function () {
+                    $('#bans-grid').datagrid({
+                        queryParams: {}
+                    });
+                },
             }
 
             //数据表格
             $('#bans-grid').datagrid({
                 fit: true,
+                border: false,
                 striped: true,
                 rownumbers: true,
                 fitColumns: false,
@@ -46,12 +75,10 @@
                 },
 
                 columns: [[
-                    { title: '班级名称', field: 'Name', align: 'center',  width: 250 },
-                    { title: '年级名称', field: 'GradeName', align: 'center',  width: 180 },
-                    { title: '班号', field: 'Num', align: 'center',  width: 100 },
-                    { title: '班主任', field: 'MasterName', align: 'center',  width: 120 },
-                    { title: '班级分组负责人', field: 'GroupName', align: 'center',  width: 120 },
-        ]],
+                    { title: '班级名称', field: 'Name', align: 'center', width: 250 },
+                    { title: '班主任', field: 'MasterName', align: 'center', width: 120 },
+                    { title: '班级分组负责人', field: 'GroupName', align: 'center', width: 120 },
+                ]],
 
                 toolbar: '#bans-grid-tool',
                 pagination: true,
@@ -59,33 +86,80 @@
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
+
+            $('#bans-lay').layout({
+                fit: true,
+                border: true,
+            });
+
+            $('#bans-tree').tree({
+                fit: true,
+                url: '/UserBan/MenuTree',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                onClick: function (node) {
+                    if (node) {
+                        $('#bans-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                            }
+                        });
+                    }
+                },
+            });
         })
     </script>
 </head>
 <body>
-    <table id="bans-grid"></table>
-    <div id="bans-grid-tool">
-        <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="bans.add();">添加</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="bans.edit();">修改</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="bans.del();">删除</a>
-                    </td>
-                </tr>
-            </thead>
-        </table>
+    <div id="bans-lay">
+        <div data-options="region:'west',border:true, title:'年度设置'" style="width:200px;">
+            <ul id="bans-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true">
+            <table id="bans-grid"></table>
+            <div id="bans-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="bans.add();">添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="bans.adds();">批量添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="bans.edit();">修改</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="bans.del();">删除</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="bans.all();">全部</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
+
 </body>
 </html>

@@ -17,12 +17,12 @@ namespace MySch.Bll.Model
     {
         [DisplayName("年级编号")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{18}$", ErrorMessage = "{0}：18位数学；")]
+        [RegularExpression(@"^\d{18}$", ErrorMessage = "{0}：18位数字；")]
         public string GradeIDS { get; set; }
 
         [DisplayName("班级")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{20}$", ErrorMessage = "{0}：20位数学；")]
+        [RegularExpression(@"^\d{20}$", ErrorMessage = "{0}：20位数字；")]
         public string BanIDS { get; set; }
 
         [DisplayName("姓名")]
@@ -31,17 +31,17 @@ namespace MySch.Bll.Model
         public string Name { get; set; }
 
         [DisplayName("身份证号")]
-        [RegularExpression(@"^$|^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数学与X的组合；")]
+        [RegularExpression(@"^$|^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数字与X的组合；")]
         public string CID { get; set; }
 
         [DisplayName("原班")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：为4位数学；")]
+        [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：为4位数字；")]
         public string OldBan { get; set; }
 
         [DisplayName("学生来源")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数学设置；")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
         public string ComeIDS { get; set; }
 
         [DisplayName("是否择校")]

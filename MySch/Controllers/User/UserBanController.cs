@@ -19,7 +19,7 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Add()
+        public ActionResult Add(string id)
         {
             try
             {
@@ -27,7 +27,28 @@ namespace MySch.Controllers.User
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
 
-                ViewBag.Grades = EasyUICombo.ToComboJsons(grades, null);
+                ViewBag.Grades = EasyUICombo.ToComboJsons(grades, id);
+                ViewBag.Groups = EasyUICombo.ToComboJsons<BllAcc>(accs, null);
+                ViewBag.Masters = EasyUICombo.ToComboJsons<BllAcc>(accs, null);
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Adds(string id)
+        {
+            try
+            {
+                var login = BllLogin.GetLogin(Session);
+                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var accs = BllAcc.GetEntitys<BllAcc>(a => a.Parent == login.ID).OrderBy(a => a.IDS);
+
+                ViewBag.Grades = EasyUICombo.ToComboJsons(grades, id);
                 ViewBag.Groups = EasyUICombo.ToComboJsons<BllAcc>(accs, null);
                 ViewBag.Masters = EasyUICombo.ToComboJsons<BllAcc>(accs, null);
 
@@ -101,8 +122,48 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = VBan.GetEntity(a=>a.ID == entity.ID);
+                var qentity = VBan.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddsToken(BanAdds entity)
+        {
+            try
+            {
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+
+                var banids = string.Empty;
+                for (int i = 1; i <= entity.Num; i++)
+                {
+                    //生成每一个记录
+                    var ban = new BllBan
+                    {
+                        ID = Guid.NewGuid().ToString("N"),
+                        IDS = entity.GradeIDS + i.ToString("D2"),
+                        Num = i,
+                        AccIDS = login.IDS,
+                        GradeIDS = entity.GradeIDS,
+                    };
+                    //不存在，添加
+                    if (BllBan.Count(a => a.IDS == ban.IDS) == 0)
+                    {
+                        ban.ToAdd(ModelState);
+                        banids += (ban.IDS + ",");
+                    }
+                }
+
+                //返回添加的数据集
+                var res = VBan.GetDataGridPages(a => banids.Contains(a.IDS), 1, 100);
+                return Json(res);
             }
             catch (Exception e)
             {
@@ -143,7 +204,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 //查询 视图数据 保存
-                var qentity = VBan.GetEntity(a=>a.ID== entity.ID);
+                var qentity = VBan.GetEntity(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -155,12 +216,33 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
+        public ActionResult MenuTree(string id = null)
+        {
+            var login = BllLogin.GetLogin(Session);
+            //校区：所有
+            if (id == null)
+            {
+                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false).OrderBy(a => a.IDS);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Part");
+                return Json(res);
+            }
+            else
+            {
+                var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent).OrderBy(a => a.IDS);
+                var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "open", "Grade");
+                return Json(res);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid(string id = null, int page = 1, int rows = 100)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = VBan.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
+                var res = id == null ?
+                    VBan.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
+                    VBan.GetDataGridPages(a => a.AccIDS == login.IDS && a.GradeIDS == id, page, rows);
                 return Json(res);
             }
             catch (Exception e)

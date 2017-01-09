@@ -11,7 +11,7 @@
     <div style="padding:20px 0px 0px 20px;">
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.StepIDS)：</div>
-            <input id="PartStepIDS" name="PartStepIDS" style="width:156px;" />
+            <input id="StepIDS" name="StepIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.YearIDS)：</div>
@@ -31,13 +31,13 @@
 
         var edus = $.parseJSON('@Html.Raw(ViewBag.Edus)');
         var years = $.parseJSON('@Html.Raw(ViewBag.Years)');
-        var partsteps = $.parseJSON('@Html.Raw(ViewBag.PartSteps)');
+        var steps = $.parseJSON('@Html.Raw(ViewBag.Steps)');
 
         //加载选择框
-        $('#PartStepIDS').combobox({
+        $('#StepIDS').combobox({
             valueField: 'id',
             textField: 'text',
-            data: partsteps,
+            data: steps,
             readonly: true,
         });
         $('#EduIDS').combobox({

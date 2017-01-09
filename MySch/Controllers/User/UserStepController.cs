@@ -1,5 +1,7 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
+using MySch.Bll.Func;
+using MySch.Bll.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,10 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Add()
+        public ActionResult Add(string id)
         {
+            var parts = BllPart.GetEntitys<BllPart>(a => a.IDS == id).OrderBy(a => a.IDS);
+            ViewBag.Parts = EasyUICombo.ToComboJsons(parts, "IDS", "Name", id);
             return View();
         }
 
@@ -27,6 +31,10 @@ namespace MySch.Controllers.User
             try
             {
                 var db = BllStep.GetEntity<BllStep>(id);
+
+                var parts = BllPart.GetEntitys<BllPart>(a => a.IDS == db.PartIDS);
+                ViewBag.Parts = EasyUICombo.ToComboJsons(parts, "IDS", "Name", db.PartIDS);
+
                 return View(db);
             }
             catch (Exception e)
@@ -41,6 +49,10 @@ namespace MySch.Controllers.User
             try
             {
                 var db = BllStep.GetEntity<BllStep>(id);
+
+                var parts = BllPart.GetEntitys<BllPart>(a => a.IDS == db.PartIDS);
+                ViewBag.Parts = EasyUICombo.ToComboJsons(parts, "IDS", "Name", db.PartIDS);
+
                 return View(db);
             }
             catch (Exception e)
@@ -79,7 +91,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
                 entity.AccIDS = login.IDS;
-                
+
                 entity.ToUpdate(ModelState);
                 return Json(entity);
             }
@@ -108,13 +120,22 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
+        public ActionResult MenuTree(string id = null)
+        {
+            var entitys = BllPart.GetEntitys<BllPart>(a => a.Fixed == false).OrderBy(a => a.IDS);
+            var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Part");
+            return Json(res);
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid(string id = null, int page = 1, int rows = 100)
         {
             try
             {
+
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllStep.GetDataGridPages<BllStep, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = VStep.GetDataGridPages(a => a.AccIDS == login.IDS && a.PartIDS == id, page, rows);
                 return Json(res);
             }
             catch (Exception e)

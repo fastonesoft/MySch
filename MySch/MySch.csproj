@@ -177,6 +177,7 @@
     </Compile>
     <Compile Include="Bll\Func\Jsons.cs" />
     <Compile Include="Bll\Func\EasyUICombo.cs" />
+    <Compile Include="Bll\Model\BanAdds.cs" />
     <Compile Include="Bll\Model\Dicts.cs" />
     <Compile Include="Bll\Model\XueAdd.cs" />
     <Compile Include="Bll\Model\XueQuery.cs" />
@@ -645,7 +646,6 @@
     <Content Include="Views\UserGrade\Index.cshtml" />
     <Content Include="Views\UserGrade\Add.cshtml" />
     <Content Include="Views\UserGrade\Del.cshtml" />
-    <Content Include="Views\UserGrade\Edit.cshtml" />
     <Content Include="Views\UserBan\Index.cshtml" />
     <Content Include="Views\UserBan\Edit.cshtml" />
     <Content Include="Views\UserBan\Add.cshtml" />
@@ -688,6 +688,7 @@
     <Content Include="Views\AdminPage\Index.cshtml" />
     <Content Include="Views\Shared\_Default.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\UserBan\Adds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

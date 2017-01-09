@@ -19,7 +19,7 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Add()
+        public ActionResult Add(string id)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace MySch.Controllers.User
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var semes = BllSemes.GetEntitys<BllSemes>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
-                ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, null);
+                ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, id);
                 ViewBag.Semesters = EasyUICombo.ToComboJsons<BllSemes>(semes, null);
 
                 return View();
@@ -98,7 +98,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.AccIDS + entity.SemesterIDS.Replace(entity.AccIDS, "");
+                entity.IDS = entity.AccIDS + entity.YearIDS.Replace(entity.AccIDS, "") + entity.SemesterIDS.Replace(entity.AccIDS, "");
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
@@ -155,12 +155,24 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
+        public ActionResult MenuTree(string id = null)
+        {
+            var entitys = BllYear.GetEntitys<BllYear>(a => true).OrderBy(a => a.IDS);
+            var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Part");
+            return Json(res);
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid(string id = null, int page = 1, int rows = 100)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = VTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
+
+                var res = id == null ?
+                    VTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
+                    VTerm.GetDataGridPages(a => a.AccIDS == login.IDS && a.YearIDS == id, page, rows);
+
                 return Json(res);
             }
             catch (Exception e)

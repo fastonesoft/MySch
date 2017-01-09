@@ -200,7 +200,7 @@ create table TStep
 	Name	nvarchar(20) not null,	--级
 	Value	nvarchar(20) not null,	--级编号
 	Graduated	bit not null,	--是否毕业
-	CanRecruit	bit not null,	--能否招生
+	CanRecruit	bit not null,	--能否招生（要放到Grade中）
 	PartIDS	nvarchar(20) not null,
 	AccIDS	nvarchar(20) not null,
 )
@@ -592,7 +592,7 @@ alter table TSub add constraint FK_TSub_AccIDS foreign key (AccIDS) references T
 create unique nonclustered index UN_TSub_IDS on TSub (IDS)
 
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '01', '语文', '语', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '02', '数学', '数', '32128402')
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '02', '数字', '数', '32128402')
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '03', '英语', '英', '32128402')
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '04', '物理', '物', '32128402')
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '05', '化学', '化', '32128402')

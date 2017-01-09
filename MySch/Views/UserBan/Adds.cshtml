@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllBan
+﻿@model MySch.Bll.Model.BanAdds
 
 @{
     Layout = null;
@@ -20,14 +20,6 @@
             </span>
             @Html.ValidationMessageFor(a => a.Num)
         </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.MasterIDS)：</div>
-            <input id="MasterIDS" name="MasterIDS" style="width:210px;" />
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.GroupIDS)：</div>
-            <input id="GroupIDS" name="GroupIDS" style="width:210px;" />
-        </div>
     </div>
 }
 
@@ -43,8 +35,6 @@
         });
 
         var grades = $.parseJSON('@Html.Raw(ViewBag.Grades)');
-        var groups = $.parseJSON('@Html.Raw(ViewBag.Groups)');
-        var masters = $.parseJSON('@Html.Raw(ViewBag.Masters)');
 
         //加载选择框
         $('#GradeIDS').combobox({
@@ -53,18 +43,8 @@
             data: grades,
             readonly: true,
         });
-        $('#GroupIDS').combobox({
-            valueField: 'id',
-            textField: 'text',
-            data: groups,
-        });
-        $('#MasterIDS').combobox({
-            valueField: 'id',
-            textField: 'text',
-            data: masters,
-        });
 
         //添加对话框
-        DialogReload('班级添加', 410, 330, '/UserBan/AddToken', '#bans-grid');
+        DialogAdds('班级添加', 410, 330, '/UserBan/AddsToken', '#bans-grid');
     })
 </script>

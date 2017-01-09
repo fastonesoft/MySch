@@ -16,7 +16,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("分级名称")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"[\d\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个数学、汉字；")]
+        [RegularExpression(@"[\d\u4e00-\u9fa5]{4,10}$", ErrorMessage = "{0}：4-10个数字、汉字；")]
         public string Name { get; set; }
 
         [DisplayName("分级代码")]
@@ -30,7 +30,9 @@ namespace MySch.Bll.Entity
         [DisplayName("是否招生")]
         public bool CanRecruit { get; set; }
 
+        [DisplayName("校区名称")]
         public string PartIDS { get; set; }
+
         public string AccIDS { get; set; }
     }
 }

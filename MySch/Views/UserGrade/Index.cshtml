@@ -16,19 +16,32 @@
             //点击动作
             grades = {
                 add: function () {
-                    DataGridNone('/UserGrade/Add');
-                },
-                edit: function () {
-                    DataGridRowID('#grades-grid', '/UserGrade/Edit');
+                    var node = $('#grades-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', '前端：没有选择相应的校区、年级！', 'error');
+                        return false;
+                    }
+                    if (node.memo != 'Step') {
+                        $.messager.alert('错误提示', '前端：没有选择相应的年级！', 'error');
+                        return false;
+                    }
+                    var param = { id: node.id };
+                    DataGridRequest('/UserGrade/Add', param);
                 },
                 del: function () {
                     DataGridRowID('#grades-grid', '/UserGrade/Del');
+                },
+                all: function () {
+                    $('#grades-grid').datagrid({
+                        queryParams: {}
+                    });
                 }
             }
 
             //数据表格
             $('#grades-grid').datagrid({
                 fit: true,
+                border: false,
                 striped: true,
                 rownumbers: true,
                 fitColumns: false,
@@ -46,8 +59,8 @@
                 },
 
                 columns: [[
-                    { title: '年级名称', field: 'Name', align: 'center',  width: 200 },
-                    { title: '年度名称', field: 'YearName', align: 'center',  width: 100 },
+                    { title: '年级名称', field: 'Name', align: 'center', width: 200 },
+                    { title: '年度名称', field: 'YearName', align: 'center', width: 100 },
                 ]],
 
                 toolbar: '#grades-grid-tool',
@@ -56,33 +69,67 @@
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
+
+            $('#grades-lay').layout({
+                fit: true,
+                border: true,
+            });
+
+            $('#grades-tree').tree({
+                fit: true,
+                url: '/UserGrade/MenuTree',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                onClick: function (node) {
+                    if (node) {
+                        $('#grades-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                            }
+                        });
+                    }
+                },
+            });
         })
     </script>
 </head>
 <body>
-    <table id="grades-grid"></table>
-    <div id="grades-grid-tool">
-        <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="grades.add();">添加</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="grades.edit();">修改</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="grades.del();">删除</a>
-                    </td>
-                </tr>
-            </thead>
-        </table>
+    <div id="grades-lay">
+        <div data-options="region:'west',border:true, title:'校区分级'" style="width:200px;">
+            <ul id="grades-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true">
+            <table id="grades-grid"></table>
+            <div id="grades-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="grades.add();">添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="grades.del();">删除</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="grades.all();">全部</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

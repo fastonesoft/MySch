@@ -9,35 +9,49 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.PartIDS)：</div>
+            <input id="PartIDS" name="PartIDS" style="width:322px;" />
+        </div>
+        <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.Value)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
             @Html.ValidationMessageFor(a => a.Value)
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.Name)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.Graduated)：@Html.CheckBoxFor(a => a.Graduated, new { @disabled = "disabled" })</div>
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.CanRecruit)：@Html.CheckBoxFor(a => a.CanRecruit, new { @disabled = "disabled" })</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
     @Html.HiddenFor(a => a.IDS)
-    @Html.HiddenFor(a => a.PartIDS)
 }
 
 <script type="text/javascript">
     $(function () {
+
+        var parts = $.parseJSON('@Html.Raw(ViewBag.Parts)');
+
+        //加载选择框
+        $('#PartIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: parts,
+            readonly: true,
+        });
+
         //删除对话框
-        DialogDel('分级删除', 410, 250, '/UserStep/DelToken', '#steps-grid');
+        DialogReload('分级删除', 378, 230, '/UserStep/DelToken', '#steps-grid');
     })
 </script>

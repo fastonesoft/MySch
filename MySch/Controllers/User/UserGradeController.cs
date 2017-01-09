@@ -19,44 +19,20 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Add()
+        public ActionResult Add(string id)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var steps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyUICombo.ToComboJsons<BllEdu>(edus, null);
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, null);
-                ViewBag.PartSteps = EasyUICombo.ToComboJsons<VStep>(partsteps, null);
+                ViewBag.Steps = EasyUICombo.ToComboJsons<VStep>(steps, id);
 
                 return View();
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Edit(string id)
-        {
-            try
-            {
-                var entity = BllGrade.GetEntity<BllGrade>(id);
-
-                var login = BllLogin.GetLogin(Session);
-                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
-                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-
-                ViewBag.Edus = EasyUICombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
-                ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyUICombo.ToComboJsons<VStep>(partsteps, entity.IDS);
-
-                return View(entity);
             }
             catch (Exception e)
             {
@@ -74,11 +50,11 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var partsteps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var steps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyUICombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.PartSteps = EasyUICombo.ToComboJsons<VStep>(partsteps, entity.IDS);
+                ViewBag.Steps = EasyUICombo.ToComboJsons<VStep>(steps, entity.StepIDS);
 
                 return View(entity);
             }
@@ -114,28 +90,6 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllGrade entity)
-        {
-            try
-            {
-                //设置用户
-                var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;
-
-                //更新
-                entity.ToUpdate(ModelState);
-                //查询 视图数据
-                var qentity = VGrade.GetEntity(a => a.ID == entity.ID);
-                return Json(qentity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult DelToken(BllGrade entity)
         {
             try
@@ -157,12 +111,33 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
+        public ActionResult MenuTree(string id = null)
+        {
+            var login = BllLogin.GetLogin(Session);
+            //校区：所有
+            if (id == null)
+            {
+                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false).OrderBy(a => a.IDS);
+                var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Part");
+                return Json(res);
+            }
+            else
+            {
+                var entitys = VStep.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id).OrderBy(a => a.IDS);
+                var res = EasyUITree.ToTree(entitys, "IDS", "StepName", "open", "Step");
+                return Json(res);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid(string id = null, int page = 1, int rows = 100)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = VGrade.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows);
+                var res = id == null ?
+                    VGrade.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
+                    VGrade.GetDataGridPages(a => a.AccIDS == login.IDS && a.StepIDS == id, page, rows);
                 return Json(res);
             }
             catch (Exception e)

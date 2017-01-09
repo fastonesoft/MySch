@@ -18,7 +18,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("班级")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{20}$", ErrorMessage = "{0}：用20位数学设置；")]
+        [RegularExpression(@"^\d{20}$", ErrorMessage = "{0}：用20位数字设置；")]
         public string BanIDS { get; set; }
 
         [DisplayName("姓名")]
@@ -28,7 +28,7 @@ namespace MySch.Bll.Entity
 
         [DisplayName("学生来源")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数学设置；")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
         public string ComeIDS { get; set; }
 
         //主要修改下面几个属性

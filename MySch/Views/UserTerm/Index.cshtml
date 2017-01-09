@@ -16,19 +16,31 @@
             //点击动作
             terms = {
                 add: function () {
-                    DataGridNone('/UserTerm/Add');
+                    var node = $('#terms-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', '前端：没有选择相应的年度！', 'error');
+                        return false;
+                    }
+                    var param = { id: node.id };
+                    DataGridRequest('/UserTerm/Add', param);
                 },
                 edit: function () {
                     DataGridRowID('#terms-grid', '/UserTerm/Edit');
                 },
                 del: function () {
                     DataGridRowID('#terms-grid', '/UserTerm/Del');
+                },
+                all: function () {
+                    $('#terms-grid').datagrid({
+                        queryParams: {}
+                    });
                 }
             }
 
             //数据表格
             $('#terms-grid').datagrid({
                 fit: true,
+                border: false,
                 striped: true,
                 rownumbers: true,
                 fitColumns: false,
@@ -67,33 +79,73 @@
                 pageList: [100, 200, 500],
                 pageNumber: 1,
             });
+
+            $('#terms-lay').layout({
+                fit: true,
+                border: true,
+            });
+
+            $('#terms-tree').tree({
+                fit: true,
+                url: '/UserTerm/MenuTree',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                onClick: function (node) {
+                    if (node) {
+                        $('#terms-grid').datagrid({
+                            queryParams: {
+                                id: node.id,
+                            }
+                        });
+                    }
+                },
+            });
         })
     </script>
 </head>
 <body>
-    <table id="terms-grid"></table>
-    <div id="terms-grid-tool">
-        <table cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="terms.add();">添加</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="terms.edit();">修改</a>
-                    </td>
-                    <td>
-                        <div class="datagrid-btn-separator"></div>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="terms.del();">删除</a>
-                    </td>
-                </tr>
-            </thead>
-        </table>
+    <div id="terms-lay">
+        <div data-options="region:'west',border:true, title:'年度设置'" style="width:200px;">
+            <ul id="terms-tree"></ul>
+        </div>
+        <div data-options="region:'center',border:true">
+            <table id="terms-grid"></table>
+            <div id="terms-grid-tool">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="terms.add();">添加</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="terms.edit();">修改</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="terms.del();">删除</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="terms.all();">全部</a>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

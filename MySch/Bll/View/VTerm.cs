@@ -14,6 +14,7 @@ namespace MySch.Bll.View
         public string IDS { get; set; }
         public string Name { get; set; }
         public bool IsCurrent { get; set; }
+        public string YearIDS { get; set; }
         public string AccIDS { get; set; }
 
         public static IEnumerable<VTerm> GetEntitys(Expression<Func<VTerm, bool>> where)
@@ -33,6 +34,7 @@ namespace MySch.Bll.View
                                        IDS = t.IDS,
                                        Name = y.Name + "年度 - " + s.Name,
                                        IsCurrent = t.IsCurrent,
+                                       YearIDS = t.YearIDS,
                                        AccIDS = t.AccIDS,
                                    })
                                    .Where(where)

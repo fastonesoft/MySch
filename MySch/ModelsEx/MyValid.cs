@@ -17,7 +17,7 @@ namespace MySch.Models
 
         [DisplayName("身份证号")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数学大写X的组合")]
+        [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数字大写X的组合")]
         public string IDS { get; set; }
     }
 
@@ -47,7 +47,7 @@ namespace MySch.Models
     {
         [DisplayName("身份证号")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数学大写X的组合")]
+        [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数字大写X的组合")]
         public string IDS { get; set; }
 
         [DisplayName("姓名")]
