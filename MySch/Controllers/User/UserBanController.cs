@@ -117,7 +117,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.GradeIDS + entity.Num.ToString("D2");
+                entity.IDS = entity.GradeIDS + entity.Num;
 
                 //添加
                 entity.ToAdd(ModelState);
@@ -149,7 +149,7 @@ namespace MySch.Controllers.User
                     {
                         ID = Guid.NewGuid().ToString("N"),
                         IDS = entity.GradeIDS + i.ToString("D2"),
-                        Num = i,
+                        Num = i.ToString("D2"),
                         AccIDS = login.IDS,
                         GradeIDS = entity.GradeIDS,
                     };

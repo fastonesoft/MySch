@@ -25,7 +25,7 @@ namespace MySch.Controllers.User
             //校区：所有
             if (id == null)
             {
-                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS);
+                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Part");
                 return Json(res);
             }

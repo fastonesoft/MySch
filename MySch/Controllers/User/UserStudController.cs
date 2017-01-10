@@ -211,7 +211,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
 
                 var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
-                var outs = BllOut.GetEntitys<BllOut>(a => a.AccIDS == login.IDS && a.CanReturn);
+                var outs = BllOut.GetEntitys<BllOut>(a => a.AccIDS == login.IDS && a.CanReturn).OrderBy(a => a.IDS);
                 var steps = VStep.GetEntitys(a => a.PartIDS == entity.PartIDS && a.Graduated == false);
 
 
@@ -256,7 +256,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
 
                 var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
-                var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS);
+                var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
                 ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, "IDS", "Name", null);
@@ -303,7 +303,7 @@ namespace MySch.Controllers.User
             //校区
             if (id == null)
             {
-                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false);
+                var entitys = BllPart.GetEntitys<BllPart>(a => a.AccIDS == login.IDS && a.Fixed == false).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Part");
                 return Json(res);
             }
