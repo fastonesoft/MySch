@@ -23,7 +23,7 @@ namespace MySch.Bll.Entity
         [DisplayName("身份证号")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数字大写X的组合")]
-        public string CID { get; set; }
+        public string IDC { get; set; }
 
         [DisplayName("第一监护人")]
         [Required(ErrorMessage = "{0}：不得为空")]

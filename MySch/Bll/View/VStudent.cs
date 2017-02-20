@@ -14,7 +14,7 @@ namespace MySch.Bll.View
         public string ID { get; set; }
         public string IDS { get; set; }
         public string Name { get; set; }
-        public string CID { get; set; }
+        public string IDC { get; set; }
         public string StepIDS { get; set; }
         public string Mobil1 { get; set; }
         public string Mobil2 { get; set; }
@@ -40,7 +40,7 @@ namespace MySch.Bll.View
                                        ID = st.ID,
                                        IDS = st.IDS,
                                        Name = st.Name,
-                                       CID = st.CID,
+                                       IDC = st.IDC,
                                        StepIDS = st.StepIDS,
                                        Mobil1 = st.Mobil1,
                                        Mobil2 = st.Mobil2,

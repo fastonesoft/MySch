@@ -119,7 +119,7 @@ namespace MySch.Controllers.Student
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = VStudent.GetDataGridPages(a => a.CID == login.IDS, page, rows);
+                var res = VStudent.GetDataGridPages(a => a.IDC == login.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

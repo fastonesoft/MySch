@@ -23,7 +23,7 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(10);
 
-            this.Property(t => t.CID)
+            this.Property(t => t.IDC)
                 .HasMaxLength(20);
 
             this.Property(t => t.StepIDS)
@@ -63,7 +63,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.CID).HasColumnName("CID");
+            this.Property(t => t.IDC).HasColumnName("IDC");
             this.Property(t => t.StepIDS).HasColumnName("StepIDS");
             this.Property(t => t.IsProblem).HasColumnName("IsProblem");
             this.Property(t => t.Mobil1).HasColumnName("Mobil1");

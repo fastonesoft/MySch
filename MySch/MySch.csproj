@@ -139,7 +139,7 @@
     <Compile Include="Bll\Entity\BllPage.cs" />
     <Compile Include="Bll\Entity\BllTheme.cs" />
     <Compile Include="Bll\Entity\BllDatum.cs" />
-    <Compile Include="Bll\Func\CID.cs" />
+    <Compile Include="Bll\Func\IDC.cs" />
     <Compile Include="Bll\Func\EasyUI.cs" />
     <Compile Include="Bll\Entity\BllCome.cs">
       <SubType>Code</SubType>

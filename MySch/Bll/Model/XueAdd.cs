@@ -32,7 +32,7 @@ namespace MySch.Bll.Model
 
         [DisplayName("身份证号")]
         [RegularExpression(@"^$|^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数字与X的组合；")]
-        public string CID { get; set; }
+        public string IDC { get; set; }
 
         [DisplayName("原班")]
         [Required(ErrorMessage = "{0}：不得为空")]
@@ -67,7 +67,7 @@ namespace MySch.Bll.Model
                     ID = Guid.NewGuid().ToString("N"),
                     IDS = studs_max_prev + studs_max_order.ToString("D4"),
                     Name = this.Name,
-                    CID = this.CID,
+                    IDC = this.IDC,
                     StepIDS = grade.StepIDS,
                     AccIDS = grade.AccIDS,
                 };

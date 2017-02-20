@@ -14,7 +14,7 @@ namespace MySch.Bll.View
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public string CID { get; set; }
+        public string IDC { get; set; }
         public string PartIDS { get; set; }
         public string GradeIDS { get; set; }
         public string BanIDS { get; set; }
@@ -48,14 +48,14 @@ namespace MySch.Bll.View
                                    {
                                        ID = gs.ID,
                                        IDS = gs.IDS,
-                                       CID = st.CID,
+                                       IDC = st.IDC,
                                        PartIDS = s.PartIDS,
                                        GradeIDS = gs.GradeIDS,
                                        BanIDS = gs.BanIDS,
                                        StudIDS = st.IDS,
                                        StepName = s.Name,
                                        StudName = st.Name,
-                                       StudSex = st.CID.Substring(16, 1),
+                                       StudSex = st.IDC.Substring(16, 1),
                                        OutName = gs_o.Name,
                                        InSch = gs.InSch,
                                        CanReturn = gs_o.CanReturn,
@@ -115,7 +115,7 @@ namespace MySch.Bll.View
                 if (memo == "Part")
                 {
                     //查询显示
-                    var part_entitys = VStudOut.GetEntitys(a => a.PartIDS == ids && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
+                    var part_entitys = VStudOut.GetEntitys(a => a.PartIDS == ids && (a.IDC.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
                     return EasyUI<VStudOut>.DataGrids(part_entitys, part_entitys.Count());
                 }
                 else
@@ -123,13 +123,13 @@ namespace MySch.Bll.View
                     if (memo == "Grade")
                     {
                         //查询显示
-                        var grade_entitys = VStudOut.GetEntitys(a => a.GradeIDS == ids && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
+                        var grade_entitys = VStudOut.GetEntitys(a => a.GradeIDS == ids && (a.IDC.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
                         return EasyUI<VStudOut>.DataGrids(grade_entitys, grade_entitys.Count());
                     }
                     else
                     {
                         //班级直接查询，因为：先年级，后班级
-                        var ban_entitys = VStudOut.GetEntitys(a => a.BanIDS == ids && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
+                        var ban_entitys = VStudOut.GetEntitys(a => a.BanIDS == ids && (a.IDC.Contains(text) || a.StudName.Contains(text)) && a.InSch == false);
                         return EasyUI<VStudOut>.DataGrids(ban_entitys, ban_entitys.Count());
                     }
                 }

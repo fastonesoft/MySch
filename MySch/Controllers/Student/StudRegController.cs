@@ -42,7 +42,7 @@ namespace MySch.Controllers.Student
                 if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //身份证号检测
-                CID.IDS(que.IDS);
+                IDC.IDS(que.IDS);
 
                 //一、做Get请求网页
                 CookieCollection cookies = null;
@@ -138,7 +138,7 @@ namespace MySch.Controllers.Student
             try
             {
                 //身份证检测
-                CID.IDS(id);
+                IDC.IDS(id);
 
                 var db = DataCRUD<TStudReg>.Entitys(a => a.IDS == id);
 
@@ -303,7 +303,7 @@ namespace MySch.Controllers.Student
                 if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //身份证号检测
-                CID.IDS(manu.IDS);
+                IDC.IDS(manu.IDS);
 
                 //检测身份证是否重复
                 var db = DataCRUD<TStudReg>.Entity(a => a.IDS == manu.IDS);

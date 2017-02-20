@@ -673,7 +673,7 @@ create table Student
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(20) not null,	--学生编号
 	Name	nvarchar(10) not null,	--姓名
-	CID	nvarchar(20),	--身份证号
+	IDC	nvarchar(20),	--身份证号
 	StepIDS	nvarchar(20) not null,	--校区分级编号
 	--
 	IsProblem	bit not null,	--是否问题学籍
@@ -697,7 +697,7 @@ go
 alter table Student add constraint PK_Student primary key clustered (ID)
 alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) references TStep (IDS)
 create unique nonclustered index UN_Student_IDS on Student (IDS)
-create index IN_Student_CID on Student (CID)
+create index IN_Student_IDC on Student (IDC)
 create index IN_Student_Name on Student (Name)
 
 
@@ -730,6 +730,17 @@ alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) 
 alter table StudGrade add constraint FK_StudGrade_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
 alter table StudGrade add constraint FK_StudGrade_ComeIDS foreign key (ComeIDS) references SCome (IDS)
 create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
+
+--年度学生列表
+create table SList
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	Name	nvarchar(20) not null,
+	AccIDS	nvarchar(20) not null,
+)
+go
+
 
 
 ----考试相关

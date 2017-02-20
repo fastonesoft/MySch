@@ -337,7 +337,7 @@ namespace MySch.Controllers.User
                 {
                     var res = string.IsNullOrEmpty(text) ?
                         VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.InSch, page, rows) :
-                        VGradeStud.GetDataGridPages(a => a.PartIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
+                        VGradeStud.GetDataGridPages(a => a.PartIDS == id && (a.IDC.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
 
                     return Json(res);
                 }
@@ -347,7 +347,7 @@ namespace MySch.Controllers.User
                     {
                         var res = string.IsNullOrEmpty(text) ?
                             VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.InSch, page, rows) :
-                            VGradeStud.GetDataGridPages(a => a.GradeIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
+                            VGradeStud.GetDataGridPages(a => a.GradeIDS == id && (a.IDC.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
 
                         return Json(res);
                     }
@@ -355,7 +355,7 @@ namespace MySch.Controllers.User
                     {
                         var res = string.IsNullOrEmpty(text) ?
                             VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.InSch, page, rows) :
-                            VGradeStud.GetDataGridPages(a => a.BanIDS == id && (a.CID.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
+                            VGradeStud.GetDataGridPages(a => a.BanIDS == id && (a.IDC.Contains(text) || a.StudName.Contains(text)) && a.InSch, page, rows);
 
                         return Json(res);
                     }
@@ -397,14 +397,14 @@ namespace MySch.Controllers.User
                 int count = 0;
                 foreach (var stud in rows)
                 {
-                    var student = AutoXue.GetStudent(stud.StudName, stud.CID, cookies);
+                    var student = AutoXue.GetStudent(stud.StudName, stud.IDC, cookies);
 
                     var xues = Jsons.JsonEntity<IEnumerable<XueDetail>>(student);
                     if (xues.Count() != 0)
                     {
                         XueDetail xue = xues.First();
 
-                        BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.CID == stud.CID);
+                        BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.IDC == stud.IDC);
                         ins.Name1 = xue.first_guardian_name;
                         ins.Mobil1 = xue.first_guardian_phone;
                         ins.Name2 = xue.second_guardian_name;

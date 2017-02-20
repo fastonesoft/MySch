@@ -68,7 +68,7 @@ namespace MySch.Controllers.User
                 {
                     var res = string.IsNullOrEmpty(text) ?
                         VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.IsCurrent == false, page, rows) :
-                        VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.IsCurrent == false && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+                        VGradeStud.GetDataGridPages(a => a.PartIDS == id && a.IsCurrent == false && (a.IDC.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                     return Json(res);
                 }
@@ -78,7 +78,7 @@ namespace MySch.Controllers.User
                     {
                         var res = string.IsNullOrEmpty(text) ?
                             VGradeStud.GetDataGridPages(a => a.StepIDS == id && a.IsCurrent == false, page, rows) :
-                            VGradeStud.GetDataGridPages(a => a.StepIDS == id && a.IsCurrent == false && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+                            VGradeStud.GetDataGridPages(a => a.StepIDS == id && a.IsCurrent == false && (a.IDC.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                         return Json(res);
                     }
@@ -88,7 +88,7 @@ namespace MySch.Controllers.User
                         {
                             var res = string.IsNullOrEmpty(text) ?
                                 VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.IsCurrent == false, page, rows) :
-                                VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.IsCurrent == false && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+                                VGradeStud.GetDataGridPages(a => a.GradeIDS == id && a.IsCurrent == false && (a.IDC.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                             return Json(res);
                         }
@@ -96,7 +96,7 @@ namespace MySch.Controllers.User
                         {
                             var res = string.IsNullOrEmpty(text) ?
                                 VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.IsCurrent == false, page, rows) :
-                                VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.IsCurrent == false && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+                                VGradeStud.GetDataGridPages(a => a.BanIDS == id && a.IsCurrent == false && (a.IDC.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                             return Json(res);
                         }

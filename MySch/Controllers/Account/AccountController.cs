@@ -86,11 +86,11 @@ namespace MySch.Controllers.Account
             try
             {
                 //帐号类型检测
-                BllError res = CID.IDS(acc.IDS);
+                BllError res = IDC.IDS(acc.IDS);
                 if (!res.error)
                 {
                     //用学生身份登录：IDS是身份证，Pwd是身份证后6位
-                    var stud = BllStudent.GetEntity<BllStudent>(a => a.CID == acc.IDS);
+                    var stud = BllStudent.GetEntity<BllStudent>(a => a.IDC == acc.IDS);
                     if (stud == null) return Json(new BllError { error = true, message = "错误：该身份证号没有注册！" });
                     acc.Name = stud.Name;
 

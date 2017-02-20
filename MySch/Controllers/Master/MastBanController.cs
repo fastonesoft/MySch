@@ -177,7 +177,7 @@ namespace MySch.Controllers.Master
 
                 var res = string.IsNullOrEmpty(text) ?
                     VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && a.InSch, page, rows) :
-                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && a.InSch && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && a.InSch && (a.IDC.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                 return Json(res);
             }
@@ -198,7 +198,7 @@ namespace MySch.Controllers.Master
 
                 var res = string.IsNullOrEmpty(text) ?
                     VStudOut.GetDataGrids(a => bantext.Contains(a.BanIDS) && a.InSch == false) :
-                    VStudOut.GetDataGrids(a => bantext.Contains(a.BanIDS) && a.InSch == false && (a.CID.Contains(text) || a.StudName.Contains(text)));
+                    VStudOut.GetDataGrids(a => bantext.Contains(a.BanIDS) && a.InSch == false && (a.IDC.Contains(text) || a.StudName.Contains(text)));
 
                 return Json(res);
             }

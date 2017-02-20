@@ -16,7 +16,7 @@ namespace MySch.Bll.View
     {
         public string ID { get; set; }
         public string IDS { get; set; }
-        public string CID { get; set; }
+        public string IDC { get; set; }
         public string PartIDS { get; set; }
         public string StepIDS { get; set; }
         public string GradeIDS { get; set; }
@@ -55,7 +55,7 @@ namespace MySch.Bll.View
                                    {
                                        ID = gs.ID,
                                        IDS = gs.IDS,
-                                       CID = st.CID,
+                                       IDC = st.IDC,
                                        PartIDS = p.IDS,
                                        StepIDS = s.IDS,
                                        GradeIDS = gs.GradeIDS,
@@ -64,7 +64,7 @@ namespace MySch.Bll.View
                                        BanLongName = s.Name + " - " + e.Name + "（" + b.Num + "）班",
                                        StudIDS = gs.StudIDS,
                                        StudName = st.Name,
-                                       StudSex = st.CID.Substring(16, 1),
+                                       StudSex = st.IDC.Substring(16, 1),
                                        ComeName = gs_c.Name,
                                        OutName = gs_o.Name,
                                        Checked = st.Checked,

@@ -62,7 +62,7 @@ namespace MySch.ModelsEx
             try
             {
                 //检测身份证号是否有效
-                CID.IDS(ID);
+                IDC.IDS(ID);
 
                 CookieCollection cookies = null;
                 //一、做Get请求网页
@@ -161,7 +161,7 @@ namespace MySch.ModelsEx
             try
             {
                 //检测身份证号是否有效
-                CID.IDS(ID);
+                IDC.IDS(ID);
 
                 var db = DataCRUD<TStudReg>.Entity(a => a.IDS == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
                 if (db == null) throw new Exception("学生姓名与身份证号不匹配，或者已经完成登记");

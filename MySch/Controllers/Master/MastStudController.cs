@@ -28,7 +28,7 @@ namespace MySch.Controllers.Master
                 var res = new List<EasyUIpGrid>();
                 res.Add(EasyUIpGrid.PItem(db, "IDS", "学生编号", "基本信息", ""));
                 res.Add(EasyUIpGrid.PItem(db, "Name", "姓名", "基本信息", ""));
-                res.Add(EasyUIpGrid.PItem(db, "CID", "身份证号", "基本信息", ""));
+                res.Add(EasyUIpGrid.PItem(db, "IDC", "身份证号", "基本信息", ""));
                 res.Add(EasyUIpGrid.PItem(db, "Name1", "第一监护人", "详细资料", ""));
                 res.Add(EasyUIpGrid.PItem(db, "Name2", "第二监护人", "详细资料", ""));
                 res.Add(EasyUIpGrid.PItem(db, "Birth", "户籍地址", "详细资料", ""));
@@ -97,7 +97,7 @@ namespace MySch.Controllers.Master
 
                 var res = string.IsNullOrEmpty(text) ?
                     VGradeStud.GetDataGridPages(a => a.BanIDS == id, page, rows) :
-                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && (a.CID.Contains(text) || a.StudName.Contains(text)), page, rows);
+                    VGradeStud.GetDataGridPages(a => bantext.Contains(a.BanIDS) && (a.IDC.Contains(text) || a.StudName.Contains(text)), page, rows);
 
                 return Json(res);
             }

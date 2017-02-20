@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MySch.Bll.Func
 {
-    public class CID
+    public class IDC
     {
         //public static void IDS(string ids)
         //{
