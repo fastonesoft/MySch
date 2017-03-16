@@ -610,7 +610,7 @@ insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '15', '听力
 
 
 --学生去向
-create table SOut
+create table StudOut
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -622,18 +622,18 @@ create table SOut
 
 go
 
-alter table SOut add constraint PK_SOut primary key clustered (ID)
-create unique nonclustered index UN_SOut_IDS on SOut (IDS)
+alter table StudOut add constraint PK_StudOut primary key clustered (ID)
+create unique nonclustered index UN_StudOut_IDS on StudOut (IDS)
 
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '升学', '02', 0, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '休学', '03', 0, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '转出', '04', 0, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '外借', '05', 1, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '辍学', '06', 1, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '流生', '07', 1, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '其他', '08', 1, '32128402')
-insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '升学', '02', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '休学', '03', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '转出', '04', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '外借', '05', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '辍学', '06', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '流生', '07', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '其他', '08', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', 1, '32128402')
 
 
 
@@ -642,7 +642,7 @@ insert SOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99
 
 
 --学生来源
-create table SCome
+create table StudCome
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -653,22 +653,22 @@ create table SCome
 
 go
 
-alter table SCome add constraint PK_SCome primary key clustered (ID)
-create unique nonclustered index UN_SCome_IDS on SCome (IDS)
+alter table StudCome add constraint PK_StudCome primary key clustered (ID)
+create unique nonclustered index UN_StudCome_IDS on StudCome (IDS)
 
-insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
-insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
-insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
-insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
-insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
-insert SCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
 
 
 
 
 --学生表
---delete from Student
-create table Student
+--delete from Stud
+create table Stud
 (
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(20) not null,	--学生编号
@@ -694,11 +694,11 @@ create table Student
 	OpenID	nvarchar(32),	--用户ID
 )
 go
-alter table Student add constraint PK_Student primary key clustered (ID)
-alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) references TStep (IDS)
-create unique nonclustered index UN_Student_IDS on Student (IDS)
-create index IN_Student_IDC on Student (IDC)
-create index IN_Student_Name on Student (Name)
+alter table Stud add constraint PK_Stud primary key clustered (ID)
+alter table Stud add constraint FK_Stud_StepIDS foreign key (StepIDS) references TStep (IDS)
+create unique nonclustered index UN_Stud_IDS on Stud (IDS)
+create index IN_Stud_IDC on Stud (IDC)
+create index IN_Stud_Name on Stud (Name)
 
 
 
@@ -726,21 +726,46 @@ go
 
 alter table StudGrade add constraint PK_StudGrade primary key clustered (ID)
 alter table StudGrade add constraint FK_StudGrade_BanIDS foreign key (BanIDS) references TBan (IDS)
-alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) references Student (IDS)
+alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) references Stud (IDS)
 alter table StudGrade add constraint FK_StudGrade_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
-alter table StudGrade add constraint FK_StudGrade_ComeIDS foreign key (ComeIDS) references SCome (IDS)
+alter table StudGrade add constraint FK_StudGrade_ComeIDS foreign key (ComeIDS) references StudCome (IDS)
 create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
 
---年度学生列表
-create table SList
+
+--
+
+--年度学生列表类型
+create table StudGradeType
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(32) not null,
-	Name	nvarchar(20) not null,
-	AccIDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,	--年度学生列表类型名称
+	AccIDS	nvarchar(20) not null,	--学校编号
 )
 go
 
+--年度学生列表
+create table StudGradeTable
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	GradeIDS	nvarchar(20) not null,	--年度编号
+	TableName	nvarchar(20) not null,	--年度学生列表名称
+	TypeIDS	nvarchar(20) not null,	--年度学生列表类型
+	Memo	nvarchar(100),
+)
+go
+
+--年度学生明细
+create table StudGradeField
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	TableIDS	nvarchar(32) not null,
+	FieldName	nvarchar(20) not null,
+	ValueRegex	
+)
+go
 
 
 ----考试相关
@@ -856,7 +881,7 @@ create unique nonclustered index UN_KRoom_IDS on KRoom (IDS)
 
 
 --参加考试的人员设置
-create table KStudent
+create table KStud
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -867,10 +892,10 @@ create table KStudent
 	Kao	nvarchar(20),
 )
 go
-alter table KStudent add constraint PK_KStudent primary key clustered (ID)
-alter table KStudent add constraint FK_KStudent_KaoIDS foreign key (KaoIDS) references Kao (IDS)
-alter table KStudent add constraint FK_KStudent_StudIDS foreign key (StudIDS) references Student (IDS)
-create unique nonclustered index UN_KStudent_IDS on KStudent (IDS)
+alter table KStud add constraint PK_KStud primary key clustered (ID)
+alter table KStud add constraint FK_KStud_KaoIDS foreign key (KaoIDS) references Kao (IDS)
+alter table KStud add constraint FK_KStud_StudIDS foreign key (StudIDS) references Stud (IDS)
+create unique nonclustered index UN_KStud_IDS on KStud (IDS)
 
 
 --考试成绩
@@ -889,7 +914,7 @@ create table KScore
 )
 go
 alter table KScore add constraint PK_KScore primary key clustered (ID)
-alter table KScore add constraint FK_KScore_KStudIDS foreign key (KStudIDS) references KStudent (IDS)
+alter table KScore add constraint FK_KScore_KStudIDS foreign key (KStudIDS) references KStud (IDS)
 alter table KScore add constraint FK_KScore_KaoIDS foreign key (KaoIDS) references Kao (IDS)
 alter table KScore add constraint FK_KScore_SubIDS foreign key (SubIDS) references TSub (IDS)
 create unique nonclustered index UN_KScore_IDS on KScore (IDS)
@@ -965,12 +990,12 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 
 
 
---权限设置
-create table ARole
-(
+----权限设置
+--create table ARole
+--(
 	
-)
-go
+--)
+--go
 
 
 
