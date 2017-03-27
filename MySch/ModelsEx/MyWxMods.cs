@@ -182,7 +182,7 @@ namespace MySch.ModelsEx
             return string.Format(con, xml);
         }
 
-        public virtual string ToXml()
+        public string ToXml()
         {
             return ToXml("<xml>{0}</xml>");
         }
@@ -212,12 +212,24 @@ namespace MySch.ModelsEx
         }
     }
 
-    public class WX_Send_Pic : WX_Send_Base
+
+    /// <summary>
+    /// 图文发送描述
+    /// </summary>
+    public class WX_Send_Pic_Item
     {
         public string Title { get; set; }
         public string Description { get; set; }
         public string PicUrl { get; set; }
         public string Url { get; set; }
+    }
+
+    /// <summary>
+    /// 图文发送
+    /// </summary>
+    public class WX_Send_Pic : WX_Send_Base
+    {
+        List<WX_Send_Pic_Item> _Items = new List<WX_Send_Pic_Item>();
 
         public WX_Send_Pic(WX_Rec_Base rec)
         {
@@ -226,25 +238,34 @@ namespace MySch.ModelsEx
             this.ToUserName = rec.FromUserName;
         }
 
-        public void Init(string title, string description, string picurl, string url)
+        public void Add(string title, string description, string picurl, string url)
         {
-            this.Title = title;
-            this.Description = description;
-            this.PicUrl = picurl;
-            this.Url = url;
+            var item = new WX_Send_Pic_Item { Title = title, Description = description, PicUrl = picurl, Url = url };
+            Add(item);
+        }
+
+        public void Add(WX_Send_Pic_Item picItem)
+        {
+            _Items.Add(picItem);
         }
 
         public override string ToXml(string con)
         {
+            string items = "";
+            foreach (var item in _Items)
+            {
+                items += "<item>";
+                items += string.Format("<Title><![CDATA[{0}]]></Title> ", item.Title);
+                items += string.Format("<Description><![CDATA[{0}]]></Description>", item.Description);
+                items += string.Format("<PicUrl><![CDATA[{0}]]></PicUrl>", item.PicUrl);
+                items += string.Format("<Url><![CDATA[{0}]]></Url>", item.Url);
+                items += "</item>";
+            }
+
             string xml = base.ToXml("{0}");
-            xml += string.Format("<ArticleCount>{0}</ArticleCount>", 1);
+            xml += string.Format("<ArticleCount>{0}</ArticleCount>", _Items.Count());
             xml += "<Articles>";
-            xml += "<item>";
-            xml += string.Format("<Title><![CDATA[{0}]]></Title> ", Title);
-            xml += string.Format("<Description><![CDATA[{0}]]></Description>", Description);
-            xml += string.Format("<PicUrl><![CDATA[{0}]]></PicUrl>", PicUrl);
-            xml += string.Format("<Url><![CDATA[{0}]]></Url>", Url);
-            xml += "</item>";
+            xml += items;
             xml += "</Articles>";
             xml += "<FuncFlag>0</FuncFlag>";
             return string.Format(con, xml);
