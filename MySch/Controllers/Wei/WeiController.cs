@@ -42,12 +42,9 @@ namespace MySch.Controllers.Wei
             if (string.IsNullOrEmpty(posts)) return "";
 
             //封装请求类
-            WX_Rec_Base rec = new WX_Rec_Base();
-            rec.XmlInit(posts);
+            WX_Rec_Base rec = new WX_Rec_Base(posts);
             rec.XmlToObj();
 
-            //封装文字提示
-            WX_Send_Text text = new WX_Send_Text(rec);
             //结果
             string res = string.Empty;
             try

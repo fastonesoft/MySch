@@ -38,25 +38,18 @@ namespace MySch.ModelsEx
         private XmlElement _element;
         public XmlElement Element { get { return _element; } }
 
-        public void XmlInit(string xml)
+        public override WX_Rec_Base(string xml)
         {
             try
             {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 _element = doc.DocumentElement;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
 
-        public void XmlInit(XmlElement ele)
-        {
-            try
-            {
-                _element = ele;
+                this.FromUserName = _element.SelectSingleNode("FromUserName").InnerText;
+                this.ToUserName = _element.SelectSingleNode("ToUserName").InnerText;
+                this.CreateTime = int.Parse(_element.SelectSingleNode("CreateTime").InnerText);
+                this.MsgType = _element.SelectSingleNode("MsgType").InnerText;
             }
             catch (Exception e)
             {
@@ -92,9 +85,28 @@ namespace MySch.ModelsEx
         }
     }
 
+    /// <summary>
+    /// 文本消息接收类
+    /// </summary>
     public class WX_Rec_Text : WX_Rec_Base
     {
         public string Content { get; set; }
+        public override WX_Rec_Text(string xml)
+        {
+            try
+            {
+                this.FromUserName = _element.SelectSingleNode("FromUserName").InnerText;
+                this.ToUserName = _element.SelectSingleNode("ToUserName").InnerText;
+                this.CreateTime = int.Parse(_element.SelectSingleNode("CreateTime").InnerText);
+                this.MsgType = _element.SelectSingleNode("MsgType").InnerText;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         public override void XmlToObj()
         {
             try
@@ -109,6 +121,9 @@ namespace MySch.ModelsEx
         }
     }
 
+    /// <summary>
+    /// 图片消息接收类
+    /// </summary>
     public class WX_Rec_Image : WX_Rec_Base
     {
         public string PicUrl { get; set; }
@@ -129,6 +144,9 @@ namespace MySch.ModelsEx
         }
     }
 
+    /// <summary>
+    /// 事件消息接收类
+    /// </summary>
     public class WX_Rec_Event : WX_Rec_Base
     {
         public string Event { get; set; }
@@ -189,32 +207,35 @@ namespace MySch.ModelsEx
 
     }
 
+    /// <summary>
+    /// 文本消息发送类
+    /// </summary>
     public class WX_Send_Text : WX_Send_Base
     {
         public string Content { get; set; }
-        public WX_Send_Text(WX_Rec_Base rec)
+        public WX_Send_Text(WX_Rec_Base rec, string content)
         {
             this.MsgType = "text";
             this.FromUserName = rec.ToUserName;
             this.ToUserName = rec.FromUserName;
-        }
-
-        public void Init(string content)
-        {
+            //
             this.Content = content;
         }
 
         public override string ToXml(string con)
         {
+            //基本数据
             string xml = base.ToXml("{0}");
+            //新增属性
             xml += string.Format("<Content><![CDATA[{0}]]></Content>", Content);
+            //
             return string.Format(con, xml);
         }
     }
 
 
     /// <summary>
-    /// 图文发送描述
+    /// 单一图文描述
     /// </summary>
     public class WX_Send_Pic_Item
     {
@@ -225,7 +246,7 @@ namespace MySch.ModelsEx
     }
 
     /// <summary>
-    /// 图文发送
+    /// 图文消息发送
     /// </summary>
     public class WX_Send_Pic : WX_Send_Base
     {
@@ -249,8 +270,14 @@ namespace MySch.ModelsEx
             _Items.Add(picItem);
         }
 
+        public void Adds(List<WX_Send_Pic_Item> items)
+        {
+            _Items = items;
+        }
+
         public override string ToXml(string con)
         {
+            //构造图文列表
             string items = "";
             foreach (var item in _Items)
             {
@@ -261,7 +288,7 @@ namespace MySch.ModelsEx
                 items += string.Format("<Url><![CDATA[{0}]]></Url>", item.Url);
                 items += "</item>";
             }
-
+            //将图文数据打包
             string xml = base.ToXml("{0}");
             xml += string.Format("<ArticleCount>{0}</ArticleCount>", _Items.Count());
             xml += "<Articles>";
