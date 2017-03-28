@@ -1,4 +1,5 @@
-﻿using MySch.Dal;
+﻿using MySch.Bll.Wei;
+using MySch.Dal;
 using MySch.Models;
 using MySch.ModelsEx;
 using System;
@@ -29,32 +30,27 @@ namespace MySch.Controllers.Wei
         [HttpPost]
         public string Index(WX_Author_Ex author)
         {
-            //检测数据是否来至
-            if (!MyWxApi.CheckSignature(author)) return "";
-
-            //检测数据体
-            Stream stream = Request.InputStream;
-            Byte[] bytes = new Byte[stream.Length];
-            stream.Read(bytes, 0, (int)stream.Length);
-            string posts = Encoding.UTF8.GetString(bytes);
-
-            //有问题直接返回
-            if (string.IsNullOrEmpty(posts)) return "";
-
-            //封装请求类
-            WX_Rec_Base rec = new WX_Rec_Base(posts);
-            rec.XmlToObj();
-
-            //结果
-            string res = string.Empty;
             try
             {
-                //每个都记录
-                TLog log = new TLog();
-                log.CreateTime = DateTime.Now;
-                log.GD = Guid.NewGuid().ToString("N");
-                log.Value = posts;
-                DataCRUD<TLog>.Add(log);
+                //检测数据是否来至
+                if (!MyWxApi.CheckSignature(author)) return "";
+
+                //检测数据体
+                Stream stream = Request.InputStream;
+                Byte[] bytes = new Byte[stream.Length];
+                stream.Read(bytes, 0, (int)stream.Length);
+                string posts = Encoding.UTF8.GetString(bytes);
+
+                //有问题直接返回
+                if (string.IsNullOrEmpty(posts)) return "";
+
+                //记录请求数据
+                WXLog.Add(posts);
+
+                //封装请求类
+                WX_Rec_Base rec = new WX_Rec_Base(posts);
+                rec.XmlToObj();
+
 
                 switch (rec.MsgType)
                 {
@@ -68,8 +64,8 @@ namespace MySch.Controllers.Wei
                         //命令行解析出错，给出提示
                         if (cmd == null)
                         {
-                            text.Init(MyWxApi.NormalCommand());
-                            res = text.ToXml();
+                            var text = new WX_Send_Text(rec, MyWxApi.NormalCommand());
+                            return text.ToXml();
                         }
                         else
                         {
@@ -80,8 +76,8 @@ namespace MySch.Controllers.Wei
                                     //首先检测是否完成登记
                                     if (MyWxApi.Binding(rec.FromUserName))
                                     {
-                                        text.Init("已完成学生报名，不必重复动作！");
-                                        res = text.ToXml();
+                                        var text = new WX_Send_Text(rec, "已完成学生报名，不必重复动作！");
+                                        return text.ToXml();
                                     }
                                     else
                                     {
@@ -90,8 +86,8 @@ namespace MySch.Controllers.Wei
                                         //命令行解析：出错，给出提示
                                         if (cmd2 == null)
                                         {
-                                            text.Init("新生报名格式：新生报名#学生姓名#身份证号");
-                                            res = text.ToXml();
+                                            var text = new WX_Send_Text(rec, "新生报名格式：新生报名#学生姓名#身份证号");
+                                            return text.ToXml();
                                         }
                                         else
                                         {
@@ -99,9 +95,9 @@ namespace MySch.Controllers.Wei
                                             string gd = MyWxApi.StudReg(cmd2.Name, cmd2.Value, rec.FromUserName);
 
                                             //正确：返回二维码
-                                            WX_Send_Pic pic = new WX_Send_Pic(rec);
-                                            pic.Init("报名信息", "学生报名信息已记录，请按公示时间携带相关证件到指定地点审核！", "http://58.222.0.150/wei/code?gd=" + gd, "");
-                                            res = pic.ToXml();
+                                            var pic = new WX_Send_Pic(rec);
+                                            pic.Add("报名信息", "学生报名信息已记录，请按公示时间携带相关证件到指定地点审核！", "http://58.222.0.150/wei/code?gd=" + gd, "");
+                                            return pic.ToXml();
                                         }
                                     }
                                     break;
@@ -110,8 +106,8 @@ namespace MySch.Controllers.Wei
                                     //首先检测是否完成登记
                                     if (MyWxApi.Binding(rec.FromUserName))
                                     {
-                                        text.Init("已完成学生信息登记，不必重复动作！");
-                                        res = text.ToXml();
+                                        var text = new WX_Send_Text(rec, "已完成学生信息登记，不必重复动作！");
+                                        return text.ToXml();
                                     }
                                     else
                                     {
@@ -119,8 +115,8 @@ namespace MySch.Controllers.Wei
                                         //命令行解析：出错，给出提示
                                         if (cmd3 == null)
                                         {
-                                            text.Init("信息登记格式：信息登记#学生姓名#身份证号");
-                                            res = text.ToXml();
+                                            var text = new WX_Send_Text(rec, "信息登记格式：信息登记#学生姓名#身份证号");
+                                            return text.ToXml();
                                         }
                                         else
                                         {
@@ -128,8 +124,8 @@ namespace MySch.Controllers.Wei
                                             MyWxApi.StudBinding(cmd3.Name, cmd3.Value, rec.FromUserName);
 
                                             //给出结果显示
-                                            text.Init(string.Format("已完成 {0} 同学的信息登记，可以进行其它相关查询", cmd3.Name));
-                                            res = text.ToXml();
+                                            var text = new WX_Send_Text(rec, string.Format("已完成 {0} 同学的信息登记，可以进行其它相关查询", cmd3.Name));
+                                            return text.ToXml();
                                         }
                                     }
                                     break;
@@ -138,14 +134,14 @@ namespace MySch.Controllers.Wei
                                     //首先检测是否完成登记
                                     if (!MyWxApi.Binding(rec.FromUserName))
                                     {
-                                        text.Init("未进行：信息登记操作，暂不能查询！");
-                                        res = text.ToXml();
+                                        var text = new WX_Send_Text(rec, "未进行：信息登记操作，暂不能查询！");
+                                        return text.ToXml();
                                     }
                                     else
                                     {
                                         //录取情况
-                                        text.Init(MyWxApi.StudInfor(rec.FromUserName));
-                                        res = text.ToXml();
+                                        var text = new WX_Send_Text(rec, MyWxApi.StudInfor(rec.FromUserName));
+                                        return text.ToXml();
                                     }
                                     break;
 
@@ -153,36 +149,35 @@ namespace MySch.Controllers.Wei
                                     //首先检测是否完成登记
                                     if (!MyWxApi.Binding(rec.FromUserName))
                                     {
-                                        text.Init("未进行：信息登记操作，暂不能查询！");
-                                        res = text.ToXml();
+                                        var text = new WX_Send_Text(rec, "未进行：信息登记操作，暂不能查询！");
+                                        return text.ToXml();
                                     }
                                     else
                                     {
                                         //录取人数
-                                        text.Init(MyWxApi.StudCount(rec.FromUserName));
-                                        res = text.ToXml();
+                                        var text = new WX_Send_Text(rec, MyWxApi.StudCount(rec.FromUserName));
+                                        return text.ToXml();
                                     }
                                     break;
                                 default:
-                                    text.Init(MyWxApi.NormalCommand());
-                                    res = text.ToXml();
+                                    var dtext = new WX_Send_Text(rec, MyWxApi.NormalCommand());
+                                    return dtext.ToXml();
                                     break;
                             }
                         }
                         break;
                     //图片
                     case "image":
-                        text.Init("图片上传应用还在设计当中！");
-                        res = text.ToXml();
-
+                        var itext = new WX_Send_Text(rec, "图片上传应用还在设计当中！");
+                        return itext.ToXml();
                         break;
                     //事件
                     case "event":
                         //关注类型subscribe
                         if (rec.XmlElement("Event") == "subscribe")
                         {
-                            text.Init("欢迎关注：校务在线助手");
-                            res = text.ToXml();
+                            var text = new WX_Send_Text(rec, "欢迎关注：校务在线助手");
+                            return text.ToXml();
                         }
                         else
                         {
@@ -195,9 +190,22 @@ namespace MySch.Controllers.Wei
                     default:
                         text.Init(MyWxApi.NormalCommand());
                         res = text.ToXml();
+                        var text = new WX_Send_Text(rec, "已完成学生信息登记，不必重复动作！");
+                        return text.ToXml();
 
                         break;
                 }
+
+
+            }
+            catch
+            {
+                return "";
+            }
+
+            //结果
+            try
+            {
 
                 //记录输出
                 TLog logr = new TLog();
@@ -206,7 +214,6 @@ namespace MySch.Controllers.Wei
                 logr.Value = res;
                 DataCRUD<TLog>.Add(logr);
 
-                return res;
             }
             catch (Exception e)
             {

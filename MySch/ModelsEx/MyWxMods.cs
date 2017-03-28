@@ -36,20 +36,14 @@ namespace MySch.ModelsEx
     public class WX_Rec_Base : WX_Message_Base
     {
         private XmlElement _element;
-        public XmlElement Element { get { return _element; } }
 
-        public override WX_Rec_Base(string xml)
+        public WX_Rec_Base(string xml)
         {
             try
             {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 _element = doc.DocumentElement;
-
-                this.FromUserName = _element.SelectSingleNode("FromUserName").InnerText;
-                this.ToUserName = _element.SelectSingleNode("ToUserName").InnerText;
-                this.CreateTime = int.Parse(_element.SelectSingleNode("CreateTime").InnerText);
-                this.MsgType = _element.SelectSingleNode("MsgType").InnerText;
             }
             catch (Exception e)
             {
@@ -91,21 +85,6 @@ namespace MySch.ModelsEx
     public class WX_Rec_Text : WX_Rec_Base
     {
         public string Content { get; set; }
-        public override WX_Rec_Text(string xml)
-        {
-            try
-            {
-                this.FromUserName = _element.SelectSingleNode("FromUserName").InnerText;
-                this.ToUserName = _element.SelectSingleNode("ToUserName").InnerText;
-                this.CreateTime = int.Parse(_element.SelectSingleNode("CreateTime").InnerText);
-                this.MsgType = _element.SelectSingleNode("MsgType").InnerText;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
 
         public override void XmlToObj()
         {
