@@ -37,6 +37,11 @@ namespace MySch.ModelsEx
     {
         private XmlElement _element;
 
+        public WX_Rec_Base()
+        { 
+        
+        }
+
         public WX_Rec_Base(string xml)
         {
             try

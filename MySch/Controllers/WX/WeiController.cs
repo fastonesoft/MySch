@@ -17,14 +17,21 @@ using ZXing;
 using ZXing.Presentation;
 using ZXing.QrCode;
 
-namespace MySch.Controllers.Wei
+namespace MySch.Controllers.WX
 {
     public class WeiController : Controller
     {
         [HttpGet]
         public ActionResult Index(WX_Author author)
         {
-            return MyWxApi.CheckSignature(author) ? Content(author.echostr) : Code(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
+            if (MyWxApi.CheckSignature(author))
+            {
+                return Content(author.echostr);
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [HttpPost]
@@ -189,29 +196,32 @@ namespace MySch.Controllers.Wei
         }
 
 
-        public void Code(string gd)
+        public void Code(string content)
         {
-            var db = DataCRUD<TStudReg>.Entity(a => a.ID == gd);
-            if (db == null) Response.End();
+            Code(360, 200, content);
+        }
 
+        public void Code(int width, int height, string content)
+        {
             QrCodeEncodingOptions options = new QrCodeEncodingOptions
             {
                 DisableECI = true,
                 CharacterSet = "UTF-8",
-                Width = 360,
-                Height = 200
+                Width = width,
+                Height = height,
             };
             ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
             xing.Format = BarcodeFormat.QR_CODE;
             xing.Options = options;
 
-            Bitmap bitmap = xing.Write(db.IDS);
+            Bitmap bitmap = xing.Write(content);
 
             Response.ContentType = "image/jpeg";
             bitmap.Save(Response.OutputStream, ImageFormat.Jpeg);
         }
 
-        public ActionResult Code(int width, int height, string content)
+
+        public ActionResult CodeFile(int width, int height, string content)
         {
             QrCodeEncodingOptions options = new QrCodeEncodingOptions
             {
@@ -229,7 +239,12 @@ namespace MySch.Controllers.Wei
             MemoryStream ms = new MemoryStream();
             bitmap.Save(ms, ImageFormat.Jpeg);
 
-            return File(ms.GetBuffer(), "image/jpeg", new Guid().ToString("N"));
+            return File(ms.GetBuffer(), "image/jpeg", Guid.NewGuid().ToString("N") + ".jpg");
+        }
+
+        public void MyCode()
+        {
+            Code(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
         }
 
     }

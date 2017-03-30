@@ -206,7 +206,7 @@
     </Compile>
     <Compile Include="Bll\View\VDatum.cs" />
     <Compile Include="Bll\View\VTerm.cs" />
-    <Compile Include="Bll\Wei\WXLog.cs" />
+    <Compile Include="Bll\WX\WXLog.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminPageController.cs" />
     <Compile Include="Controllers\Admin\AdminThemeController.cs" />
@@ -244,7 +244,7 @@
     <Compile Include="Controllers\User\UserPartController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\Wei\WeiController.cs" />
+    <Compile Include="Controllers\WX\WeiController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataCRUD.cs" />
     <Compile Include="Global.asax.cs">
@@ -690,6 +690,7 @@
     <Content Include="Views\Shared\_Default.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
+    <Content Include="Views\Wei\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
