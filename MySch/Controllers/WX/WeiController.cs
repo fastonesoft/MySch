@@ -63,107 +63,31 @@ namespace MySch.Controllers.WX
                 {
                     //文本
                     case "text":
-                        string content = rec.XmlElement("Content");
+                        string content = rec.XmlElement("Content").ToUpper();
 
-                        //首先将输入的格式规则
-                        WX_Command cmd = WX_Command.GetCommand(@"([\u4e00-\u9fa5]+)(.*)", content);
-
-                        //命令行解析出错，给出提示
-                        if (cmd == null)
+                        //首先检测是否完成登记
+                        if (MyWxApi.Binding(rec.FromUserName))
                         {
-                            var text = new WX_Send_Text(rec, MyWxApi.NormalCommand());
+                            var text = new WX_Send_Text(rec, "已完成学生报名，不必重复动作！");
                             return text.ToXml();
                         }
-                        else
+
+                        WX_Command cmd2 = WX_Command.GetCommand(@"^([\u4e00-\u9fa5]+)\s*(\d{17}X|\d{18})$", content);
+
+                        //命令行解析：出错，给出提示
+                        if (cmd2 == null)
                         {
-                            //解析命令
-                            switch (cmd.Name)
-                            {
-                                case "新生报名":
-                                    //首先检测是否完成登记
-                                    if (MyWxApi.Binding(rec.FromUserName))
-                                    {
-                                        var text = new WX_Send_Text(rec, "已完成学生报名，不必重复动作！");
-                                        return text.ToXml();
-                                    }
-                                    else
-                                    {
-
-                                        WX_Command cmd2 = WX_Command.GetCommand(@"[\s#-+]+([\u4e00-\u9fa5]+)[\s#-+]+([\dxX]+)", cmd.Value);
-                                        //命令行解析：出错，给出提示
-                                        if (cmd2 == null)
-                                        {
-                                            var text = new WX_Send_Text(rec, "新生报名格式：新生报名#学生姓名#身份证号");
-                                            return text.ToXml();
-                                        }
-                                        else
-                                        {
-                                            //命令行解析：正确，报名
-                                            string gd = MyWxApi.StudReg(cmd2.Name, cmd2.Value, rec.FromUserName);
-
-                                            //正确：返回二维码
-                                            var pic = new WX_Send_Pic(rec);
-                                            pic.Add("报名信息", "学生报名信息已记录，请按公示时间携带相关证件到指定地点审核！", "http://58.222.0.150/wei/code?gd=" + gd, "");
-                                            return pic.ToXml();
-                                        }
-                                    }
-                                case "信息登记":
-                                    //首先检测是否完成登记
-                                    if (MyWxApi.Binding(rec.FromUserName))
-                                    {
-                                        var text = new WX_Send_Text(rec, "已完成学生信息登记，不必重复动作！");
-                                        return text.ToXml();
-                                    }
-                                    else
-                                    {
-                                        WX_Command cmd3 = WX_Command.GetCommand(@"[\s#-+]+([\u4e00-\u9fa5]+)[\s#-+]+([\dxX]+)", cmd.Value);
-                                        //命令行解析：出错，给出提示
-                                        if (cmd3 == null)
-                                        {
-                                            var text = new WX_Send_Text(rec, "信息登记格式：信息登记#学生姓名#身份证号");
-                                            return text.ToXml();
-                                        }
-                                        else
-                                        {
-                                            //命令行解析：正确，查询学生报名信息表
-                                            MyWxApi.StudBinding(cmd3.Name, cmd3.Value, rec.FromUserName);
-
-                                            //给出结果显示
-                                            var text = new WX_Send_Text(rec, string.Format("已完成 {0} 同学的信息登记，可以进行其它相关查询", cmd3.Name));
-                                            return text.ToXml();
-                                        }
-                                    }
-                                case "录取情况":
-                                    //首先检测是否完成登记
-                                    if (!MyWxApi.Binding(rec.FromUserName))
-                                    {
-                                        var text = new WX_Send_Text(rec, "未进行：信息登记操作，暂不能查询！");
-                                        return text.ToXml();
-                                    }
-                                    else
-                                    {
-                                        //录取情况
-                                        var text = new WX_Send_Text(rec, MyWxApi.StudInfor(rec.FromUserName));
-                                        return text.ToXml();
-                                    }
-                                case "录取人数":
-                                    //首先检测是否完成登记
-                                    if (!MyWxApi.Binding(rec.FromUserName))
-                                    {
-                                        var text = new WX_Send_Text(rec, "未进行：信息登记操作，暂不能查询！");
-                                        return text.ToXml();
-                                    }
-                                    else
-                                    {
-                                        //录取人数
-                                        var text = new WX_Send_Text(rec, MyWxApi.StudCount(rec.FromUserName));
-                                        return text.ToXml();
-                                    }
-                                default:
-                                    var dtext = new WX_Send_Text(rec, MyWxApi.NormalCommand());
-                                    return dtext.ToXml();
-                            }
+                            var text = new WX_Send_Text(rec, "请输入：学生的身份证号");
+                            return text.ToXml();
                         }
+
+                        //命令行解析：正确，报名
+                        string gd = MyWxApi.StudReg(cmd2.Name, cmd2.Value, rec.FromUserName);
+
+                        //正确：返回二维码
+                        var pic = new WX_Send_Pic(rec);
+                        pic.Add("报名信息", "学生报名信息已记录，请按公示时间携带相关证件到指定地点审核！", "http://a.jysycz.cn/wei/code?gd=" + gd, "");
+                        return pic.ToXml();
 
                     //图片
                     case "image":

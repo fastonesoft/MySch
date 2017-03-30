@@ -240,18 +240,9 @@ namespace MySch.ModelsEx
         {
             string res = string.Empty;
 
-            res += "--------------------------\n";
-            res += "-----  常用查询命令  -----\n";
-            res += "--------------------------\n";
-            res += "一、报名\n";
-            res += "新生报名#学生姓名#身份证号\n";
-            res += "信息登记#学生姓名#身份证号\n";
-            res += "录取情况\n";
-            res += "录取人数\n\n";
+            res += "一、输入学生的身份证号码\n";
             res += "二、学籍\n";
-            res += "建设ing\n\n";
             res += "三、成绩\n";
-            res += "建设ing";
 
             return res;
         }
@@ -264,7 +255,7 @@ namespace MySch.ModelsEx
         public static bool Binding(string openID)
         {
             //ID为空，则没有绑定
-            if (openID.Length == 0) return false;
+            if (string.IsNullOrEmpty(openID)) return false;
 
             //检测是否存在ID记录
             var db = DataCRUD<TStudReg>.Entitys(a => a.OpenID == openID);
