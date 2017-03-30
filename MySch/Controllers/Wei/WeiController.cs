@@ -22,9 +22,9 @@ namespace MySch.Controllers.Wei
     public class WeiController : Controller
     {
         [HttpGet]
-        public string Index(WX_Author author)
+        public ActionResult Index(WX_Author author)
         {
-            return MyWxApi.CheckSignature(author) ? author.echostr : "";
+            return MyWxApi.CheckSignature(author) ? Content(author.echostr) : Code(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
         }
 
         [HttpPost]
@@ -100,8 +100,6 @@ namespace MySch.Controllers.Wei
                                             return pic.ToXml();
                                         }
                                     }
-                                    break;
-
                                 case "信息登记":
                                     //首先检测是否完成登记
                                     if (MyWxApi.Binding(rec.FromUserName))
@@ -128,8 +126,6 @@ namespace MySch.Controllers.Wei
                                             return text.ToXml();
                                         }
                                     }
-                                    break;
-
                                 case "录取情况":
                                     //首先检测是否完成登记
                                     if (!MyWxApi.Binding(rec.FromUserName))
@@ -143,8 +139,6 @@ namespace MySch.Controllers.Wei
                                         var text = new WX_Send_Text(rec, MyWxApi.StudInfor(rec.FromUserName));
                                         return text.ToXml();
                                     }
-                                    break;
-
                                 case "录取人数":
                                     //首先检测是否完成登记
                                     if (!MyWxApi.Binding(rec.FromUserName))
@@ -158,19 +152,17 @@ namespace MySch.Controllers.Wei
                                         var text = new WX_Send_Text(rec, MyWxApi.StudCount(rec.FromUserName));
                                         return text.ToXml();
                                     }
-                                    break;
                                 default:
                                     var dtext = new WX_Send_Text(rec, MyWxApi.NormalCommand());
                                     return dtext.ToXml();
-                                    break;
                             }
                         }
-                        break;
+
                     //图片
                     case "image":
                         var itext = new WX_Send_Text(rec, "图片上传应用还在设计当中！");
                         return itext.ToXml();
-                        break;
+
                     //事件
                     case "event":
                         //关注类型subscribe
@@ -181,45 +173,18 @@ namespace MySch.Controllers.Wei
                         }
                         else
                         {
-                            res = "";
+                            return "";
                         }
-                        //if (even.Event == "unsubscribe")
-                        //if (even.Event == "SCAN")
-
-                        break;
+                    //if (even.Event == "unsubscribe")
+                    //if (even.Event == "SCAN")
                     default:
-                        text.Init(MyWxApi.NormalCommand());
-                        res = text.ToXml();
-                        var text = new WX_Send_Text(rec, "已完成学生信息登记，不必重复动作！");
-                        return text.ToXml();
-
-                        break;
+                        var ddtext = new WX_Send_Text(rec, MyWxApi.NormalCommand());
+                        return ddtext.ToXml();
                 }
-
-
             }
             catch
             {
                 return "";
-            }
-
-            //结果
-            try
-            {
-
-                //记录输出
-                TLog logr = new TLog();
-                logr.CreateTime = DateTime.Now;
-                logr.GD = Guid.NewGuid().ToString("N");
-                logr.Value = res;
-                DataCRUD<TLog>.Add(logr);
-
-            }
-            catch (Exception e)
-            {
-                text.Init(e.Message);
-                res = text.ToXml();
-                return res;
             }
         }
 
@@ -244,6 +209,27 @@ namespace MySch.Controllers.Wei
 
             Response.ContentType = "image/jpeg";
             bitmap.Save(Response.OutputStream, ImageFormat.Jpeg);
+        }
+
+        public ActionResult Code(int width, int height, string content)
+        {
+            QrCodeEncodingOptions options = new QrCodeEncodingOptions
+            {
+                DisableECI = true,
+                CharacterSet = "UTF-8",
+                Width = width,
+                Height = height,
+            };
+            ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
+            xing.Format = BarcodeFormat.QR_CODE;
+            xing.Options = options;
+
+            Bitmap bitmap = xing.Write(content);
+
+            MemoryStream ms = new MemoryStream();
+            bitmap.Save(ms, ImageFormat.Jpeg);
+
+            return File(ms.GetBuffer(), "image/jpeg", new Guid().ToString("N"));
         }
 
     }
