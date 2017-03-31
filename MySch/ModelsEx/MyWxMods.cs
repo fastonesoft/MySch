@@ -38,8 +38,8 @@ namespace MySch.ModelsEx
         private XmlElement _element;
 
         public WX_Rec_Base()
-        { 
-        
+        {
+
         }
 
         public WX_Rec_Base(string xml)
@@ -297,7 +297,7 @@ namespace MySch.ModelsEx
                 Regex regex = new Regex(regs);
                 Match match = regex.Match(command);
                 //
-                return match.Success ? new WX_Command { Name = match.Groups[1].ToString(), Value = match.Groups[2].ToString() } : null;
+                return match.Success ? new WX_Command { Name = match.Groups[1].ToString() } : null;
             }
             catch (Exception e)
             {

@@ -72,34 +72,33 @@ namespace MySch.Controllers.WX
                             return text.ToXml();
                         }
 
-                        WX_Command cmd2 = WX_Command.GetCommand(@"^([\u4e00-\u9fa5]+)\s*(\d{17}X|\d{18})$", content);
+                        WX_Command cmd2 = WX_Command.GetCommand(@"^\s*(\d{17}[0-9X])\s*$", content);
 
                         //命令行解析：出错，给出提示
                         if (cmd2 == null)
                         {
-                            var text = new WX_Send_Text(rec, "请输入：学生的身份证号");
+                            var text = new WX_Send_Text(rec, "输入：学生身份证号码");
                             return text.ToXml();
                         }
 
                         //命令行解析：正确，报名
-                        string gd = MyWxApi.StudReg(cmd2.Name, cmd2.Value, rec.FromUserName);
+                        //string gd = MyWxApi.StudReg(cmd2.Name, cmd2.Value, rec.FromUserName);
+                        string gd = cmd2.Name;
 
                         //正确：返回二维码
                         var pic = new WX_Send_Pic(rec);
-                        pic.Add("报名信息", "学生报名信息已记录，请按公示时间携带相关证件到指定地点审核！", "http://a.jysycz.cn/wei/code?gd=" + gd, "");
+                        pic.Add("石亮同学", "　　你的报名信息已记录，请点击“＋”，选择“拍摄”，从正上方清晰地拍摄【毕业证、户口簿、房产证】等原件证照，完善报名信息，然后携带手机到报名窗口出示二维码，人工审核！", "http://a.jysycz.cn/code?content=" + gd, "");
                         return pic.ToXml();
 
                     //图片
                     case "image":
-                        var itext = new WX_Send_Text(rec, "图片上传应用还在设计当中！");
-                        return itext.ToXml();
 
                     //事件
                     case "event":
                         //关注类型subscribe
                         if (rec.XmlElement("Event") == "subscribe")
                         {
-                            var text = new WX_Send_Text(rec, "欢迎关注：校务在线助手");
+                            var text = new WX_Send_Text(rec, MyWxApi.NormalCommand());
                             return text.ToXml();
                         }
                         else
@@ -122,10 +121,10 @@ namespace MySch.Controllers.WX
 
         public void Code(string content)
         {
-            Code(360, 200, content);
+            CodeCust(360, 200, content);
         }
 
-        public void Code(int width, int height, string content)
+        public void CodeCust(int width, int height, string content)
         {
             QrCodeEncodingOptions options = new QrCodeEncodingOptions
             {
@@ -168,7 +167,7 @@ namespace MySch.Controllers.WX
 
         public void MyCode()
         {
-            Code(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
+            CodeCust(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
         }
 
     }

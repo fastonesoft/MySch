@@ -215,8 +215,11 @@ namespace MySch.ModelsEx
         {
             string res = string.Empty;
 
-            res += "欢迎关注：校务在线\n";
-            res += "请：输入学生的身份证号码\n";
+            res += "欢迎关注：校务在线\n\n";
+            res += "自助快速报名流程：\n";
+            res += "一、输入学生身份证获取二维码\n";
+            res += "二、上传图片：毕业证、户口簿、产权证，图片要清晰\n";
+            res += "三、到报名窗口出示二维码审核\n";
 
             return res;
         }
