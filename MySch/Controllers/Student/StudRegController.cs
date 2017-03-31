@@ -42,7 +42,7 @@ namespace MySch.Controllers.Student
                 if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //身份证号检测
-                IDC.IDS(que.IDS);
+                IDC.Check(que.IDS);
 
                 //一、做Get请求网页
                 CookieCollection cookies = null;

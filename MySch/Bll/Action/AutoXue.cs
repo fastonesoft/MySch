@@ -26,36 +26,43 @@ namespace MySch.Bll.Action
         /// <returns></returns>
         public static XueQuery Query(string url, string validUrl, string name, string ids)
         {
-            //打开登录
-            CookieCollection cookies = MyHtml.GetCookies(url);
-
-            //识别验证码
-            string code = Valid(validUrl, cookies, 30);
-
-            //整理数据
-            Dicts dicts = new Dicts();
-            dicts.Add("name", name);
-            dicts.Add("cid", ids);
-            dicts.Add("randomCode", code);
-            dicts.Add("v", (new Random()).NextDouble().ToString());
-
-            string html = MyHtml.PostResponse(url, dicts.ToPost("GBK"), "GBK", cookies);
-
-            Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
-            MatchCollection matchs = regx.Matches(html);
-
-            //如果没有找到数据，则返回提示
-            if (matchs.Count == 0)
-                return null;
-            else
+            try
             {
-                XueQuery stud = new XueQuery();
-                stud.Name = matchs[1].Groups[1].ToString();
-                stud.FromSch = matchs[0].Groups[1].ToString();
-                stud.FromGrade = matchs[3].Groups[1].ToString();
-                stud.ReadState = matchs[5].Groups[1].ToString();
+                //打开登录
+                CookieCollection cookies = MyHtml.GetCookies(url);
 
-                return stud;
+                //识别验证码
+                string code = Valid(validUrl, cookies, 30);
+
+                //整理数据
+                Dicts dicts = new Dicts();
+                dicts.Add("name", name);
+                dicts.Add("cid", ids);
+                dicts.Add("randomCode", code);
+                dicts.Add("v", (new Random()).NextDouble().ToString());
+
+                string html = MyHtml.PostResponse(url, dicts.ToPost("GBK"), "GBK", cookies);
+
+                Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
+                MatchCollection matchs = regx.Matches(html);
+
+                //如果没有找到数据，则返回提示
+                if (matchs.Count == 0)
+                    return null;
+                else
+                {
+                    XueQuery stud = new XueQuery();
+                    stud.Name = matchs[1].Groups[1].ToString();
+                    stud.FromSch = matchs[0].Groups[1].ToString();
+                    stud.FromGrade = matchs[3].Groups[1].ToString();
+                    stud.ReadState = matchs[5].Groups[1].ToString();
+
+                    return stud;
+                }
+            }
+            catch (Exception e)
+            {                
+                throw e;
             }
         }
 
@@ -131,8 +138,10 @@ namespace MySch.Bll.Action
                 dicts.Add("pwd", pwd);
                 dicts.Add("randomCode", code);
                 dicts.Add("returnURL", "");
-                dicts.Add("appId", "");
+                dicts.Add("appId", "uids");
                 dicts.Add("encrypt", "1");
+                dicts.Add("reqId", "");
+                dicts.Add("req", "");
                 var posts = dicts.ToPost("GBK");
 
                 //提交登录
@@ -144,6 +153,56 @@ namespace MySch.Bll.Action
             }
         }
 
+        public static CookieCollection GetCookies()
+        {
+            try
+            {
+                //检测是否存在记录
+                CookieCollection xuecookies = (CookieCollection)HttpContext.Current.Application["xuecookies"];
+                if (xuecookies == null)
+                {
+                    xuecookies = AutoXue.Login("http://xjgl.jse.edu.cn/uids/index.jsp",
+                        "http://xjgl.jse.edu.cn/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
+                        "http://xjgl.jse.edu.cn/uids/login.jsp", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
+
+                    //保存
+                    HttpContext.Current.Application.Lock();
+                    HttpContext.Current.Application["xuecookies"] = xuecookies;
+                    HttpContext.Current.Application.UnLock();
+                }
+                else
+                {
+                    //检测是否可以连接
+                    var html = MyHtml.GetHtml("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action", xuecookies, Encoding.GetEncoding("GBK"));
+
+                    //如果过期，重新连接
+                    if (html.Contains("没有权限"))
+                    {
+                        xuecookies = AutoXue.Login("http://xjgl.jse.edu.cn/uids/index.jsp",
+                            "http://xjgl.jse.edu.cn/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
+                            "http://xjgl.jse.edu.cn/uids/login.jsp", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
+
+                        //保存
+                        HttpContext.Current.Application.Lock();
+                        HttpContext.Current.Application["xuecookies"] = xuecookies;
+                        HttpContext.Current.Application.UnLock();
+                    }
+                }
+
+                return xuecookies;
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
+        public static string GetStudent(string ids, CookieCollection cookies)
+        {
+            var url = string.Format("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action?studentForm.cid={0}", ids);
+            return MyHtml.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
+        }
+
         public static string GetStudent(string name, string ids, CookieCollection cookies)
         {
             try
@@ -152,9 +211,9 @@ namespace MySch.Bll.Action
                 var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, ids);
                 return MyHtml.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
             }
-            catch
+            catch (Exception e)
             {
-                return string.Empty;
+                throw e;
             }
         }
     }

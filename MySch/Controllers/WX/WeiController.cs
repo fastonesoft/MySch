@@ -1,4 +1,5 @@
-﻿using MySch.Bll.Wei;
+﻿using MySch.Bll.Action;
+using MySch.Bll.Wei;
 using MySch.Dal;
 using MySch.Models;
 using MySch.ModelsEx;
@@ -168,6 +169,17 @@ namespace MySch.Controllers.WX
         public void MyCode()
         {
             CodeCust(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
+        }
+
+
+
+
+        //测试
+        public ActionResult Test()
+        {
+            var cookies = AutoXue.GetCookies();
+            var html = AutoXue.GetStudent("321284200508150254", cookies);
+            return Content(html);
         }
 
     }
