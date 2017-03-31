@@ -62,7 +62,7 @@ namespace MySch.ModelsEx
             try
             {
                 //检测身份证号是否有效
-                IDC.IDS(ID);
+                IDC.Check(ID);
 
                 CookieCollection cookies = null;
                 //一、做Get请求网页
@@ -208,31 +208,6 @@ namespace MySch.ModelsEx
         }
 
         /// <summary>
-        /// 录取人数统计
-        /// </summary>
-        /// <param name="openID"></param>
-        /// <returns></returns>
-        public static string StudCount(string openID)
-        {
-            try
-            {
-                var db = DataCRUD<TStudReg>.Entity(a => a.OpenID == openID);
-                if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
-                if (string.IsNullOrEmpty(db.StudNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
-
-                var count = DataCRUD<TStudReg>.Count(a => true);
-                string res = string.Empty;
-                res += string.Format("实验初中2016级新生已录取：{0}人", count);
-
-                return res;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        /// <summary>
         /// 常用查询命令
         /// </summary>
         /// <returns></returns>
@@ -240,9 +215,8 @@ namespace MySch.ModelsEx
         {
             string res = string.Empty;
 
-            res += "一、输入学生的身份证号码\n";
-            res += "二、学籍\n";
-            res += "三、成绩\n";
+            res += "欢迎关注：校务在线\n";
+            res += "请：输入学生的身份证号码\n";
 
             return res;
         }
