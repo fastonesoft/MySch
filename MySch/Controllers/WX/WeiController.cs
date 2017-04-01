@@ -1,4 +1,5 @@
 ﻿using MySch.Bll.Action;
+using MySch.Bll.Func;
 using MySch.Bll.Wei;
 using MySch.Dal;
 using MySch.Models;
@@ -64,7 +65,7 @@ namespace MySch.Controllers.WX
                 {
                     //文本
                     case "text":
-                        string content = rec.XmlElement("Content").ToUpper();
+                        string content = rec.XmlElement("Content").Replace(" ", "").ToUpper();
 
                         //首先检测是否完成登记
                         if (MyWxApi.Binding(rec.FromUserName))
@@ -73,7 +74,7 @@ namespace MySch.Controllers.WX
                             return text.ToXml();
                         }
 
-                        WX_Command cmd2 = WX_Command.GetCommand(@"^\s*(\d{17}[0-9X])\s*$", content);
+                        WX_Command cmd2 = WX_Command.GetCommand(@"^\s*(\d{17}[0-9X])\s*$|^(1(3[0-9]|4[57]|5[0-35-9]|7[6-8]|8[0-9])\d{8})$", content);
 
                         //命令行解析：出错，给出提示
                         if (cmd2 == null)
@@ -119,56 +120,16 @@ namespace MySch.Controllers.WX
             }
         }
 
-
+        //图文图片
         public void Code(string content)
         {
-            CodeCust(360, 200, content);
+            XingCode.CodeOutputStream(360, 200, content);
         }
 
-        public void CodeCust(int width, int height, string content)
-        {
-            QrCodeEncodingOptions options = new QrCodeEncodingOptions
-            {
-                DisableECI = true,
-                CharacterSet = "UTF-8",
-                Width = width,
-                Height = height,
-            };
-            ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
-            xing.Format = BarcodeFormat.QR_CODE;
-            xing.Options = options;
-
-            Bitmap bitmap = xing.Write(content);
-
-            Response.ContentType = "image/jpeg";
-            bitmap.Save(Response.OutputStream, ImageFormat.Jpeg);
-        }
-
-
-        public ActionResult CodeFile(int width, int height, string content)
-        {
-            QrCodeEncodingOptions options = new QrCodeEncodingOptions
-            {
-                DisableECI = true,
-                CharacterSet = "UTF-8",
-                Width = width,
-                Height = height,
-            };
-            ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
-            xing.Format = BarcodeFormat.QR_CODE;
-            xing.Options = options;
-
-            Bitmap bitmap = xing.Write(content);
-
-            MemoryStream ms = new MemoryStream();
-            bitmap.Save(ms, ImageFormat.Jpeg);
-
-            return File(ms.GetBuffer(), "image/jpeg", Guid.NewGuid().ToString("N") + ".jpg");
-        }
-
+        //我的关注
         public void MyCode()
         {
-            CodeCust(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
+            XingCode.CodeOutputStream(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
         }
 
 

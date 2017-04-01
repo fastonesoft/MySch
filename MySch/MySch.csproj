@@ -177,6 +177,7 @@
     </Compile>
     <Compile Include="Bll\Func\Jsons.cs" />
     <Compile Include="Bll\Func\EasyUICombo.cs" />
+    <Compile Include="Bll\Func\XingCode.cs" />
     <Compile Include="Bll\Model\BanAdds.cs" />
     <Compile Include="Bll\Model\Dicts.cs" />
     <Compile Include="Bll\Model\XueAdd.cs" />
