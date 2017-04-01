@@ -171,70 +171,15 @@ namespace MySch.ModelsEx
             }
         }
 
-        /// <summary>
+
         /// 提交回应数据
         /// </summary>
         /// <param name="url">提交地址</param>
         /// <param name="cookies">请求Cookies</param>
         /// <param name="data">提交数据</param>
         /// <param name="encoding">页面编码</param>
+        /// <param name="redirect">是否跳转</param>
         /// <returns></returns>
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding)
-        {
-            try
-            {
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-
-                req.CookieContainer = new CookieContainer();
-                req.CookieContainer.Add(cookies);
-                req.AllowAutoRedirect = false;
-                req.ContentType = "application/x-www-form-urlencoded";
-                req.Method = "POST";
-
-                //准备数据
-                byte[] posts = encoding.GetBytes(data);
-                req.ContentLength = posts.Length;
-
-                //写入提交
-                using (Stream postwriter = req.GetRequestStream())
-                {
-                    postwriter.Write(posts, 0, posts.Length);
-                }
-
-                return (HttpWebResponse)req.GetResponse();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName)
-        {
-            try
-            {
-                Encoding encoding = Encoding.GetEncoding(encodingName);
-                return PostResponse(url, cookies, data, encoding);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public static string PostResponse(string url, string data, string encodingName, CookieCollection cookies)
-        {
-            try
-            {
-                HttpWebResponse resp = PostResponse(url, cookies, data, encodingName);
-                return GetHtml(resp, encodingName);
-            }
-            catch (Exception e)
-            {                
-                throw e;
-            }
-        }
-
         public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding, bool redirect)
         {
             try
@@ -271,6 +216,83 @@ namespace MySch.ModelsEx
             {
                 Encoding encoding = Encoding.GetEncoding(encodingName);
                 return PostResponse(url, cookies, data, encoding, redirect);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding)
+        {
+            try
+            {
+                return PostResponse(url, cookies, data, encoding, false);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName)
+        {
+            try
+            {
+                Encoding encoding = Encoding.GetEncoding(encodingName);
+                return PostResponse(url, cookies, data, encoding);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static string PostHtml(string url, CookieCollection cookies, string data, string encodingName)
+        {
+            try
+            {
+                HttpWebResponse resp = PostResponse(url, cookies, data, encodingName);
+                return GetHtml(resp, encodingName);
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
+        public static string PostHtml(string url, CookieCollection cookies, string data, Encoding encoding)
+        {
+            try
+            {
+                HttpWebResponse resp = PostResponse(url, cookies, data, encoding);
+                return GetHtml(resp, encoding);
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
+        public static string PostHtml(string url, CookieCollection cookies,string data, string encodingName, bool redirect)
+        {
+            try
+            {
+                HttpWebResponse resp = PostResponse(url, cookies, data, encodingName, redirect);
+                return GetHtml(resp, encodingName);
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
+        public static string PostHtml(string url, CookieCollection cookies, string data, Encoding encoding, bool redirect)
+        {
+            try
+            {
+                HttpWebResponse resp = PostResponse(url, cookies, data, encoding, redirect);
+                return GetHtml(resp, encoding);
             }
             catch (Exception e)
             {                

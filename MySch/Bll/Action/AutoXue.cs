@@ -41,7 +41,7 @@ namespace MySch.Bll.Action
                 dicts.Add("randomCode", code);
                 dicts.Add("v", (new Random()).NextDouble().ToString());
 
-                string html = MyHtml.PostResponse(url, dicts.ToPost("GBK"), "GBK", cookies);
+                string html = MyHtml.PostHtml(url, cookies, dicts.ToPost("GBK"), "GBK");
 
                 Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
                 MatchCollection matchs = regx.Matches(html);
