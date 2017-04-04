@@ -199,8 +199,15 @@ namespace MySch.Bll.Action
 
         public static string GetStudent(string ids, CookieCollection cookies)
         {
-            var url = string.Format("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action?studentForm.cid={0}", ids);
-            return MyHtml.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
+            try
+            {
+                var url = string.Format("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action?studentForm.cid={0}", ids);
+                return MyHtml.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
         }
 
         public static string GetStudent(string name, string ids, CookieCollection cookies)

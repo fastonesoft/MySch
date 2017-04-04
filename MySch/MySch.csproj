@@ -207,7 +207,9 @@
     </Compile>
     <Compile Include="Bll\View\VDatum.cs" />
     <Compile Include="Bll\View\VTerm.cs" />
+    <Compile Include="Bll\WX\WXCrypt.cs" />
     <Compile Include="Bll\WX\WXLog.cs" />
+    <Compile Include="Bll\WX\WXCryptMsg.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminPageController.cs" />
     <Compile Include="Controllers\Admin\AdminThemeController.cs" />

@@ -1,6 +1,7 @@
 ﻿using MySch.Bll.Action;
 using MySch.Bll.Func;
 using MySch.Bll.Wei;
+using MySch.Bll.WX;
 using MySch.Dal;
 using MySch.Models;
 using MySch.ModelsEx;
@@ -48,7 +49,7 @@ namespace MySch.Controllers.WX
                 Stream stream = Request.InputStream;
                 Byte[] bytes = new Byte[stream.Length];
                 stream.Read(bytes, 0, (int)stream.Length);
-                string posts = Encoding.UTF8.GetString(bytes);
+                string posts = Encoding.UTF8.GetString(bytes).Replace(" ","");
 
                 //有问题直接返回
                 if (string.IsNullOrEmpty(posts)) return "";
@@ -57,21 +58,20 @@ namespace MySch.Controllers.WX
                 WXLog.Add(posts);
 
                 //封装请求类
-                WX_Rec_Base rec = new WX_Rec_Base(posts);
+                WX_Rec_Base rec = new WX_Rec_Base(posts, author);
                 rec.XmlToObj();
-
 
                 switch (rec.MsgType)
                 {
                     //文本
                     case "text":
-                        string content = rec.XmlElement("Content").Replace(" ", "").ToUpper();
+                        string content = rec.XmlElement("Content").ToUpper();
 
                         //首先检测是否完成登记
                         if (MyWxApi.Binding(rec.FromUserName))
                         {
                             var text = new WX_Send_Text(rec, "已完成学生报名，不必重复动作！");
-                            return text.ToXml();
+                            return text.ToXml(author);
                         }
 
                         WX_Command cmd2 = WX_Command.GetCommand(@"^\s*(\d{17}[0-9X])\s*$|^(1(3[0-9]|4[57]|5[0-35-9]|7[6-8]|8[0-9])\d{8})$", content);
@@ -80,7 +80,7 @@ namespace MySch.Controllers.WX
                         if (cmd2 == null)
                         {
                             var text = new WX_Send_Text(rec, "输入：学生身份证号码");
-                            return text.ToXml();
+                            return text.ToXml(author);
                         }
 
                         //命令行解析：正确，报名
@@ -90,7 +90,7 @@ namespace MySch.Controllers.WX
                         //正确：返回二维码
                         var pic = new WX_Send_Pic(rec);
                         pic.Add("石亮同学", "　　你的报名信息已记录，请点击“＋”，选择“拍摄”，从正上方清晰地拍摄【毕业证、户口簿、房产证】等原件证照，完善报名信息，然后携带手机到报名窗口出示二维码，人工审核！", "http://a.jysycz.cn/code?content=" + gd, "");
-                        return pic.ToXml();
+                        return pic.ToXml(author);
 
                     //图片
                     case "image":
@@ -101,7 +101,7 @@ namespace MySch.Controllers.WX
                         if (rec.XmlElement("Event") == "subscribe")
                         {
                             var text = new WX_Send_Text(rec, MyWxApi.NormalCommand());
-                            return text.ToXml();
+                            return text.ToXml(author);
                         }
                         else
                         {
@@ -111,11 +111,12 @@ namespace MySch.Controllers.WX
                     //if (even.Event == "SCAN")
                     default:
                         var ddtext = new WX_Send_Text(rec, MyWxApi.NormalCommand());
-                        return ddtext.ToXml();
+                        return ddtext.ToXml(author);
                 }
             }
-            catch
+            catch (Exception e)
             {
+                WXLog.Add(e.Message);
                 return "";
             }
         }

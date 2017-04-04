@@ -1,4 +1,6 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Wei;
+using MySch.Bll.WX;
 using MySch.Dal;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,21 @@ namespace MySch.ModelsEx
     public class WX_Author_Ex : WX_Author
     {
         //作不同的参数，用以区分不同的Control
+        public string encrypt_type { get; set; }
+        public string msg_signature { get; set; }
+
+        public override string ToString()
+        {
+            string res = string.Empty;
+            res += ("\ntimestamp：" + timestamp);
+            res += ("\nnonce：" + nonce);
+            res += ("\nsignature：" + signature);
+            res += ("\nechostr：" + echostr);
+            res += ("\nencrypt_type：" + encrypt_type);
+            res += ("\nmsg_signature：" + msg_signature);
+
+            return res;
+        }
     }
 
     //消息基类
@@ -42,10 +59,29 @@ namespace MySch.ModelsEx
 
         }
 
-        public WX_Rec_Base(string xml)
+        /// <summary>
+        /// 解密，接收的消息
+        /// </summary>
+        /// <param name="xml_crypt"></param>
+        /// <param name="author"></param>
+        public WX_Rec_Base(string xml_crypt, WX_Author_Ex author)
         {
             try
             {
+                var wxcrypt = new WXCryptMsg("WX1979ToKen", "wqbpIsxgyqLKWmnEbVlHmgTvj0BLSfNTBCAcxYhZRGf", "wx8e6ce1260ba9f214");
+                string xml = string.Empty;
+
+                if (author.encrypt_type == "aes")
+                {
+                    //密文
+                    wxcrypt.DecryptMsg(author.msg_signature, author.timestamp, author.nonce, xml_crypt, ref xml);
+                }
+                else
+                {
+                    //明文
+                    xml = xml_crypt;
+                }
+
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 _element = doc.DocumentElement;
@@ -184,9 +220,22 @@ namespace MySch.ModelsEx
             return string.Format(con, xml);
         }
 
-        public string ToXml()
+        public string ToXml(WX_Author_Ex author)
         {
-            return ToXml("<xml>{0}</xml>");
+            //明文
+            var xml = ToXml("<xml>{0}</xml>");
+
+            if (author.encrypt_type == "aes")
+            {
+                string wxmsg = string.Empty;
+                var wxcrypt = new WXCryptMsg("WX1979ToKen", "wqbpIsxgyqLKWmnEbVlHmgTvj0BLSfNTBCAcxYhZRGf", "wx8e6ce1260ba9f214");
+                wxcrypt.EncryptMsg(xml, author.timestamp, author.nonce, ref wxmsg);
+                return wxmsg;
+            }
+            else
+            {
+                return xml;
+            }
         }
 
     }
