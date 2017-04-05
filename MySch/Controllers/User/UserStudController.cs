@@ -390,7 +390,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var cookies = AutoXue.Login("http://58.213.155.172/uids/index.jsp",
+                var cookies = AutoXue.AutoLogin("http://58.213.155.172/uids/index.jsp",
                     "http://58.213.155.172/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
                     "http://58.213.155.172/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
 

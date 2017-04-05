@@ -126,7 +126,7 @@ namespace MySch.Controllers.WX
         //我的关注
         public void MyCode()
         {
-            XingCode.CodeOutputStream(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR", 0, BarcodeFormat.QR_CODE);
+            XingCode.CodeOutputStream(240, 240, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR", 0, BarcodeFormat.QR_CODE);
         }
 
 

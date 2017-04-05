@@ -15,33 +15,12 @@ namespace MySch.Bll.Action
     public class AutoXue
     {
 
-        /// <summary>
-        /// 查询方式，获取数据
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="validUrl"></param>
-        /// <param name="postUrl"></param>
-        /// <param name="name"></param>
-        /// <param name="ids"></param>
-        /// <returns></returns>
-        public static XueQuery Query(string url, string validUrl, string name, string ids)
+        public static XueQuery Query(string ids, string openID)
         {
             try
             {
-                //打开登录
-                CookieCollection cookies = MyHtml.GetCookies(url);
-
-                //识别验证码
-                string code = Valid(validUrl, cookies, 30);
-
-                //整理数据
-                Dicts dicts = new Dicts();
-                dicts.Add("name", name);
-                dicts.Add("cid", ids);
-                dicts.Add("randomCode", code);
-                dicts.Add("v", (new Random()).NextDouble().ToString());
-
-                string html = MyHtml.PostHtml(url, cookies, dicts.ToPost("GBK"), "GBK");
+                var cookies = GetCookies();
+                var html = GetStudentHtml(ids, cookies);
 
                 Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
                 MatchCollection matchs = regx.Matches(html);
@@ -66,6 +45,14 @@ namespace MySch.Bll.Action
             }
         }
 
+        /// <summary>
+        /// 验证码，自动验证
+        /// TODO：
+        /// </summary>
+        /// <param name="validUrl"></param>
+        /// <param name="cookies"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
         public static string Valid(string validUrl, CookieCollection cookies, int error)
         {
             try
@@ -98,23 +85,14 @@ namespace MySch.Bll.Action
                 throw e;
             }
         }
-
-        public static string Post(string url, CookieCollection cookies, Dictionary<string, string> dicts)
-        {
-            string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
-            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
-            return MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK"));
-        }
-
-        public static string Post(string url, CookieCollection cookies, Dictionary<string, string> dicts, string requrl)
-        {
-            string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
-            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
-
-            CookieCollection cook = postresp.Cookies;
-            return MyHtml.GetHtml(requrl, cook, Encoding.GetEncoding("GBK"));
-        }
-
+        
+        /// <summary>
+        /// 提交数据登录
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="cookies"></param>
+        /// <param name="postdata"></param>
+        /// <returns></returns>
         public static CookieCollection PostCookies(string url, CookieCollection cookies, string postdata)
         {
             HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
@@ -122,7 +100,16 @@ namespace MySch.Bll.Action
             return postresp.Cookies;
         }
 
-        public static CookieCollection Login(string url, string validUrl, string postUrl, string name, string pwd)
+        /// <summary>
+        /// 自动验证
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="validUrl"></param>
+        /// <param name="postUrl"></param>
+        /// <param name="name"></param>
+        /// <param name="pwd"></param>
+        /// <returns></returns>
+        public static CookieCollection AutoLogin(string url, string validUrl, string postUrl, string name, string pwd)
         {
             try
             {
@@ -153,6 +140,47 @@ namespace MySch.Bll.Action
             }
         }
 
+        /// <summary>
+        /// 手动验证
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="code"></param>
+        /// <param name="postUrl"></param>
+        /// <param name="name"></param>
+        /// <param name="pwd"></param>
+        /// <returns></returns>
+        public static CookieCollection ManaLogin(string url, string code, string postUrl, string name, string pwd)
+        {
+            try
+            {
+                //打开登录
+                CookieCollection cookies = MyHtml.GetCookies(url);
+
+                //整理数据
+                Dicts dicts = new Dicts();
+                dicts.Add("loginName", name);
+                dicts.Add("pwd", pwd);
+                dicts.Add("randomCode", code);
+                dicts.Add("returnURL", "");
+                dicts.Add("appId", "uids");
+                dicts.Add("encrypt", "1");
+                dicts.Add("reqId", "");
+                dicts.Add("req", "");
+                var posts = dicts.ToPost("GBK");
+
+                //提交登录
+                return PostCookies(postUrl, cookies, posts);
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// 后台读取登录Cookies
+        /// </summary>
+        /// <returns></returns>
         public static CookieCollection GetCookies()
         {
             try
@@ -161,7 +189,7 @@ namespace MySch.Bll.Action
                 CookieCollection xuecookies = (CookieCollection)HttpContext.Current.Application["xuecookies"];
                 if (xuecookies == null)
                 {
-                    xuecookies = AutoXue.Login("http://xjgl.jse.edu.cn/uids/index.jsp",
+                    xuecookies = AutoXue.AutoLogin("http://xjgl.jse.edu.cn/uids/index.jsp",
                         "http://xjgl.jse.edu.cn/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
                         "http://xjgl.jse.edu.cn/uids/login.jsp", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
 
@@ -178,7 +206,7 @@ namespace MySch.Bll.Action
                     //如果过期，重新连接
                     if (html.Contains("没有权限"))
                     {
-                        xuecookies = AutoXue.Login("http://xjgl.jse.edu.cn/uids/index.jsp",
+                        xuecookies = AutoXue.AutoLogin("http://xjgl.jse.edu.cn/uids/index.jsp",
                             "http://xjgl.jse.edu.cn/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
                             "http://xjgl.jse.edu.cn/uids/login.jsp", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
 
@@ -197,7 +225,7 @@ namespace MySch.Bll.Action
             }
         }
 
-        public static string GetStudent(string ids, CookieCollection cookies)
+        public static string GetStudentHtml(string ids, CookieCollection cookies)
         {
             try
             {
@@ -210,7 +238,7 @@ namespace MySch.Bll.Action
             }
         }
 
-        public static string GetStudent(string name, string ids, CookieCollection cookies)
+        public static string GetStudentHtml(string name, string ids, CookieCollection cookies)
         {
             try
             {
