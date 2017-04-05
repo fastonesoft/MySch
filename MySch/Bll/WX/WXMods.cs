@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 
-namespace MySch.ModelsEx
+namespace MySch.Bll.WX
 {
     //验证类
     public class WX_Author
@@ -25,19 +25,6 @@ namespace MySch.ModelsEx
         //作不同的参数，用以区分不同的Control
         public string encrypt_type { get; set; }
         public string msg_signature { get; set; }
-
-        public override string ToString()
-        {
-            string res = string.Empty;
-            res += ("\ntimestamp：" + timestamp);
-            res += ("\nnonce：" + nonce);
-            res += ("\nsignature：" + signature);
-            res += ("\nechostr：" + echostr);
-            res += ("\nencrypt_type：" + encrypt_type);
-            res += ("\nmsg_signature：" + msg_signature);
-
-            return res;
-        }
     }
 
     //消息基类

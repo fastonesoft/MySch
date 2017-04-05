@@ -260,10 +260,10 @@
     <Compile Include="ModelsEx\MyType.cs" />
     <Compile Include="ModelsEx\MyValid.cs" />
     <Compile Include="ModelsEx\MyImageValid.cs" />
-    <Compile Include="ModelsEx\MyWxApi.cs">
+    <Compile Include="Bll\WX\WXApi.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModelsEx\MyWxMods.cs" />
+    <Compile Include="Bll\WX\WXMods.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\APage.cs" />

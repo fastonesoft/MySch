@@ -12,7 +12,7 @@ namespace MySch.Bll.Func
 {
     public class XingCode
     {
-        public static Bitmap CodeBitmap(int width, int height, string content)
+        public static Bitmap CodeBitmap(int width, int height, string content, int margin, BarcodeFormat format)
         {
             QrCodeEncodingOptions options = new QrCodeEncodingOptions
             {
@@ -20,9 +20,11 @@ namespace MySch.Bll.Func
                 CharacterSet = "UTF-8",
                 Width = width,
                 Height = height,
+                Margin = margin,
+                PureBarcode = true,
             };
             ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
-            xing.Format = BarcodeFormat.QR_CODE;
+            xing.Format = format;
             xing.Options = options;
 
             Bitmap bitmap = xing.Write(content);
@@ -30,18 +32,17 @@ namespace MySch.Bll.Func
             return bitmap;
         }
 
-        public static void CodeOutputStream(int width, int height, string content)
+        public static void CodeOutputStream(int width, int height, string content, int margin, BarcodeFormat format)
         {
-            Bitmap bitmap = CodeBitmap(width, height, content);
+            Bitmap bitmap = CodeBitmap(width, height, content, margin, format);
 
             HttpContext.Current.Response.ContentType = "image/jpeg";
             bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
         }
 
-
         public static byte[] CodeBuffer(int width, int height, string content)
         {
-            Bitmap bitmap = CodeBitmap(width, height, content);
+            Bitmap bitmap = CodeBitmap(width, height, content, 0, BarcodeFormat.QR_CODE);
 
             MemoryStream ms = new MemoryStream();
             bitmap.Save(ms, ImageFormat.Jpeg);

@@ -27,7 +27,7 @@ namespace MySch.Controllers.WX
         [HttpGet]
         public ActionResult Index(WX_Author author)
         {
-            if (MyWxApi.CheckSignature(author))
+            if (WXApi.CheckSignature(author))
             {
                 return Content(author.echostr);
             }
@@ -43,13 +43,10 @@ namespace MySch.Controllers.WX
             try
             {
                 //检测数据是否来至
-                if (!MyWxApi.CheckSignature(author)) return "";
+                if (!WXApi.CheckSignature(author)) return "";
 
                 //检测数据体
-                Stream stream = Request.InputStream;
-                Byte[] bytes = new Byte[stream.Length];
-                stream.Read(bytes, 0, (int)stream.Length);
-                string posts = Encoding.UTF8.GetString(bytes).Replace(" ","");
+                string posts = WXApi.GetBodyHtml();
 
                 //有问题直接返回
                 if (string.IsNullOrEmpty(posts)) return "";
@@ -68,7 +65,7 @@ namespace MySch.Controllers.WX
                         string content = rec.XmlElement("Content").ToUpper();
 
                         //首先检测是否完成登记
-                        if (MyWxApi.Binding(rec.FromUserName))
+                        if (WXApi.Binding(rec.FromUserName))
                         {
                             var text = new WX_Send_Text(rec, "已完成学生报名，不必重复动作！");
                             return text.ToXml(author);
@@ -89,7 +86,7 @@ namespace MySch.Controllers.WX
 
                         //正确：返回二维码
                         var pic = new WX_Send_Pic(rec);
-                        pic.Add("石亮同学", "　　你的报名信息已记录，请点击“＋”，选择“拍摄”，从正上方清晰地拍摄【毕业证、户口簿、房产证】等原件证照，完善报名信息，然后携带手机到报名窗口出示二维码，人工审核！", "http://a.jysycz.cn/code?content=" + gd, "");
+                        pic.Add("石亮同学", "　　你的报名信息已记录，请点击“＋”，选择“拍摄”，从正上方清晰地拍摄【毕业证、户口簿、房产证】等原件证照，完善报名信息，然后携带手机到报名窗口出示条形码，审核相关报名资料！", "http://a.jysycz.cn/code?content=" + gd + "&r=" + DateTime.Now.Ticks.ToString(), "");
                         return pic.ToXml(author);
 
                     //图片
@@ -100,8 +97,8 @@ namespace MySch.Controllers.WX
                         //关注类型subscribe
                         if (rec.XmlElement("Event") == "subscribe")
                         {
-                            var text = new WX_Send_Text(rec, MyWxApi.NormalCommand());
-                            return text.ToXml(author);
+                            var text = new WX_Send_Text(rec, WXApi.NormalCommand());
+                            return text.ToXml(author);                            
                         }
                         else
                         {
@@ -110,13 +107,12 @@ namespace MySch.Controllers.WX
                     //if (even.Event == "unsubscribe")
                     //if (even.Event == "SCAN")
                     default:
-                        var ddtext = new WX_Send_Text(rec, MyWxApi.NormalCommand());
+                        var ddtext = new WX_Send_Text(rec, WXApi.NormalCommand());
                         return ddtext.ToXml(author);
                 }
             }
-            catch (Exception e)
+            catch
             {
-                WXLog.Add(e.Message);
                 return "";
             }
         }
@@ -124,13 +120,13 @@ namespace MySch.Controllers.WX
         //图文图片
         public void Code(string content)
         {
-            XingCode.CodeOutputStream(360, 200, content);
+            XingCode.CodeOutputStream(360, 200, content, 0, BarcodeFormat.CODE_128);
         }
 
         //我的关注
         public void MyCode()
         {
-            XingCode.CodeOutputStream(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR");
+            XingCode.CodeOutputStream(300, 300, "http://weixin.qq.com/r/Q3WpsR7Ej0PwrVrS9yBR", 0, BarcodeFormat.QR_CODE);
         }
 
 

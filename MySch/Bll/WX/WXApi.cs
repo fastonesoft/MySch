@@ -2,9 +2,11 @@
 using MySch.Bll.Func;
 using MySch.Dal;
 using MySch.Models;
+using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,9 +15,9 @@ using System.Web;
 using System.Web.Security;
 using System.Xml;
 
-namespace MySch.ModelsEx
+namespace MySch.Bll.WX
 {
-    public class MyWxApi
+    public class WXApi
     {
         /// <summary>
         /// 签名：参数方式验证
@@ -48,6 +50,19 @@ namespace MySch.ModelsEx
             if (au == null) return false;
 
             return CheckSignature("WX1979ToKen", au.timestamp, au.nonce, au.signature);
+        }
+
+        /// <summary>
+        /// 读取消息请求体内容
+        /// </summary>
+        /// <returns></returns>
+        public static string GetBodyHtml()
+        {
+            //检测数据体
+            Stream stream = HttpContext.Current.Request.InputStream;
+            Byte[] bytes = new Byte[stream.Length];
+            stream.Read(bytes, 0, (int)stream.Length);
+            return Encoding.UTF8.GetString(bytes).Replace(" ", "");
         }
 
         /// <summary>
@@ -216,7 +231,7 @@ namespace MySch.ModelsEx
             string res = string.Empty;
 
             res += "欢迎关注：校务在线\n\n";
-            res += "自助快速报名流程：\n";
+            res += "自助报名流程：\n";
             res += "一、输入学生身份证获取二维码\n";
             res += "二、至少输入一个联系电话\n";
             res += "三、上传图片：毕业证、户口簿、产权证，图片要清晰\n";
