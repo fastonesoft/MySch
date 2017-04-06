@@ -3,12 +3,12 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace MySch.Models.Mapping
 {
-    public class SComeMap : EntityTypeConfiguration<SCome>
+    public class StudGradeFieldMap : EntityTypeConfiguration<StudGradeField>
     {
-        public SComeMap()
+        public StudGradeFieldMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            this.HasKey(t => new { t.ID, t.IDS, t.TableIDS, t.FieldName });
 
             // Properties
             this.Property(t => t.ID)
@@ -17,27 +17,22 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.IDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
-            this.Property(t => t.Name)
+            this.Property(t => t.TableIDS)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(32);
 
-            this.Property(t => t.Value)
-                .IsRequired()
-                .HasMaxLength(20);
-
-            this.Property(t => t.AccIDS)
+            this.Property(t => t.FieldName)
                 .IsRequired()
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("SCome");
+            this.ToTable("StudGradeField");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.Value).HasColumnName("Value");
-            this.Property(t => t.AccIDS).HasColumnName("AccIDS");
+            this.Property(t => t.TableIDS).HasColumnName("TableIDS");
+            this.Property(t => t.FieldName).HasColumnName("FieldName");
         }
     }
 }

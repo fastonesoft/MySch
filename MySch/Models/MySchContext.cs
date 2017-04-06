@@ -17,7 +17,6 @@ namespace MySch.Models
         }
 
         public DbSet<ADatum> ADatums { get; set; }
-        public DbSet<TEdu> AEdus { get; set; }
         public DbSet<APage> APages { get; set; }
         public DbSet<ATheme> AThemes { get; set; }
         public DbSet<Kao> Kaos { get; set; }
@@ -25,16 +24,20 @@ namespace MySch.Models
         public DbSet<KRoomType> KRoomTypes { get; set; }
         public DbSet<KScore> KScores { get; set; }
         public DbSet<KScoreDetail> KScoreDetails { get; set; }
-        public DbSet<KStudent> KStudents { get; set; }
+        public DbSet<KStud> KStuds { get; set; }
         public DbSet<KSubBan> KSubBans { get; set; }
         public DbSet<KSubGrade> KSubGrades { get; set; }
         public DbSet<KSubTest> KSubTests { get; set; }
-        public DbSet<SCome> SComes { get; set; }
-        public DbSet<SOut> SOuts { get; set; }
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Stud> Studs { get; set; }
+        public DbSet<StudCome> StudComes { get; set; }
         public DbSet<StudGrade> StudGrades { get; set; }
+        public DbSet<StudGradeField> StudGradeFields { get; set; }
+        public DbSet<StudGradeTable> StudGradeTables { get; set; }
+        public DbSet<StudGradeType> StudGradeTypes { get; set; }
+        public DbSet<StudOut> StudOuts { get; set; }
         public DbSet<TAcc> TAccs { get; set; }
         public DbSet<TBan> TBans { get; set; }
+        public DbSet<TEdu> TEdus { get; set; }
         public DbSet<TGrade> TGrades { get; set; }
         public DbSet<TLog> TLogs { get; set; }
         public DbSet<TLogin> TLogins { get; set; }
@@ -50,7 +53,6 @@ namespace MySch.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ADatumMap());
-            modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new APageMap());
             modelBuilder.Configurations.Add(new AThemeMap());
             modelBuilder.Configurations.Add(new KaoMap());
@@ -58,16 +60,20 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new KRoomTypeMap());
             modelBuilder.Configurations.Add(new KScoreMap());
             modelBuilder.Configurations.Add(new KScoreDetailMap());
-            modelBuilder.Configurations.Add(new KStudentMap());
+            modelBuilder.Configurations.Add(new KStudMap());
             modelBuilder.Configurations.Add(new KSubBanMap());
             modelBuilder.Configurations.Add(new KSubGradeMap());
             modelBuilder.Configurations.Add(new KSubTestMap());
-            modelBuilder.Configurations.Add(new SComeMap());
-            modelBuilder.Configurations.Add(new SOutMap());
-            modelBuilder.Configurations.Add(new StudentMap());
+            modelBuilder.Configurations.Add(new StudMap());
+            modelBuilder.Configurations.Add(new StudComeMap());
             modelBuilder.Configurations.Add(new StudGradeMap());
+            modelBuilder.Configurations.Add(new StudGradeFieldMap());
+            modelBuilder.Configurations.Add(new StudGradeTableMap());
+            modelBuilder.Configurations.Add(new StudGradeTypeMap());
+            modelBuilder.Configurations.Add(new StudOutMap());
             modelBuilder.Configurations.Add(new TAccMap());
             modelBuilder.Configurations.Add(new TBanMap());
+            modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new TGradeMap());
             modelBuilder.Configurations.Add(new TLogMap());
             modelBuilder.Configurations.Add(new TLoginMap());

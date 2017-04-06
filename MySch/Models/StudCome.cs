@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MySch.Models
 {
-    public partial class SCome
+    public partial class StudCome
     {
         public string ID { get; set; }
         public string IDS { get; set; }

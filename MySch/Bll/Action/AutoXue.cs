@@ -337,10 +337,6 @@ namespace MySch.Bll.Action
                 stud.FromSch = matchs[0].Groups[1].ToString();
                 stud.Name = matchs[1].Groups[1].ToString();
                 stud.IDS = id;
-                stud.FromGrade = matchs[3].Groups[1].ToString();
-                stud.NationID = matchs[4].Groups[1].ToString();
-                stud.ReadState = matchs[5].Groups[1].ToString();
-                stud.IsProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.SchChoose = false;
@@ -408,7 +404,6 @@ namespace MySch.Bll.Action
                 res += string.Format("姓名：{0}\n", db.Name);
                 res += string.Format("身份：{0}\n", db.IDS);
                 res += string.Format("学校：{0}\n", db.FromSch);
-                res += string.Format("年级：{0}\n", db.FromGrade);
                 res += "---------------------------\n";
                 res += string.Format("录取编号：{0}", db.StudNo.Substring(db.StudNo.Length - 4, 4));
                 return res;
