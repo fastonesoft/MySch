@@ -397,7 +397,7 @@ namespace MySch.Controllers.User
                 int count = 0;
                 foreach (var stud in rows)
                 {
-                    var student = AutoXue.GetStudent(stud.StudName, stud.IDC, cookies);
+                    var student = AutoXue.GetStudentHtml(stud.StudName, stud.IDC, cookies);
 
                     var xues = Jsons.JsonEntity<IEnumerable<XueDetail>>(student);
                     if (xues.Count() != 0)

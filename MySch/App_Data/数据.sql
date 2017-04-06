@@ -95,10 +95,6 @@ create table TStudReg
 	IDS	nvarchar(20) not null,	--身份证号
 	Name	nvarchar(20) not null,	--姓名
 	FromSch	nvarchar(20),	--学校
-	FromGrade	nvarchar(10),	--年级
-	NationID	nvarchar(20),	--全国学籍号
-	ReadState	nvarchar(20),	--就读状态
-	IsProblem	bit not null,	--是否问题学籍
 	--以上：自动注册时填充
 	StudNo	nvarchar(32),	--学籍号-考试编号
 	SchChoose	bit not null,	--是否择校
@@ -763,7 +759,6 @@ create table StudGradeField
 	IDS	nvarchar(32) not null,
 	TableIDS	nvarchar(32) not null,
 	FieldName	nvarchar(20) not null,
-	ValueRegex	
 )
 go
 

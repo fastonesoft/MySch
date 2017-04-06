@@ -65,7 +65,7 @@ namespace MySch.Controllers.WX
                         string content = rec.XmlElement("Content").ToUpper();
 
                         //首先检测是否完成登记
-                        if (WXApi.Binding(rec.FromUserName))
+                        if (AutoXue.Binding(rec.FromUserName))
                         {
                             var text = new WX_Send_Text(rec, "已完成学生报名，不必重复动作！");
                             return text.ToXml(author);
@@ -97,7 +97,7 @@ namespace MySch.Controllers.WX
                         //关注类型subscribe
                         if (rec.XmlElement("Event") == "subscribe")
                         {
-                            var text = new WX_Send_Text(rec, WXApi.NormalCommand());
+                            var text = new WX_Send_Text(rec, AutoXue.NormalCommand());
                             return text.ToXml(author);                            
                         }
                         else
@@ -107,7 +107,7 @@ namespace MySch.Controllers.WX
                     //if (even.Event == "unsubscribe")
                     //if (even.Event == "SCAN")
                     default:
-                        var ddtext = new WX_Send_Text(rec, WXApi.NormalCommand());
+                        var ddtext = new WX_Send_Text(rec, AutoXue.NormalCommand());
                         return ddtext.ToXml(author);
                 }
             }
@@ -136,7 +136,7 @@ namespace MySch.Controllers.WX
         public ActionResult Test()
         {
             var cookies = AutoXue.GetCookies();
-            var html = AutoXue.GetStudent("321284200508150254", cookies);
+            var html = AutoXue.GetStudentHtml("321284200508150254", cookies);
             return Content(html);
         }
 
