@@ -32,7 +32,7 @@ namespace MySch.Models
         [DisplayName("报名编号")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^\d{2}(00[1-9]|0[1-9]\d|[1-9]\d\d)-\d{4}$", ErrorMessage = "{0}：XXXXX-XXXX")]
-        public string StudNo { get; set; }
+        public string RegNo { get; set; }
 
         [DisplayName("备注")]
         [StringLength(20, ErrorMessage="{0}：长度不能超过20")]
@@ -104,7 +104,7 @@ namespace MySch.Models
         [Required(ErrorMessage = "{0}：不得为空")]
         [StringLength(50, ErrorMessage = "{0}：长度不能超过50")]
         [RegularExpression(@"^[\u4e00-\u9fa5]{2,10}省[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$|^[\u4e00-\u9fa5]{2,10}市[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}|[\u4e00-\u9fa5]{2,10}(市|区|县)[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$|^[\u4e00-\u9fa5]{2,10}镇[#-a-zA-Z0-9\u4e00-\u9fa5]{10,30}$", ErrorMessage = "{0}：X省X市X(市区县)X、X市X(市区县)X、姜堰区X、姜堰区X镇X")]
-        public string Permanent { get; set; }
+        public string Birth { get; set; }
     }
 
 }

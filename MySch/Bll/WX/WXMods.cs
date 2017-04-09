@@ -319,6 +319,31 @@ namespace MySch.Bll.WX
         }
     }
 
+    //命令记录
+    public class WX_Command_Rec
+    {
+        public bool IDS { get; set; }
+        public bool Phone { get; set; }
+        public int Picture { get; set; }
+        public bool Showed { get; set; }
+
+        public void SaveToSession(HttpSessionStateBase session)
+        {
+            session["InputSession"] = this;
+        }
+
+        public static WX_Command_Rec GetFromSession(HttpSessionStateBase session)
+        {
+            var input = (WX_Command_Rec)session["InputSession"];
+
+            if (input == null)
+                input = new WX_Command_Rec { IDS = false, Phone = false, Picture = 0, Showed = false };
+
+            return input;
+        }
+
+    }
+
     //命令行
     public class WX_Command
     {

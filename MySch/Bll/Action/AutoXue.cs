@@ -330,17 +330,17 @@ namespace MySch.Bll.Action
                 if (matchs.Count == 0) throw new Exception("无学籍记录！检查身份证与姓名是否正确");
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
-                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == id);
+                var db = DataCRUD<Student>.Entity(a => a.IDS == id);
                 if (db != null) throw new Exception("该身份证号学籍已注册");
                 //根据返回数据 -> 创建学生报名记录
-                TStudReg stud = new TStudReg();
+                Student stud = new Student();
                 stud.FromSch = matchs[0].Groups[1].ToString();
                 stud.Name = matchs[1].Groups[1].ToString();
                 stud.IDS = id;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.SchChoose = false;
-                stud.StudNo = null;
+                stud.RegNo = null;
                 stud.Memo = null;
                 //
                 stud.Reged = false;
@@ -348,7 +348,7 @@ namespace MySch.Bll.Action
                 stud.OpenID = openID;
 
                 //添加
-                DataCRUD<TStudReg>.Add(stud);
+                DataCRUD<Student>.Add(stud);
                 //返回
                 return stud.ID;
             }
@@ -371,65 +371,19 @@ namespace MySch.Bll.Action
                 //检测身份证号是否有效
                 IDC.IDS(ID);
 
-                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
+                var db = DataCRUD<Student>.Entity(a => a.IDS == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
                 if (db == null) throw new Exception("学生姓名与身份证号不匹配，或者已经完成登记");
 
                 //找到对应学生，绑定
                 db.OpenID = openID;
 
                 //提交更新
-                DataCRUD<TStudReg>.Update(db);
+                DataCRUD<Student>.Update(db);
             }
             catch (Exception e)
             {
                 throw e;
             }
-        }
-
-
-        /// <summary>
-        /// 学生报名信息
-        /// </summary>
-        /// <param name="openID">编号</param>
-        /// <returns></returns>
-        public static string StudInfor(string openID)
-        {
-            try
-            {
-                var db = DataCRUD<TStudReg>.Entity(a => a.OpenID == openID);
-                if (db == null) throw new Exception("未完成帐号与学生信息的绑定");
-                if (string.IsNullOrEmpty(db.StudNo)) throw new Exception("报名资料未审核，请按公示时间携带相关证件到指定地点审核！");
-
-                string res = string.Empty;
-                res += string.Format("姓名：{0}\n", db.Name);
-                res += string.Format("身份：{0}\n", db.IDS);
-                res += string.Format("学校：{0}\n", db.FromSch);
-                res += "---------------------------\n";
-                res += string.Format("录取编号：{0}", db.StudNo.Substring(db.StudNo.Length - 4, 4));
-                return res;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        /// <summary>
-        /// 常用查询命令
-        /// </summary>
-        /// <returns></returns>
-        public static string NormalCommand()
-        {
-            string res = string.Empty;
-
-            res += "欢迎关注：校务在线\n\n";
-            res += "自助报名流程：\n";
-            res += "一、输入学生身份证获取二维码\n";
-            res += "二、至少输入一个联系电话\n";
-            res += "三、上传图片：毕业证、户口簿、产权证，图片要清晰\n";
-            res += "四、到报名窗口出示二维码审核\n";
-
-            return res;
         }
 
         /// <summary>
@@ -443,7 +397,7 @@ namespace MySch.Bll.Action
             if (string.IsNullOrEmpty(openID)) return false;
 
             //检测是否存在ID记录
-            var db = DataCRUD<TStudReg>.Entitys(a => a.OpenID == openID);
+            var db = DataCRUD<Student>.Entitys(a => a.OpenID == openID);
 
             //有记录，说明已绑定
             return db.Count() > 0;

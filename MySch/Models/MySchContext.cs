@@ -28,8 +28,8 @@ namespace MySch.Models
         public DbSet<KSubBan> KSubBans { get; set; }
         public DbSet<KSubGrade> KSubGrades { get; set; }
         public DbSet<KSubTest> KSubTests { get; set; }
-        public DbSet<Stud> Studs { get; set; }
         public DbSet<StudCome> StudComes { get; set; }
+        public DbSet<Student> Students { get; set; }
         public DbSet<StudGrade> StudGrades { get; set; }
         public DbSet<StudGradeField> StudGradeFields { get; set; }
         public DbSet<StudGradeTable> StudGradeTables { get; set; }
@@ -45,7 +45,6 @@ namespace MySch.Models
         public DbSet<TPrint> TPrints { get; set; }
         public DbSet<TSemester> TSemesters { get; set; }
         public DbSet<TStep> TSteps { get; set; }
-        public DbSet<TStudReg> TStudRegs { get; set; }
         public DbSet<TSub> TSubs { get; set; }
         public DbSet<TTerm> TTerms { get; set; }
         public DbSet<TYear> TYears { get; set; }
@@ -64,8 +63,8 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new KSubBanMap());
             modelBuilder.Configurations.Add(new KSubGradeMap());
             modelBuilder.Configurations.Add(new KSubTestMap());
-            modelBuilder.Configurations.Add(new StudMap());
             modelBuilder.Configurations.Add(new StudComeMap());
+            modelBuilder.Configurations.Add(new StudentMap());
             modelBuilder.Configurations.Add(new StudGradeMap());
             modelBuilder.Configurations.Add(new StudGradeFieldMap());
             modelBuilder.Configurations.Add(new StudGradeTableMap());
@@ -81,7 +80,6 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TPrintMap());
             modelBuilder.Configurations.Add(new TSemesterMap());
             modelBuilder.Configurations.Add(new TStepMap());
-            modelBuilder.Configurations.Add(new TStudRegMap());
             modelBuilder.Configurations.Add(new TSubMap());
             modelBuilder.Configurations.Add(new TTermMap());
             modelBuilder.Configurations.Add(new TYearMap());

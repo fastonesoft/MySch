@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.Student
+namespace MySch.Controllers.Stud
 {
     public class StudRegController : RoleController
     {
@@ -99,31 +99,28 @@ namespace MySch.Controllers.Student
 
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
-                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == id);
+                var db = DataCRUD<Student>.Entity(a => a.IDS == id);
                 if (db != null) return Json(new BllError { error = true, message = "该身份证号学籍已注册" });
 
                 //根据返回数据 -> 创建学生报名记录
-                TStudReg stud = new TStudReg();
+                Student stud = new Student();
                 stud.FromSch = matchs[0].Groups[1].ToString();
-                stud.FromGrade = matchs[3].Groups[1].ToString();
-                stud.ReadState = matchs[5].Groups[1].ToString();
 
                 stud.Name = matchs[1].Groups[1].ToString();
                 stud.IDS = id;
-                stud.IsProblem = matchs[6].Groups[1].ToString() == "是" ? true : false;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.SchChoose = false;
-                stud.StudNo = null;
+                stud.RegNo = null;
                 stud.Memo = null;
                 //
                 stud.Reged = false;
 
                 //添加
-                DataCRUD<TStudReg>.Add(stud);
+                DataCRUD<Student>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(EasyUI<TStudReg>.DataGrid(stud));
+                return Json(EasyUI<Student>.DataGrid(stud));
             }
             catch (Exception e)
             {
@@ -140,7 +137,7 @@ namespace MySch.Controllers.Student
                 //身份证检测
                 IDC.IDS(id);
 
-                var db = DataCRUD<TStudReg>.Entitys(a => a.IDS == id);
+                var db = DataCRUD<Student>.Entitys(a => a.IDS == id);
 
                 //返回：easyui datagrid数据格式
                 var res = db == null ? null : new { total = db.Count(), rows = db };
@@ -156,7 +153,7 @@ namespace MySch.Controllers.Student
         [HttpPost]
         public ActionResult Edit(string id)
         {
-            var db = DataCRUD<TStudReg>.Entity(a => a.ID == id);
+            var db = DataCRUD<Student>.Entity(a => a.ID == id);
 
             if (db == null)
             {
@@ -165,9 +162,9 @@ namespace MySch.Controllers.Student
             else
             {
                 //已经编号，无需重编
-                if (db.StudNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
+                if (db.RegNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
                 //
-                var res = new StudEditValid { ID = db.ID, Name = db.Name, StudNo = db.StudNo, Memo = db.Memo, SchChoose = db.SchChoose };
+                var res = new StudEditValid { ID = db.ID, Name = db.Name, RegNo = db.RegNo, Memo = db.Memo, SchChoose = db.SchChoose };
                 return View(res);
             }
         }
@@ -183,7 +180,7 @@ namespace MySch.Controllers.Student
                 if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //检测编号
-                var db = DataCRUD<TStudReg>.Entity(a => a.StudNo == stud.StudNo);
+                var db = DataCRUD<Student>.Entity(a => a.RegNo == stud.RegNo);
                 if (db != null)
                 {
                     //不是同一条记录，提示重复
@@ -191,14 +188,14 @@ namespace MySch.Controllers.Student
                 }
 
                 //查询
-                TStudReg reg = DataCRUD<TStudReg>.Entity(a => a.ID == stud.ID);
+                Student reg = DataCRUD<Student>.Entity(a => a.ID == stud.ID);
                 if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
                 //修改
-                reg.StudNo = stud.StudNo;
+                reg.RegNo = stud.RegNo;
                 reg.Memo = stud.Memo;
                 reg.SchChoose = stud.SchChoose;
                 //提交
-                DataCRUD<TStudReg>.Update(reg);
+                DataCRUD<Student>.Update(reg);
                 //返回
                 return Json(reg);
             }
@@ -212,7 +209,7 @@ namespace MySch.Controllers.Student
         [HttpPost]
         public ActionResult Reg(string id)
         {
-            var db = DataCRUD<TStudReg>.Entity(a => a.ID == id);
+            var db = DataCRUD<Student>.Entity(a => a.ID == id);
 
             if (db == null)
             {
@@ -220,7 +217,7 @@ namespace MySch.Controllers.Student
             }
             else
             {
-                var res = new StudRegValid { ID = db.ID, Name = db.Name, Mobil1 = db.Mobil1, Mobil2 = db.Mobil2, Name1 = db.Name1, Name2 = db.Name2, Home = db.Home, Permanent = db.Permanent };
+                var res = new StudRegValid { ID = db.ID, Name = db.Name, Mobil1 = db.Mobil1, Mobil2 = db.Mobil2, Name1 = db.Name1, Name2 = db.Name2, Home = db.Home, Birth = db.Birth };
                 return View(res);
             }
         }
@@ -236,7 +233,7 @@ namespace MySch.Controllers.Student
                 if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
                 //查询
-                TStudReg reg = DataCRUD<TStudReg>.Entity(a => a.ID == stud.ID);
+                Student reg = DataCRUD<Student>.Entity(a => a.ID == stud.ID);
                 if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
                 //修改
                 reg.Mobil1 = stud.Mobil1;
@@ -244,11 +241,11 @@ namespace MySch.Controllers.Student
                 reg.Name1 = stud.Name1;
                 reg.Name2 = stud.Name2;
                 reg.Home = stud.Home;
-                reg.Permanent = stud.Permanent;
+                reg.Birth = stud.Birth;
                 //注册
                 reg.Reged = true;
                 //提交
-                DataCRUD<TStudReg>.Update(reg);
+                DataCRUD<Student>.Update(reg);
                 //返回
                 return Json(reg);
             }
@@ -272,9 +269,9 @@ namespace MySch.Controllers.Student
                 string all = match.Groups[2].ToString();
                 string right = match.Groups[3].ToString();
 
-                var db = left.Length > 0 ? DataCRUD<TStudReg>.Entitys(a => a.StudNo.StartsWith(left)).OrderBy(a => a.StudNo) :
-                    right.Length > 0 ? DataCRUD<TStudReg>.Entitys(a => a.StudNo.EndsWith(right)).OrderBy(a => a.StudNo) :
-                    all.Length > 0 ? DataCRUD<TStudReg>.Entitys(a => a.StudNo.Contains(all)).OrderBy(a => a.StudNo) : null;
+                var db = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left)).OrderBy(a => a.RegNo) :
+                    right.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.EndsWith(right)).OrderBy(a => a.RegNo) :
+                    all.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.Contains(all)).OrderBy(a => a.RegNo) : null;
 
                 //返回：easyui datagrid数据格式
                 var res = db == null ? null : new { total = db.Count(), rows = db };
@@ -306,30 +303,26 @@ namespace MySch.Controllers.Student
                 IDC.IDS(manu.IDS);
 
                 //检测身份证是否重复
-                var db = DataCRUD<TStudReg>.Entity(a => a.IDS == manu.IDS);
+                var db = DataCRUD<Student>.Entity(a => a.IDS == manu.IDS);
                 if (db != null) return Json(new BllError { error = true, message = "身份证号已注册" });
 
-                TStudReg stud = new TStudReg();
+                Student stud = new Student();
                 stud.FromSch = manu.FromSch;
                 stud.Name = manu.Name;
                 stud.IDS = manu.IDS;
-                stud.FromGrade = manu.FromGrade;
-                stud.NationID = null;
-                stud.ReadState = "手动";
-                stud.IsProblem = true;
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.SchChoose = false;
-                stud.StudNo = null;
+                stud.RegNo = null;
                 stud.Memo = null;
                 //
                 stud.Reged = false;
 
                 //添加
-                DataCRUD<TStudReg>.Add(stud);
+                DataCRUD<Student>.Add(stud);
 
                 //返回给浏览器显示到网格
-                return Json(EasyUI<TStudReg>.DataGrid(stud));
+                return Json(EasyUI<Student>.DataGrid(stud));
             }
             catch (Exception e)
             {
@@ -338,7 +331,7 @@ namespace MySch.Controllers.Student
         }
 
         [HttpPost]
-        public ActionResult Print(IEnumerable<TStudReg> rows)
+        public ActionResult Print(IEnumerable<Student> rows)
         {
             ViewBag.StudNo = DataCRUD<TPrint>.Entity(a => a.Name == "No");
             ViewBag.StudName = DataCRUD<TPrint>.Entity(a => a.Name == "Name");

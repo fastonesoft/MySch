@@ -14,40 +14,76 @@ namespace MySch.Bll.Func
     {
         public static Bitmap CodeBitmap(int width, int height, string content, int margin, BarcodeFormat format)
         {
-            QrCodeEncodingOptions options = new QrCodeEncodingOptions
+            try
             {
-                DisableECI = true,
-                CharacterSet = "UTF-8",
-                Width = width,
-                Height = height,
-                Margin = margin,
-                PureBarcode = true,
-            };
-            ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
-            xing.Format = format;
-            xing.Options = options;
+                QrCodeEncodingOptions options = new QrCodeEncodingOptions
+                {
+                    DisableECI = true,
+                    CharacterSet = "UTF-8",
+                    Width = width,
+                    Height = height,
+                    Margin = margin,
+                    PureBarcode = true,
+                };
+                ZXing.BarcodeWriter xing = new ZXing.BarcodeWriter();
+                xing.Format = format;
+                xing.Options = options;
 
-            Bitmap bitmap = xing.Write(content);
+                Bitmap bitmap = xing.Write(content);
 
-            return bitmap;
+                return bitmap;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static void CodeOutputStream(int width, int height, string content, int margin, BarcodeFormat format)
         {
-            Bitmap bitmap = CodeBitmap(width, height, content, margin, format);
+            try
+            {
+                Bitmap bitmap = CodeBitmap(width, height, content, margin, format);
 
-            HttpContext.Current.Response.ContentType = "image/jpeg";
-            bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+                HttpContext.Current.Response.ContentType = "image/jpeg";
+                bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+            }
+            catch
+            {
+
+            }
+        }
+
+        public static void CodeOutputStream(string fileName)
+        {
+            try
+            {
+                Bitmap bitmap = new Bitmap(HttpContext.Current.Server.MapPath(fileName));
+
+                HttpContext.Current.Response.ContentType = "image/jpeg";
+                bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+            }
+            catch
+            {
+
+            }
         }
 
         public static byte[] CodeBuffer(int width, int height, string content)
         {
-            Bitmap bitmap = CodeBitmap(width, height, content, 0, BarcodeFormat.QR_CODE);
+            try
+            {
+                Bitmap bitmap = CodeBitmap(width, height, content, 0, BarcodeFormat.QR_CODE);
 
-            MemoryStream ms = new MemoryStream();
-            bitmap.Save(ms, ImageFormat.Jpeg);
+                MemoryStream ms = new MemoryStream();
+                bitmap.Save(ms, ImageFormat.Jpeg);
 
-            return ms.GetBuffer();
+                return ms.GetBuffer();
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

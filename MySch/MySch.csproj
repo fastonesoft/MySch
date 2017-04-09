@@ -220,14 +220,14 @@
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\RoleStudController.cs" />
-    <Compile Include="Controllers\Student\StudEditController.cs" />
+    <Compile Include="Controllers\Stud\StudEditController.cs" />
     <Compile Include="Controllers\User\UserOutController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\Student\StudRegController.cs" />
+    <Compile Include="Controllers\Stud\StudRegController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
@@ -289,11 +289,11 @@
     <Compile Include="Models\Mapping\KSubGradeMap.cs" />
     <Compile Include="Models\Mapping\KSubTestMap.cs" />
     <Compile Include="Models\Mapping\StudComeMap.cs" />
+    <Compile Include="Models\Mapping\StudentMap.cs" />
     <Compile Include="Models\Mapping\StudGradeFieldMap.cs" />
     <Compile Include="Models\Mapping\StudGradeMap.cs" />
     <Compile Include="Models\Mapping\StudGradeTableMap.cs" />
     <Compile Include="Models\Mapping\StudGradeTypeMap.cs" />
-    <Compile Include="Models\Mapping\StudMap.cs" />
     <Compile Include="Models\Mapping\StudOutMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
@@ -305,13 +305,12 @@
     <Compile Include="Models\Mapping\TPrintMap.cs" />
     <Compile Include="Models\Mapping\TSemesterMap.cs" />
     <Compile Include="Models\Mapping\TStepMap.cs" />
-    <Compile Include="Models\Mapping\TStudRegMap.cs" />
     <Compile Include="Models\Mapping\TSubMap.cs" />
     <Compile Include="Models\Mapping\TTermMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
-    <Compile Include="Models\Stud.cs" />
     <Compile Include="Models\StudCome.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudGrade.cs" />
     <Compile Include="Models\StudGradeField.cs" />
     <Compile Include="Models\StudGradeTable.cs" />
@@ -327,7 +326,6 @@
     <Compile Include="Models\TPrint.cs" />
     <Compile Include="Models\TSemester.cs" />
     <Compile Include="Models\TStep.cs" />
-    <Compile Include="Models\TStudReg.cs" />
     <Compile Include="Models\TSub.cs" />
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
@@ -580,6 +578,8 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\校务在线.pubxml" />
+    <Content Include="Images\wx_no.jpg" />
+    <Content Include="Images\wx_yes.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\easyui-lang-zh_CN.js" />
@@ -700,6 +700,7 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
     <Content Include="Views\Wei\Index.cshtml" />
+    <Content Include="Views\Wei\Ht.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

@@ -33,16 +33,16 @@ namespace MySch.Bll.View
                 using (BaseContext db = new BaseContext())
                 {
                     var entitys = (from gs in db.StudGrades
-                                   join c in db.SComes on gs.ComeIDS equals c.IDS into gs_cs
+                                   join c in db.StudComes on gs.ComeIDS equals c.IDS into gs_cs
                                    from gs_c in gs_cs.DefaultIfEmpty()
-                                   join o in db.SOuts on gs.OutIDS equals o.IDS into gs_os
+                                   join o in db.StudOuts on gs.OutIDS equals o.IDS into gs_os
                                    from gs_o in gs_os.DefaultIfEmpty()
                                    join b in db.TBans on gs.BanIDS equals b.IDS
                                    join g in db.TGrades on gs.GradeIDS equals g.IDS
                                    join s in db.TSteps on g.StepIDS equals s.IDS
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
-                                   join e in db.AEdus on g.EduIDS equals e.IDS
+                                   join e in db.TEdus on g.EduIDS equals e.IDS
                                    join st in db.Students on gs.StudIDS equals st.IDS
                                    select new VStudOut
                                    {

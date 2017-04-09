@@ -88,33 +88,7 @@ go
 alter table TLogin add constraint PK_TLogin primary key clustered (ID)
 create index IN_TLogin_Name on TLogin (Name)
 
---新生报名
-create table TStudReg
-(
-	ID	nvarchar(32) not null,	--唯一编号
-	IDS	nvarchar(20) not null,	--身份证号
-	Name	nvarchar(20) not null,	--姓名
-	FromSch	nvarchar(32),	--学校
-	OpenID	nvarchar(32),	--用户ID	
-	--以上：自动注册时填充
-	StudNo	nvarchar(32),	--学籍号-考试编号
-	SchChoose	bit not null,	--是否择校
-	Reged	bit not null,	--是否注册
-	Memo	nvarchar(50),	--备注
-	--以上：归档时填充
-	Mobil1	nvarchar(20),	--联系电话一
-	Mobil2	nvarchar(20),	--联系电话二
-	Name1	nvarchar(20),	--第一监护人
-	Name2	nvarchar(20),	--第二监护人
-	Home	nvarchar(50),	--家庭地址
-	Permanent	nvarchar(50),	--户籍地址
-)
-alter table TStudReg add constraint PK_TStudReg primary key clustered (ID)
-create unique nonclustered index UN_TStudReg_IDS on TStudReg (IDS)
-create index IN_TStudReg_Name on TStudReg (Name)
-create index IN_TStudReg_StudNo on TStudReg (StudNo)
-go
-
+--打印位置记录
 create table TPrint
 (
 	Name	nvarchar(20) not null,	--
@@ -660,16 +634,47 @@ insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入�
 insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
 
 
+--新生报名
+create table StudReg
+(
+	ID	nvarchar(32) not null,	--唯一编号
+	IDS	nvarchar(20) not null,	--身份证号
+	Name	nvarchar(20) not null,	--姓名
+	FromSch	nvarchar(32),	--学校
+	OpenID	nvarchar(32),	--用户ID	
+	--以上：自动注册时填充
+	StudNo	nvarchar(32),	--学籍号-考试编号
+	SchChoose	bit not null,	--是否择校
+	Reged	bit not null,	--是否注册
+	Memo	nvarchar(50),	--备注
+	--以上：归档时填充
+	Mobil1	nvarchar(20),	--联系电话一
+	Mobil2	nvarchar(20),	--联系电话二
+	Name1	nvarchar(20),	--第一监护人
+	Name2	nvarchar(20),	--第二监护人
+	Home	nvarchar(50),	--家庭地址
+	Permanent	nvarchar(50),	--户籍地址
+)
+alter table StudReg add constraint PK_StudReg primary key clustered (ID)
+create unique nonclustered index UN_StudReg_IDS on StudReg (IDS)
+create index IN_StudReg_Name on StudReg (Name)
+create index IN_StudReg_StudNo on StudReg (StudNo)
+go
 
 
 --学生表
---delete from Stud
-create table Stud
+create table Student
 (
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(20) not null,	--学生编号
+	--报名信息记录
 	Name	nvarchar(10) not null,	--姓名
 	IDC	nvarchar(20),	--身份证号
+	FromSch	nvarchar(32),	--毕业小学
+	SchChoose	bit not null,	--是否择校
+	RegNo	nvarchar(32),	--考试编号
+	Reged	bit not null,	--是否注册
+	OpenID	nvarchar(32),	--用户ID
 	StepIDS	nvarchar(20) not null,	--校区分级编号
 	--
 	Mobil1	nvarchar(20),	--联系电话一
@@ -685,14 +690,13 @@ create table Stud
 	--
 	AccIDS	nvarchar(20) not null,	--学校编号
 	--
-	OpenID	nvarchar(32),	--用户ID
 )
 go
-alter table Stud add constraint PK_Stud primary key clustered (ID)
-alter table Stud add constraint FK_Stud_StepIDS foreign key (StepIDS) references TStep (IDS)
-create unique nonclustered index UN_Stud_IDS on Stud (IDS)
-create index IN_Stud_IDC on Stud (IDC)
-create index IN_Stud_Name on Stud (Name)
+alter table Student add constraint PK_Student primary key clustered (ID)
+alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) references TStep (IDS)
+create unique nonclustered index UN_Student_IDS on Student (IDS)
+create index IN_Student_IDC on Student (IDC)
+create index IN_Student_Name on Student (Name)
 
 
 
@@ -720,7 +724,7 @@ go
 
 alter table StudGrade add constraint PK_StudGrade primary key clustered (ID)
 alter table StudGrade add constraint FK_StudGrade_BanIDS foreign key (BanIDS) references TBan (IDS)
-alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) references Stud (IDS)
+alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) references Student (IDS)
 alter table StudGrade add constraint FK_StudGrade_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
 alter table StudGrade add constraint FK_StudGrade_ComeIDS foreign key (ComeIDS) references StudCome (IDS)
 create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
@@ -887,7 +891,7 @@ create table KStud
 go
 alter table KStud add constraint PK_KStud primary key clustered (ID)
 alter table KStud add constraint FK_KStud_KaoIDS foreign key (KaoIDS) references Kao (IDS)
-alter table KStud add constraint FK_KStud_StudIDS foreign key (StudIDS) references Stud (IDS)
+alter table KStud add constraint FK_KStud_StudIDS foreign key (StudIDS) references Student (IDS)
 create unique nonclustered index UN_KStud_IDS on KStud (IDS)
 
 

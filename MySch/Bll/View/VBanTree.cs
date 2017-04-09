@@ -46,7 +46,7 @@ namespace MySch.Bll.View
                 {
                     var entitys = from g in db.TGrades.ToList()
                                   join b in bans on g.IDS equals b.GradeIDS
-                                  join e in db.AEdus.ToList() on g.EduIDS equals e.IDS
+                                  join e in db.TEdus.ToList() on g.EduIDS equals e.IDS
                                   join s in db.TSteps.ToList() on g.StepIDS equals s.IDS
                                   where s.PartIDS == partIDS
                                   select new VBanTree
