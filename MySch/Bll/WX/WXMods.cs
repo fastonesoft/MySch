@@ -332,7 +332,7 @@ namespace MySch.Bll.WX
             session["InputSession"] = this;
         }
 
-        public static WX_Command_Rec GetFromSession(HttpSessionStateBase session)
+        public static WX_Command_Rec GetFromOpenID(string openID)
         {
             var input = (WX_Command_Rec)session["InputSession"];
 
