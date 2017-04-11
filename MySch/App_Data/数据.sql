@@ -973,3 +973,19 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 --TODO学生信息变更记录		    
 
 
+
+
+
+--WX
+create table AccessToken
+(
+	
+	create_time	datetime not null,
+	access_token	nvarchar(900) not null,
+	expires_in	int not null,
+)
+go
+alter table AccessToken add constraint PK_AccessToken primary key clustered (create_time)
+
+
+

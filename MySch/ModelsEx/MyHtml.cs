@@ -171,6 +171,34 @@ namespace MySch.ModelsEx
             }
         }
 
+        public static string GetHtml(string url, Encoding encoding)
+        {
+            try
+            {
+                var resp = GetResponse(url);
+
+                StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
+                return sr.ReadToEnd();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static string GetHtml(string url, string encodingName)
+        {
+            try
+            {
+                Encoding encoding = Encoding.GetEncoding(encodingName);
+                return GetHtml(url, encoding);
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
 
         /// 提交回应数据
         /// </summary>

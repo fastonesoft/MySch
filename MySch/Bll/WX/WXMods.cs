@@ -1,7 +1,10 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Func;
 using MySch.Bll.Wei;
 using MySch.Bll.WX;
 using MySch.Dal;
+using MySch.Models;
+using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -322,24 +325,34 @@ namespace MySch.Bll.WX
     //命令记录
     public class WX_Command_Rec
     {
-        public bool IDS { get; set; }
-        public bool Phone { get; set; }
-        public int Picture { get; set; }
-        public bool Showed { get; set; }
-
-        public void SaveToSession(HttpSessionStateBase session)
-        {
-            session["InputSession"] = this;
-        }
+        public bool IDC { get; set; }
+        public bool Mobil1 { get; set; }
+        public bool Mobil2 { get; set; }
 
         public static WX_Command_Rec GetFromOpenID(string openID)
         {
-            var input = (WX_Command_Rec)session["InputSession"];
-
-            if (input == null)
-                input = new WX_Command_Rec { IDS = false, Phone = false, Picture = 0, Showed = false };
-
-            return input;
+            try
+            {
+                //没记录
+                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                if (db == null)
+                {
+                    return new WX_Command_Rec { IDC = false, Mobil1 = false, Mobil2 = false };
+                }
+                else
+                {
+                    return new WX_Command_Rec
+                    {
+                        IDC = db.IDC != null,
+                        Mobil1 = db.Mobil1 != null,
+                        Mobil2 = db.Mobil2 != null,
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
     }
@@ -359,6 +372,60 @@ namespace MySch.Bll.WX
                 Match match = regex.Match(command);
                 //
                 return match.Success ? new WX_Command { Name = match.Groups[1].ToString() } : null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+    }
+
+    /////////////////////////////////////////
+    //WX实体
+    public class WX_AccessToken
+    {
+        //时差计算，返回：秒
+        public static double TimeDiffer(DateTime begin, DateTime end)
+        {
+            var tb = new TimeSpan(begin.Ticks);
+            var te = new TimeSpan(end.Ticks);
+            return tb.Subtract(te).Duration().TotalSeconds;
+        }
+
+        public static string GetAccessToken()
+        {
+            try
+            {
+                var db = DataCRUD<AccessToken>.Entity(a => true);
+
+                //1、检测库里的有没有超时，没超，直接使用，
+                //2、超时，删除，重新生成
+                if (db != null)
+                {
+                    //7200-1800，大约1.5小时
+                    if (TimeDiffer(DateTime.Now, db.create_time) > db.expires_in - 1800)
+                    {
+                        DataCRUD<AccessToken>.Delete(db);
+                    }
+                    else
+                    {
+                        return db.access_token;
+                    }
+                }
+
+                //读取token
+                var url = string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", "wx8e6ce1260ba9f214", "a4ab64afec190ea5b618b6e8eec9c4ae");
+                var jsons = MyHtml.GetHtml(url, "UTF-8");
+
+                //生成新的数据记录
+                AccessToken token = Jsons.JsonEntity<AccessToken>(jsons);
+                token.create_time = DateTime.Now;
+
+                //保存
+                DataCRUD<AccessToken>.Add(token);
+
+                //返回
+                return token.access_token;
             }
             catch (Exception e)
             {

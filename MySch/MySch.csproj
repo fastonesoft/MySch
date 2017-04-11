@@ -264,6 +264,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\WX\WXMods.cs" />
+    <Compile Include="Models\AccessToken.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
     <Compile Include="Models\ATheme.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="Models\KSubBan.cs" />
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
+    <Compile Include="Models\Mapping\AccessTokenMap.cs" />
     <Compile Include="Models\Mapping\ADatumMap.cs" />
     <Compile Include="Models\Mapping\APageMap.cs" />
     <Compile Include="Models\Mapping\AThemeMap.cs" />
