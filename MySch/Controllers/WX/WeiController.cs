@@ -1,7 +1,7 @@
-﻿using MySch.Bll.Action;
-using MySch.Bll.Func;
-using MySch.Bll.Wei;
+﻿using MySch.Bll.Func;
 using MySch.Bll.WX;
+using MySch.Bll.WX.Model;
+using MySch.Bll.Xue;
 using MySch.Dal;
 using MySch.Models;
 using MySch.ModelsEx;
@@ -52,14 +52,14 @@ namespace MySch.Controllers.WX
                 if (string.IsNullOrEmpty(posts)) return "";
 
                 //记录请求数据
-                WXLog.Add(posts);
+                WX_Log.Add(posts);
 
                 //封装请求类
                 WX_Rec_Base rec = new WX_Rec_Base(posts, author);
                 rec.XmlToObj();
 
                 //输入检测
-                var input = WX_Command_Rec.GetFromSession(Session);
+                var input = WX_Command_Rec.GetFromOpenID(rec.FromUserName);
 
 
                 switch (rec.MsgType.ToLower())
@@ -90,14 +90,13 @@ namespace MySch.Controllers.WX
                         if (cmd.Name.Length == 18)
                         {
                             //是身份证
-                            if (input.IDS == false)
+                            if (input.IDC == false)
                             {
                                 //检查身份证，开始记录
                                 //2.数据库记录
 
                                 //1.记录session
-                                input.IDS = true;
-                                input.SaveToSession(Session);
+                                input.IDC = true;
 
 
                                 //准备回复消息
@@ -118,7 +117,7 @@ namespace MySch.Controllers.WX
                         else
                         {
                             //是电话
-                            if (input.IDS == false)
+                            if (input.IDC == false)
                             {
                                 //检查身份证号，提醒输入
                                 var epic = new WX_Send_Pic(rec);

@@ -1,5 +1,6 @@
 ﻿using MySch.Bll.Func;
 using MySch.Bll.Model;
+using MySch.Bll.Xue.Model;
 using MySch.Dal;
 using MySch.Models;
 using MySch.ModelsEx;
@@ -13,7 +14,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Bll.Action
+namespace MySch.Bll.Xue
 {
     public class AutoXue
     {
@@ -36,14 +37,18 @@ namespace MySch.Bll.Action
                 //有数据，记录
                 if (matchs.Count != 0)
                 {
-                    XueQuery stud = new XueQuery();
-                    stud.Ku = matchs[0].Groups[1].ToString();
+                    Xue_Query stud = new Xue_Query();
+                    stud.XueKu = matchs[0].Groups[1].ToString();
                     stud.Name = matchs[1].Groups[1].ToString();
                     stud.IDC = matchs[2].Groups[1].ToString();
                     stud.FromSch = matchs[3].Groups[1].ToString();
                     stud.Come = matchs[6].Groups[1].ToString();
 
-                    //
+                    //设置添加条件
+                    if(stud.XueKu == "小学学籍库" && stud.Come == "2011")
+                    {
+                    }
+
                 }
             }
             catch (Exception e)

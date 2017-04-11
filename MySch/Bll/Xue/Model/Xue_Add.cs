@@ -11,9 +11,9 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Bll.Model
+namespace MySch.Bll.Xue.Model
 {
-    public class XueAdd
+    public class Xue_Add
     {
         [DisplayName("年级编号")]
         [Required(ErrorMessage = "{0}：不得为空")]

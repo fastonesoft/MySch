@@ -126,7 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Bll\Action\AutoXue.cs">
+    <Compile Include="Bll\Xue\AutoXue.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\BllApi.cs">
@@ -180,9 +180,9 @@
     <Compile Include="Bll\Func\XingCode.cs" />
     <Compile Include="Bll\Model\BanAdds.cs" />
     <Compile Include="Bll\Model\Dicts.cs" />
-    <Compile Include="Bll\Model\XueAdd.cs" />
-    <Compile Include="Bll\Model\XueQuery.cs" />
-    <Compile Include="Bll\Model\XueDetail.cs" />
+    <Compile Include="Bll\Xue\Model\Xue_Add.cs" />
+    <Compile Include="Bll\Xue\Model\Xue_Query.cs" />
+    <Compile Include="Bll\Xue\Model\Xue_Detail.cs" />
     <Compile Include="Bll\ReObject.cs" />
     <Compile Include="Bll\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
@@ -207,8 +207,12 @@
     </Compile>
     <Compile Include="Bll\View\VDatum.cs" />
     <Compile Include="Bll\View\VTerm.cs" />
+    <Compile Include="Bll\WX\Model\WX_AccessToken.cs" />
+    <Compile Include="Bll\WX\Model\WX_Author.cs" />
+    <Compile Include="Bll\WX\Model\WX_Command.cs" />
+    <Compile Include="Bll\WX\Model\WX_Log.cs" />
+    <Compile Include="Bll\WX\Model\WX_Message.cs" />
     <Compile Include="Bll\WX\WXCrypt.cs" />
-    <Compile Include="Bll\WX\WXLog.cs" />
     <Compile Include="Bll\WX\WXCryptMsg.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminPageController.cs" />
@@ -263,7 +267,6 @@
     <Compile Include="Bll\WX\WXApi.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\WX\WXMods.cs" />
     <Compile Include="Models\AccessToken.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />

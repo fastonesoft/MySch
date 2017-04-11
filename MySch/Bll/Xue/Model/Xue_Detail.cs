@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Model
+namespace MySch.Bll.Xue.Model
 {
-    public class XueDetail
+    public class Xue_Detail
     {
         public string biaoshima { get; set; }
         public string birth_place { get; set; }

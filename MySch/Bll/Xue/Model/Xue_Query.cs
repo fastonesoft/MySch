@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Model
+namespace MySch.Bll.Xue.Model
 {
-    public class XueQuery
+    public class Xue_Query
     {
-        public string Ku { get; set; }
+        public string XueKu { get; set; }
         public string Name { get; set; }
         public string IDC { get; set; }
         public string FromSch { get; set; }

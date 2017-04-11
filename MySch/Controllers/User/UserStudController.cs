@@ -1,9 +1,10 @@
 ﻿using MySch.Bll;
-using MySch.Bll.Action;
 using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.Model;
 using MySch.Bll.View;
+using MySch.Bll.Xue;
+using MySch.Bll.Xue.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +80,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(XueAdd entity)
+        public ActionResult AddToken(Xue_Add entity)
         {
             try
             {
@@ -399,10 +400,10 @@ namespace MySch.Controllers.User
                 {
                     var student = AutoXue.GetStudentHtml(stud.StudName, stud.IDC, cookies);
 
-                    var xues = Jsons.JsonEntity<IEnumerable<XueDetail>>(student);
+                    var xues = Jsons.JsonEntity<IEnumerable<Xue_Detail>>(student);
                     if (xues.Count() != 0)
                     {
-                        XueDetail xue = xues.First();
+                        Xue_Detail xue = xues.First();
 
                         BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.IDC == stud.IDC);
                         ins.Name1 = xue.first_guardian_name;
