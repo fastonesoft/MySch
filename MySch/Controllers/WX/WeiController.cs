@@ -94,8 +94,7 @@ namespace MySch.Controllers.WX
                             {
                                 //检查身份证，开始记录
                                 //2.数据库记录
-
-                                //1.记录session
+                                WX_Command_Rec.SaveIDC(rec.FromUserName, cmd.Name);
                                 input.IDC = true;
 
 

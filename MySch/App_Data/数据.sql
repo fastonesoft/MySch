@@ -640,14 +640,14 @@ create table Student
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(20) not null,	--学生编号
 	--报名信息记录
-	Name	nvarchar(10) not null,	--姓名
 	IDC	nvarchar(20),	--身份证号
+	Name	nvarchar(10) not null,	--姓名
+	StepIDS	nvarchar(20) not null,	--校区分级编号
 	FromSch	nvarchar(32),	--毕业小学
 	SchChoose	bit not null,	--是否择校
 	RegNo	nvarchar(32),	--考试编号
 	Reged	bit not null,	--是否注册
 	OpenID	nvarchar(32),	--用户ID
-	StepIDS	nvarchar(20) not null,	--校区分级编号
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二

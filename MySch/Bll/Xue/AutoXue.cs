@@ -1,4 +1,5 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Bll.Entity;
+using MySch.Bll.Func;
 using MySch.Bll.Model;
 using MySch.Bll.Xue.Model;
 using MySch.Dal;
@@ -24,7 +25,7 @@ namespace MySch.Bll.Xue
         /// </summary>
         /// <param name="ids"></param>
         /// <param name="openID"></param>
-        public static void Reg(string ids, string openID)
+        public static bool Reg(string ids, string openID)
         {
             try
             {
@@ -37,22 +38,33 @@ namespace MySch.Bll.Xue
                 //有数据，记录
                 if (matchs.Count != 0)
                 {
-                    Xue_Query stud = new Xue_Query();
-                    stud.XueKu = matchs[0].Groups[1].ToString();
-                    stud.Name = matchs[1].Groups[1].ToString();
-                    stud.IDC = matchs[2].Groups[1].ToString();
-                    stud.FromSch = matchs[3].Groups[1].ToString();
-                    stud.Come = matchs[6].Groups[1].ToString();
+                    var reg = new BllStudentReg();
+                    reg.Memo = matchs[0].Groups[1].ToString();
+                    reg.Name = matchs[1].Groups[1].ToString();
+                    reg.IDC = matchs[2].Groups[1].ToString();
+                    reg.FromSch = matchs[3].Groups[1].ToString();
+                    reg.StepIDS = matchs[6].Groups[1].ToString();
 
                     //设置添加条件
-                    if(stud.XueKu == "小学学籍库" && stud.Come == "2011")
+                    if (reg.Memo == "小学学籍库" && reg.StepIDS == "2011")
                     {
-                    }
+                        reg.StepIDS = "3212840201201701";
+                        reg.ToAdd();
 
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
                 }
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -97,7 +109,7 @@ namespace MySch.Bll.Xue
                 throw e;
             }
         }
-        
+
         /// <summary>
         /// 提交数据登录
         /// </summary>
@@ -184,7 +196,7 @@ namespace MySch.Bll.Xue
                 return PostCookies(postUrl, cookies, posts);
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -232,7 +244,7 @@ namespace MySch.Bll.Xue
                 return xuecookies;
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -245,7 +257,7 @@ namespace MySch.Bll.Xue
                 return MyHtml.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }

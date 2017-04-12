@@ -68,7 +68,16 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                return true;
+                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                if(db == null)
+                {
+                    db.IDC = IDC;
+                    //保存
+                    DataCRUD<Student>.Update(db);
+                    //
+                    return true;
+                }
+                return false;
             }
             catch (Exception e)
             {                
