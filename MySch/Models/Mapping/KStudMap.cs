@@ -25,7 +25,7 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.StudIDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             this.Property(t => t.Room)
                 .HasMaxLength(10);

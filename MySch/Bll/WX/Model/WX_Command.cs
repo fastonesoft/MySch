@@ -22,7 +22,7 @@ namespace MySch.Bll.WX.Model
                 Regex regex = new Regex(regs);
                 Match match = regex.Match(command);
                 //
-                return match.Success ? new WX_Command { Name = match.Groups[1].ToString() } : null;
+                return match.Success ? new WX_Command { Name = match.Groups["name"].ToString() } : null;
             }
             catch (Exception e)
             {
@@ -63,40 +63,5 @@ namespace MySch.Bll.WX.Model
                 throw e;
             }
         }
-
-        public static bool SaveIDC(string openID, string IDC)
-        {
-            try
-            {
-                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
-                if(db == null)
-                {
-                    db.IDC = IDC;
-                    //保存
-                    DataCRUD<Student>.Update(db);
-                    //
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception e)
-            {                
-                throw e;
-            }
-        }
-
-        public static bool SaveMobil(string openID, string mobil)
-        {
-            try
-            {
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-
     }
 }

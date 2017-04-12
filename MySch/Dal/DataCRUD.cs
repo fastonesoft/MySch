@@ -122,7 +122,7 @@ namespace MySch.Dal
             {
                 using (BaseContext db = new BaseContext())
                 {
-                    foreach(var entity in entitys)
+                    foreach (var entity in entitys)
                     {
                         db.Entry<TEntity>(entity).State = EntityState.Deleted;
                     }
@@ -166,6 +166,21 @@ namespace MySch.Dal
                 using (BaseContext db = new BaseContext())
                 {
                     return db.Set<TEntity>().Where(where).Max<TEntity, TResult>(max);
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("数据层：Max查询，异常！");
+            }
+        }
+
+        public static TResult Max<TResult>(Func<TEntity, TResult> max)
+        {
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    return db.Set<TEntity>().Max<TEntity, TResult>(max);
                 }
             }
             catch (Exception)

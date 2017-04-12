@@ -182,7 +182,8 @@ create unique nonclustered index UN_TStep_IDS on TStep (IDS)
 go
 
 --实验
-insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201601', '2016级', '201601', 0, 1, '3212840201', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201701', '2017级', '201701', 0, 1, '3212840201', '32128402')
+insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201601', '2016级', '201601', 0, 0, '3212840201', '32128402')
 insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201501', '2015级', '201501', 0, 0, '3212840201', '32128402')
 insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201401', '2014级', '201401', 0, 0, '3212840201', '32128402')
 insert TStep values (Lower(REPLACE(NEWID(), '-','')), '3212840201201301', '2013级', '201301', 1, 0, '3212840201', '32128402')
@@ -638,12 +639,12 @@ insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读�
 create table Student
 (
 	ID	nvarchar(32) not null,	--唯一编号
-	IDS	nvarchar(20) not null,	--学生编号
+	IDS	nvarchar(32) not null,	--学生编号
 	--报名信息记录
 	IDC	nvarchar(20),	--身份证号
 	Name	nvarchar(10) not null,	--姓名
 	StepIDS	nvarchar(20) not null,	--校区分级编号
-	FromSch	nvarchar(32),	--毕业小学
+	FromSch	nvarchar(64),	--毕业小学
 	SchChoose	bit not null,	--是否择校
 	RegNo	nvarchar(32),	--考试编号
 	Reged	bit not null,	--是否注册
@@ -680,7 +681,7 @@ create table StudGrade
 	GradeIDS	nvarchar(20) not null,
 	BanIDS	nvarchar(20) not null,
 	OldBan	nvarchar(10) not null,	--原班级编号、考场号XXYY
-	StudIDS	nvarchar(20) not null,
+	StudIDS	nvarchar(32) not null,
 	StudCode	nvarchar(20),	--学籍号
 	Choose	bit not null,	--学籍性质：是否择校生
 	ComeIDS	nvarchar(20) not null,	--学生来源
@@ -855,7 +856,7 @@ create table KStud
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
 	KaoIDS	nvarchar(20) not null,
-	StudIDS	nvarchar(20) not null,
+	StudIDS	nvarchar(32) not null,
 	Room	nvarchar(10),
 	Seat	nvarchar(10),
 	Kao	nvarchar(20),
@@ -979,7 +980,6 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 --WX
 create table AccessToken
 (
-	
 	create_time	datetime not null,
 	access_token	nvarchar(900) not null,
 	expires_in	int not null,

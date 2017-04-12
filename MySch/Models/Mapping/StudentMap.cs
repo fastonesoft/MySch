@@ -17,27 +17,27 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.IDS)
                 .IsRequired()
+                .HasMaxLength(32);
+
+            this.Property(t => t.IDC)
                 .HasMaxLength(20);
 
             this.Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(10);
 
-            this.Property(t => t.IDC)
+            this.Property(t => t.StepIDS)
+                .IsRequired()
                 .HasMaxLength(20);
 
             this.Property(t => t.FromSch)
-                .HasMaxLength(32);
+                .HasMaxLength(64);
 
             this.Property(t => t.RegNo)
                 .HasMaxLength(32);
 
             this.Property(t => t.OpenID)
                 .HasMaxLength(32);
-
-            this.Property(t => t.StepIDS)
-                .IsRequired()
-                .HasMaxLength(20);
 
             this.Property(t => t.Mobil1)
                 .HasMaxLength(20);
@@ -68,14 +68,14 @@ namespace MySch.Models.Mapping
             this.ToTable("Student");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
-            this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.IDC).HasColumnName("IDC");
+            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.StepIDS).HasColumnName("StepIDS");
             this.Property(t => t.FromSch).HasColumnName("FromSch");
             this.Property(t => t.SchChoose).HasColumnName("SchChoose");
             this.Property(t => t.RegNo).HasColumnName("RegNo");
             this.Property(t => t.Reged).HasColumnName("Reged");
             this.Property(t => t.OpenID).HasColumnName("OpenID");
-            this.Property(t => t.StepIDS).HasColumnName("StepIDS");
             this.Property(t => t.Mobil1).HasColumnName("Mobil1");
             this.Property(t => t.Mobil2).HasColumnName("Mobil2");
             this.Property(t => t.Name1).HasColumnName("Name1");

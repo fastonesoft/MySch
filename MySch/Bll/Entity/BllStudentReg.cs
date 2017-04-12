@@ -24,5 +24,7 @@ namespace MySch.Bll.Entity
         public string Memo { get; set; }
         public string AccIDS { get; set; }
         public string OpenID { get; set; }
+
+
     }
 }

@@ -18,7 +18,7 @@ namespace MySch.Bll.Func
         {
             try
             {
-                string mes = Check(ids);
+                Check(ids);
                 return new BllError { error = false, message = "身份证号检测无误！" };
             }
             catch (Exception e)
@@ -27,7 +27,7 @@ namespace MySch.Bll.Func
             }
         }
 
-        public static string Check(string ids)
+        public static void Check(string ids)
         {
             if (ids.Length != 18)
             {
@@ -70,7 +70,6 @@ namespace MySch.Bll.Func
             }
 
             //符合GB11643-1999标准
-            return string.Empty;
         }
 
     }

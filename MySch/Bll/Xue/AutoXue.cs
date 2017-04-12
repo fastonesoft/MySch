@@ -25,14 +25,18 @@ namespace MySch.Bll.Xue
         /// </summary>
         /// <param name="ids"></param>
         /// <param name="openID"></param>
-        public static bool Reg(string ids, string openID)
+        public static BllError RegIDC(string idc, string openID)
         {
             try
             {
-                var cookies = GetCookies();
-                var html = GetStudentHtml(ids, cookies);
+                //身份证检测
+                IDC.Check(idc);
 
-                Regex regx = new Regex(@"<td>([\u4e00-\u9fa5]+|\d{17}[0-9X]|\d{4})</td>");
+                //读取网页数据
+                var cookies = GetCookies();
+                var html = GetStudentHtml(idc, cookies);
+
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[0-9X]|\d{4})</td>");
                 MatchCollection matchs = regx.Matches(html);
 
                 //有数据，记录
@@ -48,24 +52,58 @@ namespace MySch.Bll.Xue
                     //设置添加条件
                     if (reg.Memo == "小学学籍库" && reg.StepIDS == "2011")
                     {
+                        reg.ID = Guid.NewGuid().ToString("N");
                         reg.StepIDS = "3212840201201701";
-                        reg.ToAdd();
+                        reg.AccIDS = "32128402";
+                        //绑定用户
+                        reg.OpenID = openID;
+                        //取最大值，没有，则为0
+                        var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
+                        int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
+                        //自增
+                        reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
 
-                        return true;
+                        reg.ToAdd();
+                        return new BllError { error = false, message = reg.Name };
                     }
                     else
                     {
-                        return false;
+                        return new BllError { error = true, message = "身份证未添加！不是小学应届毕业生。请到窗口咨询！" };
                     }
                 }
                 else
                 {
-                    return false;
+                    return new BllError { error = true, message = "身份证未添加！省学籍库无记录，请到窗口咨询！" };
                 }
             }
             catch (Exception e)
             {
-                throw e;
+                return new BllError { error = true, message = e.Message };
+            }
+        }
+
+        public static BllError RegMobil(string mobil, string openID)
+        {
+            try
+            {
+                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                if (db == null)
+                {
+                    return new BllError { error = true, message = "用户与学生信息未绑定，无法添加电话！" };
+                }
+                else
+                {
+                    //保存电话
+                    db.Mobil1 = string.IsNullOrEmpty(db.Mobil1) ? mobil : db.Mobil1;
+                    db.Mobil2 = !string.IsNullOrEmpty(db.Mobil1) && db.Mobil1 != mobil ? mobil : db.Mobil2;
+                    DataCRUD<Student>.Update(db);
+
+                    return new BllError { error = false, message = db.Name };
+                }
+            }
+            catch (Exception e)
+            {
+                return new BllError { error = true, message = e.Message };
             }
         }
 
@@ -249,11 +287,11 @@ namespace MySch.Bll.Xue
             }
         }
 
-        public static string GetStudentHtml(string ids, CookieCollection cookies)
+        public static string GetStudentHtml(string idc, CookieCollection cookies)
         {
             try
             {
-                var url = string.Format("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action?studentForm.cid={0}", ids);
+                var url = string.Format("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action?studentForm.cid={0}", idc);
                 return MyHtml.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
             }
             catch (Exception e)
@@ -262,12 +300,12 @@ namespace MySch.Bll.Xue
             }
         }
 
-        public static string GetStudentHtml(string name, string ids, CookieCollection cookies)
+        public static string GetStudentHtml(string name, string idc, CookieCollection cookies)
         {
             try
             {
                 name = HttpUtility.UrlEncode(name, Encoding.GetEncoding("GBK"));
-                var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, ids);
+                var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, idc);
                 return MyHtml.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
             }
             catch (Exception e)
@@ -375,50 +413,6 @@ namespace MySch.Bll.Xue
             }
         }
 
-        /// <summary>
-        /// 完成学生信息的绑定
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="Name"></param>
-        /// <param name="openID"></param>
-        public static void StudBinding(string Name, string ID, string openID)
-        {
-            try
-            {
-                //检测身份证号是否有效
-                IDC.IDS(ID);
-
-                var db = DataCRUD<Student>.Entity(a => a.IDS == ID && a.Name == Name && string.IsNullOrEmpty(a.OpenID));
-                if (db == null) throw new Exception("学生姓名与身份证号不匹配，或者已经完成登记");
-
-                //找到对应学生，绑定
-                db.OpenID = openID;
-
-                //提交更新
-                DataCRUD<Student>.Update(db);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        /// <summary>
-        /// 检测ID是否绑定学生
-        /// </summary>
-        /// <param name="openID">ID</param>
-        /// <returns></returns>
-        public static bool Binding(string openID)
-        {
-            //ID为空，则没有绑定
-            if (string.IsNullOrEmpty(openID)) return false;
-
-            //检测是否存在ID记录
-            var db = DataCRUD<Student>.Entitys(a => a.OpenID == openID);
-
-            //有记录，说明已绑定
-            return db.Count() > 0;
-        }
-
+   
     }
 }

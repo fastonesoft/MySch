@@ -2,6 +2,9 @@
 using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.WX;
+using MySch.Bll.Xue;
+using MySch.Dal;
+using MySch.Models;
 using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
@@ -55,6 +58,56 @@ namespace MySch.Controllers.Account
             //    "http://58.213.155.172/uids/login!login.action",
             //    "http://58.213.155.172/studman2/studman/stud_report/preStudentReportNewAct.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP"));
 
+
+            ////身份证检测
+            //IDC.Check("321284200508150254");
+
+            ////读取网页数据
+            //var cookies = AutoXue.GetCookies();
+            //var html = AutoXue.GetStudentHtml("321284200508150254", cookies);
+
+            //Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[0-9X]|\d{4})</td>");
+            //MatchCollection matchs = regx.Matches(html);
+
+            ////有数据，记录
+            //if (matchs.Count != 0)
+            //{
+            //    var reg = new BllStudentReg();
+            //    reg.Memo = matchs[0].Groups[1].ToString();
+            //    reg.Name = matchs[1].Groups[1].ToString();
+            //    reg.IDC = matchs[2].Groups[1].ToString();
+            //    reg.FromSch = matchs[3].Groups[1].ToString();
+            //    reg.StepIDS = matchs[6].Groups[1].ToString();
+
+            //    //设置添加条件
+            //    if (reg.Memo == "小学学籍库" && reg.StepIDS == "2011")
+            //    {
+            //        reg.ID = Guid.NewGuid().ToString("N");
+            //        reg.StepIDS = "3212840201201701";
+            //        reg.AccIDS = "32128402";
+            //        //绑定用户
+            //        reg.OpenID = "asdf";
+            //        //取最大值，没有，则为0
+            //        var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
+            //        int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
+            //        //自增
+            //        reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
+
+            //        reg.ToAdd();
+            //        return Json(new BllError { error = false, message = reg.Name },JsonRequestBehavior.AllowGet);
+            //    }
+            //    else
+            //    {
+            //        return Json(new BllError { error = true, message = "身份证未添加！不是小学应届毕业生。请到窗口咨询！" }, JsonRequestBehavior.AllowGet);
+            //    }
+            //}
+            //else
+            //{
+            //    return Json(new BllError { error = true, message = "身份证未添加！省学籍库无记录，请到窗口咨询！" }, JsonRequestBehavior.AllowGet);
+            //}
+
+
+
             return View();
         }
 
@@ -100,7 +153,7 @@ namespace MySch.Controllers.Account
                     pwd = BllLogin.Password(acc.IDS, pwd);
                     pwd = BllLogin.Repassword(acc.ID, pwd);
                     if (pwd == acc.Pwd)
-                    {                        
+                    {
                         //登录成功：记录，并，退出
                         BllLogin.SaveLog(Session, Request, acc, "登录成功", true);
                         return Json(new BllError { error = false, message = string.Format("用户：{0}成功登录！", acc.IDS) });

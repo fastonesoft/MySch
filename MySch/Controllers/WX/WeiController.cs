@@ -78,7 +78,7 @@ namespace MySch.Controllers.WX
 
 
                         //正则抓取身份证号、手机号
-                        WX_Command cmd = WX_Command.GetCommand(@"^\s*(\d{17}[0-9X])\s*$|^(1(3[0-9]|4[57]|5[0-35-9]|7[6-8]|8[0-9])\d{8})$", content);
+                        WX_Command cmd = WX_Command.GetCommand(@"\s*(?<name>\d{17}[0-9X])\s*|\s*(?<name>1(3[0-9]|4[57]|5[0-35-9]|7[6-8]|8[0-9])\d{8})\s*", content);
 
                         //命令行解析：出错，给出提示
                         if (cmd == null)
@@ -93,24 +93,25 @@ namespace MySch.Controllers.WX
                             if (input.IDC == false)
                             {
                                 //检查身份证，开始记录
-                                //2.数据库记录
-                                WX_Command_Rec.SaveIDC(rec.FromUserName, cmd.Name);
-                                input.IDC = true;
-
+                                var error = AutoXue.RegIDC(cmd.Name, rec.FromUserName);
+                                if (error.error)
+                                {
+                                    //返回出错信息
+                                    var etext = new WX_Send_Text(rec, error.message);
+                                    return etext.ToXml(author);
+                                }
 
                                 //准备回复消息
                                 var epic = new WX_Send_Pic(rec);
                                 epic.Add("报名步骤【一】", "", "", "");
-                                epic.Add("　　石亮同学，你的身份证已记录，请执行步骤二，输入家长的手机号码", "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
+                                epic.Add(string.Format("　　{0} 同学，你的身份证已记录，请执行步骤二，输入家长的手机号码", error.message), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
                                 return epic.ToXml(author);
                             }
                             else
                             {
                                 //提醒身份证只能绑定一个
-                                var epic = new WX_Send_Pic(rec);
-                                epic.Add("报名步骤【一】", "", "", "");
-                                epic.Add("　　注意：一个微信号只能绑定一个身份证，请执行步骤二，输入家长的手机号码", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
-                                return epic.ToXml(author);
+                                var etext = new WX_Send_Text(rec, "注意：一个微信号只能绑定一个身份证");
+                                return etext.ToXml(author);
                             }
                         }
                         else
@@ -128,18 +129,21 @@ namespace MySch.Controllers.WX
                             {
                                 //身份证已记录，开始记录电话
                                 //如果电话一已记录，记录电话二
+                                var error = AutoXue.RegMobil(cmd.Name, rec.FromUserName);
+                                if (error.error)
+                                {
+                                    //返回出错信息
+                                    var etext = new WX_Send_Text(rec, error.message);
+                                    return etext.ToXml(author);
+                                }
+
+                                //准备回复消息
+                                var epic = new WX_Send_Pic(rec);
+                                epic.Add("报名步骤【二】", "", "", "");
+                                epic.Add(string.Format("　　{0} 同学，你的手机号码已记录，请执行步骤三，从正上方清晰地拍摄报名所需的原件照片上传，不得少于三张", error.message), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
+                                return epic.ToXml(author);
                             }
                         }
-
-                        //命令行解析：正确，报名
-                        //string gd = MyWxApi.StudReg(cmd2.Name, cmd2.Value, rec.FromUserName);
-                        string gd = cmd.Name;
-
-                        //正确：返回二维码
-                        var pic = new WX_Send_Pic(rec);
-                        pic.Add("石亮同学", "　　你的报名信息已记录，请点击“＋”，选择“拍摄”，从正上方清晰地拍摄【毕业证、户口簿、房产证】等原件证照，完善报名信息，然后携带手机到报名窗口出示条形码，审核相关报名资料！", "http://a.jysycz.cn/code?content=" + gd + "&r=" + DateTime.Now.Ticks.ToString(), "");
-                        return pic.ToXml(author);
-
                     //图片
                     case "image":
 
@@ -169,7 +173,7 @@ namespace MySch.Controllers.WX
             }
             catch
             {
-                return "";                   
+                return "";
             }
         }
 
