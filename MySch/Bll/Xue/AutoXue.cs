@@ -32,6 +32,24 @@ namespace MySch.Bll.Xue
                 //身份证检测
                 IDC.Check(idc);
 
+                //检查自身
+                if (DataCRUD<Student>.Count(a => a.OpenID == openID && a.IDC == idc) == 1)
+                {
+                    return new BllError { error = true, message = "已完成学生与帐号的绑定，无需重复操作" };
+                }
+
+                //身份证，查询，是否已注册
+                if (DataCRUD<Student>.Count(a => a.OpenID != openID && a.IDC == idc) > 0)
+                {
+                    return new BllError { error = true, message = "身份证号：该身份证号的学生已注册！" };
+                }
+
+                //这里条件是，身份证没有记录过的，给出的提示
+                if (DataCRUD<Student>.Count(a => a.OpenID == openID) > 0)
+                {
+                    return new BllError { error = true, message = "注意：一个微信号只能绑定一个身份证" };
+                }
+
                 //读取网页数据
                 var cookies = GetCookies();
                 var html = GetStudentHtml(idc, cookies);
@@ -105,6 +123,11 @@ namespace MySch.Bll.Xue
             {
                 return new BllError { error = true, message = e.Message };
             }
+        }
+
+        public static BllError RegImage()
+        {
+            return new BllError { error = true, message = "" };
         }
 
         /// <summary>
@@ -413,6 +436,6 @@ namespace MySch.Bll.Xue
             }
         }
 
-   
+
     }
 }

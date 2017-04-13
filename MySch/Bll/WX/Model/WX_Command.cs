@@ -52,9 +52,9 @@ namespace MySch.Bll.WX.Model
                 {
                     return new WX_Command_Rec
                     {
-                        IDC = db.IDC != null,
-                        Mobil1 = db.Mobil1 != null,
-                        Mobil2 = db.Mobil2 != null,
+                        IDC = !string.IsNullOrEmpty(db.IDC),
+                        Mobil1 = !string.IsNullOrEmpty(db.Mobil1),
+                        Mobil2 = !string.IsNullOrEmpty(db.Mobil2),
                     };
                 }
             }
