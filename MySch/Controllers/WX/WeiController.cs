@@ -68,7 +68,7 @@ namespace MySch.Controllers.WX
                     case "text":
                         string content = rec.XmlElement("Content").ToUpper();
 
-                    //正则抓取身份证号、手机号
+                        //正则抓取身份证号、手机号
                         WX_Command cmd = WX_Command.GetCommand(@"\s*(?<name>\d{17}[0-9X])\s*|\s*(?<name>1(3[0-9]|4[57]|5[0-35-9]|7[6-8]|8[0-9])\d{8})\s*", content);
 
                         //命令行解析：出错，给出提示
@@ -90,7 +90,7 @@ namespace MySch.Controllers.WX
                             }
 
                             //准备回复消息
-                            var epic = new WX_Send_Pic(rec);
+                            var epic = new WX_Send_News(rec);
                             epic.Add("报名步骤【一】", "", "", "");
                             epic.Add(string.Format("　　{0} 同学，你的身份证已记录，请执行步骤二，输入家长的手机号码", error.message), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
                             return epic.ToXml(author);
@@ -101,7 +101,7 @@ namespace MySch.Controllers.WX
                             if (input.IDC == false)
                             {
                                 //检查身份证号，提醒输入
-                                var epic = new WX_Send_Pic(rec);
+                                var epic = new WX_Send_News(rec);
                                 epic.Add("报名步骤【一】", "", "", "");
                                 epic.Add("　　在最下方输入学生的身份证号，发送", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
                                 return epic.ToXml(author);
@@ -119,7 +119,7 @@ namespace MySch.Controllers.WX
                                 }
 
                                 //准备回复消息
-                                var epic = new WX_Send_Pic(rec);
+                                var epic = new WX_Send_News(rec);
                                 epic.Add("报名步骤【二】", "", "", "");
                                 epic.Add(string.Format("　　{0} 同学，你的手机号码已记录，请执行步骤三，从正上方清晰地拍摄报名所需的原件照片上传，不得少于三张", error.message), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
                                 return epic.ToXml(author);
@@ -127,13 +127,18 @@ namespace MySch.Controllers.WX
                         }
                     //图片
                     case "image":
-
+                        //var media = rec.XmlElement("MediaId");
+                        //var image = new WX_Send_Image(rec, media);
+                        //return image.ToXml(author);
+                        var picurl = rec.XmlElement("PicUrl");
+                        var mtext = new WX_Send_Text(rec, picurl);
+                        return mtext.ToXml(author);
                     //事件
                     case "event":
                         //关注类型subscribe
                         if (rec.XmlElement("Event") == "subscribe")
                         {
-                            var epic = new WX_Send_Pic(rec);
+                            var epic = new WX_Send_News(rec);
                             epic.Add("校务在线 - 报名步骤", "", "", "");
                             epic.Add("【一】在最下方输入学生的身份证号，发送", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
                             epic.Add("【二】然后输入家长的手机号码一个，发送", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");

@@ -20,6 +20,7 @@ namespace MySch.Bll.WX.Model
     public class WX_Rec_Base : WX_Message_Base
     {
         private XmlElement _element;
+        public long MsgId { get; set; }
 
         public WX_Rec_Base()
         {
@@ -79,6 +80,7 @@ namespace MySch.Bll.WX.Model
                 this.ToUserName = XmlElement("ToUserName");
                 this.CreateTime = int.Parse(XmlElement("CreateTime"));
                 this.MsgType = XmlElement("MsgType");
+                this.MsgId = long.Parse(XmlElement("MsgId"));
             }
             catch (Exception e)
             {
@@ -216,6 +218,7 @@ namespace MySch.Bll.WX.Model
         public WX_Send_Text(WX_Rec_Base rec, string content)
         {
             this.MsgType = "text";
+            //源、目标，反转
             this.FromUserName = rec.ToUserName;
             this.ToUserName = rec.FromUserName;
             //
@@ -233,11 +236,36 @@ namespace MySch.Bll.WX.Model
         }
     }
 
+    public class WX_Send_Image : WX_Send_Base
+    {
+        public string MediaId { get; set; }
+        public WX_Send_Image(WX_Rec_Base rec, string mediaId)
+        {
+            this.MsgType = "image";
+            //源、目标，反转
+            this.FromUserName = rec.ToUserName;
+            this.ToUserName = rec.FromUserName;
+            //
+            this.MediaId = mediaId;
+        }
+        public override string ToXml(string con)
+        {
+            //基本数据
+            string xml = base.ToXml("{0}");
+            //新增属性
+            xml += "<Image>";
+            xml += string.Format("<MediaId><![CDATA[{0}]]></MediaId>", MediaId);
+            xml += "</Image>";
+            //
+            return string.Format(con, xml);
+        }
+    }
+
 
     /// <summary>
     /// 单一图文描述
     /// </summary>
-    public class WX_Send_Pic_Item
+    public class WX_Send_News_Item
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -248,29 +276,30 @@ namespace MySch.Bll.WX.Model
     /// <summary>
     /// 图文消息发送
     /// </summary>
-    public class WX_Send_Pic : WX_Send_Base
+    public class WX_Send_News : WX_Send_Base
     {
-        List<WX_Send_Pic_Item> _Items = new List<WX_Send_Pic_Item>();
+        List<WX_Send_News_Item> _Items = new List<WX_Send_News_Item>();
 
-        public WX_Send_Pic(WX_Rec_Base rec)
+        public WX_Send_News(WX_Rec_Base rec)
         {
             this.MsgType = "news";
+            //源、目标，反转
             this.FromUserName = rec.ToUserName;
             this.ToUserName = rec.FromUserName;
         }
 
         public void Add(string title, string description, string picurl, string url)
         {
-            var item = new WX_Send_Pic_Item { Title = title, Description = description, PicUrl = picurl, Url = url };
+            var item = new WX_Send_News_Item { Title = title, Description = description, PicUrl = picurl, Url = url };
             Add(item);
         }
 
-        public void Add(WX_Send_Pic_Item picItem)
+        public void Add(WX_Send_News_Item picItem)
         {
             _Items.Add(picItem);
         }
 
-        public void Adds(List<WX_Send_Pic_Item> items)
+        public void Adds(List<WX_Send_News_Item> items)
         {
             _Items = items;
         }
