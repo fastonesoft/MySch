@@ -49,6 +49,7 @@ namespace MySch.Models
         public DbSet<TSub> TSubs { get; set; }
         public DbSet<TTerm> TTerms { get; set; }
         public DbSet<TYear> TYears { get; set; }
+        public DbSet<UploadFile> UploadFiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -85,6 +86,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TSubMap());
             modelBuilder.Configurations.Add(new TTermMap());
             modelBuilder.Configurations.Add(new TYearMap());
+            modelBuilder.Configurations.Add(new UploadFileMap());
         }
     }
 }

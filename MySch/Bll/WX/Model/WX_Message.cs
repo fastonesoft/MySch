@@ -20,7 +20,6 @@ namespace MySch.Bll.WX.Model
     public class WX_Rec_Base : WX_Message_Base
     {
         private XmlElement _element;
-        public long MsgId { get; set; }
 
         public WX_Rec_Base()
         {
@@ -80,6 +79,22 @@ namespace MySch.Bll.WX.Model
                 this.ToUserName = XmlElement("ToUserName");
                 this.CreateTime = int.Parse(XmlElement("CreateTime"));
                 this.MsgType = XmlElement("MsgType");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+    }
+
+    public class WX_Rec_Normal: WX_Rec_Base
+    {
+        public long MsgId { get; set; }
+        public override void XmlToObj()
+        {
+            try
+            {
+                base.XmlToObj();
                 this.MsgId = long.Parse(XmlElement("MsgId"));
             }
             catch (Exception e)
@@ -92,7 +107,7 @@ namespace MySch.Bll.WX.Model
     /// <summary>
     /// 文本消息接收类
     /// </summary>
-    public class WX_Rec_Text : WX_Rec_Base
+    public class WX_Rec_Text : WX_Rec_Normal
     {
         public string Content { get; set; }
 
@@ -113,7 +128,7 @@ namespace MySch.Bll.WX.Model
     /// <summary>
     /// 图片消息接收类
     /// </summary>
-    public class WX_Rec_Image : WX_Rec_Base
+    public class WX_Rec_Image : WX_Rec_Normal
     {
         public string PicUrl { get; set; }
         public string MediaId { get; set; }

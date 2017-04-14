@@ -61,7 +61,6 @@ namespace MySch.Controllers.WX
                 //输入检测
                 var input = WX_Command_Rec.GetFromOpenID(rec.FromUserName);
 
-
                 switch (rec.MsgType.ToLower())
                 {
                     //文本
@@ -131,8 +130,36 @@ namespace MySch.Controllers.WX
                         //var image = new WX_Send_Image(rec, media);
                         //return image.ToXml(author);
                         var picurl = rec.XmlElement("PicUrl");
-                        var mtext = new WX_Send_Text(rec, picurl);
-                        return mtext.ToXml(author);
+                        //下载图片
+                        var sname = string.Empty;
+                        var sidc = string.Empty;
+                        var errorimage = AutoXue.RegImage(picurl, rec.FromUserName, out sname, out sidc);
+
+                        if (errorimage.error)
+                        {
+                            //出错
+                            var etext = new WX_Send_Text(rec, errorimage.message);
+                            return etext.ToXml(author);
+                        }
+                        else
+                        {
+                            //不错，3张的时候，提示二维码，多了不再提示
+                            if (int.Parse(errorimage.message) == 3)
+                            {
+                                //二维码
+                                var epic = new WX_Send_News(rec);
+                                epic.Add(string.Format("{0} 同学", sname), "　　请携带手机和毕业证、户口簿、房产证等原件到报名窗口，出示条形码审核", string.Format("http://a.jysycz.cn/code?content={0}&r={1}", sidc, (new Random()).NextDouble().ToString()), "");
+                                return epic.ToXml(author);
+                            }
+                            else
+                            {
+                                //提示
+                                var mtext = new WX_Send_Text(rec, string.Format("您已上传了 {0} 张图片", errorimage.message));
+                                return mtext.ToXml(author);
+                            }
+                        }
+
+
                     //事件
                     case "event":
                         //关注类型subscribe
@@ -150,6 +177,7 @@ namespace MySch.Controllers.WX
                         {
                             return "";
                         }
+
                     //if (even.Event == "unsubscribe")
                     //if (even.Event == "SCAN")
                     default:
@@ -180,20 +208,6 @@ namespace MySch.Controllers.WX
         {
             var fileName = "~/Images/" + name + ".jpg";
             XingCode.CodeOutputStream(fileName);
-        }
-
-
-        //测试
-        public ActionResult Test()
-        {
-            var cookies = AutoXue.GetCookies();
-            var html = AutoXue.GetStudentHtml("321284200508150254", cookies);
-            return Content(html);
-        }
-
-        public ActionResult Ht()
-        {
-            return View();
         }
 
     }

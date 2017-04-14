@@ -987,5 +987,17 @@ create table AccessToken
 go
 alter table AccessToken add constraint PK_AccessToken primary key clustered (create_time)
 
+create table UploadFile
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	FileType	nvarchar(10) not null,
+	UploadType	nvarchar(10) not null,
+	CreateTime	datetime not null,
+	Author	nvarchar(32) not null,
+	Memo	nvarchar(32),
+)
+alter table UploadFile add constraint PK_UploadFile primary key clustered (ID)
+go
 
 

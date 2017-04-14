@@ -314,6 +314,7 @@
     <Compile Include="Models\Mapping\TSubMap.cs" />
     <Compile Include="Models\Mapping\TTermMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
+    <Compile Include="Models\Mapping\UploadFileMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\StudCome.cs" />
     <Compile Include="Models\Student.cs" />
@@ -335,6 +336,7 @@
     <Compile Include="Models\TSub.cs" />
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
+    <Compile Include="Models\UploadFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -706,7 +708,6 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
     <Content Include="Views\Wei\Index.cshtml" />
-    <Content Include="Views\Wei\Ht.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

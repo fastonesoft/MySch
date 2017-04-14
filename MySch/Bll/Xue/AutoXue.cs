@@ -111,6 +111,11 @@ namespace MySch.Bll.Xue
                 }
                 else
                 {
+                    //如果两个电话都有了，提示
+                    if (!string.IsNullOrEmpty(db.Mobil1) && !string.IsNullOrEmpty(db.Mobil2))
+                    {
+                        return new BllError { error = true, message = "只要提交两个联系电话" };
+                    }
                     //保存电话
                     db.Mobil1 = string.IsNullOrEmpty(db.Mobil1) ? mobil : db.Mobil1;
                     db.Mobil2 = !string.IsNullOrEmpty(db.Mobil1) && db.Mobil1 != mobil ? mobil : db.Mobil2;
@@ -125,9 +130,45 @@ namespace MySch.Bll.Xue
             }
         }
 
-        public static BllError RegImage()
+        public static BllError RegImage(string imageUrl, string openID, out string  name, out string idc)
         {
-            return new BllError { error = true, message = "" };
+            try
+            {
+                var web = new WebClient();
+                var fileName = Guid.NewGuid().ToString("N");
+                var fileType = "jpg";
+                var filePath = HttpContext.Current.Server.MapPath(string.Format("~/Upload/XueImages/{0}.{1}", fileName, fileType));
+                web.DownloadFile(imageUrl, filePath);
+
+                //根据openID读取学生编号
+                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+
+                //下载成功,记录
+                var upload = new UploadFile
+                {
+                    ID = fileName,
+                    IDS = db.IDS,
+                    FileType = fileType,
+                    UploadType = "WX",
+                    CreateTime = DateTime.Now,
+                    Author = openID,
+                };
+                DataCRUD<UploadFile>.Add(upload);
+
+                //统计该用户上传的图片数量
+                var count = DataCRUD<UploadFile>.Count(a => a.Author == openID);
+
+                //返回
+                name = db.Name;
+                idc = db.IDC;
+                return new BllError { error = false, message = count.ToString() };
+            }
+            catch (Exception e)
+            {
+                name = string.Empty;
+                idc = string.Empty;
+                return new BllError { error = true, message = e.Message };
+            }
         }
 
         /// <summary>

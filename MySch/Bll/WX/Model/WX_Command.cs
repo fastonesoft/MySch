@@ -46,7 +46,12 @@ namespace MySch.Bll.WX.Model
                 var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
                 if (db == null)
                 {
-                    return new WX_Command_Rec { IDC = false, Mobil1 = false, Mobil2 = false };
+                    return new WX_Command_Rec
+                    {
+                        IDC = false,
+                        Mobil1 = false,
+                        Mobil2 = false
+                    };
                 }
                 else
                 {
