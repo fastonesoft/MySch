@@ -68,7 +68,7 @@ namespace MySch.Controllers.WX
                         string content = rec.XmlElement("Content").ToUpper();
 
                         //正则抓取身份证号、手机号
-                        WX_Command cmd = WX_Command.GetCommand(@"\s*(?<name>\d{17}[0-9X])\s*|\s*(?<name>1(3[0-9]|4[57]|5[0-35-9]|7[6-8]|8[0-9])\d{8})\s*", content);
+                        WX_Command cmd = WX_Command.GetCommand(@"^(?<name>\d{17}[0-9X])$|^(?<name>1(3[0-9]|4[57]|5[0-35-9]|7[6-8]|8[0-9])\d{8})$", content);
 
                         //命令行解析：出错，给出提示
                         if (cmd == null)
@@ -126,9 +126,6 @@ namespace MySch.Controllers.WX
                         }
                     //图片
                     case "image":
-                        //var media = rec.XmlElement("MediaId");
-                        //var image = new WX_Send_Image(rec, media);
-                        //return image.ToXml(author);
                         var picurl = rec.XmlElement("PicUrl");
                         //下载图片
                         var sname = string.Empty;
