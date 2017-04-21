@@ -35,8 +35,7 @@ namespace MySch.Bll.WX.Model
     public class WX_Command_Rec
     {
         public bool IDC { get; set; }
-        public bool Mobil1 { get; set; }
-        public bool Mobil2 { get; set; }
+        public int Mobil { get; set; }
 
         public static WX_Command_Rec GetFromOpenID(string openID)
         {
@@ -49,8 +48,7 @@ namespace MySch.Bll.WX.Model
                     return new WX_Command_Rec
                     {
                         IDC = false,
-                        Mobil1 = false,
-                        Mobil2 = false
+                        Mobil = 0,
                     };
                 }
                 else
@@ -58,8 +56,7 @@ namespace MySch.Bll.WX.Model
                     return new WX_Command_Rec
                     {
                         IDC = !string.IsNullOrEmpty(db.IDC),
-                        Mobil1 = !string.IsNullOrEmpty(db.Mobil1),
-                        Mobil2 = !string.IsNullOrEmpty(db.Mobil2),
+                        Mobil = Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil1)) + Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil2)),
                     };
                 }
             }

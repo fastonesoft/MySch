@@ -91,7 +91,7 @@ namespace MySch.Controllers.WX
                             //准备回复消息
                             var epic = new WX_Send_News(rec);
                             epic.Add("报名步骤【一】", "", "", "");
-                            epic.Add(string.Format("　　{0} 同学，你的身份证已记录，请执行步骤二，输入家长的手机号码", error.message), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
+                            epic.Add(string.Format("　　{0}，你的身份证号已保存，请执行步骤二，输入家长的手机号码", error.message), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
                             return epic.ToXml(author);
                         }
                         else
@@ -109,7 +109,8 @@ namespace MySch.Controllers.WX
                             {
                                 //身份证已记录，开始记录电话
                                 //如果电话一已记录，记录电话二
-                                var error = AutoXue.RegMobil(cmd.Name, rec.FromUserName);
+                                int count = 0;
+                                var error = AutoXue.RegMobil(cmd.Name, rec.FromUserName, out count);
                                 if (error.error)
                                 {
                                     //返回出错信息
@@ -120,43 +121,53 @@ namespace MySch.Controllers.WX
                                 //准备回复消息
                                 var epic = new WX_Send_News(rec);
                                 epic.Add("报名步骤【二】", "", "", "");
-                                epic.Add(string.Format("　　{0} 同学，你的手机号码已记录，请执行步骤三，从正上方清晰地拍摄报名所需的原件照片上传，不得少于三张", error.message), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
+                                epic.Add(string.Format("　　{0}，你已提交{1}个号码，如果还有，请重复步骤二，最多保存两个！\n　　保存完毕，执行步骤三，从正上方清晰地拍摄报名原件照片并上传，不得少于三张！", error.message, count), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
                                 return epic.ToXml(author);
                             }
                         }
                     //图片
                     case "image":
-                        var picurl = rec.XmlElement("PicUrl");
-                        //下载图片
-                        var sname = string.Empty;
-                        var sidc = string.Empty;
-                        var errorimage = AutoXue.RegImage(picurl, rec.FromUserName, out sname, out sidc);
+                        if (input.IDC && input.Mobil >= 1)
+                        {
+                            //条件：身份证与绑定，并添加了联系电话，才能上传照片
+                            var picurl = rec.XmlElement("PicUrl");
+                            //下载图片
+                            var sname = string.Empty;
+                            var sidc = string.Empty;
+                            var errorimage = AutoXue.RegImage(picurl, rec.FromUserName, out sname, out sidc);
 
-                        if (errorimage.error)
-                        {
-                            //出错
-                            var etext = new WX_Send_Text(rec, errorimage.message);
-                            return etext.ToXml(author);
-                        }
-                        else
-                        {
-                            //不错，3张的时候，提示二维码，多了不再提示
-                            if (int.Parse(errorimage.message) == 3)
+                            if (errorimage.error)
                             {
-                                //二维码
-                                var epic = new WX_Send_News(rec);
-                                epic.Add(string.Format("{0} 同学", sname), "　　请携带手机和毕业证、户口簿、房产证等原件到报名窗口，出示条形码审核", string.Format("http://a.jysycz.cn/code?content={0}&r={1}", sidc, (new Random()).NextDouble().ToString()), "");
-                                return epic.ToXml(author);
+                                //出错
+                                var etext = new WX_Send_Text(rec, errorimage.message);
+                                return etext.ToXml(author);
                             }
                             else
                             {
-                                //提示
-                                var mtext = new WX_Send_Text(rec, string.Format("您已上传了 {0} 张图片", errorimage.message));
-                                return mtext.ToXml(author);
+                                //
+                                //不错，3张的时候，提示二维码，多了不再提示
+                                if (int.Parse(errorimage.message) % 4 == 0)
+                                {
+                                    //二维码
+                                    var epic = new WX_Send_News(rec);
+                                    epic.Add("报名步骤【四】", string.Format("{0}：\n　　照片没有上传结束，请重复步骤三\n　　原件照片全部上传，请携带手机和毕业证、户口簿、房产证等原件到报名窗口，出示条形码审核", sname), string.Format("http://a.jysycz.cn/code?content={0}&r={1}", sidc, (new Random()).NextDouble().ToString()), "");
+                                    return epic.ToXml(author);
+                                }
+                                else
+                                {
+                                    //提示
+                                    //var mtext = new WX_Send_Text(rec, string.Format("您已上传了 {0} 张图片", errorimage.message));
+                                    //return mtext.ToXml(author);
+                                    return "";
+                                }
                             }
                         }
-
-
+                        else
+                        {
+                            //提示
+                            var mtext = new WX_Send_Text(rec, "注意：只有在输入学生身份证号及联系电话以后，上传的照片才有效");
+                            return mtext.ToXml(author);
+                        }
                     //事件
                     case "event":
                         //关注类型subscribe

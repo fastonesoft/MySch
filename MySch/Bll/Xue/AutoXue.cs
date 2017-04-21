@@ -100,13 +100,14 @@ namespace MySch.Bll.Xue
             }
         }
 
-        public static BllError RegMobil(string mobil, string openID)
+        public static BllError RegMobil(string mobil, string openID, out int count)
         {
             try
             {
                 var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
                 if (db == null)
                 {
+                    count = 0;
                     return new BllError { error = true, message = "用户与学生信息未绑定，无法添加电话！" };
                 }
                 else
@@ -114,23 +115,28 @@ namespace MySch.Bll.Xue
                     //如果两个电话都有了，提示
                     if (!string.IsNullOrEmpty(db.Mobil1) && !string.IsNullOrEmpty(db.Mobil2))
                     {
+                        count = 2;
                         return new BllError { error = true, message = "只要提交两个联系电话" };
                     }
+
                     //保存电话
                     db.Mobil1 = string.IsNullOrEmpty(db.Mobil1) ? mobil : db.Mobil1;
                     db.Mobil2 = !string.IsNullOrEmpty(db.Mobil1) && db.Mobil1 != mobil ? mobil : db.Mobil2;
                     DataCRUD<Student>.Update(db);
 
+                    //电话数
+                    count = Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil1)) + Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil2));
                     return new BllError { error = false, message = db.Name };
                 }
             }
             catch (Exception e)
             {
+                count = 0;
                 return new BllError { error = true, message = e.Message };
             }
         }
 
-        public static BllError RegImage(string imageUrl, string openID, out string  name, out string idc)
+        public static BllError RegImage(string imageUrl, string openID, out string name, out string idc)
         {
             try
             {
