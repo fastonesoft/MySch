@@ -35,6 +35,7 @@ namespace MySch.Bll.WX.Model
     public class WX_Command_Rec
     {
         public bool IDC { get; set; }
+        public int Image { get; set; }
         public int Mobil { get; set; }
 
         public static WX_Command_Rec GetFromOpenID(string openID)
@@ -49,6 +50,7 @@ namespace MySch.Bll.WX.Model
                     {
                         IDC = false,
                         Mobil = 0,
+                        Image = 0,
                     };
                 }
                 else
@@ -57,6 +59,7 @@ namespace MySch.Bll.WX.Model
                     {
                         IDC = !string.IsNullOrEmpty(db.IDC),
                         Mobil = Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil1)) + Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil2)),
+                        Image = DataCRUD<UploadFile>.Count(a => a.Author == openID),
                     };
                 }
             }

@@ -118,15 +118,27 @@ namespace MySch.Controllers.WX
                                     return etext.ToXml(author);
                                 }
 
-                                //准备回复消息
-                                var epic = new WX_Send_News(rec);
-                                epic.Add("报名步骤【二】", "", "", "");
-                                epic.Add(string.Format("　　{0}，你已提交{1}个号码，如果还有，请重复步骤二，最多保存两个！\n　　保存完毕，执行步骤三，从正上方清晰地拍摄报名原件照片并上传，不得少于三张！", error.message, count), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
-                                return epic.ToXml(author);
+                                if (input.Image == 0)
+                                {
+                                    //准备回复消息
+                                    var epic = new WX_Send_News(rec);
+                                    epic.Add("报名步骤【二】", "", "", "");
+                                    epic.Add(string.Format("　　{0}，你已提交{1}个号码，如果还有，请重复步骤二，最多保存两个！\n　　保存完毕，执行步骤三，从正上方清晰地拍摄报名原件照片并上传，不得少于三张！", error.message, count), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
+                                    return epic.ToXml(author);
+                                }
+                                else
+                                {
+                                    //如果已经上传过图片，就不要提示了
+                                    return "";
+                                }
                             }
                         }
+
                     //图片
                     case "image":
+                        //TODO：审核成功，不必再上传图片
+
+
                         if (input.IDC && input.Mobil >= 1)
                         {
                             //条件：身份证与绑定，并添加了联系电话，才能上传照片
@@ -134,7 +146,8 @@ namespace MySch.Controllers.WX
                             //下载图片
                             var sname = string.Empty;
                             var sidc = string.Empty;
-                            var errorimage = AutoXue.RegImage(picurl, rec.FromUserName, out sname, out sidc);
+                            var sid = string.Empty;
+                            var errorimage = AutoXue.RegImage(picurl, rec.FromUserName, out sname, out sidc, out sid);
 
                             if (errorimage.error)
                             {
@@ -144,13 +157,12 @@ namespace MySch.Controllers.WX
                             }
                             else
                             {
-                                //
                                 //不错，3张的时候，提示二维码，多了不再提示
                                 if (int.Parse(errorimage.message) % 4 == 0)
                                 {
                                     //二维码
                                     var epic = new WX_Send_News(rec);
-                                    epic.Add("报名步骤【四】", string.Format("{0}：\n　　照片没有上传结束，请重复步骤三\n　　原件照片全部上传，请携带手机和毕业证、户口簿、房产证等原件到报名窗口，出示条形码审核", sname), string.Format("http://a.jysycz.cn/code?content={0}&r={1}", sidc, (new Random()).NextDouble().ToString()), "");
+                                    epic.Add("报名步骤【四】", string.Format("{0}：\n　　如果照片没有上传结束，请重复步骤三\n　　原件照片已经全部上传，请携带手机和毕业证、户口簿、房产证等原件到报名窗口，出示条形码审核", sname), string.Format("http://a.jysycz.cn/code?content={0}&r={1}", sidc, (new Random()).NextDouble().ToString()), "");
                                     return epic.ToXml(author);
                                 }
                                 else
@@ -158,7 +170,20 @@ namespace MySch.Controllers.WX
                                     //提示
                                     //var mtext = new WX_Send_Text(rec, string.Format("您已上传了 {0} 张图片", errorimage.message));
                                     //return mtext.ToXml(author);
-                                    return "";
+                                    if (int.Parse(errorimage.message) > 4)
+                                    {
+                                        var epic = new WX_Send_News(rec);
+                                        epic.Add("提示", "", "", "");
+                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
+                                        return epic.ToXml(author);
+                                    }
+                                    else
+                                    {
+                                        var epic = new WX_Send_News(rec);
+                                        epic.Add("报名步骤【三】", "", "", "");
+                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
+                                        return epic.ToXml(author);
+                                    }
                                 }
                             }
                         }
@@ -215,6 +240,19 @@ namespace MySch.Controllers.WX
         public void Image(string name)
         {
             var fileName = "~/Images/" + name + ".jpg";
+            XingCode.CodeOutputStream(fileName);
+        }
+
+        //图文缩略图
+        public void Nail(string name)
+        {
+            WXImage.CutForSquare(name, 200);
+        }
+
+        //图片浏览
+        public void picture(string name)
+        {
+            var fileName = "~/Upload/XueImages/" + name + ".jpg";
             XingCode.CodeOutputStream(fileName);
         }
 

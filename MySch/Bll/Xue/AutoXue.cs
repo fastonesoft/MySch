@@ -136,7 +136,7 @@ namespace MySch.Bll.Xue
             }
         }
 
-        public static BllError RegImage(string imageUrl, string openID, out string name, out string idc)
+        public static BllError RegImage(string imageUrl, string openID, out string name, out string idc, out string id)
         {
             try
             {
@@ -167,12 +167,14 @@ namespace MySch.Bll.Xue
                 //返回
                 name = db.Name;
                 idc = db.IDC;
+                id = fileName;
                 return new BllError { error = false, message = count.ToString() };
             }
             catch (Exception e)
             {
                 name = string.Empty;
                 idc = string.Empty;
+                id = string.Empty;
                 return new BllError { error = true, message = e.Message };
             }
         }
