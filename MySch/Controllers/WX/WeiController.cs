@@ -158,7 +158,7 @@ namespace MySch.Controllers.WX
                             else
                             {
                                 //不错，3张的时候，提示二维码，多了不再提示
-                                if (int.Parse(errorimage.message) % 4 == 0)
+                                if (int.Parse(errorimage.message) % 3 == 0)
                                 {
                                     //二维码
                                     var epic = new WX_Send_News(rec);
@@ -170,7 +170,7 @@ namespace MySch.Controllers.WX
                                     //提示
                                     //var mtext = new WX_Send_Text(rec, string.Format("您已上传了 {0} 张图片", errorimage.message));
                                     //return mtext.ToXml(author);
-                                    if (int.Parse(errorimage.message) > 4)
+                                    if (int.Parse(errorimage.message) > 3)
                                     {
                                         var epic = new WX_Send_News(rec);
                                         epic.Add("提示", "", "", "");
@@ -254,6 +254,11 @@ namespace MySch.Controllers.WX
         {
             var fileName = "~/Upload/XueImages/" + name + ".jpg";
             XingCode.CodeOutputStream(fileName);
+        }
+
+        public ActionResult oauth()
+        {
+            return View();
         }
 
     }

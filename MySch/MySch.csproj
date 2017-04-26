@@ -709,6 +709,7 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
     <Content Include="Views\Wei\Index.cshtml" />
+    <Content Include="Views\Wei\oauth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
