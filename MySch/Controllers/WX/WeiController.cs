@@ -2,23 +2,9 @@
 using MySch.Bll.WX;
 using MySch.Bll.WX.Model;
 using MySch.Bll.Xue;
-using MySch.Dal;
-using MySch.Models;
-using MySch.ModelsEx;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 using ZXing;
-using ZXing.Presentation;
-using ZXing.QrCode;
 
 namespace MySch.Controllers.WX
 {
@@ -168,12 +154,10 @@ namespace MySch.Controllers.WX
                                 else
                                 {
                                     //提示
-                                    //var mtext = new WX_Send_Text(rec, string.Format("您已上传了 {0} 张图片", errorimage.message));
-                                    //return mtext.ToXml(author);
                                     if (int.Parse(errorimage.message) > 3)
                                     {
                                         var epic = new WX_Send_News(rec);
-                                        epic.Add("提示", "", "", "");
+                                        epic.Add("上传提示", "", "", "");
                                         epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
                                         return epic.ToXml(author);
                                     }

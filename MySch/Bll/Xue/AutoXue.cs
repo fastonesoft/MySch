@@ -86,12 +86,12 @@ namespace MySch.Bll.Xue
                     }
                     else
                     {
-                        return new BllError { error = true, message = "身份证未添加！不是小学应届毕业生。请到窗口咨询！" };
+                        return new BllError { error = true, message = "身份证未添加！不是小学应届毕业生。请到报名窗口咨询！" };
                     }
                 }
                 else
                 {
-                    return new BllError { error = true, message = "身份证未添加！省学籍库无记录，请到窗口咨询！" };
+                    return new BllError { error = true, message = "身份证未添加！省学籍库无记录，请到报名窗口咨询！" };
                 }
             }
             catch (Exception e)
