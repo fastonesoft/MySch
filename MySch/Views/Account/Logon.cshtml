@@ -15,25 +15,22 @@
         ul { display: block; margin: 0; padding: 0; list-style: none; }
         li { display: block; margin: 0; padding: 0; list-style: none; }
         img { border: 0; }
-
         #cloudBody { width: 100%; height: 100%; position: absolute; z-index: -1; }
-        .my-login-cloud { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: url(/Images/logincloud.png) no-repeat; z-index: 1; opacity: 0.5; }
-        .my-login-top { height: 47px; position: absolute; top: 0; background: url(/Images/loginbg1.png) repeat-x; z-index: 100; width: 100%; }
-        .my-login-top span { color: #fff; line-height: 47px; background: url(/Images/loginsj.png) no-repeat 21px 18px; text-indent: 44px; color: #afc5d2; float: left; }
-        .my-login-top ul { float: right; padding-right: 30px; }
-        .my-login-top ul li { float: left; margin-left: 20px; line-height: 47px; }
-        .my-login-top ul li a { color: #afc5d2; }
-        .my-login-top ul li a:hover { color: #fff; }
-        .my-login-body { background: url(/Images/loginbg3.png) no-repeat center center; width: 100%; height: 585px; overflow: hidden; position: absolute; }
+        .my-login-cloud { top: 0px; left: 0px; width: 100%; height: 100%; position: absolute; background: url(/Images/logincloud.png) no-repeat; z-index: 1; opacity: 0.5; }
+        .my-login-body { width: 100%; height: 585px; overflow: hidden; position: absolute; background: url(/Images/loginbg3.png) no-repeat center center; }
         .my-login-box { width: 692px; height: 336px; background: url(/Images/logininfo.png) no-repeat; }
-        .my-login-box ul { margin-top: 88px; margin-left: 285px; }
-        .my-login-box ul li label { color: #687f92; padding-left: 25px; }
-        .my-login-box ul li label a { color: #687f92; }
-        .my-login-box ul li label a:hover { color: #3d96c9; }
-        .my-login-box ul li label input { margin-right: 5px; }
+        .my-login-box .my-login-text { margin-left: 285px; display: block; }
+        .my-login-box .my-login-text li label { color: #687f92; padding-left: 25px; }
+        .my-login-box .my-login-text li label a { color: #687f92; }
+        .my-login-box .my-login-text li label a:hover { color: #3d96c9; }
+        .my-login-box .my-login-text li label input { margin-right: 5px; }
+        .my-login-box .my-login-text .my-login-text-title { height: 90px; padding-top: 7px; background: url(/Images/logininfo-txt.png) no-repeat left center; }
+        .my-login-box .my-login-code { display: block; }
+
         .my-login-user { width: 299px; height: 48px; background: url(/Images/loginuser.png) no-repeat; border: none; line-height: 48px; padding-left: 44px; font-size: 14px; font-weight: bold; }
         .my-login-pwd { width: 299px; height: 48px; background: url(/Images/loginpassword.png) no-repeat; border: none; line-height: 48px; padding-left: 44px; font-size: 14px; color: #90a2bc; }
-        .my-login-btn { float: right; margin-right: 63px; width: 111px; height: 35px; text-align: center; background: url(/Images/loginbtmbg.png) repeat-x; font-size: 14px; font-weight: bold; color: #fff; cursor: pointer; line-height: 35px; }
+        .my-login-btn { width: 111px; height: 35px; margin-left: 230px; text-align: center; background: url(/Images/loginbtmbg.png) repeat-x; font-size: 14px; font-weight: bold; color: #fff; cursor: pointer; line-height: 35px; }
+
         #userError { float: left; color: red; margin-left: 5px; cursor: default; }
     </style>
 
@@ -92,7 +89,8 @@
         @Html.ValidationSummary(true)
         <div class="my-login-body">
             <div class="my-login-box">
-                <ul>
+                <ul class="my-login-text">
+                    <li class="my-login-text-title"></li>
                     <li style="margin-bottom:25px;">
                         @Html.TextBoxFor(a => a.IDS, new { @class = "my-login-user" })
                     </li>
@@ -107,9 +105,13 @@
                     </li>
                     <li style="height:35px;"><input id="userLogin" type="button" class="my-login-btn" value="登录" /></li>
                 </ul>
+                <div class="my-login-code">
+
+                </div>
             </div>
         </div>
         @Html.HiddenFor(a => a.ID)
     }
+
 </body>
 </html>
