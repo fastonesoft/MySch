@@ -33,7 +33,7 @@ namespace MySch.Bll.Xue
                 IDC.Check(idc);
 
                 //检查自身
-                if (DataCRUD<Student>.Count(a => a.OpenID == openID && a.IDC == idc) == 1)
+                if (DataCRUD<Student>.Count(a => a.OpenID == openID && a.IDC == idc) > 0)
                 {
                     return new BllError { error = true, message = "已完成学生与帐号的绑定，无需重复操作" };
                 }
@@ -48,6 +48,12 @@ namespace MySch.Bll.Xue
                 if (DataCRUD<Student>.Count(a => a.OpenID == openID) > 0)
                 {
                     return new BllError { error = true, message = "注意：一个微信号只能绑定一个身份证" };
+                }
+
+                //身份证重复，给出的提示
+                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0)
+                {
+                    return new BllError { error = true, message = "身份证号：同一身份证号不要重复注册" };
                 }
 
                 //读取网页数据
