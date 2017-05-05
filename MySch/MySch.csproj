@@ -525,6 +525,8 @@
     <Content Include="Images\pp08.png" />
     <Content Include="Images\pp09.png" />
     <Content Include="Images\pp10.png" />
+    <Content Include="Images\qcode.png" />
+    <Content Include="Images\qcompu.png" />
     <Content Include="Images\rep01.png" />
     <Content Include="Images\rep02.png" />
     <Content Include="Images\rep03.png" />

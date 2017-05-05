@@ -19,13 +19,17 @@
         .my-login-cloud { top: 0px; left: 0px; width: 100%; height: 100%; position: absolute; background: url(/Images/logincloud.png) no-repeat; z-index: 1; opacity: 0.5; }
         .my-login-body { width: 100%; height: 585px; overflow: hidden; position: absolute; background: url(/Images/loginbg3.png) no-repeat center center; }
         .my-login-box { width: 692px; height: 336px; background: url(/Images/logininfo.png) no-repeat; }
-        .my-login-box .my-login-text { margin-left: 285px; display: block; }
+
+        .my-login-box .my-login-text { margin-left: 285px; display: none; }
         .my-login-box .my-login-text li label { color: #687f92; padding-left: 25px; }
         .my-login-box .my-login-text li label a { color: #687f92; }
         .my-login-box .my-login-text li label a:hover { color: #3d96c9; }
         .my-login-box .my-login-text li label input { margin-right: 5px; }
         .my-login-box .my-login-text .my-login-text-title { height: 90px; padding-top: 7px; background: url(/Images/logininfo-txt.png) no-repeat left center; }
-        .my-login-box .my-login-code { display: block; }
+        .my-login-box .my-login-text .my-login-text-title img { border:none; float:right; margin: 6px 12px 0px 0px; cursor:pointer;}
+        .my-login-box .my-login-code {margin-left: 285px; display: block; }
+        .my-login-box .my-login-code .my-login-code-title { height: 60px; line-height: 60px; font-size: 18px; text-align:center;  padding-top: 7px;  }
+        .my-login-box .my-login-code .my-login-code-title img { border:none; float:right; margin: 6px 12px 0px 0px; cursor:pointer;}
 
         .my-login-user { width: 299px; height: 48px; background: url(/Images/loginuser.png) no-repeat; border: none; line-height: 48px; padding-left: 44px; font-size: 14px; font-weight: bold; }
         .my-login-pwd { width: 299px; height: 48px; background: url(/Images/loginpassword.png) no-repeat; border: none; line-height: 48px; padding-left: 44px; font-size: 14px; color: #90a2bc; }
@@ -33,6 +37,8 @@
 
         #userError { float: left; color: red; margin-left: 5px; cursor: default; }
     </style>
+
+    <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 
     <script language="javascript">
         $(function () {
@@ -75,6 +81,24 @@
                     $('#userLogin').click();
                 }
             })
+
+            //登录切换
+            $('.my-login-box img').click(function () {
+                var item = $(this).parent().parent();
+                item.hide();
+                item.siblings().show();
+            })
+
+            //扫码登录
+            var obj = new WxLogin({
+                id: "my-login-code",
+                appid: "wx8e6ce1260ba9f214",
+                scope: "snsapi_login",
+                redirect_uri: "http://a.jysycz.cn/client",
+                state: "1",
+                style: "black",
+                href: ".impowerBox .qrcode {width: 200px;}"
+            });
         });
     </script>
 </head>
@@ -90,7 +114,7 @@
         <div class="my-login-body">
             <div class="my-login-box">
                 <ul class="my-login-text">
-                    <li class="my-login-text-title"></li>
+                    <li class="my-login-text-title"><img src="~/Images/qcode.png" /></li>
                     <li style="margin-bottom:25px;">
                         @Html.TextBoxFor(a => a.IDS, new { @class = "my-login-user" })
                     </li>
@@ -105,9 +129,10 @@
                     </li>
                     <li style="height:35px;"><input id="userLogin" type="button" class="my-login-btn" value="登录" /></li>
                 </ul>
-                <div class="my-login-code">
-
-                </div>
+                <ul class="my-login-code">
+                    <li class="my-login-code-title">微信扫码登录<img src="~/Images/qcompu.png" /></li>
+                    <li class="my-login-code-picture" id="my-login-code"></li>
+                </ul>
             </div>
         </div>
         @Html.HiddenFor(a => a.ID)
