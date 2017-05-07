@@ -8,9 +8,9 @@ using System.Net;
 using System.Text;
 using System.Web;
 
-namespace MySch.ModelsEx
+namespace MySch.Helper
 {
-    public class MyHtml
+    public class HtmlHelp
     {
         /// <summary>
         /// 网页抓取

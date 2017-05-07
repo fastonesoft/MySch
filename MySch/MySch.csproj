@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
+    <Compile Include="Bll\WX\Model\WX_OAuth.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
     <Compile Include="Bll\Xue\AutoXue.cs">
       <SubType>Code</SubType>
@@ -262,14 +263,14 @@
     <Compile Include="ModelsEx\MyImageCode.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModelsEx\MyHtml.cs" />
+    <Compile Include="Helper\HtmlHelp.cs" />
     <Compile Include="ModelsEx\MyType.cs" />
     <Compile Include="ModelsEx\MyValid.cs" />
     <Compile Include="ModelsEx\MyImageValid.cs" />
     <Compile Include="Bll\WX\WXApi.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\AccessToken.cs" />
+    <Compile Include="Models\AccessTokenOauth.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
     <Compile Include="Models\ATheme.cs" />
@@ -282,7 +283,7 @@
     <Compile Include="Models\KSubBan.cs" />
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
-    <Compile Include="Models\Mapping\AccessTokenMap.cs" />
+    <Compile Include="Models\Mapping\AccessTokenOauthMap.cs" />
     <Compile Include="Models\Mapping\ADatumMap.cs" />
     <Compile Include="Models\Mapping\APageMap.cs" />
     <Compile Include="Models\Mapping\AThemeMap.cs" />

@@ -2,7 +2,10 @@
 using MySch.Bll.WX;
 using MySch.Bll.WX.Model;
 using MySch.Bll.Xue;
+using MySch.Helper;
+using MySch.Models;
 using System;
+using System.Web;
 using System.Web.Mvc;
 using ZXing;
 
@@ -158,14 +161,14 @@ namespace MySch.Controllers.WX
                                     {
                                         var epic = new WX_Send_News(rec);
                                         epic.Add("上传提示", "", "", "");
-                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
+                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/wei/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
                                         return epic.ToXml(author);
                                     }
                                     else
                                     {
                                         var epic = new WX_Send_News(rec);
                                         epic.Add("报名步骤【三】", "", "", "");
-                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
+                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/wei/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
                                         return epic.ToXml(author);
                                     }
                                 }
@@ -184,11 +187,14 @@ namespace MySch.Controllers.WX
                         {
                             var epic = new WX_Send_News(rec);
                             epic.Add("校务在线 - 报名步骤", "", "", "");
-                            epic.Add("【一】在最下方输入学生的身份证号，发送", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
-                            epic.Add("【二】然后输入家长的手机号码一个，发送", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
-                            epic.Add("【三】点击右下角〖＋〗，然后选择〖拍摄〗，上传清晰的毕业证、户口簿、房产证等原件照片", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
-                            epic.Add("【四】至少传三张图片，才能显示条形码！有了条码后，请携带相关原件、手机到报名窗口审核", "", "http://a.jysycz.cn/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
-                            epic.Add("网页测试", "", "", "");
+                            epic.Add("【一】在最下方输入学生的身份证号，发送", "", "http://a.jysycz.cn/wei/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
+                            epic.Add("【二】然后输入家长的手机号码一个，发送", "", "http://a.jysycz.cn/wei/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
+                            epic.Add("【三】点击右下角〖＋〗，然后选择〖拍摄〗，上传清晰的毕业证、户口簿、房产证等原件照片", "", "http://a.jysycz.cn/wei/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
+                            epic.Add("【四】至少传三张图片，才能显示条形码！有了条码后，请携带相关原件、手机到报名窗口审核", "", "http://a.jysycz.cn/wei/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
+                            var appid = "wx01df6a9fe809485f";
+                            var url = HttpUtility.UrlEncode("http://a.jysycz.cn/wei/oauth");
+                            var state = Guid.NewGuid().ToString("N");
+                            epic.Add("网页测试", "", "", string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, url, state));
                             return epic.ToXml(author);
                         }
                         else
@@ -241,9 +247,23 @@ namespace MySch.Controllers.WX
             XingCode.CodeOutputStream(fileName);
         }
 
-        public ActionResult oauth()
+        public ActionResult oauth(WX_OAuth auth)
         {
-            return View();
+            //读取code
+            var appid = "wx01df6a9fe809485f";
+            var secret = "c2ac6bc689b690f54d72f8479a26714b";
+            var codeurl = string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code", appid, secret,auth.code);
+            var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");
+
+            //解析token
+            AccessTokenOauth token = Jsons.JsonEntity<AccessTokenOauth>(codes);
+
+            
+            //生成新的数据记录
+            token.create_time = DateTime.Now;
+
+            return Content(auth.code);
+            
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Func;
 using MySch.Dal;
+using MySch.Helper;
 using MySch.Models;
 using MySch.ModelsEx;
 using System;
@@ -47,7 +48,7 @@ namespace MySch.Controllers.Stud
                 //一、做Get请求网页
                 CookieCollection cookies = null;
                 string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
-                using (HttpWebResponse resp = MyHtml.GetResponse(url))
+                using (HttpWebResponse resp = HtmlHelp.GetResponse(url))
                 {
                     cookies = resp.Cookies;
                 }
@@ -68,9 +69,9 @@ namespace MySch.Controllers.Stud
                 //循环读取图片  直到识别出 5 个字符
                 do
                 {
-                    using (HttpWebResponse resp = MyHtml.GetResponse(imageurl, cookies))
+                    using (HttpWebResponse resp = HtmlHelp.GetResponse(imageurl, cookies))
                     {
-                        dest = MyHtml.GetBitmap(resp);
+                        dest = HtmlHelp.GetBitmap(resp);
                     }
                     valid = MyImageCode.GetValidedCode(dest, srcBit);
                     //循环记录
@@ -86,10 +87,10 @@ namespace MySch.Controllers.Stud
                 dicts.Add("cid", que.IDS);
                 dicts.Add("randomCode", valid);
                 dicts.Add("v", rnd.NextDouble().ToString());
-                string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+                string postdata = HtmlHelp.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
                 //提交请求
-                HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
-                string html = MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK"));
+                HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
+                string html = HtmlHelp.GetHtml(postresp, Encoding.GetEncoding("GBK"));
                 //分析返回数据
                 Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
                 MatchCollection matchs = regx.Matches(html);

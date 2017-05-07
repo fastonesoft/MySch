@@ -223,7 +223,7 @@ namespace MySch.Controllers.Account
             //CookieCollection cookies = null;
             ////一、做Get请求网页
             //string url = "http://localhost:13789/wei";
-            //using (HttpWebResponse resp = MyHtml.GetResponse(url))
+            //using (HttpWebResponse resp = HtmlHelp.GetResponse(url))
             //{
             //    cookies = resp.Cookies;
             //}
@@ -232,8 +232,8 @@ namespace MySch.Controllers.Account
 
             //posts += "<xml>     <ToUserName><![CDATA[gh_23b54b508d0d]]></ToUserName>     <Encrypt><![CDATA[9B2jNGtCNzO+bV6YdD7ENiTH5p/PkQuiWkTQoCHCLmrCcdPEXkq1uMW5q5uOLboB/jSrNfcy6D8L5vdRjoPPGQiB993uEUTr0wkes6N3DIO3w1coFzwVag9wqLRT8yqzYudHvHQzi7bHvOGYt5uszJkYDn3o3egAV0dTfojoYK5fBAtElWfiN15+bEC9Mt6zK8UBI2Uq4z1fJQs9+63D0wXK88K3++fDF1K6Goi//GlnvxfByHnLgUf4u07j9HA1rr7XOzCEQpvdb79YXTsPqjjE3utUuEZYTqURgtd+jMXApolYgkDb9DfaQCqFPG7Kr/P01YKEAZ0GI2PUCG1zSGvWBU2vBBESx1CVUoLrk9Gggv4KtDyd6kSr7ZiPlpbQhOBwdC1bKeqE6qmDLjQFt3uBlmOk2DQeCHswXa8m7c8=]]></Encrypt> </xml> ";
 
-            //HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, posts, Encoding.UTF8);
-            //string html = MyHtml.GetHtml(postresp, Encoding.UTF8);
+            //HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, posts, Encoding.UTF8);
+            //string html = HtmlHelp.GetHtml(postresp, Encoding.UTF8);
             //return html;
         }
 

@@ -3,6 +3,7 @@ using MySch.Bll.Func;
 using MySch.Bll.Model;
 using MySch.Bll.Xue.Model;
 using MySch.Dal;
+using MySch.Helper;
 using MySch.Models;
 using MySch.ModelsEx;
 using System;
@@ -209,7 +210,7 @@ namespace MySch.Bll.Xue
                 string valid = string.Empty;
                 do
                 {
-                    Bitmap dest = MyHtml.GetBitmap(validUrl + DateTime.Now.Ticks.ToString(), cookies);
+                    Bitmap dest = HtmlHelp.GetBitmap(validUrl + DateTime.Now.Ticks.ToString(), cookies);
                     valid = MyImageCode.GetValidedCode(dest, srcBit);
 
                     count++;
@@ -235,7 +236,7 @@ namespace MySch.Bll.Xue
         /// <returns></returns>
         public static CookieCollection PostCookies(string url, CookieCollection cookies, string postdata)
         {
-            HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
+            HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
 
             return postresp.Cookies;
         }
@@ -254,7 +255,7 @@ namespace MySch.Bll.Xue
             try
             {
                 //打开登录
-                CookieCollection cookies = MyHtml.GetCookies(url);
+                CookieCollection cookies = HtmlHelp.GetCookies(url);
 
                 //识别验证码
                 string code = Valid(validUrl, cookies, 30);
@@ -294,7 +295,7 @@ namespace MySch.Bll.Xue
             try
             {
                 //打开登录
-                CookieCollection cookies = MyHtml.GetCookies(url);
+                CookieCollection cookies = HtmlHelp.GetCookies(url);
 
                 //整理数据
                 Dicts dicts = new Dicts();
@@ -341,7 +342,7 @@ namespace MySch.Bll.Xue
                 else
                 {
                     //检测是否可以连接
-                    var html = MyHtml.GetHtml("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action", xuecookies, Encoding.GetEncoding("GBK"));
+                    var html = HtmlHelp.GetHtml("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action", xuecookies, Encoding.GetEncoding("GBK"));
 
                     //如果过期，重新连接
                     if (html.Contains("没有权限"))
@@ -370,7 +371,7 @@ namespace MySch.Bll.Xue
             try
             {
                 var url = string.Format("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action?studentForm.cid={0}", idc);
-                return MyHtml.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
+                return HtmlHelp.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
             }
             catch (Exception e)
             {
@@ -384,7 +385,7 @@ namespace MySch.Bll.Xue
             {
                 name = HttpUtility.UrlEncode(name, Encoding.GetEncoding("GBK"));
                 var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, idc);
-                return MyHtml.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
+                return HtmlHelp.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
             }
             catch (Exception e)
             {
@@ -412,7 +413,7 @@ namespace MySch.Bll.Xue
                 CookieCollection cookies = null;
                 //一、做Get请求网页
                 string url = "http://jcjy.etec.edu.cn/studman2/cidGetInfo.jsp";
-                using (HttpWebResponse resp = MyHtml.GetResponse(url))
+                using (HttpWebResponse resp = HtmlHelp.GetResponse(url))
                 {
                     cookies = resp.Cookies;
                 }
@@ -433,9 +434,9 @@ namespace MySch.Bll.Xue
                 //循环读取图片  直到识别出 5 个字符
                 do
                 {
-                    using (HttpWebResponse resp = MyHtml.GetResponse(imageurl, cookies))
+                    using (HttpWebResponse resp = HtmlHelp.GetResponse(imageurl, cookies))
                     {
-                        dest = MyHtml.GetBitmap(resp);
+                        dest = HtmlHelp.GetBitmap(resp);
                     }
                     valid = MyImageCode.GetValidedCode(dest, srcBit);
                     //循环记录
@@ -451,10 +452,10 @@ namespace MySch.Bll.Xue
                 dicts.Add("cid", ID);
                 dicts.Add("randomCode", valid);
                 dicts.Add("v", rnd.NextDouble().ToString());
-                string postdata = MyHtml.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+                string postdata = HtmlHelp.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
                 //提交请求
-                HttpWebResponse postresp = MyHtml.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
-                string html = MyHtml.GetHtml(postresp, Encoding.GetEncoding("GBK"));
+                HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
+                string html = HtmlHelp.GetHtml(postresp, Encoding.GetEncoding("GBK"));
                 //分析返回数据
                 Regex regx = new Regex(@"<td>([\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
                 MatchCollection matchs = regx.Matches(html);

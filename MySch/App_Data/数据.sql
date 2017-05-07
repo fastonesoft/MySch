@@ -978,14 +978,18 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 
 
 --WX
-create table AccessToken
+create table AccessTokenOauth
 (
-	create_time	datetime not null,
+	openid	nvarchar(32) not null,
 	access_token	nvarchar(900) not null,
 	expires_in	int not null,
+	refresh_token	nvarchar(32) not null,
+	scope	nvarchar(32) not null,
+	create_time	datetime not null,
 )
 go
-alter table AccessToken add constraint PK_AccessToken primary key clustered (create_time)
+alter table AccessTokenOauth add constraint PK_AccessTokenOauth primary key clustered (openid)
+
 
 create table UploadFile
 (

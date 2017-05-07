@@ -16,7 +16,7 @@ namespace MySch.Models
         {
         }
 
-        public DbSet<AccessToken> AccessTokens { get; set; }
+        public DbSet<AccessTokenOauth> AccessTokenOauths { get; set; }
         public DbSet<ADatum> ADatums { get; set; }
         public DbSet<APage> APages { get; set; }
         public DbSet<ATheme> AThemes { get; set; }
@@ -53,7 +53,7 @@ namespace MySch.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new AccessTokenMap());
+            modelBuilder.Configurations.Add(new AccessTokenOauthMap());
             modelBuilder.Configurations.Add(new ADatumMap());
             modelBuilder.Configurations.Add(new APageMap());
             modelBuilder.Configurations.Add(new AThemeMap());
