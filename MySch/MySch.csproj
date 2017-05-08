@@ -127,7 +127,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
+    <Compile Include="Bll\WX\Model\WX_Error.cs" />
     <Compile Include="Bll\WX\Model\WX_OAuth.cs" />
+    <Compile Include="Bll\WX\Model\WX_UserInfor.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
     <Compile Include="Bll\Xue\AutoXue.cs">
       <SubType>Code</SubType>

@@ -64,17 +64,17 @@ namespace MySch.Bll.WX.Model
             }
         }
 
-        public static AccessTokenOauth SaveAccessTokenOauth(AccessTokenOauth auth)
-        {
-            try
-            {
-                var db = DataCRUD<AccessTokenOauth>.Entity(a => a.openid == auth.openid);
-                if(db)
-            }
-            catch (Exception e)
-            {                
-                throw e;
-            }
-        }
+        //public static AccessTokenOauth SaveAccessTokenOauth(AccessTokenOauth auth)
+        //{
+        //    try
+        //    {
+        //        var db = DataCRUD<AccessTokenOauth>.Entity(a => a.openid == auth.openid);
+        //        if(db)
+        //    }
+        //    catch (Exception e)
+        //    {                
+        //        throw e;
+        //    }
+        //}
     }
 }

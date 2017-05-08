@@ -978,7 +978,7 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 
 
 --WX
-create table AccessTokenOauth
+create table WxAccessTokenOauth
 (
 	openid	nvarchar(32) not null,
 	access_token	nvarchar(900) not null,
@@ -988,10 +988,10 @@ create table AccessTokenOauth
 	create_time	datetime not null,
 )
 go
-alter table AccessTokenOauth add constraint PK_AccessTokenOauth primary key clustered (openid)
+alter table WxAccessTokenOauth add constraint PK_WxAccessTokenOauth primary key clustered (openid)
 
 
-create table UploadFile
+create table WxUploadFile
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -1001,7 +1001,19 @@ create table UploadFile
 	Author	nvarchar(32) not null,
 	Memo	nvarchar(32),
 )
-alter table UploadFile add constraint PK_UploadFile primary key clustered (ID)
+alter table WxUploadFile add constraint PK_WxUploadFile primary key clustered (ID)
 go
 
 
+create table WxUserInfor
+(
+	openid	nvarchar(32) not null,
+	nickname	nvarchar(32),
+	sex	nvarchar(5),
+	province	nvarchar(32),
+	city	nvarchar(32),
+	country	nvarchar(32),
+	headimgurl	nvarchar(100),
+	unionid	nvarchar(32),
+)
+go

@@ -252,18 +252,37 @@ namespace MySch.Controllers.WX
             //读取code
             var appid = "wx01df6a9fe809485f";
             var secret = "c2ac6bc689b690f54d72f8479a26714b";
-            var codeurl = string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code", appid, secret,auth.code);
+            var codeurl = string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code", appid, secret, auth.code);
             var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");
 
-            //解析token
-            AccessTokenOauth token = Jsons.JsonEntity<AccessTokenOauth>(codes);
+            //检测是否出错
+            if(codes.Contains("errcode"))
+            {
+                WX_Error error = Jsons.JsonEntity<WX_Error>(codes);
+                return Content(error.GetMessage());
+            }
+            else
+            {
+                //解析token
+                AccessTokenOauth token = Jsons.JsonEntity<AccessTokenOauth>(codes);
+                if(token.scope == "snsapi_userinfo")
+                {
+                    var inforurl = string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN", token.access_token, token.openid);
+                    var infor = HtmlHelp.GetHtml(inforurl, "UTF-8");
+                    WX_UserInfor userinfor = Jsons.JsonEntity<WX_UserInfor>(infor);
 
-            
-            //生成新的数据记录
-            token.create_time = DateTime.Now;
+                    ViewBag.openid = userinfor.openid;
+                    ViewBag.nickname = userinfor.nickname;
 
-            return Content(auth.code);
-            
+                    return View();
+                }
+                else
+                {
+                    return Content("没有授权访问");
+                }
+            }
+
+
         }
 
     }
