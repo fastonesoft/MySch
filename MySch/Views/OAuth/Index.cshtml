@@ -9,15 +9,15 @@
     <meta name="viewport" content="width=device-width" />
     <title>校务在线</title>
     <link href="~/Content/wxstyle.css" rel="stylesheet" />
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
 
-    <script>
+    <script type="text/javascript">
         wx.config({
-            debug: true,
-            appId: @ViewBag.appid,
+            debug: false,
+            appId: '@ViewBag.appid',
             timestamp: @ViewBag.timestamp,
-            nonceStr:  @ViewBag.noncestr,
-            signature:  @ViewBag.signature,
+            nonceStr:  '@ViewBag.noncestr',
+            signature:  '@ViewBag.signature',
             jsApiList: [
               'checkJsApi',
               'hideMenuItems',
@@ -58,10 +58,11 @@
             ]
         });
 
+
+
         wx.ready(function () {
             // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
             document.querySelector('#checkJsApi').onclick = function () {
-                alert("可以选");
                 wx.checkJsApi({
                     jsApiList: [
                         'checkJsApi',
@@ -82,10 +83,6 @@
                 });
             };
 
-
-
-
-
             // 5 图片接口
             // 5.1 拍照、本地选图
             var images = {
@@ -93,7 +90,6 @@
                 serverId: []
             };
             document.querySelector('#chooseImage').onclick = function () {
-                alert("可以选");
                 wx.chooseImage({
                     success: function (res) {
                         images.localId = res.localIds;
@@ -129,7 +125,6 @@
                             i++;
                             //alert('已上传：' + i + '/' + length);
                             images.serverId.push(res.serverId);
-                            alert(res.serverId);
                             if (i < length) {
                                 upload();
                             }
@@ -166,6 +161,23 @@
                 download();
             };
 
+            // 9 微信原生接口
+            // 9.1.1 扫描二维码并返回结果
+            document.querySelector('#scanQRCode0').onclick = function () {
+                wx.scanQRCode();
+            };
+            // 9.1.2 扫描二维码并返回结果
+            document.querySelector('#scanQRCode1').onclick = function () {
+                wx.scanQRCode({
+                    needResult: 1,
+                    desc: 'scanQRCode desc',
+                    success: function (res) {
+                        alert(JSON.stringify(res));
+                    }
+                });
+            };
+
+
         });
 
     </script>
@@ -177,7 +189,6 @@
             <span class="desc">判断当前客户端是否支持指定JS接口</span>
             <button class="btn btn_primary" id="checkJsApi">checkJsApi</button>
 
-
             <h3 id="menu-image">图像接口</h3>
             <span class="desc">拍照或从手机相册中选图接口</span>
             <button class="btn btn_primary" id="chooseImage">chooseImage</button>
@@ -187,8 +198,6 @@
             <button class="btn btn_primary" id="uploadImage">uploadImage</button>
             <span class="desc">下载图片接口</span>
             <button class="btn btn_primary" id="downloadImage">downloadImage</button>
-
-
 
             <h3 id="menu-scan">微信扫一扫</h3>
             <span class="desc">调起微信扫一扫接口</span>

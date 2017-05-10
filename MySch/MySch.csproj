@@ -229,6 +229,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Client\ClientController.cs" />
+    <Compile Include="Controllers\WX\ImageController.cs" />
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\RoleStudController.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Controllers\User\UserPartController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\WX\OAuthController.cs" />
     <Compile Include="Controllers\WX\WeiController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataCRUD.cs" />
@@ -719,10 +721,11 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
     <Content Include="Views\Wei\Index.cshtml" />
-    <Content Include="Views\Wei\oauth.cshtml" />
+    <Content Include="Views\OAuth\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
+    <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

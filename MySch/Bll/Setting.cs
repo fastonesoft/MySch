@@ -42,6 +42,11 @@ namespace MySch.Bll
             return string.Format("/{0}/{1}", coname, acname);
         }
 
+        public static string Url(HttpRequestBase request)
+        {
+            return request.Url.ToString();
+        }
+
         public static string ControlerName(Controller control)
         {
             return control.RouteData.Values["controller"].ToString();

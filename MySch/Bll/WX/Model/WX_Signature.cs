@@ -13,6 +13,7 @@ namespace MySch.Bll.WX.Model
         public long timestamp { get; set; }
         public string noncestr { get; set; }
         public string signature { get; set; }
+        public string url { get; set; }
 
         public WX_Signature(string sappid, string sticket, string surl)
         {
@@ -22,9 +23,11 @@ namespace MySch.Bll.WX.Model
             timestamp = WXApi.GetTimestamp();
             noncestr = Guid.NewGuid().ToString("N");
             //
-            var str = string.Format("jsapi_ticket={0}&noncestr={1}&timestamp={2}&url=http://a.jysycz.cn{3}", sticket, noncestr, timestamp, surl);
+            var str = string.Format("jsapi_ticket={0}&noncestr={1}&timestamp={2}&url={3}", sticket, noncestr, timestamp, surl);
             //
-            signature = Setting.GetSHA1(str);
+            url = str;
+
+            signature = Setting.GetSHA1(str).ToLower();
         }
     }
 }
