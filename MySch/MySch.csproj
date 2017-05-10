@@ -128,7 +128,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\WX\Model\WX_Error.cs" />
+    <Compile Include="Bll\WX\Model\WX_Jsticket.cs" />
     <Compile Include="Bll\WX\Model\WX_OAuth.cs" />
+    <Compile Include="Bll\WX\Model\WX_Signature.cs" />
+    <Compile Include="Bll\WX\Model\WX_TimeDiffer.cs" />
     <Compile Include="Bll\WX\Model\WX_UserInfor.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
     <Compile Include="Bll\Xue\AutoXue.cs">
@@ -436,6 +439,7 @@
     <Content Include="Content\themes\icons\sum.png" />
     <Content Include="Content\themes\icons\tip.png" />
     <Content Include="Content\themes\icons\undo.png" />
+    <Content Include="Content\wxstyle.css" />
     <Content Include="Images\logininfo-txt.png" />
     <Content Include="Images\pp0801.png" />
     <Content Include="Html\tooltip.htm" />

@@ -57,7 +57,7 @@ namespace MySch.Bll.WX
         /// 读取消息请求体内容
         /// </summary>
         /// <returns></returns>
-        public static string GetBodyHtml()
+        public static string GetMessage()
         {
             //检测数据体
             Stream stream = HttpContext.Current.Request.InputStream;
@@ -65,7 +65,17 @@ namespace MySch.Bll.WX
             stream.Read(bytes, 0, (int)stream.Length);
             return Encoding.UTF8.GetString(bytes).Replace(" ", "");
         }
+
+        public static long GetTimestamp(DateTime time)
+        {
+            DateTime start = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+            return (long)(time - start).TotalSeconds;
+        }
+
+        public static long GetTimestamp()
+        {
+            return GetTimestamp(DateTime.Now);
+        }
+
     }
-
-
 }

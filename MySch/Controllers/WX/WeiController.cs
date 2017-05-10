@@ -35,7 +35,7 @@ namespace MySch.Controllers.WX
                 if (!WXApi.CheckSignature(author)) return "";
 
                 //检测数据体
-                string posts = WXApi.GetBodyHtml();
+                string posts = WXApi.GetMessage();
 
                 //有问题直接返回
                 if (string.IsNullOrEmpty(posts)) return "";
@@ -273,6 +273,15 @@ namespace MySch.Controllers.WX
 
                     ViewBag.openid = userinfor.openid;
                     ViewBag.nickname = userinfor.nickname;
+
+
+                    //签名算法
+                    ViewBag.appid = appid;
+             ViewBag.timestamp = WXApi.GetTimestamp();
+              ViewBag.noncestr=Guid.NewGuid().ToString("N");
+              ViewBag.signature = 
+
+
 
                     return View();
                 }
