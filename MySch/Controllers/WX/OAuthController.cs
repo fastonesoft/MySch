@@ -44,7 +44,6 @@ namespace MySch.Controllers.WX
                     ViewBag.openid = userinfor.openid;
                     ViewBag.nickname = userinfor.nickname;
 
-
                     //中控token
                     var wxtoken = WX_AccessToken.GetAccessToken();
 

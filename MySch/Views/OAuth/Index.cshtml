@@ -16,8 +16,8 @@
             debug: false,
             appId: '@ViewBag.appid',
             timestamp: @ViewBag.timestamp,
-            nonceStr:  '@ViewBag.noncestr',
-            signature:  '@ViewBag.signature',
+            nonceStr: '@ViewBag.noncestr',
+            signature: '@ViewBag.signature',
             jsApiList: [
               'checkJsApi',
               'hideMenuItems',
@@ -30,6 +30,7 @@
               'hideOptionMenu',
               'closeWindow',
               'scanQRCode',
+              'chooseWXPay',
               //'onMenuShareTimeline',
               //'onMenuShareAppMessage',
               //'onMenuShareQQ',
@@ -50,7 +51,6 @@
               //'openLocation',
               //'getLocation',
               //'showOptionMenu',
-              //'chooseWXPay',
               //'openProductSpecificView',
               //'addCard',
               //'chooseCard',
@@ -76,6 +76,7 @@
                         'hideOptionMenu',
                         'closeWindow',
                         'scanQRCode',
+                        'chooseWXPay',
                     ],
                     success: function (res) {
                         alert(JSON.stringify(res));
@@ -93,20 +94,18 @@
                 wx.chooseImage({
                     success: function (res) {
                         images.localId = res.localIds;
-                        alert('已选择 ' + res.localIds.length + ' 张图片');
                     }
                 });
             };
 
             // 5.2 图片预览
             document.querySelector('#previewImage').onclick = function () {
+                //读取已上传的图片列表
+                var urls = [];
+                var current = urls.length == 0 ? '' : urls[0];
                 wx.previewImage({
-                    current: 'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
-                    urls: [
-                      'http://img3.douban.com/view/photo/photo/public/p2152117150.jpg',
-                      'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
-                      'http://img3.douban.com/view/photo/photo/public/p2152134700.jpg'
-                    ]
+                    current: current,
+                    urls: urls
                 });
             };
 
