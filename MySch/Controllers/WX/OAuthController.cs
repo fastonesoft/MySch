@@ -1,11 +1,13 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Func;
+using MySch.Bll.WX;
 using MySch.Bll.WX.Model;
 using MySch.Helper;
 using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -54,6 +56,7 @@ namespace MySch.Controllers.WX
                     ViewBag.timestamp = signature.timestamp;
                     ViewBag.noncestr = signature.noncestr;
                     ViewBag.signature = signature.signature;
+                    ViewBag.accesstoken = wxtoken;
 
                     return View();
                 }
@@ -64,11 +67,9 @@ namespace MySch.Controllers.WX
             }
         }
 
-        public void UploadImage(string accessToken, string serverID)
+        public void UploadImage(string accessToken, string mediaID, string openID)
         {
-            var url = string.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}",accessToken, serverID);
-            var infor = HtmlHelp.GetHtml(url, "UTF-8");
-      
+            WXImage.SaveUnloadImage(accessToken, mediaID, openID);
         }
     }
 }
