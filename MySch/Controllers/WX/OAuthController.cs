@@ -62,8 +62,13 @@ namespace MySch.Controllers.WX
                     return Content("没有授权访问");
                 }
             }
+        }
 
-
+        public void UploadImage(string accessToken, string serverID)
+        {
+            var url = string.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}",accessToken, serverID);
+            var infor = HtmlHelp.GetHtml(url, "UTF-8");
+      
         }
     }
 }

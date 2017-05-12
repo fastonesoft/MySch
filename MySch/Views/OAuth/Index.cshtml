@@ -121,6 +121,7 @@
                     wx.uploadImage({
                         localId: images.localId[i],
                         success: function (res) {
+                            alert(JSON.stringify(res));
                             i++;
                             //alert('已上传：' + i + '/' + length);
                             images.serverId.push(res.serverId);
