@@ -5,9 +5,13 @@ using System.Web;
 
 namespace MySch.Bll.WX.Model
 {
-    public class WX_OAuth
+    public class WX_OAuth_Base
+    {
+        public string state { get; set; }
+    }
+
+    public class WX_OAuth : WX_OAuth_Base
     {
         public string code { get; set; }
-        public string state { get; set; }
     }
 }

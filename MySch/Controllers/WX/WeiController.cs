@@ -113,7 +113,7 @@ namespace MySch.Controllers.WX
                                     //准备回复消息
                                     var epic = new WX_Send_News(rec);
                                     epic.Add("报名步骤【二】", "", "", "");
-                                    epic.Add(string.Format("　　{0}，你已提交{1}个号码，如果还有，请重复步骤二，最多保存两个！\n　　保存完毕，执行步骤三，从正上方清晰地拍摄报名原件照片并上传，不得少于三张！", error.message, count), "", "http://a.jysycz.cn/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
+                                    epic.Add(string.Format("　　{0}，你已提交{1}个号码，如果还有，请重复步骤二，最多保存两个！\n　　保存完毕，执行步骤三，从正上方清晰地拍摄报名原件照片并上传，不得少于三张！", error.message, count), "", "http://a.jysycz.cn/image/image?name=wx_yes&r=" + (new Random()).NextDouble().ToString(), "");
                                     return epic.ToXml(author);
                                 }
                                 else
@@ -152,7 +152,7 @@ namespace MySch.Controllers.WX
                                 {
                                     //二维码
                                     var epic = new WX_Send_News(rec);
-                                    epic.Add("报名步骤【四】", string.Format("{0}：\n　　如果照片没有上传结束，请重复步骤三\n　　原件照片已经全部上传，请携带手机和毕业证、户口簿、房产证等原件到报名窗口，出示条形码审核", sname), string.Format("http://a.jysycz.cn/code?content={0}&r={1}", sidc, (new Random()).NextDouble().ToString()), "");
+                                    epic.Add("报名步骤【四】", string.Format("{0}：\n　　如果照片没有上传结束，请重复步骤三\n　　原件照片已经全部上传，请携带手机和毕业证、户口簿、房产证等原件到报名窗口，出示条形码审核", sname), string.Format("http://a.jysycz.cn/image/code?content={0}&r={1}", sidc, (new Random()).NextDouble().ToString()), "");
                                     return epic.ToXml(author);
                                 }
                                 else

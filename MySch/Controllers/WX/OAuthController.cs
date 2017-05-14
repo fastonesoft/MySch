@@ -56,7 +56,6 @@ namespace MySch.Controllers.WX
                     ViewBag.timestamp = signature.timestamp;
                     ViewBag.noncestr = signature.noncestr;
                     ViewBag.signature = signature.signature;
-                    ViewBag.accesstoken = wxtoken;
 
                     return View();
                 }
@@ -67,9 +66,9 @@ namespace MySch.Controllers.WX
             }
         }
 
-        public void UploadImage(string accessToken, string mediaID, string openID)
+        public void UploadImage(string mediaID, string openID)
         {
-            WXImage.SaveUnloadImage(accessToken, mediaID, openID);
+            WXImage.SaveUnloadImage(mediaID, openID);
         }
     }
 }

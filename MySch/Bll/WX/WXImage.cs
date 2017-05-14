@@ -1,4 +1,5 @@
-﻿using MySch.Dal;
+﻿using MySch.Bll.WX.Model;
+using MySch.Dal;
 using MySch.Helper;
 using MySch.Models;
 using System;
@@ -82,11 +83,14 @@ namespace MySch.Bll.WX
         /// <param name="accessToken"></param>
         /// <param name="mediaID"></param>
         /// <param name="openID"></param>
-        public static void SaveUnloadImage(string accessToken, string mediaID, string openID)
+        public static void SaveUnloadImage(string mediaID, string openID)
         {
             try
             {
-                var url = string.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", accessToken, mediaID);
+                //中控token
+                var wxtoken = WX_AccessToken.GetAccessToken();
+
+                var url = string.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", wxtoken, mediaID);
 
                 //保存
                 var web = new WebClient();
@@ -96,13 +100,13 @@ namespace MySch.Bll.WX
                 web.DownloadFile(url, filePath);
 
                 //根据openID读取学生编号
-                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                //var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
 
                 //下载成功,记录
                 var upload = new UploadFile
                 {
                     ID = fileName,
-                    IDS = db.IDS,
+                    IDS = "32128402012017010001",
                     FileType = fileType,
                     UploadType = "WX",
                     CreateTime = DateTime.Now,
