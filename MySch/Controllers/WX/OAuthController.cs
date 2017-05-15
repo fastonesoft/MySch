@@ -36,7 +36,10 @@ namespace MySch.Controllers.WX
             else
             {
                 //解析网页的token
-                AccessTokenOauth token = Jsons.JsonEntity<AccessTokenOauth>(codes);
+                WX_AccessTokenOauth token = Jsons.JsonEntity<WX_AccessTokenOauth>(codes);
+                token.create_time = DateTime.Now;
+                token.ToSession();
+
                 if (token.scope == "snsapi_userinfo")
                 {
                     var inforurl = string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN", token.access_token, token.openid);
@@ -66,9 +69,23 @@ namespace MySch.Controllers.WX
             }
         }
 
-        public void UploadImage(string mediaID, string openID)
+        public ActionResult UploadImage(string mediaID)
         {
-            WXImage.SaveUnloadImage(mediaID, openID);
+            try
+            {
+                //检测session
+                var token = WX_AccessTokenOauth.GetSessionToken();
+
+                if (token != null)
+                {
+                    WXImage.SaveUnloadImage(mediaID, token.openid);
+                }
+                return Json(new BllError { error = false, message = "图片上传成功" });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
         }
     }
 }

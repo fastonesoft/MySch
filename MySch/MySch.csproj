@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
+    <Compile Include="Bll\WX\Model\WX_AccessTokenOauth.cs" />
     <Compile Include="Bll\WX\Model\WX_Error.cs" />
     <Compile Include="Bll\WX\Model\WX_Jsticket.cs" />
     <Compile Include="Bll\WX\Model\WX_OAuth.cs" />
@@ -277,7 +278,6 @@
     <Compile Include="Bll\WX\WXApi.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\AccessTokenOauth.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
     <Compile Include="Models\ATheme.cs" />
@@ -290,7 +290,6 @@
     <Compile Include="Models\KSubBan.cs" />
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
-    <Compile Include="Models\Mapping\AccessTokenOauthMap.cs" />
     <Compile Include="Models\Mapping\ADatumMap.cs" />
     <Compile Include="Models\Mapping\APageMap.cs" />
     <Compile Include="Models\Mapping\AThemeMap.cs" />
@@ -323,7 +322,8 @@
     <Compile Include="Models\Mapping\TSubMap.cs" />
     <Compile Include="Models\Mapping\TTermMap.cs" />
     <Compile Include="Models\Mapping\TYearMap.cs" />
-    <Compile Include="Models\Mapping\UploadFileMap.cs" />
+    <Compile Include="Models\Mapping\WxUploadFileMap.cs" />
+    <Compile Include="Models\Mapping\WxUserInforMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
     <Compile Include="Models\StudCome.cs" />
     <Compile Include="Models\Student.cs" />
@@ -345,7 +345,8 @@
     <Compile Include="Models\TSub.cs" />
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
-    <Compile Include="Models\UploadFile.cs" />
+    <Compile Include="Models\WxUploadFile.cs" />
+    <Compile Include="Models\WxUserInfor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

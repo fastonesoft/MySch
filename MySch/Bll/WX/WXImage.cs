@@ -103,7 +103,7 @@ namespace MySch.Bll.WX
                 //var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
 
                 //下载成功,记录
-                var upload = new UploadFile
+                var upload = new WxUploadFile
                 {
                     ID = fileName,
                     IDS = "32128402012017010001",
@@ -112,7 +112,7 @@ namespace MySch.Bll.WX
                     CreateTime = DateTime.Now,
                     Author = openID,
                 };
-                DataCRUD<UploadFile>.Add(upload);
+                DataCRUD<WxUploadFile>.Add(upload);
             }
             catch (Exception e)
             {                

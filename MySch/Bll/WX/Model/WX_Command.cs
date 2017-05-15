@@ -59,7 +59,7 @@ namespace MySch.Bll.WX.Model
                     {
                         IDC = !string.IsNullOrEmpty(db.IDC),
                         Mobil = Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil1)) + Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil2)),
-                        Image = DataCRUD<UploadFile>.Count(a => a.Author == openID),
+                        Image = DataCRUD<WxUploadFile>.Count(a => a.Author == openID),
                     };
                 }
             }

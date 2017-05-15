@@ -157,7 +157,7 @@ namespace MySch.Bll.Xue
                 var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
 
                 //下载成功,记录
-                var upload = new UploadFile
+                var upload = new WxUploadFile
                 {
                     ID = fileName,
                     IDS = db.IDS,
@@ -166,10 +166,10 @@ namespace MySch.Bll.Xue
                     CreateTime = DateTime.Now,
                     Author = openID,
                 };
-                DataCRUD<UploadFile>.Add(upload);
+                DataCRUD<WxUploadFile>.Add(upload);
 
                 //统计该用户上传的图片数量
-                var count = DataCRUD<UploadFile>.Count(a => a.Author == openID);
+                var count = DataCRUD<WxUploadFile>.Count(a => a.Author == openID);
 
                 //返回
                 name = db.Name;

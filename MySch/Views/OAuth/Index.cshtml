@@ -13,141 +13,147 @@
     <script src="~/Scripts/jquery-1.12.4.min.js"></script>
 
     <script type="text/javascript">
-    $(function(){
-        wx.config({
-            debug: false,
-            appId: '@ViewBag.appid',
-            timestamp: @ViewBag.timestamp,
-            nonceStr: '@ViewBag.noncestr',
-            signature: '@ViewBag.signature',
-            jsApiList: [
-              'checkJsApi',
-              'hideMenuItems',
-              'hideAllNonBaseMenuItem',
-              'translateVoice',
-              'chooseImage',
-              'previewImage',
-              'uploadImage',
-              'hideOptionMenu',
-              'closeWindow',
-              'scanQRCode',
-              'chooseWXPay',
-              //'downloadImage',
-              //'onMenuShareTimeline',
-              //'onMenuShareAppMessage',
-              //'onMenuShareQQ',
-              //'onMenuShareWeibo',
-              //'onMenuShareQZone',
-              //'showMenuItems',
-              //'showAllNonBaseMenuItem',
-              //'startRecord',
-              //'stopRecord',
-              //'onVoiceRecordEnd',
-              //'playVoice',
-              //'onVoicePlayEnd',
-              //'pauseVoice',
-              //'stopVoice',
-              //'uploadVoice',
-              //'downloadVoice',
-              //'getNetworkType',
-              //'openLocation',
-              //'getLocation',
-              //'showOptionMenu',
-              //'openProductSpecificView',
-              //'addCard',
-              //'chooseCard',
-              //'openCard',
-            ]
-        });
-
-
-
-        wx.ready(function () {
-            //隐藏所有非基本菜单项
-            wx.hideAllNonBaseMenuItem({
-                success: function () {
-                    //alert('已隐藏所有非基本菜单项');
-                }
+        $(function(){
+            wx.config({
+                debug: false,
+                appId: '@ViewBag.appid',
+                timestamp: @ViewBag.timestamp,
+                nonceStr: '@ViewBag.noncestr',
+                signature: '@ViewBag.signature',
+                jsApiList: [
+                  'checkJsApi',
+                  'hideMenuItems',
+                  'hideAllNonBaseMenuItem',
+                  'translateVoice',
+                  'chooseImage',
+                  'previewImage',
+                  'uploadImage',
+                  'hideOptionMenu',
+                  'closeWindow',
+                  'scanQRCode',
+                  'chooseWXPay',
+                  //'downloadImage',
+                  //'onMenuShareTimeline',
+                  //'onMenuShareAppMessage',
+                  //'onMenuShareQQ',
+                  //'onMenuShareWeibo',
+                  //'onMenuShareQZone',
+                  //'showMenuItems',
+                  //'showAllNonBaseMenuItem',
+                  //'startRecord',
+                  //'stopRecord',
+                  //'onVoiceRecordEnd',
+                  //'playVoice',
+                  //'onVoicePlayEnd',
+                  //'pauseVoice',
+                  //'stopVoice',
+                  //'uploadVoice',
+                  //'downloadVoice',
+                  //'getNetworkType',
+                  //'openLocation',
+                  //'getLocation',
+                  //'showOptionMenu',
+                  //'openProductSpecificView',
+                  //'addCard',
+                  //'chooseCard',
+                  //'openCard',
+                ]
             });
 
 
-            // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
-            document.querySelector('#checkJsApi').onclick = function () {
-                wx.checkJsApi({
-                    jsApiList: [
-                        'checkJsApi',
-                        'hideMenuItems',
-                        'hideAllNonBaseMenuItem',
-                        'translateVoice',
-                        'chooseImage',
-                        'previewImage',
-                        'uploadImage',
-                        'downloadImage',
-                        'hideOptionMenu',
-                        'closeWindow',
-                        'scanQRCode',
-                        'chooseWXPay',
-                    ],
-                    success: function (res) {
-                        alert(JSON.stringify(res));
+
+            wx.ready(function () {
+                //隐藏所有非基本菜单项
+                wx.hideAllNonBaseMenuItem({
+                    success: function () {
+                        //alert('已隐藏所有非基本菜单项');
                     }
                 });
-            };
 
-            function upload(ids) {
-                for(i = 0; i < ids.length; i++)
-                {
-                    wx.uploadImage({
-                        localId: ids[i],
+
+                // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+                document.querySelector('#checkJsApi').onclick = function () {
+                    wx.checkJsApi({
+                        jsApiList: [
+                            'checkJsApi',
+                            'hideMenuItems',
+                            'hideAllNonBaseMenuItem',
+                            'translateVoice',
+                            'chooseImage',
+                            'previewImage',
+                            'uploadImage',
+                            'downloadImage',
+                            'hideOptionMenu',
+                            'closeWindow',
+                            'scanQRCode',
+                            'chooseWXPay',
+                        ],
                         success: function (res) {
-                            $.post('http://a.jysycz.cn/OAuth/UploadImage',{ mediaID:res.serverId, openID:'@ViewBag.openid', state:'@ViewBag.state'})
-                        },
-                        fail: function (res) {
                             alert(JSON.stringify(res));
                         }
                     });
+                };
+
+                function upload(ids) {
+                    for(i = 0; i < ids.length; i++)
+                    {
+                        wx.uploadImage({
+                            localId: ids[i],
+                            success: function (res) {
+                                $.post('http://a.jysycz.cn/OAuth/UploadImage',{ mediaID:res.serverId}, function(d){
+                                    alert(JSON.stringify(d));
+                                    if(d.error)
+                                    {
+                                        alert(d.message);
+                                    }
+                                })
+                            },
+                            fail: function (res) {
+                                alert(JSON.stringify(res));
+                            }
+                        });
+                    }
                 }
-            }
 
-            //选择图片，上传
-            document.querySelector('#chooseImage').onclick = function () {
-                wx.chooseImage({
-                    success: function (res) {
-                        upload(res.localIds);
-                    }
-                });
-            };
+                //选择图片，上传
+                document.querySelector('#chooseImage').onclick = function () {
+                    wx.chooseImage({
+                        success: function (res) {
+                            upload(res.localIds);
+                        }
+                    });
+                };
 
-            // 5.2 图片预览
-            document.querySelector('#previewImage').onclick = function () {
-                //读取已上传的图片列表
-                var urls = [];
-                var current = urls.length == 0 ? '' : urls[0];
-                wx.previewImage({
-                    current: current,
-                    urls: urls
-                });
-            };
+                // 5.2 图片预览
+                document.querySelector('#previewImage').onclick = function () {
+                    //读取已上传的图片列表
+                    var urls = [];
+                    var current = urls.length == 0 ? '' : urls[0];
+                    wx.previewImage({
+                        current: current,
+                        urls: urls
+                    });
+                };
 
-            // 9 微信原生接口
-            // 9.1.1 扫描二维码并返回结果
-            document.querySelector('#scanQRCode0').onclick = function () {
-                wx.scanQRCode();
-            };
-            // 9.1.2 扫描二维码并返回结果
-            document.querySelector('#scanQRCode1').onclick = function () {
-                wx.scanQRCode({
-                    needResult: 1,
-                    desc: 'scanQRCode desc',
-                    success: function (res) {
-                        alert(JSON.stringify(res));
-                    }
-                });
-            };
+                // 9 微信原生接口
+                // 9.1.1 扫描二维码并返回结果
+                document.querySelector('#scanQRCode0').onclick = function () {
+                    wx.scanQRCode();
+                };
+                // 9.1.2 扫描二维码并返回结果
+                document.querySelector('#scanQRCode1').onclick = function () {
+                    wx.scanQRCode({
+                        needResult: 1,
+                        desc: 'scanQRCode desc',
+                        success: function (res) {
+                            alert(JSON.stringify(res));
+                        }
+                    });
+                };
 
 
-        });
-    })
+            });
+        })
 
 
     </script>

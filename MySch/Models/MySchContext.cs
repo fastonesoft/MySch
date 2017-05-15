@@ -16,7 +16,6 @@ namespace MySch.Models
         {
         }
 
-        public DbSet<AccessTokenOauth> AccessTokenOauths { get; set; }
         public DbSet<ADatum> ADatums { get; set; }
         public DbSet<APage> APages { get; set; }
         public DbSet<ATheme> AThemes { get; set; }
@@ -49,11 +48,10 @@ namespace MySch.Models
         public DbSet<TSub> TSubs { get; set; }
         public DbSet<TTerm> TTerms { get; set; }
         public DbSet<TYear> TYears { get; set; }
-        public DbSet<UploadFile> UploadFiles { get; set; }
+        public DbSet<WxUploadFile> UploadFiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new AccessTokenOauthMap());
             modelBuilder.Configurations.Add(new ADatumMap());
             modelBuilder.Configurations.Add(new APageMap());
             modelBuilder.Configurations.Add(new AThemeMap());
@@ -86,7 +84,7 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new TSubMap());
             modelBuilder.Configurations.Add(new TTermMap());
             modelBuilder.Configurations.Add(new TYearMap());
-            modelBuilder.Configurations.Add(new UploadFileMap());
+            modelBuilder.Configurations.Add(new WxUploadFileMap());
         }
     }
 }
