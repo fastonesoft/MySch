@@ -79,8 +79,34 @@ namespace MySch.Controllers.WX
                 if (token != null)
                 {
                     WXImage.SaveUnloadImage(mediaID, token.openid);
+                    //
+                    return Json(new BllError { error = false, message = "图片上传成功" });
                 }
-                return Json(new BllError { error = false, message = "图片上传成功" });
+                else
+                {
+                    return Json(new BllError { error = true, message = "页面已过期" });
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        public ActionResult GetImages()
+        {
+            try
+            {
+                //检测session
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                if (token != null)
+                {
+                    return Json(WXImage.GetUnloadedImages(token.openid));
+                }
+                else
+                {
+                    return Json(new BllError { error = true, message = "页面已过期" });
+                }
             }
             catch (Exception e)
             {

@@ -100,7 +100,7 @@ namespace MySch.Bll.WX
                 web.DownloadFile(url, filePath);
 
                 //根据openID读取学生编号
-                //var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
 
                 //下载成功,记录
                 var upload = new WxUploadFile
@@ -113,6 +113,24 @@ namespace MySch.Bll.WX
                     Author = openID,
                 };
                 DataCRUD<WxUploadFile>.Add(upload);
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
+
+        public static List<string> GetUnloadedImages(string openID)
+        {
+            try
+            {
+                var uploads =  DataCRUD<WxUploadFile>.Entitys(a => a.Author == openID).OrderBy(a=>a.CreateTime);
+                var images = new List<string>();
+                foreach( var upload in uploads)
+                {
+                    images.Add(string.Format("http://a.jysycz.cn/image/picture?name={0}", upload.ID));
+                }
+                return images;
             }
             catch (Exception e)
             {                
