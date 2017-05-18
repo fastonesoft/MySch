@@ -96,6 +96,7 @@ namespace MySch.Controllers.WX
             {
                 //检测session
                 var token = WX_AccessTokenOauth.GetSessionToken();
+
                 if (token != null)
                 {
                     return Json(WXImage.GetUnloadedImages(token.openid));
