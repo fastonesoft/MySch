@@ -18,11 +18,8 @@ namespace MySch.Controllers.WX
         public ActionResult Index(WX_OAuth auth)
         {
             //读取code
-            //var appid = "wx01df6a9fe809485f";
-            //var secret = "c2ac6bc689b690f54d72f8479a26714b";
-            //测试平台的
-            var appid = "wx01df6a9fe809485f";
-            var secret = "c2ac6bc689b690f54d72f8479a26714b";
+            var appid = "wx0f49a9991c53e2a4";
+            var secret = "a3663df809650680e518a1508c4156b8";
 
             var codeurl = string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code", appid, secret, auth.code);
             var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");

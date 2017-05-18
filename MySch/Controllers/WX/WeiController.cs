@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Func;
+using MySch.Bll.Log;
 using MySch.Bll.WX;
 using MySch.Bll.WX.Model;
 using MySch.Bll.Xue;
@@ -192,12 +193,12 @@ namespace MySch.Controllers.WX
                             epic.Add("【二】然后输入家长的手机号码一个，发送", "", "http://a.jysycz.cn/image/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
                             //epic.Add("【三】点击右下角〖＋〗，然后选择〖拍摄〗，上传清晰的毕业证、户口簿、房产证等原件照片", "", "http://a.jysycz.cn/image/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
                             //epic.Add("【四】至少传三张图片，才能显示条形码！有了条码后，请携带相关原件、手机到报名窗口审核", "", "http://a.jysycz.cn/image/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
-                       
-                            var appid = "wx01df6a9fe809485f";
+
+                            var appid = "wx0f49a9991c53e2a4";
                             var url = HttpUtility.UrlEncode("http://a.jysycz.cn/oauth/");
                             var state = Guid.NewGuid().ToString("N");
 
-                            epic.Add("【三】点击本条信息，打开照片上传页面", "", "", string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, url, state));
+                            epic.Add("点击本条信息，打开照片上传页面", "", "", string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, url, state));
                             return epic.ToXml(author);
                         }
                         else

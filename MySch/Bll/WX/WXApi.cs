@@ -50,7 +50,7 @@ namespace MySch.Bll.WX
         {
             if (au == null) return false;
 
-            return CheckSignature("WX1979ToKen", au.timestamp, au.nonce, au.signature);
+            return CheckSignature("WX1979ToKen1979", au.timestamp, au.nonce, au.signature);
         }
 
         /// <summary>

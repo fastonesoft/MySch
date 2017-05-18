@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
+    <Compile Include="Bll\Log\BllLog.cs" />
     <Compile Include="Bll\WX\Model\WX_AccessTokenOauth.cs">
       <SubType>Code</SubType>
     </Compile>
