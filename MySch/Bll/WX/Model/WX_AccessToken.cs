@@ -35,7 +35,7 @@ namespace MySch.Bll.WX.Model
                 }
 
                 //读取token
-                var url = string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", "wx0f49a9991c53e2a4", "a3663df809650680e518a1508c4156b8");
+                var url = WX_Url.AccessToken(WX_App.AppID, WX_App.AppSecret);
                 var jsons = HtmlHelp.GetHtml(url, "UTF-8");
                 token = Jsons.JsonEntity<WX_AccessToken>(jsons);
                 //设置时间

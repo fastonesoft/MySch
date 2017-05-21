@@ -30,4 +30,9 @@ namespace MySch.Bll
         public string message { get; set; }
     }
 
+    public class BllErrorEx : BllError
+    {
+        public string warnid { get; set; }
+    }
+
 }

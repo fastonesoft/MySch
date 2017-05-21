@@ -21,6 +21,42 @@ namespace MySch.Bll.Xue
     public class AutoXue
     {
 
+        public static BllErrorEx RegStud(string idc, string mobil, string openid)
+        {
+            try
+            {
+                //
+                if (DataCRUD<Student>.Count(a => a.OpenID == openid) > 0)
+                {
+                    return new BllErrorEx { error = true, message = "一个微信号只能绑定一个身份证" };
+                }
+
+                //身份证重复，给出的提示
+                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0)
+                {
+                    return new BllErrorEx { error = true, message = "该身份证号的学生已注册" };
+                }
+
+                //一、身份证检测
+                var error = IDC.IDS(idc);
+                if (error.error)
+                {
+                    return new BllErrorEx { error = true, message = error.message, warnid = "oa_stud_reg_idc" };
+                }
+                //二、保存
+                error = MatchStudent(idc, mobil, openid);
+                if (error.error)
+                {
+                    return new BllErrorEx { error = true, message = error.message, warnid = "oa_stud_reg_idc" };
+                }
+                return new BllErrorEx { error = false, message = idc, warnid = error.message };
+            }
+            catch (Exception e)
+            {
+                return new BllErrorEx { error = true, message = e.Message };
+            }
+        }
+
         /// <summary>
         /// 学生报名
         /// </summary>
@@ -57,49 +93,8 @@ namespace MySch.Bll.Xue
                     return new BllError { error = true, message = "身份证号：同一身份证号不要重复注册" };
                 }
 
-                //读取网页数据
-                var cookies = GetCookies();
-                var html = GetStudentHtml(idc, cookies);
-
-                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[0-9X]|\d{4})</td>");
-                MatchCollection matchs = regx.Matches(html);
-
-                //有数据，记录
-                if (matchs.Count != 0)
-                {
-                    var reg = new BllStudentReg();
-                    reg.Memo = matchs[0].Groups[1].ToString();
-                    reg.Name = matchs[1].Groups[1].ToString();
-                    reg.IDC = matchs[2].Groups[1].ToString();
-                    reg.FromSch = matchs[3].Groups[1].ToString();
-                    reg.StepIDS = matchs[6].Groups[1].ToString();
-
-                    //设置添加条件
-                    if (reg.Memo == "小学学籍库" && reg.StepIDS == "2011")
-                    {
-                        reg.ID = Guid.NewGuid().ToString("N");
-                        reg.StepIDS = "3212840201201701";
-                        reg.AccIDS = "32128402";
-                        //绑定用户
-                        reg.OpenID = openID;
-                        //取最大值，没有，则为0
-                        var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
-                        int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
-                        //自增
-                        reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
-
-                        reg.ToAdd();
-                        return new BllError { error = false, message = reg.Name };
-                    }
-                    else
-                    {
-                        return new BllError { error = true, message = "身份证未添加！不是小学应届毕业生。请到报名窗口咨询！" };
-                    }
-                }
-                else
-                {
-                    return new BllError { error = true, message = "身份证未添加！省学籍库无记录，请到报名窗口咨询！" };
-                }
+                //
+                return MatchStudent(idc, null, openID);
             }
             catch (Exception e)
             {
@@ -394,6 +389,62 @@ namespace MySch.Bll.Xue
         }
 
 
+        public static BllError MatchStudent(string idc, string mobil, string openid)
+        {
+            try
+            {
+                //读取网页数据
+                var cookies = GetCookies();
+                var html = GetStudentHtml(idc, cookies);
+
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
+                MatchCollection matchs = regx.Matches(html);
+
+                //有数据，记录
+                if (matchs.Count != 0)
+                {
+                    var reg = new BllStudentReg();
+                    reg.Memo = matchs[0].Groups[1].ToString();
+                    reg.Name = matchs[1].Groups[1].ToString();
+                    reg.IDC = matchs[2].Groups[1].ToString();
+                    reg.FromSch = matchs[3].Groups[1].ToString();
+                    reg.StepIDS = matchs[6].Groups[1].ToString();
+
+                    //设置添加条件
+                    if (reg.Memo == "小学学籍库" && reg.StepIDS == "2011")
+                    {
+                        reg.ID = Guid.NewGuid().ToString("N");
+                        reg.StepIDS = "3212840201201701";
+                        reg.AccIDS = "32128402";
+                        //绑定用户
+                        reg.OpenID = openid;
+                        //取最大值，没有，则为0
+                        var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
+                        int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
+                        //自增
+                        reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
+                        //电话
+                        reg.Mobil1 = mobil;
+
+                        reg.ToAdd();
+                        return new BllError { error = false, message = reg.Name };
+                    }
+                    else
+                    {
+                        return new BllError { error = true, message = "不是小学应届毕业生，无法报名" };
+                    }
+                }
+                else
+                {
+                    return new BllError { error = true, message = "省学籍库无记录，请检查身份证" };
+                }
+            }
+            catch (Exception e)
+            {
+                return new BllError { error = true, message = e.Message };
+            }
+        }
+
 
 
         /// <summary>
@@ -403,7 +454,7 @@ namespace MySch.Bll.Xue
         /// <param name="Name">学生姓名</param>
         /// <param name="openID">ID</param>
         /// <returns></returns>
-        public static string StudReg(string Name, string ID, string openID)
+        public static string StudReg11(string Name, string ID, string openID)
         {
             try
             {

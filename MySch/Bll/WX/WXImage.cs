@@ -83,36 +83,43 @@ namespace MySch.Bll.WX
         /// <param name="accessToken"></param>
         /// <param name="mediaID"></param>
         /// <param name="openID"></param>
-        public static void SaveUnloadImage(string mediaID, string openID)
+        public static BllError SaveUnloadImage(string mediaID, string openID, string uploadType)
         {
             try
             {
+                //根据openID读取学生编号
+                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                if (db == null)
+                {
+                    return new BllError { error = true, message = "未绑定学生，不能上传" };
+                }
+
                 //中控token
                 var wxtoken = WX_AccessToken.GetAccessToken();
 
-                var url = string.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", wxtoken, mediaID);
-
-                //保存
-                var web = new WebClient();
+                //文件准备
                 var fileName = Guid.NewGuid().ToString("N");
                 var fileType = "jpg";
                 var filePath = HttpContext.Current.Server.MapPath(string.Format("~/Upload/XueImages/{0}.{1}", fileName, fileType));
-                web.DownloadFile(url, filePath);
-
-                //根据openID读取学生编号
-                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+         
+                //保存
+                var web = new WebClient();
+                web.DownloadFile(WX_Url.MediaFile(wxtoken, mediaID), filePath);
 
                 //下载成功,记录
                 var upload = new WxUploadFile
                 {
                     ID = fileName,
-                    IDS = "32128402012017010001",
+                    IDS = db.IDS,
                     FileType = fileType,
-                    UploadType = "WX",
+                    UploadType = uploadType,
                     CreateTime = DateTime.Now,
                     Author = openID,
                 };
                 DataCRUD<WxUploadFile>.Add(upload);
+
+                //提示信息
+                return new BllError { error = false, message = "图片上传成功" };
             }
             catch (Exception e)
             {                

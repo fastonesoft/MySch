@@ -1,7 +1,9 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Func;
 using MySch.Bll.WX;
+using MySch.Bll.WX.Form;
 using MySch.Bll.WX.Model;
+using MySch.Bll.Xue;
 using MySch.Helper;
 using MySch.Models;
 using System;
@@ -17,72 +19,78 @@ namespace MySch.Controllers.WX
     {
         public ActionResult Index(WX_OAuth auth)
         {
-            //读取code
-            var appid = "wx0f49a9991c53e2a4";
-            var secret = "a3663df809650680e518a1508c4156b8";
-
-            var codeurl = string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code", appid, secret, auth.code);
-            var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");
-
-            //检测是否出错
-            if (codes.Contains("errcode"))
+            try
             {
-                WX_Error error = Jsons.JsonEntity<WX_Error>(codes);
-                return Content(error.GetMessage());
-            }
-            else
-            {
-                //解析网页的token
-                WX_AccessTokenOauth token = Jsons.JsonEntity<WX_AccessTokenOauth>(codes);
-                token.create_time = DateTime.Now;
-                token.ToSession();
+                //读取code          
+                var codeurl = WX_Url.OAuthCode(WX_App.AppID, WX_App.AppSecret, auth.code);
+                var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");
 
-                if (token.scope == "snsapi_userinfo")
+                //检测是否出错
+                if (codes.Contains("errcode"))
                 {
-                    var inforurl = string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN", token.access_token, token.openid);
-                    var infor = HtmlHelp.GetHtml(inforurl, "UTF-8");
-                    WX_UserInfor userinfor = Jsons.JsonEntity<WX_UserInfor>(infor);
-
-                    ViewBag.openid = userinfor.openid;
-                    ViewBag.nickname = userinfor.nickname;
-
-                    //中控token
-                    var wxtoken = WX_AccessToken.GetAccessToken();
-
-                    //签名算法
-                    var signature = new WX_Signature(appid, WX_Jsticket.GetJsticket(wxtoken), Setting.Url(Request));
-
-                    ViewBag.appid = signature.appId;
-                    ViewBag.timestamp = signature.timestamp;
-                    ViewBag.noncestr = signature.noncestr;
-                    ViewBag.signature = signature.signature;
-
-                    return View();
+                    var error = Jsons.JsonEntity<WX_Error>(codes);
+                    return Content(error.GetMessage());
                 }
                 else
                 {
-                    return Content("没有授权访问");
+                    //解析网页的token
+                    var token = Jsons.JsonEntity<WX_AccessTokenOauth>(codes);
+                    token.create_time = DateTime.Now;
+                    //缓存
+                    token.ToSession();
+                    //检查授权状态
+                    if (token.scope == "snsapi_userinfo")
+                    {
+                        //读取用户信息
+                        var userurl = WX_Url.UserInfor(token.access_token, token.openid);
+                        var user = HtmlHelp.GetHtml(userurl, "UTF-8");
+                        //序列化
+                        var infor = Jsons.JsonEntity<WX_UserInfor>(user);
+                        infor.codePage = Setting.Url(Request);
+                        //检测是否绑定学生
+                        infor.Check();
+                        //缓存
+                        infor.ToSession();
+
+                        //显示网页
+                        return View();
+                    }
+                    else
+                    {
+                        return Content("没有授权访问");
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
             }
         }
 
-        public ActionResult UploadImage(string mediaID)
+        /// <summary>
+        /// 返回js注册用的信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Index()
         {
             try
             {
-                //检测session
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                //检查Session
+                var wxtoken = WX_AccessToken.GetAccessToken();
+                var infor = WX_UserInfor.GetSessionToken();
+                if (wxtoken == null || infor == null)
+                {
+                    return Json(new BllError { error = true, message = "页面请求已过期" });
+                }
 
-                if (token != null)
-                {
-                    WXImage.SaveUnloadImage(mediaID, token.openid);
-                    //
-                    return Json(new BllError { error = false, message = "图片上传成功" });
-                }
-                else
-                {
-                    return Json(new BllError { error = true, message = "页面已过期" });
-                }
+                //签名算法
+                var signature = new WX_Signature(WX_App.AppID, WX_Jsticket.GetJsticket(wxtoken), infor.codePage, infor.idc, infor.name);
+                signature.idc = infor.idc;
+                signature.name = infor.name;
+
+                //序列化
+                return Json(signature);
             }
             catch (Exception e)
             {
@@ -90,21 +98,46 @@ namespace MySch.Controllers.WX
             }
         }
 
+        [HttpPost]
+        public ActionResult Reg(string idc, string mobil)
+        {
+            try
+            {
+                var userinfor = WX_UserInfor.GetSessionToken();
+                var res = AutoXue.RegStud(idc.ToUpper(), mobil, userinfor.openid);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllErrorEx { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UploadImage(string mediaID, string uploadType)
+        {
+            try
+            {
+                //检测session
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                var res = WXImage.SaveUnloadImage(mediaID, token.openid, uploadType);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //获取上传照片列表
         public ActionResult GetImages()
         {
             try
             {
                 //检测session
                 var token = WX_AccessTokenOauth.GetSessionToken();
-
-                if (token != null)
-                {
-                    return Json(WXImage.GetUnloadedImages(token.openid));
-                }
-                else
-                {
-                    return Json(new BllError { error = true, message = "页面已过期" });
-                }
+                var res = WXImage.GetUnloadedImages(token.openid);
+                return Json(res);
             }
             catch (Exception e)
             {

@@ -16,7 +16,7 @@ namespace MySch.Bll.WX.Model
 
         public static WX_AccessTokenOauth GetSessionToken()
         {
-            WX_AccessTokenOauth token = (WX_AccessTokenOauth)HttpContext.Current.Session["wx_accesstokenoauth"];
+            var token = (WX_AccessTokenOauth)HttpContext.Current.Session["wx_accesstokenoauth"];
             if (token != null)
             {
                 if (WX_Time.TimeDiffer(DateTime.Now, token.create_time) < token.expires_in)
@@ -26,7 +26,7 @@ namespace MySch.Bll.WX.Model
                 }
             }
             //有问题，返回为空
-            return null;
+            throw new Exception("授权页面已过期");
         }
 
         //缓存
