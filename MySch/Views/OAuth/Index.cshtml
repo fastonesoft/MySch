@@ -144,19 +144,18 @@
                         }
 
                         //选择图片，上传
-                        $('#oa_stud_reged .weui-btn').click(function () {
+                        $('.oa_stud_reged_upload .weui-btn').click(function () {
                             //分类名称
                             var name = $(this).text();
                             wx.chooseImage({
                                 success: function (res) {
-                                    //TODO,添加分类
                                     syncUpload(res.localIds, name);
                                 }
                             });
                         });
 
                         // 5.2 图片预览
-                        document.querySelector('#previewImage').onclick = function () {
+                        document.querySelector('#oa_stud_reged_preview').onclick = function () {
                             //获取列表
                             $.post('/OAuth/GetImages', function (images) {
                                 //读取已上传的图片列表
@@ -233,25 +232,29 @@
     </form>
 
     <div id="oa_stud_reged" style="display:none;">
-        <div class="weui-article ">
-            <h1 id="oa_stud_reged_name">学生姓名</h1>
-            <img src="" id="oa_stud_reged_image" />
-            <h2>　　你已完成报名注册，请到报名窗口出示条形码，审核报名所需的相关材料原件</h2>
-            <h2>　　也可以对照下列选项，先上传报名原件的照片，再去窗口审核</h2>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary">毕业证</a>
+        <div class="weui-article">
+            <div class="oa_stud_reged_upload">
+                <h1 id="oa_stud_reged_name">学生姓名</h1>
+                <img src="" id="oa_stud_reged_image" />
+                <h2>　注册已完成！请到报名窗口出示条形码，审核报名所需材料原件；也可以对照下列选项，先上传报名原件照片，再去审核</h2>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary">毕业证</a>
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary">产权证</a>
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary">户口簿</a>
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary">补充协议书</a>
+                </div>
             </div>
             <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary">产权证</a>
-            </div>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary">户口簿</a>
-            </div>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary">补充协议书</a>
+                <a id="oa_stud_reged_preview" href="javascript:" class="weui-btn weui-btn_primary">上传图片预览</a>
             </div>
         </div>
-    </div>
+ </div>
 
     <div class="wxapi_container" style="display:none;">
 
