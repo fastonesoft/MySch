@@ -51,7 +51,6 @@ namespace MySch.Bll.WX.Model
                     name = entity.Name;
                     idc =  entity.IDC;
                 }
-                throw new Exception("未绑定学生");
             }
             catch (Exception e)
             {
