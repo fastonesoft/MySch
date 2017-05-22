@@ -15,7 +15,7 @@ namespace MySch.Controllers.WX
         //图文图片
         public void Code(string content)
         {
-            XingCode.CodeOutputStream(360, 120, content, 0, BarcodeFormat.QR_CODE);
+            XingCode.CodeOutputStream(360, 150, content, 0, BarcodeFormat.QR_CODE);
         }
 
         //我的关注
