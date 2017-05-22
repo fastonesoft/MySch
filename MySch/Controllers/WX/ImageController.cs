@@ -15,7 +15,7 @@ namespace MySch.Controllers.WX
         //图文图片
         public void Code(string content)
         {
-            XingCode.CodeOutputStream(360, 40, content, 0, BarcodeFormat.CODE_128);
+            XingCode.CodeOutputStream(260, 40, content, 0, BarcodeFormat.CODE_128);
         }
 
         //我的关注
@@ -38,12 +38,10 @@ namespace MySch.Controllers.WX
         }
 
         //图片浏览
-        public void picture(string name)
+        public void Uploaded(string name)
         {
             var fileName = "~/Upload/XueImages/" + name + ".jpg";
             XingCode.CodeOutputStream(fileName);
         }
-
-
     }
 }

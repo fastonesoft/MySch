@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>校务在线</title>
+    <title>校务在线 - 报名注册</title>
     <script src="~/Scripts/jquery-1.12.4.min.js"></script>
 
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -16,17 +16,17 @@
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $.post('/OAuth/', function (res) {
+            $.post('/Regs/', function (res) {
                 if (res.error) {
                     alert(res.message);
                 } else {
                     //先显示
                     if (res.idc == null) {
-                        $('#oa_stud_reg_form').fadeIn();
+                        $('#regs_reg_form').fadeIn();
                     } else {
-                        $('#oa_stud_reged_image').attr('src', '/Image/code?content=' + res.idc);
-                        $('#oa_stud_reged_name').text(res.name + '：');
-                        $('#oa_stud_reged').fadeIn();
+                        $('#regs_reged_image').attr('src', '/Image/code?content=' + res.idc);
+                        $('#regs_reged_name').text(res.name + '：');
+                        $('#regs_reged').fadeIn();
                     }
                     //后注册
                     wx.config({
@@ -89,13 +89,13 @@
                             TEL: /^1(3\d|4[57]|5[0-35-9]|8\d|70)\d{8}$/,
                         };
                         //表单
-                        $('#oa_stud_reg_upload').click(function () {
-                            weui.form.validate('#oa_stud_reg_form', function (error) {
+                        $('#regs_reg_upload').click(function () {
+                            weui.form.validate('#regs_reg_form', function (error) {
                                 if (!error) {
                                     var loading = weui.loading('提交中...');
                                     //提交
-                                    var data = $('#oa_stud_reg_form').serialize();
-                                    $.post('/OAuth/Reg', data, function (res) {
+                                    var data = $('#regs_reg_form').serialize();
+                                    $.post('/Regs/Reg', data, function (res) {
                                         //关闭
                                         loading.hide();
                                         //提示
@@ -106,11 +106,11 @@
                                             }
                                             weui.topTips(res.message, 3000);
                                         } else {
-                                            $('#oa_stud_reged_image').attr('src', '/Image/code?content=' + res.message);
-                                            $('#oa_stud_reged_name').text(res.warnid + '：');
+                                            $('#regs_reged_image').attr('src', '/Image/code?content=' + res.message);
+                                            $('#regs_reged_name').text(res.warnid + '：');
                                             //
-                                            $('#oa_stud_reg_form').hide();
-                                            $('#oa_stud_reged').fadeIn();
+                                            $('#regs_reg_form').hide();
+                                            $('#regs_reged').fadeIn();
                                             weui.toast('提交成功', 1500);
                                         }
                                     })
@@ -120,7 +120,7 @@
                             });
                         });
 
-                        weui.form.checkIfBlur('#oa_stud_reg_form', {
+                        weui.form.checkIfBlur('#regs_reg_form', {
                             regexp: reg
                         });
 
@@ -131,7 +131,7 @@
                                 isShowProgressTips: 1,
                                 success: function (res) {
                                     //对serverId做处理的代码
-                                    $.post('/OAuth/UploadImage', { mediaID: res.serverId, uploadType: uploadtype }, function (d) {
+                                    $.post('/Regs/UploadImage', { mediaID: res.serverId, uploadType: uploadtype }, function (d) {
                                         if (d.error) {
                                             alert(d.message);
                                         }
@@ -144,9 +144,9 @@
                         }
 
                         //选择图片，上传
-                        $('.oa_stud_reged_upload .weui-btn').click(function () {
+                        $('.regs_reged_upload .weui-btn').click(function () {
                             //分类名称
-                            var name = $(this).text();
+                            var name = $(this).attr('uploadtype');
                             wx.chooseImage({
                                 success: function (res) {
                                     syncUpload(res.localIds, name);
@@ -155,9 +155,9 @@
                         });
 
                         // 5.2 图片预览
-                        document.querySelector('#oa_stud_reged_preview').onclick = function () {
+                        document.querySelector('#regs_reged_preview').onclick = function () {
                             //获取列表
-                            $.post('/OAuth/GetImages', function (images) {
+                            $.post('/Regs/GetImages', function (images) {
                                 //读取已上传的图片列表
                                 if (images.length == 0) {
                                     alert('您还没有上传图片');
@@ -169,22 +169,6 @@
                                     });
                                 }
                             })
-                        };
-
-                        // 9 微信原生接口
-                        // 9.1.1 扫描二维码并返回结果
-                        document.querySelector('#scanQRCode0').onclick = function () {
-                            wx.scanQRCode();
-                        };
-                        // 9.1.2 扫描二维码并返回结果
-                        document.querySelector('#scanQRCode1').onclick = function () {
-                            wx.scanQRCode({
-                                needResult: 1,
-                                desc: 'scanQRCode desc',
-                                success: function (res) {
-                                    alert(JSON.stringify(res));
-                                }
-                            });
                         };
                     });
 
@@ -198,12 +182,12 @@
     </script>
 </head>
 <body ontouchstart>
-    <form id="oa_stud_reg_form" style="display:none;">
+    <form id="regs_reg_form" style="display:none;">
         <div class="weui-article">
             <h1 class="weui_cells_title">学生注册</h1>
             <section>
                 <div class="weui-cells weui-cells_form">
-                    <div class="weui-cell" id="oa_stud_reg_tel">
+                    <div class="weui-cell" id="regs_reg_tel">
                         <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">手机号码</label></div>
                         <div class="weui-cell__bd">
                             <input class="weui-input" type="tel" name="mobil" required="required" pattern="REG_TEL" maxlength="11" placeholder="输入你现在的手机号" emptytips="手机号码不能为空" notmatchtips="手机号码不正确">
@@ -212,7 +196,7 @@
                             <i class="weui-icon-warn"></i>
                         </div>
                     </div>
-                    <div class="weui-cell" id="oa_stud_reg_idc">
+                    <div class="weui-cell" id="regs_reg_idc">
                         <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
                         <div class="weui-cell__bd">
                             <input class="weui-input" type="tel" name="idc" required="required" pattern="REG_IDNUM" maxlength="18" placeholder="输入学生的身份证号" emptytips="学生身份证号不能为空" notmatchtips="身份证号码不正确">
@@ -223,7 +207,7 @@
                     </div>
                 </div>
                 <div class="weui-btn-area">
-                    <a id="oa_stud_reg_upload" href="javascript:" class="weui-btn weui-btn_primary">开始注册</a>
+                    <a id="regs_reg_upload" href="javascript:" class="weui-btn weui-btn_primary">开始注册</a>
                 </div>
                 <h2 class="title" style="color:red; margin-top: 20px;">注意：</h2>
                 <h2 class="title">　　一个微信账号只能注册一个学生身份证</h2>
@@ -231,54 +215,29 @@
         </div>
     </form>
 
-    <div id="oa_stud_reged" style="display:none;">
+    <div id="regs_reged" style="display:none;">
         <div class="weui-article">
-            <div class="oa_stud_reged_upload">
-                <h1 id="oa_stud_reged_name">学生姓名</h1>
-                <img src="" id="oa_stud_reged_image" />
-                <h2>　注册已完成！请到报名窗口出示条形码，审核报名所需材料原件；也可以对照下列选项，先上传报名原件照片，再去审核</h2>
+            <div class="regs_reged_upload">
+                <h1 id="regs_reged_name">学生姓名</h1>
+                <img src="" id="regs_reged_image" />
+                <h2>　　注册已完成！请到报名窗口出示条码，审核报名所需材料原件；也可以对照下列选项，先上传报名原件照片，再去审核</h2>
                 <div class="weui-btn-area">
-                    <a href="javascript:" class="weui-btn weui-btn_primary">毕业证</a>
+                    <a href="javascript:" class="weui-btn weui-btn_primary" uploadtype="grade">毕业证</a>
                 </div>
                 <div class="weui-btn-area">
-                    <a href="javascript:" class="weui-btn weui-btn_primary">产权证</a>
+                    <a href="javascript:" class="weui-btn weui-btn_primary" uploadtype="house">产权证</a>
                 </div>
                 <div class="weui-btn-area">
-                    <a href="javascript:" class="weui-btn weui-btn_primary">户口簿</a>
+                    <a href="javascript:" class="weui-btn weui-btn_primary" uploadtype="city">户口簿</a>
                 </div>
                 <div class="weui-btn-area">
-                    <a href="javascript:" class="weui-btn weui-btn_primary">补充协议书</a>
+                    <a href="javascript:" class="weui-btn weui-btn_primary" uploadtype="paper">补充协议书</a>
                 </div>
             </div>
             <div class="weui-btn-area">
-                <a id="oa_stud_reged_preview" href="javascript:" class="weui-btn weui-btn_primary">上传图片预览</a>
+                <a id="regs_reged_preview" href="javascript:" class="weui-btn weui-btn_primary">上传图片预览</a>
             </div>
         </div>
  </div>
-
-    <div class="wxapi_container" style="display:none;">
-
-        <div class="lbox_close wxapi_form">
-
-
-            <h3 id="menu-image">图像接口</h3>
-            <span class="desc">拍照或从手机相册中选图接口</span>
-            <button class="btn btn_primary" id="chooseImage">选择本机图片</button>
-            <span class="desc">预览图片接口</span>
-            <button class="btn btn_primary" id="previewImage">上传图片预览</button>
-
-            <h3 id="menu-scan">微信扫一扫</h3>
-            <span class="desc">调起微信扫一扫接口</span>
-            <button class="btn btn_primary" id="scanQRCode0">scanQRCode(微信处理结果)</button>
-            <button class="btn btn_primary" id="scanQRCode1">scanQRCode(直接返回结果)</button>
-
-
-            <div style="display:none;">
-                <h3 id="menu-pay">微信支付接口</h3>
-                <span class="desc">发起一个微信支付请求</span>
-                <button class="btn btn_primary" id="chooseWXPay">chooseWXPay</button>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

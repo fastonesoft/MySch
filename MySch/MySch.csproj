@@ -139,6 +139,7 @@
     <Compile Include="Bll\WX\Model\WX_Signature.cs" />
     <Compile Include="Bll\WX\Model\WX_TimeDiffer.cs" />
     <Compile Include="Bll\WX\Model\WX_UserInfor.cs" />
+    <Compile Include="Bll\WX\Model\WX_UserStud.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
     <Compile Include="Bll\Xue\AutoXue.cs">
       <SubType>Code</SubType>
@@ -266,7 +267,7 @@
     <Compile Include="Controllers\User\UserPartController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\WX\OAuthController.cs" />
+    <Compile Include="Controllers\WX\RegsController.cs" />
     <Compile Include="Controllers\WX\WeiController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataCRUD.cs" />
@@ -727,7 +728,8 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
     <Content Include="Views\Wei\Index.cshtml" />
-    <Content Include="Views\OAuth\Index.cshtml" />
+    <Content Include="Views\Regs\Index.cshtml" />
+    <Content Include="Views\Regs\Examine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

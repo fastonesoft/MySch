@@ -119,7 +119,7 @@ namespace MySch.Bll.WX
                 DataCRUD<WxUploadFile>.Add(upload);
 
                 //提示信息
-                return new BllError { error = false, message = "图片上传成功" };
+                return new BllError { error = false, message = fileName };
             }
             catch (Exception e)
             {                
@@ -135,7 +135,7 @@ namespace MySch.Bll.WX
                 var images = new List<string>();
                 foreach( var upload in uploads)
                 {
-                    images.Add(string.Format("http://a.jysycz.cn/image/picture?name={0}", upload.ID));
+                    images.Add(string.Format("http://a.jysycz.cn/image/uploaded?name={0}", upload.ID));
                 }
                 return images;
             }

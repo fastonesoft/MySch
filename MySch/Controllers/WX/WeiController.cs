@@ -163,14 +163,14 @@ namespace MySch.Controllers.WX
                                     {
                                         var epic = new WX_Send_News(rec);
                                         epic.Add("上传提示", "", "", "");
-                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/image/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
+                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/image/uploaded?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
                                         return epic.ToXml(author);
                                     }
                                     else
                                     {
                                         var epic = new WX_Send_News(rec);
                                         epic.Add("报名步骤【三】", "", "", "");
-                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/image/picture?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
+                                        epic.Add(string.Format("你已上传了{0}张照片。", errorimage.message), "", string.Format("http://a.jysycz.cn/image/uploaded?name={0}&r={1}", sid, (new Random()).NextDouble().ToString()), "");
                                         return epic.ToXml(author);
                                     }
                                 }
@@ -195,10 +195,12 @@ namespace MySch.Controllers.WX
                             //epic.Add("【四】至少传三张图片，才能显示条形码！有了条码后，请携带相关原件、手机到报名窗口审核", "", "http://a.jysycz.cn/image/image?name=wx_no&r=" + (new Random()).NextDouble().ToString(), "");
 
                             var appid = "wx0f49a9991c53e2a4";
-                            var url = HttpUtility.UrlEncode("http://a.jysycz.cn/oauth/");
+                            var url = HttpUtility.UrlEncode("http://a.jysycz.cn/regs/");
+                            var url2 = HttpUtility.UrlEncode("http://a.jysycz.cn/regs/examine");
                             var state = Guid.NewGuid().ToString("N");
 
                             epic.Add("点击本条信息，打开照片上传页面", "", "", string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, url, state));
+                            epic.Add("点击本条信息，审核", "", "", string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, url2, state));
                             return epic.ToXml(author);
                         }
                         else

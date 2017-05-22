@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.WX
 {
-    public class OAuthController : Controller
+    public class RegsController : Controller
     {
         public ActionResult Index(WX_OAuth auth)
         {
@@ -79,10 +79,6 @@ namespace MySch.Controllers.WX
                 //检查Session
                 var wxtoken = WX_AccessToken.GetAccessToken();
                 var infor = WX_UserInfor.GetSessionToken();
-                if (wxtoken == null || infor == null)
-                {
-                    return Json(new BllError { error = true, message = "页面请求已过期" });
-                }
 
                 //签名算法
                 var signature = new WX_Signature(WX_App.AppID, WX_Jsticket.GetJsticket(wxtoken), infor.codePage, infor.idc, infor.name);
@@ -130,6 +126,7 @@ namespace MySch.Controllers.WX
         }
 
         //获取上传照片列表
+        [HttpPost]
         public ActionResult GetImages()
         {
             try
@@ -142,6 +139,75 @@ namespace MySch.Controllers.WX
             catch (Exception e)
             {
                 return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        public ActionResult GetImages(string idc)
+        {
+            try
+            {
+                //检测session
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                //根据身份证，读取openid
+                var openid = WX_UserStud.OpenID(idc);
+
+                var res = WXImage.GetUnloadedImages(openid);
+                return Json(res);
+            }
+            catch (Exception e)
+            {                
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //////////////////////////////////////////////
+        //审核
+        public ActionResult Examine(WX_OAuth auth)
+        {
+            try
+            {
+                //读取code          
+                var codeurl = WX_Url.OAuthCode(WX_App.AppID, WX_App.AppSecret, auth.code);
+                var code = HtmlHelp.GetHtml(codeurl, "UTF-8");
+
+                //检测是否出错
+                if (code.Contains("errcode"))
+                {
+                    var error = Jsons.JsonEntity<WX_Error>(code);
+                    return Content(error.GetMessage());
+                }
+                else
+                {
+                    //解析网页的token
+                    var token = Jsons.JsonEntity<WX_AccessTokenOauth>(code);
+                    token.create_time = DateTime.Now;
+                    //缓存
+                    token.ToSession();
+                    //检查授权状态
+                    if (token.scope == "snsapi_userinfo")
+                    {
+                        //读取用户信息
+                        var userurl = WX_Url.UserInfor(token.access_token, token.openid);
+                        var user = HtmlHelp.GetHtml(userurl, "UTF-8");
+                        //序列化
+                        var infor = Jsons.JsonEntity<WX_UserInfor>(user);
+                        infor.codePage = Setting.Url(Request);
+
+                        //缓存
+                        infor.ToSession();
+
+                        //显示网页
+                        return View();
+                    }
+                    else
+                    {
+                        return Content("没有授权访问");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
             }
         }
     }
