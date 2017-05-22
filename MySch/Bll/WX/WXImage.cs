@@ -127,6 +127,7 @@ namespace MySch.Bll.WX
             }
         }
 
+        //获取预览图片列表
         public static List<string> GetUnloadedImages(string openID)
         {
             try
@@ -141,6 +142,25 @@ namespace MySch.Bll.WX
             }
             catch (Exception e)
             {                
+                throw e;
+            }
+        }
+
+        //分类查询图片
+        public static List<BllErrorEx> GetImagesByType(string openID)
+        {
+            try
+            {
+                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.Author == openID).OrderBy(a => a.CreateTime);
+                var images = new List<BllErrorEx>();
+                foreach (var upload in uploads)
+                {
+                    images.Add(new BllErrorEx { message = upload.UploadType, warnid = upload.ID });
+                }
+                return images;
+            }
+            catch (Exception e)
+            {
                 throw e;
             }
         }

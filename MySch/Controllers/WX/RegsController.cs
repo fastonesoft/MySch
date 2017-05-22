@@ -142,7 +142,8 @@ namespace MySch.Controllers.WX
             }
         }
 
-        public ActionResult GetImages(string idc)
+        [HttpPost]
+        public ActionResult GetImagesByType(string idc)
         {
             try
             {
@@ -151,7 +152,7 @@ namespace MySch.Controllers.WX
                 //根据身份证，读取openid
                 var openid = WX_UserStud.OpenID(idc);
 
-                var res = WXImage.GetUnloadedImages(openid);
+                var res = WXImage.GetImagesByType(openid);
                 return Json(res);
             }
             catch (Exception e)

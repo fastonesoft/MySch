@@ -160,9 +160,16 @@
                                 needResult: 1,
                                 desc: 'scanQRCode desc',
                                 success: function (res) {
-
-                                    //可以使用
-                                    $('#regs_exam_stud .weui-btn').removeClass('weui-btn_disabled');
+                                    var idc = res.resultStr;
+                                    $.post('/Regs/GetImagesByType', { idc: idc }, function (resex) {
+                                        //分类
+                                        $.each(resex, function () {
+                                            var $id = $('#regs_exam_image_' + this.message)
+                                            $('<img>').attr('src', '/Image/Uploaded?name=' + this.warnid).appendTo($id);
+                                        })
+                                        //可以使用
+                                        $('#regs_exam_stud .weui-btn').removeClass('weui-btn_disabled');
+                                    });
                                 }
                             });
                         });
