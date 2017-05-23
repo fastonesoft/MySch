@@ -131,7 +131,7 @@
                                 isShowProgressTips: 1,
                                 success: function (res) {
                                     //对serverId做处理的代码
-                                    $.post('/Regs/UploadImage', { mediaID: res.serverId, uploadType: uploadtype }, function (d) {
+                                    $.post('/Regs/UploadImageSelf', { mediaID: res.serverId, uploadType: uploadtype }, function (d) {
                                         if (d.error) {
                                            weui.alert(d.message);
                                         }

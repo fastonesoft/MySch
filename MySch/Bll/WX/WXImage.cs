@@ -71,7 +71,7 @@ namespace MySch.Bll.WX
                 resultImage.Dispose();
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -83,7 +83,7 @@ namespace MySch.Bll.WX
         /// <param name="accessToken"></param>
         /// <param name="mediaID"></param>
         /// <param name="openID"></param>
-        public static BllError SaveUnloadImage(string mediaID, string openID, string uploadType)
+        public static BllError SaveImageSelf(string mediaID, string uploadType, string openID)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace MySch.Bll.WX
                 var fileName = Guid.NewGuid().ToString("N");
                 var fileType = "jpg";
                 var filePath = HttpContext.Current.Server.MapPath(string.Format("~/Upload/XueImages/{0}.{1}", fileName, fileType));
-         
+
                 //保存
                 var web = new WebClient();
                 web.DownloadFile(WX_Url.MediaFile(wxtoken, mediaID), filePath);
@@ -122,26 +122,71 @@ namespace MySch.Bll.WX
                 return new BllError { error = false, message = fileName };
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
+
+
+        public static BllError SaveImageOther(string mediaID, string uploadType, string otherID)
+        {
+            try
+            {
+                var db = DataCRUD<Student>.Entity(a => a.ID == otherID);
+                if (db == null)
+                {
+                    return new BllError { error = true, message = "未绑定学生，不能上传" };
+                }
+
+                //中控token
+                var wxtoken = WX_AccessToken.GetAccessToken();
+
+                //文件准备
+                var fileName = Guid.NewGuid().ToString("N");
+                var fileType = "jpg";
+                var filePath = HttpContext.Current.Server.MapPath(string.Format("~/Upload/XueImages/{0}.{1}", fileName, fileType));
+
+                //保存
+                var web = new WebClient();
+                web.DownloadFile(WX_Url.MediaFile(wxtoken, mediaID), filePath);
+
+                //下载成功,记录
+                var upload = new WxUploadFile
+                {
+                    ID = fileName,
+                    IDS = db.IDS,
+                    FileType = fileType,
+                    UploadType = uploadType,
+                    CreateTime = DateTime.Now,
+                    Author = db.OpenID,
+                };
+                DataCRUD<WxUploadFile>.Add(upload);
+
+                //提示信息
+                return new BllError { error = false, message = fileName };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
 
         //获取预览图片列表
         public static List<string> GetUnloadedImages(string openID)
         {
             try
             {
-                var uploads =  DataCRUD<WxUploadFile>.Entitys(a => a.Author == openID).OrderBy(a=>a.CreateTime);
+                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.Author == openID).OrderBy(a => a.CreateTime);
                 var images = new List<string>();
-                foreach( var upload in uploads)
+                foreach (var upload in uploads)
                 {
                     images.Add(string.Format("http://a.jysycz.cn/image/uploaded?name={0}", upload.ID));
                 }
                 return images;
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -153,7 +198,7 @@ namespace MySch.Bll.WX
             {
                 var res = new WX_KeyValue();
                 res.key = stud.name;
-                res.value = stud.idc;
+                res.value = stud.id;
 
                 var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.Author == stud.openid).OrderBy(a => a.CreateTime);
                 foreach (var upload in uploads)

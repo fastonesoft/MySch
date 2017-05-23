@@ -20,9 +20,6 @@
                 if (res.error) {
                     weui.alert(res.message);
                 } else {
-                    //先读取
-
-                    //后注册
                     wx.config({
                         debug: false,
                         appId: res.appid,
@@ -78,46 +75,6 @@
                             }
                         });
 
-                        var reg = {
-                            IDNUM: /^\d{17}[\dxX]$/,
-                            TEL: /^1(3\d|4[57]|5[0-35-9]|8\d|70)\d{8}$/,
-                        };
-                        //表单
-                        $('#regs_exam_upload').click(function () {
-                            weui.form.validate('#regs_exam_form', function (error) {
-                                if (!error) {
-                                    var loading = weui.loading('提交中...');
-                                    //提交
-                                    var data = $('#regs_exam_form').serialize();
-                                    $.post('/Regs/Reg', data, function (res) {
-                                        //关闭
-                                        loading.hide();
-                                        //提示
-                                        if (res.error) {
-                                            if (res.warnid) {
-                                                //字段加红
-                                                $('#' + res.warnid).addClass('weui-cell_warn');
-                                            }
-                                            weui.topTips(res.message, 3000);
-                                        } else {
-                                            $('#regs_exam_image').attr('src', '/Image/code?content=' + res.message);
-                                            $('#regs_exam_name').text(res.warnid + '：');
-                                            //
-                                            $('#regs_exam_form').hide();
-                                            $('#regs_exam').fadeIn();
-                                            weui.toast('提交成功', 1500);
-                                        }
-                                    })
-                                }
-                            }, {
-                                regexp: reg
-                            });
-                        });
-
-                        weui.form.checkIfBlur('#regs_exam_form', {
-                            regexp: reg
-                        });
-
                         var syncUpload = function (localIds, uploadtype) {
                             var localId = localIds.pop();
                             wx.uploadImage({
@@ -125,13 +82,14 @@
                                 isShowProgressTips: 1,
                                 success: function (res) {
                                     //对serverId做处理的代码
-                                    $.post('/Regs/UploadImage', { mediaID: res.serverId, uploadType: uploadtype }, function (d) {
-                                        if (d.error) {
-                                            weui.alert(d.message);
+                                    var otherid = $('#regs_exam_id').val();
+                                    $.post('/Regs/UploadImageOther', { mediaID: res.serverId, uploadType: uploadtype, otherID: otherid }, function (resex) {
+                                        if (resex.error) {
+                                            weui.topTips(resex.message, 3000);
                                         } else {
                                             //更新
                                             var $id = $('#regs_exam_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded?name=' + d.message).appendTo($id);
+                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).appendTo($id);
                                         }
                                     })
                                     if (localIds.length > 0) {
@@ -161,14 +119,17 @@
                                 desc: 'scanQRCode desc',
                                 success: function (res) {
                                     var idc = res.resultStr;
-                                    var loading = weui.loading('正在加载...');
+                                    var loading = weui.loading('正在识别...');
                                     $.post('/Regs/GetImagesByType', { idc: idc }, function (resex) {
                                         if (resex.error) {
-                                            weui.confirm('　' + resex.message, { title: '学生识别' });
+                                            weui.topTips(resex.message, 3000);
                                         } else {
-                                            //name
-                                            $('#regs_exam_name').text(resex.key + '：' + resex.value);
+                                            $('#regs_exam_id').val(resex.value);
+                                            $('#regs_exam_choose').attr('disabled', false);
+                                            $('#regs_exam_name').text(resex.key + '：' + idc);
+                                            $('#regs_exam_namex').val(resex.key);
                                             //分类
+                                            $('.regs_exam_image').empty();
                                             $.each(resex.lists, function () {
                                                 var $id = $('#regs_exam_image_' + this.value)
                                                 $('<img>').attr('src', '/Image/Uploaded?name=' + this.key).appendTo($id);
@@ -176,28 +137,41 @@
                                             //可以使用
                                             $('#regs_exam_stud .weui-btn').removeClass('weui-btn_disabled');
                                         }
+                                        //关闭
+                                        loading.hide();
                                     });
-                                    //关闭
-                                    loading.hide();
                                 }
                             });
                         });
 
                         //审核通过
                         $('#regs_exam_success').click(function () {
-                            $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
-                            $('.regs_exam_image').empty();
-                            $('#regs_exam_name').text('学生姓名');
+                            if (!$(this).hasClass('weui-btn_disabled')) {
+                                var name = $('#regs_exam_namex').val();
+                                weui.confirm('　确认通过【' + name + '】的报名审核？', {
+                                    title: '报名审核',
+                                    buttons: [{
+                                        label: '关闭',
+                                        type: 'default',
+                                        onClick: function () { }
+                                    }, {
+                                        label: '确认',
+                                        type: 'primary',
+                                        onClick: function () {
+                                            //提交
+                                            var idc = $('#regs_exam_idc').val();
+                                            var choose = $('#regs_exam_choose').prop('checked');
+                                            //反馈
+                                            $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
+                                            $('.regs_exam_image').empty();
+                                            $('#regs_exam_name').text('学生姓名');
+                                            $('#regs_exam_choose').prop('checked', false);
+                                            $('#regs_exam_choose').attr('disabled', true);
+                                        }
+                                    }]
+                                });
+                            }
                         });
-
-                        // 9 微信原生接口
-                        // 9.1.1 扫描二维码并返回结果
-                        document.querySelector('#scanQRCode0').onclick = function () {
-                            wx.scanQRCode();
-                        };
-                        // 9.1.2 扫描二维码并返回结果
-                        document.querySelector('#scanQRCode1').onclick = function () {
-                        };
                     });
 
                     //错误检测
@@ -210,11 +184,11 @@
     </script>
 </head>
 <body ontouchstart>
-    <div class="weui-btn-area">
+    <div class="weui-btn-area" style="margin-top:30px;">
         <a id="regs_exam_scan" href="javascript:" class="weui-btn weui-btn_primary">学生识别</a>
     </div>
-    <div id="regs_exam_stud" style="display:block; margin-bottom:20px;">
-        <div class="weui-article" style="padding-bottom: 0px;">
+    <form id="regs_exam_stud" style="display:block; margin-bottom:20px;">
+        <div class="weui-article" style="padding-top:10px; padding-bottom: 0px;">
             <div class="regs_exam_upload">
                 <h1 id="regs_exam_name">学生姓名</h1>
                 <div id="regs_exam_image_grade" class="regs_exam_image">
@@ -250,7 +224,7 @@
         <div class="weui-cells weui-cells_checkbox">
             <label class="weui-cell weui-check__label" for="regs_exam_choose">
                 <div class="weui-cell__hd">
-                    <input type="checkbox" class="weui-check" name="checkbox1" id="regs_exam_choose">
+                    <input type="checkbox" class="weui-check" name="choose" id="regs_exam_choose" disabled="disabled">
                     <i class="weui-icon-checked"></i>
                 </div>
                 <div class="weui-cell__bd">
@@ -258,11 +232,11 @@
                 </div>
             </label>
         </div>
-
         <div class="weui-btn-area">
             <a id="regs_exam_success" href="javascript:" class="weui-btn weui-btn_warn weui-btn_disabled">通过审核</a>
         </div>
-
-    </div>
+        <input type="hidden" name="id" id="regs_exam_id" />
+        <input type="hidden" name="id" id="regs_exam_namex" />
+    </form>
 </body>
 </html>

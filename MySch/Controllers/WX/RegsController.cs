@@ -109,14 +109,32 @@ namespace MySch.Controllers.WX
             }
         }
 
+        //自行上传
         [HttpPost]
-        public ActionResult UploadImage(string mediaID, string uploadType)
+        public ActionResult UploadImageSelf(string mediaID, string uploadType)
         {
             try
             {
                 //检测session
                 var token = WX_AccessTokenOauth.GetSessionToken();
-                var res = WXImage.SaveUnloadImage(mediaID, token.openid, uploadType);
+                var res = WXImage.SaveImageSelf(mediaID, uploadType, token.openid);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //带人上传
+        [HttpPost]
+        public ActionResult UploadImageOther(string mediaID, string uploadType, string otherID)
+        {
+            try
+            {
+                //检测session
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                var res = WXImage.SaveImageOther(mediaID, uploadType, otherID);
                 return Json(res);
             }
             catch (Exception e)
@@ -156,7 +174,7 @@ namespace MySch.Controllers.WX
                 return Json(res);
             }
             catch (Exception e)
-            {                
+            {
                 return Json(new BllError { error = true, message = e.Message });
             }
         }

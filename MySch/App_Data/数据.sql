@@ -670,6 +670,7 @@ alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) refe
 create unique nonclustered index UN_Student_IDS on Student (IDS)
 create index IN_Student_IDC on Student (IDC)
 create index IN_Student_Name on Student (Name)
+create index IN_Student_OpenID on Student (OpenID)
 
 
 
