@@ -147,17 +147,20 @@ namespace MySch.Bll.WX
         }
 
         //分类查询图片
-        public static List<BllErrorEx> GetImagesByType(string openID)
+        public static WX_KeyValue GetImagesByType(WX_UserStud stud)
         {
             try
             {
-                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.Author == openID).OrderBy(a => a.CreateTime);
-                var images = new List<BllErrorEx>();
+                var res = new WX_KeyValue();
+                res.key = stud.name;
+                res.value = stud.idc;
+
+                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.Author == stud.openid).OrderBy(a => a.CreateTime);
                 foreach (var upload in uploads)
                 {
-                    images.Add(new BllErrorEx { message = upload.UploadType, warnid = upload.ID });
+                    res.Add(upload.ID, upload.UploadType);
                 }
-                return images;
+                return res;
             }
             catch (Exception e)
             {

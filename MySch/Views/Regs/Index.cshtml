@@ -18,7 +18,7 @@
         $(function () {
             $.post('/Regs/', function (res) {
                 if (res.error) {
-                    alert(res.message);
+                    weui.alert(res.message);
                 } else {
                     //先显示
                     if (res.idc == null) {
@@ -80,7 +80,7 @@
                         //隐藏所有非基本菜单项
                         wx.hideAllNonBaseMenuItem({
                             success: function () {
-                                //alert('已隐藏所有非基本菜单项');
+                                //weui.alert('已隐藏所有非基本菜单项');
                             }
                         });
 
@@ -133,7 +133,7 @@
                                     //对serverId做处理的代码
                                     $.post('/Regs/UploadImage', { mediaID: res.serverId, uploadType: uploadtype }, function (d) {
                                         if (d.error) {
-                                            alert(d.message);
+                                           weui.alert(d.message);
                                         }
                                     })
                                     if (localIds.length > 0) {
@@ -160,7 +160,7 @@
                         //    $.post('/Regs/GetImages', function (images) {
                         //        //读取已上传的图片列表
                         //        if (images.length == 0) {
-                        //            alert('您还没有上传图片');
+                        //            weui.alert('您还没有上传图片');
                         //        } else {
                         //            var current = images[images.length - 1];
                         //            wx.previewImage({
@@ -174,7 +174,7 @@
 
                     //错误检测
                     wx.error(function (res) {
-                        alert(JSON.stringify(res));
+                        weui.alert(JSON.stringify(res));
                     });
                 }
             })

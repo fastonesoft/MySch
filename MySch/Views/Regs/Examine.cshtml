@@ -18,7 +18,7 @@
         $(function () {
             $.post('/Regs/', function (res) {
                 if (res.error) {
-                    alert(res.message);
+                    weui.alert(res.message);
                 } else {
                     //先读取
 
@@ -74,7 +74,7 @@
                         //隐藏所有非基本菜单项
                         wx.hideAllNonBaseMenuItem({
                             success: function () {
-                                //alert('已隐藏所有非基本菜单项');
+                                //weui.alert('已隐藏所有非基本菜单项');
                             }
                         });
 
@@ -127,7 +127,7 @@
                                     //对serverId做处理的代码
                                     $.post('/Regs/UploadImage', { mediaID: res.serverId, uploadType: uploadtype }, function (d) {
                                         if (d.error) {
-                                            alert(d.message);
+                                            weui.alert(d.message);
                                         } else {
                                             //更新
                                             var $id = $('#regs_exam_image_' + uploadtype)
@@ -161,15 +161,24 @@
                                 desc: 'scanQRCode desc',
                                 success: function (res) {
                                     var idc = res.resultStr;
+                                    var loading = weui.loading('正在加载...');
                                     $.post('/Regs/GetImagesByType', { idc: idc }, function (resex) {
-                                        //分类
-                                        $.each(resex, function () {
-                                            var $id = $('#regs_exam_image_' + this.message)
-                                            $('<img>').attr('src', '/Image/Uploaded?name=' + this.warnid).appendTo($id);
-                                        })
-                                        //可以使用
-                                        $('#regs_exam_stud .weui-btn').removeClass('weui-btn_disabled');
+                                        if (resex.error) {
+                                            weui.confirm('　' + resex.message, { title: '学生识别' });
+                                        } else {
+                                            //name
+                                            $('#regs_exam_name').text(resex.key + '：' + resex.value);
+                                            //分类
+                                            $.each(resex.lists, function () {
+                                                var $id = $('#regs_exam_image_' + this.value)
+                                                $('<img>').attr('src', '/Image/Uploaded?name=' + this.key).appendTo($id);
+                                            })
+                                            //可以使用
+                                            $('#regs_exam_stud .weui-btn').removeClass('weui-btn_disabled');
+                                        }
                                     });
+                                    //关闭
+                                    loading.hide();
                                 }
                             });
                         });
@@ -178,6 +187,7 @@
                         $('#regs_exam_success').click(function () {
                             $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
                             $('.regs_exam_image').empty();
+                            $('#regs_exam_name').text('学生姓名');
                         });
 
                         // 9 微信原生接口
@@ -192,7 +202,7 @@
 
                     //错误检测
                     wx.error(function (res) {
-                        alert(JSON.stringify(res));
+                        weui.alert(JSON.stringify(res));
                     });
                 }
             })

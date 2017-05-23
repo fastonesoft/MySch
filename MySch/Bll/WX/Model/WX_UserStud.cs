@@ -9,16 +9,19 @@ namespace MySch.Bll.WX.Model
 {
     public class WX_UserStud
     {
-        public static string OpenID(string idc)
+        public string idc { get; set; }
+        public string name { get; set; }
+        public string openid { get; set; }
+        public static WX_UserStud OpenID(string idc)
         {
             try
             {
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
                 if (entity != null)
                 {
-                    return entity.OpenID;
+                    return new WX_UserStud { idc = idc, name = entity.Name, openid = entity.OpenID };
                 }
-                throw new Exception("身份证号未注册");
+                throw new Exception("无法识别的扫码信息");
             }
             catch (Exception e)
             {

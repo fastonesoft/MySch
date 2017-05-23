@@ -150,9 +150,9 @@ namespace MySch.Controllers.WX
                 //检测session
                 var token = WX_AccessTokenOauth.GetSessionToken();
                 //根据身份证，读取openid
-                var openid = WX_UserStud.OpenID(idc);
+                var stud = WX_UserStud.OpenID(idc);
 
-                var res = WXImage.GetImagesByType(openid);
+                var res = WXImage.GetImagesByType(stud);
                 return Json(res);
             }
             catch (Exception e)
