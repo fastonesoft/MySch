@@ -647,8 +647,10 @@ create table Student
 	FromSch	nvarchar(64),	--毕业小学
 	SchChoose	bit not null,	--是否择校
 	RegNo	nvarchar(32),	--考试编号
-	Reged	bit not null,	--是否注册
-	OpenID	nvarchar(32),	--用户ID
+	OpenID	nvarchar(32),	--家长
+	--
+	Examed	bit not null,	--是否审核通过
+	UnionID	nvarchar(32),	--审核人
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二
