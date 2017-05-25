@@ -21,12 +21,12 @@ namespace MySch.Bll.Xue
     public class AutoXue
     {
 
-        public static BllErrorEx RegStud(string idc, string mobil, string openid)
+        public static BllErrorEx RegStud(string idc, string mobil, string reguid)
         {
             try
             {
                 //
-                if (DataCRUD<Student>.Count(a => a.OpenID == openid) > 0)
+                if (DataCRUD<Student>.Count(a => a.RegUID == reguid) > 0)
                 {
                     return new BllErrorEx { error = true, message = "一个微信号只能绑定一个身份证" };
                 }
@@ -44,7 +44,7 @@ namespace MySch.Bll.Xue
                     return new BllErrorEx { error = true, message = error.message, warnid = "oa_stud_reg_idc" };
                 }
                 //二、保存
-                error = MatchStudent(idc, mobil, openid);
+                error = MatchStudent(idc, mobil, reguid);
                 if (error.error)
                 {
                     return new BllErrorEx { error = true, message = error.message, warnid = "oa_stud_reg_idc" };
@@ -70,19 +70,19 @@ namespace MySch.Bll.Xue
                 IDC.Check(idc);
 
                 //检查自身
-                if (DataCRUD<Student>.Count(a => a.OpenID == openID && a.IDC == idc) > 0)
+                if (DataCRUD<Student>.Count(a => a.RegUID == openID && a.IDC == idc) > 0)
                 {
                     return new BllError { error = true, message = "已完成学生与帐号的绑定，无需重复操作" };
                 }
 
                 //身份证，查询，是否已注册
-                if (DataCRUD<Student>.Count(a => a.OpenID != openID && a.IDC == idc) > 0)
+                if (DataCRUD<Student>.Count(a => a.RegUID != openID && a.IDC == idc) > 0)
                 {
                     return new BllError { error = true, message = "身份证号：该身份证号的学生已注册！" };
                 }
 
                 //这里条件是，身份证没有记录过的，给出的提示
-                if (DataCRUD<Student>.Count(a => a.OpenID == openID) > 0)
+                if (DataCRUD<Student>.Count(a => a.RegUID == openID) > 0)
                 {
                     return new BllError { error = true, message = "注意：一个微信号只能绑定一个身份证" };
                 }
@@ -106,7 +106,7 @@ namespace MySch.Bll.Xue
         {
             try
             {
-                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                var db = DataCRUD<Student>.Entity(a => a.RegUID == openID);
                 if (db == null)
                 {
                     count = 0;
@@ -149,7 +149,7 @@ namespace MySch.Bll.Xue
                 web.DownloadFile(imageUrl, filePath);
 
                 //根据openID读取学生编号
-                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                var db = DataCRUD<Student>.Entity(a => a.RegUID == openID);
 
                 //下载成功,记录
                 var upload = new WxUploadFile
@@ -389,7 +389,7 @@ namespace MySch.Bll.Xue
         }
 
 
-        public static BllError MatchStudent(string idc, string mobil, string openid)
+        public static BllError MatchStudent(string idc, string mobil, string reguid)
         {
             try
             {
@@ -417,7 +417,7 @@ namespace MySch.Bll.Xue
                         reg.StepIDS = "3212840201201701";
                         reg.AccIDS = "32128402";
                         //绑定用户
-                        reg.OpenID = openid;
+                        reg.RegUID = reguid;
                         //取最大值，没有，则为0
                         var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
                         int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
@@ -525,12 +525,11 @@ namespace MySch.Bll.Xue
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.SchChoose = false;
-                stud.RegNo = null;
                 stud.Memo = null;
                 //
-                stud.Reged = false;
+                stud.Examed = false;
                 //
-                stud.OpenID = openID;
+                stud.RegUID = openID;
 
                 //添加
                 DataCRUD<Student>.Add(stud);

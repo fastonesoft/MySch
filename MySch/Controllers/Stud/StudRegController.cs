@@ -112,10 +112,9 @@ namespace MySch.Controllers.Stud
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.SchChoose = false;
-                stud.RegNo = null;
                 stud.Memo = null;
                 //
-                stud.Reged = false;
+                stud.Examed = false;
 
                 //添加
                 DataCRUD<Student>.Add(stud);
@@ -163,9 +162,9 @@ namespace MySch.Controllers.Stud
             else
             {
                 //已经编号，无需重编
-                if (db.RegNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
+                //if (db.RegNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
                 //
-                var res = new StudEditValid { ID = db.ID, Name = db.Name, RegNo = db.RegNo, Memo = db.Memo, SchChoose = db.SchChoose };
+                var res = new StudEditValid { ID = db.ID, Name = db.Name, Memo = db.Memo, SchChoose = db.SchChoose };
                 return View(res);
             }
         }
@@ -177,22 +176,21 @@ namespace MySch.Controllers.Stud
         {
             try
             {
-                //提交数据验证不过
-                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
+                ////提交数据验证不过
+                //if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
 
-                //检测编号
-                var db = DataCRUD<Student>.Entity(a => a.RegNo == stud.RegNo);
-                if (db != null)
-                {
-                    //不是同一条记录，提示重复
-                    if (db.ID != stud.ID) return Json(new BllError { error = true, message = "编号不得重复设置！" });
-                }
+                ////检测编号
+                //var db = DataCRUD<Student>.Entity(a => a.RegNo == stud.RegNo);
+                //if (db != null)
+                //{
+                //    //不是同一条记录，提示重复
+                //    if (db.ID != stud.ID) return Json(new BllError { error = true, message = "编号不得重复设置！" });
+                //}
 
                 //查询
                 Student reg = DataCRUD<Student>.Entity(a => a.ID == stud.ID);
                 if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
                 //修改
-                reg.RegNo = stud.RegNo;
                 reg.Memo = stud.Memo;
                 reg.SchChoose = stud.SchChoose;
                 //提交
@@ -244,7 +242,7 @@ namespace MySch.Controllers.Stud
                 reg.Home = stud.Home;
                 reg.Birth = stud.Birth;
                 //注册
-                reg.Reged = true;
+                reg.Examed = true;
                 //提交
                 DataCRUD<Student>.Update(reg);
                 //返回
@@ -270,13 +268,14 @@ namespace MySch.Controllers.Stud
                 string all = match.Groups[2].ToString();
                 string right = match.Groups[3].ToString();
 
-                var db = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left)).OrderBy(a => a.RegNo) :
-                    right.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.EndsWith(right)).OrderBy(a => a.RegNo) :
-                    all.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.Contains(all)).OrderBy(a => a.RegNo) : null;
+                //var db = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left)).OrderBy(a => a.RegNo) :
+                //    right.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.EndsWith(right)).OrderBy(a => a.RegNo) :
+                //    all.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.Contains(all)).OrderBy(a => a.RegNo) : null;
 
                 //返回：easyui datagrid数据格式
-                var res = db == null ? null : new { total = db.Count(), rows = db };
-                return Json(res);
+                //var res = null ;
+                //== null ? null : new { total = db.Count(), rows = db }
+                return Json("");
             }
             else
             {
@@ -314,10 +313,9 @@ namespace MySch.Controllers.Stud
                 stud.ID = Guid.NewGuid().ToString("N");
                 //
                 stud.SchChoose = false;
-                stud.RegNo = null;
                 stud.Memo = null;
                 //
-                stud.Reged = false;
+                stud.Examed = false;
 
                 //添加
                 DataCRUD<Student>.Add(stud);

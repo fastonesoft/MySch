@@ -75,43 +75,6 @@
                             }
                         });
 
-                        var syncUpload = function (localIds, uploadtype) {
-                            var localId = localIds.pop();
-                            wx.uploadImage({
-                                localId: localId,
-                                isShowProgressTips: 1,
-                                success: function (res) {
-                                    //对serverId做处理的代码
-                                    var otherid = $('#regs_exam_id').val();
-                                    $.post('/Regs/UploadImageOther', { mediaID: res.serverId, uploadType: uploadtype, otherID: otherid }, function (resex) {
-                                        if (resex.error) {
-                                            weui.topTips(resex.message, 3000);
-                                        } else {
-                                            //更新
-                                            var $id = $('#regs_exam_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).appendTo($id);
-                                        }
-                                    })
-                                    if (localIds.length > 0) {
-                                        syncUpload(localIds, uploadtype);
-                                    }
-                                }
-                            });
-                        }
-
-                        //选择图片，上传
-                        $('.regs_exam_upload .weui-btn').click(function () {
-                            if (!$(this).hasClass('weui-btn_disabled')) {
-                                //分类名称
-                                var name = $(this).attr('uploadtype');
-                                wx.chooseImage({
-                                    success: function (res) {
-                                        syncUpload(res.localIds, name);
-                                    }
-                                });
-                            }
-                        });
-
                         //识别学生
                         $('#regs_exam_scan').click(function () {
                             wx.scanQRCode({
@@ -142,6 +105,43 @@
                                     });
                                 }
                             });
+                        });
+
+                        var syncUpload = function (localIds, uploadtype) {
+                            var localId = localIds.pop();
+                            wx.uploadImage({
+                                localId: localId,
+                                isShowProgressTips: 1,
+                                success: function (res) {
+                                    //对serverId做处理的代码
+                                    var studid = $('#regs_exam_id').val();
+                                    $.post('/Regs/UploadImageOther', { mediaID: res.serverId, uploadType: uploadtype, studID: studid }, function (resex) {
+                                        if (resex.error) {
+                                            weui.topTips(resex.message, 3000);
+                                        } else {
+                                            //更新
+                                            var $id = $('#regs_exam_image_' + uploadtype)
+                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).appendTo($id);
+                                        }
+                                    })
+                                    if (localIds.length > 0) {
+                                        syncUpload(localIds, uploadtype);
+                                    }
+                                }
+                            });
+                        }
+
+                        //选择图片，上传
+                        $('.regs_exam_upload .weui-btn').click(function () {
+                            if (!$(this).hasClass('weui-btn_disabled')) {
+                                //分类名称
+                                var name = $(this).attr('uploadtype');
+                                wx.chooseImage({
+                                    success: function (res) {
+                                        syncUpload(res.localIds, name);
+                                    }
+                                });
+                            }
                         });
 
                         //审核通过

@@ -35,7 +35,7 @@ namespace MySch.Bll.WX.Model
                 }
 
                 //读取token
-                var url = WX_Url.AccessToken(WX_App.AppID, WX_App.AppSecret);
+                var url = WX_Url.AccessToken(WX_App.gAppID, WX_App.gAppSecret);
                 var jsons = HtmlHelp.GetHtml(url, "UTF-8");
                 token = Jsons.JsonEntity<WX_AccessToken>(jsons);
                 //设置时间

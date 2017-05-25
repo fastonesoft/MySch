@@ -646,11 +646,10 @@ create table Student
 	StepIDS	nvarchar(20) not null,	--校区分级编号
 	FromSch	nvarchar(64),	--毕业小学
 	SchChoose	bit not null,	--是否择校
-	RegNo	nvarchar(32),	--考试编号
-	OpenID	nvarchar(32),	--家长
+	RegUID	nvarchar(32),	--注册
 	--
 	Examed	bit not null,	--是否审核通过
-	UnionID	nvarchar(32),	--审核人
+	ExamUID	nvarchar(32),	--审核人
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二
@@ -672,7 +671,7 @@ alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) refe
 create unique nonclustered index UN_Student_IDS on Student (IDS)
 create index IN_Student_IDC on Student (IDC)
 create index IN_Student_Name on Student (Name)
-create index IN_Student_OpenID on Student (OpenID)
+create index IN_Student_RegUID on Student (RegUID)
 
 
 

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MySch.Bll.WX.Model
 {
-    public class WX_UserInfor
+    public class WX_OAuserInfor
     {
         public string openid { get; set; }
         public string nickname { get; set; }
@@ -23,9 +23,9 @@ namespace MySch.Bll.WX.Model
         public string idc { get; set; }
         public string name { get; set; }
 
-        public static WX_UserInfor GetSessionToken()
+        public static WX_OAuserInfor GetSessionToken()
         {
-            var infor = (WX_UserInfor)HttpContext.Current.Session["wx_userinfor"];
+            var infor = (WX_OAuserInfor)HttpContext.Current.Session["wx_userinfor"];
             if (infor != null)
             {
                 return infor;
@@ -45,7 +45,7 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.OpenID == openid);
+                var entity = DataCRUD<Student>.Entity(a => a.RegUID == unionid);
                 if (entity != null)
                 {
                     name = entity.Name;

@@ -12,9 +12,9 @@ namespace MySch.Models
         public string StepIDS { get; set; }
         public string FromSch { get; set; }
         public bool SchChoose { get; set; }
-        public string RegNo { get; set; }
-        public bool Reged { get; set; }
-        public string OpenID { get; set; }
+        public string RegUID { get; set; }
+        public bool Examed { get; set; }
+        public string ExamUID { get; set; }
         public string Mobil1 { get; set; }
         public string Mobil2 { get; set; }
         public string Name1 { get; set; }

@@ -88,7 +88,7 @@ namespace MySch.Bll.WX
             try
             {
                 //根据openID读取学生编号
-                var db = DataCRUD<Student>.Entity(a => a.OpenID == openID);
+                var db = DataCRUD<Student>.Entity(a => a.RegUID == openID);
                 if (db == null)
                 {
                     return new BllError { error = true, message = "未绑定学生，不能上传" };
@@ -128,11 +128,11 @@ namespace MySch.Bll.WX
         }
 
 
-        public static BllError SaveImageOther(string mediaID, string uploadType, string otherID)
+        public static BllError SaveImageOther(string mediaID, string uploadType, string studID)
         {
             try
             {
-                var db = DataCRUD<Student>.Entity(a => a.ID == otherID);
+                var db = DataCRUD<Student>.Entity(a => a.ID == studID);
                 if (db == null)
                 {
                     return new BllError { error = true, message = "未绑定学生，不能上传" };
@@ -158,7 +158,7 @@ namespace MySch.Bll.WX
                     FileType = fileType,
                     UploadType = uploadType,
                     CreateTime = DateTime.Now,
-                    Author = db.OpenID,
+                    Author = db.RegUID,
                 };
                 DataCRUD<WxUploadFile>.Add(upload);
 
@@ -200,7 +200,7 @@ namespace MySch.Bll.WX
                 res.key = stud.name;
                 res.value = stud.id;
 
-                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.Author == stud.openid).OrderBy(a => a.CreateTime);
+                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.Author == stud.reguid).OrderBy(a => a.CreateTime);
                 foreach (var upload in uploads)
                 {
                     res.Add(upload.ID, upload.UploadType);

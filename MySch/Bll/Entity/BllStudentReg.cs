@@ -23,8 +23,6 @@ namespace MySch.Bll.Entity
         public string Mobil2 { get; set; }
         public string Memo { get; set; }
         public string AccIDS { get; set; }
-        public string OpenID { get; set; }
-
-
+        public string RegUID { get; set; }
     }
 }
