@@ -23,7 +23,7 @@ namespace MySch.Bll.WX.Model
         public string idc { get; set; }
         public string name { get; set; }
 
-        public static WX_OAuserInfor GetSessionToken()
+        public static WX_OAuserInfor GetFromSession()
         {
             var infor = (WX_OAuserInfor)HttpContext.Current.Session["wx_userinfor"];
             if (infor != null)
@@ -51,6 +51,7 @@ namespace MySch.Bll.WX.Model
                     name = entity.Name;
                     idc =  entity.IDC;
                 }
+                //不需要提示出错
             }
             catch (Exception e)
             {

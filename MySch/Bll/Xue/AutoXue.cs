@@ -159,12 +159,11 @@ namespace MySch.Bll.Xue
                     FileType = fileType,
                     UploadType = "WX",
                     CreateTime = DateTime.Now,
-                    Author = openID,
                 };
                 DataCRUD<WxUploadFile>.Add(upload);
 
                 //统计该用户上传的图片数量
-                var count = DataCRUD<WxUploadFile>.Count(a => a.Author == openID);
+                var count = DataCRUD<WxUploadFile>.Count(a => a.IDS == db.IDS);
 
                 //返回
                 name = db.Name;

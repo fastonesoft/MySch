@@ -16,7 +16,7 @@
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $.post('/Regs/', function (res) {
+            $.post('/Regs/Jssdk', function (res) {
                 if (res.error) {
                     weui.alert(res.message);
                 } else {
@@ -83,17 +83,19 @@
                                 success: function (res) {
                                     var idc = res.resultStr;
                                     var loading = weui.loading('正在识别...');
-                                    $.post('/Regs/GetImagesByType', { idc: idc }, function (resex) {
+                                    $.post('/Regs/GetImagesTypeByIdc', { idc: idc }, function (resex) {
                                         if (resex.error) {
                                             weui.topTips(resex.message, 3000);
                                         } else {
+                                            var items = resex.lists[0];
                                             $('#regs_exam_id').val(resex.value);
                                             $('#regs_exam_choose').attr('disabled', false);
+                                            $('#regs_exam_choose').prop('checked', items.value);
                                             $('#regs_exam_name').text(resex.key + '：' + idc);
                                             $('#regs_exam_namex').val(resex.key);
                                             //分类
                                             $('.regs_exam_image').empty();
-                                            $.each(resex.lists, function () {
+                                            $.each(items.lists, function () {
                                                 var $id = $('#regs_exam_image_' + this.value)
                                                 $('<img>').attr('src', '/Image/Uploaded?name=' + this.key).appendTo($id);
                                             })
@@ -114,8 +116,8 @@
                                 isShowProgressTips: 1,
                                 success: function (res) {
                                     //对serverId做处理的代码
-                                    var studid = $('#regs_exam_id').val();
-                                    $.post('/Regs/UploadImageOther', { mediaID: res.serverId, uploadType: uploadtype, studID: studid }, function (resex) {
+                                    var other = $('#regs_exam_id').val();
+                                    $.post('/Regs/UploadImageOther', { mediaID: res.serverId, uploadType: uploadtype, Other: other }, function (resex) {
                                         if (resex.error) {
                                             weui.topTips(resex.message, 3000);
                                         } else {
@@ -147,29 +149,41 @@
                         //审核通过
                         $('#regs_exam_success').click(function () {
                             if (!$(this).hasClass('weui-btn_disabled')) {
+                                //提交
+                                var id = $('#regs_exam_id').val();
                                 var name = $('#regs_exam_namex').val();
-                                weui.confirm('　确认通过【' + name + '】的报名审核？', {
-                                    title: '报名审核',
-                                    buttons: [{
-                                        label: '关闭',
-                                        type: 'default',
-                                        onClick: function () { }
-                                    }, {
-                                        label: '确认',
-                                        type: 'primary',
-                                        onClick: function () {
-                                            //提交
-                                            var idc = $('#regs_exam_idc').val();
-                                            var choose = $('#regs_exam_choose').prop('checked');
-                                            //反馈
-                                            $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
-                                            $('.regs_exam_image').empty();
-                                            $('#regs_exam_name').text('学生姓名');
-                                            $('#regs_exam_choose').prop('checked', false);
-                                            $('#regs_exam_choose').attr('disabled', true);
-                                        }
-                                    }]
-                                });
+                                var choose = $('#regs_exam_choose').prop('checked');
+                                //补充协议
+                                if ($('#regs_exam_image_paper').is(":empty")) {
+                                    weui.topTips('择校生，必须上传补充协议书', 3000);
+                                } else {
+                                    weui.confirm('　确认通过【' + name + '】的报名审核？', {
+                                        title: '报名审核',
+                                        buttons: [{
+                                            label: '关闭',
+                                            type: 'default',
+                                            onClick: function () { }
+                                        }, {
+                                            label: '确认',
+                                            type: 'primary',
+                                            onClick: function () {
+                                                $.post('/Regs/Examine', { ID: id, Choose: choose }, function (res) {
+                                                    if (res.error) {
+                                                        weui.topTips(res.message, 3000);
+                                                    } else {
+                                                        weui.toast(res.message, 3000);
+                                                        //反馈
+                                                        $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
+                                                        $('.regs_exam_image').empty();
+                                                        $('#regs_exam_name').text('学生姓名');
+                                                        $('#regs_exam_choose').prop('checked', false);
+                                                        $('#regs_exam_choose').attr('disabled', true);
+                                                    }
+                                                })
+                                            }
+                                        }]
+                                    });
+                                }
                             }
                         });
                     });

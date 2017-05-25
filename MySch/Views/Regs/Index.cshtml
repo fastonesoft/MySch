@@ -16,11 +16,11 @@
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $.post('/Regs/', function (res) {
+            $.post('/Regs/Jssdk', function (res) {
                 if (res.error) {
                     weui.alert(res.message);
                 } else {
-                    //先显示
+                    //先显示学生
                     if (res.idc == null) {
                         $('#regs_reg_form').fadeIn();
                     } else {

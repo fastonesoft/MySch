@@ -24,7 +24,7 @@ namespace MySch.Bll.WX.Model
             try
             {
                 //从全局缓存里读
-                WX_AccessToken token = (WX_AccessToken)HttpContext.Current.Application["access_token"];
+                var token = (WX_AccessToken)HttpContext.Current.Application["access_token"];
                 if (token != null)
                 {
                     if (WX_Time.TimeDiffer(DateTime.Now, token.create_time) < token.expires_in)

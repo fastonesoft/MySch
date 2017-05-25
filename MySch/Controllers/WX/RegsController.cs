@@ -73,13 +73,14 @@ namespace MySch.Controllers.WX
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index()
+        public ActionResult Jssdk()
         {
             try
             {
-                //检查Session
+                //检查中控
                 var wxtoken = WX_AccessToken.GetAccessToken();
-                var infor = WX_OAuserInfor.GetSessionToken();
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
 
                 //签名算法
                 var signature = new WX_Signature(WX_App.gAppID, WX_Jsticket.GetJsticket(wxtoken), infor.codePage, infor.idc, infor.name);
@@ -101,7 +102,9 @@ namespace MySch.Controllers.WX
         {
             try
             {
-                var infor = WX_OAuserInfor.GetSessionToken();
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
                 var res = AutoXue.RegStud(idc.ToUpper(), mobil, infor.unionid);
                 return Json(res);
             }
@@ -117,28 +120,12 @@ namespace MySch.Controllers.WX
         {
             try
             {
-                //检测session
+                //检测页面、用户
                 var token = WX_AccessTokenOauth.GetSessionToken();
-                var infor = WX_OAuserInfor.GetSessionToken();
-                var res = WXImage.SaveImageSelf(mediaID, uploadType, infor.unionid);
-                return Json(res);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
+                var infor = WX_OAuserInfor.GetFromSession();
 
-        //获取上传照片列表
-        [HttpPost]
-        public ActionResult GetImages()
-        {
-            try
-            {
-                //检测session
-                var token = WX_AccessTokenOauth.GetSessionToken();
-                var res = WXImage.GetUnloadedImages(token.openid);
-                return Json(res);
+                var res = WX_UploadImage.SaveImageSelf(mediaID, uploadType, infor.unionid);
+                return Json(new BllError { error = false, message = res });
             }
             catch (Exception e)
             {
@@ -148,7 +135,7 @@ namespace MySch.Controllers.WX
 
         //////////////////////////////////////////////
 
-        //审核
+        //审核页面
         public ActionResult Examine(WX_OAuth auth)
         {
             try
@@ -198,20 +185,39 @@ namespace MySch.Controllers.WX
             }
         }
 
+        //图片分类
         [HttpPost]
-        public ActionResult GetImagesByType(string idc)
+        public ActionResult GetImagesTypeByIdc(string idc)
         {
             try
             {
-                //检测session
+                //检测页面、用户
                 var token = WX_AccessTokenOauth.GetSessionToken();
-                //根据身份证，读取openid
-                var stud = WX_UserStud.RegUID(idc);
+                var infor = WX_OAuserInfor.GetFromSession();
 
-                //检测是否已经通过审核
-
-                var res = WXImage.GetImagesByType(stud);
+                //根据身份证获取图片列表
+                var res = WX_UploadImage.GetImagesTypeByIdc(idc);
                 return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //图片删除
+        [HttpPost]
+        public ActionResult DeleteImage(string url)
+        {
+            try
+            {
+                //检测页面、用户
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                var user = WX_OAuserInfor.GetFromSession();
+
+                var id = url.Split('=');
+
+
             }
             catch (Exception e)
             {
@@ -221,14 +227,17 @@ namespace MySch.Controllers.WX
 
         //带人上传
         [HttpPost]
-        public ActionResult UploadImageOther(string mediaID, string uploadType, string studID)
+        public ActionResult UploadImageOther(string mediaID, string uploadType, string Other)
         {
             try
             {
-                //检测session
+                //检测页面、用户
                 var token = WX_AccessTokenOauth.GetSessionToken();
-                var res = WXImage.SaveImageOther(mediaID, uploadType, studID);
-                return Json(res);
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                //代别人上传
+                var res = WX_UploadImage.SaveImageForOther(mediaID, uploadType, Other);
+                return Json(new BllError { error = false, message = res });
             }
             catch (Exception e)
             {
@@ -236,6 +245,24 @@ namespace MySch.Controllers.WX
             }
         }
 
+        //审核动作
+        [HttpPost]
+        public ActionResult Examine(string ID, bool Choose)
+        {
+            try
+            {
+                //检测页面、用户
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                var user = WX_OAuserInfor.GetFromSession();
 
+                //审核
+                WX_Examine.Examine(ID, Choose, user.unionid);
+                return Json(new BllError { error = false, message = "审核提交成功" });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
     }
 }

@@ -134,13 +134,14 @@
     </Compile>
     <Compile Include="Bll\WX\Model\WX_Const.cs" />
     <Compile Include="Bll\WX\Model\WX_Error.cs" />
+    <Compile Include="Bll\WX\Model\WX_Examine.cs" />
     <Compile Include="Bll\WX\Model\WX_KeyValue.cs" />
     <Compile Include="Bll\WX\Model\WX_Jsticket.cs" />
     <Compile Include="Bll\WX\Model\WX_OAuth.cs" />
     <Compile Include="Bll\WX\Model\WX_Signature.cs" />
     <Compile Include="Bll\WX\Model\WX_TimeDiffer.cs" />
+    <Compile Include="Bll\WX\Model\WX_UploadImage.cs" />
     <Compile Include="Bll\WX\Model\WX_UserInfor.cs" />
-    <Compile Include="Bll\WX\Model\WX_UserStud.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
     <Compile Include="Bll\Xue\AutoXue.cs">
       <SubType>Code</SubType>

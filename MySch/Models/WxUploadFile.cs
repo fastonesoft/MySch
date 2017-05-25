@@ -10,7 +10,5 @@ namespace MySch.Models
         public string FileType { get; set; }
         public string UploadType { get; set; }
         public System.DateTime CreateTime { get; set; }
-        public string Author { get; set; }
-        public string Memo { get; set; }
     }
 }

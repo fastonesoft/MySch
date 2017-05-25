@@ -980,8 +980,6 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 
 
 --WX
-
-
 create table WxUploadFile
 (
 	ID	nvarchar(32) not null,
@@ -989,10 +987,10 @@ create table WxUploadFile
 	FileType	nvarchar(10) not null,
 	UploadType	nvarchar(10) not null,
 	CreateTime	datetime not null,
-	Author	nvarchar(32) not null,
-	Memo	nvarchar(32),
 )
 alter table WxUploadFile add constraint PK_WxUploadFile primary key clustered (ID)
+create index IN_WxUploadFile_IDS on WxUploadFile (IDS)
+
 go
 
 
