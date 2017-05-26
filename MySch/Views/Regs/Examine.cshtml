@@ -127,7 +127,7 @@
                                         } else {
                                             //更新
                                             var $id = $('#regs_exam_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).appendTo($id);
+                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).prependTo($id);
                                         }
                                     })
                                     if (localIds.length > 0) {
@@ -183,37 +183,45 @@
                                 var id = $('#regs_exam_id').val();
                                 var name = $('#regs_exam_namex').val();
                                 var choose = $('#regs_exam_choose').prop('checked');
-                                //补充协议
-                                if ($('#regs_exam_image_paper').is(":empty")) {
-                                    weui.topTips('择校生，必须上传补充协议书', 3000);
-                                } else {
-                                    weui.confirm('　确认通过【' + name + '】的报名审核？', {
-                                        title: '报名审核',
-                                        buttons: [{
-                                            label: '关闭',
-                                            type: 'default',
-                                            onClick: function () { }
-                                        }, {
-                                            label: '确认',
-                                            type: 'primary',
-                                            onClick: function () {
-                                                $.post('/Regs/Examine', { ID: id, Choose: choose }, function (res) {
-                                                    if (res.error) {
-                                                        weui.topTips(res.message, 3000);
-                                                    } else {
-                                                        weui.toast(res.message, 2000);
-                                                        //反馈
-                                                        $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
-                                                        $('.regs_exam_image').empty();
-                                                        $('#regs_exam_name').text('学生姓名');
-                                                        $('#regs_exam_choose').prop('checked', false);
-                                                        $('#regs_exam_choose').attr('disabled', true);
-                                                    }
-                                                })
-                                            }
-                                        }]
-                                    });
+                                //普通
+                                var normal = $('#regs_exam_normal .regs_exam_image').is(':empty');
+                                if (normal) {
+                                    weui.topTips('资料未完整，无法审核', 3000);
+                                    return;
                                 }
+                                //择校
+                                if (choose) {
+                                    if ($('#regs_exam_image_paper').is(':empty')) {
+                                        weui.topTips('择校生，必须上传补充协议书', 3000);
+                                        return;
+                                    }
+                                }
+                                weui.confirm('　确认通过【' + name + '】的报名审核？', {
+                                    title: '报名审核',
+                                    buttons: [{
+                                        label: '关闭',
+                                        type: 'default',
+                                        onClick: function () { }
+                                    }, {
+                                        label: '确认',
+                                        type: 'primary',
+                                        onClick: function () {
+                                            $.post('/Regs/Examine', { ID: id, Choose: choose }, function (res) {
+                                                if (res.error) {
+                                                    weui.topTips(res.message, 3000);
+                                                } else {
+                                                    weui.toast(res.message, 2000);
+                                                    //反馈
+                                                    $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
+                                                    $('.regs_exam_image').empty();
+                                                    $('#regs_exam_name').text('学生姓名');
+                                                    $('#regs_exam_choose').prop('checked', false);
+                                                    $('#regs_exam_choose').attr('disabled', true);
+                                                }
+                                            })
+                                        }
+                                    }]
+                                });
                             }
                         });
                     });
@@ -238,20 +246,22 @@
         <div class="weui-article" style="padding-top:10px; padding-bottom: 0px;">
             <div class="regs_exam_upload">
                 <h1 id="regs_exam_name">学生姓名</h1>
-                <div class="weui-btn-area">
-                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
-                </div>
-                <div id="regs_exam_image_grade" class="regs_exam_image">
-                </div>
-                <div class="weui-btn-area">
-                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="house">产权证</a>
-                </div>
-                <div id="regs_exam_image_house" class="regs_exam_image">
-                </div>
-                <div class="weui-btn-area">
-                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="city">户口簿</a>
-                </div>
-                <div id="regs_exam_image_city" class="regs_exam_image">
+                <div id="regs_exam_normal">
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
+                    </div>
+                    <div id="regs_exam_image_grade" class="regs_exam_image">
+                    </div>
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="house">产权证</a>
+                    </div>
+                    <div id="regs_exam_image_house" class="regs_exam_image">
+                    </div>
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="city">户口簿</a>
+                    </div>
+                    <div id="regs_exam_image_city" class="regs_exam_image">
+                    </div>
                 </div>
                 <div class="weui-btn-area">
                     <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="paper">补充协议书</a>

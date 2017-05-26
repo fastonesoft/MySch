@@ -130,14 +130,15 @@
                                                 //字段加红
                                                 $('#' + res.warnid).addClass('weui-cell_warn');
                                             }
-                                            weui.topTips(res.message, 2000);
+                                            weui.topTips(res.message, 3000);
                                         } else {
                                             $('#regs_reged_image').attr('src', '/Image/code?content=' + res.message);
                                             $('#regs_reged_name').text(res.warnid + '：');
+                                            $('#regs_reged .weui-btn').removeClass('weui-btn_disabled');
                                             //
                                             $('#regs_form').hide();
                                             $('#regs_reged').fadeIn();
-                                            weui.toast('提交成功', 1500);
+                                            weui.toast('注册成功', 2000);
                                         }
                                     })
                                 }
@@ -162,8 +163,8 @@
                                             weui.topTips(resex.message, 3000);
                                         } else {
                                             //更新
-                                            var $id = $('#regs_exam_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).appendTo($id);
+                                            var $id = $('#regs_reged_image_' + uploadtype)
+                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).prependTo($id);
                                         }
                                     })
                                     if (localIds.length > 0) {
@@ -175,13 +176,15 @@
 
                         //选择图片，上传
                         $('.regs_reged_upload .weui-btn').click(function () {
-                            //分类名称
-                            var name = $(this).attr('uploadtype');
-                            wx.chooseImage({
-                                success: function (res) {
-                                    syncUpload(res.localIds, name);
-                                }
-                            });
+                            if (!$(this).hasClass('weui-btn_disabled')) {
+                                //分类名称
+                                var name = $(this).attr('uploadtype');
+                                wx.chooseImage({
+                                    success: function (res) {
+                                        syncUpload(res.localIds, name);
+                                    }
+                                });
+                            }
                         });
 
                         //图片删除
@@ -196,7 +199,7 @@
                                         $.post('/Regs/DeleteImage', { url: imageurl }, function (res) {
                                             loading.hide();
                                             if (res.error) {
-                                                weui.topTips(res.message, 2000);
+                                                weui.topTips(res.message, 3000);
                                             } else {
                                                 //删除
                                                 $($image).remove();
