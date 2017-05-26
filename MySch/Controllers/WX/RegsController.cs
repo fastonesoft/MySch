@@ -215,9 +215,8 @@ namespace MySch.Controllers.WX
                 var token = WX_AccessTokenOauth.GetSessionToken();
                 var user = WX_OAuserInfor.GetFromSession();
 
-                var id = url.Split('=');
-
-
+                var res = WX_UploadImage.DeleteImage(url);
+                return Json(new BllError { error = false, message = res });
             }
             catch (Exception e)
             {

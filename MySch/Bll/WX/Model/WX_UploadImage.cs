@@ -160,8 +160,8 @@ namespace MySch.Bll.WX.Model
             }
         }
 
-        //删除图片
-        public static void DeleteImage(string id)
+        //能否删除
+        public static WxUploadFile CanDelete(string id)
         {
             try
             {
@@ -172,12 +172,45 @@ namespace MySch.Bll.WX.Model
                 }
                 else
                 {
-                    if(entity.)
+                    //检测对应学生是否已审核
+                    var stud = DataCRUD<Student>.Entity(a => a.IDS == entity.IDS);
+                    if (stud == null)
+                    {
+                        throw new Exception("没有找到对应的学生");
+                    }
+                    else
+                    {
+                        if (stud.Examed)
+                        {
+                            throw new Exception("已经通过审核，不能删除");
+                        }
+                        else
+                        {
+                            return entity;
+                        }
+                    }
                 }
             }
             catch (Exception e)
             {
+                throw e;
+            }
+        }
 
+        //删除图片
+        public static string DeleteImage(string url)
+        {
+            try
+            {
+                //根据“=”将参数分隔：http://control/action/?name=XXXXXXXX
+                var id = url.Split('=');
+                var entity = CanDelete(id[1]);
+                DataCRUD<WxUploadFile>.Delete(entity);
+
+                return "图片已删除";
+            }
+            catch (Exception e)
+            {
                 throw e;
             }
         }

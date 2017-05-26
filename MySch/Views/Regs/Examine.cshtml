@@ -16,9 +16,13 @@
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
     <script type="text/javascript">
         $(function () {
+            //提示
+            var headloading = weui.loading('正在装载...');
             $.post('/Regs/Jssdk', function (res) {
+                //关闭
+                headloading.hide();
                 if (res.error) {
-                    weui.alert(res.message);
+                    weui.topTips(res.message, 3000);
                 } else {
                     wx.config({
                         debug: false,
@@ -146,6 +150,32 @@
                             }
                         });
 
+                        //图片删除
+                        $('.regs_exam_image').on('click', 'img', function () {
+                            var $image = $(this);
+                            var imageurl = $image.attr('src');
+                            var gallery = weui.gallery(imageurl, {
+                                onDelete: function () {
+                                    weui.confirm('　确定删除该图片？', function () {
+                                        gallery.hide();
+                                        var loading = weui.loading('正在删除...');
+                                        $.post('/Regs/DeleteImage', { url: imageurl }, function (res) {
+                                            loading.hide();
+                                            if (res.error) {
+                                                weui.topTips(res.message, 3000);
+                                            } else {
+                                                //删除
+                                                $($image).remove();
+                                                weui.toast(res.message, 2000);
+                                            }
+                                        })
+                                    }, function () {
+                                        gallery.hide();
+                                    }, { title: '图片删除' });
+                                }
+                            });
+                        });
+
                         //审核通过
                         $('#regs_exam_success').click(function () {
                             if (!$(this).hasClass('weui-btn_disabled')) {
@@ -171,7 +201,7 @@
                                                     if (res.error) {
                                                         weui.topTips(res.message, 3000);
                                                     } else {
-                                                        weui.toast(res.message, 3000);
+                                                        weui.toast(res.message, 2000);
                                                         //反馈
                                                         $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
                                                         $('.regs_exam_image').empty();
@@ -196,6 +226,9 @@
             })
         })
     </script>
+    <style type="text/css">
+        .regs_exam_image { margin-top: 10px; }
+    </style>
 </head>
 <body ontouchstart>
     <div class="weui-btn-area" style="margin-top:30px;">
@@ -205,34 +238,26 @@
         <div class="weui-article" style="padding-top:10px; padding-bottom: 0px;">
             <div class="regs_exam_upload">
                 <h1 id="regs_exam_name">学生姓名</h1>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
+                </div>
                 <div id="regs_exam_image_grade" class="regs_exam_image">
                 </div>
-                <p>
-                    <div class="weui-btn-area">
-                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
-                    </div>
-                </p>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="house">产权证</a>
+                </div>
                 <div id="regs_exam_image_house" class="regs_exam_image">
                 </div>
-                <p>
-                    <div class="weui-btn-area">
-                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="house">产权证</a>
-                    </div>
-                </p>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="city">户口簿</a>
+                </div>
                 <div id="regs_exam_image_city" class="regs_exam_image">
                 </div>
-                <p>
-                    <div class="weui-btn-area">
-                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="city">户口簿</a>
-                    </div>
-                </p>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="paper">补充协议书</a>
+                </div>
                 <div id="regs_exam_image_paper" class="regs_exam_image">
                 </div>
-                <p>
-                    <div class="weui-btn-area">
-                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="paper">补充协议书</a>
-                    </div>
-                </p>
             </div>
         </div>
         <div class="weui-cells weui-cells_checkbox">
