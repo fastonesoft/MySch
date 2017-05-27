@@ -27,12 +27,6 @@ namespace MySch.Bll
     public class BllError
     {
         public bool error { get; set; }
-        public string message { get; set; }
+        public object message { get; set; }
     }
-
-    public class BllErrorEx : BllError
-    {
-        public string warnid { get; set; }
-    }
-
 }

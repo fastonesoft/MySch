@@ -14,8 +14,9 @@ namespace MySch.Bll.WX.Model
         public string signature { get; set; }
         public string idc { get; set; }
         public string name { get; set; }
+        public bool exam { get; set; }
 
-        public WX_Signature(string sappid, string sticket, string surl, string sidc, string sname)
+        public WX_Signature(string sappid, string sticket, string surl, string sidc, string sname, bool bexam)
         {
             appid = sappid;
             //
@@ -28,6 +29,7 @@ namespace MySch.Bll.WX.Model
             //绑定的学生
             idc = sidc;
             name = sname;
+            exam = bexam;
         }
     }
 }

@@ -122,6 +122,37 @@ namespace MySch.Bll.WX.Model
             }
         }
 
+        public static WX_KeyValue GetImagesType(string reguid)
+        {
+            try
+            {
+                var entity = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
+                if (entity == null)
+                {
+                    throw new Exception("无法查询绑定的学生");
+                }
+                else
+                {
+                    //
+                    var res = new WX_KeyValue();
+                    res.key = entity.Name;
+                    res.value = entity.Examed;
+
+                    var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS).OrderBy(a => a.CreateTime);
+                    foreach (var upload in uploads)
+                    {
+                        res.Add(upload.ID, upload.UploadType);
+                    }
+                    return res;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         //身份证分类查询图片
         public static WX_KeyValue GetImagesTypeByIdc(string idc)
         {

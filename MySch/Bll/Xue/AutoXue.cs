@@ -20,165 +20,53 @@ namespace MySch.Bll.Xue
 {
     public class AutoXue
     {
-
-        public static BllErrorEx RegStud(string idc, string mobil, string reguid)
+        public static string RegStudent(string idc, string mobil, string reguid)
         {
             try
             {
-                //
-                if (DataCRUD<Student>.Count(a => a.RegUID == reguid) > 0)
-                {
-                    return new BllErrorEx { error = true, message = "一个微信号只能绑定一个身份证" };
-                }
+                //读取网页数据
+                var cookies = GetCookies();
+                var html = GetStudentHtml(idc, cookies);
 
-                //身份证重复，给出的提示
-                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0)
-                {
-                    return new BllErrorEx { error = true, message = "该身份证号的学生已注册" };
-                }
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
+                MatchCollection matchs = regx.Matches(html);
 
-                //一、身份证检测
-                var error = IDC.IDS(idc);
-                if (error.error)
-                {
-                    return new BllErrorEx { error = true, message = error.message, warnid = "oa_stud_reg_idc" };
-                }
-                //二、保存
-                error = MatchStudent(idc, mobil, reguid);
-                if (error.error)
-                {
-                    return new BllErrorEx { error = true, message = error.message, warnid = "oa_stud_reg_idc" };
-                }
-                return new BllErrorEx { error = false, message = idc, warnid = error.message };
+                //无学生记录
+                if (matchs.Count == 0) throw new Exception("省学籍库无记录，请检查身份证");
+
+                var reg = new BllStudentReg();
+                reg.Memo = matchs[0].Groups[1].ToString();
+                reg.Name = matchs[1].Groups[1].ToString();
+                reg.IDC = matchs[2].Groups[1].ToString();
+                reg.FromSch = matchs[3].Groups[1].ToString();
+                reg.StepIDS = matchs[6].Groups[1].ToString();
+
+                //设置添加条件
+                if (reg.Memo != "小学学籍库" && reg.StepIDS != "2011") throw new Exception("不是小学应届毕业生，无法报名");
+
+                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
+                if (DataCRUD<Student>.Count(a => a.RegUID == reguid) > 0) throw new Exception("一个微信号只能绑定一个身份证");
+
+                //添加
+                reg.ID = Guid.NewGuid().ToString("N");
+                reg.StepIDS = "3212840201201701";
+                reg.AccIDS = "32128402";
+                reg.RegUID = reguid;
+                //取最大值，没有，则为0
+                var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
+                int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
+                reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
+                reg.Mobil1 = mobil;
+                reg.ToAdd();
+                return reg.Name;
             }
             catch (Exception e)
             {
-                return new BllErrorEx { error = true, message = e.Message };
+                throw e;
             }
         }
 
-        /// <summary>
-        /// 学生报名
-        /// </summary>
-        /// <param name="ids"></param>
-        /// <param name="openID"></param>
-        public static BllError RegIDC(string idc, string openID)
-        {
-            try
-            {
-                //身份证检测
-                IDC.Check(idc);
 
-                //检查自身
-                if (DataCRUD<Student>.Count(a => a.RegUID == openID && a.IDC == idc) > 0)
-                {
-                    return new BllError { error = true, message = "已完成学生与帐号的绑定，无需重复操作" };
-                }
-
-                //身份证，查询，是否已注册
-                if (DataCRUD<Student>.Count(a => a.RegUID != openID && a.IDC == idc) > 0)
-                {
-                    return new BllError { error = true, message = "身份证号：该身份证号的学生已注册！" };
-                }
-
-                //这里条件是，身份证没有记录过的，给出的提示
-                if (DataCRUD<Student>.Count(a => a.RegUID == openID) > 0)
-                {
-                    return new BllError { error = true, message = "注意：一个微信号只能绑定一个身份证" };
-                }
-
-                //身份证重复，给出的提示
-                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0)
-                {
-                    return new BllError { error = true, message = "身份证号：同一身份证号不要重复注册" };
-                }
-
-                //
-                return MatchStudent(idc, null, openID);
-            }
-            catch (Exception e)
-            {
-                return new BllError { error = true, message = e.Message };
-            }
-        }
-
-        public static BllError RegMobil(string mobil, string openID, out int count)
-        {
-            try
-            {
-                var db = DataCRUD<Student>.Entity(a => a.RegUID == openID);
-                if (db == null)
-                {
-                    count = 0;
-                    return new BllError { error = true, message = "用户与学生信息未绑定，无法添加电话！" };
-                }
-                else
-                {
-                    //如果两个电话都有了，提示
-                    if (!string.IsNullOrEmpty(db.Mobil1) && !string.IsNullOrEmpty(db.Mobil2))
-                    {
-                        count = 2;
-                        return new BllError { error = true, message = "只要提交两个联系电话" };
-                    }
-
-                    //保存电话
-                    db.Mobil1 = string.IsNullOrEmpty(db.Mobil1) ? mobil : db.Mobil1;
-                    db.Mobil2 = !string.IsNullOrEmpty(db.Mobil1) && db.Mobil1 != mobil ? mobil : db.Mobil2;
-                    DataCRUD<Student>.Update(db);
-
-                    //电话数
-                    count = Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil1)) + Convert.ToInt32(!string.IsNullOrEmpty(db.Mobil2));
-                    return new BllError { error = false, message = db.Name };
-                }
-            }
-            catch (Exception e)
-            {
-                count = 0;
-                return new BllError { error = true, message = e.Message };
-            }
-        }
-
-        public static BllError RegImage(string imageUrl, string openID, out string name, out string idc, out string id)
-        {
-            try
-            {
-                var web = new WebClient();
-                var fileName = Guid.NewGuid().ToString("N");
-                var fileType = "jpg";
-                var filePath = HttpContext.Current.Server.MapPath(string.Format("~/Upload/XueImages/{0}.{1}", fileName, fileType));
-                web.DownloadFile(imageUrl, filePath);
-
-                //根据openID读取学生编号
-                var db = DataCRUD<Student>.Entity(a => a.RegUID == openID);
-
-                //下载成功,记录
-                var upload = new WxUploadFile
-                {
-                    ID = fileName,
-                    IDS = db.IDS,
-                    FileType = fileType,
-                    UploadType = "WX",
-                    CreateTime = DateTime.Now,
-                };
-                DataCRUD<WxUploadFile>.Add(upload);
-
-                //统计该用户上传的图片数量
-                var count = DataCRUD<WxUploadFile>.Count(a => a.IDS == db.IDS);
-
-                //返回
-                name = db.Name;
-                idc = db.IDC;
-                id = fileName;
-                return new BllError { error = false, message = count.ToString() };
-            }
-            catch (Exception e)
-            {
-                name = string.Empty;
-                idc = string.Empty;
-                id = string.Empty;
-                return new BllError { error = true, message = e.Message };
-            }
-        }
 
         /// <summary>
         /// 验证码，自动验证
@@ -386,64 +274,6 @@ namespace MySch.Bll.Xue
                 throw e;
             }
         }
-
-
-        public static BllError MatchStudent(string idc, string mobil, string reguid)
-        {
-            try
-            {
-                //读取网页数据
-                var cookies = GetCookies();
-                var html = GetStudentHtml(idc, cookies);
-
-                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
-                MatchCollection matchs = regx.Matches(html);
-
-                //有数据，记录
-                if (matchs.Count != 0)
-                {
-                    var reg = new BllStudentReg();
-                    reg.Memo = matchs[0].Groups[1].ToString();
-                    reg.Name = matchs[1].Groups[1].ToString();
-                    reg.IDC = matchs[2].Groups[1].ToString();
-                    reg.FromSch = matchs[3].Groups[1].ToString();
-                    reg.StepIDS = matchs[6].Groups[1].ToString();
-
-                    //设置添加条件
-                    if (reg.Memo == "小学学籍库" && reg.StepIDS == "2011")
-                    {
-                        reg.ID = Guid.NewGuid().ToString("N");
-                        reg.StepIDS = "3212840201201701";
-                        reg.AccIDS = "32128402";
-                        //绑定用户
-                        reg.RegUID = reguid;
-                        //取最大值，没有，则为0
-                        var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
-                        int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
-                        //自增
-                        reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
-                        //电话
-                        reg.Mobil1 = mobil;
-
-                        reg.ToAdd();
-                        return new BllError { error = false, message = reg.Name };
-                    }
-                    else
-                    {
-                        return new BllError { error = true, message = "不是小学应届毕业生，无法报名" };
-                    }
-                }
-                else
-                {
-                    return new BllError { error = true, message = "省学籍库无记录，请检查身份证" };
-                }
-            }
-            catch (Exception e)
-            {
-                return new BllError { error = true, message = e.Message };
-            }
-        }
-
 
 
         /// <summary>

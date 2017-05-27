@@ -83,9 +83,7 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //签名算法
-                var signature = new WX_Signature(WX_App.gAppID, WX_Jsticket.GetJsticket(wxtoken), infor.codePage, infor.idc, infor.name);
-                signature.idc = infor.idc;
-                signature.name = infor.name;
+                var signature = new WX_Signature(WX_App.gAppID, WX_Jsticket.GetJsticket(wxtoken), infor.codePage, infor.idc, infor.name, infor.exam);
 
                 //序列化
                 return Json(signature);
@@ -105,12 +103,15 @@ namespace MySch.Controllers.WX
                 var token = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                var res = AutoXue.RegStud(idc.ToUpper(), mobil, infor.unionid);
-                return Json(res);
+              var error =  IDC.IDS(idc);
+              if (error.error) return Json(new BllError { error = true, message = new  { id:"",} });
+
+                var name = AutoXue.RegStudent(idc.ToUpper(), mobil, infor.unionid);
+                return Json(new BllError { error = false, message = name });
             }
             catch (Exception e)
             {
-                return Json(new BllErrorEx { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 
@@ -182,6 +183,25 @@ namespace MySch.Controllers.WX
             catch (Exception e)
             {
                 return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetImagesType()
+        {
+            try
+            {
+                //检测页面、用户
+                var token = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                //根据身份证获取图片列表
+                var res = WX_UploadImage.GetImagesType(infor.unionid);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
 

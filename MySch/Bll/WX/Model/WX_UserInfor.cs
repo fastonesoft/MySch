@@ -22,6 +22,7 @@ namespace MySch.Bll.WX.Model
         //绑定的学生
         public string idc { get; set; }
         public string name { get; set; }
+        public bool exam { get; set; }
 
         public static WX_OAuserInfor GetFromSession()
         {
@@ -48,8 +49,9 @@ namespace MySch.Bll.WX.Model
                 var entity = DataCRUD<Student>.Entity(a => a.RegUID == unionid);
                 if (entity != null)
                 {
-                    name = entity.Name;
                     idc =  entity.IDC;
+                    name = entity.Name;
+                    exam = entity.Examed;
                 }
                 //不需要提示出错
             }

@@ -17,62 +17,61 @@
     <script type="text/javascript">
         $(function () {
             //提示
-            var headloading = weui.loading('正在装载...');
+            var headloading = weui.loading('正在加载...');
             //加载js
-            $.post('/Regs/Jssdk', function (res) {
-                if (res.error) {
+            $.post('/Regs/Jssdk', function (jsres) {
+                if (jsres.error) {
                     weui.topTips(res.message, 3000);
                 } else {
-                    //关闭
-                    headloading.hide();
-                    //先显示学生
-                    if (res.idc == null) {
+                    //显示学生
+                    if (jsres.idc == null) {
+                        //开始注册
                         $('#regs_form').fadeIn();
                     } else {
-                        $('#regs_reged_image').attr('src', '/Image/code?content=' + res.idc);
-                        $('#regs_reged_name').text(res.name + '：');
-                        //上传的图片
-                        $.post('/Regs/GetImagesTypeByIdc', { idc: res.idc }, function (resex) {
-                            if (resex.error) {
-                                weui.topTips(resex.message, 3000);
+                        //上传资料
+                        $('#regs_reged_image').attr('src', '/Image/code?content=' + jsres.idc);
+                        $('#regs_reged_name').text(jsres.name + '：');
+                        $.post('/Regs/GetImagesType', function (res) {
+                            if (res.error) {
+                                weui.topTips(res.message, 3000);
                             } else {
-                                var items = resex.lists[0];
-                                $('#regs_reged_id').val(resex.value);
-                                $('#regs_reged_name').text(resex.key + '：' + res.idc);
-                                $('#regs_reged_namex').val(resex.key);
                                 //分类
                                 $('.regs_reged_image').empty();
-                                $.each(items.lists, function () {
+                                $.each(res.lists, function () {
                                     var $id = $('#regs_reged_image_' + this.value)
                                     $('<img>').attr('src', '/Image/Uploaded?name=' + this.key).appendTo($id);
                                 })
-                                //可以使用
-                                $('#regs_reged .weui-btn').removeClass('weui-btn_disabled');
                             }
                         });
-                        //显示
-                        $('#regs_reged').fadeIn();
+                        if (jsres.exam) {
+                            //审核通过
+                            $('#regs_examed').fadeIn();
+                        } else {
+                            //启用
+                            $('#regs_reged .weui-btn').removeClass('weui-btn_disabled');
+                            $('#regs_reged').fadeIn();
+                        }
                     }
 
                     //后注册
                     wx.config({
                         debug: false,
-                        appId: res.appid,
-                        timestamp: res.timestamp,
-                        nonceStr: res.noncestr,
-                        signature: res.signature,
+                        appId: jsres.appid,
+                        timestamp: jsres.timestamp,
+                        nonceStr: jsres.noncestr,
+                        signature: jsres.signature,
                         jsApiList: [
-                          'checkJsApi',
-                          'hideMenuItems',
                           'hideAllNonBaseMenuItem',
-                          'translateVoice',
                           'chooseImage',
-                          'previewImage',
                           'uploadImage',
-                          'hideOptionMenu',
-                          'closeWindow',
-                          'scanQRCode',
-                          'chooseWXPay',
+                          //'closeWindow',
+                          //'checkJsApi',
+                          //'hideMenuItems',
+                          //'translateVoice',
+                          //'previewImage',
+                          //'hideOptionMenu',
+                          //'scanQRCode',
+                          //'chooseWXPay',
                           //'downloadImage',
                           //'onMenuShareTimeline',
                           //'onMenuShareAppMessage',
@@ -101,6 +100,9 @@
                         ]
                     });
 
+                    //关闭
+                    headloading.hide();
+
                     //
                     wx.ready(function () {
                         //隐藏所有非基本菜单项
@@ -118,7 +120,7 @@
                         $('#regs_form_upload').click(function () {
                             weui.form.validate('#regs_form', function (error) {
                                 if (!error) {
-                                    var loading = weui.loading('提交中...');
+                                    var loading = weui.loading('正在注册...');
                                     //提交
                                     var data = $('#regs_form').serialize();
                                     $.post('/Regs/Reg', data, function (res) {
@@ -158,13 +160,13 @@
                                 isShowProgressTips: 1,
                                 success: function (res) {
                                     //对serverId做处理的代码
-                                    $.post('/Regs/UploadImageSelf', { mediaID: res.serverId, uploadType: uploadtype }, function (resex) {
-                                        if (resex.error) {
-                                            weui.topTips(resex.message, 3000);
+                                    $.post('/Regs/UploadImageSelf', { mediaID: res.serverId, uploadType: uploadtype }, function (uploadres) {
+                                        if (uploadres.error) {
+                                            weui.topTips(uploadres.message, 3000);
                                         } else {
                                             //更新
                                             var $id = $('#regs_reged_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded?name=' + resex.message).prependTo($id);
+                                            $('<img>').attr('src', '/Image/Uploaded?name=' + uploadres.message).prependTo($id);
                                         }
                                     })
                                     if (localIds.length > 0) {
@@ -176,19 +178,20 @@
 
                         //选择图片，上传
                         $('.regs_reged_upload .weui-btn').click(function () {
-                            if (!$(this).hasClass('weui-btn_disabled')) {
-                                //分类名称
-                                var name = $(this).attr('uploadtype');
-                                wx.chooseImage({
-                                    success: function (res) {
-                                        syncUpload(res.localIds, name);
-                                    }
-                                });
-                            }
+                            if ($(this).hasClass('weui-btn_disabled')) return;
+                            //分类名称
+                            var name = $(this).attr('uploadtype');
+                            wx.chooseImage({
+                                success: function (res) {
+                                    syncUpload(res.localIds, name);
+                                }
+                            });
                         });
 
                         //图片删除
                         $('.regs_reged_image').on('click', 'img', function () {
+                            if (jsres.exam) return;
+                            //
                             var $image = $(this);
                             var imageurl = $image.attr('src');
                             var gallery = weui.gallery(imageurl, {
@@ -196,14 +199,14 @@
                                     weui.confirm('　确定删除该图片？', function () {
                                         gallery.hide();
                                         var loading = weui.loading('正在删除...');
-                                        $.post('/Regs/DeleteImage', { url: imageurl }, function (res) {
+                                        $.post('/Regs/DeleteImage', { url: imageurl }, function (delres) {
                                             loading.hide();
-                                            if (res.error) {
-                                                weui.topTips(res.message, 3000);
+                                            if (delres.error) {
+                                                weui.topTips(delres.message, 3000);
                                             } else {
                                                 //删除
                                                 $($image).remove();
-                                                weui.toast(res.message, 2000);
+                                                weui.toast(delres.message, 2000);
                                             }
                                         })
                                     }, function () {
@@ -212,18 +215,24 @@
                                 }
                             });
                         });
+
+                        //显示注册
+                        $('#regs_examed_show').click(function () {
+                            $('#regs_reged').fadeIn();
+                        });
+
                     });
 
                     //错误检测
-                    wx.error(function (res) {
-                        weui.alert(JSON.stringify(res));
+                    wx.error(function (errores) {
+                        weui.alert(JSON.stringify(errores));
                     });
                 }
             })
         })
     </script>
     <style type="text/css">
-        .regs_reged_image {margin-top:10px;}
+        .regs_reged_image { margin-top: 10px; }
     </style>
 </head>
 <body ontouchstart>
@@ -259,6 +268,21 @@
             </section>
         </div>
     </form>
+
+    <div id="regs_examed" style="display:none;">
+        <div class="weui-msg">
+            <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+            <div class="weui-msg__text-area">
+                <h2 class="weui-msg__title">通过审核</h2>
+                <p class="weui-msg__desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现</p>
+            </div>
+            <div class="weui-msg__opr-area">
+                <p class="weui-btn-area">
+                    <a href="javascript:" id="regs_examed_show" class="weui-btn weui-btn_default">显示注册信息</a>
+                </p>
+            </div>
+        </div>
+    </div>
 
     <div id="regs_reged" style="display:none;">
         <div class="weui-article">
