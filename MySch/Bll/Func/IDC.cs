@@ -7,13 +7,6 @@ namespace MySch.Bll.Func
 {
     public class IDC
     {
-        //public static void IDS(string ids)
-        //{
-        //    string mes;
-        //    bool res = IDS(ids, out mes);
-        //    if (!res) throw new Exception(mes);
-        //}
-
         public static BllError IDS(string ids)
         {
             try

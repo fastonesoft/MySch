@@ -100,18 +100,20 @@ namespace MySch.Controllers.WX
         {
             try
             {
+                var idcu = idc.ToUpper();
                 var token = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-              var error =  IDC.IDS(idc);
-              if (error.error) return Json(new BllError { error = true, message = new  { id:"",} });
+                var error = IDC.IDS(idcu);
+                //返回身份证错误
+                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_reg_idc", value = error.message } });
 
-                var name = AutoXue.RegStudent(idc.ToUpper(), mobil, infor.unionid);
-                return Json(new BllError { error = false, message = name });
+                var name = AutoXue.RegStudent(idcu, mobil, infor.unionid);
+                return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new BllError { error = true, message = new WX_KeyValue { value = e.Message } });
             }
         }
 

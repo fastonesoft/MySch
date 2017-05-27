@@ -28,6 +28,7 @@
     <script src="~/Scripts/my.easyui.js"></script>
 
     <script src="~/Scripts/my.md5.js"></script>
+    <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 
     <script type="text/javascript">
 
@@ -41,6 +42,18 @@
                 }
             })
         })
+
+
+        //扫码登录
+        var obj = new WxLogin({
+            id: "my-login-code",
+            appid: "wxf550ae5cacd159df",
+            scope: "snsapi_login",
+            redirect_uri: "http://a.jysycz.cn/client",
+            state: "1",
+            style: "black",
+            href: ".impowerBox .qrcode {width: 200px;}"
+        });
 
     </script>
 

@@ -128,14 +128,14 @@
                                         loading.hide();
                                         //提示
                                         if (res.error) {
-                                            if (res.warnid) {
+                                            if (res.message.key) {
                                                 //字段加红
-                                                $('#' + res.warnid).addClass('weui-cell_warn');
+                                                $('#' + res.message.key).addClass('weui-cell_warn');
                                             }
-                                            weui.topTips(res.message, 3000);
+                                            weui.topTips(res.message.value, 3000);
                                         } else {
-                                            $('#regs_reged_image').attr('src', '/Image/code?content=' + res.message);
-                                            $('#regs_reged_name').text(res.warnid + '：');
+                                            $('#regs_reged_image').attr('src', '/Image/code?content=' + res.message.key);
+                                            $('#regs_reged_name').text(res.message.value + '：');
                                             $('#regs_reged .weui-btn').removeClass('weui-btn_disabled');
                                             //
                                             $('#regs_form').hide();
@@ -218,9 +218,12 @@
 
                         //显示注册
                         $('#regs_examed_show').click(function () {
-                            $('#regs_reged').fadeIn();
+                            if ($('#regs_reged').is(":visible")) {
+                                $('#regs_reged').fadeOut();
+                            } else {
+                                $('#regs_reged').fadeIn();
+                            }
                         });
-
                     });
 
                     //错误检测
@@ -267,18 +270,26 @@
                 <h2 class="title">　　一个微信账号只能注册一个学生身份证</h2>
             </section>
         </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">实验初中</a>
+                </p>
+                <p class="weui-footer__text">Copyright © 2017</p>
+            </div>
+        </div>
     </form>
 
     <div id="regs_examed" style="display:none;">
         <div class="weui-msg">
             <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
             <div class="weui-msg__text-area">
-                <h2 class="weui-msg__title">通过审核</h2>
+                <h2 class="weui-msg__title">审核通过</h2>
                 <p class="weui-msg__desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现</p>
             </div>
             <div class="weui-msg__opr-area">
                 <p class="weui-btn-area">
-                    <a href="javascript:" id="regs_examed_show" class="weui-btn weui-btn_default">显示注册信息</a>
+                    <a href="javascript:" id="regs_examed_show" class="weui-btn weui-btn_default">显示/隐藏 注册信息</a>
                 </p>
             </div>
         </div>
