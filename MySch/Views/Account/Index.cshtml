@@ -10,54 +10,48 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>校务在线</title>
-
-    <link href="~/Content/print.css" rel="stylesheet" media="print" />
-
-    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
-    <link href="~/Content/themes/icon.css?@r.ToString()" rel="stylesheet" />
+    <title>校务在线 - 登录</title>
     <link href="~/Content/style.css?@r.ToString()" rel="stylesheet" media="screen" />
 
     <script src="~/Scripts/jquery-1.12.4.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-    <script src="~/Scripts/my.valid.js"></script>
-
-    <script src="~/Scripts/jquery.easyui.min.js"></script>
-    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
-    <script src="~/Scripts/my.easyui.js"></script>
-
-    <script src="~/Scripts/my.md5.js"></script>
     <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 
     <script type="text/javascript">
 
         $(function () {
-            //登录检测
-            $.post('/Account/Check', function (d) {
-                if (d.error) {
-                    $.messager.alert('错误提示', d.message, 'error');
-                } else {
-                    $('#body').html(d);
-                }
-            })
+            //窗体大小调整
+            $(window).resize(function () {
+                var awid = $(window).width();
+                var ahei = $(window).height();
+
+                $('.my-login-code').css({ 'position': 'absolute', 'left': (awid - 284) / 2, 'top': (ahei - 389) / 3 });
+                $('#cloud1').css({ 'left': awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
+                $('#cloud2').css({ 'left': awid / 2 + awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
+            });
+            $(window).resize();
+
+            //扫码登录
+            var obj = new WxLogin({
+                id: "my-login-code",
+                appid: "wxf550ae5cacd159df",
+                scope: "snsapi_login",
+                redirect_uri: "http://a.jysycz.cn/account/login",
+                state: "web",
+                style: "white",
+                href: ""
+            });
         })
 
-
-        //扫码登录
-        var obj = new WxLogin({
-            id: "my-login-code",
-            appid: "wxf550ae5cacd159df",
-            scope: "snsapi_login",
-            redirect_uri: "http://a.jysycz.cn/client",
-            state: "1",
-            style: "black",
-            href: ".impowerBox .qrcode {width: 200px;}"
-        });
-
     </script>
-
 </head>
-<body id="body">
+<body id="body" style="background-color: #1c77ac; background-image: url(/Images/light.png); background-repeat: no-repeat; background-position: center top; overflow: hidden; ">
+    <div id="cloudBody">
+        <div id="cloud1" class="my-login-cloud"></div>
+        <div id="cloud2" class="my-login-cloud"></div>
+    </div>
+    <div class="my-login-body">
+        <div class="my-login-code" id="my-login-code">
+        </div>
+    </div>
 </body>
 </html>

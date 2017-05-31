@@ -118,7 +118,7 @@ namespace MySch.Bll.Xue
         /// <returns></returns>
         public static CookieCollection PostCookies(string url, CookieCollection cookies, string postdata)
         {
-            HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
+            HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata,"GBK");
 
             return postresp.Cookies;
         }
@@ -224,7 +224,7 @@ namespace MySch.Bll.Xue
                 else
                 {
                     //检测是否可以连接
-                    var html = HtmlHelp.GetHtml("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action", xuecookies, Encoding.GetEncoding("GBK"));
+                    var html = HtmlHelp.GetHtml("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action", xuecookies, "GBK");
 
                     //如果过期，重新连接
                     if (html.Contains("没有权限"))
@@ -253,7 +253,7 @@ namespace MySch.Bll.Xue
             try
             {
                 var url = string.Format("http://xjgl.jse.edu.cn/studman2/studman/studentBrowseAct!queryStudent.action?studentForm.cid={0}", idc);
-                return HtmlHelp.GetHtml(url, cookies, Encoding.GetEncoding("GBK"));
+                return HtmlHelp.GetHtml(url, cookies, "GBK");
             }
             catch (Exception e)
             {
@@ -267,7 +267,7 @@ namespace MySch.Bll.Xue
             {
                 name = HttpUtility.UrlEncode(name, Encoding.GetEncoding("GBK"));
                 var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, idc);
-                return HtmlHelp.GetHtml(jsonurl, cookies, Encoding.GetEncoding("GBK"));
+                return HtmlHelp.GetHtml(jsonurl, cookies, "GBK");
             }
             catch (Exception e)
             {
@@ -332,10 +332,10 @@ namespace MySch.Bll.Xue
                 dicts.Add("cid", ID);
                 dicts.Add("randomCode", valid);
                 dicts.Add("v", rnd.NextDouble().ToString());
-                string postdata = HtmlHelp.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+                string postdata = HtmlHelp.DictToPostData(dicts, "GBK");
                 //提交请求
-                HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
-                string html = HtmlHelp.GetHtml(postresp, Encoding.GetEncoding("GBK"));
+                HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, "GBK");
+                string html = HtmlHelp.GetHtml(postresp, "GBK");
                 //分析返回数据
                 Regex regx = new Regex(@"<td>([\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
                 MatchCollection matchs = regx.Matches(html);

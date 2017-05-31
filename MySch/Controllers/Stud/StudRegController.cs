@@ -87,10 +87,10 @@ namespace MySch.Controllers.Stud
                 dicts.Add("cid", que.IDS);
                 dicts.Add("randomCode", valid);
                 dicts.Add("v", rnd.NextDouble().ToString());
-                string postdata = HtmlHelp.DictToPostData(dicts, Encoding.GetEncoding("GBK"));
+                string postdata = HtmlHelp.DictToPostData(dicts, "GBK");
                 //提交请求
-                HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, Encoding.GetEncoding("GBK"));
-                string html = HtmlHelp.GetHtml(postresp, Encoding.GetEncoding("GBK"));
+                HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, "GBK");
+                string html = HtmlHelp.GetHtml(postresp, "GBK");
                 //分析返回数据
                 Regex regx = new Regex(@"<td>([()\u4e00-\u9fa5]+|\d{17}[0-9X]|[A-Z]\d{17}[0-9X])</td>");
                 MatchCollection matchs = regx.Matches(html);

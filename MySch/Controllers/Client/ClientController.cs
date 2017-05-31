@@ -59,11 +59,11 @@ namespace MySch.Controllers.Client
         // GET: Client
         public ActionResult Index()
         {
-            var login = BllLogin.GetLogin(Session);
-            ViewBag.UserName = login.Name;
-            //ViewBag.Contents = ";alsdflka;kjlsdfkjlasjl;kdf;lasdkljfa;klsdfl;kaslkdkjlaslkjasdfl;ksdal;sdfal;kj";
+            //var login = BllLogin.GetLogin(Session);
+            //ViewBag.UserName = login.Name;
+            ////ViewBag.Contents = ";alsdflka;kjlsdfkjlasjl;kdf;lasdkljfa;klsdfl;kaslkdkjlaslkjasdfl;ksdal;sdfal;kj";
 
-
+            return RedirectToAction("Index", "Account");
 
             return View();
         }

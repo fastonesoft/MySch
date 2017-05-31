@@ -21,7 +21,7 @@ namespace MySch.Helper
         {
             try
             {
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                var req = (HttpWebRequest)WebRequest.Create(url);
 
                 req.CookieContainer = new CookieContainer();
                 req.CookieContainer.Add(new CookieCollection());
@@ -61,7 +61,7 @@ namespace MySch.Helper
         {
             try
             {
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                var req = (HttpWebRequest)WebRequest.Create(url);
 
                 req.CookieContainer = new CookieContainer();
                 req.CookieContainer.Add(cookies);
@@ -88,7 +88,7 @@ namespace MySch.Helper
         {
             try
             {
-                Stream reads = resp.GetResponseStream();
+                var reads = resp.GetResponseStream();
                 return new Bitmap(reads);
             }
             catch (Exception e)
@@ -110,45 +110,12 @@ namespace MySch.Helper
             }
         }
 
-        /// <summary>
-        /// 读取网页内容
-        /// </summary>
-        /// <param name="resp">请求回应</param>
-        /// <param name="encoding">网页编码</param>
-        /// <returns></returns>
-        public static string GetHtml(HttpWebResponse resp, Encoding encoding)
-        {
-            try
-            {
-                StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
-                return sr.ReadToEnd();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         public static string GetHtml(HttpWebResponse resp, string encodingName)
         {
             try
             {
-                Encoding encoding = Encoding.GetEncoding(encodingName);
-                return GetHtml(resp, encoding);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public static string GetHtml(string url, CookieCollection cookies, Encoding encoding)
-        {
-            try
-            {
-                var resp = GetResponse(url, cookies);
-
-                StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
+                var encoding = Encoding.GetEncoding(encodingName);
+                var sr = new StreamReader(resp.GetResponseStream(), encoding);
                 return sr.ReadToEnd();
             }
             catch (Exception e)
@@ -161,27 +128,14 @@ namespace MySch.Helper
         {
             try
             {
-                Encoding encoding = Encoding.GetEncoding(encodingName);
-                return GetHtml(url, cookies, encoding);
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
-        }
-
-        public static string GetHtml(string url, Encoding encoding)
-        {
-            try
-            {
-                var resp = GetResponse(url);
-
-                StreamReader sr = new StreamReader(resp.GetResponseStream(), encoding);
+                var resp = GetResponse(url, cookies);
+                var encoding = Encoding.GetEncoding(encodingName);
+                var sr = new StreamReader(resp.GetResponseStream(), encoding);
                 return sr.ReadToEnd();
             }
             catch (Exception e)
             {
+
                 throw e;
             }
         }
@@ -190,11 +144,13 @@ namespace MySch.Helper
         {
             try
             {
-                Encoding encoding = Encoding.GetEncoding(encodingName);
-                return GetHtml(url, encoding);
+                var resp = GetResponse(url);
+                var encoding = Encoding.GetEncoding(encodingName);
+                var sr = new StreamReader(resp.GetResponseStream(), encoding);
+                return sr.ReadToEnd();
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -208,11 +164,11 @@ namespace MySch.Helper
         /// <param name="encoding">页面编码</param>
         /// <param name="redirect">是否跳转</param>
         /// <returns></returns>
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding, bool redirect)
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName, bool redirect)
         {
             try
             {
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                var req = (HttpWebRequest)WebRequest.Create(url);
 
                 req.CookieContainer = new CookieContainer();
                 req.CookieContainer.Add(cookies);
@@ -221,6 +177,7 @@ namespace MySch.Helper
                 req.Method = "POST";
 
                 //准备数据
+                var encoding = Encoding.GetEncoding(encodingName);
                 byte[] posts = encoding.GetBytes(data);
                 req.ContentLength = posts.Length;
 
@@ -238,12 +195,11 @@ namespace MySch.Helper
             }
         }
 
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName, bool redirect)
+        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName)
         {
             try
             {
-                Encoding encoding = Encoding.GetEncoding(encodingName);
-                return PostResponse(url, cookies, data, encoding, redirect);
+                return PostResponse(url, cookies, data, encodingName, false);
             }
             catch (Exception e)
             {
@@ -251,24 +207,22 @@ namespace MySch.Helper
             }
         }
 
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, Encoding encoding)
+
+        /// <summary>
+        /// 获取网页文本
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="cookies"></param>
+        /// <param name="data"></param>
+        /// <param name="encodingName"></param>
+        /// <param name="redirect"></param>
+        /// <returns></returns>
+        public static string PostHtml(string url, CookieCollection cookies, string data, string encodingName, bool redirect)
         {
             try
             {
-                return PostResponse(url, cookies, data, encoding, false);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-        
-        public static HttpWebResponse PostResponse(string url, CookieCollection cookies, string data, string encodingName)
-        {
-            try
-            {
-                Encoding encoding = Encoding.GetEncoding(encodingName);
-                return PostResponse(url, cookies, data, encoding);
+                var resp = PostResponse(url, cookies, data, encodingName, redirect);
+                return GetHtml(resp, encodingName);
             }
             catch (Exception e)
             {
@@ -280,50 +234,23 @@ namespace MySch.Helper
         {
             try
             {
-                HttpWebResponse resp = PostResponse(url, cookies, data, encodingName);
+                var resp = PostResponse(url, cookies, data, encodingName);
                 return GetHtml(resp, encodingName);
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
 
-        public static string PostHtml(string url, CookieCollection cookies, string data, Encoding encoding)
+        public static string PostHtml(string url, string data, string encodingName)
         {
             try
             {
-                HttpWebResponse resp = PostResponse(url, cookies, data, encoding);
-                return GetHtml(resp, encoding);
+                return PostHtml(url, new CookieCollection(), data, encodingName);
             }
             catch (Exception e)
-            {                
-                throw e;
-            }
-        }
-
-        public static string PostHtml(string url, CookieCollection cookies,string data, string encodingName, bool redirect)
-        {
-            try
             {
-                HttpWebResponse resp = PostResponse(url, cookies, data, encodingName, redirect);
-                return GetHtml(resp, encodingName);
-            }
-            catch (Exception e)
-            {                
-                throw e;
-            }
-        }
-
-        public static string PostHtml(string url, CookieCollection cookies, string data, Encoding encoding, bool redirect)
-        {
-            try
-            {
-                HttpWebResponse resp = PostResponse(url, cookies, data, encoding, redirect);
-                return GetHtml(resp, encoding);
-            }
-            catch (Exception e)
-            {                
                 throw e;
             }
         }
@@ -334,9 +261,10 @@ namespace MySch.Helper
         /// <param name="dicts">数据字典</param>
         /// <param name="encoding">数据编码</param>
         /// <returns></returns>
-        public static string DictToPostData(Dictionary<string, string> dicts, Encoding encoding)
+        public static string DictToPostData(Dictionary<string, string> dicts,  string  encodingName)
         {
-            string res = string.Empty;
+            var res = string.Empty;
+            var encoding = Encoding.GetEncoding(encodingName);
             foreach (var dict in dicts)
             {
                 string encodeValue = HttpUtility.UrlEncode(dict.Value, encoding);

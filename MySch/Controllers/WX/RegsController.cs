@@ -22,7 +22,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //读取code          
-                var codeurl = WX_Url.OAuthCode(WX_App.gAppID, WX_App.gAppSecret, auth.code);
+                var codeurl = WX_Url.OAuthCode(WX_Const.goneAppID, WX_Const.goneAppSecret, auth.code);
                 var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");
 
                 //检测是否出错
@@ -34,22 +34,22 @@ namespace MySch.Controllers.WX
                 else
                 {
                     //解析网页的token
-                    var token = Jsons.JsonEntity<WX_AccessTokenOauth>(codes);
-                    token.create_time = DateTime.Now;
+                    var oaken = Jsons.JsonEntity<WX_AccessTokenOauth>(codes);
+                    oaken.create_time = DateTime.Now;
                     //缓存
-                    token.ToSession();
+                    oaken.ToSession();
                     //检查授权状态
-                    if (token.scope == "snsapi_userinfo")
+                    if (oaken.scope == "snsapi_userinfo")
                     {
                         //读取用户信息
-                        var userurl = WX_Url.OAuserInfor(token.access_token, token.openid);
+                        var userurl = WX_Url.OAuserInfor(oaken.access_token, oaken.openid);
                         var user = HtmlHelp.GetHtml(userurl, "UTF-8");
 
                         //序列化
                         var infor = Jsons.JsonEntity<WX_OAuserInfor>(user);
                         infor.codePage = Setting.Url(Request);
                         //检测是否绑定学生
-                        infor.Check();
+                        infor.BindingStud();
                         //缓存
                         infor.ToSession();
 
@@ -78,12 +78,12 @@ namespace MySch.Controllers.WX
             try
             {
                 //检查中控
-                var wxtoken = WX_AccessToken.GetAccessToken();
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var token = WX_AccessToken.GetAccessToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //签名算法
-                var signature = new WX_Signature(WX_App.gAppID, WX_Jsticket.GetJsticket(wxtoken), infor.codePage, infor.idc, infor.name, infor.exam);
+                var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.exam);
 
                 //序列化
                 return Json(signature);
@@ -101,7 +101,7 @@ namespace MySch.Controllers.WX
             try
             {
                 var idcu = idc.ToUpper();
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 var error = IDC.IDS(idcu);
@@ -124,7 +124,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //检测页面、用户
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 var res = WX_UploadImage.SaveImageSelf(mediaID, uploadType, infor.unionid);
@@ -144,7 +144,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //读取code          
-                var codeurl = WX_Url.OAuthCode(WX_App.gAppID, WX_App.gAppSecret, auth.code);
+                var codeurl = WX_Url.OAuthCode(WX_Const.goneAppID, WX_Const.goneAppSecret, auth.code);
                 var code = HtmlHelp.GetHtml(codeurl, "UTF-8");
 
                 //检测是否出错
@@ -156,15 +156,15 @@ namespace MySch.Controllers.WX
                 else
                 {
                     //解析网页的token
-                    var token = Jsons.JsonEntity<WX_AccessTokenOauth>(code);
-                    token.create_time = DateTime.Now;
+                    var oaken = Jsons.JsonEntity<WX_AccessTokenOauth>(code);
+                    oaken.create_time = DateTime.Now;
                     //缓存
-                    token.ToSession();
+                    oaken.ToSession();
                     //检查授权状态
-                    if (token.scope == "snsapi_userinfo")
+                    if (oaken.scope == "snsapi_userinfo")
                     {
                         //读取用户信息
-                        var userurl = WX_Url.OAuserInfor(token.access_token, token.openid);
+                        var userurl = WX_Url.OAuserInfor(oaken.access_token, oaken.openid);
                         var user = HtmlHelp.GetHtml(userurl, "UTF-8");
                         //序列化
                         var infor = Jsons.JsonEntity<WX_OAuserInfor>(user);
@@ -194,7 +194,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //检测页面、用户
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //根据身份证获取图片列表
@@ -214,7 +214,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //检测页面、用户
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //根据身份证获取图片列表
@@ -234,7 +234,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //检测页面、用户
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var user = WX_OAuserInfor.GetFromSession();
 
                 var res = WX_UploadImage.DeleteImage(url);
@@ -253,7 +253,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //检测页面、用户
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //代别人上传
@@ -273,7 +273,7 @@ namespace MySch.Controllers.WX
             try
             {
                 //检测页面、用户
-                var token = WX_AccessTokenOauth.GetSessionToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var user = WX_OAuserInfor.GetFromSession();
 
                 //审核

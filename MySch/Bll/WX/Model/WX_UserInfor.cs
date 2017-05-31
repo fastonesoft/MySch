@@ -35,6 +35,12 @@ namespace MySch.Bll.WX.Model
             throw new Exception("页面请求已过期");
         }
 
+        public static bool HasSession()
+        {
+            var infor = (WX_OAuserInfor)HttpContext.Current.Session["wx_userinfor"];
+            return infor == null ? false : true;
+        }
+
         //缓存
         public void ToSession()
         {
@@ -42,7 +48,7 @@ namespace MySch.Bll.WX.Model
         }
 
         //检测是否绑定微信
-        public void Check()
+        public void BindingStud()
         {
             try
             {
@@ -60,6 +66,5 @@ namespace MySch.Bll.WX.Model
                 throw e;
             }
         }
-
     }
 }

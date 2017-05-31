@@ -1,12 +1,33 @@
 ﻿@{
     Layout = null;
+    
+    var dd = new Random();
+    var r = dd.NextDouble();
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <title>用户操作首页</title>
+    <title>校务在线</title>
+    <link href="~/Content/style.css?@r.ToString()" rel="stylesheet" media="screen" />
+
+    <link href="~/Content/print.css" rel="stylesheet" media="print" />
+
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css?@r.ToString()" rel="stylesheet" />
+    <link href="~/Content/style.css?@r.ToString()" rel="stylesheet" media="screen" />
+
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/my.valid.js"></script>
+
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/my.easyui.js"></script>
+
+    <script src="~/Scripts/my.md5.js"></script>
 </head>
 <body>
     <div id="my-user-lay" class="my-bodyer">
@@ -74,122 +95,109 @@
         </div>
     </div>
     <script type="text/javascript">
-    $(function () {
-        //清除登录样式
-        $('#body').removeAttr('style');
-
-        //切换到系统后台
-        $('#toAdmin').click(function () {
-            $.post('/Admin/Index', function (d) {
-                if (d.error) {
-                    $.messager.alert('错误提示', d.message, 'error');
-                } else {
-                    $('#body').html(d);
-                }
-            })
-        })
-
-        //tabs关闭动作
-        $('#my-user-tab').tabs({
-            onClose: function (title) {
-                //关闭菜单状态
-                $(".my-menuson li a").each(function () {
-                    if ($(this).text() == title) {
-                        $(this).parent().attr('clicked', false);
+        $(function () {
+            //切换到系统后台
+            $('#toAdmin').click(function () {
+                $.post('/Admin/Index', function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        $('#body').html(d);
                     }
-                });
-            }
-        });
-
-        //退出检测
-        window.onbeforeunload = function () {
-            $.post('/Account/Logoff', function (d) {
-                if (d.error) {
-                    $.messager.alert('错误提示', d.message, 'error');
-                } else {
-                    location.reload();
-                }
+                })
             })
-        }
 
-        //退出登录
-        $('#logoff').click(function () {
-            $.post('/Account/Logoff', function (d) {
-                if (d.error) {
-                    $.messager.alert('错误提示', d.message, 'error');
-                } else {
-                    location.reload();
+            //tabs关闭动作
+            $('#my-user-tab').tabs({
+                onClose: function (title) {
+                    //关闭菜单状态
+                    $(".my-menuson li a").each(function () {
+                        if ($(this).text() == title) {
+                            $(this).parent().attr('clicked', false);
+                        }
+                    });
                 }
-            })
-        });
+            });
 
-        //顶部导航切换
-        $(".my-nav li a").click(function () {
-            $(".my-nav li a.selected").removeClass("selected")
-            $(this).addClass("selected");
 
-            //导航更新
-            var num = $(this).attr('num');
-            var s = $.validator.format('.title[num={0}]', num);
-            var objs = $(s);
-            objs.click();
-            objs.next().children(':first-child').click();
-        });
-        //菜单点击
-        $('.title').click(function () {
-            $(this).parent().siblings().find('ul').slideUp();
-            var $ul = $(this).next('ul');
-            if ($ul.is(':visible')) {
-                //$ul.slideUp();
-            } else {
-                $ul.slideDown();
-            }
-        });
-        //菜单切换
-        $(".my-menuson li").click(function () {
-            //菜单动作
-            var url = $(this).attr('dest');
-            var name = $(this).find('a').text();
-            var icon = $(this).attr('icon');
+            //退出登录
+            $('#logoff').click(function () {
+                $.post('/Account/Logoff', function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                    } else {
+                        location.reload();
+                    }
+                })
+            });
 
-            //设置样式
-            $(".my-menuson li.active").removeClass("active")
-            $(this).addClass("active");
+            //顶部导航切换
+            $(".my-nav li a").click(function () {
+                $(".my-nav li a.selected").removeClass("selected")
+                $(this).addClass("selected");
 
-            //顶部更新
-            var num = $(this).parent().prev().attr('num');
-            $(".my-nav li a.selected").removeClass("selected")
-            var s = $.validator.format('.my-nav li a[num={0}]', num);
-            $(s).addClass("selected");
+                //导航更新
+                var num = $(this).attr('num');
+                var s = $.validator.format('.title[num={0}]', num);
+                var objs = $(s);
+                objs.click();
+                objs.next().children(':first-child').click();
+            });
+            //菜单点击
+            $('.title').click(function () {
+                $(this).parent().siblings().find('ul').slideUp();
+                var $ul = $(this).next('ul');
+                if ($ul.is(':visible')) {
+                    //$ul.slideUp();
+                } else {
+                    $ul.slideDown();
+                }
+            });
+            //菜单切换
+            $(".my-menuson li").click(function () {
+                //菜单动作
+                var url = $(this).attr('dest');
+                var name = $(this).find('a').text();
+                var icon = $(this).attr('icon');
 
-            //检查菜单状态
-            var clicked = $(this).attr('clicked');
-            if (clicked === 'true') {
-                $('#my-user-tab').tabs('select', name);
-                //阻止
-                return;
-            };
+                //设置样式
+                $(".my-menuson li.active").removeClass("active")
+                $(this).addClass("active");
 
-            //设置菜单单击状态
-            $(this).attr('clicked', true);
+                //顶部更新
+                var num = $(this).parent().prev().attr('num');
+                $(".my-nav li a.selected").removeClass("selected")
+                var s = $.validator.format('.my-nav li a[num={0}]', num);
+                $(s).addClass("selected");
 
-            //添加页面
-            easyobj.addTab('#my-user-tab', name, url, icon)
-        });
+                //检查菜单状态
+                var clicked = $(this).attr('clicked');
+                if (clicked === 'true') {
+                    $('#my-user-tab').tabs('select', name);
+                    //阻止
+                    return;
+                };
 
-        //布局
-        $('#my-user-lay').layout({
-            border: false,
-            fit: true
-        });
+                //设置菜单单击状态
+                $(this).attr('clicked', true);
 
-        //分页
-        $('#my-user-tab').tabs({
-            border: false,
-            fit: true
-        });
+                //添加页面
+                easyobj.addTab('#my-user-tab', name, url, icon)
+            });
 
-    })
+            //布局
+            $('#my-user-lay').layout({
+                border: false,
+                fit: true
+            });
+
+            //分页
+            $('#my-user-tab').tabs({
+                border: false,
+                fit: true
+            });
+
+        })
     </script>
 </body>
 </html>

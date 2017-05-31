@@ -132,15 +132,19 @@
     <Compile Include="Bll\WX\Model\WX_AccessTokenOauth.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\WX\Model\WX_Const.cs" />
+    <Compile Include="Bll\WX\Model\WX_Const.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Bll\WX\Model\WX_Error.cs" />
     <Compile Include="Bll\WX\Model\WX_Examine.cs" />
     <Compile Include="Bll\WX\Model\WX_KeyValue.cs" />
     <Compile Include="Bll\WX\Model\WX_Jsticket.cs" />
+    <Compile Include="Bll\WX\Model\WX_Menu.cs" />
     <Compile Include="Bll\WX\Model\WX_OAuth.cs" />
     <Compile Include="Bll\WX\Model\WX_Signature.cs" />
     <Compile Include="Bll\WX\Model\WX_TimeDiffer.cs" />
     <Compile Include="Bll\WX\Model\WX_UploadImage.cs" />
+    <Compile Include="Bll\WX\Model\WX_Url.cs" />
     <Compile Include="Bll\WX\Model\WX_UserInfor.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
     <Compile Include="Bll\Xue\AutoXue.cs">
@@ -269,6 +273,7 @@
     <Compile Include="Controllers\User\UserPartController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\WX\MenuController.cs" />
     <Compile Include="Controllers\WX\RegsController.cs" />
     <Compile Include="Controllers\WX\WeiController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
@@ -647,7 +652,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Html\camhtml5.htm" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Account\Logon.cshtml" />
     <Content Include="Views\Account\Wrong1.cshtml" />
     <Content Include="Views\Account\Main.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
@@ -729,13 +733,13 @@
     <Content Include="Views\Shared\_Default.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
-    <Content Include="Views\Wei\Index.cshtml" />
     <Content Include="Views\Regs\Index.cshtml" />
     <Content Include="Views\Regs\Examine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
     <Folder Include="Views\Image\" />
+    <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

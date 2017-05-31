@@ -35,7 +35,7 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var wxcrypt = new WXCryptMsg("WX1979ToKen1979", "6d3LP5RSNqKCdUnu6bGvL2aX6Dog1x03r4st2LfHL9S", "wx0f49a9991c53e2a4");
+                var wxcrypt = new WXCryptMsg(WX_Const.goneToken, WX_Const.goneAES, WX_Const.goneAppID);
                 string xml = string.Empty;
 
                 if (author.encrypt_type == "aes")
@@ -212,7 +212,7 @@ namespace MySch.Bll.WX.Model
             if (author.encrypt_type == "aes")
             {
                 string wxmsg = string.Empty;
-                var wxcrypt = new WXCryptMsg("WX1979ToKen1979", "6d3LP5RSNqKCdUnu6bGvL2aX6Dog1x03r4st2LfHL9S", "wx0f49a9991c53e2a4");
+                var wxcrypt = new WXCryptMsg(WX_Const.goneToken, WX_Const.goneAES, WX_Const.goneAppID);
                 wxcrypt.EncryptMsg(xml, author.timestamp, author.nonce, ref wxmsg);
                 return wxmsg;
             }
