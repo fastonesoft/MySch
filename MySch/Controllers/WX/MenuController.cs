@@ -21,21 +21,25 @@ namespace MySch.Controllers.WX
                 var regurl = HttpUtility.UrlEncode("http://a.jysycz.cn/regs/");
                 var examurl = HttpUtility.UrlEncode("http://a.jysycz.cn/regs/examine");
 
-                var regform = string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, regurl, state);
-                var regexam = string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, examurl, state);
+                var regform =WX_Url.MenuView(appid, regurl, state);
+                var regexam = WX_Url.MenuView(appid, examurl, state);
 
                 //检测页面、用户
                 var token = WX_AccessToken.GetAccessToken();
 
                 var menus = new WX_Menu();
-                var student = new WX_Menu_Sub { name = "学生" };
+                var student = new WX_Menu_Sub { name = "学生相关" };
                 student.Add(new WX_Menu_View { name = "报名注册", type = "view", url = regform });
                 student.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
                 menus.Add(student);
-                var family = new WX_Menu_Sub { name = "家长" };
-                menus.Add(family);
-                var teach = new WX_Menu_Sub { name = "教师" };
+                var teach = new WX_Menu_Sub { name = "教师中心" };
+                teach.Add(new WX_Menu_View { name = "报名注册", type = "view", url = regform });
+                teach.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
                 menus.Add(teach);
+                var score = new WX_Menu_Sub { name = "成绩查询" };
+                score.Add(new WX_Menu_View { name = "报名注册", type = "view", url = regform });
+                score.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
+                menus.Add(score);
 
 
 

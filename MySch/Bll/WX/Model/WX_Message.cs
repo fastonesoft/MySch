@@ -36,7 +36,7 @@ namespace MySch.Bll.WX.Model
             try
             {
                 var wxcrypt = new WXCryptMsg(WX_Const.goneToken, WX_Const.goneAES, WX_Const.goneAppID);
-                string xml = string.Empty;
+                var xml = string.Empty;
 
                 if (author.encrypt_type == "aes")
                 {
@@ -49,7 +49,7 @@ namespace MySch.Bll.WX.Model
                     xml = xml_crypt;
                 }
 
-                XmlDocument doc = new XmlDocument();
+                var doc = new XmlDocument();
                 doc.LoadXml(xml);
                 _element = doc.DocumentElement;
             }
@@ -87,7 +87,7 @@ namespace MySch.Bll.WX.Model
         }
     }
 
-    public class WX_Rec_Normal: WX_Rec_Base
+    public class WX_Rec_Normal : WX_Rec_Base
     {
         public long MsgId { get; set; }
         public override void XmlToObj()
@@ -196,7 +196,7 @@ namespace MySch.Bll.WX.Model
         {
             this.CreateTime = Setting.DateTimeToInt(DateTime.Now);
 
-            string xml = string.Empty;
+            var xml = string.Empty;
             xml += string.Format("<ToUserName><![CDATA[{0}]]></ToUserName>", ToUserName);
             xml += string.Format("<FromUserName><![CDATA[{0}]]></FromUserName>", FromUserName);
             xml += string.Format("<CreateTime>{0}</CreateTime>", CreateTime);
@@ -243,7 +243,7 @@ namespace MySch.Bll.WX.Model
         public override string ToXml(string con)
         {
             //基本数据
-            string xml = base.ToXml("{0}");
+            var xml = base.ToXml("{0}");
             //新增属性
             xml += string.Format("<Content><![CDATA[{0}]]></Content>", Content);
             //
@@ -266,7 +266,7 @@ namespace MySch.Bll.WX.Model
         public override string ToXml(string con)
         {
             //基本数据
-            string xml = base.ToXml("{0}");
+            var xml = base.ToXml("{0}");
             //新增属性
             xml += "<Image>";
             xml += string.Format("<MediaId><![CDATA[{0}]]></MediaId>", MediaId);
@@ -322,7 +322,7 @@ namespace MySch.Bll.WX.Model
         public override string ToXml(string con)
         {
             //构造图文列表
-            string items = "";
+            var items = string.Empty;
             foreach (var item in _Items)
             {
                 items += "<item>";
@@ -333,7 +333,7 @@ namespace MySch.Bll.WX.Model
                 items += "</item>";
             }
             //将图文数据打包
-            string xml = base.ToXml("{0}");
+            var xml = base.ToXml("{0}");
             xml += string.Format("<ArticleCount>{0}</ArticleCount>", _Items.Count());
             xml += "<Articles>";
             xml += items;
