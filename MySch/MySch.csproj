@@ -613,6 +613,7 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\校务在线.pubxml" />
+    <Content Include="Images\weblogo.png" />
     <Content Include="Images\wx_no.jpg" />
     <Content Include="Images\wx_yes.jpg" />
     <Content Include="Scripts\bootstrap.js" />

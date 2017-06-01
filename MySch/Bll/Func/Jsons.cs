@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -73,6 +74,19 @@ namespace MySch.Bll.Func
             }
             catch (Exception e)
             {
+                throw e;
+            }
+        }
+
+        public static string ToJsonsConvert(object obj)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(obj);
+
+            }
+            catch (Exception e)
+            {                
                 throw e;
             }
         }

@@ -18,10 +18,10 @@ namespace MySch.Controllers.WX
             {
                 var state = "pub";
                 var appid = WX_Const.goneAppID;
-                var regurl = HttpUtility.UrlEncode("http://a.jysycz.cn/regs/");
-                var examurl = HttpUtility.UrlEncode("http://a.jysycz.cn/regs/examine");
+                var regurl = "http://a.jysycz.cn/regs/";
+                var examurl = "http://a.jysycz.cn/regs/examine";
 
-                var regform =WX_Url.MenuView(appid, regurl, state);
+                var regform = WX_Url.MenuView(appid, regurl, state);
                 var regexam = WX_Url.MenuView(appid, examurl, state);
 
                 //检测页面、用户
@@ -41,11 +41,8 @@ namespace MySch.Controllers.WX
                 score.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
                 menus.Add(score);
 
-
-
                 //创建
-                WX_Url.MenuCreate(token, Jsons.ToJsons(menus));
-                return Content(token + "：" + Jsons.ToJsons(menus));
+                return Json(WX_Url.MenuCreate(token, Jsons.ToJsonsConvert(menus)));
             }
             catch (Exception e)
             {

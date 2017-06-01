@@ -24,7 +24,7 @@
                 var awid = $(window).width();
                 var ahei = $(window).height();
 
-                $('#my-login-code').css({ 'left': awid / 2 - 180, 'top': ahei / 2 - 220 });
+                $('#my_login_code').css({ 'left': awid / 2 - 260, 'top': ahei / 2 - 220 });
                 $('#cloud1').css({ 'left': awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
                 $('#cloud2').css({ 'left': awid / 2 + awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
             });
@@ -32,13 +32,13 @@
 
             //扫码登录
             var obj = new WxLogin({
-                id: "my-login-code",
+                id: "my_login_code",
                 appid: "wxf550ae5cacd159df",
                 scope: "snsapi_login",
                 redirect_uri: "http://a.jysycz.cn/account/login",
                 state: "web",
                 style: "black",
-                href: "https://a.jysycz.cn/content/qrcss.css"
+                href: "http://a.jysycz.cn/content/qrcss.css"
             });
         })
 
@@ -54,7 +54,7 @@
         <div id="cloud2" class="my-login-cloud"></div>
     </div>
     <div class="my-login-body">
-        <div class="my-login-code" id="my-login-code">
+        <div class="my-login-code" id="my_login_code">
         </div>
     </div>
 </body>
