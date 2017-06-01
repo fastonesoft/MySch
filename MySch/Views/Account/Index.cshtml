@@ -24,7 +24,7 @@
                 var awid = $(window).width();
                 var ahei = $(window).height();
 
-                $('.my-login-code').css({ 'position': 'absolute', 'left': (awid - 284) / 2, 'top': (ahei - 389) / 3 });
+                $('#my-login-code').css({ 'left': awid / 2 - 180, 'top': ahei / 2 - 220 });
                 $('#cloud1').css({ 'left': awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
                 $('#cloud2').css({ 'left': awid / 2 + awid / 4 * Math.random(), 'top': ahei / 4 * Math.random() });
             });
@@ -37,12 +37,16 @@
                 scope: "snsapi_login",
                 redirect_uri: "http://a.jysycz.cn/account/login",
                 state: "web",
-                style: "white",
-                href: ""
+                style: "black",
+                href: "https://a.jysycz.cn/content/qrcss.css"
             });
         })
 
     </script>
+
+    <style type="text/css">
+        .my-login-code { position: absolute; width: 360px; height: 440px; background-color: white; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 1px 1px 5px #333333, -1px -1px 5px #333333; -webkit-box-shadow: 1px 1px 5px #333333, -1px -1px 5px #333333; box-shadow: 1px 1px 5px #333333, -1px -1px 5px #333333; }
+    </style>
 </head>
 <body id="body" style="background-color: #1c77ac; background-image: url(/Images/light.png); background-repeat: no-repeat; background-position: center top; overflow: hidden; ">
     <div id="cloudBody">
