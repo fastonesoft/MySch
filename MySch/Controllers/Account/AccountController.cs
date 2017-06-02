@@ -13,15 +13,15 @@ namespace MySch.Controllers.Account
     {
         public ActionResult Index()
         {
-            if (WX_OAuserInfor.HasSession())
-            {
-                //已登录
-                return View("Main");
-            }
-            else
+            if (WX_OAuserInfor.HasNoSession())
             {
                 //首页
                 return View();
+            }
+            else
+            {
+                //已登录
+                return View("Main");
             }
         }
 

@@ -35,10 +35,9 @@ namespace MySch.Bll.WX.Model
             throw new Exception("页面请求已过期");
         }
 
-        public static bool HasSession()
+        public static bool HasNoSession()
         {
-            var infor = (WX_OAuserInfor)HttpContext.Current.Session["wx_userinfor"];
-            return infor == null ? false : true;
+            return (WX_OAuserInfor)HttpContext.Current.Session["wx_userinfor"] == null ? true : false;
         }
 
         //缓存

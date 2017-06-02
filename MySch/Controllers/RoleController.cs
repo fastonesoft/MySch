@@ -20,8 +20,7 @@ namespace MySch.Controllers
             string actid = Setting.ActionUrl(filterContext);
             //二、检测是否进行权限过滤，需要，则检查当前用户是否具备当前动作的权限，没有，则转到：出错页
             //登录检测
-            var infor = WX_OAuserInfor.GetFromSession();
-            if (infor == null)
+            if (WX_OAuserInfor.HasNoSession())
             {
                 filterContext.Result = Json(new BllError
                 {

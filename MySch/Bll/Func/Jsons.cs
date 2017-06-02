@@ -78,7 +78,7 @@ namespace MySch.Bll.Func
             }
         }
 
-        public static string ToJsonsConvert(object obj)
+        public static string ToConvert(object obj)
         {
             try
             {

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.WX
 {
-    public class MenuController : Controller
+    public class MenuController : RoleController
     {
         // GET: Menu
         public ActionResult Index()
@@ -42,7 +42,7 @@ namespace MySch.Controllers.WX
                 menus.Add(score);
 
                 //创建
-                return Json(WX_Url.MenuCreate(token, Jsons.ToJsonsConvert(menus)));
+                return Json(WX_Url.MenuCreate(token, Jsons.ToConvert(menus)));
             }
             catch (Exception e)
             {
