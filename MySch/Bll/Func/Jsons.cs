@@ -83,7 +83,6 @@ namespace MySch.Bll.Func
             try
             {
                 return JsonConvert.SerializeObject(obj);
-
             }
             catch (Exception e)
             {                

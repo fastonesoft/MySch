@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.WX
 {
-    public class MenuController : RoleController
+    public class MenuController : Controller
     {
         // GET: Menu
         public ActionResult Index()
@@ -31,18 +31,20 @@ namespace MySch.Controllers.WX
                 var student = new WX_Menu_Sub { name = "学生相关" };
                 student.Add(new WX_Menu_View { name = "报名注册", type = "view", url = regform });
                 student.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
+                student.Add(new WX_Menu_View { name = "审核退回", type = "view", url = regform });
+                student.Add(new WX_Menu_View { name = "手动注册", type = "view", url = regform });
                 menus.Add(student);
                 var teach = new WX_Menu_Sub { name = "教师中心" };
-                teach.Add(new WX_Menu_View { name = "报名注册", type = "view", url = regform });
-                teach.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
+                teach.Add(new WX_Menu_View { name = "测试", type = "view", url = "http://a.jysycz.cn/" });
                 menus.Add(teach);
                 var score = new WX_Menu_Sub { name = "成绩查询" };
-                score.Add(new WX_Menu_View { name = "报名注册", type = "view", url = regform });
-                score.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
+                score.Add(new WX_Menu_View { name = "测试", type = "view", url = "http://a.jysycz.cn/" });
                 menus.Add(score);
 
+                var res = WX_Url.MenuCreate(token, Jsons.ToConvert(menus));
+
                 //创建
-                return Json(WX_Url.MenuCreate(token, Jsons.ToConvert(menus)));
+                return Json(res);
             }
             catch (Exception e)
             {

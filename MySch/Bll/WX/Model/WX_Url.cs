@@ -35,7 +35,7 @@ namespace MySch.Bll.WX.Model
         public static string MenuCreate(string token, string data)
         {
             var url = string.Format("https://api.weixin.qq.com/cgi-bin/menu/create?access_token={0}", token);
-        return     HtmlHelp.PostHtml(url, data, "UTF-8");
+            return HtmlHelp.PostHtml(url, data, "UTF-8");
         }
 
         public static string MenuView(string appid, string redirect_url, string state)
