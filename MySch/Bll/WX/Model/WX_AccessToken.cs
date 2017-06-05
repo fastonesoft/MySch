@@ -34,12 +34,7 @@ namespace MySch.Bll.WX.Model
                     }
                 }
 
-                //读取token
-                var url = WX_Url.AccessToken(WX_Const.goneAppID, WX_Const.goneAppSecret);
-                var jsons = HtmlHelp.GetHtml(url, "UTF-8");
-                token = Jsons.JsonEntity<WX_AccessToken>(jsons);
-                //设置时间
-                token.create_time = DateTime.Now;
+                token = WX_Url.AccessToken(WX_Const.goneAppID, WX_Const.goneAppSecret);
                 //保存
                 HttpContext.Current.Application.Lock();
                 HttpContext.Current.Application["access_token"] = token;

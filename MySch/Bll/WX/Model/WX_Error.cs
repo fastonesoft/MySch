@@ -160,8 +160,7 @@ namespace MySch.Bll.WX.Model
             dicts.Add(9001035, "设备申请参数不合法");
             dicts.Add(9001036, "查询起始值begin不合法");
 
-            var dict = dicts.First(a => a.Key == errcode);
-            return dict.Value;
+            return !dicts.ContainsKey(errcode) ? "未知错误" : dicts.Single(a => a.Key == errcode).Value;
         }
     }
 }

@@ -20,8 +20,8 @@ namespace MySch.Controllers.WX
                 var appid = WX_Const.goneAppID;
                 var regurl = "http://a.jysycz.cn/regs/";
                 var examurl = "http://a.jysycz.cn/regs/examine";
-                var backurl = "http://a.jysycz.cn/regs/examine";
-                var manaurl = "http://a.jysycz.cn/regs/examine";
+                var rexamurl = "http://a.jysycz.cn/regs/rexamine";
+                var manaurl = "http://a.jysycz.cn/regs/rexamine";
 
                 var regform = WX_Url.MenuView(appid, regurl, state);
                 var regexam = WX_Url.MenuView(appid, examurl, state);
@@ -35,7 +35,7 @@ namespace MySch.Controllers.WX
                 menus.Add(student);
                 var teach = new WX_Menu_Sub { name = "教师中心" };
                 teach.Add(new WX_Menu_View { name = "材料审核", type = "view", url = regexam });
-                teach.Add(new WX_Menu_View { name = "审核退回", type = "view", url = backurl });
+                teach.Add(new WX_Menu_View { name = "审核退回", type = "view", url = rexamurl });
                 teach.Add(new WX_Menu_View { name = "手动添加", type = "view", url = manaurl });
                 menus.Add(teach);
                 var score = new WX_Menu_Sub { name = "成绩查询" };
@@ -46,7 +46,7 @@ namespace MySch.Controllers.WX
                 var res = WX_Url.MenuCreate(token, Jsons.ToConvert(menus));
 
                 //创建
-                return Content( token + "：" + Jsons.ToConvert(menus) + "：" + res);
+                return Content(res);
             }
             catch (Exception e)
             {

@@ -30,11 +30,8 @@ namespace MySch.Bll.WX.Model
                     }
                 }
 
-                //读取tokenhttps://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi
-                var url = string.Format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi", accessToken);
-                var jsons = HtmlHelp.GetHtml(url, "UTF-8");
-                token = Jsons.JsonEntity<WX_Jsticket>(jsons);
-
+                //读取jsticket
+                token = WX_Url.Jsticket(accessToken);
                 //设置时间
                 token.create_time = DateTime.Now;
                 //保存

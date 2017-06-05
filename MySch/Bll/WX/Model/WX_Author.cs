@@ -21,7 +21,6 @@ namespace MySch.Bll.WX.Model
 
     public class WX_Author_Ex : WX_Author
     {
-        //作不同的参数，用以区分不同的Control
         public string encrypt_type { get; set; }
         public string msg_signature { get; set; }
 

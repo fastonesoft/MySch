@@ -1,5 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Func;
+using MySch.Bll.Retu;
 using MySch.Bll.WX;
 using MySch.Bll.WX.Form;
 using MySch.Bll.WX.Model;
@@ -21,46 +22,14 @@ namespace MySch.Controllers.WX
         {
             try
             {
-                //读取code          
-                var codeurl = WX_Url.OAuthCode(WX_Const.goneAppID, WX_Const.goneAppSecret, auth.code);
-                var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                //检测是否绑定学生
+                user.BindingStud();
+                //缓存
+                user.ToSession();
 
-                //检测是否出错
-                if (codes.Contains("errcode"))
-                {
-                    var error = Jsons.JsonEntity<WX_Error>(codes);
-                    return Content(error.GetMessage());
-                }
-                else
-                {
-                    //解析网页的token
-                    var oaken = Jsons.JsonEntity<WX_AccessTokenOauth>(codes);
-                    oaken.create_time = DateTime.Now;
-                    //缓存
-                    oaken.ToSession();
-                    //检查授权状态
-                    if (oaken.scope == "snsapi_userinfo")
-                    {
-                        //读取用户信息
-                        var userurl = WX_Url.OAuserInfor(oaken.access_token, oaken.openid);
-                        var user = HtmlHelp.GetHtml(userurl, "UTF-8");
-
-                        //序列化
-                        var infor = Jsons.JsonEntity<WX_OAuserInfor>(user);
-                        infor.codePage = Setting.Url(Request);
-                        //检测是否绑定学生
-                        infor.BindingStud();
-                        //缓存
-                        infor.ToSession();
-
-                        //显示网页
-                        return View();
-                    }
-                    else
-                    {
-                        return Content("没有授权访问");
-                    }
-                }
+                return View();
             }
             catch (Exception e)
             {
@@ -143,44 +112,11 @@ namespace MySch.Controllers.WX
         {
             try
             {
-                //读取code          
-                var codeurl = WX_Url.OAuthCode(WX_Const.goneAppID, WX_Const.goneAppSecret, auth.code);
-                var code = HtmlHelp.GetHtml(codeurl, "UTF-8");
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
 
-                //检测是否出错
-                if (code.Contains("errcode"))
-                {
-                    var error = Jsons.JsonEntity<WX_Error>(code);
-                    return Content(error.GetMessage());
-                }
-                else
-                {
-                    //解析网页的token
-                    var oaken = Jsons.JsonEntity<WX_AccessTokenOauth>(code);
-                    oaken.create_time = DateTime.Now;
-                    //缓存
-                    oaken.ToSession();
-                    //检查授权状态
-                    if (oaken.scope == "snsapi_userinfo")
-                    {
-                        //读取用户信息
-                        var userurl = WX_Url.OAuserInfor(oaken.access_token, oaken.openid);
-                        var user = HtmlHelp.GetHtml(userurl, "UTF-8");
-                        //序列化
-                        var infor = Jsons.JsonEntity<WX_OAuserInfor>(user);
-                        infor.codePage = Setting.Url(Request);
-
-                        //缓存
-                        infor.ToSession();
-
-                        //显示网页
-                        return View();
-                    }
-                    else
-                    {
-                        return Content("没有授权访问");
-                    }
-                }
+                return View();
             }
             catch (Exception e)
             {
@@ -268,7 +204,7 @@ namespace MySch.Controllers.WX
 
         //审核动作
         [HttpPost]
-        public ActionResult Examine(string ID, bool Choose)
+        public ActionResult PassExamine(string ID, bool Choose)
         {
             try
             {
@@ -279,6 +215,53 @@ namespace MySch.Controllers.WX
                 //审核
                 WX_Examine.Examine(ID, Choose, user.unionid);
                 return Json(new BllError { error = false, message = "审核提交成功" });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        ////////////////////////////////////////////////
+
+        //退回审核
+        public ActionResult Rexamine(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetInforByIdc(string idc)
+        {
+            try
+            {
+
+                var infor = StudInfor.StudRexamine(idc);
+                return Json(infor);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RexamById(string id)
+        {
+            try
+            {
+                WX_Examine.Rexamine(id);
             }
             catch (Exception e)
             {

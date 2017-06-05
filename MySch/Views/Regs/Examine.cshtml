@@ -8,7 +8,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>校务在线 - 报名审核</title>
-    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 
@@ -61,10 +61,10 @@
                                         } else {
                                             var items = resex.lists[0];
                                             $('#regs_exam_id').val(resex.value);
-                                            $('#regs_exam_choose').attr('disabled', false);
-                                            $('#regs_exam_choose').prop('checked', items.value);
                                             $('#regs_exam_name').text(resex.key + '：' + idc);
                                             $('#regs_exam_namex').val(resex.key);
+                                            $('#regs_exam_choose').attr('disabled', false);
+                                            $('#regs_exam_choose').prop('checked', items.value);
                                             //分类
                                             $('.regs_exam_image').empty();
                                             $.each(items.lists, function () {
@@ -165,7 +165,7 @@
                                 }
                             }
                             weui.confirm('　确认通过【' + name + '】的报名审核？', function () {
-                                $.post('/Regs/Examine', { ID: id, Choose: choose }, function (res) {
+                                $.post('/Regs/PassExamine', { ID: id, Choose: choose }, function (res) {
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
@@ -173,7 +173,9 @@
                                         //反馈
                                         $('#regs_exam_stud .weui-btn').addClass('weui-btn_disabled');
                                         $('.regs_exam_image').empty();
+                                        $('#regs_exam_id').val('');
                                         $('#regs_exam_name').text('学生姓名');
+                                        $('#regs_exam_namex').val('');
                                         $('#regs_exam_choose').prop('checked', false);
                                         $('#regs_exam_choose').attr('disabled', true);
                                     }

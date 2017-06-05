@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Log\BllLog.cs" />
+    <Compile Include="Bll\Retu\StudInfor.cs" />
     <Compile Include="Bll\WX\Form\FM_StudReg.cs" />
     <Compile Include="Bll\WX\Model\WX_AccessTokenOauth.cs">
       <SubType>Code</SubType>
@@ -145,7 +146,7 @@
     <Compile Include="Bll\WX\Model\WX_TimeDiffer.cs" />
     <Compile Include="Bll\WX\Model\WX_UploadImage.cs" />
     <Compile Include="Bll\WX\Model\WX_Url.cs" />
-    <Compile Include="Bll\WX\Model\WX_UserInfor.cs" />
+    <Compile Include="Bll\WX\Model\WX_OAuserInfor.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
     <Compile Include="Bll\Xue\AutoXue.cs">
       <SubType>Code</SubType>
@@ -619,11 +620,14 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\easyui-lang-zh_CN.js" />
-    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
-    <Content Include="Scripts\jquery-1.12.4.js" />
-    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\jquery.easyui.min.js" />
-    <Content Include="Scripts\jquery-1.12.4.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -736,6 +740,7 @@
     <Content Include="Views\UserBan\Adds.cshtml" />
     <Content Include="Views\Regs\Index.cshtml" />
     <Content Include="Views\Regs\Examine.cshtml" />
+    <Content Include="Views\Regs\Rexamine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

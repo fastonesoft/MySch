@@ -1,0 +1,159 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>校务在线 - 重新审核</title>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        //提示
+        var headloading = weui.loading('正在加载...');
+        $.post('/Regs/Jssdk', function (jsres) {
+            if (jsres.error) {
+                weui.topTips(jsres.message, 3000);
+            } else {
+                wx.config({
+                    debug: false,
+                    appId: jsres.appid,
+                    timestamp: jsres.timestamp,
+                    nonceStr: jsres.noncestr,
+                    signature: jsres.signature,
+                    jsApiList: [
+                      'hideAllNonBaseMenuItem',
+                      'scanQRCode',
+                    ]
+                });
+
+                //关闭
+                headloading.hide();
+                //
+                wx.ready(function () {
+                    //隐藏所有非基本菜单项
+                    wx.hideAllNonBaseMenuItem({
+                        success: function () {
+                            //weui.alert('已隐藏所有非基本菜单项');
+                        }
+                    });
+
+                    //识别学生
+                    $('#regs_reform_scan').click(function () {
+                        wx.scanQRCode({
+                            needResult: 1,
+                            desc: 'scanQRCode desc',
+                            success: function (res) {
+                                var idc = res.resultStr;
+                                var loading = weui.loading('正在识别...');
+                                $.post('/Regs/GetImagesTypeByIdc', { idc: idc }, function (resex) {
+                                    if (resex.error) {
+                                        weui.topTips(resex.message, 3000);
+                                    } else {
+                                        var items = resex.lists[0];
+                                        $('#regs_reform_id').val(resex.value);
+                                        $('#regs_reform_choose').attr('disabled', false);
+                                        $('#regs_reform_choose').prop('checked', items.value);
+                                        $('#regs_reform_name').text(resex.key + '：' + idc);
+                                        $('#regs_reform_namex').val(resex.key);
+                                        //分类
+                                        $('.regs_reform_image').empty();
+                                        $.each(items.lists, function () {
+                                            var $id = $('#regs_reform_image_' + this.value)
+                                            $('<img>').attr('src', '/Image/Uploaded?name=' + this.key).appendTo($id);
+                                        })
+                                        //可以使用
+                                        $('#regs_reform_stud .weui-btn').removeClass('weui-btn_disabled');
+                                    }
+                                    //关闭
+                                    loading.hide();
+                                });
+                            }
+                        });
+                    });
+
+
+
+                    //审核通过
+                    $('#regs_reform_success').click(function () {
+                        if ($(this).hasClass('weui-btn_disabled')) return;
+                        //提交
+                        var id = $('#regs_reform_id').val();
+                        var name = $('#regs_reform_namex').val();
+                        var choose = $('#regs_reform_choose').prop('checked');
+                        //普通
+                        var normal = $('#regs_reform_normal .regs_reform_image').is(':empty');
+                        if (normal) {
+                            weui.topTips('资料未完整，无法审核', 3000);
+                            return;
+                        }
+                        //择校
+                        if (choose) {
+                            if ($('#regs_reform_image_paper').is(':empty')) {
+                                weui.topTips('择校生，必须上传补充协议书', 3000);
+                                return;
+                            }
+                        }
+                        weui.confirm('　确认通过【' + name + '】的报名审核？', function () {
+                            $.post('/Regs/PassExamine', { ID: id, Choose: choose }, function (res) {
+                                if (res.error) {
+                                    weui.topTips(res.message, 3000);
+                                } else {
+                                    weui.toast(res.message, 2000);
+                                    //反馈
+                                    $('#regs_reform_stud .weui-btn').addClass('weui-btn_disabled');
+                                    $('.regs_reform_image').empty();
+                                    $('#regs_reform_name').text('学生姓名');
+                                    $('#regs_reform_choose').prop('checked', false);
+                                    $('#regs_reform_choose').attr('disabled', true);
+                                }
+                            })
+                        }, function () { }, { title: '报名审核' });
+                    });
+                });
+
+                //错误检测
+                wx.error(function (errores) {
+                    weui.alert(JSON.stringify(errores));
+                });
+            }
+        })
+    })
+    </script>
+</head>
+<body ontouchstart>
+    <form id="regs_reform" style="display:none;">
+        <div class="weui-article">
+            <h1 class="weui_cells_title">学生注册</h1>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell" id="regs_reform_idc">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="tel" name="idc" required="required" pattern="REG_IDNUM" maxlength="18" placeholder="输入学生的身份证号" emptytips="学生身份证号不能为空" notmatchtips="身份证号码不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-btn-area">
+                <a id="regs_reform_scan" href="javascript:" class="weui-btn weui-btn_primary">学生查询/识别</a>
+            </div>
+            <div id="regs_reform_finded" style="display:none;">
+                <h2 id="regs_reform_name">学生姓名</h2>
+                <h2>　　报名注册已完成！先按要求上传所需材料原件的照片，再到报名窗口出示二维码审核</h2>
+                <div class="weui-btn-area">
+                    <a id="regs_reform_upload" href="javascript:" class="weui-btn weui-btn_warn weui-btn_disabled">退回重审</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

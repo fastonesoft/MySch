@@ -27,48 +27,22 @@ namespace MySch.Controllers.Account
 
         public ActionResult Login(WX_OAuth auth)
         {
-            //授权          
-            var codeurl = WX_Url.OAuthCode(WX_Const.netAppID, WX_Const.netAppSecret, auth.code);
-            var codes = HtmlHelp.GetHtml(codeurl, "UTF-8");
-
-            //检测是否出错
-            if (codes.Contains("errcode"))
+            try
             {
-                var error = Jsons.JsonEntity<WX_Error>(codes);
-                return Content(error.GetMessage());
-            }
-            else
-            {
-                //解析网页的token
-                var token = Jsons.JsonEntity<WX_AccessTokenOauth>(codes);
-                token.create_time = DateTime.Now;
+                var user = auth.WebLogin();
+                user.codePage = Setting.Url(Request);
+                //检测是否绑定学生
+                user.BindingStud();
                 //缓存
-                token.ToSession();
+                user.ToSession();
 
-                //检查授权状态
-                if (token.scope == "snsapi_login")
-                {
-                    //读取用户信息
-                    var userurl = WX_Url.OAuserInfor(token.access_token, token.openid);
-                    var user = HtmlHelp.GetHtml(userurl, "UTF-8");
-
-                    //序列化
-                    var infor = Jsons.JsonEntity<WX_OAuserInfor>(user);
-                    infor.codePage = Setting.Url(Request);
-                    //检测是否绑定学生
-                    infor.BindingStud();
-                    //缓存
-                    infor.ToSession();
-
-                    //显示网页
-                    return RedirectToAction("Index", "Account");
-                }
-                else
-                {
-                    return Content("没有授权访问");
-                }
+                //显示网页
+                return RedirectToAction("Index", "Account");
             }
-
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
         }
 
         //用户登录：检测
