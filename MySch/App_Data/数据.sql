@@ -55,10 +55,9 @@ drop table TAcc
 go
 create table TAcc
 (
-	ID	nvarchar(32) not null,	
-	IDS	nvarchar(20) not null,	--帐号321284xx
+	ID	nvarchar(32) not null,	--unionid
+	IDS	nvarchar(20) not null,	--
 	Name	nvarchar(20) not null,	--帐号全称、姓名
-	Pwd	nvarchar(32) not null,
 	RegTime	datetime not null,
 	Fixed	bit not null,
 	Parent	nvarchar(32),
@@ -67,8 +66,8 @@ go
 alter table TAcc add constraint PK_TAcc primary key clustered (ID)
 create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
 --插入管理员
-insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','538e1387be95027c7c4edf399c4e0149','2015-09-10 12:00:00',  0, null)
-insert TAcc values ('02b7f4a7710ac87488ab1f13b8e22a65','32128402','姜堰区实验初中集团','67f80f5153bc6717ff4cb47912ba59bf','2015-09-10 12:00:00',  0, '51e66f66919ee73bc252590bdf3b339c')
+insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','2015-09-10 12:00:00',  0, null)
+insert TAcc values ('02b7f4a7710ac87488ab1f13b8e22a65','32128402','姜堰区实验初中集团','2015-09-10 12:00:00',  0, '51e66f66919ee73bc252590bdf3b339c')
 go
 
 
@@ -646,7 +645,9 @@ create table Student
 	StepIDS	nvarchar(20) not null,	--校区分级编号
 	FromSch	nvarchar(64),	--毕业小学
 	SchChoose	bit not null,	--是否择校
-	RegUID	nvarchar(32),	--注册
+	--
+	RegNo	nvarchar(10),	--注册编号
+	RegUID	nvarchar(32),	--注册人
 	--
 	Examed	bit not null,	--是否审核通过
 	ExamUID	nvarchar(32),	--审核人
@@ -657,7 +658,6 @@ create table Student
 	Name2	nvarchar(20),	--第二监护人
 	Home	nvarchar(50),	--家庭地址
 	Birth	nvarchar(50),	--户籍地址
-	Checked	bit not null,	--是否完成信息核对
 	Fixed	bit not null,	--是否确认
 	--
 	Memo	nvarchar(50),	--备注

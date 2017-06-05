@@ -22,7 +22,6 @@ namespace MySch.Bll.View
         public string Name2 { get; set; }
         public string Home { get; set; }
         public string Birth { get; set; }
-        public bool Checked { get; set; }
         public bool Fixed { get; set; }
 
         public string StepName{get;set;}
@@ -48,7 +47,6 @@ namespace MySch.Bll.View
                                        Name2 = st.Name2,
                                        Home = st.Home,
                                        Birth = st.Birth,
-                                       Checked = st.Checked,
                                        Fixed = st.Fixed,
                                        StepName = s.Name,
                                    })

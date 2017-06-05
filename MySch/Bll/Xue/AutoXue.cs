@@ -20,7 +20,7 @@ namespace MySch.Bll.Xue
 {
     public class AutoXue
     {
-        public static string RegStudent(string idc, string mobil, string reguid)
+        public static string RegStudent(string idc, string mobil1, string mobil2, string reguid)
         {
             try
             {
@@ -56,7 +56,8 @@ namespace MySch.Bll.Xue
                 var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
                 int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
                 reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
-                reg.Mobil1 = mobil;
+                reg.Mobil1 = mobil1;
+                reg.Mobil2 = mobil2;
                 reg.ToAdd();
                 return reg.Name;
             }

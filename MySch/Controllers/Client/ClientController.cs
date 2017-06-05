@@ -64,8 +64,6 @@ namespace MySch.Controllers.Client
             ////ViewBag.Contents = ";alsdflka;kjlsdfkjlasjl;kdf;lasdkljfa;klsdfl;kaslkdkjlaslkjasdfl;ksdal;sdfal;kj";
 
             return RedirectToAction("Index", "Account");
-
-            return View();
         }
 
         public ActionResult Page(string id = null)

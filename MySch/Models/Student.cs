@@ -12,6 +12,7 @@ namespace MySch.Models
         public string StepIDS { get; set; }
         public string FromSch { get; set; }
         public bool SchChoose { get; set; }
+        public string RegNo { get; set; }
         public string RegUID { get; set; }
         public bool Examed { get; set; }
         public string ExamUID { get; set; }
@@ -21,7 +22,6 @@ namespace MySch.Models
         public string Name2 { get; set; }
         public string Home { get; set; }
         public string Birth { get; set; }
-        public bool Checked { get; set; }
         public bool Fixed { get; set; }
         public string Memo { get; set; }
         public string AccIDS { get; set; }
