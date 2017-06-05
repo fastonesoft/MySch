@@ -246,7 +246,6 @@ namespace MySch.Controllers.WX
         {
             try
             {
-
                 var infor = StudInfor.StudRexamine(idc);
                 return Json(infor);
             }

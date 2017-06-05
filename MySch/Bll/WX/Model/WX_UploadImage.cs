@@ -11,19 +11,15 @@ namespace MySch.Bll.WX.Model
     public class WX_UploadImage
     {
 
-        public static string SaveImage(string wxtoken, string mediaid, string path)
+        public static string SaveImage(string token, string mediaid, string path, string name, string type)
         {
             try
             {
-                //文件准备
-                var fileName = Guid.NewGuid().ToString("N");
-                var filePath = HttpContext.Current.Server.MapPath(string.Format(path, fileName, "jpg"));
+                //物理位置
+                var filePath = HttpContext.Current.Server.MapPath(string.Format(path, name, type));
+                WX_Url.MediaFile(token, mediaid, filePath);
 
-                //保存
-                var web = new WebClient();
-                web.DownloadFile(WX_Url.MediaFile(wxtoken, mediaid), filePath);
-
-                return fileName;
+                return name;
             }
             catch (Exception e)
             {
@@ -31,11 +27,12 @@ namespace MySch.Bll.WX.Model
             }
         }
 
-        public static string SaveImage(string wxtoken, string mediaid)
+        public static string SaveImage(string token, string mediaid)
         {
             try
             {
-                return SaveImage(wxtoken, mediaid, "~/Upload/XueImages/{0}.{1}");
+                var fileName = Guid.NewGuid().ToString("N");
+                return SaveImage(token, mediaid, "~/Upload/XueImages/{0}.{1}", fileName, "jpg");
             }
             catch (Exception e)
             {
@@ -88,7 +85,7 @@ namespace MySch.Bll.WX.Model
             try
             {
                 var db = DataCRUD<Student>.Entity(a => a.ID == Other);
-                if (db == null)throw new Exception("未查询到当前学生信息");
+                if (db == null) throw new Exception("未查询到当前学生信息");
 
                 //中控token
                 var wxtoken = WX_AccessToken.GetAccessToken();
@@ -121,24 +118,18 @@ namespace MySch.Bll.WX.Model
             try
             {
                 var entity = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
-                if (entity == null)
-                {
-                    throw new Exception("无法查询绑定的学生");
-                }
-                else
-                {
-                    //
-                    var res = new WX_KeyValue();
-                    res.key = entity.Name;
-                    res.value = entity.Examed;
+                if (entity == null) throw new Exception("无法查询绑定的学生");
+                //
+                var res = new WX_KeyValue();
+                res.key = entity.Name;
+                res.value = entity.Examed;
 
-                    var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS).OrderBy(a => a.CreateTime);
-                    foreach (var upload in uploads)
-                    {
-                        res.Add(upload.ID, upload.UploadType);
-                    }
-                    return res;
+                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS).OrderBy(a => a.CreateTime);
+                foreach (var upload in uploads)
+                {
+                    res.Add(upload.ID, upload.UploadType);
                 }
+                return res;
             }
             catch (Exception e)
             {

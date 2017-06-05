@@ -3,6 +3,7 @@ using MySch.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace MySch.Bll.WX.Model
@@ -53,9 +54,12 @@ namespace MySch.Bll.WX.Model
         }
 
         //获取媒体文件
-        public static string MediaFile(string token, string mediaID)
+        public static void MediaFile(string token, string mediaID, string filePath)
         {
-            return string.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", token, mediaID);
+            var url =  string.Format("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", token, mediaID);
+            //保存
+            var web = new WebClient();
+            web.DownloadFile(url, filePath);
         }
 
         public static string MenuCreate(string token, string data)
