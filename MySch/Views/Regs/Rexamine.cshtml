@@ -48,29 +48,42 @@
                         var reg = {
                             IDNUM: /^\d{17}[\dxX]$/,
                         };
-                        weui.form.checkIfBlur('#regs_reform', {
+                        weui.form.checkIfBlur('#regs_rexam_form', {
                             regexp: reg
                         });
                         //识别学生
-                        $('#regs_reform_scan').click(function () {
-                            var idc = $('#regs_reform_idc input').val();
+                        $('#regs_rexam_scan').click(function () {
+                            var idc = $('#regs_rexam_idc input').val();
+                            //手动输入
                             if (idc.length != 0) {
-                                //手动输入
-                                weui.form.validate('#regs_reform', function (error) {
+                                weui.form.validate('#regs_rexam_form', function (error) {
                                     if (!error) {
                                         var loading = weui.loading('正在查询...');
                                         $.post('/Regs/GetInforByIdc', { idc: idc }, function (res) {
                                             if (res.error) {
-                                                weui.topTips(res.message, 3000);
+                                                $('#regs_rexam_finded').hide();
+                                                $('#regs_rexam_id').val('');
+                                                $('#regs_rexam_name').text('学生姓名');
+                                                //补充
+                                                if (res.message.key) {
+                                                    weui.topTips(res.message.value, 3000);
+                                                    $('#' + res.message.key).addClass('weui-cell_warn');
+                                                } else {
+                                                    weui.topTips(res.message, 3000);
+                                                }
                                             } else {
-                                                $('#regs_reform_id').val(res.ID);
-                                                $('#regs_reform_name').text(res.Name);
+                                                $('#regs_rexam_id').val(res.message.key);
+                                                $('#regs_rexam_name').text(res.message.value);
                                                 //
-                                                $('#regs_reform_finded').fadeIn();
-                                                //
-                                                loading.hide();
+                                                $('#regs_rexam_finded').fadeIn();
                                             }
+                                            //
+                                            loading.hide();
                                         })
+                                    } else {
+                                        $('#regs_rexam_finded').hide();
+                                        $('#regs_rexam_id').val('');
+                                        $('#regs_rexam_name').text('学生姓名');
                                     }
                                 }, {
                                     regexp: reg
@@ -86,55 +99,49 @@
                                     var loading = weui.loading('正在识别...');
                                     $.post('/Regs/GetInforByIdc', { idc: idc }, function (res) {
                                         if (res.error) {
-                                            weui.topTips(res.message, 3000);
+                                            $('#regs_rexam_finded').hide();
+                                            $('#regs_rexam_id').val('');
+                                            $('#regs_rexam_name').text('学生姓名');
+                                            //补充
+                                            if (res.message.key) {
+                                                weui.topTips(res.message.value, 3000);
+                                                $('#' + res.message.key).addClass('weui-cell_warn');
+                                            } else {
+                                                weui.topTips(res.message, 3000);
+                                            }
                                         } else {
-                                            $('#regs_reform_id').val(res.ID);
-                                            $('#regs_reform_name').text(res.Name);
+                                            $('#regs_rexam_id').val(res.message.key);
+                                            $('#regs_rexam_name').text(res.message.value);
                                             //
-                                            $('#regs_reform_finded').fadeIn();
-                                            //
-                                            loading.hide();
+                                            $('#regs_rexam_finded').fadeIn();
                                         }
-                                    });
+                                        //
+                                        loading.hide();
+                                    })
                                 }
                             });
                         });
 
-                        //审核通过
-                        $('#regs_reform_success').click(function () {
-                            if ($(this).hasClass('weui-btn_disabled')) return;
+                        //审核退回
+                        $('#regs_rexam_upload').click(function () {
                             //提交
-                            var id = $('#regs_reform_id').val();
-                            var name = $('#regs_reform_namex').val();
-                            var choose = $('#regs_reform_choose').prop('checked');
+                            var id = $('#regs_rexam_id').val();
+                            var name = $('#regs_rexam_name').text();
                             //普通
-                            var normal = $('#regs_reform_normal .regs_reform_image').is(':empty');
-                            if (normal) {
-                                weui.topTips('资料未完整，无法审核', 3000);
-                                return;
-                            }
-                            //择校
-                            if (choose) {
-                                if ($('#regs_reform_image_paper').is(':empty')) {
-                                    weui.topTips('择校生，必须上传补充协议书', 3000);
-                                    return;
-                                }
-                            }
-                            weui.confirm('　确认通过【' + name + '】的报名审核？', function () {
-                                $.post('/Regs/PassExamine', { ID: id, Choose: choose }, function (res) {
+                            weui.confirm('　确认退回【' + name + '】的报名审核？', function () {
+                                $.post('/Regs/RexamById', { id: id }, function (res) {
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
                                         weui.toast(res.message, 2000);
                                         //反馈
-                                        $('#regs_reform_stud .weui-btn').addClass('weui-btn_disabled');
-                                        $('.regs_reform_image').empty();
-                                        $('#regs_reform_name').text('学生姓名');
-                                        $('#regs_reform_choose').prop('checked', false);
-                                        $('#regs_reform_choose').attr('disabled', true);
+                                        $('#regs_rexam_finded').hide();
+                                        $('#regs_rexam_id').val('');
+                                        $('#regs_rexam_idc input').val('');
+                                        $('#regs_rexam_name').text('学生姓名');
                                     }
                                 })
-                            }, function () { }, { title: '报名审核' });
+                            }, function () { }, { title: '审核退回' });
                         });
                     });
 
@@ -149,9 +156,10 @@
 </head>
 <body ontouchstart>
     <div class="weui-article">
-        <form id="regs_reform">
+        <h1>学生查询</h1>
+        <form id="regs_rexam_form">
             <div class="weui-cells weui-cells_form">
-                <div class="weui-cell" id="regs_reform_idc">
+                <div class="weui-cell" id="regs_rexam_idc">
                     <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
                     <div class="weui-cell__bd">
                         <input class="weui-input" type="tel" name="idc" required="required" pattern="REG_IDNUM" maxlength="18" placeholder="输入学生的身份证号" emptytips="学生身份证号不能为空" notmatchtips="身份证号码不正确">
@@ -162,15 +170,15 @@
                 </div>
             </div>
             <div class="weui-btn-area">
-                <a id="regs_reform_scan" href="javascript:" class="weui-btn weui-btn_primary">学生：查询/识别</a>
+                <a id="regs_rexam_scan" href="javascript:" class="weui-btn weui-btn_primary">学生：查询/识别</a>
             </div>
         </form>
-        <div id="regs_reform_finded" style="display:none; margin-top: 10px;">            
-            <h2>　<span id="regs_reform_name" style="color:red;">学生姓名</span>同学的资料已完成审核，如果需要重审，请退回！</h2>
+        <div id="regs_rexam_finded" style="display:none; margin-top: 10px;">
+            <h2>　<span id="regs_rexam_name" style="color:red;">学生姓名</span>同学的资料已完成审核，如果需要重审，请退回！</h2>
             <div class="weui-btn-area">
-                <a id="regs_reform_upload" href="javascript:" class="weui-btn weui-btn_warn">审核退回</a>
+                <a id="regs_rexam_upload" href="javascript:" class="weui-btn weui-btn_warn">审核退回</a>
             </div>
-            <input id="regs_reform_id" type="hidden">
+            <input id="regs_rexam_id" type="hidden">
         </div>
     </div>
 </body>

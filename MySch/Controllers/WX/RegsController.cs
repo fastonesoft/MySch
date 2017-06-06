@@ -65,7 +65,7 @@ namespace MySch.Controllers.WX
 
         //注册
         [HttpPost]
-        public ActionResult Reg(string idc, string mobil1, string mobil2)
+        public ActionResult Reg(string idc, string mobil1)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace MySch.Controllers.WX
                 //返回身份证错误
                 if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_reg_idc", value = error.message } });
 
-                var name = AutoXue.RegStudent(idcu, mobil1, mobil2, infor.unionid);
+                var name = AutoXue.RegStudent(idcu, mobil1, infor.unionid);
                 return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)
@@ -261,14 +261,16 @@ namespace MySch.Controllers.WX
             try
             {
                 WX_Examine.Rexamine(id);
-
-
-                return Content("");
+                return Json(new BllError { error = false, message = "审核退回成功" });
             }
             catch (Exception e)
             {
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        /////////////////////////////
+        //手动添加
+        //外省
     }
 }

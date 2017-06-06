@@ -23,23 +23,27 @@ namespace MySch.Controllers.WX
                 var examurl = "http://a.jysycz.cn/regs/examine";
                 var rexamurl = "http://a.jysycz.cn/regs/rexamine";
                 var manaurl = "http://a.jysycz.cn/regs/manadd";
+                var outurl = "http://a.jysycz.cn/regs/addout";
 
                 var reg = WX_Url.MenuView(appid, regurl, state);
                 var exam = WX_Url.MenuView(appid, examurl, state);
                 var rexam = WX_Url.MenuView(appid, rexamurl, state);
                 var manadd = WX_Url.MenuView(appid, manaurl, state);
+                var addout = WX_Url.MenuView(appid, outurl, state);
 
                 //检测页面、用户
                 var token = WX_AccessToken.GetAccessToken();
 
                 var menus = new WX_Menu();
                 var student = new WX_Menu_Sub { name = "学生相关" };
+                student.Add(new WX_Menu_Click { name = "报名须知", type = "click", key = "reg_about_1" });
                 student.Add(new WX_Menu_View { name = "报名注册", type = "view", url = reg });
                 menus.Add(student);
                 var teach = new WX_Menu_Sub { name = "教师中心" };
                 teach.Add(new WX_Menu_View { name = "材料审核", type = "view", url = exam });
                 teach.Add(new WX_Menu_View { name = "审核退回", type = "view", url = rexam });
-                teach.Add(new WX_Menu_View { name = "手动添加", type = "view", url = manadd });
+                teach.Add(new WX_Menu_View { name = "手动注册", type = "view", url = manadd });
+                teach.Add(new WX_Menu_View { name = "外省添加", type = "view", url = addout });
                 menus.Add(teach);
                 var score = new WX_Menu_Sub { name = "成绩查询" };
                 score.Add(new WX_Menu_View { name = "分班测试", type = "view", url = "http://a.jysycz.cn/" });

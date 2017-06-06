@@ -20,7 +20,7 @@ namespace MySch.Bll.Xue
 {
     public class AutoXue
     {
-        public static string RegStudent(string idc, string mobil1, string mobil2, string reguid)
+        public static string RegStudent(string idc, string mobil1, string reguid)
         {
             try
             {
@@ -57,7 +57,6 @@ namespace MySch.Bll.Xue
                 int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
                 reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
                 reg.Mobil1 = mobil1;
-                reg.Mobil2 = mobil2;
                 reg.ToAdd();
                 return reg.Name;
             }
@@ -119,7 +118,7 @@ namespace MySch.Bll.Xue
         /// <returns></returns>
         public static CookieCollection PostCookies(string url, CookieCollection cookies, string postdata)
         {
-            HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata,"GBK");
+            HttpWebResponse postresp = HtmlHelp.PostResponse(url, cookies, postdata, "GBK");
 
             return postresp.Cookies;
         }
