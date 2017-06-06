@@ -163,6 +163,25 @@ namespace MySch.Controllers.WX
             }
         }
 
+        [HttpPost]
+        public ActionResult GetImagesTypeByScan(string idc)
+        {
+            try
+            {
+                //检测页面、用户
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                //根据身份证获取图片列表
+                var res = WX_UploadImage.GetImagesTypeByScan(idc);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
         //图片删除
         [HttpPost]
         public ActionResult DeleteImage(string url)
@@ -248,8 +267,25 @@ namespace MySch.Controllers.WX
             {
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
-                
-                var sinfor = StudInfor.StudRexamine(idc);
+
+                var sinfor = StudInfor.StudRexamineByIdc(idc);
+                return Json(sinfor);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetInforByScan(string idc)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var sinfor = StudInfor.StudRexamineByScan(idc);
                 return Json(sinfor);
             }
             catch (Exception e)
@@ -265,7 +301,7 @@ namespace MySch.Controllers.WX
             {
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
-                
+
                 WX_Examine.Rexamine(id);
                 return Json(new BllError { error = false, message = "审核退回成功" });
             }
@@ -293,7 +329,7 @@ namespace MySch.Controllers.WX
             }
         }
 
-
+        [HttpPost]
         public ActionResult ManaReg(string idc, string mobil1)
         {
             try
@@ -304,7 +340,7 @@ namespace MySch.Controllers.WX
 
                 var error = IDC.IDS(idcu);
                 //返回身份证错误
-                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_reg_idc", value = error.message } });
+                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_mana_idc", value = error.message } });
 
                 var name = AutoXue.RegStudent(idcu, mobil1);
                 return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
@@ -330,6 +366,28 @@ namespace MySch.Controllers.WX
             catch (Exception e)
             {
                 return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult OutReg(string idc, string mobil1, string name, string school)
+        {
+            try
+            {
+                var idcu = idc.ToUpper();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var error = IDC.IDS(idcu);
+                //返回身份证错误
+                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_out_idc", value = error.message } });
+
+                AutoXue.RegStudent(idcu, mobil1, name, school);
+                return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = new WX_KeyValue { value = e.Message } });
             }
         }
     }

@@ -140,14 +140,10 @@ namespace MySch.Bll.WX.Model
 
 
         //身份证分类查询图片
-        public static BllError GetImagesTypeByIdc(string idc)
+        public static BllError GetImagesTypeByScan(string idc)
         {
             try
             {
-                //身份证检测
-                var error = IDC.IDS(idc);
-                if (error.error) return new BllError { error = true, message = new WX_KeyValue { key = "regs_exam_idc", value = error.message } };
-                
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
                 if (entity == null) throw new Exception("无法识别的扫码信息");
                 if (entity.Examed) throw new Exception(string.Format("【{0}】的资料已通过审核", entity.Name));
@@ -164,6 +160,22 @@ namespace MySch.Bll.WX.Model
                 }
 
                 return new BllError { error = false, message = res };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static BllError GetImagesTypeByIdc(string idc)
+        {
+            try
+            {
+                //身份证检测
+                var error = IDC.IDS(idc);
+                if (error.error) return new BllError { error = true, message = new WX_KeyValue { key = "regs_exam_idc", value = error.message } };
+
+                return GetImagesTypeByScan(idc);
             }
             catch (Exception e)
             {

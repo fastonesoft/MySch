@@ -741,6 +741,8 @@
     <Content Include="Views\Regs\Index.cshtml" />
     <Content Include="Views\Regs\Examine.cshtml" />
     <Content Include="Views\Regs\Rexamine.cshtml" />
+    <Content Include="Views\Regs\AddMana.cshtml" />
+    <Content Include="Views\Regs\AddOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

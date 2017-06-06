@@ -13,13 +13,10 @@ namespace MySch.Bll.Retu
     {
         public string ID { get; set; }
         public string Name { get; set; }
-        public static BllError StudRexamine(string idc)
+        public static BllError StudRexamineByScan(string idc)
         {
             try
             {
-                var error = IDC.IDS(idc);
-                if (error.error) return new BllError { error = true, message = new WX_KeyValue { key = "regs_reform_idc", value = error.message } };
-
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
                 if (entity == null) throw new Exception("未查询到当前学生信息");
                 if (!entity.Examed) throw new Exception(string.Format("【{0}】还未通过审核，不必退回", entity.Name));
@@ -29,6 +26,21 @@ namespace MySch.Bll.Retu
             }
             catch (Exception e)
             {
+                throw e;
+            }
+        }
+
+        public static BllError StudRexamineByIdc(string idc)
+        {
+            try
+            {
+                var error = IDC.IDS(idc);
+                if (error.error) return new BllError { error = true, message = new WX_KeyValue { key = "regs_reform_idc", value = error.message } };
+
+                return StudRexamineByScan(idc);
+            }
+            catch (Exception e)
+            {                
                 throw e;
             }
         }

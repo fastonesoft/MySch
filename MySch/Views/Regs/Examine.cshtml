@@ -124,7 +124,7 @@
                                 success: function (res) {
                                     var idc = res.resultStr;
                                     var loading = weui.loading('正在识别...');
-                                    $.post('/Regs/GetImagesTypeByIdc', { idc: idc }, function (resex) {
+                                    $.post('/Regs/GetImagesTypeByScan', { idc: idc }, function (resex) {
                                         if (resex.error) {
                                             //反馈
                                             hideExam();
@@ -171,15 +171,14 @@
 
                         //选择图片，上传
                         $('.regs_exam_upload .weui-btn').click(function () {
-                            if (!$(this).hasClass('weui-btn_disabled')) {
-                                //分类名称
-                                var name = $(this).attr('uploadtype');
-                                wx.chooseImage({
-                                    success: function (res) {
-                                        syncUpload(res.localIds, name);
-                                    }
-                                });
-                            }
+                            if ($(this).hasClass('weui-btn_disabled')) return;
+                            //分类名称
+                            var name = $(this).attr('uploadtype');
+                            wx.chooseImage({
+                                success: function (res) {
+                                    syncUpload(res.localIds, name);
+                                }
+                            });
                         });
 
                         //图片删除
@@ -235,6 +234,7 @@
                                     } else {
                                         weui.toast(res.message, 2000);
                                         //反馈
+                                        $('#regs_exam_idc input').val('');
                                         hideExam();
                                     }
                                 })

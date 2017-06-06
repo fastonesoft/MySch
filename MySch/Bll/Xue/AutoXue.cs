@@ -25,6 +25,9 @@ namespace MySch.Bll.Xue
         {
             try
             {
+                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
+                if (DataCRUD<Student>.Count(a => a.RegUID == reguid) > 0) throw new Exception("一个微信号只能绑定一个身份证");
+
                 //读取网页数据
                 var cookies = GetCookies();
                 var html = GetStudentHtml(idc, cookies);
@@ -44,9 +47,6 @@ namespace MySch.Bll.Xue
 
                 //设置添加条件
                 if (reg.Memo != "小学学籍库" && reg.StepIDS != "2011") throw new Exception("不是小学应届毕业生，无法报名");
-
-                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
-                if (DataCRUD<Student>.Count(a => a.RegUID == reguid) > 0) throw new Exception("一个微信号只能绑定一个身份证");
 
                 //添加
                 reg.ID = Guid.NewGuid().ToString("N");
@@ -67,11 +67,13 @@ namespace MySch.Bll.Xue
             }
         }
 
-        //不绑定
+        //手动注册
         public static string RegStudent(string idc, string mobil1)
         {
             try
             {
+                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
+
                 //读取网页数据
                 var cookies = GetCookies();
                 var html = GetStudentHtml(idc, cookies);
@@ -92,7 +94,6 @@ namespace MySch.Bll.Xue
                 //设置添加条件
                 if (reg.Memo != "小学学籍库" && reg.StepIDS != "2011") throw new Exception("不是小学应届毕业生，无法报名");
 
-                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
 
                 //添加
                 reg.ID = Guid.NewGuid().ToString("N");
@@ -112,6 +113,44 @@ namespace MySch.Bll.Xue
             }
         }
 
+        //外省添加
+        public static void RegStudent(string idc, string mobil1, string name, string school)
+        {
+            try
+            {
+                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
+
+                //读取网页数据
+                var cookies = GetCookies();
+                var html = GetStudentHtml(idc, cookies);
+
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
+                MatchCollection matchs = regx.Matches(html);
+
+                //有学生记录
+                if (matchs.Count != 0) throw new Exception("本省学籍学生不得以外省身份报名！");
+
+                var reg = new BllStudentReg();
+                reg.Memo = "外省";
+                reg.Name = name;
+                reg.IDC = idc;
+                reg.FromSch = school;
+                //添加
+                reg.ID = Guid.NewGuid().ToString("N");
+                reg.StepIDS = "3212840201201701";
+                reg.AccIDS = "32128402";
+                //取最大值，没有，则为0
+                var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
+                int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
+                reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
+                reg.Mobil1 = mobil1;
+                reg.ToAdd();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
 
         /// <summary>

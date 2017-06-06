@@ -1,0 +1,169 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>外省添加</title>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            //提示
+            var headloading = weui.loading('正在加载...');
+            //加载js
+            $.post('/Regs/Jssdk', function (jsres) {
+                if (jsres.error) {
+                    weui.topTips(jsres.message, 3000);
+                } else {
+                    wx.config({
+                        debug: false,
+                        appId: jsres.appid,
+                        timestamp: jsres.timestamp,
+                        nonceStr: jsres.noncestr,
+                        signature: jsres.signature,
+                        jsApiList: [
+                          'hideAllNonBaseMenuItem',
+                        ]
+                    });
+
+                    //关闭
+                    headloading.hide();
+
+                    //
+                    wx.ready(function () {
+                        //隐藏所有非基本菜单项
+                        wx.hideAllNonBaseMenuItem({
+                            success: function () {
+                                //weui.alert('已隐藏所有非基本菜单项');
+                            }
+                        });
+
+                        var reg = {
+                            IDNUM: /^\d{17}[\dxX]$/,
+                            TEL1: /^1(3\d|4[57]|5[0-35-9]|8\d|70)\d{8}$/,
+                            TEL2: /^1(3\d|4[57]|5[0-35-9]|8\d|70)\d{8}$|^无$/,
+                            NAME: /^[\u4e00-\u9fa5]{2,4}$/,
+                            SCH: /^[\u4e00-\u9fa5]{4,}$/,
+                        };
+                        weui.form.checkIfBlur('#regs_out_form', {
+                            regexp: reg
+                        });
+                        $('#regs_out_upload').click(function () {
+                            if ($(this).hasClass('weui-btn_disabled')) return;
+                            //表单
+                            weui.form.validate('#regs_out_form', function (error) {
+                                if (!error) {
+                                    var loading = weui.loading('正在注册...');
+                                    //提交
+                                    var data = $('#regs_out_form').serialize();
+                                    $.post('/Regs/OutReg', data, function (res) {
+                                        //关闭
+                                        loading.hide();
+                                        //提示
+                                        if (res.error) {
+                                            if (res.message.key) {
+                                                //字段加红
+                                                $('#' + res.message.key).addClass('weui-cell_warn');
+                                            }
+                                            weui.topTips(res.message.value, 3000);
+                                        } else {
+                                            $('#regs_outed_image').attr('src', '/Image/code?content=' + res.message.key + '&r=' + Math.random());
+                                            $('#regs_out_upload').addClass('weui-btn_disabled');
+                                            //
+                                            $('#regs_out_message').hide();
+                                            $('#regs_outed').fadeIn();
+                                            weui.toast('注册成功', 2000);
+                                        }
+                                    })
+                                }
+                            }, {
+                                regexp: reg
+                            });
+                        });
+
+                        //重新开始
+                        $('#regs_out_remana').click(function () {
+                            $('#regs_out_form input').val('');
+                            $('#regs_out_upload').removeClass('weui-btn_disabled');
+                            $('#regs_out_message').show();
+                            $('#regs_outed').hide();
+                        });
+                    });
+
+                    //错误检测
+                    wx.error(function (errores) {
+                        weui.alert(JSON.stringify(errores));
+                    });
+                }
+            })
+        })
+    </script>
+</head>
+<body ontouchstart>
+    <div class="weui-article" style="padding-top:0px;">
+        <form id="regs_out_form">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">学生姓名</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" name="name" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入报名学生姓名" emptytips="学生姓名不能为空" notmatchtips="学生姓名不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">毕业学校</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" name="school" required="required" pattern="REG_SCH" maxlength="15" placeholder="输入毕业学校名称" emptytips="毕业学校不能为空" notmatchtips="毕业学校不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+              <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">手机号码</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="tel" name="mobil1" required="required" pattern="REG_TEL1" maxlength="11" placeholder="输入家长的手机号码" emptytips="手机号码不能为空" notmatchtips="手机号码不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+                <div class="weui-cell" id="regs_out_idc">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="tel" name="idc" required="required" pattern="REG_IDNUM" maxlength="18" placeholder="输入学生的身份证号" emptytips="学生身份证号不能为空" notmatchtips="身份证号码不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-btn-area">
+                <a id="regs_out_upload" href="javascript:" class="weui-btn weui-btn_primary">开始添加</a>
+            </div>
+            <div id="regs_out_message">
+                <h2 class="title" style="color:red; margin-top: 20px;">注意：</h2>
+                <h2 class="title">　　外省身份添加的学生，不会绑定微信号！家长可扫码完成微信号与学生的绑定。</h2>
+            </div>
+        </form>
+        <div style="display:none; margin-top: 20px;" id="regs_outed">
+            <img src="" id="regs_outed_image" />
+            <h3>　　执行“绑定学生”扫二维码，可完成学生绑定。</h3>
+            <div class="weui-btn-area">
+                <a id="regs_out_remana" href="javascript:" class="weui-btn weui-btn_warn">下一个</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

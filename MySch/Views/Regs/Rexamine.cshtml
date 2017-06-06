@@ -97,7 +97,7 @@
                                 success: function (res) {
                                     var idc = res.resultStr;
                                     var loading = weui.loading('正在识别...');
-                                    $.post('/Regs/GetInforByIdc', { idc: idc }, function (res) {
+                                    $.post('/Regs/GetInforByScan', { idc: idc }, function (res) {
                                         if (res.error) {
                                             $('#regs_rexam_finded').hide();
                                             $('#regs_rexam_id').val('');
