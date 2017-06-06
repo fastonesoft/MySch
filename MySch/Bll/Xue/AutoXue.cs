@@ -20,6 +20,7 @@ namespace MySch.Bll.Xue
 {
     public class AutoXue
     {
+        //绑定注册
         public static string RegStudent(string idc, string mobil1, string reguid)
         {
             try
@@ -52,6 +53,51 @@ namespace MySch.Bll.Xue
                 reg.StepIDS = "3212840201201701";
                 reg.AccIDS = "32128402";
                 reg.RegUID = reguid;
+                //取最大值，没有，则为0
+                var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
+                int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));
+                reg.IDS = reg.StepIDS + (++max_ids).ToString("D4");
+                reg.Mobil1 = mobil1;
+                reg.ToAdd();
+                return reg.Name;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        //不绑定
+        public static string RegStudent(string idc, string mobil1)
+        {
+            try
+            {
+                //读取网页数据
+                var cookies = GetCookies();
+                var html = GetStudentHtml(idc, cookies);
+
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
+                MatchCollection matchs = regx.Matches(html);
+
+                //无学生记录
+                if (matchs.Count == 0) throw new Exception("省学籍库无记录，请检查身份证");
+
+                var reg = new BllStudentReg();
+                reg.Memo = matchs[0].Groups[1].ToString();
+                reg.Name = matchs[1].Groups[1].ToString();
+                reg.IDC = matchs[2].Groups[1].ToString();
+                reg.FromSch = matchs[3].Groups[1].ToString();
+                reg.StepIDS = matchs[6].Groups[1].ToString();
+
+                //设置添加条件
+                if (reg.Memo != "小学学籍库" && reg.StepIDS != "2011") throw new Exception("不是小学应届毕业生，无法报名");
+
+                if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
+
+                //添加
+                reg.ID = Guid.NewGuid().ToString("N");
+                reg.StepIDS = "3212840201201701";
+                reg.AccIDS = "32128402";
                 //取最大值，没有，则为0
                 var max = DataCRUD<Student>.Max(a => a.StepIDS == reg.StepIDS, a => a.IDS);
                 int max_ids = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Replace(reg.StepIDS, ""));

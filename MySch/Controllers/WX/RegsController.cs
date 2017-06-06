@@ -246,8 +246,11 @@ namespace MySch.Controllers.WX
         {
             try
             {
-                var infor = StudInfor.StudRexamine(idc);
-                return Json(infor);
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+                
+                var sinfor = StudInfor.StudRexamine(idc);
+                return Json(sinfor);
             }
             catch (Exception e)
             {
@@ -260,6 +263,9 @@ namespace MySch.Controllers.WX
         {
             try
             {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+                
                 WX_Examine.Rexamine(id);
                 return Json(new BllError { error = false, message = "审核退回成功" });
             }
@@ -270,7 +276,61 @@ namespace MySch.Controllers.WX
         }
 
         /////////////////////////////
-        //手动添加
-        //外省
+        //手动注册
+        public ActionResult AddMana(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+
+        public ActionResult ManaReg(string idc, string mobil1)
+        {
+            try
+            {
+                var idcu = idc.ToUpper();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var error = IDC.IDS(idcu);
+                //返回身份证错误
+                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_reg_idc", value = error.message } });
+
+                var name = AutoXue.RegStudent(idcu, mobil1);
+                return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = new WX_KeyValue { value = e.Message } });
+            }
+        }
+
+
+        //外省添加
+        public ActionResult AddOut(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
     }
 }
