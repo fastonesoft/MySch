@@ -20,12 +20,14 @@ namespace MySch.Controllers.WX
                 var appid = WX_Const.goneAppID;
 
                 var regurl = "http://a.jysycz.cn/regs/";
+                var scanurl = "http://a.jysycz.cn/regs/scan";
                 var examurl = "http://a.jysycz.cn/regs/examine";
                 var rexamurl = "http://a.jysycz.cn/regs/rexamine";
                 var manaurl = "http://a.jysycz.cn/regs/addmana";
                 var outurl = "http://a.jysycz.cn/regs/addout";
 
                 var reg = WX_Url.MenuView(appid, regurl, state);
+                var scan = WX_Url.MenuView(appid, scanurl, state);
                 var exam = WX_Url.MenuView(appid, examurl, state);
                 var rexam = WX_Url.MenuView(appid, rexamurl, state);
                 var addmana = WX_Url.MenuView(appid, manaurl, state);
@@ -38,6 +40,7 @@ namespace MySch.Controllers.WX
                 var student = new WX_Menu_Sub { name = "学生相关" };
                 student.Add(new WX_Menu_Click { name = "报名须知", type = "click", key = "reg_about_1" });
                 student.Add(new WX_Menu_View { name = "报名注册", type = "view", url = reg });
+                student.Add(new WX_Menu_View { name = "绑定学生", type = "view", url = scan });
                 menus.Add(student);
                 var teach = new WX_Menu_Sub { name = "教师中心" };
                 teach.Add(new WX_Menu_View { name = "材料审核", type = "view", url = exam });

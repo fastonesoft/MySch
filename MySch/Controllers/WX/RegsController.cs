@@ -378,7 +378,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                var error = IDC.IDS(idcu);
+                var error = IDC.IDS(idcu, 2003, 2006);
                 //返回身份证错误
                 if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_out_idc", value = error.message } });
 
@@ -388,6 +388,40 @@ namespace MySch.Controllers.WX
             catch (Exception e)
             {
                 return Json(new BllError { error = true, message = new WX_KeyValue { value = e.Message } });
+            }
+        }
+
+        //绑定学生
+        public ActionResult Scan(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult BindStudByScan(string idc)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var sinfor = StudInfor.StudRexamineByScan(idc);
+                return Json(sinfor);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
             }
         }
     }

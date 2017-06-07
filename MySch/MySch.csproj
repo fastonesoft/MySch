@@ -743,6 +743,7 @@
     <Content Include="Views\Regs\Rexamine.cshtml" />
     <Content Include="Views\Regs\AddMana.cshtml" />
     <Content Include="Views\Regs\AddOut.cshtml" />
+    <Content Include="Views\Regs\Scan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

@@ -20,6 +20,22 @@ namespace MySch.Bll.Func
             }
         }
 
+        public static BllError IDS(string ids, int begin, int end)
+        {
+            try
+            {
+                Check(ids);
+                var year = int.Parse(ids.Substring(6, 4));
+                if (year < begin || year > end) throw new Exception(string.Format("出生年份不在范围【{0}－{1}】", begin, end));
+
+                return new BllError { error = false, message = "身份证号检测无误！" };
+            }
+            catch (Exception e)
+            {
+                return new BllError { error = true, message = e.Message };
+            }
+        }
+
         public static void Check(string ids)
         {
             if (ids.Length != 18)
