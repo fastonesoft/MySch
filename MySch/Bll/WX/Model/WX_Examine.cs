@@ -21,9 +21,11 @@ namespace MySch.Bll.WX.Model
                 int kao = string.IsNullOrEmpty(max) ? 1 : int.Parse(max.Substring(0, 2));
                 int seat = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Substring(2, 2));
 
-                kao = seat >= 36 ? kao + 1 : kao;
+                int num = 36;
+
+                kao = seat >= num ? kao + 1 : kao;
                 seat++;
-                seat = seat == 37 ? 1 : seat;
+                seat = seat == num + 1 ? 1 : seat;
 
                 //审核状态提交
                 entity.SchChoose = choose;
