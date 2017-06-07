@@ -14,9 +14,10 @@ namespace MySch.Bll.WX.Model
         public string signature { get; set; }
         public string idc { get; set; }
         public string name { get; set; }
+        public string regno { get; set; }
         public bool exam { get; set; }
 
-        public WX_Signature(string sappid, string sticket, string surl, string sidc, string sname, bool bexam)
+        public WX_Signature(string sappid, string sticket, string surl, string sidc, string sname,string sregno, bool bexam)
         {
             appid = sappid;
             //
@@ -30,6 +31,7 @@ namespace MySch.Bll.WX.Model
             idc = sidc;
             name = sname;
             exam = bexam;
+            regno = sregno;
         }
     }
 }

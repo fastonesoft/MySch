@@ -31,6 +31,8 @@
                         //上传资料
                         $('#regs_reged_image').attr('src', '/Image/code?content=' + jsres.idc);
                         $('#regs_reged_name').text(jsres.name + '：');
+                        $('#regs_examed_name').text(jsres.name);
+                        $('#regs_examed_regno').text(jsres.regno);
                         $.post('/Regs/GetImagesType', function (res) {
                             if (res.error) {
                                 weui.topTips(res.message, 3000);
@@ -284,10 +286,10 @@
             <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
             <div class="weui-msg__text-area">
                 <h2 class="weui-msg__title">审核通过</h2>
-                <p class="weui-msg__desc">录取编号：<span id="regs_examed_kaoid" style="color:red;">1101</span></p>
+                <h3 class="weui-msg__desc">学生姓名：<span id="regs_examed_name" style="color:red; margin-right:10px;">1101</span>录取编号：<span id="regs_examed_regno" style="color:red;">1101</span></h3>
                 <p class="weui-msg__desc">录取编号即开学参考分班测试的号码，前两位考场号，后两位座位号，请牢记！</p>
             </div>
-            <div class="weui-msg__opr-area">
+            <div class="weui-msg__opr-area" style="margin-bottom:0px;">
                 <p class="weui-btn-area">
                     <a href="javascript:" id="regs_examed_show" class="weui-btn weui-btn_default">显示/隐藏 报名信息</a>
                 </p>
@@ -295,7 +297,7 @@
         </div>
     </div>
 
-    <div id="regs_reged" class="weui-article" style="display:none; padding-top:0px;">
+    <div id="regs_reged" class="weui-article" style="display:none;">
         <div class="regs_reged_upload">
             <img src="" id="regs_reged_image" />
             <h2 id="regs_reged_name">学生姓名</h2>

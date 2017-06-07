@@ -22,6 +22,7 @@ namespace MySch.Bll.WX.Model
         //绑定的学生
         public string idc { get; set; }
         public string name { get; set; }
+        public string regno { get; set; }
         public bool exam { get; set; }
 
         public static WX_OAuserInfor GetFromSession()
@@ -57,6 +58,7 @@ namespace MySch.Bll.WX.Model
                     idc =  entity.IDC;
                     name = entity.Name;
                     exam = entity.Examed;
+                    regno = entity.RegNo;
                 }
                 //不需要提示出错
             }
