@@ -398,6 +398,7 @@ namespace MySch.Controllers.WX
             {
                 var user = auth.GoneLogin();
                 user.codePage = Setting.Url(Request);
+                user.BindingStud();
                 user.ToSession();
 
                 return View();
@@ -416,8 +417,8 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                var sinfor = StudInfor.StudRexamineByScan(idc);
-                return Json(sinfor);
+                var name = StudInfor.BindStudByScan(idc, infor.unionid);
+                return Json(new BllError { error = false, message = name });
             }
             catch (Exception e)
             {

@@ -44,5 +44,30 @@ namespace MySch.Bll.Retu
                 throw e;
             }
         }
+
+        public static string BindStudByScan(string idc, string reguid)
+        {
+            try
+            {
+                IDC.Check(idc);
+                //身份证查询
+                var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
+                if(entity == null) throw new Exception("未知的扫码信息");
+                if (!string.IsNullOrEmpty(entity.RegUID)) throw new Exception(string.Format("【{0}】已经被绑定微信号，不能再绑！",entity.Name));
+
+                //绑定检测
+                var uid = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
+                if (uid != null) throw new Exception(string.Format("你已经绑定【{0}】，不能再绑！",uid.Name));
+
+                //提交绑定
+                entity.RegUID = reguid;
+                DataCRUD<Student>.Update(entity);
+                return entity.Name;
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
     }
 }
