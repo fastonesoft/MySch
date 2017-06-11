@@ -45,27 +45,6 @@ namespace MySch.Controllers.Account
             }
         }
 
-        //用户登录：检测
-        [HttpPost]
-        public ActionResult Check()
-        {
-            var login = BllLogin.GetLogin(Session);
-            if (login == null)
-            {
-                var acc = new BllAcc
-                {
-                    ID = Guid.NewGuid().ToString("N"),
-                };
-                return View("Logon", acc);
-            }
-            else
-            {
-                //已登录
-                //要跳转的Action不能使用POST方式
-                return RedirectToAction("Index", "Client");
-            }
-        }
-
         //用户登录：退出
         [HttpPost]
         public ActionResult Logoff()
