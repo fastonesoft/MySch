@@ -53,6 +53,8 @@ if exists
 )
 drop table TAcc
 go
+
+
 create table TAcc
 (
 	ID	nvarchar(32) not null,	--unionid
@@ -60,14 +62,14 @@ create table TAcc
 	Name	nvarchar(20) not null,	--帐号全称、姓名
 	RegTime	datetime not null,
 	Fixed	bit not null,
-	Parent	nvarchar(32),
+	ParentID	nvarchar(32),
+	Valided	nvarchar(32) not null,
 )
 go
 alter table TAcc add constraint PK_TAcc primary key clustered (ID)
 create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
 --插入管理员
-insert TAcc values ('51e66f66919ee73bc252590bdf3b339c','admin','系统管理员','2015-09-10 12:00:00',  0, null)
-insert TAcc values ('02b7f4a7710ac87488ab1f13b8e22a65','32128402','姜堰区实验初中集团','2015-09-10 12:00:00',  0, '51e66f66919ee73bc252590bdf3b339c')
+insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员','2015-09-10 12:00:00',  0, null, '2286e19d9fc0d4c4d9037fefa67217ae')
 go
 
 
@@ -993,16 +995,3 @@ create index IN_WxUploadFile_IDS on WxUploadFile (IDS)
 
 go
 
-
-create table WxUserInfor
-(
-	openid	nvarchar(32) not null,
-	nickname	nvarchar(32),
-	sex	nvarchar(5),
-	province	nvarchar(32),
-	city	nvarchar(32),
-	country	nvarchar(32),
-	headimgurl	nvarchar(100),
-	unionid	nvarchar(32),
-)
-go
