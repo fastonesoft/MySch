@@ -11,12 +11,12 @@
 <head>
     <title>校务在线</title>
     <link href="~/Content/style.css?@r.ToString()" rel="stylesheet" media="screen" />
-
     <link href="~/Content/print.css" rel="stylesheet" media="print" />
-
     <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
     <link href="~/Content/themes/icon.css?@r.ToString()" rel="stylesheet" />
-    <link href="~/Content/style.css?@r.ToString()" rel="stylesheet" media="screen" />
+    <link href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
 
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -63,6 +63,38 @@
         <div data-options="region:'center',border:false">
             <div id="my-user-tab">
                 <div title="用户首页" data-options="iconCls:'icon-tip'" style="padding:8px;">
+
+
+                    <div class="weui-article" id="acc_login_parent" style="width: 500px;">
+                        <h1>学生查询</h1>
+                        <form id="regs_exam_form">
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">学生姓名</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="name" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入报名学生姓名" emptytips="学生姓名不能为空" notmatchtips="学生姓名不正确">
+                                    </div>
+                                    <div class="weui-cell__ft">
+                                        <i class="weui-icon-warn"></i>
+                                    </div>
+                                </div>
+                                <div id="regs_exam_idc" class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="tel" name="idc" required="required" pattern="REG_IDNUM" maxlength="18" placeholder="输入学生的身份证号" emptytips="学生身份证号不能为空" notmatchtips="身份证号码不正确">
+                                    </div>
+                                    <div class="weui-cell__ft">
+                                        <i class="weui-icon-warn"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="weui-btn-area">
+                            <a id="regs_exam_scan" href="javascript:" class="weui-btn weui-btn_primary">学生：查询/识别</a>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -140,6 +172,16 @@
                 border: false,
                 fit: true
             });
+
+            //输入检测
+            var reg = {
+                IDNUM: /^\d{17}[\dxX]$/,
+                NAME: /^[\u4e00-\u9fa5]{2,4}$/,
+            };
+            weui.form.checkIfBlur('#acc_login_parent', {
+                regexp: reg
+            });
+
 
         })
     </script>
