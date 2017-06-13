@@ -30,6 +30,6 @@ namespace MySch.Bll.Entity
 
         public string ID { get; set; }
         public DateTime RegTime { get; set; }
-        public string Parent { get; set; }
+        public string ParentID { get; set; }
     }
 }

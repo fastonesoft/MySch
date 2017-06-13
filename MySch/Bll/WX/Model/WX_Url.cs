@@ -39,6 +39,10 @@ namespace MySch.Bll.WX.Model
             var inforurl = string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN", oaToken, openid);
             var infors = HtmlHelp.GetHtml(inforurl, "UTF-8");
             var infor = Jsons.JsonEntity<WX_OAuserInfor>(infors);
+
+            //WX_Log.Add(infor.unionid);
+            //WX_Log.Add(Setting.GetMD5(infor.unionid + "##1##yuch88##32128402"));
+
             infor.ToSession();
             return infor;
         }

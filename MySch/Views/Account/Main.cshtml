@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    
+
     var dd = new Random();
     var r = dd.NextDouble();
 }
@@ -37,19 +37,14 @@
                     <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" /></a>
                 </div>
 
-                <ul class="my-nav">
-                    <li><a num="0" href="javascript:void(0);"><img src="/Images/pp0801.png" /><h2>学生中心</h2></a></li>
-                    <li><a num="1" href="javascript:void(0);"><img src="/Images/pp04.png" /><h2>教师中心</h2></a></li>
-                </ul>
-
                 <div class="my-topright">
                     <ul>
-                        <li><span><img src="/Images/help.png" title="帮助" class="helpimg" /></span></li>
+                        <li><span style="color:#ed9c30;">@ViewBag.NickName</span></li>
                         <li><a href="javascript:void(0);" id="logoff">退出</a></li>
                     </ul>
 
                     <div class="my-user">
-                        <span id="toAdmin">@ViewBag.UserName</span>
+                        <span>@ViewBag.UserName</span>
                         <b>0</b>
                     </div>
 
@@ -61,29 +56,7 @@
         <div data-options="region:'west',border:false" style="width:187px;">
             <div class="left noprint">
                 <div class="my-lefttop"><img src="/Images/m04s.png" />导航菜单</div>
-
-                <dl class="my-leftmenu">
-                    <dd>
-                        <div class="title" num="0">
-                            <img src="/Images/leftico04.png" />学生中心
-                        </div>
-                        <ul class="my-menuson">
-                            <li dest="/StudEdit/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">学生信息</a><i></i></li>
-                        </ul>
-                    </dd>
-                    <dd>
-                        <div class="title" num="1">
-                            <img src="/Images/leftico04.png" />教师中心
-                        </div>
-                        <ul class="my-menuson">
-                            <li dest="/StudReg/" icon="icon-user" clicked="false"><cite></cite><a href="javascript:void(0);">我的信息</a><i></i></li>
-                            <li dest="/MastStud/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的学生</a><i></i></li>
-                            <li dest="/MastBan/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的班级</a><i></i></li>
-                            <li dest="/StudReg/" icon="icon-system" clicked="false"><cite></cite><a href="javascript:void(0);">我的年级</a><i></i></li>
-                        </ul>
-                    </dd>
-                </dl>
-
+                <dl class="my-leftmenu" id="my-leftmenu"></dl>
             </div>
         </div>
 
@@ -96,16 +69,51 @@
     </div>
     <script type="text/javascript">
         $(function () {
-            //切换到系统后台
-            $('#toAdmin').click(function () {
-                $.post('/Admin/Index', function (d) {
+
+            //退出登录
+            $('#logoff').click(function () {
+                $.post('/Account/Logoff', function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
                     } else {
-                        $('#body').html(d);
+                        location.reload();
                     }
                 })
-            })
+            });
+
+            //菜单点击
+            $('.my-leftmenu').on('click', '.title', function () {
+                $(this).parent().siblings().find('ul').slideUp();
+                var $ul = $(this).next('ul');
+                if ($ul.is(':visible')) {
+                    //$ul.slideUp();
+                } else {
+                    $ul.slideDown();
+                }
+            });
+            //菜单执行
+            $(".my-leftmenu").on('click', 'li', function () {
+                //菜单动作
+                var url = $(this).attr('dest');
+                var name = $(this).find('a').text();
+                var icon = $(this).attr('icon');
+
+                //设置样式
+                $(".my-menuson li.active").removeClass("active")
+                $(this).addClass("active");
+
+                //检查菜单状态
+                var clicked = $(this).attr('clicked');
+                if (clicked == 'true') {
+                    $('#my-user-tab').tabs('select', name);
+                    //阻止
+                    return;
+                };
+                //设置菜单单击状态
+                $(this).attr('clicked', true);
+                //添加页面
+                easyobj.addTab('#my-user-tab', name, url, icon)
+            });
 
             //tabs关闭动作
             $('#my-user-tab').tabs({
@@ -119,77 +127,13 @@
                 }
             });
 
-
-            //退出登录
-            $('#logoff').click(function () {
-                $.post('/Account/Logoff', function (d) {
-                    if (d.error) {
-                        $.messager.alert('错误提示', d.message, 'error');
-                    } else {
-                        location.reload();
-                    }
-                })
-            });
-
-            //顶部导航切换
-            $(".my-nav li a").click(function () {
-                $(".my-nav li a.selected").removeClass("selected")
-                $(this).addClass("selected");
-
-                //导航更新
-                var num = $(this).attr('num');
-                var s = $.validator.format('.title[num={0}]', num);
-                var objs = $(s);
-                objs.click();
-                objs.next().children(':first-child').click();
-            });
-            //菜单点击
-            $('.title').click(function () {
-                $(this).parent().siblings().find('ul').slideUp();
-                var $ul = $(this).next('ul');
-                if ($ul.is(':visible')) {
-                    //$ul.slideUp();
-                } else {
-                    $ul.slideDown();
-                }
-            });
-            //菜单切换
-            $(".my-menuson li").click(function () {
-                //菜单动作
-                var url = $(this).attr('dest');
-                var name = $(this).find('a').text();
-                var icon = $(this).attr('icon');
-
-                //设置样式
-                $(".my-menuson li.active").removeClass("active")
-                $(this).addClass("active");
-
-                //顶部更新
-                var num = $(this).parent().prev().attr('num');
-                $(".my-nav li a.selected").removeClass("selected")
-                var s = $.validator.format('.my-nav li a[num={0}]', num);
-                $(s).addClass("selected");
-
-                //检查菜单状态
-                var clicked = $(this).attr('clicked');
-                if (clicked === 'true') {
-                    $('#my-user-tab').tabs('select', name);
-                    //阻止
-                    return;
-                };
-
-                //设置菜单单击状态
-                $(this).attr('clicked', true);
-
-                //添加页面
-                easyobj.addTab('#my-user-tab', name, url, icon)
-            });
-
             //布局
             $('#my-user-lay').layout({
                 border: false,
                 fit: true
             });
+
+            $('#my-user-lay').layout('collapse', 'west');
 
             //分页
             $('#my-user-tab').tabs({

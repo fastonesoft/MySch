@@ -13,15 +13,27 @@ namespace MySch.Controllers.Account
     {
         public ActionResult Index()
         {
-            if (WX_OAuserInfor.HasNoSession())
+            try
             {
-                //首页
-                return View();
+                if (WX_OAuserInfor.HasNoSession())
+                {
+                    //首页
+                    return View();
+                }
+                else
+                {
+                    var infor = WX_OAuserInfor.GetFromSession();
+                    infor.CheckUser();
+
+                    ViewBag.UserName = infor.username;
+                    ViewBag.NickName = infor.nickname;
+                    //已登录
+                    return View("Main");
+                }
             }
-            else
+            catch (Exception e)
             {
-                //已登录
-                return View("Main");
+                return Content(e.Message);
             }
         }
 

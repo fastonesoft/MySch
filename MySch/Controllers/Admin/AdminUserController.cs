@@ -59,7 +59,7 @@ namespace MySch.Controllers.Admin
             {
                 acc.ID = Guid.NewGuid().ToString("N");
                 acc.RegTime = DateTime.Now;
-                acc.Parent = BllLogin.GetLogin(Session).ID;
+                acc.ParentID = BllLogin.GetLogin(Session).ID;
                 acc.Pwd = BllLogin.Password(acc.IDS, acc.Pwd);
 
                 //添加记录
@@ -86,7 +86,7 @@ namespace MySch.Controllers.Admin
                 acc.Fixed = acc.IDS == "admin" ? false : acc.Fixed;
                 //别的属性直接从数据库拿出来
                 acc.RegTime = db.RegTime;
-                acc.Parent = db.Parent;
+                acc.ParentID = db.ParentID;
                 //
                 acc.ToUpdate(ModelState);
 
@@ -113,7 +113,7 @@ namespace MySch.Controllers.Admin
                 //其它正常操作
                 var db = BllAcc.GetEntity<BllAcc>(a => a.ID == acc.ID && a.IDS == acc.IDS);
 
-                if (BllAcc.GetEntitys<List<BllAcc>>(a => a.Parent == db.ID).Count() != 0)
+                if (BllAcc.GetEntitys<List<BllAcc>>(a => a.ParentID == db.ID).Count() != 0)
                 {
                     throw new Exception("有下级用户，无法删除！");
                 }
@@ -140,7 +140,7 @@ namespace MySch.Controllers.Admin
                 string myself = login.ID;
                 string parent = login.Parent;
 
-                var res = BllAcc.GetDataGridPages<BllAcc, string>(a => a.Parent == myself, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllAcc.GetDataGridPages<BllAcc, string>(a => a.ParentID == myself, a => a.IDS, page, rows, OrderType.ASC);
                 return Json(res);
             }
             catch (Exception e)
@@ -159,7 +159,7 @@ namespace MySch.Controllers.Admin
                 string myself = login.ID;
                 string parent = login.Parent;
                 //查询帐号、名称（只显示自己 及 下属）
-                var res = BllAcc.GetDataGridEntitys<BllAcc>(a => (a.Name.Contains(id) || a.IDS.Contains(id)) && (a.Parent == myself || a.ID == myself));
+                var res = BllAcc.GetDataGridEntitys<BllAcc>(a => (a.Name.Contains(id) || a.IDS.Contains(id)) && (a.ParentID == myself || a.ID == myself));
                 return Json(res);
             }
             catch (Exception e)

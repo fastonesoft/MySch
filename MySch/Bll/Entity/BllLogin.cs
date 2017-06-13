@@ -31,7 +31,7 @@ namespace MySch.Bll.Entity
                 ID = acc.ID,
                 IDS = acc.IDS,
                 Name = acc.Name,
-                Parent = acc.Parent,
+                Parent = acc.ParentID,
                 Student = student,
                 IP = req.UserHostAddress,
                 Browser = req.Browser.Browser,

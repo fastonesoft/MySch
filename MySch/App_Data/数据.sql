@@ -43,6 +43,22 @@ go
 alter table TLog add constraint PK_TLog primary key clustered (GD)
 
 
+create table TAccType
+(
+	ID	nvarchar(32) not null,
+	IDS	int not null,
+	Name	nvarchar(20) not null,	
+)
+go
+alter table TAccType add constraint PK_TAccType primary key clustered (ID)
+create unique nonclustered index UN_TAccType_IDS on TAccType (IDS)
+
+insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 0, '教师')
+insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 1, '学校')
+insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 2, '教育集团')
+insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 99, '管理员')
+
+
 
 
 --用户表
@@ -53,34 +69,27 @@ if exists
 )
 drop table TAcc
 go
-
-
 create table TAcc
 (
 	ID	nvarchar(32) not null,	--unionid
-	IDS	nvarchar(20) not null,	--
+	IDS	nvarchar(20) not null,	--编号
 	Name	nvarchar(20) not null,	--帐号全称、姓名
 	RegTime	datetime not null,
 	Fixed	bit not null,
 	ParentID	nvarchar(32),
+	AccTypeIDS	int not null,
 	Valided	nvarchar(32) not null,
 )
 go
 alter table TAcc add constraint PK_TAcc primary key clustered (ID)
 create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
+alter table TAcc add constraint FK_TAcc_AccTypeIDS foreign key (AccTypeIDS) references TAccType (IDS)
+
 --插入管理员
-insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员','2015-09-10 12:00:00',  0, null, '2286e19d9fc0d4c4d9037fefa67217ae')
+insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员','2017-05-10 12:00:00',  0, null, 99, '16f328df958f09f9b67f09a18497dd7c')
+insert TAcc values ('o47ZhvxoQA9QOOgDSZ5hGaea4xdI','32128402','实验初中','2017-05-10 12:00:00',  0, 'o47ZhvzWPWSNS26vG_45Fuz5JMZk', 1, '4e5aff0fdfe01a8434936459659f2b1d')
 go
 
-
-create table TAccType
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
-	Name	nvarchar(20) not null,
-	
-)
-go
 
 
 --登录日志

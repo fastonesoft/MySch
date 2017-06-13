@@ -23,7 +23,11 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.Parent)
+            this.Property(t => t.ParentID)
+                .HasMaxLength(32);
+
+            this.Property(t => t.Valided)
+                .IsRequired()
                 .HasMaxLength(32);
 
             // Table & Column Mappings
@@ -33,7 +37,9 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.RegTime).HasColumnName("RegTime");
             this.Property(t => t.Fixed).HasColumnName("Fixed");
-            this.Property(t => t.Parent).HasColumnName("Parent");
+            this.Property(t => t.ParentID).HasColumnName("ParentID");
+            this.Property(t => t.AccTypeIDS).HasColumnName("AccTypeIDS");
+            this.Property(t => t.Valided).HasColumnName("Valided");
         }
     }
 }
