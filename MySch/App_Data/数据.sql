@@ -73,6 +73,16 @@ insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员','20
 go
 
 
+create table TAccType
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,
+	
+)
+go
+
+
 --登录日志
 create table TLogin
 (
