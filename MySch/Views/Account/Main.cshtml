@@ -123,6 +123,8 @@
                             $(this).parent().attr('clicked', false);
                         }
                     });
+                    //管理员
+                    if (title == '用户审核') $('#my_user_name').removeClass('clicked');
                 }
             });
 
@@ -150,6 +152,21 @@
                 },
             });
             tab.panel('refresh');
+
+            ///////////////////////
+            $('#my_user_name').click(function () {
+                $this = $(this);
+                if ($this.hasClass('clicked')) {
+                    $('#my-user-tab').tabs('select', '用户审核');
+                    return;
+                }
+                $this.addClass('clicked');
+
+                //添加页面
+                easyobj.addTab('#my-user-tab', '用户审核', '/Account/Exam', 'icon-tip')
+            });
+
+
         })
     </script>
 </body>

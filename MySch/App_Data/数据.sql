@@ -74,7 +74,6 @@ create table TAcc
 	ID	nvarchar(32) not null,	--unionid
 	IDS	nvarchar(32) not null,	--编号
 	Name	nvarchar(20) not null,	--帐号全称、姓名
-	NickName	nvarchar(32) not null,	--昵称
 	AccTypeIDS	int not null,	--帐号类型
 	RegTime	datetime not null,	--注册时间
 	Passed	bit not null,	--是否通过审核
@@ -88,8 +87,8 @@ create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
 alter table TAcc add constraint FK_TAcc_AccTypeIDS foreign key (AccTypeIDS) references TAccType (IDS)
 
 --插入管理员
-insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员', '顽石', 99,'2017-05-10 12:00:00',  1, 0, '471cc448fe732d7b61994e3615f0b1de',  null)
-insert TAcc values ('o47ZhvxoQA9QOOgDSZ5hGaea4xdI','32128402','实验初中', '立足现在',  1,'2017-05-10 12:00:00', 1, 0, '02eb64efa485fad6640c8456fa67e267', 'o47ZhvzWPWSNS26vG_45Fuz5JMZk')
+insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员', 99,'2017-05-10 12:00:00',  1, 0, '471cc448fe732d7b61994e3615f0b1de',  null)
+insert TAcc values ('o47ZhvxoQA9QOOgDSZ5hGaea4xdI','32128402','实验初中', 1,'2017-05-10 12:00:00', 1, 0, '02eb64efa485fad6640c8456fa67e267', 'o47ZhvzWPWSNS26vG_45Fuz5JMZk')
 go
 
 

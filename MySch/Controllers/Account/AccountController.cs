@@ -97,5 +97,37 @@ namespace MySch.Controllers.Account
             }
         }
 
+        public ActionResult Exam()
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+                if (infor.unionid != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员");
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DataGrid(int page = 1, int rows = 100)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var res = WX_OAuserInfor.ExamGrid(page, rows);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+
     }
 }

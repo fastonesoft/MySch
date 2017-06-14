@@ -1,4 +1,5 @@
-﻿using MySch.Dal;
+﻿using MySch.Bll.Func;
+using MySch.Dal;
 using MySch.Models;
 using System;
 using System.Collections.Generic;
@@ -124,7 +125,6 @@ namespace MySch.Bll.WX.Model
                     ID = unionid,
                     IDS = Guid.NewGuid().ToString("N"),
                     Name = name,
-                    NickName = nickname,
                     AccTypeIDS = 0,
                     RegTime = DateTime.Now,
                     Passed = false,
@@ -141,22 +141,59 @@ namespace MySch.Bll.WX.Model
             }
         }
 
-        public string  ExamUser()
+        public void ValidUser()
         {
             try
             {
                 var entity = DataCRUD<TAcc>.Entity(a => a.ID == unionid);
+                if (entity == null) return;
+
                 var valid = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", unionid, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                if (entity.Valided != valid) throw new Exception("帐号数据异常");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
-                return valid;
+        public static void ExamUser(string unionid)
+        {
+            try
+            {
+                var entity = DataCRUD<TAcc>.Entity(a => a.ID == unionid);
+                if (entity == null) throw new Exception("异常数据查询");
 
-                //if (entity.Valided != valid) throw new Exception(valid);
-                //"帐号数据异常"
+                //更新
+                entity.Passed = true;
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", unionid, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                DataCRUD<TAcc>.Update(entity);
             }
             catch (Exception e)
             {                
                 throw e;
             }
+        }
+
+        public static object ExamGrid(int page, int rows)
+        {
+            try
+            {
+                int gets, total;
+                //读取：分页实体对象
+                var pages = DataCRUD<TAcc>.TakePage<DateTime>(a => true, a => a.RegTime, page, rows, out gets, out total);
+
+                //转换：实体对象 - 表示数据
+                var pages_bll = Jsons.JsonEntity<List<TAcc>>(pages);
+
+                //输出：转换成DataGrid的数据
+                return EasyUI<TAcc>.DataGrids(pages_bll, total);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
     }
 }
