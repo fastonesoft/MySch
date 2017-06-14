@@ -72,14 +72,14 @@ go
 create table TAcc
 (
 	ID	nvarchar(32) not null,	--unionid
-	IDS	nvarchar(20) not null,	--编号
+	IDS	nvarchar(32) not null,	--编号
 	Name	nvarchar(20) not null,	--帐号全称、姓名
+	NickName	nvarchar(32) not null,	--昵称
+	AccTypeIDS	int not null,	--帐号类型
 	RegTime	datetime not null,	--注册时间
 	Passed	bit not null,	--是否通过审核
-	AccTypeIDS	int not null,	--帐号类型
-	NickName	nvarchar(32) not null,	--昵称
-	Valided	nvarchar(32) not null,	--信息验证
 	Fixed	bit not null,	--是否冻结
+	Valided	nvarchar(32) not null,	--信息验证
 	ParentID	nvarchar(32),
 )
 go
@@ -88,8 +88,8 @@ create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
 alter table TAcc add constraint FK_TAcc_AccTypeIDS foreign key (AccTypeIDS) references TAccType (IDS)
 
 --插入管理员
-insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员','2017-05-10 12:00:00',  1, 99, '顽石', '16f328df958f09f9b67f09a18497dd7c', 0,  null)
-insert TAcc values ('o47ZhvxoQA9QOOgDSZ5hGaea4xdI','32128402','实验初中','2017-05-10 12:00:00',  1, 1, '立足现在', '4e5aff0fdfe01a8434936459659f2b1d', 0, 'o47ZhvzWPWSNS26vG_45Fuz5JMZk')
+insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员', '顽石', 99,'2017-05-10 12:00:00',  1, 0, '471cc448fe732d7b61994e3615f0b1de',  null)
+insert TAcc values ('o47ZhvxoQA9QOOgDSZ5hGaea4xdI','32128402','实验初中', '立足现在',  1,'2017-05-10 12:00:00', 1, 0, '02eb64efa485fad6640c8456fa67e267', 'o47ZhvzWPWSNS26vG_45Fuz5JMZk')
 go
 
 
@@ -135,7 +135,7 @@ create table TEdu
 	Name	nvarchar(10) not null,
 	Value	nvarchar(2) not null,
 	Fixed	bit not null,	--是否使用
-	AccIDS	nvarchar(20) not null
+	AccIDS	nvarchar(32) not null
 )
 go
 alter table TEdu add constraint PK_TEdu primary key clustered (ID)
@@ -162,7 +162,7 @@ create table TPart
 	Name	nvarchar(10) not null,
 	Value	nvarchar(2) not null,
 	Fixed	bit not null,	--是否不用
-	AccIDS	nvarchar(20) not null
+	AccIDS	nvarchar(32) not null
 )
 go
 alter table TPart add constraint PK_TPart primary key clustered (ID)
@@ -194,7 +194,7 @@ create table TStep
 	Graduated	bit not null,	--是否毕业
 	CanRecruit	bit not null,	--能否招生（要放到Grade中）
 	PartIDS	nvarchar(20) not null,
-	AccIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 )
 go
 alter table TStep add constraint PK_TStep primary key clustered (ID)
@@ -238,7 +238,7 @@ create table TYear
 	IDS	nvarchar(20) not null,	--年度编号32128402XXXX
 	Name	nvarchar(10) not null,	--年度2016
 	IsCurrent	bit not null,	--当前年度
-	AccIDS	nvarchar(20) not null	--所属学校
+	AccIDS	nvarchar(32) not null	--所属学校
 )
 go
 alter table TYear add constraint PK_TYear primary key clustered (ID)
@@ -267,7 +267,7 @@ create table TSemester
 	IDS	nvarchar(20) not null,	--学期编号32128402XX
 	Name	nvarchar(20) not null,	--学期名称：第一学期
 	Value	nvarchar(2) not null,
-	AccIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 )
 alter table TSemester add constraint PK_TSemester primary key clustered (ID)
 create unique nonclustered index UN_TSemester_IDS on TSemester (IDS)
@@ -284,7 +284,7 @@ create table TTerm
 	IsCurrent	bit not null,
 	YearIDS	nvarchar(20) not null,
 	SemesterIDS	nvarchar(20) not null,
-	AccIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 )
 go
 alter table TTerm add constraint PK_TTerm primary key clustered (ID)
@@ -324,11 +324,11 @@ insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', 1, '3212
 create table TGrade
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,	--年级编号3212840201201601XX
+	IDS	nvarchar(32) not null,	--年级编号3212840201201601XX
 	StepIDS	nvarchar(20) not null,	--分级
 	YearIDS	nvarchar(20) not null,	--年度
 	EduIDS	nvarchar(20) not null,	--学制
-	AccIDS	nvarchar(20) not null	--用户	
+	AccIDS	nvarchar(32) not null	--用户	
 )
 go
 alter table TGrade add constraint PK_TGrade primary key clustered (ID)
@@ -399,10 +399,10 @@ create table TBan
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--3212840220160107XX
 	Num	nvarchar(10) not null,
-	GradeIDS	nvarchar(20) not null,
-	MasterIDS	nvarchar(20),
-	GroupIDS	nvarchar(20),
-	AccIDS	nvarchar(20) not null,
+	GradeIDS	nvarchar(32) not null,
+	MasterIDS	nvarchar(32),
+	GroupIDS	nvarchar(32),
+	AccIDS	nvarchar(32) not null,
 )
 go
 alter table TBan add constraint PK_TBan primary key clustered (ID)
@@ -576,7 +576,7 @@ create table TSub
 	Value	nvarchar(10) not null,
 	Name	nvarchar(10) not null,
 	SName	nvarchar(1) not null,
-	AccIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 )
 go
 
@@ -610,7 +610,7 @@ create table StudOut
 	Name	nvarchar(10) not null,
 	Value	nvarchar(10) not null,
 	CanReturn	bit not null,	--能否回校（同届的学校）
-	AccIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 )
 
 go
@@ -641,7 +641,7 @@ create table StudCome
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(10) not null,
 	Value	nvarchar(20) not null,
-	AccIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 )
 
 go
@@ -685,7 +685,7 @@ create table Student
 	--
 	Memo	nvarchar(50),	--备注
 	--
-	AccIDS	nvarchar(20) not null,	--学校编号
+	AccIDS	nvarchar(32) not null,	--学校编号
 	--
 )
 go
@@ -703,7 +703,7 @@ create table StudGrade
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(32) not null,	--GradeIDS + 流水号
-	GradeIDS	nvarchar(20) not null,
+	GradeIDS	nvarchar(32) not null,
 	BanIDS	nvarchar(20) not null,
 	OldBan	nvarchar(10) not null,	--原班级编号、考场号XXYY
 	StudIDS	nvarchar(32) not null,
@@ -736,7 +736,7 @@ create table StudGradeType
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(32) not null,
 	Name	nvarchar(20) not null,	--年度学生列表类型名称
-	AccIDS	nvarchar(20) not null,	--学校编号
+	AccIDS	nvarchar(32) not null,	--学校编号
 )
 go
 
@@ -745,7 +745,7 @@ create table StudGradeTable
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(32) not null,
-	GradeIDS	nvarchar(20) not null,	--年度编号
+	GradeIDS	nvarchar(32) not null,	--年度编号
 	TableName	nvarchar(20) not null,	--年度学生列表名称
 	TypeIDS	nvarchar(20) not null,	--年度学生列表类型
 	Memo	nvarchar(100),
@@ -815,7 +815,7 @@ create table KSubBan
 	IDS	nvarchar(32) not null,
 	BanIDS	nvarchar(20) not null,
 	SubGradeIDS	nvarchar(20) not null,
-	AccIDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 	IsMaster	bit not null,	--是否班主任
 	--是否要增加时间？
 )

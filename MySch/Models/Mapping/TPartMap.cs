@@ -29,7 +29,7 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.AccIDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             // Table & Column Mappings
             this.ToTable("TPart");

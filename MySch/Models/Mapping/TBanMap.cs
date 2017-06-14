@@ -25,17 +25,17 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.GradeIDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             this.Property(t => t.MasterIDS)
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             this.Property(t => t.GroupIDS)
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             this.Property(t => t.AccIDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             // Table & Column Mappings
             this.ToTable("TBan");

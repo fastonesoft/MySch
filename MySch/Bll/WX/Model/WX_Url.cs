@@ -40,8 +40,8 @@ namespace MySch.Bll.WX.Model
             var infors = HtmlHelp.GetHtml(inforurl, "UTF-8");
             var infor = Jsons.JsonEntity<WX_OAuserInfor>(infors);
 
-            //WX_Log.Add(infor.unionid);
-            //WX_Log.Add(Setting.GetMD5(infor.unionid + "##1##yuch88##32128402"));
+            WX_Log.Add(infor.unionid);
+            WX_Log.Add(Setting.GetMD5(infor.unionid + "##yuch88##99##true##false"));
 
             infor.ToSession();
             return infor;

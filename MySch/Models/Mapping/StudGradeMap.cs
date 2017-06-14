@@ -21,7 +21,7 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.GradeIDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             this.Property(t => t.BanIDS)
                 .IsRequired()

@@ -1,0 +1,116 @@
+﻿@{
+    Layout = null;
+}
+
+<div style="width: 500px; margin:auto;">
+    <div class="weui-article" id="acc_login_parent" style="height: 180px;">
+        <form id="acc_login_form_stud">
+            <h1>家长申请</h1>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">学生姓名</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" name="name" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入学生的姓名" emptytips="学生姓名不能为空" notmatchtips="学生姓名不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+                <div id="acc_login_idc" class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="tel" name="idc" required="required" pattern="REG_IDNUM" maxlength="18" placeholder="输入学生的身份证号" emptytips="学生身份证号不能为空" notmatchtips="身份证号码不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form id="acc_login_form_teach" style="display:none;">
+            <h1>教师申请</h1>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">教师姓名</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" name="tname" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入教师的姓名" emptytips="教师姓名不能为空" notmatchtips="教师姓名不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="weui-cells weui-cells_checkbox">
+        <label class="weui-cell weui-check__label" for="acc_login_choose">
+            <div class="weui-cell__hd">
+                <input type="checkbox" class="weui-check" name="choose" id="acc_login_choose">
+                <i class="weui-icon-checked"></i>
+            </div>
+            <div class="weui-cell__bd">
+                <p>我是教师</p>
+            </div>
+        </label>
+    </div>
+    <div class="weui-btn-area">
+        <a id="acc_login_update" href="javascript:" class="weui-btn weui-btn_primary">提交</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#acc_login_choose').click(function () {
+        var choose = $(this).prop('checked');
+        if (choose) {
+            $('#acc_login_form_stud').hide();
+            $('#acc_login_form_teach').fadeIn();
+        } else {
+            $('#acc_login_form_teach').hide();
+            $('#acc_login_form_stud').fadeIn();
+        }
+    });
+
+    //输入检测
+    var reg = {
+        IDNUM: /^\d{17}[\dxX]$/,
+        NAME: /^[\u4e00-\u9fa5]{2,4}$/,
+    };
+    weui.form.checkIfBlur('#acc_login_parent', {
+        regexp: reg
+    });
+
+    $('#acc_login_update').click(function () {
+        var choose = $('#acc_login_choose').prop('checked');
+        if (!choose) return;
+
+        weui.form.validate('#acc_login_form_teach', function (error) {
+            if (!error) {
+                var loading = weui.loading('正在提交...');
+                //提交
+                var data = $('#acc_login_form_teach').serialize();
+                $.post('/Account/Update', data, function (res) {
+                    //关闭
+                    loading.hide();
+                    //提示
+                    if (res.error) {
+                        weui.topTips(res.message, 3000);
+                    } else {
+                        var tab = $('#my-user-tab').tabs('getTab', '用户首页');
+                        $('#my-user-tab').tabs('update', {
+                            tab: tab,
+                            options: {
+                                href: '/account/check'
+                            },
+                        });
+                        tab.panel('refresh');
+                        //刷新姓名
+                        $('#my_user_name').text(res.message);
+                    }
+                })
+            }
+        }, {
+            regexp: reg
+        });
+
+    });
+
+</script>

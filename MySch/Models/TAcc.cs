@@ -8,10 +8,12 @@ namespace MySch.Models
         public string ID { get; set; }
         public string IDS { get; set; }
         public string Name { get; set; }
-        public System.DateTime RegTime { get; set; }
-        public bool Fixed { get; set; }
-        public string ParentID { get; set; }
+        public string NickName { get; set; }
         public int AccTypeIDS { get; set; }
+        public System.DateTime RegTime { get; set; }
+        public bool Passed { get; set; }
+        public bool Fixed { get; set; }
         public string Valided { get; set; }
+        public string ParentID { get; set; }
     }
 }

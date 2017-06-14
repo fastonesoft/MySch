@@ -17,17 +17,21 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.IDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(32);
 
             this.Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.ParentID)
+            this.Property(t => t.NickName)
+                .IsRequired()
                 .HasMaxLength(32);
 
             this.Property(t => t.Valided)
                 .IsRequired()
+                .HasMaxLength(32);
+
+            this.Property(t => t.ParentID)
                 .HasMaxLength(32);
 
             // Table & Column Mappings
@@ -35,11 +39,13 @@ namespace MySch.Models.Mapping
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.RegTime).HasColumnName("RegTime");
-            this.Property(t => t.Fixed).HasColumnName("Fixed");
-            this.Property(t => t.ParentID).HasColumnName("ParentID");
+            this.Property(t => t.NickName).HasColumnName("NickName");
             this.Property(t => t.AccTypeIDS).HasColumnName("AccTypeIDS");
+            this.Property(t => t.RegTime).HasColumnName("RegTime");
+            this.Property(t => t.Passed).HasColumnName("Passed");
+            this.Property(t => t.Fixed).HasColumnName("Fixed");
             this.Property(t => t.Valided).HasColumnName("Valided");
+            this.Property(t => t.ParentID).HasColumnName("ParentID");
         }
     }
 }

@@ -65,5 +65,37 @@ namespace MySch.Controllers.Account
             Session.Abandon();
             return Json(new BllError { error = false, message = "退出成功" });
         }
+
+        //用户检测
+        public ActionResult Check()
+        {
+            var infor = WX_OAuserInfor.GetFromSession();
+            infor.CheckUser();
+            if (infor.isteach || infor.istudent)
+            {
+                return Content("");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public ActionResult Update(string tname)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                //提交审核
+                infor.AddTeach(tname);
+                return Json(new BllError { error = false, message = tname });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
     }
 }

@@ -744,6 +744,7 @@
     <Content Include="Views\Regs\AddMana.cshtml" />
     <Content Include="Views\Regs\AddOut.cshtml" />
     <Content Include="Views\Regs\Scan.cshtml" />
+    <Content Include="Views\Account\Check.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
