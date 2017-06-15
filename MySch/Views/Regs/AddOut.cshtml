@@ -20,7 +20,7 @@
             //提示
             var headloading = weui.loading('正在加载...');
             //加载js
-            $.post('/Regs/Jssdk', function (jsres) {
+            $.post('/Regs/JssdkEx', function (jsres) {
                 if (jsres.error) {
                     weui.topTips(jsres.message, 3000);
                 } else {
@@ -35,6 +35,7 @@
                         ]
                     });
 
+                    $('.weui-article').show();
                     //关闭
                     headloading.hide();
 
@@ -109,7 +110,7 @@
     </script>
 </head>
 <body ontouchstart>
-    <div class="weui-article" style="padding-top:0px;">
+    <div class="weui-article" style="padding-top:0px; display:none;">
         <form id="regs_out_form">
             <div class="weui-cells weui-cells_form">
                 <div class="weui-cell">

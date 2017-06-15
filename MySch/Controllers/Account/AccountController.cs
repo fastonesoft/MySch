@@ -144,13 +144,43 @@ namespace MySch.Controllers.Account
         }
 
         [HttpPost]
+        public ActionResult UnExam(string id)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(WX_OAuserInfor.UnExam(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
         public ActionResult Fixed(string id)
         {
             try
             {
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                return Json(WX_OAuserInfor.PassExam(infor.unionid, id));
+                return Json(WX_OAuserInfor.Fixed(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UnFixed(string id)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(WX_OAuserInfor.UnFixed(infor.unionid, id));
             }
             catch (Exception e)
             {

@@ -216,6 +216,27 @@ namespace MySch.Bll.WX.Model
             }
         }
 
+        public static TAcc UnExam(string examunion, string regunion)
+        {
+            try
+            {
+                if (examunion != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员，不好操作");
+
+                var entity = DataCRUD<TAcc>.Entity(a => a.ID == regunion);
+                if (entity == null) throw new Exception("数据查询异常");
+
+                entity.Passed = false;
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+
+                DataCRUD<TAcc>.Update(entity);
+                return entity;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static TAcc Fixed(string examunion, string regunion)
         {
             try
@@ -236,7 +257,27 @@ namespace MySch.Bll.WX.Model
                 throw e;
             }
         }
+  
+        public static TAcc UnFixed(string examunion, string regunion)
+        {
+            try
+            {
+                if (examunion != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员，不好操作");
 
+                var entity = DataCRUD<TAcc>.Entity(a => a.ID == regunion);
+                if (entity == null) throw new Exception("数据查询异常");
+
+                entity.Fixed = false;
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+
+                DataCRUD<TAcc>.Update(entity);
+                return entity;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
         public static void CheckExamRole(string unionid)
         {

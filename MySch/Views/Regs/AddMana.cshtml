@@ -20,7 +20,7 @@
             //提示
             var headloading = weui.loading('正在加载...');
             //加载js
-            $.post('/Regs/Jssdk', function (jsres) {
+            $.post('/Regs/JssdkEx', function (jsres) {
                 if (jsres.error) {
                     weui.topTips(jsres.message, 3000);
                 } else {
@@ -35,9 +35,9 @@
                         ]
                     });
 
+                    $('.weui-article').show();
                     //关闭
                     headloading.hide();
-
                     //
                     wx.ready(function () {
                         //隐藏所有非基本菜单项
@@ -108,7 +108,7 @@
     </script>
 </head>
 <body ontouchstart>
-    <div class="weui-article">
+    <div class="weui-article" style="display: none;">
         <form id="regs_mana_form">
             <h1 class="weui_cells_title">学生信息</h1>
             <div class="weui-cells weui-cells_form">
