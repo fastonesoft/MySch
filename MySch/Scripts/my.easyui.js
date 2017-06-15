@@ -189,7 +189,7 @@ function DataGridParams(gridID, url, params) {
 /////////////////////////////////////////////////
 //      无窗体动作
 ////////////////////////////////////////////////
-function DataGridRowsNoForm(gridID, url, Sucess) {
+function DataGridRowsNoForm(gridID, url, Success) {
     //选择网格
     var rows = $(gridID).datagrid('getSelections');
     if (rows.length == 0) {
@@ -202,7 +202,25 @@ function DataGridRowsNoForm(gridID, url, Sucess) {
             $.messager.alert('错误提示', d.message, 'error');
         } else {
             //提交成功
-            Sucess(d);
+            Success(d);
+        }
+    });
+}
+
+function DataGridRowNoForm(gridID, url, Success) {
+    //选择网格
+    var row = $(gridID).datagrid('getSelected');
+    if (!row) {
+        $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
+        return false;
+    }
+    //提交数据
+    $.post(url, { id: row.ID }, function (res) {
+        if (res.error) {
+            $.messager.alert('错误提示', res.message, 'error');
+        } else {
+            //提交成功
+            Success(res);
         }
     });
 }

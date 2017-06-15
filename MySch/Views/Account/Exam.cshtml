@@ -9,16 +9,13 @@
         <thead>
             <tr>
                 <td>
-                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="acc_exam.edit();">修改</a>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="acc_exam.edit();">通过审核</a>
                 </td>
-                <td style="width:5px;"></td>
                 <td>
-                    <span class="textbox">
-                        <input class="textbox-text" id="acc_exam-grid-text" />
-                    </span>
+                    <div class="datagrid-btn-separator"></div>
                 </td>
-                <td style="padding-left:5px;">
-                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="acc_exam.search();">查询</a>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-remove" plain="true" onclick="acc_exam.fixed();">冻结</a>
                 </td>
                 <td>
                     <div class="datagrid-btn-separator"></div>
@@ -33,24 +30,24 @@
 <script type="text/javascript">
     //点击动作
     acc_exam = {
-        add: function () {
-            DataGridNone('/Account/Add');
-        },
         edit: function () {
-            DataGridRowID('#acc_exam-grid', '/Account/Edit');
+            DataGridRowNoForm('#acc_exam-grid', '/Account/PassExam', function (res) {
+                var row = $('#acc_exam-grid').datagrid('getSelected');
+                var index = $('#acc_exam-grid').datagrid('getRowIndex', row);
+                $('#acc_exam-grid').datagrid('updateRow', { index: index, row: res });
+            });
         },
-        del: function () {
-            DataGridRowID('#acc_exam-grid', '/Account/Del');
-        },
-        search: function () {
-            DataGridSearch('#acc_exam-grid-text', '#acc_exam-grid', '/Account/Search');
+        fixed: function () {
+            DataGridRowNoForm('#acc_exam-grid', '/Account/Fixed', function (res) {
+                var row = $('#acc_exam-grid').datagrid('getSelected');
+                var index = $('#acc_exam-grid').datagrid('getRowIndex', row);
+                $('#acc_exam-grid').datagrid('updateRow', { index: index, row: res });
+            });
         },
         refresh: function () {
             DataGridRefresh('#acc_exam-grid', '/Account/DataGrid')
         }
     }
-    //用户查询
-    DataGridSearchPress('#acc_exam-grid-text', '#acc_exam-grid', '/Account/Search')
     //数据表格
     $('#acc_exam-grid').datagrid({
         fit: true,
@@ -81,6 +78,20 @@
                 },
                 styler: function (value, row, index) {
                     if (value) {
+                        return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                    } else {
+                        return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
+                    }
+                }
+            },
+            {
+                title: '帐号冻结', field: 'Fixed', halign: 'center', sortable: true, width: 100,
+                formatter: function (value, row, index) {
+                    //不输出任何东西
+                    //return value.ok ? null : value.message;
+                },
+                styler: function (value, row, index) {
+                    if (!value) {
                         return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
                     } else {
                         return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";

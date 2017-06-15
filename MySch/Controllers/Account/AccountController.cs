@@ -102,7 +102,7 @@ namespace MySch.Controllers.Account
             try
             {
                 var infor = WX_OAuserInfor.GetFromSession();
-                if (infor.unionid != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员");
+                if (infor.unionid != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员，不好操作");
 
                 return View();
             }
@@ -119,7 +119,7 @@ namespace MySch.Controllers.Account
             {
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                var res = WX_OAuserInfor.ExamGrid(page, rows);
+                var res = WX_OAuserInfor.ExamGrid(infor.unionid, page, rows);
                 return Json(res);
             }
             catch (Exception e)
@@ -128,6 +128,34 @@ namespace MySch.Controllers.Account
             }
         }
 
+        [HttpPost]
+        public ActionResult PassExam(string id)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
 
+                return Json(WX_OAuserInfor.PassExam(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Fixed(string id)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(WX_OAuserInfor.PassExam(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
     }
 }

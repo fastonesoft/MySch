@@ -24,13 +24,13 @@
 
     <script src="~/Scripts/jquery.easyui.min.js"></script>
     <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
-    <script src="~/Scripts/my.easyui.js"></script>
+    <script src="~/Scripts/my.easyui.js?@r.ToString()"></script>
 
     <script src="~/Scripts/my.md5.js"></script>
 </head>
 <body>
     <div id="my-user-lay" class="my-bodyer">
-        <div data-options="region:'north',border:false" style="height:88px;">
+        <div data-options="region:'north',border:false" style="height:88px; font-size: 14px;">
             <div class="my-header noprint">
                 <div class="my-topleft">
                     <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" /></a>
@@ -43,7 +43,7 @@
                     </ul>
 
                     <div class="my-user">
-                        <span id="my_user_name">@ViewBag.UserName</span>
+                        <span id="my_user_name" >@ViewBag.UserName</span>
                         <b>0</b>
                     </div>
 
