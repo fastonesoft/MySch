@@ -31,7 +31,7 @@ namespace MySch.Bll.WX.Model
                 entity.SchChoose = choose;
                 entity.Examed = true;
                 entity.ExamUID = examuid;
-                entity.RegNo = kao.ToString().PadLeft(2, '0') + seat.ToString().PadLeft(2, '0');
+                entity.RegNo = entity.RegNo == null ? kao.ToString().PadLeft(2, '0') + seat.ToString().PadLeft(2, '0') : entity.RegNo;
                 DataCRUD<Student>.Update(entity);
             }
             catch (Exception e)
