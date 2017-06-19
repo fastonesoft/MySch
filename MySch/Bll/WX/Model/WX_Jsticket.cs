@@ -29,7 +29,7 @@ namespace MySch.Bll.WX.Model
                         return token.ticket;
                     }
                 }
-
+                
                 //读取jsticket
                 token = WX_Url.Jsticket(accessToken);
                 //设置时间

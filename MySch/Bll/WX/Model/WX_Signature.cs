@@ -25,6 +25,9 @@ namespace MySch.Bll.WX.Model
             noncestr = Guid.NewGuid().ToString("N");
             //
             var str = string.Format("jsapi_ticket={0}&noncestr={1}&timestamp={2}&url={3}", sticket, noncestr, timestamp, surl);
+
+            WX_Log.Add(str);
+
             //
             signature = Setting.GetSHA1(str).ToLower();
             //绑定的学生
