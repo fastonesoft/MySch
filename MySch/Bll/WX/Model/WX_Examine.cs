@@ -9,7 +9,7 @@ namespace MySch.Bll.WX.Model
 {
     public class WX_Examine
     {
-        public static void Examine(string id, bool choose, string examuid)
+        public static object Examine(string id, bool choose, string examuid)
         {
             try
             {
@@ -33,6 +33,27 @@ namespace MySch.Bll.WX.Model
                 entity.ExamUID = examuid;
                 entity.RegNo = entity.RegNo == null ? kao.ToString().PadLeft(2, '0') + seat.ToString().PadLeft(2, '0') : entity.RegNo;
                 DataCRUD<Student>.Update(entity);
+
+                return new WX_KeyValue { key = entity.Name, value = entity.RegNo };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static object PassStuds(string examuid)
+        {
+            try
+            {
+                var entitys = DataCRUD<Student>.Entitys(a => a.Examed && a.ExamUID == examuid);
+                var keys = from entity in entitys
+                           select new WX_KeyValue
+                           {
+                               key = entity.Name,
+                               value = entity.RegNo
+                           };
+                return keys;
             }
             catch (Exception e)
             {

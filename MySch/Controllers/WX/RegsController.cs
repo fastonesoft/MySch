@@ -253,17 +253,36 @@ namespace MySch.Controllers.WX
             {
                 //检测页面、用户
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
-                var user = WX_OAuserInfor.GetFromSession();
+                var infor = WX_OAuserInfor.GetFromSession();
 
                 //审核
-                WX_Examine.Examine(ID, Choose, user.unionid);
-                return Json(new BllError { error = false, message = "审核提交成功" });
+                return Json(WX_Examine.Examine(ID, Choose, infor.unionid));
             }
             catch (Exception e)
             {
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        //审核人数查询
+        [HttpPost]
+        public ActionResult PassStuds()
+        {
+            try
+            {
+                //检测页面、用户
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                //审核过的学生
+                return Json(WX_Examine.PassStuds(infor.unionid));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
 
         ////////////////////////////////////////////////
 

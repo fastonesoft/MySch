@@ -38,6 +38,21 @@
 
                     //
                     $('#regs_exam_query').show();
+                    //
+                    $.post('/Regs/PassStuds', function (res) {
+                        if (res.error) {
+                            weui.topTips(res.message, 3000);
+                        } else {
+                            $.each(res, function () {
+                                var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
+                                $item.find('label').text(this.key);
+                                $item.find('span').text(this.value);
+                                $item.appendTo($('#regs_exam_studs_list'));
+                            });
+                            //人数
+                            $('#regs_exam_studs_count').text($('#regs_exam_studs_list div').length);
+                        }
+                    });
                     //关闭
                     headloading.hide();
                     //
@@ -234,7 +249,14 @@
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
-                                        weui.toast(res.message, 2000);
+                                        weui.toast('审核成功', 2000);
+                                        //添加
+                                        var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
+                                        $item.find('label').text(res.key);
+                                        $item.find('span').text(res.value);
+                                        $item.prependTo($('#regs_exam_studs_list'));
+                                        //人数
+                                        $('#regs_exam_studs_count').text($('#regs_exam_studs_list div').length);
                                         //反馈
                                         $('#regs_exam_idc input').val('');
                                         hideExam();
@@ -242,6 +264,17 @@
                                 })
                             }, function () { }, { title: '报名审核' });
                         });
+
+                        //审核学生列表
+                        $('#regs_exam_studs_list_click').click(function () {
+                            if ($('#regs_exam_studs_list').is(':visible')) {
+                                $('#regs_exam_studs_list').hide();
+                            } else {
+                                $('#regs_exam_studs_list').show();
+                            }
+                        });
+
+
                     });
 
                     //错误检测
@@ -275,12 +308,39 @@
                 <a id="regs_exam_scan" href="javascript:" class="weui-btn weui-btn_primary">学生：查询/识别</a>
             </div>
         </form>
+
+        <div class="weui-form-preview" style="margin-top: 20px;">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">审核人数</label>
+                    <em id="regs_exam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">学生姓名</label>
+                    <span class="weui-form-preview__value">录取编号</span>
+                </div>
+                <div id="regs_exam_studs_list" style="display: none;">
+                </div>
+            </div>
+            <div class="weui-form-preview__ft">
+                <a id="regs_exam_studs_list_click" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">学生：显示/隐藏</a>
+            </div>
+        </div>
+
     </div>
+
     <form id="regs_exam_stud" style="display:none; margin-bottom:20px;">
         <div class="weui-article" style="padding-bottom: 0px;">
             <div class="regs_exam_upload">
                 <h1 id="regs_exam_name">学生姓名</h1>
                 <div id="regs_exam_normal">
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="photo">学生照片</a>
+                    </div>
+                    <div id="regs_exam_image_photo" class="regs_exam_image">
+                    </div>
                     <div class="weui-btn-area">
                         <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
                     </div>
