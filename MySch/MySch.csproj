@@ -277,6 +277,7 @@
     <Compile Include="Controllers\WX\MenuController.cs" />
     <Compile Include="Controllers\WX\RegsController.cs" />
     <Compile Include="Controllers\WX\WeiController.cs" />
+    <Compile Include="Controllers\WX\WxConController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataCRUD.cs" />
     <Compile Include="Global.asax.cs">
@@ -746,6 +747,7 @@
     <Content Include="Views\Regs\Scan.cshtml" />
     <Content Include="Views\Account\Check.cshtml" />
     <Content Include="Views\Account\Exam.cshtml" />
+    <Content Include="Views\WxCon\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
