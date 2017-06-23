@@ -207,9 +207,9 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                //根据“=”将参数分隔：http://control/action/?name=XXXXXXXX
-                var id = url.Split('=');
-                var entity = CanDelete(id[1]);
+                //根据“=”将参数分隔：http://control/action/XXXXXXXX(32位)
+                var id = url.Substring(url.Length - 32, 32);
+                var entity = CanDelete(id);
                 DataCRUD<WxUploadFile>.Delete(entity);
 
                 return "图片已删除";

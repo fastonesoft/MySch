@@ -35,6 +35,21 @@
                     });
 
                     $('.weui-article').show();
+                    //
+                    $.post('/Regs/NotPassStuds', function (res) {
+                        if (res.error) {
+                            weui.topTips(res.message, 3000);
+                        } else {
+                            $.each(res, function () {
+                                var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
+                                $item.find('label').text(this.key);
+                                $item.find('span').text(this.value);
+                                $item.appendTo($('#regs_rexam_studs_back'));
+                            });
+                            //人数
+                            $('#regs_rexam_studs_count').text($('#regs_rexam_studs_back div').length);
+                        }
+                    });
                     //关闭
                     headloading.hide();
                     //
@@ -144,6 +159,19 @@
                                 })
                             }, function () { }, { title: '审核退回' });
                         });
+
+
+                        //审核学生列表
+                        $('#regs_rexam_studs_back_click').click(function () {
+                            if ($('#regs_rexam_studs_back').is(':visible')) {
+                                $('#regs_rexam_studs_back').hide();
+                            } else {
+                                $('#regs_rexam_studs_back').show();
+                            }
+                        });
+
+
+
                     });
 
                     //错误检测
@@ -181,47 +209,27 @@
             </div>
             <input id="regs_rexam_id" type="hidden">
         </div>
-    </div>
 
-    <div class="weui-form-preview" style="margin-top: 20px;">
-        <div class="weui-form-preview__hd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">退回审核人数</label>
-                <em id="regs_exam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
+        <div class="weui-form-preview" style="margin-top: 20px;">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">未审核人数</label>
+                    <em id="regs_rexam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">学生姓名</label>
+                    <span class="weui-form-preview__value">录取编号</span>
+                </div>
+                <div id="regs_rexam_studs_back" style="display: none;">
+                </div>
+            </div>
+            <div class="weui-form-preview__ft">
+                <a id="regs_rexam_studs_back_click" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">学生：显示/隐藏</a>
             </div>
         </div>
-        <div class="weui-form-preview__bd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">学生姓名</label>
-                <span class="weui-form-preview__value">录取编号</span>
-            </div>
-            <div id="regs_exam_studs_back" style="display: none;">
-            </div>
-        </div>
-        <div class="weui-form-preview__ft">
-            <a id="regs_exam_studs_back_click" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">学生：显示/隐藏</a>
-        </div>
-    </div>
 
-    <div class="weui-form-preview" style="margin-top: 20px;">
-        <div class="weui-form-preview__hd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">报名未核人数</label>
-                <em id="regs_exam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
-            </div>
-        </div>
-        <div class="weui-form-preview__bd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">学生姓名</label>
-                <span class="weui-form-preview__value">录取编号</span>
-            </div>
-            <div id="regs_exam_studs_reg" style="display: none;">
-            </div>
-        </div>
-        <div class="weui-form-preview__ft">
-            <a id="regs_exam_studs_reg_click" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">学生：显示/隐藏</a>
-        </div>
     </div>
-
 </body>
 </html>

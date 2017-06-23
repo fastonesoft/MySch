@@ -110,7 +110,7 @@
                                             }
                                             weui.topTips(res.message.value, 3000);
                                         } else {
-                                            $('#regs_reged_image').attr('src', '/Image/code?content=' + res.message.key);
+                                            $('#regs_reged_image').attr('src', '/Image/code/' + res.message.key);
                                             $('#regs_reged_name').text(res.message.value + '：');
                                             $('#regs_reged .weui-btn').removeClass('weui-btn_disabled');
                                             //
@@ -138,7 +138,7 @@
                                         } else {
                                             //更新
                                             var $id = $('#regs_reged_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded?name=' + uploadres.message).prependTo($id);
+                                            $('<img>').attr('src', '/Image/Uploaded/' + uploadres.message).prependTo($id);
                                         }
                                     })
                                     if (localIds.length > 0) {

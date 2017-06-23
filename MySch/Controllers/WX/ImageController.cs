@@ -13,9 +13,9 @@ namespace MySch.Controllers.WX
     {
 
         //图文图片
-        public void Code(string content)
+        public void Code(string id)
         {
-            XingCode.CodeOutputStream(360, 150, content, 0, BarcodeFormat.QR_CODE);
+            XingCode.CodeOutputStream(360, 150, id, 0, BarcodeFormat.QR_CODE);
         }
 
         //我的关注
@@ -25,22 +25,22 @@ namespace MySch.Controllers.WX
         }
 
         //我的图片
-        public void Image(string name)
+        public void Image(string id)
         {
-            var fileName = "~/Images/" + name + ".jpg";
+            var fileName = "~/Images/" + id + ".jpg";
             XingCode.CodeOutputStream(fileName);
         }
 
         //图文缩略图
-        public void Nail(string name)
+        public void Nail(string id)
         {
-            WXImage.CutForSquare(name, 200);
+            WXImage.CutForSquare(id, 200);
         }
 
         //图片浏览
-        public void Uploaded(string name)
+        public void Uploaded(string id)
         {
-            var fileName = "~/Upload/XueImages/" + name + ".jpg";
+            var fileName = "~/Upload/XueImages/" + id + ".jpg";
             XingCode.CodeOutputStream(fileName);
         }
     }

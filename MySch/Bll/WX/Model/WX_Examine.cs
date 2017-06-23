@@ -60,6 +60,24 @@ namespace MySch.Bll.WX.Model
                 throw e;
             }
         }
+        public static object NotPassStuds()
+        {
+            try
+            {
+                var entitys = DataCRUD<Student>.Entitys(a => a.Examed == false);
+                var keys = from entity in entitys
+                           select new WX_KeyValue
+                           {
+                               key = entity.Name,
+                               value = entity.RegNo
+                           };
+                return keys;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
         public static void Rexamine(string id)
         {

@@ -74,7 +74,7 @@
                                             }
                                             weui.topTips(res.message.value, 3000);
                                         } else {
-                                            $('#regs_manaed_image').attr('src', '/Image/code?content=' + res.message.key + '&r=' + Math.random());
+                                            $('#regs_manaed_image').attr('src', '/Image/code/' + res.message.key + '?r=' + Math.random());
                                             $('#regs_manaed_name').text(res.message.value + '：');
                                             $('#regs_mana_upload').addClass('weui-btn_disabled');
                                             //

@@ -354,6 +354,25 @@ namespace MySch.Controllers.WX
             }
         }
 
+        [HttpPost]
+        public ActionResult NotPassStuds()
+        {
+            try
+            {
+                //检测页面、用户
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                //审核过的学生
+                return Json(WX_Examine.NotPassStuds());
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+
         /////////////////////////////
         //手动注册
         public ActionResult AddMana(WX_OAuth auth)
