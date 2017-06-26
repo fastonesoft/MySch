@@ -984,14 +984,6 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 
 
 
-----权限设置
---create table ARole
---(
-	
---)
---go
-
-
 
 
 
