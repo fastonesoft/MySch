@@ -16,6 +16,7 @@ namespace MySch.Models
         public string RegUID { get; set; }
         public bool Examed { get; set; }
         public string ExamUID { get; set; }
+        public string ExamUIDe { get; set; }
         public string Mobil1 { get; set; }
         public string Mobil2 { get; set; }
         public string Name1 { get; set; }

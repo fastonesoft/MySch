@@ -673,6 +673,7 @@ create table Student
 	--
 	Examed	bit not null,	--是否审核通过
 	ExamUID	nvarchar(32),	--审核人
+	ExamUIDe	nvarchar(32),	--复核人
 	--
 	Mobil1	nvarchar(20),	--联系电话一
 	Mobil2	nvarchar(20),	--联系电话二

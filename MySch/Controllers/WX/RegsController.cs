@@ -286,7 +286,7 @@ namespace MySch.Controllers.WX
 
         ////////////////////////////////////////////////
 
-        //退回审核
+        //退回审核  ->  材料复核
         public ActionResult Rexamine(WX_OAuth auth)
         {
             try

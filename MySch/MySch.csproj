@@ -294,7 +294,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\ADatum.cs" />
-    <Compile Include="Models\AdUrl.cs" />
     <Compile Include="Models\APage.cs" />
     <Compile Include="Models\ATheme.cs" />
     <Compile Include="Models\Kao.cs" />

@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>材料审核</title>
+    <title>材料初审</title>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -265,15 +265,6 @@
                             }, function () { }, { title: '报名审核' });
                         });
 
-                        //审核学生列表
-                        $('#regs_exam_studs_list_click').click(function () {
-                            if ($('#regs_exam_studs_list').is(':visible')) {
-                                $('#regs_exam_studs_list').hide();
-                            } else {
-                                $('#regs_exam_studs_list').show();
-                            }
-                        });
-
 
                     });
 
@@ -319,13 +310,10 @@
             <div class="weui-form-preview__bd">
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">学生姓名</label>
-                    <span class="weui-form-preview__value">录取编号</span>
+                    <span class="weui-form-preview__value">身份证号</span>
                 </div>
-                <div id="regs_exam_studs_list" style="display: none;">
+                <div id="regs_exam_studs_list">
                 </div>
-            </div>
-            <div class="weui-form-preview__ft">
-                <a id="regs_exam_studs_list_click" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">学生：显示/隐藏</a>
             </div>
         </div>
 
@@ -386,5 +374,15 @@
         <input type="hidden" id="regs_exam_id" />
         <input type="hidden" id="regs_exam_namex" />
     </form>
+
+    <div style="display:none; margin-top: 20px;" id="regs_manaed">
+        <img src="" id="regs_manaed_image" />
+        <h2 id="regs_manaed_name">学生姓名</h2>
+        <h3>　　复核的老师扫二维码完成材料复核，</h3>
+        <div class="weui-btn-area">
+            <a id="regs_mana_remana" href="javascript:" class="weui-btn weui-btn_warn">下一个</a>
+        </div>
+    </div>
+
 </body>
 </html>

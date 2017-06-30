@@ -34,7 +34,7 @@ namespace MySch.Bll.WX.Model
                 entity.RegNo = entity.RegNo == null ? kao.ToString().PadLeft(2, '0') + seat.ToString().PadLeft(2, '0') : entity.RegNo;
                 DataCRUD<Student>.Update(entity);
 
-                return new WX_KeyValue { key = entity.Name, value = entity.RegNo };
+                return new WX_KeyValue { key = entity.Name, value = entity.IDC };
             }
             catch (Exception e)
             {
@@ -51,7 +51,7 @@ namespace MySch.Bll.WX.Model
                            select new WX_KeyValue
                            {
                                key = entity.Name,
-                               value = entity.RegNo
+                               value = entity.IDC
                            };
                 return keys;
             }
