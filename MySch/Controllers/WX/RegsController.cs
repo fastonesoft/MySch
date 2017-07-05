@@ -504,5 +504,24 @@ namespace MySch.Controllers.WX
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        [HttpPost]
+        public ActionResult UnBindStudByScan(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var name = StudInfor.UnBindStudByScan(idc, infor.unionid);
+                return Json(new BllError { error = false, message = name });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+
     }
 }

@@ -78,8 +78,30 @@
                                     });
                                 }
                             });
+                        });
+
+                        //解绑
+                        $('#regs_scan_unbind').click(function () {
+                            //普通
+                            weui.confirm('　确认解除与【' + jsres.name + '】的绑定？', function () {
+                                $.post('/Regs/UnBindStudByScan', { id: jsres.idc }, function (res) {
+                                    if (res.error) {
+                                        weui.topTips(res.message, 3000);
+                                    } else {
+                                        weui.toast(res.message, 2000);
+                                        //反馈
+                                        $('#regs_rexam_finded').hide();
+                                        $('#regs_rexam_id').val('');
+                                        $('#regs_rexam_idc input').val('');
+                                        $('#regs_rexam_name').text('学生姓名');
+                                    }
+                                })
+                            }, function () { }, { title: '审核退回' });
 
                         });
+
+
+
                     });
 
                     //错误检测
@@ -105,6 +127,11 @@
             <h3 class="weui-msg__desc" id="regs_scaned_name" style="color:red;"></h3>
             <p class="weui-msg__desc">已完成与微信号的绑定</p>
         </div>
+
+        <div class="weui-btn-area">
+            <a id="regs_scan_unbind" href="javascript:" class="weui-btn weui-btn_warn">解除绑定</a>
+        </div>
+
     </div>
 
     <div id="regs_scan_foot" class="weui-msg__extra-area">

@@ -69,5 +69,17 @@ namespace MySch.Bll.Retu
                 throw e;
             }
         }
+
+        public static void UnBindStud(string id)
+        {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {                
+                throw e;
+            }
+        }
     }
 }
