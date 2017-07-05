@@ -33,6 +33,7 @@
                         $('#regs_reged_name').text(jsres.name + '：');
                         $('#regs_examed_name').text(jsres.name);
                         $('#regs_examed_regno').text(jsres.regno);
+                        $('#regs_examing_name').text(jsres.name);
                         $.post('/Regs/GetImagesType', function (res) {
                             if (res.error) {
                                 weui.topTips(res.message, 3000);
@@ -46,11 +47,16 @@
                             }
                         });
                         if (jsres.exam) {
-                            //审核通过
-                            $('#regs_examed').fadeIn();
+                            if (jsres.rexamuid == null) {
+                                //正在审核
+                                $('#regs_examing').fadeIn();
+                            } else {
+                                //审核通过
+                                $('#regs_examed').fadeIn();
+                            }
                         } else {
                             //启用
-                            $('#regs_reged .weui-btn').removeClass('weui-btn_disabled');
+                            $('#regs_reged .weui-btn:first').removeClass('weui-btn_disabled');
                             $('#regs_reged').fadeIn();
                         }
                     }
@@ -219,11 +225,12 @@
                         });
 
                         //显示注册
-                        $('#regs_examed_show').click(function () {
+                        $('#regs_examed_show, #regs_examing_show').click(function () {
                             if ($('#regs_reged').is(":visible")) {
                                 $('#regs_reged').hide();
                             } else {
                                 $('#regs_reged_message').hide();
+                                $('#regs_reged_group').show();
                                 $('#regs_reged').fadeIn();
                             }
                         });
@@ -238,7 +245,9 @@
         })
     </script>
     <style type="text/css">
-        .regs_reged_image { margin-top: 10px;  }
+        .regs_reged_image {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body ontouchstart>
@@ -295,52 +304,66 @@
         </div>
     </div>
 
+    <div class="weui-msg" id="regs_examing" style="display:none;">
+        <div class="weui-msg__icon-area"><i class="weui-icon-waiting weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <p class="weui-msg__desc"><span id="regs_examing_name" style="color:red; margin-right:10px;">1101</span>你的报名信息正在审核当中，请稍等</p>
+        </div>
+        <div class="weui-msg__opr-area" style="margin-bottom:0px;">
+            <p class="weui-btn-area">
+                <a href="javascript:" id="regs_examing_show" class="weui-btn weui-btn_default">显示/隐藏 报名信息</a>
+            </p>
+        </div>
+    </div>
+
+
     <div class="weui-article" id="regs_reged" style="display:none;">
         <div class="regs_reged_upload">
             <img src="" id="regs_reged_image" />
             <h2 id="regs_reged_name">学生姓名</h2>
             <h2>　　已完成报名信息采集</h2>
             <div id="regs_reged_message">
-                <h2>　　请点击【绿色按钮】分类上传所需材料原件的图片，然后到报名窗口出示二维码审核。</h2>
-                <h1 style="color: red;">　　注意：图片从正上方拍摄，要清晰。</h1>
                 <h2 style="color: red;">　　图片如果上传错误，先点击图片，然后确认删除，再重新上传。</h2>
             </div>
             <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="photo">照片</a>
+                <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="photo">学生照片</a>
             </div>
             <h2>　　报名学生近期免冠彩色照片，可以找专业摄影拍，也可以直接用手机拍，但，背景必须为浅蓝色。</h2>
             <div id="regs_reged_image_photo" class="regs_reged_image">
             </div>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
-            </div>
-            <h2>　　2017届的小学毕业证书（或学籍证明），不是今年的毕业生无法参加报名注册！</h2>
-            <div id="regs_reged_image_grade" class="regs_reged_image">
-            </div>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="house">产权证</a>
-            </div>
-            <h2>　　住房产权（不动产）证明，必须是实验初中施教区的，且是报名学生父母所拥有的。其它人的房产证，请完善证明手续，一起上传。</h2>
-            <div id="regs_reged_image_house" class="regs_reged_image">
-            </div>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="card">身份证</a>
-            </div>
-            <h2>　　父母（或其法定监护人）身份证。</h2>
-            <div id="regs_reged_image_card" class="regs_reged_image">
-            </div>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="city">户口簿</a>
-            </div>
-            <h2>　　同一个户口簿上，直接上传房屋产权人、报名学生户口簿的照片。</h2>
-            <h2>　　不在同一户口簿，还要补充上传：医学出生证明，或者，派出所户籍管理部门出具的房屋产权人与学生关系的证明。</h2>
-            <div id="regs_reged_image_city" class="regs_reged_image">
-            </div>
-            <div class="weui-btn-area">
-                <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="paper">补充协议书</a>
-            </div>
-            <h2>　　施教区的学生，无须上传。</h2>
-            <div id="regs_reged_image_paper" class="regs_reged_image">
+
+            <div id="regs_reged_group" style="display:none;">
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
+                </div>
+                <h2>　　2017届的小学毕业证书（或学籍证明），不是今年的毕业生无法参加报名注册！</h2>
+                <div id="regs_reged_image_grade" class="regs_reged_image">
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="house">产权证</a>
+                </div>
+                <h2>　　住房产权（不动产）证明，必须是实验初中施教区的，且是报名学生父母所拥有的。其它监护人的房产证，请完善证明手续，一起上传。</h2>
+                <div id="regs_reged_image_house" class="regs_reged_image">
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="card">身份证</a>
+                </div>
+                <h2>　　父母（或其法定监护人）身份证。</h2>
+                <div id="regs_reged_image_card" class="regs_reged_image">
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="city">户口簿</a>
+                </div>
+                <h2>　　同一个户口簿上，直接上传房屋产权人、报名学生户口簿的照片。</h2>
+                <h2>　　不在同一户口簿，还要补充上传：医学出生证明，或者，派出所户籍管理部门出具的房屋产权人与学生关系的证明。</h2>
+                <div id="regs_reged_image_city" class="regs_reged_image">
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="paper">补充协议书</a>
+                </div>
+                <h2>　　施教区的学生，无须上传。</h2>
+                <div id="regs_reged_image_paper" class="regs_reged_image">
+                </div>
             </div>
         </div>
     </div>

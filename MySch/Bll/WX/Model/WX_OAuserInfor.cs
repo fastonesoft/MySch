@@ -26,6 +26,8 @@ namespace MySch.Bll.WX.Model
         public string name { get; set; }
         public string regno { get; set; }
         public bool exam { get; set; }
+        public string examuid { get; set; }
+        public string rexamuid { get; set; }
 
         //缓存
         public void ToSession()
@@ -86,6 +88,8 @@ namespace MySch.Bll.WX.Model
                     name = entity.Name;
                     exam = entity.Examed;
                     regno = entity.RegNo;
+                    examuid = entity.ExamUID;
+                    rexamuid = entity.ExamUIDe;
                 }
                 //不需要提示出错
             }

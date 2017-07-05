@@ -16,8 +16,10 @@ namespace MySch.Bll.WX.Model
         public string name { get; set; }
         public string regno { get; set; }
         public bool exam { get; set; }
+        public string examuid { get; set; }
+        public string rexamuid { get; set; }
 
-        public WX_Signature(string sappid, string sticket, string surl, string sidc, string sname,string sregno, bool bexam)
+        public WX_Signature(string sappid, string sticket, string surl, string sidc, string sname,string sregno, bool bexam, string sexamuid, string srexamuid)
         {
             appid = sappid;
             //
@@ -26,8 +28,6 @@ namespace MySch.Bll.WX.Model
             //
             var str = string.Format("jsapi_ticket={0}&noncestr={1}&timestamp={2}&url={3}", sticket, noncestr, timestamp, surl);
 
-            WX_Log.Add(str);
-
             //
             signature = Setting.GetSHA1(str).ToLower();
             //绑定的学生
@@ -35,6 +35,9 @@ namespace MySch.Bll.WX.Model
             name = sname;
             exam = bexam;
             regno = sregno;
+            //
+            examuid = sexamuid;
+            rexamuid = srexamuid;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //签名算法
-                var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam);
+                var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam, infor.examuid, infor.rexamuid);
 
                 //序列化
                 return Json(signature);
@@ -76,7 +76,7 @@ namespace MySch.Controllers.WX
                 WX_OAuserInfor.CheckExamRole(infor.unionid);
 
                 //签名算法
-                var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam);
+                var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam, infor.examuid, infor.rexamuid);
 
                 //序列化
                 return Json(signature);
@@ -345,8 +345,25 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                WX_Examine.Rexamine(id);
-                return Json(new BllError { error = false, message = "审核退回成功" });
+                WX_Examine.Rexamine(id, infor.unionid);
+                return Json(new BllError { error = false, message = "材料复核成功" });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RollById(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                WX_Examine.Rexamine(id, infor.unionid);
+                return Json(new BllError { error = false, message = "复核材料退回" });
             }
             catch (Exception e)
             {

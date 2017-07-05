@@ -303,18 +303,24 @@
         <div class="weui-form-preview" style="margin-top: 20px;">
             <div class="weui-form-preview__hd">
                 <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">审核人数</label>
+                    <label class="weui-form-preview__label">通过审核的学生人数</label>
                     <em id="regs_exam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
                 </div>
             </div>
             <div class="weui-form-preview__bd">
                 <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">学生姓名</label>
+                    <label class="weui-form-preview__label">通过初审的学生</label>
                     <span class="weui-form-preview__value">身份证号</span>
                 </div>
                 <div id="regs_exam_studs_list">
                 </div>
             </div>
+        </div>
+
+        <div class="weui-msg__opr-area" style="margin-top:20px;">
+            <p class="weui-btn-area">
+                <a href="javascript:" id="regs_examed_show" class="weui-btn weui-btn_default">刷新：审核学生名单</a>
+            </p>
         </div>
 
     </div>
@@ -369,16 +375,16 @@
             </label>
         </div>
         <div class="weui-btn-area">
-            <a id="regs_exam_success" href="javascript:" class="weui-btn weui-btn_warn weui-btn_disabled">通过审核</a>
+            <a id="regs_exam_success" href="javascript:" class="weui-btn weui-btn_warn weui-btn_disabled">通过初审</a>
         </div>
         <input type="hidden" id="regs_exam_id" />
         <input type="hidden" id="regs_exam_namex" />
     </form>
 
     <div style="display:none; margin-top: 20px;" id="regs_manaed">
-        <img src="" id="regs_manaed_image" />
+        <img src="" id="regs_exam_image" />
         <h2 id="regs_manaed_name">学生姓名</h2>
-        <h3>　　复核的老师扫二维码完成材料复核，</h3>
+        <h3>　　已完成初审，扫描二维码，可查询其相关信息进行材料复核。</h3>
         <div class="weui-btn-area">
             <a id="regs_mana_remana" href="javascript:" class="weui-btn weui-btn_warn">下一个</a>
         </div>
