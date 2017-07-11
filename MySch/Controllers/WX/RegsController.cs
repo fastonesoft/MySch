@@ -245,7 +245,7 @@ namespace MySch.Controllers.WX
             }
         }
 
-        //审核动作
+        //通过初审
         [HttpPost]
         public ActionResult PassExamine(string ID, bool Choose)
         {
@@ -264,9 +264,9 @@ namespace MySch.Controllers.WX
             }
         }
 
-        //审核人数查询
+        //通过初审人员查询，未通过初审人数统计
         [HttpPost]
-        public ActionResult PassStuds()
+        public ActionResult ExamedStuds()
         {
             try
             {
@@ -275,7 +275,7 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //审核过的学生
-                return Json(WX_Examine.PassStuds(infor.unionid));
+                return Json(WX_Examine.ExamedStuds(infor.unionid));
             }
             catch (Exception e)
             {
@@ -311,7 +311,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                var sinfor = StudInfor.StudRexamineByIdc(idc);
+                var sinfor = StudInfor.StudRexamineByIdc(idc, infor.unionid);
                 return Json(sinfor);
             }
             catch (Exception e)
@@ -328,7 +328,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                var sinfor = StudInfor.StudRexamineByScan(idc);
+                var sinfor = StudInfor.StudRexamineByScan(idc, infor.unionid);
                 return Json(sinfor);
             }
             catch (Exception e)
@@ -337,6 +337,7 @@ namespace MySch.Controllers.WX
             }
         }
 
+        //通过复核
         [HttpPost]
         public ActionResult RexamById(string id)
         {
@@ -345,8 +346,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                WX_Examine.Rexamine(id, infor.unionid);
-                return Json(new BllError { error = false, message = "材料复核成功" });
+                return Json(WX_Examine.Rexamine(id, infor.unionid));
             }
             catch (Exception e)
             {
@@ -354,6 +354,7 @@ namespace MySch.Controllers.WX
             }
         }
 
+        //退回重审
         [HttpPost]
         public ActionResult RollById(string id)
         {
@@ -362,7 +363,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                WX_Examine.Rexamine(id, infor.unionid);
+                WX_Examine.Roll(id);
                 return Json(new BllError { error = false, message = "复核材料退回" });
             }
             catch (Exception e)
@@ -372,7 +373,7 @@ namespace MySch.Controllers.WX
         }
 
         [HttpPost]
-        public ActionResult NotPassStuds()
+        public ActionResult RexamedStuds()
         {
             try
             {
@@ -381,7 +382,7 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 //审核过的学生
-                return Json(WX_Examine.NotPassStuds());
+                return Json(WX_Examine.RexamedStuds(infor.unionid));
             }
             catch (Exception e)
             {
@@ -506,15 +507,15 @@ namespace MySch.Controllers.WX
         }
 
         [HttpPost]
-        public ActionResult UnBindStudByScan(string id)
+        public ActionResult UnBindStud(string id)
         {
             try
             {
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
 
-                var name = StudInfor.UnBindStudByScan(idc, infor.unionid);
-                return Json(new BllError { error = false, message = name });
+                StudInfor.UnBindStud(id);
+                return Json(new BllError { error = false, message = "解除绑定成功" });
             }
             catch (Exception e)
             {

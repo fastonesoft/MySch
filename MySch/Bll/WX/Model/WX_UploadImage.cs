@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.IO;
 
 namespace MySch.Bll.WX.Model
 {
@@ -146,7 +147,7 @@ namespace MySch.Bll.WX.Model
             {
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
                 if (entity == null) throw new Exception("无法识别的扫码信息");
-                if (entity.Examed) throw new Exception(string.Format("【{0}】的资料已通过审核", entity.Name));
+                if (entity.Examed) throw new Exception(string.Format("【{0}】的资料已通过初审", entity.Name));
 
                 var res = new WX_KeyValue();
                 res.key = entity.Name;
@@ -210,8 +211,11 @@ namespace MySch.Bll.WX.Model
                 //根据“=”将参数分隔：http://control/action/XXXXXXXX(32位)
                 var id = url.Substring(url.Length - 32, 32);
                 var entity = CanDelete(id);
+                //删除数据
                 DataCRUD<WxUploadFile>.Delete(entity);
-
+                //删除文件
+                var filename = HttpContext.Current.Server.MapPath(string.Format("/Upload/XueImages/{0}.jpg", id));
+                if (File.Exists(filename)) File.Delete(filename);
                 return "图片已删除";
             }
             catch (Exception e)

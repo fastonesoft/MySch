@@ -13,16 +13,29 @@ namespace MySch.Bll.Retu
     {
         public string ID { get; set; }
         public string Name { get; set; }
-        public static BllError StudRexamineByScan(string idc)
+        public static object StudRexamineByScan(string idc, string rexamuid)
         {
             try
             {
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
-                if (entity == null) throw new Exception("未查询到当前学生信息");
-                if (!entity.Examed) throw new Exception(string.Format("【{0}】还未通过审核，不必退回", entity.Name));
+                if (entity == null) throw new Exception("无法识别的扫码信息");
+                if (!entity.Examed) throw new Exception(string.Format("【{0}】还未通过初审，不能进行材料复核", entity.Name));
+                if (!string.IsNullOrEmpty(entity.ExamUIDe)) throw new Exception(string.Format("【{0}】已经通过复核，无须重复操作", entity.Name));
+                if (entity.ExamUID == rexamuid) throw new Exception("初审、复核不能同一人进行操作");
 
-                //可以退回，返回学生信息
-                return new BllError { error = false, message = new WX_KeyValue { key = entity.ID, value = entity.Name } };
+                var uploads = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS).OrderBy(a => a.CreateTime);
+                var urls = from upload in uploads
+                           select new WX_Key
+                           {
+                               key = upload.ID,
+                               value = upload.UploadType,
+                           };
+
+                return new WX_Key
+                {
+                    key = new WX_Key { key = entity.Name, value = entity.ID },
+                    value = new WX_Key { key = entity.SchChoose, value = urls },
+                };
             }
             catch (Exception e)
             {
@@ -30,17 +43,17 @@ namespace MySch.Bll.Retu
             }
         }
 
-        public static BllError StudRexamineByIdc(string idc)
+        public static object StudRexamineByIdc(string idc, string rexamuid)
         {
             try
             {
                 var error = IDC.IDS(idc);
-                if (error.error) return new BllError { error = true, message = new WX_KeyValue { key = "regs_reform_idc", value = error.message } };
+                if (error.error) return new BllError { error = true, message = new WX_Key { key = "regs_rexam_idc", value = error.message } };
 
-                return StudRexamineByScan(idc);
+                return StudRexamineByScan(idc, rexamuid);
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -52,12 +65,12 @@ namespace MySch.Bll.Retu
                 IDC.Check(idc);
                 //身份证查询
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
-                if(entity == null) throw new Exception("未知的扫码信息");
-                if (!string.IsNullOrEmpty(entity.RegUID)) throw new Exception(string.Format("【{0}】已经被绑定微信号，不能再绑！",entity.Name));
+                if (entity == null) throw new Exception("未知的扫码信息");
+                if (!string.IsNullOrEmpty(entity.RegUID)) throw new Exception(string.Format("【{0}】已经被绑定微信号，不能再绑！", entity.Name));
 
                 //绑定检测
                 var uid = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
-                if (uid != null) throw new Exception(string.Format("你已经绑定【{0}】，不能再绑！",uid.Name));
+                if (uid != null) throw new Exception(string.Format("你已经绑定【{0}】，不能再绑！", uid.Name));
 
                 //提交绑定
                 entity.RegUID = reguid;
@@ -65,7 +78,7 @@ namespace MySch.Bll.Retu
                 return entity.Name;
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }
@@ -74,10 +87,17 @@ namespace MySch.Bll.Retu
         {
             try
             {
+                var entity = DataCRUD<Student>.Entity(a => a.IDC == id);
+                if (entity == null) throw new Exception("未知的扫码信息");
 
+                //检测是否审核
+                if (entity.Examed) throw new Exception(string.Format("【{0}】已经通过审核，不能解除绑定", entity.Name));
+
+                //删除，完成
+                DataCRUD<Student>.Delete(entity);
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }

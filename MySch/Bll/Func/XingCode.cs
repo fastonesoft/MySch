@@ -43,10 +43,11 @@ namespace MySch.Bll.Func
         {
             try
             {
-                Bitmap bitmap = CodeBitmap(width, height, content, margin, format);
-
-                HttpContext.Current.Response.ContentType = "image/jpeg";
-                bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+                using (Bitmap bitmap = CodeBitmap(width, height, content, margin, format))
+                {
+                    HttpContext.Current.Response.ContentType = "image/jpeg";
+                    bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+                }
             }
             catch
             {
@@ -58,10 +59,11 @@ namespace MySch.Bll.Func
         {
             try
             {
-                Bitmap bitmap = new Bitmap(HttpContext.Current.Server.MapPath(fileName));
-
-                HttpContext.Current.Response.ContentType = "image/jpeg";
-                bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+                using (Bitmap bitmap = new Bitmap(HttpContext.Current.Server.MapPath(fileName)))
+                {
+                    HttpContext.Current.Response.ContentType = "image/jpeg";
+                    bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+                }
             }
             catch
             {

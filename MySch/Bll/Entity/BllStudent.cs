@@ -37,12 +37,12 @@ namespace MySch.Bll.Entity
 
         [DisplayName("联系电话一")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\d{8}$", ErrorMessage = "{0}：为11位手机号")]
+        [RegularExpression(@"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[6-9])\d{8}$", ErrorMessage = "{0}：为11位手机号")]
         public string Mobil1 { get; set; }
 
         [DisplayName("联系电话二")]
         [Required(ErrorMessage = "{0}：不得为空")]
-        [RegularExpression(@"^无$|^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\d{8}$", ErrorMessage = "{0}：为11位手机号｜无")]
+        [RegularExpression(@"^无$|^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[6-9])\d{8}$", ErrorMessage = "{0}：为11位手机号｜无")]
         public string Mobil2 { get; set; }
 
         [DisplayName("户籍地址")]

@@ -21,4 +21,10 @@ namespace MySch.Bll.WX.Model
             return res;
         }
     }
+
+    public class WX_Key
+    {
+        public object key { get; set; }
+        public object value { get; set; }
+    }
 }

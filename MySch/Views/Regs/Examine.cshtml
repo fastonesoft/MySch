@@ -39,18 +39,19 @@
                     //
                     $('#regs_exam_query').show();
                     //
-                    $.post('/Regs/PassStuds', function (res) {
+                    $.post('/Regs/ExamedStuds', function (res) {
                         if (res.error) {
                             weui.topTips(res.message, 3000);
                         } else {
-                            $.each(res, function () {
+                            //未通过人数
+                            $('#regs_exam_studs_count').text(res.key);
+                            //通过人员
+                            $.each(res.value, function () {
                                 var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
                                 $item.find('label').text(this.key);
                                 $item.find('span').text(this.value);
                                 $item.appendTo($('#regs_exam_studs_list'));
                             });
-                            //人数
-                            $('#regs_exam_studs_count').text($('#regs_exam_studs_list div').length);
                         }
                     });
                     //关闭
@@ -250,13 +251,21 @@
                                         weui.topTips(res.message, 3000);
                                     } else {
                                         weui.toast('审核成功', 2000);
-                                        //添加
-                                        var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
-                                        $item.find('label').text(res.key);
-                                        $item.find('span').text(res.value);
-                                        $item.prependTo($('#regs_exam_studs_list'));
-                                        //人数
-                                        $('#regs_exam_studs_count').text($('#regs_exam_studs_list div').length);
+
+                                        //隐藏
+                                        $('#regs_exam_img').hide();
+                                        //未通过人数
+                                        $('#regs_exam_studs_count').text(res.key);
+                                        //清空
+                                        $('#regs_exam_studs_list').empty();
+                                        //通过人员
+                                        $.each(res.value, function () {
+                                            var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
+                                            $item.find('label').text(this.key);
+                                            $item.find('span').text(this.value);
+                                            $item.appendTo($('#regs_exam_studs_list'));
+                                        });
+
                                         //反馈
                                         $('#regs_exam_idc input').val('');
                                         hideExam();
@@ -264,6 +273,45 @@
                                 })
                             }, function () { }, { title: '报名审核' });
                         });
+
+                        //刷新审核状态
+                        $('#regs_examed_show').click(function () {
+                            $.post('/Regs/ExamedStuds', function (res) {
+                                if (res.error) {
+                                    weui.topTips(res.message, 3000);
+                                } else {
+                                    //隐藏
+                                    $('#regs_exam_img').hide();
+                                    //未通过人数
+                                    $('#regs_exam_studs_count').text(res.key);
+                                    //清空
+                                    $('#regs_exam_studs_list').empty();
+                                    //通过人员
+                                    $.each(res.value, function () {
+                                        var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
+                                        $item.find('label').text(this.key);
+                                        $item.find('span').text(this.value);
+                                        $item.appendTo($('#regs_exam_studs_list'));
+                                    });
+                                }
+                            });
+                        });
+
+                        //点击显示二维码
+                        $('#regs_exam_studs_list').on('click', '.weui-form-preview__item', function () {
+                            var idc = $(this).find('span').text();
+                            var name = $(this).find('label').text()
+                            $('#regs_exam_img img').attr('src', '/Image/code/' + idc);
+                            $('#regs_exam_img h2').text(name);
+                            //
+                            $('#regs_exam_img').show();
+                        });
+
+                        //隐藏
+                        $('#regs_exam_img').click(function () {
+                            $(this).hide();
+                        });
+
 
 
                     });
@@ -277,7 +325,9 @@
         })
     </script>
     <style type="text/css">
-        .regs_exam_image { margin-top: 10px; }
+        .regs_exam_image {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body ontouchstart>
@@ -303,29 +353,32 @@
         <div class="weui-form-preview" style="margin-top: 20px;">
             <div class="weui-form-preview__hd">
                 <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">通过审核的学生人数</label>
+                    <label class="weui-form-preview__label">未审核学生总数</label>
                     <em id="regs_exam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
                 </div>
             </div>
             <div class="weui-form-preview__bd">
                 <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">通过初审的学生</label>
+                    <label class="weui-form-preview__label">当前通过初审的学生</label>
                     <span class="weui-form-preview__value">身份证号</span>
                 </div>
-                <div id="regs_exam_studs_list">
-                </div>
+                <div id="regs_exam_studs_list"></div>
             </div>
+        </div>
+        <div id="regs_exam_img" style="margin-top:20px; display:none;">
+            <img src="" />
+            <h2 style="text-align:center; color:red;">学生姓名</h2>
         </div>
 
         <div class="weui-msg__opr-area" style="margin-top:20px;">
             <p class="weui-btn-area">
-                <a href="javascript:" id="regs_examed_show" class="weui-btn weui-btn_default">刷新：审核学生名单</a>
+                <a href="javascript:" id="regs_examed_show" class="weui-btn weui-btn_default">刷新：审核名单</a>
             </p>
         </div>
 
     </div>
 
-    <form id="regs_exam_stud" style="display:none; margin-bottom:20px;">
+    <div id="regs_exam_stud" style="display:none; margin-bottom:20px;">
         <div class="weui-article" style="padding-bottom: 0px;">
             <div class="regs_exam_upload">
                 <h1 id="regs_exam_name">学生姓名</h1>
@@ -379,15 +432,6 @@
         </div>
         <input type="hidden" id="regs_exam_id" />
         <input type="hidden" id="regs_exam_namex" />
-    </form>
-
-    <div style="display:none; margin-top: 20px;" id="regs_manaed">
-        <img src="" id="regs_exam_image" />
-        <h2 id="regs_manaed_name">学生姓名</h2>
-        <h3>　　已完成初审，扫描二维码，可查询其相关信息进行材料复核。</h3>
-        <div class="weui-btn-area">
-            <a id="regs_mana_remana" href="javascript:" class="weui-btn weui-btn_warn">下一个</a>
-        </div>
     </div>
 
 </body>

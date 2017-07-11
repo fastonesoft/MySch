@@ -34,24 +34,19 @@
                         ]
                     });
 
-                    $('.weui-article').show();
-                    //
-                    $.post('/Regs/NotPassStuds', function (res) {
+                    //统计通过复核人数
+                    $.post('/Regs/RexamedStuds', function (res) {
                         if (res.error) {
                             weui.topTips(res.message, 3000);
                         } else {
-                            $.each(res, function () {
-                                var $item = $('<div class="weui-form-preview__item"><label class="weui-form-preview__label"></label><span class="weui-form-preview__value"></span></div>');
-                                $item.find('label').text(this.key);
-                                $item.find('span').text(this.value);
-                                $item.appendTo($('#regs_rexam_studs_back'));
-                            });
                             //人数
-                            $('#regs_rexam_studs_count').text($('#regs_rexam_studs_back div').length);
+                            $('#regs_rexam_studs_count').text(res);
                         }
                     });
                     //关闭
                     headloading.hide();
+                    //
+                    $('#regs_rexam_form').show();
                     //
                     wx.ready(function () {
                         //隐藏所有非基本菜单项
@@ -77,9 +72,6 @@
                                         var loading = weui.loading('正在查询...');
                                         $.post('/Regs/GetInforByIdc', { idc: idc }, function (res) {
                                             if (res.error) {
-                                                $('#regs_rexam_finded').hide();
-                                                $('#regs_rexam_id').val('');
-                                                $('#regs_rexam_name').text('学生姓名');
                                                 //补充
                                                 if (res.message.key) {
                                                     weui.topTips(res.message.value, 3000);
@@ -88,18 +80,26 @@
                                                     weui.topTips(res.message, 3000);
                                                 }
                                             } else {
-                                                $('#regs_rexam_id').val(res.message.key);
-                                                $('#regs_rexam_name').text(res.message.value);
+                                                $('#regs_rexam_idc input').val('');
                                                 //
-                                                $('#regs_rexam_finded').fadeIn();
+                                                $('#regs_rexam_id').val(res.key.value);
+                                                $('#regs_rexam_name').text(res.key.key + '：' + idc);
+                                                $('#regs_rexam_namex').val(res.key.key);
+                                                $('#regs_rexam_name1').text(res.key.key);
+                                                $('#regs_rexam_choose').prop('checked', res.value.key);
+                                                //分类
+                                                $('.regs_rexam_image').empty();
+                                                $.each(res.value.value, function () {
+                                                    var $id = $('#regs_rexam_image_' + this.value)
+                                                    $('<img>').attr('src', '/Image/Uploaded/' + this.key).appendTo($id);
+                                                })
+                                                //显示
+                                                $('#regs_rexam_stud').show();
+                                                $('#regs_rexam_form').hide();
                                             }
                                             //
                                             loading.hide();
                                         })
-                                    } else {
-                                        $('#regs_rexam_finded').hide();
-                                        $('#regs_rexam_id').val('');
-                                        $('#regs_rexam_name').text('学生姓名');
                                     }
                                 }, {
                                     regexp: reg
@@ -115,9 +115,6 @@
                                     var loading = weui.loading('正在识别...');
                                     $.post('/Regs/GetInforByScan', { idc: idc }, function (res) {
                                         if (res.error) {
-                                            $('#regs_rexam_finded').hide();
-                                            $('#regs_rexam_id').val('');
-                                            $('#regs_rexam_name').text('学生姓名');
                                             //补充
                                             if (res.message.key) {
                                                 weui.topTips(res.message.value, 3000);
@@ -126,10 +123,20 @@
                                                 weui.topTips(res.message, 3000);
                                             }
                                         } else {
-                                            $('#regs_rexam_id').val(res.message.key);
-                                            $('#regs_rexam_name').text(res.message.value);
-                                            //
-                                            $('#regs_rexam_finded').fadeIn();
+                                            $('#regs_rexam_id').val(res.key.value);
+                                            $('#regs_rexam_name').text(res.key.key + '：' + idc);
+                                            $('#regs_rexam_namex').val(res.key.key);
+                                            $('#regs_rexam_name1').text(res.key.key);
+                                            $('#regs_rexam_choose').prop('checked', res.value.key);
+                                            //分类
+                                            $('.regs_rexam_image').empty();
+                                            $.each(res.value.value, function () {
+                                                var $id = $('#regs_rexam_image_' + this.value)
+                                                $('<img>').attr('src', '/Image/Uploaded/' + this.key).appendTo($id);
+                                            })
+                                            //显示
+                                            $('#regs_rexam_stud').show();
+                                            $('#regs_rexam_form').hide();
                                         }
                                         //
                                         loading.hide();
@@ -139,38 +146,47 @@
                         });
 
                         //审核退回
-                        $('#regs_rexam_upload').click(function () {
-                            //提交
+                        $('#regs_rexam_roll').click(function () {
                             var id = $('#regs_rexam_id').val();
-                            var name = $('#regs_rexam_name').text();
                             //普通
-                            weui.confirm('　确认退回【' + name + '】的报名审核？', function () {
-                                $.post('/Regs/RexamById', { id: id }, function (res) {
+                            weui.confirm('　重审报名学生资料？', function () {
+                                $.post('/Regs/RollById', { id: id }, function (res) {
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
                                         weui.toast(res.message, 2000);
                                         //反馈
-                                        $('#regs_rexam_finded').hide();
-                                        $('#regs_rexam_id').val('');
-                                        $('#regs_rexam_idc input').val('');
-                                        $('#regs_rexam_name').text('学生姓名');
+                                        $('#regs_rexam_stud').hide();
+                                        $('#regs_rexam_form').show();
                                     }
                                 })
-                            }, function () { }, { title: '审核退回' });
+                            }, function () { }, { title: '退回重审' });
                         });
 
-
-                        //审核学生列表
-                        $('#regs_rexam_studs_back_click').click(function () {
-                            if ($('#regs_rexam_studs_back').is(':visible')) {
-                                $('#regs_rexam_studs_back').hide();
-                            } else {
-                                $('#regs_rexam_studs_back').show();
-                            }
+                        //通过复核
+                        $('#regs_rexam_pass').click(function () {
+                            //提交
+                            var id = $('#regs_rexam_id').val();
+                            var name = $('#regs_rexam_namex').val();
+                            //普通
+                            weui.confirm('　确认通过【' + name + '】的报名审核？', function () {
+                                $.post('/Regs/RexamById', { id: id }, function (res) {
+                                    if (res.error) {
+                                        weui.topTips(res.message, 3000);
+                                    } else {
+                                        weui.toast('通过复核', 2000);
+                                        //变更
+                                        var item = $('#regs_rexam_studs_oked .weui-form-preview__item:last');
+                                        item.find('label').text(res.key);
+                                        item.find('span').text(res.value);
+                                        //反馈
+                                        $('#regs_rexam_stud').hide();
+                                        $('#regs_rexam_studs_oked').show();
+                                        $('#regs_rexam_form').show();
+                                    }
+                                })
+                            }, function () { }, { title: '通过复核' });
                         });
-
-
 
                     });
 
@@ -184,9 +200,9 @@
     </script>
 </head>
 <body ontouchstart>
-    <div class="weui-article" style="display:none;">
+    <div class="weui-article" id="regs_rexam_form" style="display:none;">
         <h1>学生查询</h1>
-        <form id="regs_rexam_form">
+        <form>
             <div class="weui-cells weui-cells_form">
                 <div class="weui-cell" id="regs_rexam_idc">
                     <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
@@ -201,38 +217,92 @@
             <div class="weui-btn-area">
                 <a id="regs_rexam_scan" href="javascript:" class="weui-btn weui-btn_primary">学生：查询/识别</a>
             </div>
+
+            <div class="weui-form-preview" style="margin-top: 20px;">
+                <div class="weui-form-preview__hd">
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">复核通过人数</label>
+                        <em id="regs_rexam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
+                    </div>
+                </div>
+                <div class="weui-form-preview__bd" id="regs_rexam_studs_oked" style="display: none;">
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">学生姓名</label>
+                        <span class="weui-form-preview__value">录取编号</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">学生姓名</label>
+                        <span class="weui-form-preview__value">录取编号</span>
+                    </div>
+                </div>
+            </div>
+
         </form>
-        <div id="regs_rexam_finded" style="display:none; margin-top: 10px;">
-            <h2>　<span id="regs_rexam_name" style="color:red;">学生姓名</span>同学的资料已完成材料复核，如果成功，请选择“通过复核”；如果需要重审，请选择“审核退回”。</h2>
-            <div class="weui-btn-area">
-                <a id="regs_rexam_scan" href="javascript:" class="weui-btn weui-btn_primary">通过复核</a>
-            </div>
-            <div class="weui-btn-area">
-                <a id="regs_rexam_upload" href="javascript:" class="weui-btn weui-btn_warn">审核退回</a>
-            </div>
-            <input id="regs_rexam_id" type="hidden">
-        </div>
-
-        <div class="weui-form-preview" style="margin-top: 20px;">
-            <div class="weui-form-preview__hd">
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">未审核人数</label>
-                    <em id="regs_rexam_studs_count" class="weui-form-preview__value" style="color:red;"></em>
-                </div>
-            </div>
-            <div class="weui-form-preview__bd">
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">学生姓名</label>
-                    <span class="weui-form-preview__value">录取编号</span>
-                </div>
-                <div id="regs_rexam_studs_back" style="display: none;">
-                </div>
-            </div>
-            <div class="weui-form-preview__ft">
-                <a id="regs_rexam_studs_back_click" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">学生：显示/隐藏</a>
-            </div>
-        </div>
-
     </div>
+
+    <div id="regs_rexam_stud" style="display:none; margin-bottom:20px;">
+        <div class="weui-article" style="padding-bottom: 0px;">
+            <div class="regs_rexam_upload">
+                <h1 id="regs_rexam_name">学生姓名</h1>
+                <div id="regs_rexam_normal">
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="photo">学生照片</a>
+                    </div>
+                    <div id="regs_rexam_image_photo" class="regs_rexam_image">
+                    </div>
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="grade">毕业证</a>
+                    </div>
+                    <div id="regs_rexam_image_grade" class="regs_rexam_image">
+                    </div>
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="house">产权证</a>
+                    </div>
+                    <div id="regs_rexam_image_house" class="regs_rexam_image">
+                    </div>
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="card">身份证</a>
+                    </div>
+                    <div id="regs_rexam_image_card" class="regs_rexam_image">
+                    </div>
+                    <div class="weui-btn-area">
+                        <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="city">户口簿</a>
+                    </div>
+                    <div id="regs_rexam_image_city" class="regs_rexam_image">
+                    </div>
+                </div>
+                <div class="weui-btn-area">
+                    <a href="javascript:" class="weui-btn weui-btn_primary weui-btn_disabled" uploadtype="paper">补充协议书</a>
+                </div>
+                <div id="regs_rexam_image_paper" class="regs_rexam_image">
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells weui-cells_checkbox">
+            <label class="weui-cell weui-check__label" for="regs_rexam_choose">
+                <div class="weui-cell__hd">
+                    <input type="checkbox" class="weui-check" name="choose" id="regs_rexam_choose" disabled="disabled">
+                    <i class="weui-icon-checked"></i>
+                </div>
+                <div class="weui-cell__bd">
+                    <p>是否择校生</p>
+                </div>
+            </label>
+        </div>
+        <div class="weui-article" style="padding-bottom: 0px;" id="regs_rexam_finded">
+            <div style="margin-top: 10px;">
+                <h2>　<span id="regs_rexam_name1" style="color:red;">学生姓名</span>同学的资料已完成初审，如果材料无误，请选择“通过复核”；如果需要重审，请选择“退回重审”。</h2>
+                <div class="weui-btn-area">
+                    <a id="regs_rexam_pass" href="javascript:" class="weui-btn weui-btn_primary">通过复核</a>
+                </div>
+                <div class="weui-btn-area">
+                    <a id="regs_rexam_roll" href="javascript:" class="weui-btn weui-btn_warn">退回重审</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="regs_rexam_id" />
+    <input type="hidden" id="regs_rexam_namex" />
 </body>
 </html>
