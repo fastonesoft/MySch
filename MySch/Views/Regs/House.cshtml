@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>房产登记</title>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+    <script type="text/javascript">
+        $(function () { })
+    </script>
+</head>
+<body ontouchstart>
+    <div class="weui-article" id="regs_house" style="display: none;">
+        <div class="weui-btn-area">
+            <a id="regs_house_req" href="javascript:" class="weui-btn weui-btn_primary">申请</a>
+        </div>
+        <div class="weui-btn-area">
+            <a id="regs_house_scan" href="javascript:" class="weui-btn weui-btn_primary">识别</a>
+        </div>
+   </div>
+
+    <div class="weui-article" id="regs_house_show" style="display: none;">
+        <img src="" id="regs_house_show_img" />
+        <h3 id="regs_house_show_name">学生姓名</h3>
+
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">产权人姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="name" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入产权人姓名" emptytips="产权人姓名不能为空" notmatchtips="学生姓名不正确">
+                </div>
+                <div class="weui-cell__ft">
+                    <i class="weui-icon-warn"></i>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">产权证号码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="school" required="required" pattern="REG_SCH" maxlength="15" placeholder="输入产权证号码" emptytips="产权证号码不能为空" notmatchtips="毕业学校不正确">
+                </div>
+                <div class="weui-cell__ft">
+                    <i class="weui-icon-warn"></i>
+                </div>
+            </div>
+            <div class="weui-cell" id="regs_out_idc">
+                <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">身份证号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" name="idc" required="required" pattern="REG_IDNUM" maxlength="18" placeholder="输入学生的身份证号" emptytips="学生身份证号不能为空" notmatchtips="身份证号码不正确">
+                </div>
+                <div class="weui-cell__ft">
+                    <i class="weui-icon-warn"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

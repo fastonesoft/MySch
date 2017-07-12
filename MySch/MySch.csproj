@@ -748,6 +748,7 @@
     <Content Include="Views\Account\Check.cshtml" />
     <Content Include="Views\Account\Exam.cshtml" />
     <Content Include="Views\WxCon\Index.cshtml" />
+    <Content Include="Views\Regs\House.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

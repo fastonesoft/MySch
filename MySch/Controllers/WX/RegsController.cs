@@ -524,5 +524,25 @@ namespace MySch.Controllers.WX
         }
 
 
+        /////////////////////////////
+        //房产信息
+        public ActionResult House(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+
+
     }
 }

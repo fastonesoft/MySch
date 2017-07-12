@@ -1008,3 +1008,18 @@ create index IN_WxUploadFile_IDS on WxUploadFile (IDS)
 
 go
 
+--
+create table StudHouse
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	HName	nvarchar(32),
+	HNo	nvarchar(32),
+	HNone	nvarchar(32),
+	Ismall	bit not null,
+)
+go
+alter table StudHouse add constraint PK_StudHouse primary key clustered (ID)
+create unique nonclustered index UN_StudHouse_IDS on StudHouse (IDS)
+
+

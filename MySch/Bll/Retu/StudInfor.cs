@@ -62,7 +62,7 @@ namespace MySch.Bll.Retu
         {
             try
             {
-                IDC.Check(idc);
+                //IDC.Check(idc);
                 //身份证查询
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
                 if (entity == null) throw new Exception("未知的扫码信息");
