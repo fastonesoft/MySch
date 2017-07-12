@@ -4,6 +4,7 @@ using MySch.Bll.Retu;
 using MySch.Bll.WX;
 using MySch.Bll.WX.Form;
 using MySch.Bll.WX.Model;
+using MySch.Bll.WX.ViewModel;
 using MySch.Bll.Xue;
 using MySch.Helper;
 using MySch.Models;
@@ -542,6 +543,76 @@ namespace MySch.Controllers.WX
             }
         }
 
+        [HttpPost]
+        //申请一个
+        public ActionResult NotFixed()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var res = VmStudEx.NotFixed();
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //[HttpPost]
+        //扫描一下
+        public ActionResult UrlByID(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var res = VmStudEx.UrlByID(id);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        //提交上去
+        public ActionResult FixStud(VmStudEx stud)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var res = VmStudEx.FixStud(stud);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult NotFixedCount()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var res = VmStudEx.NotFixedCount();
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
 
 
     }

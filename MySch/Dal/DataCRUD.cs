@@ -252,6 +252,25 @@ namespace MySch.Dal
             }
         }
 
+        //第一个
+        public static TEntity First(Expression<Func<TEntity, bool>> where)
+        {
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    var res = db.Set<TEntity>().Where(where);
+                    return res.Count() >= 1 ? res.First() : null;
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：表达式实体查询，出错！");
+            }
+        }
+
+
+
         /// <summary>
         /// 用SQL参数式查询数据
         /// </summary>

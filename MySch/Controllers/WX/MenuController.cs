@@ -25,6 +25,7 @@ namespace MySch.Controllers.WX
                 var rexamurl = "http://a.jysycz.cn/regs/rexamine";
                 var manaurl = "http://a.jysycz.cn/regs/addmana";
                 var outurl = "http://a.jysycz.cn/regs/addout";
+                var houseurl = "http://a.jysycz.cn/regs/house";
 
                 var reg = WX_Url.MenuView(appid, regurl, state);
                 var scan = WX_Url.MenuView(appid, scanurl, state);
@@ -32,6 +33,7 @@ namespace MySch.Controllers.WX
                 var rexam = WX_Url.MenuView(appid, rexamurl, state);
                 var addmana = WX_Url.MenuView(appid, manaurl, state);
                 var addout = WX_Url.MenuView(appid, outurl, state);
+                var house = WX_Url.MenuView(appid, houseurl, state);
 
                 //检测页面、用户
                 var token = WX_AccessToken.GetAccessToken();
@@ -47,6 +49,7 @@ namespace MySch.Controllers.WX
                 teach.Add(new WX_Menu_View { name = "🅾材料复核", type = "view", url = rexam });
                 teach.Add(new WX_Menu_View { name = "💪手动注册", type = "view", url = addmana });
                 teach.Add(new WX_Menu_View { name = "🎅外省添加", type = "view", url = addout });
+                teach.Add(new WX_Menu_View { name = "🏠房产核查", type = "view", url = house });
                 menus.Add(teach);
                 var score = new WX_Menu_Sub { name = "成绩查询" };
                 score.Add(new WX_Menu_View { name = "👐分班测试", type = "view", url = "http://a.jysycz.cn/" });

@@ -13,6 +13,7 @@ namespace MySch.Bll.Retu
     {
         public string ID { get; set; }
         public string Name { get; set; }
+
         public static object StudRexamineByScan(string idc, string rexamuid)
         {
             try
