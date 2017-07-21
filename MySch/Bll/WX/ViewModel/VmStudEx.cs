@@ -25,7 +25,7 @@ namespace MySch.Bll.WX.ViewModel
             try
             {
                 var entity = DataCRUD<Student>.First(a => a.Examed && !string.IsNullOrEmpty(a.ExamUIDe) && !a.Fixed);
-                if (entity == null) throw new Exception("数据房产数据已整理完毕，辛苦了");
+                if (entity == null) throw new Exception("房产数据已整理完毕，辛苦了");
 
                 //不让再次搜到
                 entity.Fixed = true;

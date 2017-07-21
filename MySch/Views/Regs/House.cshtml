@@ -66,19 +66,24 @@
 
                         //申请
                         $('#regs_house_fix').click(function () {
-                            $('#regs_house').hide();
                             var loading = weui.loading('正在加载...');
                             //请求
                             $.post('/Regs/NotFixed', function (res) {
                                 loading.hide();
-                                //整理
-                                $('#regs_house_input_img').attr('src', '/Image/code/' + res.ID + '?r=' + Math.random());
-                                $('#regs_house_input_name').text(res.Name);
-                                $('#regs_house_input_id').val(res.ID);
-                                //消除
-                                $('.weui-input').val('');
-                                //显示
-                                $('#regs_house_input').show();
+                                //
+                                if (res.error) {
+                                    weui.topTips(res.message, 3000);
+                                } else {
+                                    $('#regs_house').hide();
+                                    //整理
+                                    $('#regs_house_input_img').attr('src', '/Image/code/' + res.ID + '?r=' + Math.random());
+                                    $('#regs_house_input_name').text(res.Name);
+                                    $('#regs_house_input_id').val(res.ID);
+                                    //消除
+                                    $('.weui-input').val('');
+                                    //显示
+                                    $('#regs_house_input').show();
+                                }
                             });
                         });
 

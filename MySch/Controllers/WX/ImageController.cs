@@ -9,7 +9,7 @@ using ZXing;
 
 namespace MySch.Controllers.WX
 {
-    public class ImageController : Controller
+    public class ImageController : RoleController
     {
 
         //图文图片
