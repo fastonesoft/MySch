@@ -1,4 +1,5 @@
 ﻿using MySch.Bll;
+using MySch.Bll.WX.Model;
 using MySch.Dal;
 using MySch.Models;
 using System;
@@ -15,6 +16,9 @@ namespace MySch.Controllers.ST
         // GET: StNew
         public ActionResult Index()
         {
+            var infor = WX_OAuserInfor.GetFromSession();
+            infor.CheckPassed();
+
             return View();
         }
 
@@ -31,8 +35,8 @@ namespace MySch.Controllers.ST
                     string left = match.Groups[1].ToString();
                     string all = match.Groups[2].ToString();
 
-                    var entitys = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left)).OrderBy(a => a.RegNo) :
-                        all.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.Contains(all) || a.IDS.Contains(all)).OrderBy(a => a.RegNo) : null;
+                    var entitys = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
+                        all.Length > 0 ? DataCRUD<Student>.Entitys(a => (a.RegNo.Contains(all) || a.IDC.Contains(all)) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) : null;
 
                     var res = new { total = entitys.Count(), rows = entitys };
 

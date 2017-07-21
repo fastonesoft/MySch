@@ -753,6 +753,7 @@
     <Content Include="Views\WxCon\Index.cshtml" />
     <Content Include="Views\Regs\House.cshtml" />
     <Content Include="Views\StNew\Index.cshtml" />
+    <Content Include="Views\StNew\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
