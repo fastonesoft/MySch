@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>录取新生</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //身份查询
+            DataGridSearchPress('#IDS', '#stnew-grid', '/stnew/Search')
+
+            //点击动作
+            stnew = {
+                que: function () {
+                    //清除网格
+                    $('#stnew-grid').datagrid('loadData', { total: 0, rows: [] });
+                    DataGridNone('/stnew/Search');
+                },
+                print: function () {
+                    DataGridRows('#stnew-grid', '/stnew/Print');
+                },
+            }
+
+            //数据表格
+            $('#stnew-grid').datagrid({
+                fit: true,
+                striped: true,
+                nowrap: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: false,
+                checkOnSelect: true,
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+                columns: [[
+                    { field: 'ck', checkbox: true },
+                    { title: '学校名称', field: 'FromSch', halign: 'center', sortable: true, width: 170 },
+                    { title: '姓名', field: 'Name', align: 'center', sortable: true, width: 60 },
+                    { title: '身份证号', field: 'IDS', align: 'center', sortable: true, width: 150 },
+                    { title: '报名编号', field: 'StudNo', align: 'center', sortable: true, width: 100, },
+                    {
+                        title: '是否择校', field: 'SchChoose', align: 'center', sortable: false, width: 60,
+                        formatter: function (value, row, index) {
+                            //不输出任何东西
+                        },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                ]],
+
+                toolbar: '#stnew-grid-tool',
+                pagination: false,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+
+
+            //布局
+            $('#stnew-lay').layout({
+                border: true,
+                fit: true
+            });
+
+        })
+    </script>
+
+</head>
+<body>
+    <div id="stnew-lay" class="easyui-layout">
+        <div data-options="region:'center',border:false">
+            <table id="stnew-grid"></table>
+        </div>
+    </div>
+
+    <div id="stnew-grid-tool">
+        <table cellpadding="0" cellspacing="0" style="white-space:nowrap; width:100%;">
+            <thead>
+                <tr>
+                    <td width="213">
+                        <div class="form-item-row" style="margin:5px;">
+                            <label for="IDS">身份证号</label>
+                            <span class="textbox">
+                                <input class="textbox-text" id="IDS" style="width:165px;" />
+                            </span>
+                        </div>
+                    </td>
+                    <td width="10">
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td width="130">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-print" plain="true" onclick="stnew.print();">打印</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>
