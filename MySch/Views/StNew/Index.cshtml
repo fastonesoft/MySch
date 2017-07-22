@@ -17,11 +17,6 @@
 
             //点击动作
             stnew = {
-                que: function () {
-                    //清除网格
-                    $('#stnew-grid').datagrid('loadData', { total: 0, rows: [] });
-                    DataGridNone('/stnew/Search');
-                },
                 print: function () {
                     DataGridRows('#stnew-grid', '/stnew/Print');
                 },
@@ -37,6 +32,7 @@
                 remoteSort: false,
                 singleSelect: false,
                 checkOnSelect: true,
+                url: '/stnew/search',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -49,7 +45,7 @@
                     { field: 'ck', checkbox: true },
                     { title: '学校名称', field: 'FromSch', halign: 'center', sortable: true, width: 260 },
                     { title: '姓名', field: 'Name', align: 'center', sortable: true, width: 80 },
-                    { title: '身份证号', field: 'IDS', align: 'center', sortable: true, width: 180 },
+                    { title: '身份证号', field: 'IDC', align: 'center', sortable: true, width: 180 },
                     { title: '报名编号', field: 'RegNo', align: 'center', sortable: true, width: 100, },
                     {
                         title: '是否择校', field: 'SchChoose', align: 'center', sortable: false, width: 80,
@@ -65,7 +61,7 @@
                 ]],
 
                 toolbar: '#stnew-grid-tool',
-                pagination: false,
+                pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
                 pageNumber: 1,

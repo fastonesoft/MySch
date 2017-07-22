@@ -24,28 +24,39 @@ namespace MySch.Controllers.ST
 
         //编号查询
         [HttpPost]
-        public ActionResult Search(string id)
+        public ActionResult Search(string id, int page = 1, int rows = 100)
         {
             try
             {
-                Regex regx = new Regex(@"^%(\d+)$|^(\d*[xX]?)$");
-                Match match = regx.Match(id);
-                if (match.Success)
+                if (id == null)
                 {
-                    string left = match.Groups[1].ToString();
-                    string all = match.Groups[2].ToString();
+                    int gets, total;
+                    var entitys = DataCRUD<Student>.TakePage(a => !string.IsNullOrEmpty(a.RegNo), a => a.RegNo, page, rows, out gets, out total);
 
-                    var entitys = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
-                        all.Length > 0 ? DataCRUD<Student>.Entitys(a => (a.RegNo.Contains(all) || a.IDC.Contains(all)) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) : null;
-
-                    var res = new { total = entitys.Count(), rows = entitys };
-
+                    var res = new { total = total, rows = entitys };
                     return Json(res);
                 }
                 else
                 {
-                    return Json(new BllError { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
+                    Regex regx = new Regex(@"^%(\d+)$|^(\d*[xX]?)$");
+                    Match match = regx.Match(id);
+                    if (match.Success)
+                    {
+                        string left = match.Groups[1].ToString();
+                        string all = match.Groups[2].ToString();
+
+                        var entitys = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
+                            all.Length > 0 ? DataCRUD<Student>.Entitys(a => (a.RegNo.Contains(all) || a.IDC.Contains(all)) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) : null;
+
+                        var res = new { total = entitys.Count(), rows = entitys };
+                        return Json(res);
+                    }
+                    else
+                    {
+                        return Json(new BllError { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
+                    }
                 }
+
             }
             catch (Exception e)
             {
