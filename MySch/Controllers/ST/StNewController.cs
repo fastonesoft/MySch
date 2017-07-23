@@ -38,15 +38,17 @@ namespace MySch.Controllers.ST
                 }
                 else
                 {
-                    Regex regx = new Regex(@"^%(\d+)$|^(\d*[xX]?)$");
+                    Regex regx = new Regex(@"^%(\d+)$|^(\d*[xX]?)$|^([\u4e00-\u9fa5]+)$");
                     Match match = regx.Match(id);
                     if (match.Success)
                     {
                         string left = match.Groups[1].ToString();
-                        string all = match.Groups[2].ToString();
+                        string idc = match.Groups[2].ToString();
+                        string name = match.Groups[3].ToString();
 
                         var entitys = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
-                            all.Length > 0 ? DataCRUD<Student>.Entitys(a => (a.RegNo.Contains(all) || a.IDC.Contains(all)) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) : null;
+                            idc.Length > 0 ? DataCRUD<Student>.Entitys(a => (a.RegNo.Contains(idc) || a.IDC.Contains(idc) || a.Name.Contains(idc)) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
+                            name.Length > 0 ? DataCRUD<Student>.Entitys(a => a.Name.Contains(name) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) : null;
 
                         var res = new { total = entitys.Count(), rows = entitys };
                         return Json(res);
