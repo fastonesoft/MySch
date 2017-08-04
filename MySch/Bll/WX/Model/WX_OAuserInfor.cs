@@ -99,6 +99,26 @@ namespace MySch.Bll.WX.Model
             }
         }
 
+        //检测是否通过审核
+
+        public bool CheckPassed()
+        {
+            try
+            {
+                var entity = DataCRUD<TAcc>.Entity(a => a.ID == unionid);
+
+                if (entity == null) throw new Exception("未注册用户，无法使用");
+                if (!entity.Passed) throw new Exception("未通过审核，无法使用");
+                if (entity.Fixed) throw new Exception("帐号已冻结，无法使用");
+
+                return entity.Passed;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         //////////////////////////////////////////////
 
         public static WX_OAuserInfor GetFromSession()
@@ -111,6 +131,7 @@ namespace MySch.Bll.WX.Model
             //有问题，返回为空
             throw new Exception("页面请求已过期");
         }
+
 
         public static bool HasNoSession()
         {
@@ -261,7 +282,7 @@ namespace MySch.Bll.WX.Model
                 throw e;
             }
         }
-  
+
         public static TAcc UnFixed(string examunion, string regunion)
         {
             try
@@ -297,7 +318,7 @@ namespace MySch.Bll.WX.Model
                 if (valid != entity.Valided) throw new Exception("帐号数据异常");
             }
             catch (Exception e)
-            {                
+            {
                 throw e;
             }
         }

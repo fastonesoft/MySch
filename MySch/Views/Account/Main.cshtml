@@ -28,12 +28,12 @@
 
     <script src="~/Scripts/my.md5.js"></script>
 </head>
-<body>
+<body id="body">
     <div id="my-user-lay" class="my-bodyer">
         <div data-options="region:'north',border:false" style="height:88px; font-size: 14px;">
             <div class="my-header noprint">
                 <div class="my-topleft">
-                    <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" /></a>
+                    <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" id="my_user_logo" /></a>
                 </div>
 
                 <div class="my-topright">
@@ -125,6 +125,7 @@
                     });
                     //管理员
                     if (title == '用户审核') $('#my_user_name').removeClass('clicked');
+                    if (title == '新生打印') $('#my_user_logo').removeClass('clicked');
                 }
             });
 
@@ -165,6 +166,20 @@
                 //添加页面
                 easyobj.addTab('#my-user-tab', '用户审核', '/Account/Exam', 'icon-tip')
             });
+
+            ///////////////////////
+            $('#my_user_logo').click(function () {
+                $this = $(this);
+                if ($this.hasClass('clicked')) {
+                    $('#my-user-tab').tabs('select', '新生打印');
+                    return;
+                }
+                $this.addClass('clicked');
+
+                //添加页面
+                easyobj.addTab('#my-user-tab', '新生打印', '/stnew/', 'icon-tip')
+            });
+
 
 
         })

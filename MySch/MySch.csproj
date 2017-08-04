@@ -245,6 +245,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Client\ClientController.cs" />
+    <Compile Include="Controllers\ST\StNewController.cs" />
     <Compile Include="Controllers\WX\ImageController.cs" />
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
@@ -753,6 +754,8 @@
     <Content Include="Views\Account\Exam.cshtml" />
     <Content Include="Views\WxCon\Index.cshtml" />
     <Content Include="Views\Regs\House.cshtml" />
+    <Content Include="Views\StNew\Index.cshtml" />
+    <Content Include="Views\StNew\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
