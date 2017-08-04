@@ -77,7 +77,6 @@ namespace MySch.Bll.Func
             {
                 throw new Exception("身份证号：校验码验证无法通过！");
             }
-
             //符合GB11643-1999标准
         }
 

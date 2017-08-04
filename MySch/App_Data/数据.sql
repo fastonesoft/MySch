@@ -18,6 +18,7 @@ if exists
 drop database MySch
 go
 
+
 --创建：数据库
 create database MySch
 on primary
@@ -28,6 +29,9 @@ on primary
 	filegrowth = 5mb
 )
 go
+
+ALTER DATABASE MySch COLLATE Chinese_PRC_CI_AS
+--Chinese_PRC_CI_AS  Chinese_PRC_BIN
 
 use MySch
 
@@ -43,20 +47,63 @@ go
 alter table TLog add constraint PK_TLog primary key clustered (GD)
 
 
-create table TAccType
+
+
+
+--权限设置--
+--权限分类
+--  相当于对进行标题分类
+create table ARoleType
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	Name	nvarchar(20) not null,
+)
+go
+alter table ARoleType add constraint PK_ARoleType primary key clustered (ID)
+create unique nonclustered index UN_ARoleType_IDS on ARoleType (IDS)
+create unique nonclustered index UN_ARoleType_Name on ARoleType (Name)
+
+
+--权限内容
+create table ARoleAction
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	Name	nvarchar(20) not null,
+	ActionUrl	nvarchar(100) not null,
+	ActionType	nvarchar(32) not null,
+)
+go
+alter table ARoleAction add constraint PK_ARoleAction primary key clustered (ID)
+create unique nonclustered index UN_ARoleAction_IDS on ARoleAction (IDS)
+create unique nonclustered index UN_ARoleAction_Name on ARoleAction (Name)
+create unique nonclustered index UN_ARoleAction_ActionUrl on ARoleAction (ActionUrl)
+
+
+--权限分组
+create table ARoleGroup
 (
 	ID	nvarchar(32) not null,
 	IDS	int not null,
-	Name	nvarchar(20) not null,	
+	Name	nvarchar(20) not null,	--教师、班主任、年管会、学校、教育局、管理员……
+	GroupRole	nvarchar(max),	--RoleActionIDS列表，以,分隔
 )
 go
-alter table TAccType add constraint PK_TAccType primary key clustered (ID)
-create unique nonclustered index UN_TAccType_IDS on TAccType (IDS)
 
-insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 0, '教师')
-insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 1, '学校')
-insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 2, '教育集团')
-insert TAccType values (Lower(REPLACE(NEWID(), '-','')), 99, '管理员')
+alter table ARoleGroup add constraint PK_ARoleGroup primary key clustered (ID)
+create unique nonclustered index UN_ARoleGroup_IDS on ARoleGroup (IDS)
+
+
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 0, '教师组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 1, '班主任组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 2, '备课组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 3, '年级组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 4, '学校组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 5, '教育集团', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 6, '教育局', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 99, '管理员', null)
+
 
 
 
@@ -74,7 +121,7 @@ create table TAcc
 	ID	nvarchar(32) not null,	--unionid
 	IDS	nvarchar(32) not null,	--编号
 	Name	nvarchar(20) not null,	--帐号全称、姓名
-	AccTypeIDS	int not null,	--帐号类型
+	RoleGroupIDS	int not null,	--帐号类型
 	RegTime	datetime not null,	--注册时间
 	Passed	bit not null,	--是否通过审核
 	Fixed	bit not null,	--是否冻结
@@ -83,8 +130,8 @@ create table TAcc
 )
 go
 alter table TAcc add constraint PK_TAcc primary key clustered (ID)
+alter table TAcc add constraint FK_TAcc_RoleGroupIDS foreign key (RoleGroupIDS) references ARoleGroup (IDS)
 create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
-alter table TAcc add constraint FK_TAcc_AccTypeIDS foreign key (AccTypeIDS) references TAccType (IDS)
 
 --插入管理员
 insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员', 99,'2017-05-10 12:00:00',  1, 0, '471cc448fe732d7b61994e3615f0b1de',  null)
@@ -988,12 +1035,6 @@ create unique nonclustered index UN_APage_IDS on APage (IDS)
 
 
 
---TODO学生信息变更记录		    
-
-
-
-
-
 --WX
 create table WxUploadFile
 (
@@ -1007,4 +1048,3 @@ alter table WxUploadFile add constraint PK_WxUploadFile primary key clustered (I
 create index IN_WxUploadFile_IDS on WxUploadFile (IDS)
 
 go
-
