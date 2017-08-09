@@ -46,7 +46,7 @@ namespace MySch.Bll.Xue
                 reg.StepIDS = matchs[6].Groups[1].ToString();
 
                 //设置添加条件
-                if (reg.Memo != "小学学籍库" && reg.StepIDS != "2011") throw new Exception("不是小学应届毕业生，无法报名");
+                if (reg.Memo != "小学历史库" && reg.StepIDS != "2011") throw new Exception("不是小学应届毕业生，无法报名");
 
                 //添加
                 reg.ID = Guid.NewGuid().ToString("N");

@@ -12,7 +12,7 @@ namespace MySch.Models
         }
 
         public MySchContext()
-            : base("Name=MySchContextLocal")
+            : base("Name=MySchContext")
         {
         }
 
