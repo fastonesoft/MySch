@@ -97,7 +97,6 @@
                                 success: function (sres) {
                                     var loading = weui.loading('正在加载...');
                                     $.post('/Regs/UrlByID', { id: sres.resultStr }, function (res) {
-                                        loading.hide();
                                         if (res.error) {
                                             weui.topTips(res.message, 3000);
                                         } else {
@@ -108,14 +107,52 @@
                                                     urls: res
                                                 });
                                             } else {
-                                                weui.topTips('没有当前学生的上传照片', 3000);
+                                                weui.topTips('没有当前学生上传的照片', 3000);
                                             }
                                         }
+                                        loading.hide();
                                     });
                                 }
                             });
 
                         });
+
+                        var reg = {
+                            IDNUM: /^\d{4}$/,
+                        };
+                        weui.form.checkIfBlur('#regs_house_form', {
+                            regexp: reg
+                        });
+                        //根据录取编号查询房主信息
+                        $('#regs_house_find').click(function () {
+                            weui.form.validate('#regs_house_form', function (error) {
+                                if (!error) {
+                                    var loading = weui.loading('正在查询...');
+                                    var regno = $('#regs_house_form input').val();
+                                    $.post('/Regs/UrlByRegNo', { id: regno }, function (res) {
+                                        if (res.error) {
+                                            weui.topTips(res.message, 3000);
+                                        } else {
+                                            if (res.length != 0) {
+                                                var cur = res[0];
+                                                wx.previewImage({
+                                                    current: cur,
+                                                    urls: res
+                                                });
+                                            } else {
+                                                weui.topTips('没有当前学生上传的照片', 3000);
+                                            }
+                                        }
+                                        loading.hide();
+                                    });
+                                }
+                            }, {
+                                regexp: reg
+                            });
+
+
+                        });
+
 
                         //提交
                         $('#regs_house_update').click(function () {
@@ -156,6 +193,25 @@
 </head>
 <body ontouchstart>
     <div class="weui-article" id="regs_house" style="display: none;">
+
+        <form id="regs_house_form">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell" id="regs_house_idc">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">录取编号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="tel" name="regno" required="required" pattern="REG_IDNUM" maxlength="4" placeholder="输入学生的录取编号" emptytips="学生录取编号不能为空" notmatchtips="录取编号不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-btn-area">
+                <a id="regs_house_find" href="javascript:" class="weui-btn weui-btn_primary">房产信息查询</a>
+            </div>
+        </form>
+
+
 
         <div class="weui-form-preview" style="margin-top: 20px;">
             <div class="weui-form-preview__hd">

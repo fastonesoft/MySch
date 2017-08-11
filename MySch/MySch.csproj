@@ -298,6 +298,9 @@
     </Compile>
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
+    <Compile Include="Models\ARoleGroup.cs" />
+    <Compile Include="Models\ARoleType.cs" />
+    <Compile Include="Models\ARoleAction.cs" />
     <Compile Include="Models\ATheme.cs" />
     <Compile Include="Models\Kao.cs" />
     <Compile Include="Models\KRoom.cs" />
@@ -308,6 +311,9 @@
     <Compile Include="Models\KSubBan.cs" />
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
+    <Compile Include="Models\Mapping\ARoleGroupMap.cs" />
+    <Compile Include="Models\Mapping\ARoleTypeMap.cs" />
+    <Compile Include="Models\Mapping\ARoleActionMap.cs" />
     <Compile Include="Models\Mapping\ADatumMap.cs" />
     <Compile Include="Models\Mapping\APageMap.cs" />
     <Compile Include="Models\Mapping\AThemeMap.cs" />
@@ -365,6 +371,7 @@
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Models\WxUploadFile.cs" />
+    <Compile Include="Mvvm\Web\Role\VmRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -463,7 +470,6 @@
     <Content Include="Content\themes\icons\undo.png" />
     <Content Include="Images\logininfo-txt.png" />
     <Content Include="Images\pp0801.png" />
-    <Content Include="Html\tooltip.htm" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -759,6 +765,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
+    <Folder Include="Mvvm\WX\" />
     <Folder Include="Views\Image\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>

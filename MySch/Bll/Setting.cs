@@ -21,6 +21,9 @@ namespace MySch.Bll
         /// 临时保存是否管理员的标志
         public const string SESSION_TEMP_ISMASTER = "SessionTempIsMaster";
 
+        //权限动作记录
+        public const string SESSION_ROLE_ACTION = "RoleAction";
+
         // Action
         public static string ActionUrl(Controller control)
         {
@@ -40,6 +43,14 @@ namespace MySch.Bll
             string acname = filterContext.ActionDescriptor.ActionName;
             string coname = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             return string.Format("/{0}/{1}", coname, acname);
+        }
+        public static string ActionName(ActionExecutedContext filterContext)
+        {
+            return filterContext.ActionDescriptor.ActionName;
+        }
+        public static string ActionName(ActionExecutingContext filterContext)
+        {
+            return filterContext.ActionDescriptor.ActionName;
         }
 
         public static string Url(HttpRequestBase request)

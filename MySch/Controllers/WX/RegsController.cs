@@ -579,6 +579,24 @@ namespace MySch.Controllers.WX
             }
         }
 
+        //根据录取编号查学生
+        public ActionResult UrlByRegNo(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var res = VmStudEx.UrlByRegNo(id);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+
         [HttpPost]
         //提交上去
         public ActionResult FixStud(VmStudEx stud)

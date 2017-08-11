@@ -66,6 +66,25 @@ namespace MySch.Bll.WX.ViewModel
             }
         }
 
+        public static object UrlByRegNo(string regno)
+        {
+            try
+            {
+                var entity = DataCRUD<Student>.Entity(a => a.RegNo == regno);
+                if (entity == null) throw new Exception("未找到当前录取编号对应的学生信息");
+
+                var urls = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS && a.UploadType == "house");
+                var res = from url in urls
+                          select string.Format("http://a.jysycz.cn/image/uploaded/{0}", url.ID);
+
+                return res;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static int FixStud(VmStudEx stud)
         {
             try

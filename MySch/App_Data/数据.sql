@@ -56,7 +56,7 @@ alter table TLog add constraint PK_TLog primary key clustered (GD)
 create table ARoleType
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,
 )
 go
@@ -64,18 +64,34 @@ alter table ARoleType add constraint PK_ARoleType primary key clustered (ID)
 create unique nonclustered index UN_ARoleType_IDS on ARoleType (IDS)
 create unique nonclustered index UN_ARoleType_Name on ARoleType (Name)
 
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '01', '系统设置')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '02', '模板定制')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '03', '权限分配')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '04', '用户管理')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '05', '游客来访')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '06', '教师相关')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '07', '主任工作')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '08', '备课计划')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '09', '年级分工')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '10', '学校安排')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '11', '集团设置')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '12', '局里有约')
+
 
 --权限内容
+--  用Action自动添加
 create table ARoleAction
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,
-	Name	nvarchar(20) not null,
-	ActionUrl	nvarchar(100) not null,
-	ActionType	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,
+	Name	nvarchar(20) not null,	
+	RoleTypeIDS	nvarchar(20) not null,	--权限分类编号
+	ActionUrl	nvarchar(100) not null,	--动作地址
+	ActionName	nvarchar(20) not null,	--动作名称
 )
 go
 alter table ARoleAction add constraint PK_ARoleAction primary key clustered (ID)
+alter table ARoleAction add constraint FK_ARoleAction_RoleTypeIDS foreign key (RoleTypeIDS) references ARoleType (IDS)
 create unique nonclustered index UN_ARoleAction_IDS on ARoleAction (IDS)
 create unique nonclustered index UN_ARoleAction_Name on ARoleAction (Name)
 create unique nonclustered index UN_ARoleAction_ActionUrl on ARoleAction (ActionUrl)
@@ -95,13 +111,14 @@ alter table ARoleGroup add constraint PK_ARoleGroup primary key clustered (ID)
 create unique nonclustered index UN_ARoleGroup_IDS on ARoleGroup (IDS)
 
 
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 0, '教师组', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 1, '班主任组', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 2, '备课组', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 3, '年级组', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 4, '学校组', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 5, '教育集团', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 6, '教育局', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 0, '游客组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 1, '教师组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 2, '班主任组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 3, '备课组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 4, '年级组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 5, '学校组', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 6, '教育集团', null)
+insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 7, '教育局', null)
 insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 99, '管理员', null)
 
 

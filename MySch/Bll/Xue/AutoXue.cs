@@ -32,7 +32,7 @@ namespace MySch.Bll.Xue
                 var cookies = GetCookies();
                 var html = GetStudentHtml(idc, cookies);
 
-                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4}|.?)</td>");
                 MatchCollection matchs = regx.Matches(html);
 
                 //无学生记录
@@ -78,7 +78,7 @@ namespace MySch.Bll.Xue
                 var cookies = GetCookies();
                 var html = GetStudentHtml(idc, cookies);
 
-                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4}|.?)</td>");
                 MatchCollection matchs = regx.Matches(html);
 
                 //无学生记录
@@ -124,7 +124,7 @@ namespace MySch.Bll.Xue
                 var cookies = GetCookies();
                 var html = GetStudentHtml(idc, cookies);
 
-                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4})</td>");
+                Regex regx = new Regex(@"<td>([（）\u4e00-\u9fa5]+|\d{17}[\dxX]|\d{4}|.?)</td>");
                 MatchCollection matchs = regx.Matches(html);
 
                 //有学生记录
