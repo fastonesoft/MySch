@@ -11,7 +11,6 @@ namespace MySch.Models
         public string IDS { get; set; }
         public string Name { get; set; }
         public string RoleTypeIDS { get; set; }
-        public string ActionUrl { get; set; }
         public string ActionName { get; set; }
     }
 }

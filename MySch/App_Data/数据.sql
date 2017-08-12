@@ -83,10 +83,9 @@ insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '12', '局里有约')
 create table ARoleAction
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,
+	IDS	nvarchar(100) not null,	--url
 	Name	nvarchar(20) not null,	
 	RoleTypeIDS	nvarchar(20) not null,	--权限分类编号
-	ActionUrl	nvarchar(100) not null,	--动作地址
 	ActionName	nvarchar(20) not null,	--动作名称
 )
 go
@@ -94,7 +93,6 @@ alter table ARoleAction add constraint PK_ARoleAction primary key clustered (ID)
 alter table ARoleAction add constraint FK_ARoleAction_RoleTypeIDS foreign key (RoleTypeIDS) references ARoleType (IDS)
 create unique nonclustered index UN_ARoleAction_IDS on ARoleAction (IDS)
 create unique nonclustered index UN_ARoleAction_Name on ARoleAction (Name)
-create unique nonclustered index UN_ARoleAction_ActionUrl on ARoleAction (ActionUrl)
 
 
 --权限分组

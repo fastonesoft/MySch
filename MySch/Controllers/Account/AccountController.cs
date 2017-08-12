@@ -3,6 +3,7 @@ using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.WX.Model;
 using MySch.Helper;
+using MySch.Mvvm.Web.Role;
 using System;
 using System.Text;
 using System.Web.Mvc;
@@ -11,25 +12,32 @@ namespace MySch.Controllers.Account
 {
     public class AccountController : BaseController
     {
+        public VmRoleAction RoleAction = new VmRoleAction { Title = "用户登录", RoleTypeIDS = "05" };
+        public AccountController()
+        {
+            Session[Setting.SESSION_ROLE_ACTION] = RoleAction;
+        }
+
         public ActionResult Index()
         {
             try
             {
-                if (WX_OAuserInfor.HasNoSession())
-                {
-                    //首页
-                    return View();
-                }
-                else
-                {
-                    var infor = WX_OAuserInfor.GetFromSession();
-                    infor.CheckUser();
+                //if (WX_OAuserInfor.HasNoSession())
+                //{
+                //    //首页
+                //    return View();
+                //}
+                //else
+                //{
+                //    var infor = WX_OAuserInfor.GetFromSession();
+                //    infor.CheckUser();
 
-                    ViewBag.UserName = infor.username;
-                    ViewBag.NickName = infor.nickname;
-                    //已登录
-                    return View("Main");
-                }
+                //    ViewBag.UserName = infor.username;
+                //    ViewBag.NickName = infor.nickname;
+                //    //已登录
+                //    return View("Main");
+                //}
+                return View("Main");
             }
             catch (Exception e)
             {
@@ -97,21 +105,6 @@ namespace MySch.Controllers.Account
             }
         }
 
-        public ActionResult Exam()
-        {
-            try
-            {
-                var infor = WX_OAuserInfor.GetFromSession();
-                if (infor.unionid != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员，不好操作");
-
-                return View();
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
         [HttpPost]
         public ActionResult DataGrid(int page = 1, int rows = 100)
         {
@@ -121,6 +114,21 @@ namespace MySch.Controllers.Account
 
                 var res = WX_OAuserInfor.ExamGrid(infor.unionid, page, rows);
                 return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        public ActionResult Exam()
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+                if (infor.unionid != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员，不好操作");
+
+                return View();
             }
             catch (Exception e)
             {

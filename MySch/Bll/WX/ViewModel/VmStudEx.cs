@@ -73,7 +73,7 @@ namespace MySch.Bll.WX.ViewModel
                 var entity = DataCRUD<Student>.Entity(a => a.RegNo == regno);
                 if (entity == null) throw new Exception("未找到当前录取编号对应的学生信息");
 
-                var urls = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS && a.UploadType == "house");
+                var urls = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS && (a.UploadType == "house" || a.UploadType == "card"));
                 var res = from url in urls
                           select string.Format("http://a.jysycz.cn/image/uploaded/{0}", url.ID);
 

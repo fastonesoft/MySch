@@ -17,7 +17,7 @@ namespace MySch.Models.Mapping
 
             this.Property(t => t.IDS)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(100);
 
             this.Property(t => t.Name)
                 .IsRequired()
@@ -27,9 +27,6 @@ namespace MySch.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
-            this.Property(t => t.ActionUrl)
-                .IsRequired()
-                .HasMaxLength(100);
 
             this.Property(t => t.ActionName)
                 .IsRequired()
@@ -41,7 +38,6 @@ namespace MySch.Models.Mapping
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.RoleTypeIDS).HasColumnName("RoleTypeIDS");
-            this.Property(t => t.ActionUrl).HasColumnName("ActionUrl");
             this.Property(t => t.ActionName).HasColumnName("ActionName");
         }
     }
