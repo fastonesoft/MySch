@@ -55,7 +55,7 @@ namespace MySch.Controllers
             ////权限检测
             //if (!MyRole.HasRole(Session, actid))
             //{
-            //    filterContext.Result = Json(new MoError
+            filterContext.Result = Json(new MoError
             //    {
             //        error = true,
             //        message = "动作：权限不足，请联系管理员！"

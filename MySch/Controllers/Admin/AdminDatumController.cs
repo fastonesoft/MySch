@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminDatumController : RoleAdminController
+    public class AdminDatumController : Controller
     {
 
         [HttpPost]

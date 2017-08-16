@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminPageController : RoleAdminController
+    public class AdminPageController : Controller
     {
 
         [HttpPost]

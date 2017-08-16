@@ -245,11 +245,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Client\ClientController.cs" />
+    <Compile Include="Filter\RoleFilter.cs" />
     <Compile Include="Controllers\ST\StNewController.cs" />
     <Compile Include="Controllers\WX\ImageController.cs" />
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
-    <Compile Include="Controllers\RoleStudController.cs" />
     <Compile Include="Controllers\Stud\StudEditController.cs" />
     <Compile Include="Controllers\User\UserOutController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs">
@@ -258,7 +258,6 @@
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Stud\StudRegController.cs" />
-    <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>

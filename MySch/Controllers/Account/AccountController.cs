@@ -12,12 +12,6 @@ namespace MySch.Controllers.Account
 {
     public class AccountController : BaseController
     {
-        public VmRoleAction RoleAction = new VmRoleAction { Title = "用户登录", RoleTypeIDS = "05" };
-        public AccountController()
-        {
-            Session[Setting.SESSION_ROLE_ACTION] = RoleAction;
-        }
-
         public ActionResult Index()
         {
             try

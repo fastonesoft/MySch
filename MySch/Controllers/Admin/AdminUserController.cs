@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminUserController : RoleAdminController
+    public class AdminUserController : Controller
     {
         //用户列表：界面
         [HttpPost]

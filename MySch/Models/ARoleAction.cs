@@ -10,7 +10,7 @@ namespace MySch.Models
         public string ID { get; set; }
         public string IDS { get; set; }
         public string Name { get; set; }
+        public bool IsMenu { get; set; }
         public string RoleTypeIDS { get; set; }
-        public string ActionName { get; set; }
     }
 }

@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Stud
 {
-    public class StudEditController : RoleStudController
+    public class StudEditController : Controller
     {
         //学生注册首页
         [HttpPost]

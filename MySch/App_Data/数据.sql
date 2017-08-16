@@ -84,9 +84,9 @@ create table ARoleAction
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(100) not null,	--url
-	Name	nvarchar(20) not null,	
+	Name	nvarchar(20) not null,	--动作名称
+	IsMenu	bit not null,	--是否作菜单项
 	RoleTypeIDS	nvarchar(20) not null,	--权限分类编号
-	ActionName	nvarchar(20) not null,	--动作名称
 )
 go
 alter table ARoleAction add constraint PK_ARoleAction primary key clustered (ID)

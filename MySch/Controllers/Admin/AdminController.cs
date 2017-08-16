@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Admin
 {
-    public class AdminController : RoleAdminController
+    public class AdminController : Controller
     {
         //管理员：首页
         [HttpPost]

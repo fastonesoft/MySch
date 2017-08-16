@@ -21,9 +21,6 @@ namespace MySch.Bll
         /// 临时保存是否管理员的标志
         public const string SESSION_TEMP_ISMASTER = "SessionTempIsMaster";
 
-        //权限动作记录
-        public const string SESSION_ROLE_ACTION = "RoleAction";
-
         // Action
         public static string ActionUrl(Controller control)
         {
