@@ -16,17 +16,13 @@
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Num)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Num, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+                @Html.TextBoxFor(a => a.Num, new { @class = "textbox-text", @style = "width:200px;" })
             </span>
             @Html.ValidationMessageFor(a => a.Num)
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.MasterIDS)：</div>
             <input id="MasterIDS" name="MasterIDS" style="width:210px;" />
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.GroupIDS)：</div>
-            <input id="GroupIDS" name="GroupIDS" style="width:210px;" />
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
@@ -45,7 +41,6 @@
         });
 
         var grades = $.parseJSON('@Html.Raw(ViewBag.Grades)');
-        var groups = $.parseJSON('@Html.Raw(ViewBag.Groups)');
         var masters = $.parseJSON('@Html.Raw(ViewBag.Masters)');
 
         //加载选择框
@@ -54,11 +49,6 @@
             textField: 'text',
             data: grades,
             readonly: true,
-        });
-        $('#GroupIDS').combobox({
-            valueField: 'id',
-            textField: 'text',
-            data: groups,
         });
         $('#MasterIDS').combobox({
             valueField: 'id',

@@ -35,7 +35,7 @@ namespace MySch.Models.Mapping
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.IDS).HasColumnName("IDS");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.AccTypeIDS).HasColumnName("AccTypeIDS");
+            this.Property(t => t.RoleGroupIDS).HasColumnName("RoleGroupIDS");
             this.Property(t => t.RegTime).HasColumnName("RegTime");
             this.Property(t => t.Passed).HasColumnName("Passed");
             this.Property(t => t.Fixed).HasColumnName("Fixed");

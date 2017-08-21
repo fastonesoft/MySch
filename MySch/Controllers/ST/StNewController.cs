@@ -1,12 +1,12 @@
 ﻿using MySch.Bll;
 using MySch.Bll.WX.Model;
 using MySch.Dal;
+using MySch.Filter;
 using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MySch.Controllers.ST
@@ -14,6 +14,7 @@ namespace MySch.Controllers.ST
     public class StNewController : RoleController
     {
         // GET: StNew
+        //[RoleRecFilter(AutoNameExt = false, IsMenu = true, Name = "录取打印", Order = 10, RoleTypeIDS = "04")]
         public ActionResult Index()
         {
             var infor = WX_OAuserInfor.GetFromSession();
@@ -31,7 +32,7 @@ namespace MySch.Controllers.ST
                 if (id == null)
                 {
                     int gets, total;
-                    var entitys = DataCRUD<Student>.TakePage(a => !string.IsNullOrEmpty(a.RegNo), a => a.RegNo, page, rows, out gets, out total);
+                    var entitys = DataCRUD<Student>.TakePage(a =>a.StepIDS == "3212840201201701" && !string.IsNullOrEmpty(a.RegNo), a => a.RegNo, page, rows, out gets, out total);
 
                     var res = new { total = total, rows = entitys };
                     return Json(res);
@@ -46,9 +47,9 @@ namespace MySch.Controllers.ST
                         string idc = match.Groups[2].ToString();
                         string name = match.Groups[3].ToString();
 
-                        var entitys = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.RegNo.StartsWith(left) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
-                            idc.Length > 0 ? DataCRUD<Student>.Entitys(a => (a.RegNo.Contains(idc) || a.IDC.Contains(idc) || a.Name.Contains(idc)) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
-                            name.Length > 0 ? DataCRUD<Student>.Entitys(a => a.Name.Contains(name) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) : null;
+                        var entitys = left.Length > 0 ? DataCRUD<Student>.Entitys(a => a.StepIDS == "3212840201201701" && a.RegNo.StartsWith(left) && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
+                            idc.Length > 0 ? DataCRUD<Student>.Entitys(a => (a.RegNo.Contains(idc) || a.IDC.Contains(idc) || a.Name.Contains(idc)) && a.StepIDS == "3212840201201701" && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) :
+                            name.Length > 0 ? DataCRUD<Student>.Entitys(a => a.Name.Contains(name) && a.StepIDS == "3212840201201701" && !string.IsNullOrEmpty(a.RegNo)).OrderBy(a => a.RegNo) : null;
 
                         var res = new { total = entitys.Count(), rows = entitys };
                         return Json(res);

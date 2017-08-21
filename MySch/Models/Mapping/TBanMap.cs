@@ -30,9 +30,6 @@ namespace MySch.Models.Mapping
             this.Property(t => t.MasterIDS)
                 .HasMaxLength(32);
 
-            this.Property(t => t.GroupIDS)
-                .HasMaxLength(32);
-
             this.Property(t => t.AccIDS)
                 .IsRequired()
                 .HasMaxLength(32);
@@ -44,7 +41,6 @@ namespace MySch.Models.Mapping
             this.Property(t => t.Num).HasColumnName("Num");
             this.Property(t => t.GradeIDS).HasColumnName("GradeIDS");
             this.Property(t => t.MasterIDS).HasColumnName("MasterIDS");
-            this.Property(t => t.GroupIDS).HasColumnName("GroupIDS");
             this.Property(t => t.AccIDS).HasColumnName("AccIDS");
         }
     }

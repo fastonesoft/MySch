@@ -24,10 +24,6 @@
             <div>@Html.LabelFor(a => a.MasterIDS)：</div>
             <input id="MasterIDS" name="MasterIDS" style="width:210px;" />
         </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.GroupIDS)：</div>
-            <input id="GroupIDS" name="GroupIDS" style="width:210px;" />
-        </div>
     </div>
     @Html.HiddenFor(a => a.ID)
     @Html.HiddenFor(a => a.IDS)
@@ -37,7 +33,6 @@
     $(function () {
 
         var grades = $.parseJSON('@Html.Raw(ViewBag.Grades)');
-        var groups = $.parseJSON('@Html.Raw(ViewBag.Groups)');
         var masters = $.parseJSON('@Html.Raw(ViewBag.Masters)');
 
         //加载选择框
@@ -45,12 +40,6 @@
             valueField: 'id',
             textField: 'text',
             data: grades,
-            readonly: true,
-        });
-        $('#GroupIDS').combobox({
-            valueField: 'id',
-            textField: 'text',
-            data: groups,
             readonly: true,
         });
         $('#MasterIDS').combobox({

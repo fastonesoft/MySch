@@ -9,12 +9,6 @@ namespace MySch.Controllers.Admin
 {
     public class AdminController : Controller
     {
-        //管理员：首页
-        [HttpPost]
-        public ActionResult Index()
-        {
-            ViewBag.UserName = BllLogin.GetLogin(Session).Name;
-            return View();
-        }
+
     }
 }

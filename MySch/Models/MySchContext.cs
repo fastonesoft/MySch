@@ -12,7 +12,7 @@ namespace MySch.Models
         }
 
         public MySchContext()
-            : base("Name=MySchContextLocal")
+            : base("Name=MySchContext")
         {
         }
 
@@ -36,7 +36,6 @@ namespace MySch.Models
         public DbSet<StudGradeType> StudGradeTypes { get; set; }
         public DbSet<StudOut> StudOuts { get; set; }
         public DbSet<TAcc> TAccs { get; set; }
-        public DbSet<TAccType> TAccTypes { get; set; }
         public DbSet<TBan> TBans { get; set; }
         public DbSet<TEdu> TEdus { get; set; }
         public DbSet<TGrade> TGrades { get; set; }
@@ -73,7 +72,6 @@ namespace MySch.Models
             modelBuilder.Configurations.Add(new StudGradeTypeMap());
             modelBuilder.Configurations.Add(new StudOutMap());
             modelBuilder.Configurations.Add(new TAccMap());
-            modelBuilder.Configurations.Add(new TAccTypeMap());
             modelBuilder.Configurations.Add(new TBanMap());
             modelBuilder.Configurations.Add(new TEduMap());
             modelBuilder.Configurations.Add(new TGradeMap());

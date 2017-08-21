@@ -40,8 +40,6 @@ namespace MySch.Bll.View
                                    join e in db.TEdus on g.EduIDS equals e.IDS
                                    join mt in db.TAccs on b.MasterIDS equals mt.IDS into b_mts
                                    from b_mt in b_mts.DefaultIfEmpty()
-                                   join gp in db.TAccs on b.GroupIDS equals gp.IDS into b_gps
-                                   from b_gp in b_gps.DefaultIfEmpty()
                                    select new VBan
                                    {
                                        ID = b.ID,
@@ -55,7 +53,6 @@ namespace MySch.Bll.View
                                        TreeName = e.Name + "（" + b.Num + "）班",
                                        MasterIDS = b_mt.IDS,
                                        MasterName = b_mt.Name,
-                                       GroupName = b_gp.Name,
                                        Graduated = s.Graduated,
                                        IsCurrent = y.IsCurrent,
                                        AccIDS = b.AccIDS,

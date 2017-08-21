@@ -1,5 +1,6 @@
 ﻿using MySch.Bll.Func;
 using MySch.Helper;
+using MySch.Mvvm.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,11 +41,15 @@ namespace MySch.Bll.WX.Model
             var infors = HtmlHelp.GetHtml(inforurl, "UTF-8");
             var infor = Jsons.JsonEntity<WX_OAuserInfor>(infors);
 
-            //WX_Log.Add(infor.unionid);
-            //WX_Log.Add(Setting.GetMD5(infor.unionid + "##yuch88##99##true##false"));
-
             infor.ToSession();
             return infor;
+        }
+
+        public static WebOAuthInfor WebOAuserInfor(string oaToken, string openid)
+        {
+            var inforurl = string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN", oaToken, openid);
+            var infors = HtmlHelp.GetHtml(inforurl, "UTF-8");
+            return Jsons.JsonEntity<WebOAuthInfor>(infors);
         }
 
         //获取服务器授权

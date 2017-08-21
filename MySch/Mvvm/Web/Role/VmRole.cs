@@ -10,9 +10,9 @@ namespace MySch.Mvvm.Web.Role
     public class VmRoleAction
     {
         public string IDS { get; set; }
-        public string Title { get; set; }
-        public string Ext { get; set; }
+        public string Name { get; set; }
         public bool IsMenu { get; set; }
+        public int Order { get; set; }
         public string RoleTypeIDS { get; set; }
 
         public void Add()
@@ -29,8 +29,9 @@ namespace MySch.Mvvm.Web.Role
                     {
                         ID = Guid.NewGuid().ToString("N"),
                         IDS = this.IDS,
-                        Name = Ext.Length == 0 ? Title : Title + " - " + Ext,
+                        Name = this.Name,
                         IsMenu = this.IsMenu,
+                        Order = this.Order,
                         RoleTypeIDS = this.RoleTypeIDS,
                     };
                     //添加

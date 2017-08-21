@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Log\BllLog.cs" />
     <Compile Include="Bll\Retu\StudInfor.cs" />
@@ -239,13 +240,15 @@
     <Compile Include="Bll\WX\WXCrypt.cs" />
     <Compile Include="Bll\WX\WXCryptMsg.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Account\LoginController.cs" />
     <Compile Include="Controllers\Admin\AdminPageController.cs" />
     <Compile Include="Controllers\Admin\AdminThemeController.cs" />
     <Compile Include="Controllers\Admin\AdminDatumController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Client\ClientController.cs" />
-    <Compile Include="Filter\RoleFilter.cs" />
+    <Compile Include="Controllers\User\UserBanstController.cs" />
+    <Compile Include="Filter\RoleRecFilter.cs" />
     <Compile Include="Controllers\ST\StNewController.cs" />
     <Compile Include="Controllers\WX\ImageController.cs" />
     <Compile Include="Controllers\Master\MastStudController.cs" />
@@ -333,7 +336,6 @@
     <Compile Include="Models\Mapping\StudGradeTypeMap.cs" />
     <Compile Include="Models\Mapping\StudOutMap.cs" />
     <Compile Include="Models\Mapping\TAccMap.cs" />
-    <Compile Include="Models\Mapping\TAccTypeMap.cs" />
     <Compile Include="Models\Mapping\TBanMap.cs" />
     <Compile Include="Models\Mapping\TEduMap.cs" />
     <Compile Include="Models\Mapping\TGradeMap.cs" />
@@ -356,7 +358,6 @@
     <Compile Include="Models\StudGradeType.cs" />
     <Compile Include="Models\StudOut.cs" />
     <Compile Include="Models\TAcc.cs" />
-    <Compile Include="Models\TAccType.cs" />
     <Compile Include="Models\TBan.cs" />
     <Compile Include="Models\TEdu.cs" />
     <Compile Include="Models\TGrade.cs" />
@@ -370,6 +371,7 @@
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Models\WxUploadFile.cs" />
+    <Compile Include="Mvvm\Login\WebLogin.cs" />
     <Compile Include="Mvvm\Web\Role\VmRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -381,7 +383,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\print.css" />
-    <Content Include="Content\qrcss.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\default\accordion.css" />
     <Content Include="Content\themes\default\calendar.css" />
@@ -667,9 +668,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Html\camhtml5.htm" />
-    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Account\Wrong1.cshtml" />
-    <Content Include="Views\Account\Main.cshtml" />
+    <Content Include="Views\Login\Main.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\AdminUser\Index.cshtml" />
     <Content Include="Views\AdminUser\Add.cshtml" />
@@ -761,10 +762,11 @@
     <Content Include="Views\Regs\House.cshtml" />
     <Content Include="Views\StNew\Index.cshtml" />
     <Content Include="Views\StNew\Print.cshtml" />
+    <Content Include="Views\UserBanst\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
-    <Folder Include="Mvvm\WX\" />
+    <Folder Include="Mvvm\Gone\" />
     <Folder Include="Views\Image\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>

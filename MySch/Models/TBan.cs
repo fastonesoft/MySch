@@ -10,7 +10,6 @@ namespace MySch.Models
         public string Num { get; set; }
         public string GradeIDS { get; set; }
         public string MasterIDS { get; set; }
-        public string GroupIDS { get; set; }
         public string AccIDS { get; set; }
     }
 }

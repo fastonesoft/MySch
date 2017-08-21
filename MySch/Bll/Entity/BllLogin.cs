@@ -1,4 +1,5 @@
-﻿using MySch.Models;
+﻿using MySch.Bll.WX.Model;
+using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,9 +81,13 @@ namespace MySch.Bll.Entity
         /// </summary>
         /// <param name="session"></param>
         /// <returns></returns>
-        public static LoginModel GetLogin(HttpSessionStateBase session)
+        public static WX_OAuserInfor GetLogin(HttpSessionStateBase session)
         {
-            return session[Setting.SESSION_LOGIN] as LoginModel;
+            var infor = (WX_OAuserInfor)HttpContext.Current.Session["wx_userinfor"];
+            if (infor == null) throw new Exception("页面请求已过期，重新登录");
+            if (infor.IDS == string.Empty) throw new Exception("不是教师，不能进行这些操作");
+
+            return infor;
         }
 
         /// <summary>

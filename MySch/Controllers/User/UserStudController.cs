@@ -234,6 +234,8 @@ namespace MySch.Controllers.User
         {
             try
             {
+                var login = BllLogin.GetLogin(Session);
+
                 //1.1 离校
                 entity.InSch = false;
                 entity.OutTime = DateTime.Parse(entity.OutTimeIn);
@@ -279,6 +281,8 @@ namespace MySch.Controllers.User
         {
             try
             {
+                var login = BllLogin.GetLogin(Session);
+
                 //1.1 离校
                 entity.InSch = true;
                 entity.ToUpdate(ModelState);
@@ -293,7 +297,19 @@ namespace MySch.Controllers.User
             }
         }
 
-
+        [HttpPost]
+        public ActionResult Backs(IEnumerable<VStudOut> entitys)
+        {
+            try
+            {
+                var infor = BllGradeBacks.Backs(entitys);
+                return Json(new BllError { error = false, message = infor });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
 
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -385,6 +401,10 @@ namespace MySch.Controllers.User
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+
+
+
 
         [HttpPost]
         public ActionResult GradeCheck(IEnumerable<VGradeStud> rows)

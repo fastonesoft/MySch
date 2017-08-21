@@ -15,6 +15,7 @@ namespace MySch.Bll.WX.Model
         public string unionid { get; set; }
 
         //用户类型
+        public string IDS { get; set; }
         public string username { get; set; }
         public bool isteach { get; set; }
         public bool istudent { get; set; }
@@ -46,6 +47,7 @@ namespace MySch.Bll.WX.Model
                 {
                     isteach = true;
                     istudent = false;
+                    IDS = teach.IDS;
                     username = teach.Name;
                     return;
                 }
@@ -150,7 +152,7 @@ namespace MySch.Bll.WX.Model
                     ID = unionid,
                     IDS = Guid.NewGuid().ToString("N"),
                     Name = name,
-                    AccTypeIDS = 0,
+                    RoleGroupIDS = 0,
                     RegTime = DateTime.Now,
                     Passed = false,
                     Fixed = false,
@@ -173,7 +175,7 @@ namespace MySch.Bll.WX.Model
                 var entity = DataCRUD<TAcc>.Entity(a => a.ID == unionid);
                 if (entity == null) return;
 
-                var valid = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", unionid, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                var valid = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", unionid, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
                 if (entity.Valided != valid) throw new Exception("帐号数据异常");
             }
             catch (Exception e)
@@ -191,7 +193,7 @@ namespace MySch.Bll.WX.Model
 
                 //更新
                 entity.Passed = true;
-                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
                 DataCRUD<TAcc>.Update(entity);
             }
             catch (Exception e)
@@ -230,7 +232,7 @@ namespace MySch.Bll.WX.Model
                 if (entity == null) throw new Exception("数据查询异常");
 
                 entity.Passed = true;
-                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
 
                 DataCRUD<TAcc>.Update(entity);
                 return entity;
@@ -251,7 +253,7 @@ namespace MySch.Bll.WX.Model
                 if (entity == null) throw new Exception("数据查询异常");
 
                 entity.Passed = false;
-                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
 
                 DataCRUD<TAcc>.Update(entity);
                 return entity;
@@ -272,7 +274,7 @@ namespace MySch.Bll.WX.Model
                 if (entity == null) throw new Exception("数据查询异常");
 
                 entity.Fixed = true;
-                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
 
                 DataCRUD<TAcc>.Update(entity);
                 return entity;
@@ -293,7 +295,7 @@ namespace MySch.Bll.WX.Model
                 if (entity == null) throw new Exception("数据查询异常");
 
                 entity.Fixed = false;
-                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                entity.Valided = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
 
                 DataCRUD<TAcc>.Update(entity);
                 return entity;
@@ -314,7 +316,7 @@ namespace MySch.Bll.WX.Model
                 if (!entity.Passed) throw new Exception("帐号未通过审核");
                 if (entity.Fixed) throw new Exception("帐号已冻结");
 
-                var valid = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.AccTypeIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                var valid = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
                 if (valid != entity.Valided) throw new Exception("帐号数据异常");
             }
             catch (Exception e)

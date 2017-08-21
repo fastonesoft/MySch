@@ -55,7 +55,7 @@ namespace MySch.Bll.View
                                        StudIDS = st.IDS,
                                        StepName = s.Name,
                                        StudName = st.Name,
-                                       StudSex = st.IDC.Substring(16, 1),
+                                       StudSex = st.IDC.Length == 18 ? st.IDC.Substring(16, 1) : st.IDC.Substring(1, 1),
                                        OutName = gs_o.Name,
                                        InSch = gs.InSch,
                                        CanReturn = gs_o.CanReturn,
@@ -159,9 +159,9 @@ namespace MySch.Bll.View
                         {
                             var grade = db.TGrades.Single(a => a.IDS == ids);
                             var entitys = from s in db.Students
-                                          where s.StepIDS == grade.StepIDS && !(from g in db.StudGrades
-                                                                                where g.GradeIDS == ids
-                                                                                select g.StudIDS).Contains(s.IDS)
+                                          where s.StepIDS == grade.StepIDS && !string.IsNullOrEmpty(s.RegNo) && !(from g in db.StudGrades
+                                                                                                                  where g.GradeIDS == ids
+                                                                                                                  select g.StudIDS).Contains(s.IDS)
                                           select s;
                             //补缺：把导入数据中以往不正常删除的学生资料，加以恢复
                             //保持，年度学生与学生库的一致
@@ -178,8 +178,8 @@ namespace MySch.Bll.View
                                 gstud.GradeIDS = ids;
                                 gstud.StudIDS = entity.IDS;
                                 gstud.BanIDS = ids + "01";
-                                gstud.OldBan = "0101";
-                                gstud.Choose = false;
+                                gstud.OldBan = entity.RegNo;
+                                gstud.Choose = entity.SchChoose;
                                 gstud.ComeIDS = "3212840201";
                                 gstud.Fixed = false;
                                 gstud.InSch = false;

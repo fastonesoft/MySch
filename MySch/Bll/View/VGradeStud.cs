@@ -63,7 +63,7 @@ namespace MySch.Bll.View
                                        BanLongName = s.Name + " - " + e.Name + "（" + b.Num + "）班",
                                        StudIDS = gs.StudIDS,
                                        StudName = st.Name,
-                                       StudSex = st.IDC.Substring(16, 1),
+                                       StudSex = st.IDC.Length == 18 ? st.IDC.Substring(16, 1) : st.IDC.Substring(1, 1),
                                        ComeName = gs_c.Name,
                                        OutName = gs_o.Name,
                                        Fixed = st.Fixed,

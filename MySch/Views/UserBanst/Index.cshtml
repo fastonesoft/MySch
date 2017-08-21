@@ -1,6 +1,6 @@
-﻿@{
+﻿
+@{
     Layout = null;
-    //UserStud/Index
 }
 
 <!DOCTYPE html>
@@ -8,15 +8,15 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>年度学生</title>
+    <title>班级学生</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            studins = {
+            studbanst = {
                 add: function () {
-                    var node = $('#studs-tree').tree('getSelected');
+                    var node = $('#studbanst-tree').tree('getSelected');
                     if (!node) {
                         $.messager.alert('错误提示', '前端：没有选择校区！', 'error');
                         return false;
@@ -28,33 +28,33 @@
                     DataGridRequest('/UserStud/Add', param);
                 },
                 edit: function () {
-                    DataGridRows('#studins-grid', '/UserStud/GradeCheck');
+                    DataGridRows('#studbanst-grid', '/UserStud/GradeCheck');
                 },
                 change: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Change');
+                    DataGridRow('#studbanst-grid', '/UserStud/Change');
                 },
                 drop: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Drop');
+                    DataGridRow('#studbanst-grid', '/UserStud/Drop');
                 },
                 out: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Out');
+                    DataGridRow('#studbanst-grid', '/UserStud/Out');
                 },
                 search: function () {
-                    var node = $('#studs-tree').tree('getSelected');
+                    var node = $('#studbanst-tree').tree('getSelected');
                     if (!node) {
                         $.messager.alert('错误提示', '前端：没有选择校区！', 'error');
                         return false;
                     }
-                    var text = $('#studins-text').val();
+                    var text = $('#studbanst-text').val();
                     var param = {
                         id: node.id,
                         memo: node.memo,
                         text: text,
                     }
-                    DataGridSearchParam('#studins-text', '#studins-grid', '/UserStud/DataGrid', param);
+                    DataGridSearchParam('#studbanst-text', '#studbanst-grid', '/UserStud/DataGrid', param);
                 },
                 search2: function () {
-                    var node = $('#studs-tree').tree('getSelected');
+                    var node = $('#studbanst-tree').tree('getSelected');
                     if (!node) {
                         $.messager.alert('错误提示', '前端：没有选择校区！', 'error');
                         return false;
@@ -69,21 +69,8 @@
                 },
             }
 
-            studouts = {
-                back: function () {
-                    DataGridRow('#studouts-grid', '/UserStud/Back');
-                },
-                backs: function () {
-                    DataGridRowsNoForm('#studouts-grid',  '/UserStud/Backs', function(d){
-                        $('#studins-grid').datagrid('reload');
-                        $('#studouts-grid').datagrid('reload');
-                        $.messager.alert('提示', d.message, 'error');
-                    })
-                },
-            }
-
             //数据表格
-            $('#studins-grid').datagrid({
+            $('#studbanst-grid').datagrid({
                 fit: true,
                 border: false,
                 striped: true,
@@ -111,7 +98,7 @@
                     { title: '学生来源', field: 'ComeName', align: 'center', sortable: true, width: 70 },
                 ]],
 
-                toolbar: '#studins-grid-tool',
+                toolbar: '#studbanst-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -119,48 +106,12 @@
             });
 
 
-            //数据表格
-            $('#studouts-grid').datagrid({
-                fit: true,
-                border: false,
-                striped: true,
-                rownumbers: true,
-                fitColumns: false,
-                remoteSort: false,
-                singleSelect: false,
-                checkOnSelect: true,
-                url: '/UserStud/DataGrid2',
-                loadFilter: function (d) {
-                    if (d.error) {
-                        $.messager.alert('错误提示', d.message, 'error');
-                        return { total: 0, rows: [] };
-                    } else {
-                        return d;
-                    }
-                },
-
-                columns: [[
-                    { field: 'ck', checkbox: true },
-                    { title: '分级', field: 'StepName', align: 'center', sortable: true, width: 60 },
-                    { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
-                    { title: '身份证号', field: 'IDC', align: 'center', sortable: true, width: 150 },
-                    { title: '离校说明', field: 'OutName', align: 'center', sortable: true, width: 70 },
-                ]],
-
-                toolbar: '#studouts-grid-tool',
-                pagination: false,
-                pageSize: 100,
-                pageList: [100, 200, 500],
-                pageNumber: 1,
-            });
-
-
-            $('#studs-lay').layout({
+            $('#studbanst-lay').layout({
                 fit: true,
                 border: true,
             });
 
-            $('#studs-tree').tree({
+            $('#studbanst-tree').tree({
                 fit: true,
                 url: '/UserStud/GradeTree',
                 loadFilter: function (d) {
@@ -178,14 +129,7 @@
                 },
                 onClick: function (node) {
                     if (node) {
-                        $('#studins-grid').datagrid({
-                            queryParams: {
-                                id: node.id,
-                                memo: node.memo,
-                                text: null,
-                            }
-                        });
-                        $('#studouts-grid').datagrid({
+                        $('#studbanst-grid').datagrid({
                             queryParams: {
                                 id: node.id,
                                 memo: node.memo,
@@ -201,59 +145,35 @@
     </script>
 </head>
 <body>
-    <div id="studs-lay">
+    <div id="studbanst-lay">
         <div data-options="region:'west',border:true" style="width:180px;">
-            <ul id="studs-tree"></ul>
+            <ul id="studbanst-tree"></ul>
         </div>
         <div data-options="region:'center',border:true">
-            <table id="studins-grid"></table>
+            <table id="studbanst-grid"></table>
 
-            <div id="studins-grid-tool">
+            <div id="studbanst-grid-tool">
                 <table cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-add" iconcls="icon-add">增加</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studbanst-mm-add" iconcls="icon-add">增加</a>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-edit" iconcls="icon-edit">变更</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studbanst-mm-edit" iconcls="icon-edit">变更</a>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-remove" iconcls="icon-remove">减少</a>
-                            </td>
-                            <td style="width:8px;"></td>
-                            <td>
-                                <span class="textbox">
-                                    <input class="textbox-text" id="studins-text" style="width:165px;" />
-                                </span>
-                            </td>
-                            <td style="width:8px;"></td>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studins.search();">查询</a>
-                            </td>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-        <div data-options="region:'east',border:true" style="width:450px;">
-            <table id="studouts-grid"></table>
-            <div id="studouts-grid-tool">
-                <table cellpadding="0" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studs-mm-back" iconcls="icon-undo">回校</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studbanst-mm-remove" iconcls="icon-remove">减少</a>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
                                 <span class="textbox">
-                                    <input class="textbox-text" id="studouts-text" style="width:165px;" />
+                                    <input class="textbox-text" id="studbanst-text" style="width:165px;" />
                                 </span>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studins.search2();">查询</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="studbanst.search();">查询</a>
                             </td>
                         </tr>
                     </thead>
@@ -262,24 +182,24 @@
         </div>
     </div>
 
-    <div id="studs-mm-add" style="width:150px;">
+    <div id="studbanst-mm-add" style="width:150px;">
         <div>批量导入...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-redo">添加...</div>
+        <div iconcls="icon-redo" onclick="studins.add();">添加...</div>
     </div>
-    <div id="studs-mm-edit" style="width:150px;">
+    <div id="studbanst-mm-edit" style="width:150px;">
         <div iconcls="icon-man">修改...</div>
         <div class="menu-sep"></div>
         <div>学籍办理...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-reload" onclick="studins.change();">班级调动...</div>
     </div>
-    <div id="studs-mm-remove" style="width:150px;">
+    <div id="studbanst-mm-remove" style="width:150px;">
         <div onclick="studins.drop();">休学...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-clear" onclick="studins.out();">离校...</div>
     </div>
-    <div id="studs-mm-back" style="width:150px;">
+    <div id="studbanst-mm-back" style="width:150px;">
         <div onclick="studouts.back();">单个...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-clear" onclick="studouts.backs();">全部回校...</div>

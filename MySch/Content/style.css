@@ -40,7 +40,7 @@ cite { font-style: normal; }
 .my-topright ul li a { color: #e9f2f7; }
 .my-topright ul li a:hover { color: #fff; }
 .my-topright ul li span { margin-top: 2px; float: left; padding-right: 3px; }
-.my-user { height: 30px; background: url(/Images/ub1.png) repeat-x; clear: both; margin-top: 10px; float: right; margin-right: 12px; border-radius: 30px; behavior: url(js/pie.htc); white-space: nowrap; position: relative; }
+.my-user { height: 30px; background: url(/Images/ub1.png) repeat-x; clear: both; margin-top: 10px; float: right; margin-right: 12px; border-radius: 12px; white-space: nowrap; position: relative; }
 .my-user span { display: inline-block; padding-right: 10px; background: url(/Images/user.png) no-repeat 15px 10px; line-height: 30px; color: #b8ceda; padding-left: 35px; }
 .my-user b { display: inline-block; width: 20px; height: 18px; background: url(/Images/msg.png); text-align: center; font-weight: normal; color: #fff; font-size: 12px; margin-right: 13px; margin-top: 7px; line-height: 18px; }
 .my-user i { display: inline-block; margin-right: 5px; font-style: normal; line-height: 30px; font-size: 12px; color: #b8ceda; }

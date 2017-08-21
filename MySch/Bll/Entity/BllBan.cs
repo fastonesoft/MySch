@@ -27,9 +27,6 @@ namespace MySch.Bll.Entity
         [DisplayName("班主任")]
         public string MasterIDS { get; set; }
 
-        [DisplayName("班级分组负责人")]
-        public string GroupIDS { get; set; }
-
         public string AccIDS { get; set; }
 
     }

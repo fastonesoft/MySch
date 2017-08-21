@@ -68,7 +68,7 @@ insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '01', '系统设置')
 insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '02', '模板定制')
 insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '03', '权限分配')
 insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '04', '用户管理')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '05', '游客来访')
+insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '05', '有客来访')
 insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '06', '教师相关')
 insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '07', '主任工作')
 insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '08', '备课计划')
@@ -306,7 +306,8 @@ alter table TYear add constraint PK_TYear primary key clustered (ID)
 alter table TYear add constraint FK_TYear_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TYear_IDS on TYear (IDS)
 go
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022016', '2016', 1, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022017', '2017', 1, '32128402')
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022016', '2016', 0, '32128402')
 insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022015', '2015', 0, '32128402')
 insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022014', '2014', 0, '32128402')
 insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022013', '2013', 0, '32128402')
@@ -380,6 +381,8 @@ insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', 0, '3212
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201502', 0, '321284022015', '3212840202', '32128402')
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', 1, '321284022016', '3212840201', '32128402')
 
+insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201602', 1, '321284022016', '3212840202', '32128402')
+insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201701', 1, '321284022017', '3212840201', '32128402')
 
 --年级设置
 create table TGrade
@@ -399,6 +402,10 @@ alter table TGrade add constraint FK_TGrade_EduIDS foreign key (EduIDS) referenc
 alter table TGrade add constraint FK_TGrade_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TGrade_IDS on TGrade (IDS)
 --实验
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120170107', '3212840201201701', '321284022017', '3212840207', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120160108', '3212840201201601', '321284022017', '3212840208', '32128402')
+insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120150109', '3212840201201501', '321284022017', '3212840209', '32128402')
+
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120160107', '3212840201201601', '321284022016', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120150107', '3212840201201501', '321284022015', '3212840207', '32128402')
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120150108', '3212840201201501', '321284022016', '3212840208', '32128402')
@@ -472,6 +479,8 @@ alter table TBan add constraint FK_TBan_MasterIDS foreign key (MasterIDS) refere
 alter table TBan add constraint FK_TBan_GroupIDS foreign key (GroupIDS) references TAcc (IDS)
 alter table TBan add constraint FK_TBan_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TBan_IDS on TBan (IDS)
+
+--2017级
 
 --2016级
 insert TBan values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010701', '01', '321284020120160107', null, null, '32128402')

@@ -25,6 +25,8 @@ namespace MySch.Bll.WX.Model
             return infor;
         }
 
+
+        //要考虑下次是否把这个功能拆并了
         public WX_OAuserInfor WebLogin()
         {
             var oaken = WX_Url.OAccessToKen(WX_Const.webAppID, WX_Const.webAppSecret, code);
