@@ -28,9 +28,13 @@ namespace MySch.Bll.View
         public string StudSex { get; set; }
         public string ComeName { get; set; }
         public string OutName { get; set; }
-        public bool Fixed { get; set; }
         public bool InSch { get; set; }
         public bool IsCurrent { get; set; }
+
+        public bool Fixed { get; set; }
+        public int? Score { get; set; }
+        public string OldBan { get; set; }
+        public string GroupID { get; set; }
 
         public static IEnumerable<VGradeStud> GetEntitys(Expression<Func<VGradeStud, bool>> where)
         {
@@ -66,21 +70,26 @@ namespace MySch.Bll.View
                                        StudSex = st.IDC.Length == 18 ? st.IDC.Substring(16, 1) : st.IDC.Substring(1, 1),
                                        ComeName = gs_c.Name,
                                        OutName = gs_o.Name,
-                                       Fixed = st.Fixed,
+                                       Fixed = gs.Fixed,
                                        InSch = gs.InSch,
                                        IsCurrent = y.IsCurrent,
+                                       Score = gs.Score,
+                                       OldBan = gs.OldBan.Substring(0, 2),
+                                       GroupID = gs.GroupID,
                                    })
                                    .Where(where)
-                                   .OrderBy(a => a.BanIDS)
-                                   .ThenBy(a => a.IDS)
                                    .ToList();
                     //性别转换
                     foreach (var entity in entitys)
                     {
-
                         entity.StudSex = entity.StudSex == null ? null : int.Parse(entity.StudSex) % 2 == 0 ? "女" : "男";
                     }
-                    return entitys;
+                    return
+                        entitys
+                        .OrderBy(a => a.BanIDS)
+                        .ThenByDescending(a => a.StudSex)
+                        .ThenByDescending(a => a.Score)
+                        .ThenBy(a => a.ID);
                 }
             }
             catch (Exception e)

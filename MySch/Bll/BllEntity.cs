@@ -17,7 +17,7 @@ namespace MySch.Bll
     public class BllEntity<Entity> : BllBase<Entity> where Entity : class
     {
         //通过反射的方式 将 表示数据 -> 实体对象
-        public void ToAdd(ModelStateDictionary model)
+        public virtual void ToAdd(ModelStateDictionary model)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace MySch.Bll
             }
         }
 
-        public void ToUpdate(ModelStateDictionary model)
+        public virtual void ToUpdate(ModelStateDictionary model)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace MySch.Bll
             }
         }
 
-        public void ToDelete(ModelStateDictionary model)
+        public virtual void ToDelete(ModelStateDictionary model)
         {
             try
             {

@@ -30,9 +30,6 @@
                 edit: function () {
                     DataGridRows('#studins-grid', '/UserStud/GradeCheck');
                 },
-                change: function () {
-                    DataGridRow('#studins-grid', '/UserStud/Change');
-                },
                 drop: function () {
                     DataGridRow('#studins-grid', '/UserStud/Drop');
                 },
@@ -74,7 +71,7 @@
                     DataGridRow('#studouts-grid', '/UserStud/Back');
                 },
                 backs: function () {
-                    DataGridRowsNoForm('#studouts-grid',  '/UserStud/Backs', function(d){
+                    DataGridRowsNoForm('#studouts-grid', '/UserStud/Backs', function (d) {
                         $('#studins-grid').datagrid('reload');
                         $('#studouts-grid').datagrid('reload');
                         $.messager.alert('提示', d.message, 'error');
@@ -265,14 +262,12 @@
     <div id="studs-mm-add" style="width:150px;">
         <div>批量导入...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-redo">添加...</div>
+        <div iconcls="icon-redo" onclick="studins.add();">添加...</div>
     </div>
     <div id="studs-mm-edit" style="width:150px;">
         <div iconcls="icon-man">修改...</div>
         <div class="menu-sep"></div>
         <div>学籍办理...</div>
-        <div class="menu-sep"></div>
-        <div iconcls="icon-reload" onclick="studins.change();">班级调动...</div>
     </div>
     <div id="studs-mm-remove" style="width:150px;">
         <div onclick="studins.drop();">休学...</div>

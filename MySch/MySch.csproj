@@ -60,6 +60,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -128,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
+    <Compile Include="Bll\Entity\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Log\BllLog.cs" />
     <Compile Include="Bll\Retu\StudInfor.cs" />
@@ -255,9 +258,6 @@
     <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\Stud\StudEditController.cs" />
     <Compile Include="Controllers\User\UserOutController.cs" />
-    <Compile Include="Controllers\Admin\AdminController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Stud\StudRegController.cs" />
@@ -300,9 +300,9 @@
     </Compile>
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
+    <Compile Include="Models\ARoleAction.cs" />
     <Compile Include="Models\ARoleGroup.cs" />
     <Compile Include="Models\ARoleType.cs" />
-    <Compile Include="Models\ARoleAction.cs" />
     <Compile Include="Models\ATheme.cs" />
     <Compile Include="Models\Kao.cs" />
     <Compile Include="Models\KRoom.cs" />
@@ -313,43 +313,9 @@
     <Compile Include="Models\KSubBan.cs" />
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
-    <Compile Include="Models\Mapping\ARoleGroupMap.cs" />
-    <Compile Include="Models\Mapping\ARoleTypeMap.cs" />
-    <Compile Include="Models\Mapping\ARoleActionMap.cs" />
-    <Compile Include="Models\Mapping\ADatumMap.cs" />
-    <Compile Include="Models\Mapping\APageMap.cs" />
-    <Compile Include="Models\Mapping\AThemeMap.cs" />
-    <Compile Include="Models\Mapping\KaoMap.cs" />
-    <Compile Include="Models\Mapping\KRoomMap.cs" />
-    <Compile Include="Models\Mapping\KRoomTypeMap.cs" />
-    <Compile Include="Models\Mapping\KScoreDetailMap.cs" />
-    <Compile Include="Models\Mapping\KScoreMap.cs" />
-    <Compile Include="Models\Mapping\KStudMap.cs" />
-    <Compile Include="Models\Mapping\KSubBanMap.cs" />
-    <Compile Include="Models\Mapping\KSubGradeMap.cs" />
-    <Compile Include="Models\Mapping\KSubTestMap.cs" />
-    <Compile Include="Models\Mapping\StudComeMap.cs" />
-    <Compile Include="Models\Mapping\StudentMap.cs" />
-    <Compile Include="Models\Mapping\StudGradeFieldMap.cs" />
-    <Compile Include="Models\Mapping\StudGradeMap.cs" />
-    <Compile Include="Models\Mapping\StudGradeTableMap.cs" />
-    <Compile Include="Models\Mapping\StudGradeTypeMap.cs" />
-    <Compile Include="Models\Mapping\StudOutMap.cs" />
-    <Compile Include="Models\Mapping\TAccMap.cs" />
-    <Compile Include="Models\Mapping\TBanMap.cs" />
-    <Compile Include="Models\Mapping\TEduMap.cs" />
-    <Compile Include="Models\Mapping\TGradeMap.cs" />
-    <Compile Include="Models\Mapping\TLoginMap.cs" />
-    <Compile Include="Models\Mapping\TLogMap.cs" />
-    <Compile Include="Models\Mapping\TPartMap.cs" />
-    <Compile Include="Models\Mapping\TPrintMap.cs" />
-    <Compile Include="Models\Mapping\TSemesterMap.cs" />
-    <Compile Include="Models\Mapping\TStepMap.cs" />
-    <Compile Include="Models\Mapping\TSubMap.cs" />
-    <Compile Include="Models\Mapping\TTermMap.cs" />
-    <Compile Include="Models\Mapping\TYearMap.cs" />
-    <Compile Include="Models\Mapping\WxUploadFileMap.cs" />
     <Compile Include="Models\MySchContext.cs" />
+    <Compile Include="Models\QrAccRoleGroup.cs" />
+    <Compile Include="Models\QrBanCurrent.cs" />
     <Compile Include="Models\StudCome.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudGrade.cs" />
@@ -372,7 +338,11 @@
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Models\WxUploadFile.cs" />
     <Compile Include="Mvvm\Login\WebLogin.cs" />
-    <Compile Include="Mvvm\Web\Role\VmRole.cs" />
+    <Compile Include="Mvvm\Web\Role\VmRoleFilter.cs" />
+    <Compile Include="Mvvm\Web\User\Act\ActAcc.cs" />
+    <Compile Include="Mvvm\Web\User\VmAcc.cs" />
+    <Compile Include="Mvvm\Web\User\VmRole.cs" />
+    <Compile Include="Mvvm\Web\User\VqAcc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -721,9 +691,8 @@
     <Content Include="Views\UserOut\Del.cshtml" />
     <Content Include="Views\UserOut\Index.cshtml" />
     <Content Include="Views\UserStud\Add.cshtml" />
-    <Content Include="Views\UserStud\Edit.cshtml" />
     <Content Include="Views\UserStud\Index.cshtml" />
-    <Content Include="Views\UserStud\Change.cshtml" />
+    <Content Include="Views\UserBanst\Change.cshtml" />
     <Content Include="Views\UserStud\Drop.cshtml" />
     <Content Include="Views\UserStud\Back.cshtml" />
     <Content Include="Views\StudEdit\Index.cshtml" />
@@ -763,15 +732,19 @@
     <Content Include="Views\StNew\Index.cshtml" />
     <Content Include="Views\StNew\Print.cshtml" />
     <Content Include="Views\UserBanst\Index.cshtml" />
+    <Content Include="Views\Account\RoleGroup.cshtml" />
+    <Content Include="Views\Account\Del.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
-    <Folder Include="Mvvm\Gone\" />
     <Folder Include="Views\Image\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

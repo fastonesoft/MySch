@@ -32,11 +32,11 @@
             @Html.ValidationMessageFor(a => a.IDC)
         </div>
         <div class="form-item-row-left">
-            <div>@Html.LabelFor(a => a.OldBan)：</div>
+            <div>@Html.LabelFor(a => a.RegNo)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.OldBan, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.RegNo, new { @class = "textbox-text" })
             </span>
-            @Html.ValidationMessageFor(a => a.OldBan)
+            @Html.ValidationMessageFor(a => a.RegNo)
         </div>
         <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.ComeIDS)：</div>

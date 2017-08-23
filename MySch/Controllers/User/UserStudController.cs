@@ -97,49 +97,6 @@ namespace MySch.Controllers.User
         }
 
         /// <summary>
-        /// 班级调整
-        /// </summary>
-        /// <param name="row"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult Change(BllBanChange entity)
-        {
-            try
-            {
-                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
-                ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
-
-                return View(entity);
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        /// <summary>
-        /// 班级调整：提交
-        /// </summary>
-        /// <param name="change"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeToken(BllBanChange entity)
-        {
-            try
-            {
-                entity.ToUpdate(ModelState);
-
-                var entitys = VGradeStud.GetEntitys(a => a.ID == entity.ID);
-                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
-            }
-            catch (Exception e)
-            {
-                return Json(new BllError { error = true, message = e.Message });
-            }
-        }
-
-        /// <summary>
         /// 休学办理
         /// </summary>
         /// <param name="row"></param>

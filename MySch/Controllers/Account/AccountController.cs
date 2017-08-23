@@ -2,16 +2,19 @@
 using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.WX.Model;
+using MySch.Dal;
 using MySch.Filter;
 using MySch.Helper;
+using MySch.Models;
 using MySch.Mvvm.Web.Role;
+using MySch.Mvvm.Web.User;
 using System;
 using System.Text;
 using System.Web.Mvc;
 
 namespace MySch.Controllers.Account
 {
-    public class AccountController : BaseController
+    public class AccountController : RoleController
     {
         //用户检测
         public ActionResult Check()
@@ -45,13 +48,12 @@ namespace MySch.Controllers.Account
         }
 
         [HttpPost]
-        public ActionResult DataGrid(int page = 1, int rows = 100)
+        public ActionResult DataGrid(string text, int page = 1, int rows = 100)
         {
             try
             {
                 var infor = WX_OAuserInfor.GetFromSession();
-
-                var res = WX_OAuserInfor.ExamGrid(infor.unionid, page, rows);
+                var res = VmAcc.DataGrid(text, infor.unionid, page, rows);
                 return Json(res);
             }
             catch (Exception e)
@@ -66,7 +68,7 @@ namespace MySch.Controllers.Account
             try
             {
                 var infor = WX_OAuserInfor.GetFromSession();
-                if (infor.unionid != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI") throw new Exception("不是管理员，不好操作");
+                if (infor.unionid != "o47ZhvxoQA9QOOgDSZ5hGaea4xdI" && infor.unionid != "o47ZhvzWPWSNS26vG_45Fuz5JMZk") throw new Exception("不是管理员，不好操作");
 
                 return View();
             }
@@ -135,5 +137,72 @@ namespace MySch.Controllers.Account
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        [HttpPost]
+        public ActionResult RoleGroup(VmAccRoleGroup entity)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+                var roleids = VmRole.GetRoleGroupIDS(infor.unionid);
+                var roles = VmRoleGroup.GetEntitys<VmRoleGroup>(a => a.IDS < roleids);
+                ViewBag.RoleGroups = EasyUICombo.ToComboJsons<VmRoleGroup>(roles, entity.RoleGroupIDS.ToString());
+
+                return View(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RoleGroupToken(VmAccRoleGroup entity)
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+                var roleids = VmRole.GetRoleGroupIDS(infor.unionid);
+                var roles = VmRoleGroup.GetEntitys<VmRoleGroup>(a => a.IDS < roleids);
+                ViewBag.RoleGroups = EasyUICombo.ToComboJsons<VmRoleGroup>(roles, entity.RoleGroupIDS.ToString());
+
+                entity.ToUpdate(ModelState);
+                return Json(new BllError { error = false });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Del(VmAccDel entity)
+        {
+            try
+            {
+                return View(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DelToken(VmAccDel entity)
+        {
+            try
+            {
+                entity.ToDelete(ModelState);
+                return Json(new BllError { error = false });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
     }
 }

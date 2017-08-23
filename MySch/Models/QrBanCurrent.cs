@@ -6,17 +6,16 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("TLog")]
-    public partial class TLog
+    [Table("QrBanCurrent")]
+    public partial class QrBanCurrent
     {
         [Key]
         [StringLength(32)]
-        public string GD { get; set; }
+        public string AccIDS { get; set; }
 
-        [Required]
-        [StringLength(2000)]
-        public string Value { get; set; }
+        [StringLength(32)]
+        public string MasterIDS { get; set; }
 
-        public DateTime CreateTime { get; set; }
+        public bool? IsCurrent { get; set; }
     }
 }

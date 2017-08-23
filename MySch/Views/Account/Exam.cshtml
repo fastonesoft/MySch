@@ -9,13 +9,13 @@
         <thead>
             <tr>
                 <td>
-                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="acc_exam.exam();">审核</a>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="acc_exam.exam();">通过审核</a>
                 </td>
                 <td>
                     <div class="datagrid-btn-separator"></div>
                 </td>
                 <td>
-                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="acc_exam.unexam();">退回</a>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="acc_exam.unexam();">退回</a>
                 </td>
                 <td>
                     <div class="datagrid-btn-separator"></div>
@@ -27,13 +27,35 @@
                     <div class="datagrid-btn-separator"></div>
                 </td>
                 <td>
-                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-undo" plain="true" onclick="acc_exam.unfixed();">解冻</a>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-redo" plain="true" onclick="acc_exam.unfixed();">解冻</a>
                 </td>
                 <td>
                     <div class="datagrid-btn-separator"></div>
                 </td>
                 <td>
                     <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="acc_exam.refresh();">刷新</a>
+                </td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="acc_exam.role();">权限修改</a>
+                </td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="acc_exam.del();">帐号删除</a>
+                </td>
+                <td style="width:5px;"></td>
+                <td>
+                    <span class="textbox">
+                        <input class="textbox-text" id="acc_exam-text" style="width:165px;" />
+                    </span>
+                </td>
+                <td style="width:8px;"></td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="acc_exam.search();">查询</a>
                 </td>
             </tr>
         </thead>
@@ -71,8 +93,21 @@
             });
         },
         refresh: function () {
-            DataGridRefresh('#acc_exam-grid', '/Account/DataGrid')
-        }
+            DataGridParams('#acc_exam-grid', '/Account/DataGrid', {})
+        },
+        role: function () {
+            DataGridRow('#acc_exam-grid', '/Account/RoleGroup')
+        },
+        del: function () {
+            DataGridRow('#acc_exam-grid', '/Account/Del')
+        },
+        search: function () {
+            var text = $('#acc_exam-text').val();
+            var param = {
+                text: text,
+            }
+            DataGridSearchParam('#acc_exam-text', '#acc_exam-grid', '/Account/DataGrid', param);
+        },
     }
     //数据表格
     $('#acc_exam-grid').datagrid({
@@ -85,6 +120,7 @@
         checkOnSelect: true,
         url: '/Account/DataGrid',
         loadFilter: function (d) {
+            console.log(d);
             if (d.error) {
                 $.messager.alert('错误提示', d.message, 'error');
                 return { total: 0, rows: [] };
@@ -94,8 +130,8 @@
         },
 
         columns: [[
-            { title: '帐号', field: 'IDS', align: 'center', sortable: true, width: 250 },
-            { title: '名称', field: 'Name', align: 'center', sortable: true, width: 150 },
+            { title: '帐号名称', field: 'Name', align: 'center', sortable: true, width: 150 },
+            { title: '帐号身份', field: 'RoleGroupName', align: 'center', sortable: true, width: 150 },
             {
                 title: '通过审核', field: 'Passed', halign: 'center', sortable: true, width: 100,
                 formatter: function (value, row, index) {

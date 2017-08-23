@@ -9,20 +9,44 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.GradeIDS)：</div>
             <input id="GradeIDS" name="GradeIDS" style="width:210px;" />
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.Num)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.Num, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
             </span>
             @Html.ValidationMessageFor(a => a.Num)
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.MasterIDS)：</div>
             <input id="MasterIDS" name="MasterIDS" style="width:210px;" />
+        </div>
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.ChangeNum)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.ChangeNum, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.ChangeNum)
+        </div>
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.Differ)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Differ, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Differ)
+        </div>
+        <div class="form-item-row-line"></div>
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.IsAbs)：@Html.CheckBoxFor(a => a.IsAbs, new { @disabled = "disabled" })</div>
+        </div>
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.OnlyFixed)：@Html.CheckBoxFor(a => a.OnlyFixed, new { @disabled = "disabled" })</div>
+        </div>
+        <div class="form-item-row-left1">
+            <div>@Html.LabelFor(a => a.NotFeng)：@Html.CheckBoxFor(a => a.NotFeng, new { @disabled = "disabled" })</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
@@ -50,6 +74,6 @@
         });
 
         //删除对话框
-        DialogReload('班级删除', 410, 330, '/UserBan/DelToken', '#bans-grid');
+        DialogReload('班级删除', 510, 300, '/UserBan/DelToken', '#bans-grid');
     })
 </script>

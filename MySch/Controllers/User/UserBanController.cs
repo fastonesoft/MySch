@@ -3,6 +3,8 @@ using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.Model;
 using MySch.Bll.View;
+using MySch.Mvvm.Web.User;
+using MySch.Mvvm.Web.User.Act;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,10 +69,10 @@ namespace MySch.Controllers.User
 
                 var login = BllLogin.GetLogin(Session);
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var accs = BllAcc.GetEntitys<BllAcc>(a => a.ParentID == login.unionid).OrderBy(a => a.IDS);
+                var accs = ActAcc.AccBanMaster(login.IDS, login.unionid);
 
                 ViewBag.Grades = EasyUICombo.ToComboJsons(grades, entity.GradeIDS);
-                ViewBag.Masters = EasyUICombo.ToComboJsons<BllAcc>(accs, entity.MasterIDS);
+                ViewBag.Masters = EasyUICombo.ToComboJsons<VqAccBan>(accs, entity.MasterIDS);
 
                 return View(entity);
             }
@@ -146,6 +148,8 @@ namespace MySch.Controllers.User
                         ID = Guid.NewGuid().ToString("N"),
                         IDS = entity.GradeIDS + i.ToString("D2"),
                         Num = i.ToString("D2"),
+                        NotFeng = false,
+                        OnlyFixed = true,
                         AccIDS = login.IDS,
                         GradeIDS = entity.GradeIDS,
                     };

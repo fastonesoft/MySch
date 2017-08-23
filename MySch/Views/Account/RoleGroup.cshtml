@@ -1,0 +1,44 @@
+﻿@model MySch.Mvvm.Web.User.VmAccRoleGroup
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.RoleGroupIDS)：</div>
+            <input id="RoleGroupIDS" name="RoleGroupIDS" style="width:210px;" />
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        var rolegroups = $.parseJSON('@Html.Raw(ViewBag.RoleGroups)');
+
+        //加载选择框
+        $('#RoleGroupIDS').combobox({
+            valueField: 'id',
+            textField: 'text',
+            data: rolegroups,
+            readonly: false,
+        });
+
+        //修改对话框
+        DialogReload('权限分组', 410, 250, '/Account/RoleGroupToken', '#acc_exam-grid');
+    })
+</script>

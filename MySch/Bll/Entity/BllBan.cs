@@ -27,6 +27,23 @@ namespace MySch.Bll.Entity
         [DisplayName("班主任")]
         public string MasterIDS { get; set; }
 
+        [DisplayName("调动人数")]
+        [RangeAttribute(0, 99, ErrorMessage = "设定数值必须在{1}-{2}之间")]
+        public int ChangeNum { get; set; }
+
+        [DisplayName("调动分差")]
+        [RangeAttribute(0, 20, ErrorMessage = "设定数值必须在{1}-{2}之间")]
+        public int Differ { get; set; }
+
+        [DisplayName("是否绝对值")]
+        public bool IsAbs { get; set; }
+
+        [DisplayName("只显固定")]
+        public bool OnlyFixed { get; set; }
+
+        [DisplayName("不参加分班")]
+        public bool NotFeng { get; set; }
+
         public string AccIDS { get; set; }
 
     }

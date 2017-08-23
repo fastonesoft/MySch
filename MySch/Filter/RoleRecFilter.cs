@@ -59,7 +59,6 @@ namespace MySch.Filter
                     IDS = url,
                     Name = this.Name,
                     IsMenu = this.IsMenu,
-                    Order = this.Order,
                     RoleTypeIDS = this.RoleTypeIDS,
                 };
                 role.Add();

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Account
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         // GET: Login
         public ActionResult Index()
@@ -26,12 +26,14 @@ namespace MySch.Controllers.Account
                     var infor = WX_OAuserInfor.GetFromSession();
                     infor.CheckUser();
 
-                    ViewBag.ShowMenu = infor.unionid == "o47ZhvxoQA9QOOgDSZ5hGaea4xdI" ? true : false;
+                    ViewBag.ShowMenu = infor.unionid == "o47ZhvxoQA9QOOgDSZ5hGaea4xdI" || infor.unionid == "o47ZhvzWPWSNS26vG_45Fuz5JMZk" ? true : false;
                     ViewBag.UserName = infor.username;
                     ViewBag.NickName = infor.nickname;
                     //已登录
                     return View("Main");
                 }
+                //ViewBag.ShowMenu = true;
+                //return View("Main");
             }
             catch (Exception e)
             {

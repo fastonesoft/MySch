@@ -6,8 +6,8 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("StudGradeType")]
-    public partial class StudGradeType
+    [Table("QrAccRoleGroup")]
+    public partial class QrAccRoleGroup
     {
         [Key]
         [Column(Order = 0)]
@@ -26,7 +26,21 @@ namespace MySch.Models
 
         [Key]
         [Column(Order = 3)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int RoleGroupIDS { get; set; }
+
+        [Key]
+        [Column(Order = 4)]
+        public bool Passed { get; set; }
+
+        [Key]
+        [Column(Order = 5)]
+        public bool Fixed { get; set; }
+
+        [StringLength(20)]
+        public string RoleGroupName { get; set; }
+
         [StringLength(32)]
-        public string AccIDS { get; set; }
+        public string ParentID { get; set; }
     }
 }

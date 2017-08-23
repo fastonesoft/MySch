@@ -15,29 +15,8 @@
 
             //点击动作
             studbanst = {
-                add: function () {
-                    var node = $('#studbanst-tree').tree('getSelected');
-                    if (!node) {
-                        $.messager.alert('错误提示', '前端：没有选择校区！', 'error');
-                        return false;
-                    }
-                    var param = {
-                        id: node.id,
-                        memo: node.memo,
-                    }
-                    DataGridRequest('/UserStud/Add', param);
-                },
-                edit: function () {
-                    DataGridRows('#studbanst-grid', '/UserStud/GradeCheck');
-                },
                 change: function () {
-                    DataGridRow('#studbanst-grid', '/UserStud/Change');
-                },
-                drop: function () {
-                    DataGridRow('#studbanst-grid', '/UserStud/Drop');
-                },
-                out: function () {
-                    DataGridRow('#studbanst-grid', '/UserStud/Out');
+                    DataGridRow('#studbanst-grid', '/UserBanst/Change');
                 },
                 search: function () {
                     var node = $('#studbanst-tree').tree('getSelected');
@@ -51,21 +30,31 @@
                         memo: node.memo,
                         text: text,
                     }
-                    DataGridSearchParam('#studbanst-text', '#studbanst-grid', '/UserStud/DataGrid', param);
+                    DataGridSearchParam('#studbanst-text', '#studbanst-grid', '/UserBanst/DataGrid', param);
                 },
-                search2: function () {
-                    var node = $('#studbanst-tree').tree('getSelected');
-                    if (!node) {
-                        $.messager.alert('错误提示', '前端：没有选择校区！', 'error');
-                        return false;
-                    }
-                    var text = $('#studouts-text').val();
-                    var param = {
-                        id: node.id,
-                        memo: node.memo,
-                        text: text,
-                    }
-                    DataGridSearchParam('#studouts-text', '#studouts-grid', '/UserStud/DataGrid2', param)
+                sameban: function () {
+                    DataGridRowsNoForm('#studbanst-grid', '/UserBanst/SameBan', function (d) {
+                        $('#studbanst-grid').datagrid('reload');
+                        $.messager.alert('提示', d.message, 'error');
+                    })
+                },
+                notsame: function () {
+                    DataGridRowsNoForm('#studbanst-grid', '/UserBanst/NotSame', function (d) {
+                        $('#studbanst-grid').datagrid('reload');
+                        $.messager.alert('提示', d.message, 'error');
+                    })
+                },
+                fixstud: function () {
+                    DataGridRowsNoForm('#studbanst-grid', '/UserBanst/FixStud', function (d) {
+                        $('#studbanst-grid').datagrid('reload');
+                        $.messager.alert('提示', d.message, 'error');
+                    })
+                },
+                notfix: function () {
+                    DataGridRowsNoForm('#studbanst-grid', '/UserBanst/NotFix', function (d) {
+                        $('#studbanst-grid').datagrid('reload');
+                        $.messager.alert('提示', d.message, 'error');
+                    })
                 },
             }
 
@@ -79,7 +68,7 @@
                 remoteSort: false,
                 singleSelect: false,
                 checkOnSelect: true,
-                url: '/UserStud/DataGrid',
+                url: '/UserBanst/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -91,11 +80,31 @@
 
                 columns: [[
                     { field: 'ck', checkbox: true },
-                    { title: '班级', field: 'BanName', align: 'center', sortable: true, width: 110 },
-                    { title: '身份证号', field: 'IDC', align: 'center', sortable: true, width: 150 },
-                    { title: '姓名', field: 'StudName', align: 'center', sortable: true, width: 60 },
-                    { title: '性别', field: 'StudSex', align: 'center', sortable: true, width: 50 },
-                    { title: '学生来源', field: 'ComeName', align: 'center', sortable: true, width: 70 },
+                    { title: '班级', field: 'BanName', align: 'center', width: 110 },
+                    { title: '身份证号', field: 'IDC', align: 'center', width: 150 },
+                    { title: '姓名', field: 'StudName', align: 'center', width: 70 },
+                    { title: '性别', field: 'StudSex', align: 'center', width: 70 },
+                    { title: '学生来源', field: 'ComeName', align: 'center', width: 90 },
+                    { title: '分班成绩', field: 'Score', align: 'center', width: 90 },
+                    { title: '原始班级', field: 'OldBan', align: 'center', width: 90 },
+                    {
+                        title: '是否同班', field: 'GroupID', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
+                        title: '是否固定', field: 'Fixed', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
                 ]],
 
                 toolbar: '#studbanst-grid-tool',
@@ -105,7 +114,6 @@
                 pageNumber: 1,
             });
 
-
             $('#studbanst-lay').layout({
                 fit: true,
                 border: true,
@@ -113,7 +121,7 @@
 
             $('#studbanst-tree').tree({
                 fit: true,
-                url: '/UserStud/GradeTree',
+                url: '/UserBanst/GradeTree',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -157,13 +165,10 @@
                     <thead>
                         <tr>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studbanst-mm-add" iconcls="icon-add">增加</a>
-                            </td>
-                            <td>
                                 <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studbanst-mm-edit" iconcls="icon-edit">变更</a>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studbanst-mm-remove" iconcls="icon-remove">减少</a>
+                                <a href="javascript:void(0);" class="easyui-splitbutton" menu="#studbanst-mm-print" iconcls="icon-remove">打印</a>
                             </td>
                             <td style="width:8px;"></td>
                             <td>
@@ -182,27 +187,25 @@
         </div>
     </div>
 
-    <div id="studbanst-mm-add" style="width:150px;">
-        <div>批量导入...</div>
-        <div class="menu-sep"></div>
-        <div iconcls="icon-redo" onclick="studins.add();">添加...</div>
-    </div>
     <div id="studbanst-mm-edit" style="width:150px;">
-        <div iconcls="icon-man">修改...</div>
+        <div iconcls="icon-man">分班...</div>
         <div class="menu-sep"></div>
-        <div>学籍办理...</div>
+        <div onclick="studbanst.sameban();">同班设置</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-reload" onclick="studins.change();">班级调动...</div>
+        <div onclick="studbanst.notsame();">取消同班</div>
+        <div class="menu-sep"></div>
+        <div onclick="studbanst.fixstud();">班级固定</div>
+        <div class="menu-sep"></div>
+        <div onclick="studbanst.notfix();">取消固定</div>
+        <div class="menu-sep"></div>
+        <div iconcls="icon-reload" onclick="studbanst.change();">班级调动...</div>
     </div>
-    <div id="studbanst-mm-remove" style="width:150px;">
-        <div onclick="studins.drop();">休学...</div>
+    <div id="studbanst-mm-print" style="width:150px;">
+        <div onclick="studbanst.drop();">原班信息...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="studins.out();">离校...</div>
-    </div>
-    <div id="studbanst-mm-back" style="width:150px;">
-        <div onclick="studouts.back();">单个...</div>
+        <div onclick="studbanst.drop();">现班名册...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="studouts.backs();">全部回校...</div>
+        <div iconcls="icon-clear" onclick="studbanst.out();">班主任留存...</div>
     </div>
 
 </body>

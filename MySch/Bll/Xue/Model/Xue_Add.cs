@@ -37,7 +37,7 @@ namespace MySch.Bll.Xue.Model
         [DisplayName("原班")]
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^\d{4}$", ErrorMessage = "{0}：为4位数字；")]
-        public string OldBan { get; set; }
+        public string RegNo { get; set; }
 
         [DisplayName("学生来源")]
         [Required(ErrorMessage = "{0}：不得为空")]
@@ -68,6 +68,8 @@ namespace MySch.Bll.Xue.Model
                     IDS = studs_max_prev + studs_max_order.ToString("D4"),
                     Name = this.Name,
                     IDC = this.IDC,
+                    RegNo = this.RegNo,
+                    SchChoose = this.Choose,
                     StepIDS = grade.StepIDS,
                     AccIDS = grade.AccIDS,
                 };
@@ -84,7 +86,7 @@ namespace MySch.Bll.Xue.Model
                     GradeIDS = grade.IDS,
                     StudIDS = stud.IDS,
                     BanIDS = this.BanIDS,
-                    OldBan = this.OldBan,
+                    OldBan = this.RegNo,
                     Choose = this.Choose,
                     ComeIDS = this.ComeIDS,
                     Fixed = false,

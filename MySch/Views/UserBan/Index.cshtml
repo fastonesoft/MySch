@@ -77,6 +77,35 @@
                 columns: [[
                     { title: '班级名称', field: 'Name', align: 'center', width: 250 },
                     { title: '班主任', field: 'MasterName', align: 'center', width: 120 },
+                    { title: '调动人数', field: 'ChangeNum', align: 'center', width: 90 },
+                    { title: '调动分差', field: 'Differ', align: 'center', width: 90 },
+                    {
+                        title: '是否绝对值', field: 'IsAbs', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
+                        title: '只显固定', field: 'OnlyFixed', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
+                        title: '不参加分班', field: 'NotFeng', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
                 ]],
 
                 toolbar: '#bans-grid-tool',

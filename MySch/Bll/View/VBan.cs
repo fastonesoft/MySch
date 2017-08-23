@@ -21,12 +21,18 @@ namespace MySch.Bll.View
         public string TreeName { get; set; }
         public string MasterIDS { get; set; }
         public string MasterName { get; set; }
-        public string GroupName { get; set; }
         public bool Graduated { get; set; }
         public bool IsCurrent { get; set; }
+        public bool NotFeng { get; set; }
+        public bool OnlyFixed { get; set; }
+
+        public int ChangeNum { get; set; }
+        public int Differ { get; set; }
+        public bool IsAbs { get; set; }
+
         public string AccIDS { get; set; }
 
-        public static  IEnumerable<VBan> GetEntitys(Expression<Func<VBan, bool>> where)
+        public static IEnumerable<VBan> GetEntitys(Expression<Func<VBan, bool>> where)
         {
             try
             {
@@ -38,7 +44,7 @@ namespace MySch.Bll.View
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
-                                   join mt in db.TAccs on b.MasterIDS equals mt.IDS into b_mts
+                                   join mt in db.TAccs on b.MasterIDS equals mt.ID into b_mts
                                    from b_mt in b_mts.DefaultIfEmpty()
                                    select new VBan
                                    {
@@ -51,11 +57,16 @@ namespace MySch.Bll.View
                                        GradeName = e.Name,
                                        Name = p.Name + " - " + s.Name + " - " + e.Name + "（" + b.Num + "）班",
                                        TreeName = e.Name + "（" + b.Num + "）班",
-                                       MasterIDS = b_mt.IDS,
+                                       MasterIDS = b_mt.ID,
                                        MasterName = b_mt.Name,
                                        Graduated = s.Graduated,
                                        IsCurrent = y.IsCurrent,
+                                       NotFeng = b.NotFeng,
+                                       OnlyFixed = b.OnlyFixed,
                                        AccIDS = b.AccIDS,
+                                       ChangeNum = b.ChangeNum,
+                                       Differ = b.Differ,
+                                       IsAbs = b.IsAbs,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.IDS)

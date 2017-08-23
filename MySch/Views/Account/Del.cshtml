@@ -1,0 +1,30 @@
+﻿@model MySch.Mvvm.Web.User.VmAccDel
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @style = "width:200px;", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        //修改对话框
+        DialogReload('帐号删除', 410, 250, '/Account/DelToken', '#acc_exam-grid');
+    })
+</script>
