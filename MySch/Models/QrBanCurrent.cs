@@ -16,6 +16,6 @@ namespace MySch.Models
         [StringLength(32)]
         public string MasterIDS { get; set; }
 
-        public bool? IsCurrent { get; set; }
+        public bool IsCurrent { get; set; }
     }
 }

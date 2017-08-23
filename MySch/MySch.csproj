@@ -734,6 +734,7 @@
     <Content Include="Views\UserBanst\Index.cshtml" />
     <Content Include="Views\Account\RoleGroup.cshtml" />
     <Content Include="Views\Account\Del.cshtml" />
+    <Content Include="Views\UserBanst\OldClass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

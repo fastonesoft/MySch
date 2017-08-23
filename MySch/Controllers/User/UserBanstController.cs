@@ -171,9 +171,61 @@ namespace MySch.Controllers.User
             }
         }
 
+        [HttpPost]
+        public ActionResult OldClass(IEnumerable<VGradeStud> entitys)
+        {
+            try
+            {
+                ViewBag.Students = entitys
+                    .OrderBy(a => a.OldBan)
+                    .ThenByDescending(a => a.StudSex)
+                    .ThenByDescending(a => a.Score)
+                    .ThenBy(a => a.ID);
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
 
 
+        [HttpPost]
+        public ActionResult NowClass(IEnumerable<VGradeStud> entitys)
+        {
+            try
+            {
+                ViewBag.Students = entitys
+                    .OrderBy(a => a.BanIDS)
+                    .ThenByDescending(a => a.StudSex)
+                    .ThenByDescending(a => a.Score)
+                    .ThenBy(a => a.ID);
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
 
+
+        [HttpPost]
+        public ActionResult MasterClass(IEnumerable<VGradeStud> entitys)
+        {
+            try
+            {
+                ViewBag.Students = entitys
+                    .OrderBy(a => a.BanIDS)
+                    .ThenByDescending(a => a.StudSex)
+                    .ThenByDescending(a => a.Score)
+                    .ThenBy(a => a.ID);
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
 
 
         /////////////////////////////////

@@ -69,10 +69,10 @@ namespace MySch.Controllers.User
 
                 var login = BllLogin.GetLogin(Session);
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var accs = ActAcc.AccBanMaster(login.IDS, login.unionid);
+                var accs = ActAcc.AccBanMaster(login.IDS, entity.MasterIDS, login.unionid);
 
                 ViewBag.Grades = EasyUICombo.ToComboJsons(grades, entity.GradeIDS);
-                ViewBag.Masters = EasyUICombo.ToComboJsons<VqAccBan>(accs, entity.MasterIDS);
+                ViewBag.Masters = EasyUICombo.ToComboJsons<VqAccBan>(accs, "ID", "Name", entity.MasterIDS);
 
                 return View(entity);
             }
@@ -152,6 +152,9 @@ namespace MySch.Controllers.User
                         OnlyFixed = true,
                         AccIDS = login.IDS,
                         GradeIDS = entity.GradeIDS,
+                        ChangeNum = 10,
+                        Differ = 5,
+                        IsAbs = false,
                     };
                     //不存在，添加
                     if (BllBan.Count(a => a.IDS == ban.IDS) == 0)

@@ -9,16 +9,25 @@ namespace MySch.Mvvm.Web.User.Act
 {
     public class ActAcc
     {
-        public static IEnumerable<VqAccBan> AccBanMaster(string ids, string unionid)
+        public static IEnumerable<VqAccBan> AccBanMaster(string ids, string masterids, string unionid)
         {
             try
             {
-                var bans = DataCRUD<QrBanCurrent>.Entitys(a => a.AccIDS == ids && a.IsCurrent.HasValue && a.IsCurrent.Value);
+                //当前年度的班级
                 var banstr = string.Empty;
-                foreach (var ban in bans)
+                using (var db = new MySchContext())
                 {
-                    banstr += (string.IsNullOrEmpty(ban.MasterIDS) ? "" : ban.MasterIDS + ",");
+                    var entitys = from b in db.TBans
+                                  join g in db.TGrades on b.GradeIDS equals g.IDS
+                                  join y in db.TYears on g.YearIDS equals y.IDS
+                                  where b.AccIDS == ids && y.IsCurrent && !string.IsNullOrEmpty(b.MasterIDS)
+                                  select b.MasterIDS;
+
+                    //拼接
+                    if (entitys.Count() > 0) banstr = string.Join(",", entitys);
+                    if (masterids != null) banstr = banstr.Replace(masterids, "");
                 }
+                //未使用的用户
                 return VqAccBan.GetEntitys<VqAccBan>(a => a.ParentID == unionid && a.Passed && !a.Fixed && !banstr.Contains(a.ID));
             }
             catch (Exception e)

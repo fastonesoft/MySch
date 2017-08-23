@@ -83,7 +83,7 @@ function DataGridRow(gridID, url) {
 function DataGridRows(gridID, url) {
     //选择网格
     var rows = $(gridID).datagrid('getSelections');
-    if (rows.length == 0) {
+    if (rows.length === 0) {
         $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
         return false;
     }
@@ -105,7 +105,7 @@ function DataGridRows(gridID, url) {
 
 function DataGridSearchQuery(textID, gridIDA, gridIDB, urlA, urlB, query) {
     var text = $.trim($(textID).val());
-    if (text.length == 0) {
+    if (text.length === 0) {
         //清除网格
         $(gridIDA).datagrid('loadData', { total: 0, rows: [] });
         $(gridIDB).datagrid('loadData', { total: 0, rows: [] });
@@ -121,7 +121,7 @@ function DataGridSearchQuery(textID, gridIDA, gridIDB, urlA, urlB, query) {
 
 function DataGridSearch(textID, gridID, url) {
     var text = $.trim($(textID).val());
-    if (text.length == 0) {
+    if (text.length === 0) {
         //清除网格
         $(gridID).datagrid('loadData', { total: 0, rows: [] });
     } else {
@@ -134,7 +134,7 @@ function DataGridSearch(textID, gridID, url) {
 
 function DataGridSearchParam(textID, gridID, url, param) {
     var text = $.trim($(textID).val());
-    if (text.length == 0) {
+    if (text.length === 0) {
         //清除网格
         $(gridID).datagrid('loadData', { total: 0, rows: [] });
     } else {
@@ -147,9 +147,9 @@ function DataGridSearchParam(textID, gridID, url, param) {
 
 function DataGridSearchPress(textID, gridID, url) {
     $(textID).keypress(function (e) {
-        if (e.which == 13) {
+        if (e.which === 13) {
             var text = $.trim($(this).val());
-            if (text.length == 0) {
+            if (text.length === 0) {
                 //清除网格
                 $(gridID).datagrid('loadData', { total: 0, rows: [] });
             } else {
@@ -163,9 +163,9 @@ function DataGridSearchPress(textID, gridID, url) {
 
 function DataGridSearchPressParam(textID, gridID, url, paramName) {
     $(textID).keypress(function (e) {
-        if (e.which == 13) {
+        if (e.which === 13) {
             var text = $.trim($(this).val());
-            if (text.length == 0) {
+            if (text.length === 0) {
                 //清除网格
                 $(gridID).datagrid('loadData', { total: 0, rows: [] });
             } else {
@@ -192,7 +192,7 @@ function DataGridParams(gridID, url, params) {
 function DataGridRowsNoForm(gridID, url, Success) {
     //选择网格
     var rows = $(gridID).datagrid('getSelections');
-    if (rows.length == 0) {
+    if (rows.length === 0) {
         $.messager.alert('错误提示', '错误：未选定网格数据！', 'error');
         return false;
     }
@@ -255,7 +255,7 @@ function DialogShow(title, width, height) {
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 
@@ -311,7 +311,7 @@ function DialogAdd(title, width, height, postUrl, gridID) {
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 
@@ -366,7 +366,7 @@ function DialogAdds(title, width, height, postUrl, gridID) {
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 
@@ -423,7 +423,7 @@ function DialogEdit(title, width, height, postUrl, gridID) {
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 
@@ -467,7 +467,7 @@ function DialogDel(title, width, height, postUrl, gridID) {
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 
@@ -526,7 +526,7 @@ function DialogReload(title, width, height, postUrl, reloadGridID) {
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 
@@ -586,7 +586,7 @@ function DialogUpdateGrids(title, width, height, postUrl, reloadGridID, addToGri
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 
@@ -641,7 +641,7 @@ function DialogGrid(title, width, height, postUrl, Success) {
             //清除提示
             $('div.tooltip').remove();
             $('div.combo-p').remove();
-        },
+        }
     });
 }
 

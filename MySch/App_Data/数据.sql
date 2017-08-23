@@ -479,7 +479,7 @@ create table TBan
 go
 alter table TBan add constraint PK_TBan primary key clustered (ID)
 alter table TBan add constraint FK_TBan_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
-alter table TBan add constraint FK_TBan_MasterIDS foreign key (MasterIDS) references TAcc (IDS)
+alter table TBan add constraint FK_TBan_MasterIDS foreign key (MasterIDS) references TAcc (ID)
 alter table TBan add constraint FK_TBan_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TBan_IDS on TBan (IDS)
 
@@ -920,4 +920,23 @@ create table WxUploadFile
 alter table WxUploadFile add constraint PK_WxUploadFile primary key clustered (ID)
 create index IN_WxUploadFile_IDS on WxUploadFile (IDS)
 
+go
+
+
+
+--视图
+create view QrAccRoleGroup
+as
+SELECT     dbo.TAcc.ID, dbo.TAcc.IDS, dbo.TAcc.Name, dbo.TAcc.RoleGroupIDS, dbo.TAcc.Passed, dbo.TAcc.Fixed, dbo.ARoleGroup.Name AS RoleGroupName, 
+                      dbo.TAcc.ParentID
+FROM         dbo.TAcc LEFT OUTER JOIN
+                      dbo.ARoleGroup ON dbo.TAcc.RoleGroupIDS = dbo.ARoleGroup.IDS
+go
+
+create view QrBanCurrent
+as
+SELECT     dbo.TBan.AccIDS, dbo.TBan.MasterIDS, dbo.TYear.IsCurrent
+FROM         dbo.TGrade INNER JOIN
+                      dbo.TYear ON dbo.TGrade.YearIDS = dbo.TYear.IDS RIGHT OUTER JOIN
+                      dbo.TBan ON dbo.TGrade.IDS = dbo.TBan.GradeIDS
 go
