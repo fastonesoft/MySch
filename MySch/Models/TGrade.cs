@@ -31,5 +31,7 @@ namespace MySch.Models
         [Required]
         [StringLength(32)]
         public string AccIDS { get; set; }
+
+        public bool CanFeng { get; set; }
     }
 }

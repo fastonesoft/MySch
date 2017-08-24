@@ -57,10 +57,29 @@
                     })
                 },
                 oldclass: function () {
-
+                    DataGridRows('#studbanst-grid', '/UserBanst/OldClass');
                 },
-                nowclass: function () { },
-                masterclass: function () { },
+                nowclass: function () {
+                    DataGridRows('#studbanst-grid', '/UserBanst/NowClass');
+                },
+                masterclass: function () {
+                    DataGridRows('#studbanst-grid', '/UserBanst/MasterClass');
+                },
+                fengban: function () {
+                    var node = $('#studbanst-tree').tree('getSelected');
+                    console.log(node);
+                    if (!node) {
+                        $.messager.alert('错误提示', '没有选择相应的年级！', 'error');
+                        return false;
+                    }
+                    if (node.memo != 'Grade') {
+                        $.messager.alert('错误提示', '分班必须以年级为单位！', 'error');
+                        return false;
+                    }
+                    $.post('/UserBanst/FengBan', { id: node.id }, function (res) {
+                        $.messager.alert('错误提示', res.message, 'error');
+                    });
+                },
             }
 
             //数据表格
@@ -193,7 +212,7 @@
     </div>
 
     <div id="studbanst-mm-edit" style="width:150px;">
-        <div iconcls="icon-man">分班...</div>
+        <div iconcls="icon-man" onclick="studbanst.fengban();">分班...</div>
         <div class="menu-sep"></div>
         <div onclick="studbanst.sameban();">同班设置</div>
         <div class="menu-sep"></div>
@@ -206,11 +225,11 @@
         <div iconcls="icon-reload" onclick="studbanst.change();">班级调动...</div>
     </div>
     <div id="studbanst-mm-print" style="width:150px;">
-        <div onclick="studbanst.drop();">原班信息...</div>
+        <div onclick="studbanst.oldclass();">原班信息...</div>
         <div class="menu-sep"></div>
-        <div onclick="studbanst.drop();">现班名册...</div>
+        <div onclick="studbanst.nowclass();">现班名册...</div>
         <div class="menu-sep"></div>
-        <div iconcls="icon-clear" onclick="studbanst.out();">班主任留存...</div>
+        <div iconcls="icon-clear" onclick="studbanst.masterclass();">班主任留存...</div>
     </div>
 
 </body>

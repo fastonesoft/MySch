@@ -35,7 +35,7 @@ namespace MySch.Bll.View
         public bool Fixed { get; set; }
         public int? Score { get; set; }
         public string OldBan { get; set; }
-        public string OleBanNum { get; set; }
+        public string OldBanNum { get; set; }
         public string GroupID { get; set; }
 
         public static IEnumerable<VGradeStud> GetEntitys(Expression<Func<VGradeStud, bool>> where)
@@ -78,7 +78,7 @@ namespace MySch.Bll.View
                                        IsCurrent = y.IsCurrent,
                                        Score = gs.Score,
                                        OldBan = gs.OldBan,
-                                       OleBanNum =  gs.OldBan.Substring(0, 2),
+                                       OldBanNum =  gs.OldBan.Substring(0, 2),
                                        GroupID = gs.GroupID,
                                    })
                                    .Where(where)

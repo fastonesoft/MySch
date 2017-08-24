@@ -20,6 +20,7 @@ namespace MySch.Bll.View
         public bool Graduated { get; set; }
         public bool IsCurrent { get; set; }
         public bool CanRecruit { get; set; }
+        public bool CanFeng { get; set; }
         public string AccIDS { get; set; }
 
         public static IEnumerable<VGrade> GetEntitys(Expression<Func<VGrade, bool>> where)
@@ -45,6 +46,7 @@ namespace MySch.Bll.View
                                        Graduated = s.Graduated,
                                        IsCurrent = y.IsCurrent,
                                        CanRecruit = s.CanRecruit,
+                                       CanFeng = g.CanFeng,
                                        AccIDS = g.AccIDS,
                                    })
                                    .Where(where)

@@ -31,6 +31,9 @@ namespace MySch.Bll.Entity
         [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
         public string EduIDS { get; set; }
 
+        [DisplayName("是否能分班")]
+        public bool CanFeng { get; set; }
+
         public string AccIDS { get; set; }
     }
 }

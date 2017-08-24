@@ -259,6 +259,39 @@ function DialogShow(title, width, height) {
     });
 }
 
+function DialogShowEx(title, width, height, Func) {
+    $('#dialog-form').dialog({
+        title: title,
+        width: width,
+        height: height,
+        closable: false,
+        closed: false,
+        cache: false,
+        modal: true,
+        buttons: [{
+            text: '确定',
+            iconCls: 'icon-ok',
+            handler: function () {
+                Func();
+            }
+        }, {
+            text: '关闭',
+            iconCls: 'icon-no',
+            handler: function () {
+                $('#dialog-form').dialogClose();
+            }
+        }],
+        onClose: function () {
+            //启用按钮
+            $('.easyui-linkbutton').linkbutton('enable');
+            //清除提示
+            $('div.tooltip').remove();
+            $('div.combo-p').remove();
+        }
+    });
+}
+
+
 
 function DialogAdd(title, width, height, postUrl, gridID) {
     $('#dialog-form').dialog({

@@ -2,9 +2,12 @@
 using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.View;
+using MySch.Mvvm.School.Student;
+using MySch.Mvvm.School.Student.Action;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -172,16 +175,16 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult OldClass(IEnumerable<VGradeStud> entitys)
+        public ActionResult OldClass(IEnumerable<VGradeStud> rows)
         {
             try
             {
-                ViewBag.Students = entitys
-                    .OrderBy(a => a.OldBan)
-                    .ThenByDescending(a => a.StudSex)
-                    .ThenByDescending(a => a.Score)
-                    .ThenBy(a => a.ID);
-                return View();
+                var entitys = rows
+                     .OrderBy(a => a.OldBanNum)
+                     .ThenByDescending(a => a.StudSex)
+                     .ThenByDescending(a => a.Score)
+                     .ThenBy(a => a.ID);
+                return View(entitys);
             }
             catch (Exception e)
             {
@@ -191,16 +194,16 @@ namespace MySch.Controllers.User
 
 
         [HttpPost]
-        public ActionResult NowClass(IEnumerable<VGradeStud> entitys)
+        public ActionResult NowClass(IEnumerable<VGradeStud> rows)
         {
             try
             {
-                ViewBag.Students = entitys
-                    .OrderBy(a => a.BanIDS)
+                var entitys = rows
+                    .OrderBy(a => a.BanNum)
                     .ThenByDescending(a => a.StudSex)
                     .ThenByDescending(a => a.Score)
                     .ThenBy(a => a.ID);
-                return View();
+                return View(entitys);
             }
             catch (Exception e)
             {
@@ -210,22 +213,37 @@ namespace MySch.Controllers.User
 
 
         [HttpPost]
-        public ActionResult MasterClass(IEnumerable<VGradeStud> entitys)
+        public ActionResult MasterClass(IEnumerable<VGradeStud> rows)
         {
             try
             {
-                ViewBag.Students = entitys
-                    .OrderBy(a => a.BanIDS)
+                var entitys = rows
+                    .OrderBy(a => a.BanNum)
                     .ThenByDescending(a => a.StudSex)
                     .ThenByDescending(a => a.Score)
                     .ThenBy(a => a.ID);
-                return View();
+                return View(entitys);
             }
             catch (Exception e)
             {
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+        [HttpPost]
+        public ActionResult FengBan(string id)
+        {
+            try
+            {
+                var res = ActionStudGrade.FengBan(id);
+                return Json(new BllError { error = false, message = res });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
 
 
         /////////////////////////////////

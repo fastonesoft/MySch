@@ -22,7 +22,7 @@
             <input id="EduIDS" name="EduIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.CanFeng)：@Html.CheckBoxFor(a => a.CanFeng, new { @disabled = "disabled" })</div>
+            <div>@Html.LabelFor(a => a.CanFeng)：@Html.CheckBoxFor(a => a.CanFeng)</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)
@@ -47,6 +47,7 @@
             valueField: 'id',
             textField: 'text',
             data: edus,
+            panelHeight: 100,
             readonly: true,
         });
         $('#YearIDS').combobox({
@@ -56,7 +57,7 @@
             readonly: true,
         });
 
-        //删除对话框
-        DialogReload('年级删除', 410, 285, '/UserGrade/DelToken', '#grades-grid');
+        //添加对话框
+        DialogReload('年级修改', 410, 285, '/UserGrade/EditToken', '#grades-grid');
     })
 </script>

@@ -28,6 +28,9 @@
                     var param = { id: node.id };
                     DataGridRequest('/UserGrade/Add', param);
                 },
+                edit: function () {
+                    DataGridRowID('#grades-grid', '/UserGrade/Edit');
+                },
                 del: function () {
                     DataGridRowID('#grades-grid', '/UserGrade/Del');
                 },
@@ -61,6 +64,15 @@
                 columns: [[
                     { title: '年级名称', field: 'Name', align: 'center', width: 200 },
                     { title: '年度名称', field: 'YearName', align: 'center', width: 100 },
+                    {
+                        title: '是否能分班', field: 'CanFeng', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
                 ]],
 
                 toolbar: '#grades-grid-tool',
@@ -117,13 +129,19 @@
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
-                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="grades.del();">删除</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="grades.edit();">修改</a>
                             </td>
                             <td>
                                 <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
                                 <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="grades.all();">全部</a>
+                            </td>
+                            <td>
+                                <div class="datagrid-btn-separator"></div>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="grades.del();">删除</a>
                             </td>
                         </tr>
                     </thead>

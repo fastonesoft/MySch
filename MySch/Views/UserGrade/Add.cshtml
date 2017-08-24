@@ -17,9 +17,12 @@
             <div>@Html.LabelFor(a => a.YearIDS)：</div>
             <input id="YearIDS" name="YearIDS" style="width:156px;" />
         </div>
-       <div class="form-item-row">
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.EduIDS)：</div>
             <input id="EduIDS" name="EduIDS" style="width:156px;" />
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.CanFeng)：@Html.CheckBoxFor(a => a.CanFeng)</div>
         </div>
     </div>
 }
@@ -50,7 +53,7 @@
             valueField: 'id',
             textField: 'text',
             data: edus,
-            panelHeight:100,
+            panelHeight: 100,
         });
         $('#YearIDS').combobox({
             valueField: 'id',

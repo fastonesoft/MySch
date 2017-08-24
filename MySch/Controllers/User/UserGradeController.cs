@@ -41,6 +41,30 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                var login = BllLogin.GetLogin(Session);
+                var entity = BllGrade.GetEntity<BllGrade>(id);
+
+                var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
+                var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var steps = VStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+
+                ViewBag.Edus = EasyUICombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
+                ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
+                ViewBag.Steps = EasyUICombo.ToComboJsons<VStep>(steps, entity.StepIDS);
+
+                return View(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
         public ActionResult Del(string id)
         {
             try
@@ -78,6 +102,28 @@ namespace MySch.Controllers.User
                 entity.IDS = entity.StepIDS + entity.EduIDS.Replace(entity.AccIDS, "");
                 //添加
                 entity.ToAdd(ModelState);
+                //查询 视图数据
+                var qentity = VGrade.GetEntity(a => a.ID == entity.ID);
+                return Json(qentity);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditToken(BllGrade entity)
+        {
+            try
+            {
+                //设置用户
+                var login = BllLogin.GetLogin(Session);
+                entity.AccIDS = login.IDS;
+
+                //修改
+                entity.ToUpdate(ModelState);
                 //查询 视图数据
                 var qentity = VGrade.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);

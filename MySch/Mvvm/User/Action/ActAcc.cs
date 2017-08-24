@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Mvvm.Web.User.Act
+namespace MySch.Mvvm.User.Action
 {
     public class ActAcc
     {

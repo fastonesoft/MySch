@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace MySch.Mvvm.Web.User
+namespace MySch.Mvvm.User
 {
     public class VmRole
     {

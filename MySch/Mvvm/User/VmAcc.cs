@@ -10,7 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Mvvm.Web.User
+namespace MySch.Mvvm.User
 {
     public class VmAcc
     {

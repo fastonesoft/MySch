@@ -130,7 +130,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
-    <Compile Include="Bll\Entity\VmStudGrade.cs" />
+    <Compile Include="Mvvm\School\Student\Action\ActionStudGrade.cs" />
+    <Compile Include="Mvvm\School\Student\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Log\BllLog.cs" />
     <Compile Include="Bll\Retu\StudInfor.cs" />
@@ -339,10 +340,10 @@
     <Compile Include="Models\WxUploadFile.cs" />
     <Compile Include="Mvvm\Login\WebLogin.cs" />
     <Compile Include="Mvvm\Web\Role\VmRoleFilter.cs" />
-    <Compile Include="Mvvm\Web\User\Act\ActAcc.cs" />
-    <Compile Include="Mvvm\Web\User\VmAcc.cs" />
-    <Compile Include="Mvvm\Web\User\VmRole.cs" />
-    <Compile Include="Mvvm\Web\User\VqAcc.cs" />
+    <Compile Include="Mvvm\User\Action\ActAcc.cs" />
+    <Compile Include="Mvvm\User\VmAcc.cs" />
+    <Compile Include="Mvvm\User\VmRole.cs" />
+    <Compile Include="Mvvm\User\VqAcc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -735,6 +736,9 @@
     <Content Include="Views\Account\RoleGroup.cshtml" />
     <Content Include="Views\Account\Del.cshtml" />
     <Content Include="Views\UserBanst\OldClass.cshtml" />
+    <Content Include="Views\UserBanst\NowClass.cshtml" />
+    <Content Include="Views\UserBanst\MasterClass.cshtml" />
+    <Content Include="Views\UserGrade\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />
