@@ -27,6 +27,10 @@ namespace MySch.Models
         [StringLength(32)]
         public string MasterIDS { get; set; }
 
+        [Required]
+        [StringLength(32)]
+        public string AccIDS { get; set; }
+
         public bool NotFeng { get; set; }
 
         public bool OnlyFixed { get; set; }
@@ -37,8 +41,6 @@ namespace MySch.Models
 
         public bool IsAbs { get; set; }
 
-        [Required]
-        [StringLength(32)]
-        public string AccIDS { get; set; }
+        public bool SameSex { get; set; }
     }
 }

@@ -88,6 +88,30 @@ namespace MySch.Controllers.WX
             }
         }
 
+        [HttpPost]
+        public ActionResult JssdkMs()
+        {
+            try
+            {
+                //检查中控
+                var token = WX_AccessToken.GetAccessToken();
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+                //检测权限
+                WX_OAuserInfor.CheckExamRoleMs(infor.unionid);
+
+                //签名算法
+                var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam, infor.examuid, infor.rexamuid);
+
+                //序列化
+                return Json(signature);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
         //注册
         [HttpPost]
         public ActionResult Reg(string idc, string mobil1)
@@ -632,6 +656,39 @@ namespace MySch.Controllers.WX
             }
         }
 
+        [HttpPost]
+        public ActionResult Master(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Gone(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
 
     }
 }

@@ -12,6 +12,7 @@ namespace MySch.Mvvm.School.Student.Action
 {
     public class ActionStudGrade
     {
+        //分班
         public static string FengBan(string gradeids)
         {
             try
@@ -45,14 +46,16 @@ namespace MySch.Mvvm.School.Student.Action
                 banlist2.AddRange(banlist0);
 
                 //统计总数
-                var stbans = VGradeStud.GetEntitys(a => a.GradeIDS == gradeids && a.InSch && strfengs.Contains(a.BanIDS))
-                    .OrderByDescending(a => a.Score)
-                    .ThenBy(a => a.ID);
+                var stbans = VGradeStud.GetEntitys(a => a.GradeIDS == gradeids && a.InSch && strfengs.Contains(a.BanIDS));
 
                 //分班：女生表
-                var stbans1 = stbans.Where(a => a.StudSex == "女");
+                var stbans1 = stbans.Where(a => a.StudSex == "女")
+                    .OrderByDescending(a => a.Score)
+                    .ThenBy(a => a.ID);
                 //分班：男生表
-                var stbans2 = stbans.Where(a => a.StudSex == "男");
+                var stbans2 = stbans.Where(a => a.StudSex == "男")
+                    .OrderByDescending(a => a.Score)
+                    .ThenBy(a => a.ID);
 
                 //女生分班
                 var count1 = 0;

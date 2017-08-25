@@ -29,6 +29,7 @@ namespace MySch.Bll.View
         public int ChangeNum { get; set; }
         public int Differ { get; set; }
         public bool IsAbs { get; set; }
+        public bool SameSex { get; set; }
 
         public string AccIDS { get; set; }
 
@@ -67,6 +68,7 @@ namespace MySch.Bll.View
                                        ChangeNum = b.ChangeNum,
                                        Differ = b.Differ,
                                        IsAbs = b.IsAbs,
+                                       SameSex = b.SameSex,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.IDS)

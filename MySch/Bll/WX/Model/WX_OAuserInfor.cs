@@ -311,10 +311,34 @@ namespace MySch.Bll.WX.Model
             try
             {
                 var entity = DataCRUD<TAcc>.Entity(a => a.ID == unionid);
-                if (entity == null) throw new Exception("不是教师，没有审核权限");
+                if (entity == null) throw new Exception("不是教师");
 
                 if (!entity.Passed) throw new Exception("帐号未通过审核");
                 if (entity.Fixed) throw new Exception("帐号已冻结");
+                if (entity.RoleGroupIDS < 4) throw new Exception("没有审核权限");
+
+                var valid = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
+                if (valid != entity.Valided) throw new Exception("帐号数据异常");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public static void CheckExamRoleMs(string unionid)
+        {
+            try
+            {
+                var entity = DataCRUD<TAcc>.Entity(a => a.ID == unionid);
+                if (entity == null) throw new Exception("不是教师");
+
+                if (!entity.Passed) throw new Exception("帐号未通过审核");
+                if (entity.Fixed) throw new Exception("帐号已冻结");
+                if (entity.RoleGroupIDS < 99) throw new Exception("没有审核权限");
+
+                //检查有没有班级
+                var ban = DataCRUD<TBan>.Entity(a => a.MasterIDS == unionid);
+                if (ban == null) throw new Exception("你好像没有带班主任");
 
                 var valid = Setting.GetMD5(string.Format("{0}##yuch88##{1}##{2}##{3}", entity.ID, entity.RoleGroupIDS, entity.Passed.ToString(), entity.Fixed.ToString()));
                 if (valid != entity.Valided) throw new Exception("帐号数据异常");

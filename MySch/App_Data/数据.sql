@@ -463,67 +463,6 @@ insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220050109', '32
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020220040109', '3212840202200401', '321284022006', '3212840209', '32128402', 0)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 create table TBan
 (
 	ID	nvarchar(32) not null,
@@ -531,12 +470,13 @@ create table TBan
 	Num	nvarchar(10) not null,
 	GradeIDS	nvarchar(32) not null,
 	MasterIDS	nvarchar(32),
+	AccIDS	nvarchar(32) not null,
 	NotFeng	bit not null,
 	OnlyFixed	bit not null,
 	ChangeNum	int not null,
 	Differ	int not null,
 	IsAbs	bit not null,
-	AccIDS	nvarchar(32) not null,
+	SameSex	bit not null,
 )
 go
 alter table TBan add constraint PK_TBan primary key clustered (ID)
@@ -644,7 +584,7 @@ create table Student
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(32) not null,	--学生编号
 	--报名信息记录
-	IDC	nvarchar(20),	--身份证号
+	IDC	nvarchar(20) not null,	--身份证号
 	Name	nvarchar(10) not null,	--姓名
 	StepIDS	nvarchar(20) not null,	--校区分级编号
 	FromSch	nvarchar(64),	--毕业小学
@@ -674,7 +614,7 @@ go
 alter table Student add constraint PK_Student primary key clustered (ID)
 alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) references TStep (IDS)
 create unique nonclustered index UN_Student_IDS on Student (IDS)
-create index IN_Student_IDC on Student (IDC)
+create unique nonclustered index UN_Student_IDC on Student (IDC)
 create index IN_Student_Name on Student (Name)
 create index IN_Student_RegUID on Student (RegUID)
 
@@ -710,7 +650,21 @@ alter table StudGrade add constraint FK_StudGrade_ComeIDS foreign key (ComeIDS) 
 create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
 
 
---
+--分班中转表
+create table StudGradeFengBan
+(
+	ID	nvarchar(32) not null,	--StudGrade编号
+	IDS	nvarchar(32) not null,	--StudGrade编号
+	BanIDS	nvarchar(20) not null,	--学生班级编号
+	OwnerAccIDS	nvarchar(32) not null,	--请求的班主任  
+			--两个学生一组，完成检测  
+)
+go
+alter table StudGradeFengBan add constraint PK_StudGradeFengBan primary key clustered (ID)
+create unique nonclustered index UN_StudGradeFengBan_IDS on StudGradeFengBan (IDS)
+alter table StudGradeFengBan add constraint FK_StudGradeFengBan_BanIDS foreign key (BanIDS) references TBan (IDS)
+alter table StudGradeFengBan add constraint FK_StudGradeFengBan_OwnerAccIDS foreign key (OwnerAccIDS) references TAcc (IDS)
+
 
 --年度学生列表类型
 create table StudGradeType

@@ -44,6 +44,9 @@ namespace MySch.Bll.Entity
         [DisplayName("不参加分班")]
         public bool NotFeng { get; set; }
 
+        [DisplayName("性别相同")]
+        public bool SameSex { get; set; }
+
         public string AccIDS { get; set; }
 
     }

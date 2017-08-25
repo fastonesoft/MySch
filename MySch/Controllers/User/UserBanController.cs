@@ -155,6 +155,7 @@ namespace MySch.Controllers.User
                         ChangeNum = 10,
                         Differ = 5,
                         IsAbs = false,
+                        SameSex = true,
                     };
                     //不存在，添加
                     if (BllBan.Count(a => a.IDS == ban.IDS) == 0)

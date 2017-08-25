@@ -48,8 +48,8 @@ namespace MySch.Models
         public virtual DbSet<StudGradeField> StudGradeFields { get; set; }
         public virtual DbSet<StudGradeTable> StudGradeTables { get; set; }
         public virtual DbSet<StudGradeType> StudGradeTypes { get; set; }
+        public virtual DbSet<StudGradeFengBan> StudGradeFengBans { get; set; }
         public virtual DbSet<QrAccRoleGroup> QrAccRoleGroups { get; set; }
-        public virtual DbSet<QrBanCurrent> QrBanCurrents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

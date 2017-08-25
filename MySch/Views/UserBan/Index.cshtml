@@ -89,6 +89,15 @@
                         }
                     },
                     {
+                        title: '性别相同', field: 'SameSex', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
                         title: '只显固定', field: 'OnlyFixed', halign: 'center', width: 90,
                         formatter: function (value, row, index) { },
                         styler: function (value, row, index) {

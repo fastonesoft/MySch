@@ -130,6 +130,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
+    <Compile Include="Models\QrAccRoleGroup.cs" />
+    <Compile Include="Models\StudGradeFengBan.cs" />
     <Compile Include="Mvvm\School\Student\Action\ActionStudGrade.cs" />
     <Compile Include="Mvvm\School\Student\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
@@ -283,7 +285,6 @@
     <Compile Include="Controllers\WX\MenuController.cs" />
     <Compile Include="Controllers\WX\RegsController.cs" />
     <Compile Include="Controllers\WX\WeiController.cs" />
-    <Compile Include="Controllers\WX\WxConController.cs" />
     <Compile Include="Dal\BaseContext.cs" />
     <Compile Include="Dal\DataCRUD.cs" />
     <Compile Include="Global.asax.cs">
@@ -315,8 +316,6 @@
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
     <Compile Include="Models\MySchContext.cs" />
-    <Compile Include="Models\QrAccRoleGroup.cs" />
-    <Compile Include="Models\QrBanCurrent.cs" />
     <Compile Include="Models\StudCome.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudGrade.cs" />
@@ -626,6 +625,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Regs\Gone.cshtml" />
+    <Content Include="Views\Regs\Master.cshtml" />
     <Content Include="Views\StudReg\Index.cshtml" />
     <Content Include="Views\UserOut\Edit.cshtml" />
     <Content Include="Views\UserStud\Out.cshtml" />
@@ -728,7 +729,6 @@
     <Content Include="Views\Regs\Scan.cshtml" />
     <Content Include="Views\Account\Check.cshtml" />
     <Content Include="Views\Account\Exam.cshtml" />
-    <Content Include="Views\WxCon\Index.cshtml" />
     <Content Include="Views\Regs\House.cshtml" />
     <Content Include="Views\StNew\Index.cshtml" />
     <Content Include="Views\StNew\Print.cshtml" />
