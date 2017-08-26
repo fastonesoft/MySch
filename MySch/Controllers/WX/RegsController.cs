@@ -8,10 +8,13 @@ using MySch.Bll.WX.ViewModel;
 using MySch.Bll.Xue;
 using MySch.Helper;
 using MySch.Models;
+using MySch.Mvvm.School.Student;
+using MySch.Mvvm.School.Student.Action;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -74,7 +77,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
                 //检测权限
-                WX_OAuserInfor.CheckExamRole(infor.unionid);
+                WX_OAuserInfor.CheckExamRoleBk(infor.unionid);
 
                 //签名算法
                 var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam, infor.examuid, infor.rexamuid);
@@ -656,8 +659,7 @@ namespace MySch.Controllers.WX
             }
         }
 
-        [HttpPost]
-        public ActionResult Master(WX_OAuth auth)
+        public ActionResult Mast(WX_OAuth auth)
         {
             try
             {
@@ -673,7 +675,6 @@ namespace MySch.Controllers.WX
             }
         }
 
-        [HttpPost]
         public ActionResult Gone(WX_OAuth auth)
         {
             try
@@ -689,6 +690,141 @@ namespace MySch.Controllers.WX
                 return Content(e.Message);
             }
         }
+
+        //查询学生姓名
+        [HttpPost]
+        public ActionResult MaSearchStuds(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudGrade.SearchStuds(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //调动学生
+        [HttpPost]
+        public ActionResult MaMoveStud(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudGrade.MoveStud(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //调动学生二维码
+        [HttpPost]
+        public ActionResult MaMoveCode(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var data = ActionStudGrade.MoveCode(infor.unionid, id);
+                //var datastr = HttpUtility.UrlEncode(Jsons.ToConvert(data).Replace(":", "###").Replace("\"", "'"));
+                //var datastr = Uri.EscapeDataString(Jsons.ToConvert(data));
+                var dataurl = "http://a.jysycz.cn/image/code2?id=" + data + "&r=" + DateTime.Now.Ticks.ToString();
+
+                return Json(dataurl);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //识别学生二维码
+        [HttpPost]
+        public ActionResult MaMoveScan(VmStudGradeMove data)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                if (data.Command == "query")
+                {
+                    return Json(ActionStudGrade.MoveScanQuery(infor.unionid, data));
+                }
+                //if (data.Command == "confirm")
+                //{
+                //    return Json( ActionStudGrade.MoveScanMove(infor.unionid, id) );
+                //}
+
+                return Json(new BllError { error = true, message = "传输数据有误" });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //删除要调动的学生
+        [HttpPost]
+        public ActionResult MaReMoveStud(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudGrade.RemoveStud(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //调动学生列表
+        [HttpPost]
+        public ActionResult MaMoveStuds()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudGrade.MoveStuds(infor.unionid));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //调动成功学生列表
+        [HttpPost]
+        public ActionResult MaMovedStuds()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudGrade.MovedStuds(infor.unionid));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+
 
     }
 }

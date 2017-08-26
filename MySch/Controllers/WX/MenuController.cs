@@ -26,8 +26,10 @@ namespace MySch.Controllers.WX
                 var manaurl = "http://a.jysycz.cn/regs/addmana";
                 var outurl = "http://a.jysycz.cn/regs/addout";
                 var houseurl = "http://a.jysycz.cn/regs/house";
-                var masterurl = "http://a.jysycz.cn/regs/master";
+                var masterurl = "http://a.jysycz.cn/regs/mast";
                 var goneurl = "http://a.jysycz.cn/regs/gone";
+
+                var baomingurl = "http://www.jsform.com/web/formview/599f6ceae7aea91ae6bbe5b3";
 
                 var reg = WX_Url.MenuView(appid, regurl, state);
                 var scan = WX_Url.MenuView(appid, scanurl, state);
@@ -39,6 +41,8 @@ namespace MySch.Controllers.WX
                 var master = WX_Url.MenuView(appid, masterurl, state);
                 var gone = WX_Url.MenuView(appid, goneurl, state);
 
+                var baoming = WX_Url.MenuView(appid, baomingurl, state);
+
                 //检测页面、用户
                 var token = WX_AccessToken.GetAccessToken();
 
@@ -47,6 +51,7 @@ namespace MySch.Controllers.WX
                 student.Add(new WX_Menu_Click { name = "🈸报名须知", type = "click", key = "reg_about_1" });
                 student.Add(new WX_Menu_View { name = "🅰报名注册", type = "view", url = reg });
                 student.Add(new WX_Menu_View { name = "🅱绑定学生", type = "view", url = scan });
+                student.Add(new WX_Menu_View { name = "智慧班报名", type = "view", url = baomingurl });
                 menus.Add(student);
                 var teach = new WX_Menu_Sub { name = "教师中心" };
                 teach.Add(new WX_Menu_View { name = "👀材料初审", type = "view", url = exam });
@@ -63,7 +68,7 @@ namespace MySch.Controllers.WX
                 var res = WX_Url.MenuCreate(token, Jsons.ToConvert(menus));
 
                 //创建
-                return Content(house +"\n" + gone);
+                return Content(res);
             }
             catch (Exception e)
             {

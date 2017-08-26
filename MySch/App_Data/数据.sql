@@ -651,7 +651,7 @@ create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
 
 
 --分班中转表
-create table StudGradeFengBan
+create table StudGradeMove
 (
 	ID	nvarchar(32) not null,	--StudGrade编号
 	IDS	nvarchar(32) not null,	--StudGrade编号
@@ -660,10 +660,10 @@ create table StudGradeFengBan
 			--两个学生一组，完成检测  
 )
 go
-alter table StudGradeFengBan add constraint PK_StudGradeFengBan primary key clustered (ID)
-create unique nonclustered index UN_StudGradeFengBan_IDS on StudGradeFengBan (IDS)
-alter table StudGradeFengBan add constraint FK_StudGradeFengBan_BanIDS foreign key (BanIDS) references TBan (IDS)
-alter table StudGradeFengBan add constraint FK_StudGradeFengBan_OwnerAccIDS foreign key (OwnerAccIDS) references TAcc (IDS)
+alter table StudGradeMove add constraint PK_StudGradeMove primary key clustered (ID)
+create unique nonclustered index UN_StudGradeMove_IDS on StudGradeMove (IDS)
+alter table StudGradeMove add constraint FK_StudGradeMove_BanIDS foreign key (BanIDS) references TBan (IDS)
+alter table StudGradeMove add constraint FK_StudGradeMove_OwnerAccIDS foreign key (OwnerAccIDS) references TAcc (ID)
 
 
 --年度学生列表类型

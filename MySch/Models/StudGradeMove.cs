@@ -6,8 +6,8 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("StudGradeFengBan")]
-    public partial class StudGradeFengBan
+    [Table("StudGradeMove")]
+    public partial class StudGradeMove
     {
         [StringLength(32)]
         public string ID { get; set; }

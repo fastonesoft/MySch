@@ -129,9 +129,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Models\QrAccRoleGroup.cs" />
-    <Compile Include="Models\StudGradeFengBan.cs" />
+    <Compile Include="Models\StudGradeMove.cs" />
     <Compile Include="Mvvm\School\Student\Action\ActionStudGrade.cs" />
     <Compile Include="Mvvm\School\Student\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
@@ -626,7 +627,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Regs\Gone.cshtml" />
-    <Content Include="Views\Regs\Master.cshtml" />
+    <Content Include="Views\Regs\Mast.cshtml" />
     <Content Include="Views\StudReg\Index.cshtml" />
     <Content Include="Views\UserOut\Edit.cshtml" />
     <Content Include="Views\UserStud\Out.cshtml" />

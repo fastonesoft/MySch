@@ -233,11 +233,11 @@
                             var name = $('#regs_exam_namex').val();
                             var choose = $('#regs_exam_choose').prop('checked');
                             //普通
-                            var normal = $('#regs_exam_normal .regs_exam_image').is(':empty');
-                            if (normal) {
-                                weui.topTips('资料未完整，无法审核', 3000);
-                                return;
-                            }
+                            //var normal = $('#regs_exam_normal .regs_exam_image').is(':empty');
+                            //if (normal) {
+                            //    weui.topTips('资料未完整，无法审核', 3000);
+                            //    return;
+                            //}
                             //择校
                             if (choose) {
                                 if ($('#regs_exam_image_paper').is(':empty')) {

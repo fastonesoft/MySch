@@ -9,15 +9,19 @@ using ZXing;
 
 namespace MySch.Controllers.WX
 {
-    public class ImageController : RoleController
+    public class ImageController : Controller
     {
 
-        //图文图片
+        //文字转二维码
         public void Code(string id)
         {
             XingCode.CodeOutputStream(360, 150, id, 0, BarcodeFormat.QR_CODE);
         }
 
+        public void Code2(string id)
+        {
+            XingCode.CodeOutputStream(360, 260, id, 0, BarcodeFormat.QR_CODE);
+        }
         //我的关注
         public void MyCode()
         {
