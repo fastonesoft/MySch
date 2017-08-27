@@ -725,7 +725,7 @@ namespace MySch.Controllers.WX
             }
         }
 
-        //调动学生二维码
+        //显示学生“查询”二维码
         [HttpPost]
         public ActionResult MaMoveCode(string id)
         {
@@ -735,9 +735,27 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 var data = ActionStudGrade.MoveCode(infor.unionid, id);
-                //var datastr = HttpUtility.UrlEncode(Jsons.ToConvert(data).Replace(":", "###").Replace("\"", "'"));
-                //var datastr = Uri.EscapeDataString(Jsons.ToConvert(data));
-                var dataurl = "http://a.jysycz.cn/image/code2?id=" + data + "&r=" + DateTime.Now.Ticks.ToString();
+                var dataurl = "http://a.jysycz.cn/image/codem?id=" + data.Value + "&title=" + data.Key + "&r=" + DateTime.Now.Ticks.ToString();
+
+                return Json(dataurl);
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        //显示学生“确认”二维码
+        [HttpPost]
+        public ActionResult MaConfirmCode(string id, string id2)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var data = ActionStudGrade.ConfirmCode(infor.unionid, id, id2);
+                var dataurl = "http://a.jysycz.cn/image/coder?id=" + data.Value + "&title=" + data.Key + "&r=" + DateTime.Now.Ticks.ToString();
 
                 return Json(dataurl);
             }
@@ -760,10 +778,10 @@ namespace MySch.Controllers.WX
                 {
                     return Json(ActionStudGrade.MoveScanQuery(infor.unionid, data));
                 }
-                //if (data.Command == "confirm")
-                //{
-                //    return Json( ActionStudGrade.MoveScanMove(infor.unionid, id) );
-                //}
+                if (data.Command == "confirm")
+                {
+                    return Json(ActionStudGrade.MoveScanMove(infor.unionid, data));
+                }
 
                 return Json(new BllError { error = true, message = "传输数据有误" });
             }
@@ -772,6 +790,24 @@ namespace MySch.Controllers.WX
                 return Json(new BllError { error = true, message = e.Message });
             }
         }
+
+
+        [HttpPost]
+        public ActionResult MaMoveBanNum()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudGrade.MoveBanNum(infor.unionid));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
 
         //删除要调动的学生
         [HttpPost]

@@ -72,6 +72,19 @@
                         }
                     });
 
+                    //显示调动人数
+                    $.post('/Regs/MaMoveBanNum', function (res) {
+                        if (res.error) {
+                            weui.topTips(res.message, 3000);
+                        } else {
+                            $('.reg_master-total_num').text(res.Command);
+                            //成功人数
+                            $('#reg_master-num2').text(res.Key);
+                            //调动人数
+                            $('#reg_master-num1').text(res.Value);
+                        }
+                    });
+
 
                     wx.ready(function () {
                         //隐藏所有非基本菜单项
@@ -102,18 +115,20 @@
                                         if (res.error) {
                                             weui.topTips(res.message, 3000);
                                         } else {
-                                            if (res.length == 0) weui.topTips("没找到你要查的学生！", 3000);
-
+                                            if (res.length == 0) weui.topTips("没找到你要的学生！", 3000);
                                             //清空
                                             $('#reg_master-students').empty();
                                             $('#reg_master-stud_name').val('');
                                             //添加查询学生到列表
                                             $.each(res, function () {
-                                                var $item = $('<div class="weui-form-preview__item" style="color: blue;"><label class="weui-form-preview__label" style="color: blue;"></label><span class="weui-form-preview__value"></span></div>');
-                                                $item.attr('studid', this.ID);
-                                                $item.find('label').text(this.StudName);
-                                                $item.find('span').text('原（' + this.OldBanNum + '）班');
-                                                $item.appendTo($('#reg_master-students'));
+                                                var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-info" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc">条号：<span order="0"></span><br />性别：<span order="1"></span>，总分：<span order="2"></span>，原班：<span order="3"></span></p></div></a>');
+                                                $warn_item.attr('studid', this.ID);
+                                                $warn_item.find('h4').text(this.StudName);
+                                                $warn_item.find('span[order=0]').text(this.BanNum);
+                                                $warn_item.find('span[order=1]').text(this.StudSex);
+                                                $warn_item.find('span[order=2]').text(this.Score);
+                                                $warn_item.find('span[order=3]').text(this.OldBanNum);
+                                                $warn_item.appendTo($('#reg_master-students'));
                                             });
                                             //显示
                                             $('#reg_master-students').parent().show();
@@ -125,20 +140,22 @@
                             });
                         });
 
-                        //添加查找学生的事件
-                        $('#reg_master-students').on('click', '.weui-form-preview__item', function () {
-                            var id = $(this).attr('studid');
-                            var name = $(this).find('label').text();
+                        //学生调动
+                        $('#reg_master-students').on('click', '.weui-media-box__bd', function () {
+                            var $item = $(this).parent();
+                            var id = $item.attr('studid');
+                            var name = $item.find('h4').text();
                             weui.confirm('　确定要将【' + name + '】调到你班？', function () {
                                 var loading = weui.loading('正在调动...');
                                 $.post('/Regs/MaMoveStud', { id: id }, function (res) {
                                     loading.hide();
+                                    //清除查询记录
+                                    $('#reg_master-students').empty();
+                                    $('#reg_master-students').parent().hide();
+                                    //结果
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
-                                        //清除查询记录
-                                        $('#reg_master-students').empty();
-                                        $('#reg_master-students').parent().hide();
                                         //添加调动名单
                                         var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-warn weui-icon_msg-primary" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc">条号：<span order="0"></span><br />性别：<span order="1"></span>，总分：<span order="2"></span>，原班：<span order="3"></span></p></div></a>');
                                         $warn_item.attr('studid', res.ID);
@@ -148,13 +165,21 @@
                                         $warn_item.find('span[order=2]').text(res.Score);
                                         $warn_item.find('span[order=3]').text(res.OldBanNum);
                                         $warn_item.appendTo($('#reg_master-move_warn'));
+
+                                        //总人数
+                                        var total = $('#reg_master-total_num').text();
+                                        var num1 = $('#reg_master-move_warn a').length;
+                                        var num2 = $('#reg_master-move_success a').length;
+                                        //刷新人数
+                                        $('#reg_master-num1').text(total - num1 - num2);
+                                        $('#reg_master-num2').text(num2);
                                     }
                                 })
                             }, function () {
                             }, { title: '调动确认' });
                         });
 
-                        //添加调动名单事件：
+                        //添加调动中的学生名单事件：
                         //  点击，图标，提示删除
                         $('#reg_master-move_warn').on('click', '.weui-media-box__hd', function () {
                             var $item = $(this).parent();
@@ -172,7 +197,13 @@
                                         //清除当前调动学生信息
                                         $item.remove();
 
-                                        //TODO：刷新，调动人数
+                                        //总人数
+                                        var total = $('#reg_master-total_num').text();
+                                        var num1 = $('#reg_master-move_warn a').length;
+                                        var num2 = $('#reg_master-move_success a').length;
+                                        //刷新人数
+                                        $('#reg_master-num1').text(total - num1 - num2);
+                                        $('#reg_master-num2').text(num2);
                                     }
                                 })
                             }, function () {
@@ -198,83 +229,90 @@
                             });
                         });
 
+                        //点击，显示交换学生二维码
+                        $('#reg_master-move_prepare').on('click', '.weui-media-box__bd', function () {
+                            var $item = $(this).parent();
+                            var id = $item.attr('studid');
+                            var id2 = $item.attr('studid2');
+                            //
+                            var loading = weui.loading('正在读取...');
+                            $.post('/Regs/MaConfirmCode', { id: id, id2: id2 }, function (res) {
+                                if (res.error) {
+                                    weui.topTips(res.message, 3000);
+                                } else {
+                                    wx.previewImage({
+                                        current: res,
+                                        urls: [res],
+                                    });
+                                }
+                                loading.hide();
+                            });
+                        });
+
+
 
                         //扫码，识别学生二维码
                         //  一、查询二维码
                         //  二、调动二维码
                         $('#regs_master-scan').click(function () {
+                            //清除原查询记录
+                            $('#reg_master-move_prepare').empty();
+                            //识别：学生查询信息
                             wx.scanQRCode({
                                 needResult: 1,
                                 desc: 'scanQRCode desc',
                                 success: function (sres) {
                                     var loading = weui.loading('正在加载...');
                                     $.post('/Regs/MaMoveScan', sres.resultStr, function (res) {
+                                        loading.hide();
                                         if (res.error) {
                                             weui.topTips(res.message, 3000);
                                         } else {
-                                            //识别成功
-                                            alert(JSON.stringify(res));
+                                            //识别：是查询的结果，则，添加调动名单
+                                            if (res.Command == 'query') {
+                                                $.each(res.Value, function () {
+                                                    var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-waiting" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc">条号：<span order="0"></span><br />性别：<span order="1"></span>，总分：<span order="2"></span>，原班：<span order="3"></span></p></div></a>');
+                                                    $warn_item.attr('studid', this.ID);
+                                                    $warn_item.attr('studid2', res.Key);
+                                                    $warn_item.find('h4').text(this.StudName);
+                                                    $warn_item.find('span[order=0]').text(this.BanNum);
+                                                    $warn_item.find('span[order=1]').text(this.StudSex);
+                                                    $warn_item.find('span[order=2]').text(this.Score);
+                                                    $warn_item.find('span[order=3]').text(this.OldBanNum);
+                                                    $warn_item.appendTo($('#reg_master-move_prepare'));
+                                                });
+                                                return;
+                                            }
+                                            //识别：是交换记录结果，则，刷新数据
+                                            if (res.Command == 'confirm') {
+                                                //删除查询记录
+                                                var id = res.Value.ID;
+                                                $('#reg_master-move_warn a[studid=' + id + ']').remove();
+                                                //添加成功记录
+                                                var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-success" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc">性别：<span order="1"></span>，总分：<span order="2"></span>，原班：<span order="3"></span></p></div></a>');
+                                                $warn_item.find('h4').text(res.Value.StudName);
+                                                $warn_item.find('span[order=1]').text(res.Value.StudSex);
+                                                $warn_item.find('span[order=2]').text(res.Value.Score);
+                                                $warn_item.find('span[order=3]').text(res.Value.OldBanNum);
+                                                $warn_item.appendTo($('#reg_master-move_success'));
+
+                                                //总人数
+                                                var total = $('#reg_master-total_num').text();
+                                                var num1 = $('#reg_master-move_warn a').length;
+                                                var num2 = $('#reg_master-move_success a').length;
+                                                //刷新人数
+                                                $('#reg_master-num1').text(total - num1 - num2);
+                                                $('#reg_master-num2').text(num2);
+                                                return;
+                                            }
+                                            //认不得的信息，提示出错
+                                            weui.topTips("无法识别的扫码信息", 3000);
                                         }
-                                        loading.hide();
                                     });
                                 }
                             });
 
                         });
-
-                        var reg_if = {
-                            IFNUM: /^\d{1,2}$/,
-                        };
-                        weui.form.checkIfBlur('#regs_master_form', {
-                            regexp: reg
-                        });
-                        //根据录取编号查询房主信息
-                        $('#regs_master_find').click(function () {
-                            weui.form.validate('#regs_master_form', function (error) {
-                                if (!error) {
-                                    var loading = weui.loading('正在查询...');
-                                    var regno = $('#regs_master_form input').val();
-                                    $.post('/Regs/UrlByRegNo', { id: regno }, function (res) {
-                                        if (res.error) {
-                                            weui.topTips(res.message, 3000);
-                                        } else {
-                                            //
-                                        }
-                                        loading.hide();
-                                    });
-                                }
-                            }, {
-                                regexp: reg
-                            });
-
-
-                        });
-
-
-                        //提交
-                        $('#regs_master_update').click(function () {
-                            weui.form.validate('#regs_master_input', function (error) {
-                                if (!error) {
-                                    var loading = weui.loading('正在提交...');
-                                    var data = $('#regs_master_input').serialize();
-                                    $.post('/Regs/FixStud', data, function (res) {
-                                        loading.hide();
-                                        if (res.error) {
-                                            weui.topTips(res.message, 3000);
-                                        } else {
-                                            weui.toast('房产提交成功', 2000);
-                                            //
-                                        }
-                                    })
-                                }
-                            }, {
-                                regexp: reg
-                            });
-                        });
-
-
-                        ////通过人员
-
 
 
                     });
@@ -310,8 +348,8 @@
             </div>
         </form>
 
-        <div class="weui-form-preview" style="margin-top: 20px;">
-            <div class="weui-form-preview__bd" id="reg_master-students">
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd" id="reg_master-students">
             </div>
         </div>
 
@@ -319,7 +357,7 @@
             <div class="weui-panel__bd">
                 <div class="weui-media-box weui-media-box_text">
                     <h4 class="weui-media-box__title">调动名单</h4>
-                    <p class="weui-media-box__desc">　　调动总数：<span id="reg_master-total_num" style="color:red;">10</span>，剩余人数：<span id="reg_master-num" style="color:blue;">1</span></p>
+                    <p class="weui-media-box__desc">　　调动总数：<span class="reg_master-total_num" style="color:red;">6</span>，剩余人数：<span id="reg_master-num1" style="color:blue;">1</span></p>
                 </div>
             </div>
         </div>
@@ -342,7 +380,7 @@
             <div class="weui-panel__bd">
                 <div class="weui-media-box weui-media-box_text">
                     <h4 class="weui-media-box__title">调动成功</h4>
-                    <p class="weui-media-box__desc">　　调动总数：<span id="reg_master-total_num" style="color:red;">10</span>，实际调动：<span id="reg_master-num" style="color:blue;">1</span></p>
+                    <p class="weui-media-box__desc">　　调动总数：<span id="reg_master-total_num" class="reg_master-total_num" style="color:red;">6</span>，实际调动：<span id="reg_master-num2" style="color:blue;">1</span></p>
                 </div>
             </div>
         </div>

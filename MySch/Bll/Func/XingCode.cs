@@ -55,6 +55,51 @@ namespace MySch.Bll.Func
             }
         }
 
+        //带文字
+        public static void CodeOutputStreamRight(int width, int height, string content, string title, int margin, BarcodeFormat format)
+        {
+            try
+            {
+                using (Bitmap bitmap = CodeBitmap(width, height, content, margin, format))
+                {
+                    //文字
+                    Graphics g = Graphics.FromImage(bitmap);
+                    Font font = new Font("黑体", 12, FontStyle.Regular);
+                    SizeF size = g.MeasureString(title, font);
+                    g.DrawString(title, font, Brushes.Black, width - size.Width, height - size.Height);
+                    //输出
+                    HttpContext.Current.Response.ContentType = "image/jpeg";
+                    bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        public static void CodeOutputStreamMid(int width, int height, string content, string title, int margin, BarcodeFormat format)
+        {
+            try
+            {
+                using (Bitmap bitmap = CodeBitmap(width, height, content, margin, format))
+                {
+                    //文字
+                    Graphics g = Graphics.FromImage(bitmap);
+                    Font font = new Font("黑体", 12, FontStyle.Regular);
+                    SizeF size = g.MeasureString(title, font);
+                    g.DrawString(title, font, Brushes.Black, (width - size.Width) / 2, height - size.Height);
+                    //输出
+                    HttpContext.Current.Response.ContentType = "image/jpeg";
+                    bitmap.Save(HttpContext.Current.Response.OutputStream, ImageFormat.Jpeg);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
         public static void CodeOutputStream(string fileName)
         {
             try

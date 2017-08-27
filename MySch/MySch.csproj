@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Models\QrAccRoleGroup.cs" />
     <Compile Include="Models\StudGradeMove.cs" />
     <Compile Include="Mvvm\School\Student\Action\ActionStudGrade.cs" />
@@ -339,6 +340,7 @@
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Models\WxUploadFile.cs" />
     <Compile Include="Mvvm\Login\WebLogin.cs" />
+    <Compile Include="Mvvm\VmKeyValue.cs" />
     <Compile Include="Mvvm\Web\Role\VmRoleFilter.cs" />
     <Compile Include="Mvvm\User\Action\ActAcc.cs" />
     <Compile Include="Mvvm\User\VmAcc.cs" />
@@ -740,6 +742,7 @@
     <Content Include="Views\UserBanst\NowClass.cshtml" />
     <Content Include="Views\UserBanst\MasterClass.cshtml" />
     <Content Include="Views\UserGrade\Edit.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bll\UI\" />

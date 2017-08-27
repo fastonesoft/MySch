@@ -1,6 +1,7 @@
 ﻿using MySch.Bll.Entity;
 using MySch.Bll.Func;
 using MySch.Bll.View;
+using MySch.Bll.WX.Model;
 using MySch.Dal;
 using MySch.Models;
 using System;
@@ -122,7 +123,7 @@ namespace MySch.Mvvm.School.Student.Action
                 }
                 var movestr = sb.ToString();
                 //
-                return VGradeStud.GetEntitys(a => a.GradeIDS == ban.GradeIDS && !a.Fixed && string.IsNullOrEmpty(a.GroupID) && a.StudName.Contains(name) && !movestr.Contains(a.ID));
+                return VGradeStud.GetEntitys(a => a.InSch && a.GradeIDS == ban.GradeIDS && !a.Fixed && string.IsNullOrEmpty(a.GroupID) && a.StudName.Contains(name) && !movestr.Contains(a.ID));
             }
             catch (Exception e)
             {
@@ -130,16 +131,40 @@ namespace MySch.Mvvm.School.Student.Action
             }
         }
 
+        //调动学生
         public static object MoveStud(string owner, string id)
         {
             try
             {
                 //是否可以调到
-                var stud = VGradeStud.GetEntity(a => !a.Fixed && string.IsNullOrEmpty(a.GroupID) && a.ID == id);
+                var stud = VGradeStud.GetEntity(a => a.InSch && !a.Fixed && string.IsNullOrEmpty(a.GroupID) && a.ID == id);
                 if (stud == null) throw new Exception("异常数据");
                 //是否已在调动
                 var count = BllStudentMove.Count(a => a.ID == id);
                 if (count != 0) throw new Exception(stud.StudName + "，已经在调动列表当中！");
+
+                //查询一下自已的班
+                var ban = VBan.GetEntity(a => a.MasterIDS == owner);
+                if (ban == null) throw new Exception("你还没有带班");
+                if (ban.NotFeng) throw new Exception("你班未参加分班，用不着查找");
+
+                //统计调动人数
+                var fixedcount = BllGradeStud.Count(a => a.Fixed && a.BanIDS == ban.IDS);
+                var movecount = BllStudentMove.Count(a => a.OwnerAccIDS == owner);
+                if (fixedcount + movecount >= ban.ChangeNum) throw new Exception("已达到调动人数上限");
+
+
+                //如果学生已在本条上
+                //直接设置固定，并给出提示信息
+                if (stud.BanIDS == ban.IDS)
+                {
+                    var studfix = BllGradeStud.GetEntity<BllGradeStud>(a => a.ID == stud.ID);
+                    if (studfix == null) throw new Exception("异常数据");
+                    //固定
+                    studfix.GroupID = Guid.NewGuid().ToString("N");
+                    studfix.ToUpdate();
+                    throw new Exception(stud.StudName + "，原本就在本班，已做了固定标志！");
+                }
 
                 //添加进调动列表
                 var save = new BllStudentMove
@@ -159,13 +184,18 @@ namespace MySch.Mvvm.School.Student.Action
             }
         }
 
-        public static object MoveCode(string owner, string id)
+        //调动“查询”所需的二维码
+        public static VmKeyValue MoveCode(string owner, string id)
         {
             try
             {
                 //查找调动学生信息
-                var move = BllStudentMove.GetEntity<BllStudentMove>(a => a.OwnerAccIDS == owner && a.ID == id);
+                var move = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id);
                 if (move == null) throw new Exception("没有找到学生的调动信息");
+                if (move.OwnerAccIDS != owner) throw new Exception("调动中的学生，不是你发起的");
+
+                //查询学生姓名
+                var stud = VGradeStud.GetEntity(a => a.ID == id);
 
                 //准备查询二维码数据
                 var code = new VmStudGradeMove
@@ -173,11 +203,17 @@ namespace MySch.Mvvm.School.Student.Action
                     ID = move.ID,
                     IDS = move.IDS,
                     BanIDS = move.BanIDS,
-                    OwnerAccIDS = owner,
+                    OwnerAccIDS = move.OwnerAccIDS,
                     Command = "query",
                 };
 
-                return code.ToUrlString();
+                //
+                var res = new VmKeyValue
+                {
+                    Key = stud.StudName,
+                    Value = code.ToUrlString(),
+                };
+                return res;
             }
             catch (Exception e)
             {
@@ -185,7 +221,69 @@ namespace MySch.Mvvm.School.Student.Action
             }
         }
 
-        //查询满足条件的学生
+
+        /// <summary>
+        /// 调动“确认”所需的二维码
+        /// </summary>
+        /// <param name="owner">被调班主任</param>
+        /// <param name="id">备用交换学生</param>
+        /// <param name="id2">被调学生</param>
+        /// <param name="owner2">调动申请班主任</param>
+        /// <returns></returns>
+        public static VmKeyValue ConfirmCode(string owner, string id, string id2)
+        {
+            try
+            {
+                //查找：学生信息
+                var movestudent = VGradeStud.GetEntity(a => a.ID == id2);
+                if (movestudent == null) throw new Exception("没有找到编号对应学生信息！");
+
+                //查找：学生调动信息
+                var move = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id2);
+                if (move == null) throw new Exception(movestudent.StudName + "，还没有调动记录！");
+
+                //检查：调动学生是不是我班的
+                var ban = VBan.GetEntity(a => a.MasterIDS == owner);
+                if (move.BanIDS != ban.IDS) throw new Exception(movestudent.StudName + "，不是我班的！");
+
+
+                //准备交换学生信息
+                var student = VGradeStud.GetEntity(a => a.ID == id);
+                if (student == null) throw new Exception("没有找到编号对应学生信息！");
+
+                //查找交换学生是否在调当中
+                var count = BllStudentMove.Count(a => a.ID == id);
+                if (count != 0) throw new Exception(student.StudName + "，已在调动列表当中");
+
+                //准备查询二维码数据
+                var code = new VmStudGradeMove
+                {
+                    ID = move.ID,
+                    IDS = move.IDS,
+                    BanIDS = move.BanIDS,
+                    OwnerAccIDS = move.OwnerAccIDS,
+                    Command = "confirm",
+                    ID2 = student.ID,
+                    IDS2 = student.IDS,
+                    BanIDS2 = student.BanIDS,
+                    OwnerAccIDS2 = owner,
+                };
+
+                //
+                var res = new VmKeyValue
+                {
+                    Key = student.StudName,
+                    Value = code.ToUrlString(),
+                };
+                return res;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        //识别一：查询满足条件的学生
         public static object MoveScanQuery(string owner, VmStudGradeMove data)
         {
             try
@@ -203,21 +301,23 @@ namespace MySch.Mvvm.School.Student.Action
                 var who = VBan.GetEntity(a => a.MasterIDS == data.OwnerAccIDS);
                 if (who == null) throw new Exception("找不到调动学生的班级");
 
-                //分差，性别
+                var res = new VmKeyValue { Command = data.Command, Key = data.ID };
+                //可以交换的学生列表：在校、在班、没定、没组
+                var students = VGradeStud.GetEntitys(a => a.InSch && a.BanIDS == who.IDS && !a.Fixed && string.IsNullOrEmpty(a.GroupID));
+                //性别，分差
                 if (ban.SameSex)
                 {
-                    var students = VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex == stud.StudSex);
-                    return !ban.IsAbs ?
-                        students.Where(a => a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).Take(5) :
-                        students.Where(a => a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).Take(5);
+                    res.Value = !ban.IsAbs ?
+                        students.Where(a => a.StudSex == stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5) :
+                        students.Where(a => a.StudSex == stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5);
                 }
                 else
                 {
-                    var students = VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex != stud.StudSex);
-                    return !ban.IsAbs ?
-                        students.Where(a => a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).Take(5) :
-                        students.Where(a => a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).Take(5);
+                    res.Value = !ban.IsAbs ?
+                        students.Where(a => a.StudSex != stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5) :
+                        students.Where(a => a.StudSex != stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5);
                 }
+                return res;
             }
             catch (Exception e)
             {
@@ -225,17 +325,83 @@ namespace MySch.Mvvm.School.Student.Action
             }
         }
 
-        public static object MoveScanMove()
+        //识别二：
+        public static object MoveScanMove(string owner, VmStudGradeMove data)
         {
             try
             {
-                return null;
+                //身份认定
+                if (data.OwnerAccIDS != owner) throw new Exception("异常数据");
+
+                //先保存交换学生
+                var change = new BllStudentMove
+                {
+                    ID = data.ID2,
+                    IDS = data.IDS2,
+                    BanIDS = data.BanIDS2,
+                    OwnerAccIDS = data.OwnerAccIDS2,
+                };
+                change.ToAdd();
+                //可以保存，开始调动
+                //交换两个学生信息
+                var studin = new VmStudGradeBanWanted
+                {
+                    ID = data.ID,
+                    IDS = data.IDS,
+                    BanIDS = data.BanIDS2,
+                    Fixed = true,
+                };
+                studin.ToUpdate();
+                var studout = new VmStudGradeBan
+                {
+                    ID = data.ID2,
+                    IDS = data.IDS2,
+                    BanIDS = data.BanIDS,
+                };
+                studout.ToUpdate();
+                //准备删除信息
+                var move = new BllStudentMove
+                {
+                    ID = data.ID,
+                    IDS = data.IDS,
+                };
+                move.ToDelete();
+                change.ToDelete();
+
+                //查询学生信息
+                var res = new VmKeyValue { Command = data.Command };
+                res.Value = VGradeStud.GetEntity(a => a.ID == data.ID);
+                //返回学生编号
+                return res;
             }
             catch (Exception e)
             {
                 throw e;
             }
+        }
 
+
+        public static object MoveBanNum(string owner)
+        {
+            try
+            {
+                var ban = VBan.GetEntity(a => a.MasterIDS == owner);
+                if (ban == null) throw new Exception("你还没有带班呢");
+
+                //查找你调几个了，
+                var key = BllGradeStud.Count(a => a.Fixed && a.BanIDS == ban.IDS);
+                var value = BllStudentMove.Count(a => a.OwnerAccIDS == owner);
+                return new VmKeyValue
+                {
+                    Command = ban.ChangeNum.ToString(),
+                    Key = key.ToString(),
+                    Value = (ban.ChangeNum - key - value).ToString()
+                };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public static object RemoveStud(string owner, string id)

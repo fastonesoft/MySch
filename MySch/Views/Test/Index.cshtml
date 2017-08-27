@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script type="text/javascript">
+        var data = 'ID=80a092b1c9d54f8e9bd2044ab6509e0e&IDS=3212840201201501090944&BanIDS=32128402012015010920&OwnerAccIDS=o47ZhvxoQA9QOOgDSZ5hGaea4xdI&Command=query&ID2=null&IDS2=null&BanIDS2=null&OwnerAccIDS2=null';
+        $('#test-code').click(function () {
+            $.post('/Regs/MaMoveScan', data, function (res) {
+                if (res.error) {
+                    weui.topTips(res.message, 3000);
+                } else {
+                    //识别成功
+                    alert(JSON.stringify(res));
+                }
+                loading.hide();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="test-code"> 
+        测试二维码数据
+    </div>
+</body>
+</html>

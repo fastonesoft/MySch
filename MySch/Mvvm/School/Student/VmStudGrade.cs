@@ -30,6 +30,14 @@ namespace MySch.Mvvm.School.Student
         public string BanIDS { get; set; }
     }
 
+    public class VmStudGradeBanWanted : BllEntity<StudGrade>
+    {
+        public string ID { get; set; }
+        public string IDS { get; set; }
+        public string BanIDS { get; set; }
+        public bool Fixed { get; set; }
+    }
+
     /// <summary>
     /// 学生分班二维交换数据格式
     /// </summary>

@@ -37,6 +37,7 @@ namespace MySch.Bll.View
         public string OldBan { get; set; }
         public string OldBanNum { get; set; }
         public string GroupID { get; set; }
+        public string MasterIDS { get; set; }
 
         public static IEnumerable<VGradeStud> GetEntitys(Expression<Func<VGradeStud, bool>> where)
         {
@@ -80,6 +81,7 @@ namespace MySch.Bll.View
                                        OldBan = gs.OldBan,
                                        OldBanNum =  gs.OldBan.Substring(0, 2),
                                        GroupID = gs.GroupID,
+                                       MasterIDS = b.MasterIDS,
                                    })
                                    .Where(where)
                                    .ToList();
@@ -93,7 +95,8 @@ namespace MySch.Bll.View
                         .OrderBy(a => a.BanIDS)
                         .ThenByDescending(a => a.StudSex)
                         .ThenByDescending(a => a.Score)
-                        .ThenBy(a => a.ID);
+                        .ThenBy(a => a.ID)
+                        .ToList();
                 }
             }
             catch (Exception e)

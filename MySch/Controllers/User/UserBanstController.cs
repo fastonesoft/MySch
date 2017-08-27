@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.User
 {
-    public class UserBanstController : Controller
+    public class UserBanstController : RoleController
     {
         // GET: UserBanst
         public ActionResult Index()
@@ -99,20 +99,18 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var name = string.Empty;
-                foreach (var entity in entitys)
+                var entity = entitys.First();
+                //记录
+                var name = (entity.StudName + "，");
+                //写入
+                var studgrade = new VmStudGradeGroupID
                 {
-                    //记录
-                    name += (entity.StudName + "，");
-                    //写入
-                    var studgrade = new VmStudGradeGroupID
-                    {
-                        ID = entity.ID,
-                        IDS = entity.IDS,
-                        GroupID = null,
-                    };
-                    studgrade.ToUpdate();
-                }
+                    ID = entity.ID,
+                    IDS = entity.IDS,
+                    GroupID = null,
+                };
+                studgrade.ToUpdate();
+                //
                 return Json(new BllError { error = false, message = name + "已取消同班标志！" });
 
             }
@@ -181,6 +179,7 @@ namespace MySch.Controllers.User
             {
                 var entitys = rows
                      .OrderBy(a => a.OldBanNum)
+                     .ThenBy(a => a.OldBan)
                      .ThenByDescending(a => a.StudSex)
                      .ThenByDescending(a => a.Score)
                      .ThenBy(a => a.ID);
