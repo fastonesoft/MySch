@@ -206,15 +206,17 @@ namespace MySch.Mvvm.School.Student.Action
                 //分差，性别
                 if (ban.SameSex)
                 {
+                    var students = VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex == stud.StudSex);
                     return !ban.IsAbs ?
-                        VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex == stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).Take(5) :
-                         VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex == stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).Take(5);
+                        students.Where(a => a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).Take(5) :
+                        students.Where(a => a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).Take(5);
                 }
                 else
                 {
+                    var students = VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex != stud.StudSex);
                     return !ban.IsAbs ?
-                        VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex != stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).Take(5) :
-                         VGradeStud.GetEntitys(a => a.BanIDS == who.IDS && a.StudSex != stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).Take(5);
+                        students.Where(a => a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).Take(5) :
+                        students.Where(a => a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).Take(5);
                 }
             }
             catch (Exception e)

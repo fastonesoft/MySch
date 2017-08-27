@@ -102,6 +102,8 @@
                                         if (res.error) {
                                             weui.topTips(res.message, 3000);
                                         } else {
+                                            if (res.length == 0) weui.topTips("没找到你要查的学生！", 3000);
+
                                             //清空
                                             $('#reg_master-students').empty();
                                             $('#reg_master-stud_name').val('');
@@ -307,6 +309,7 @@
                 <a id="regs_master-query" href="javascript:" class="weui-btn weui-btn_primary">查询：学生原始信息</a>
             </div>
         </form>
+
         <div class="weui-form-preview" style="margin-top: 20px;">
             <div class="weui-form-preview__bd" id="reg_master-students">
             </div>
@@ -326,6 +329,15 @@
             </div>
         </div>
 
+        <div class="weui-btn-area">
+            <a id="regs_master-scan" href="javascript:" class="weui-btn weui-btn_primary">识别：学生调动信息</a>
+        </div>
+
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd" id="reg_master-move_prepare">
+            </div>
+        </div>
+
         <div class="weui-panel weui-panel_access">
             <div class="weui-panel__bd">
                 <div class="weui-media-box weui-media-box_text">
@@ -340,14 +352,6 @@
             </div>
         </div>
 
-        <div class="weui-btn-area">
-            <a id="regs_master-scan" href="javascript:" class="weui-btn weui-btn_primary">识别：学生调动信息</a>
-        </div>
-
-        <div class="weui-panel weui-panel_access">
-            <div class="weui-panel__bd" id="reg_master-move_prepare">
-            </div>
-        </div>
 
 
         <form id="regs_master_form_if" style="display:none;">
