@@ -21,6 +21,9 @@ namespace MySch.Bll.View
         public bool IsCurrent { get; set; }
         public bool CanRecruit { get; set; }
         public bool CanFeng { get; set; }
+        public int TakeNum { get; set; }
+        public bool GoneModel { get; set; }
+        public string GoneList { get; set; }
         public string AccIDS { get; set; }
 
         public static IEnumerable<VGrade> GetEntitys(Expression<Func<VGrade, bool>> where)
@@ -48,6 +51,9 @@ namespace MySch.Bll.View
                                        CanRecruit = s.CanRecruit,
                                        CanFeng = g.CanFeng,
                                        AccIDS = g.AccIDS,
+                                       TakeNum = g.TakeNum,
+                                       GoneModel = g.GoneModel,
+                                       GoneList = g.GoneList,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.IDS)

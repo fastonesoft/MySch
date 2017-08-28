@@ -64,8 +64,18 @@
                 columns: [[
                     { title: '年级名称', field: 'Name', align: 'center', width: 200 },
                     { title: '年度名称', field: 'YearName', align: 'center', width: 100 },
+                    { title: '交换用的人数', field: 'TakeNum', align: 'center', width: 90 },
                     {
                         title: '是否能分班', field: 'CanFeng', halign: 'center', width: 90,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
+                        title: '公共关系模式', field: 'GoneModel', halign: 'center', width: 90,
                         formatter: function (value, row, index) { },
                         styler: function (value, row, index) {
                             if (value) {

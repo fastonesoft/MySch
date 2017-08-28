@@ -22,9 +22,26 @@
             <input id="EduIDS" name="EduIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.TakeNum)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.TakeNum, new { @class = "textbox-text", @style = "width:200px;" })
+            </span>
+            @Html.ValidationMessageFor(a => a.TakeNum)
+        </div>
+        <div class="form-item-row">
             <div>@Html.LabelFor(a => a.CanFeng)：@Html.CheckBoxFor(a => a.CanFeng, new { @disabled = "disabled" })</div>
         </div>
-    </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.GoneModel)：@Html.CheckBoxFor(a => a.GoneModel, new { @disabled = "disabled" })</div>
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.GoneList)：</div>
+            <span class="textbox">
+                @Html.TextAreaFor(a => a.GoneList, new { @class = "textbox-text", @style = "width:350px; height:315px;" })
+            </span>
+            @Html.ValidationMessageFor(a => a.GoneList)
+        </div>
+   </div>
     @Html.HiddenFor(a => a.ID)
     @Html.HiddenFor(a => a.IDS)
 }
@@ -57,6 +74,6 @@
         });
 
         //删除对话框
-        DialogReload('年级删除', 410, 285, '/UserGrade/DelToken', '#grades-grid');
+        DialogReload('年级删除', 410, 685, '/UserGrade/DelToken', '#grades-grid');
     })
 </script>

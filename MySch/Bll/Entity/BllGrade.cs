@@ -34,6 +34,15 @@ namespace MySch.Bll.Entity
         [DisplayName("是否能分班")]
         public bool CanFeng { get; set; }
 
+        [DisplayName("交换用的人数")]
+        public int TakeNum { get; set; }
+
+        [DisplayName("公共关系模式")]
+        public bool GoneModel { get; set; }
+
+        [DisplayName("公共关系列表")]
+        public string GoneList { get; set; }
+
         public string AccIDS { get; set; }
     }
 }

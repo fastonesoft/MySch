@@ -30,6 +30,7 @@ namespace MySch.Models
         public virtual DbSet<StudCome> StudComes { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<StudGrade> StudGrades { get; set; }
+        public virtual DbSet<StudGradeMove> StudGradeMoves { get; set; }
         public virtual DbSet<StudOut> StudOuts { get; set; }
         public virtual DbSet<TAcc> TAccs { get; set; }
         public virtual DbSet<TBan> TBans { get; set; }
@@ -48,11 +49,20 @@ namespace MySch.Models
         public virtual DbSet<StudGradeField> StudGradeFields { get; set; }
         public virtual DbSet<StudGradeTable> StudGradeTables { get; set; }
         public virtual DbSet<StudGradeType> StudGradeTypes { get; set; }
-        public virtual DbSet<StudGradeMove> StudGradeMoves { get; set; }
         public virtual DbSet<QrAccRoleGroup> QrAccRoleGroups { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TAcc>()
+                .HasMany(e => e.StudGradeMoves)
+                .WithRequired(e => e.TAcc)
+                .HasForeignKey(e => e.OwnerAccIDS)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TAcc>()
+                .HasMany(e => e.TBans)
+                .WithOptional(e => e.TAcc)
+                .HasForeignKey(e => e.MasterIDS);
         }
     }
 }

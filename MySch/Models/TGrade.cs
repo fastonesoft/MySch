@@ -33,5 +33,11 @@ namespace MySch.Models
         public string AccIDS { get; set; }
 
         public bool CanFeng { get; set; }
+
+        public int TakeNum { get; set; }
+
+        public bool GoneModel { get; set; }
+
+        public string GoneList { get; set; }
     }
 }

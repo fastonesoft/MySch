@@ -42,5 +42,7 @@ namespace MySch.Models
         public bool IsAbs { get; set; }
 
         public bool SameSex { get; set; }
+
+        public virtual TAcc TAcc { get; set; }
     }
 }

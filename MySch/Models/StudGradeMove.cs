@@ -23,5 +23,7 @@ namespace MySch.Models
         [Required]
         [StringLength(32)]
         public string OwnerAccIDS { get; set; }
+
+        public virtual TAcc TAcc { get; set; }
     }
 }

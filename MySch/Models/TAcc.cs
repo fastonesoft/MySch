@@ -9,6 +9,13 @@ namespace MySch.Models
     [Table("TAcc")]
     public partial class TAcc
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TAcc()
+        {
+            StudGradeMoves = new HashSet<StudGradeMove>();
+            TBans = new HashSet<TBan>();
+        }
+
         [StringLength(32)]
         public string ID { get; set; }
 
@@ -34,5 +41,11 @@ namespace MySch.Models
 
         [StringLength(32)]
         public string ParentID { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudGradeMove> StudGradeMoves { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBan> TBans { get; set; }
     }
 }

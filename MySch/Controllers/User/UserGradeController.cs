@@ -56,6 +56,7 @@ namespace MySch.Controllers.User
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
                 ViewBag.Steps = EasyUICombo.ToComboJsons<VStep>(steps, entity.StepIDS);
 
+
                 return View(entity);
             }
             catch (Exception e)

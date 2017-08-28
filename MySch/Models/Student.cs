@@ -16,6 +16,7 @@ namespace MySch.Models
         [StringLength(32)]
         public string IDS { get; set; }
 
+        [Required]
         [StringLength(20)]
         public string IDC { get; set; }
 
