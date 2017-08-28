@@ -9,31 +9,33 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.StepIDS)：</div>
             <input id="StepIDS" name="StepIDS" style="width:156px;" />
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.YearIDS)：</div>
             <input id="YearIDS" name="YearIDS" style="width:156px;" />
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.EduIDS)：</div>
             <input id="EduIDS" name="EduIDS" style="width:156px;" />
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.TakeNum)：</div>
             <span class="textbox">
                 @Html.TextBoxFor(a => a.TakeNum, new { @class = "textbox-text", @style = "width:200px;" })
             </span>
             @Html.ValidationMessageFor(a => a.TakeNum)
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-line"></div>
+  <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.CanFeng)：@Html.CheckBoxFor(a => a.CanFeng, new { @disabled = "disabled" })</div>
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left1">
             <div>@Html.LabelFor(a => a.GoneModel)：@Html.CheckBoxFor(a => a.GoneModel, new { @disabled = "disabled" })</div>
         </div>
+        <div class="form-item-row-line"></div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.GoneList)：</div>
             <span class="textbox">
@@ -41,7 +43,7 @@
             </span>
             @Html.ValidationMessageFor(a => a.GoneList)
         </div>
-   </div>
+    </div>
     @Html.HiddenFor(a => a.ID)
     @Html.HiddenFor(a => a.IDS)
 }
@@ -74,6 +76,6 @@
         });
 
         //删除对话框
-        DialogReload('年级删除', 410, 685, '/UserGrade/DelToken', '#grades-grid');
+        DialogReload('年级删除', 510, 585, '/UserGrade/DelToken', '#grades-grid');
     })
 </script>

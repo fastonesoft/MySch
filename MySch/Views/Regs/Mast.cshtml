@@ -305,6 +305,22 @@
                                                 $('#reg_master-num2').text(num2);
                                                 return;
                                             }
+                                            //识别：是交换记录结果，则，刷新数据（公共关系）
+                                            if (res.Command == 'confirmg') {
+                                                //删除查询记录
+                                                var id = res.Value.ID;
+                                                $('#reg_master-move_warn a[studid=' + id + ']').remove();
+
+                                                //总人数
+                                                var total = $('#reg_master-total_num').text();
+                                                var num1 = $('#reg_master-move_warn a').length;
+                                                var num2 = $('#reg_master-move_success a').length;
+                                                //刷新人数
+                                                $('#reg_master-num1').text(total - num1 - num2);
+                                                $('#reg_master-num2').text(num2);
+                                                return;
+                                            }
+
                                             //认不得的信息，提示出错
                                             weui.topTips("无法识别的扫码信息", 3000);
                                         }

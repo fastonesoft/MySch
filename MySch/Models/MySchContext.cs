@@ -54,12 +54,6 @@ namespace MySch.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TAcc>()
-                .HasMany(e => e.StudGradeMoves)
-                .WithRequired(e => e.TAcc)
-                .HasForeignKey(e => e.OwnerAccIDS)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<TAcc>()
                 .HasMany(e => e.TBans)
                 .WithOptional(e => e.TAcc)
                 .HasForeignKey(e => e.MasterIDS);

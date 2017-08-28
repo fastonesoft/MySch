@@ -16,6 +16,6 @@ namespace MySch.Bll.Entity
 
         public string BanIDS { get; set; }
 
-        public string OwnerAccIDS { get; set; }
+        public string OwnerIDS { get; set; }
     }
 }

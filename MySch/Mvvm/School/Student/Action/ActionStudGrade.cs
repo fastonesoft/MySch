@@ -150,9 +150,16 @@ namespace MySch.Mvvm.School.Student.Action
 
                 //统计调动人数
                 var fixedcount = BllGradeStud.Count(a => a.Fixed && a.BanIDS == ban.IDS);
-                var movecount = BllStudentMove.Count(a => a.OwnerAccIDS == owner);
+                var movecount = BllStudentMove.Count(a => a.OwnerIDS == owner);
                 if (fixedcount + movecount >= ban.ChangeNum) throw new Exception("已达到调动人数上限");
 
+                //公共关系模式
+                var grade = VGrade.GetEntity(a => a.IDS == ban.GradeIDS);
+                if (grade.GoneModel)
+                {
+                    string glist = string.IsNullOrEmpty(grade.GoneList) ? string.Empty : grade.GoneList;
+                    if (!glist.Contains(stud.StudName)) throw new Exception(stud.StudName + "，不在公共关系列表中！");
+                }
 
                 //如果学生已在本条上
                 //直接设置固定，并给出提示信息
@@ -172,7 +179,7 @@ namespace MySch.Mvvm.School.Student.Action
                     ID = stud.ID,
                     IDS = stud.IDS,
                     BanIDS = stud.BanIDS,
-                    OwnerAccIDS = owner,
+                    OwnerIDS = owner,
                 };
                 save.ToAdd();
                 //返回
@@ -192,7 +199,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //查找调动学生信息
                 var move = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id);
                 if (move == null) throw new Exception("没有找到学生的调动信息");
-                if (move.OwnerAccIDS != owner) throw new Exception("调动中的学生，不是你发起的");
+                if (move.OwnerIDS != owner) throw new Exception("调动中的学生，不是你发起的");
 
                 //查询学生姓名
                 var stud = VGradeStud.GetEntity(a => a.ID == id);
@@ -203,7 +210,7 @@ namespace MySch.Mvvm.School.Student.Action
                     ID = move.ID,
                     IDS = move.IDS,
                     BanIDS = move.BanIDS,
-                    OwnerAccIDS = move.OwnerAccIDS,
+                    OwnerAccIDS = move.OwnerIDS,
                     Command = "query",
                 };
 
@@ -261,7 +268,7 @@ namespace MySch.Mvvm.School.Student.Action
                     ID = move.ID,
                     IDS = move.IDS,
                     BanIDS = move.BanIDS,
-                    OwnerAccIDS = move.OwnerAccIDS,
+                    OwnerAccIDS = move.OwnerIDS,
                     Command = "confirm",
                     ID2 = student.ID,
                     IDS2 = student.IDS,
@@ -333,25 +340,44 @@ namespace MySch.Mvvm.School.Student.Action
                 //身份认定
                 if (data.OwnerAccIDS != owner) throw new Exception("异常数据");
 
+                //公共关系模式
+                var ban = VBan.GetEntity(a => a.IDS == data.BanIDS);
+                var grade = VGrade.GetEntity(a => a.IDS == ban.GradeIDS);
+                var stud = VGradeStud.GetEntity(a => a.ID == data.ID);
+
                 //先保存交换学生
                 var change = new BllStudentMove
                 {
                     ID = data.ID2,
                     IDS = data.IDS2,
                     BanIDS = data.BanIDS2,
-                    OwnerAccIDS = data.OwnerAccIDS2,
+                    OwnerIDS = data.OwnerAccIDS2,
                 };
                 change.ToAdd();
                 //可以保存，开始调动
                 //交换两个学生信息
-                var studin = new VmStudGradeBanWanted
+                if (grade.GoneModel)
                 {
-                    ID = data.ID,
-                    IDS = data.IDS,
-                    BanIDS = data.BanIDS2,
-                    Fixed = true,
-                };
-                studin.ToUpdate();
+                    var studin = new VmStudGradeBanGone
+                    {
+                        ID = data.ID,
+                        IDS = data.IDS,
+                        BanIDS = data.BanIDS2,
+                        GroupID = Guid.NewGuid().ToString("N"),
+                    };
+                    studin.ToUpdate();
+                }
+                else
+                {
+                    var studin = new VmStudGradeBanWanted
+                    {
+                        ID = data.ID,
+                        IDS = data.IDS,
+                        BanIDS = data.BanIDS2,
+                        Fixed = true,
+                    };
+                    studin.ToUpdate();
+                }
                 var studout = new VmStudGradeBan
                 {
                     ID = data.ID2,
@@ -369,7 +395,7 @@ namespace MySch.Mvvm.School.Student.Action
                 change.ToDelete();
 
                 //查询学生信息
-                var res = new VmKeyValue { Command = data.Command };
+                var res = new VmKeyValue { Command = grade.GoneModel ? "confirmg" : "confirm" };
                 res.Value = VGradeStud.GetEntity(a => a.ID == data.ID);
                 //返回学生编号
                 return res;
@@ -390,7 +416,7 @@ namespace MySch.Mvvm.School.Student.Action
 
                 //查找你调几个了，
                 var key = BllGradeStud.Count(a => a.Fixed && a.BanIDS == ban.IDS);
-                var value = BllStudentMove.Count(a => a.OwnerAccIDS == owner);
+                var value = BllStudentMove.Count(a => a.OwnerIDS == owner);
                 return new VmKeyValue
                 {
                     Command = ban.ChangeNum.ToString(),
@@ -408,7 +434,7 @@ namespace MySch.Mvvm.School.Student.Action
         {
             try
             {
-                var remove = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id && a.OwnerAccIDS == owner);
+                var remove = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id && a.OwnerIDS == owner);
                 if (remove == null) throw new Exception("没有找到你要删除的调动学生");
 
                 remove.ToDelete();
@@ -427,7 +453,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //构建调动学生列表
-                var moves = BllStudentMove.GetEntitys<BllStudentMove>(a => a.OwnerAccIDS == owner);
+                var moves = BllStudentMove.GetEntitys<BllStudentMove>(a => a.OwnerIDS == owner);
                 var sb = new StringBuilder();
                 foreach (var move in moves)
                 {

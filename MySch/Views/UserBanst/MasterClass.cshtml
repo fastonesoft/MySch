@@ -25,7 +25,7 @@
         </div>
         <div style="page-break-after:always; clear:both;"></div>
         @{
-            var studstr = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>\n";
+            var studstr = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>\n";
             var studstrs = string.Empty;
             var studban = string.Empty;
             var num = 0;
@@ -55,13 +55,13 @@
                         <div style="height:100%; width:100%;">
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:left;">
                                 <tbody>
-                                    <tr style="height:50px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th></tr>
+                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班标志<br />公共关系</th><th>固定标志</th></tr>
                                     @Html.Raw(lefts)
                                 </tbody>
                             </table>
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:right;">
                                 <tbody>
-                                    <tr style="height:50px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th></tr>
+                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班标志<br />公共关系</th><th>固定标志</th></tr>
                                     @Html.Raw(rights)
                                 </tbody>
                             </table>
@@ -76,7 +76,7 @@
                         list.Clear();
                     }
                 }
-                studstrs = string.Format(studstr, stud.BanNum, stud.StudName, stud.StudSex, stud.Score, stud.GradeIDS == "321284020120170107" ? stud.OldBan : stud.OldBanNum);
+                studstrs = string.Format(studstr, stud.BanNum, stud.StudName, stud.StudSex, stud.Score, stud.GradeIDS == "321284020120170107" ? stud.OldBan : stud.OldBanNum, string.IsNullOrEmpty( stud.GroupID) ? "": "√", stud.Fixed? "√" : "");
                 list.Add(studstrs);
                 //结束
                 if (num == count)
@@ -99,13 +99,13 @@
                         <div style="height:100%; width:100%;">
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:left;">
                                 <tbody>
-                                    <tr style="height:50px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th></tr>
+                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班标志<br />公共关系</th><th>固定标志</th></tr>
                                     @Html.Raw(lefts)
                                 </tbody>
                             </table>
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:right;">
                                 <tbody>
-                                    <tr style="height:50px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th></tr>
+                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班标志<br />公共关系</th><th>固定标志</th></tr>
                                     @Html.Raw(rights)
                                 </tbody>
                             </table>
