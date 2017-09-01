@@ -36,9 +36,17 @@
                         ]
                     });
 
-                    //关闭
-                    headloading.hide();
-                    $('.reg_master').show();
+                    //调动参数读取
+                    $.post('/Regs/MaMoveInforGet', function (res) {
+                        //刷新数据
+                        if (res.error) {
+                            weui.topTips(res.message, 3000);
+                        } else {
+                            $('#IsAbs').prop('checked', res.message.IsAbs);
+                            $('#SameSex').prop('checked', res.message.SameSex);
+                        }
+                    });
+
                     //显示调动人员
                     $.post('/Regs/MaMoveStuds', function (res) {
                         if (res.error) {
@@ -72,6 +80,22 @@
                         }
                     });
 
+                    //显示调动成功公共关系
+                    $.post('/Regs/MaMovedGone', function (res) {
+                        if (res.error) {
+                            weui.topTips(res.message, 3000);
+                        } else {
+                            $.each(res, function () {
+                                var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-success" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc">性别：<span order="1"></span>，总分：<span order="2"></span>，原班：<span order="3"></span></p></div></a>');
+                                $warn_item.find('h4').text(this.StudName);
+                                $warn_item.find('span[order=1]').text(this.StudSex);
+                                $warn_item.find('span[order=2]').text(this.Score);
+                                $warn_item.find('span[order=3]').text(this.OldBanNum);
+                                $warn_item.appendTo($('#reg_master-move_gone'));
+                            })
+                        }
+                    });
+
                     //显示调动人数
                     $.post('/Regs/MaMoveBanNum', function (res) {
                         if (res.error) {
@@ -84,6 +108,11 @@
                             $('#reg_master-num1').text(res.Value);
                         }
                     });
+
+                    //关闭
+                    headloading.hide();
+                    //显示
+                    $('.reg_master').show();
 
 
                     wx.ready(function () {
@@ -281,6 +310,8 @@
                                                     $warn_item.find('span[order=3]').text(this.OldBanNum);
                                                     $warn_item.appendTo($('#reg_master-move_prepare'));
                                                 });
+                                                //没有满足条件的学生
+                                                if (res.Value.length == 0) weui.topTips("没有满足条件的交换学生", 3000);
                                                 return;
                                             }
                                             //识别：是交换记录结果，则，刷新数据
@@ -295,7 +326,6 @@
                                                 $warn_item.find('span[order=2]').text(res.Value.Score);
                                                 $warn_item.find('span[order=3]').text(res.Value.OldBanNum);
                                                 $warn_item.appendTo($('#reg_master-move_success'));
-
                                                 //总人数
                                                 var total = $('#reg_master-total_num').text();
                                                 var num1 = $('#reg_master-move_warn a').length;
@@ -303,6 +333,8 @@
                                                 //刷新人数
                                                 $('#reg_master-num1').text(total - num1 - num2);
                                                 $('#reg_master-num2').text(num2);
+                                                //给出提示
+                                                weui.toast('调动成功', 1500);
                                                 return;
                                             }
                                             //识别：是交换记录结果，则，刷新数据（公共关系）
@@ -310,14 +342,24 @@
                                                 //删除查询记录
                                                 var id = res.Value.ID;
                                                 $('#reg_master-move_warn a[studid=' + id + ']').remove();
+                                                //添加成功记录
+                                                var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-success" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc">性别：<span order="1"></span>，总分：<span order="2"></span>，原班：<span order="3"></span></p></div></a>');
+                                                $warn_item.find('h4').text(res.Value.StudName);
+                                                $warn_item.find('span[order=1]').text(res.Value.StudSex);
+                                                $warn_item.find('span[order=2]').text(res.Value.Score);
+                                                $warn_item.find('span[order=3]').text(res.Value.OldBanNum);
+                                                $warn_item.appendTo($('#reg_master-move_gone'));
 
                                                 //总人数
                                                 var total = $('#reg_master-total_num').text();
                                                 var num1 = $('#reg_master-move_warn a').length;
                                                 var num2 = $('#reg_master-move_success a').length;
+                                                var num3 = $('#reg_master-move_gone a').length;
                                                 //刷新人数
                                                 $('#reg_master-num1').text(total - num1 - num2);
                                                 $('#reg_master-num2').text(num2);
+                                                //给出提示
+                                                weui.toast('调动成功', 1500);
                                                 return;
                                             }
 
@@ -327,9 +369,19 @@
                                     });
                                 }
                             });
-
                         });
 
+                        //调动参数变更
+                        $('#regs_master-if').click(function () {
+                            var loading = weui.loading('正在加载...');
+                            var data = $('#regs_master-if').serialize();
+                            var isabs = $('#IsAbs').prop('checked');
+                            var samesex = $('#SameSex').prop('checked');
+                            $.post('/Regs/MaMoveInforSet', { isabs: isabs, samesex: samesex }, function (res) {
+                                weui.topTips(res.message, 3000);
+                                loading.hide();
+                            });
+                        });
 
                     });
 
@@ -373,7 +425,7 @@
             <div class="weui-panel__bd">
                 <div class="weui-media-box weui-media-box_text">
                     <h4 class="weui-media-box__title">调动名单</h4>
-                    <p class="weui-media-box__desc">　　调动总数：<span class="reg_master-total_num" style="color:red;">6</span>，剩余人数：<span id="reg_master-num1" style="color:blue;">1</span></p>
+                    <p class="weui-media-box__desc">　　调动总数：<span class="reg_master-total_num" id="reg_master-total_num" style="color:red;">6</span>，剩余人数：<span id="reg_master-num1" style="color:blue;">1</span></p>
                 </div>
             </div>
         </div>
@@ -396,7 +448,6 @@
             <div class="weui-panel__bd">
                 <div class="weui-media-box weui-media-box_text">
                     <h4 class="weui-media-box__title">调动成功</h4>
-                    <p class="weui-media-box__desc">　　调动总数：<span id="reg_master-total_num" class="reg_master-total_num" style="color:red;">6</span>，实际调动：<span id="reg_master-num2" style="color:blue;">1</span></p>
                 </div>
             </div>
         </div>
@@ -406,20 +457,32 @@
             </div>
         </div>
 
-
-
-        <form id="regs_master_form_if" style="display:none;">
-            <div class="weui-cells weui-cells_form">
-                <div class="weui-cell">
-                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">调动分差</label></div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input" type="tel" name="Differ" required="required" pattern="REG_IFNUM" maxlength="2" placeholder="调动学生总分差距" emptytips="分差不能为空" notmatchtips="分差不正确">
-                    </div>
-                    <div class="weui-cell__ft">
-                        <i class="weui-icon-warn"></i>
-                    </div>
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">公共关系</h4>
                 </div>
             </div>
+        </div>
+
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd" id="reg_master-move_gone">
+            </div>
+        </div>
+
+
+        <form id="regs_master_form_if">
+            @*<div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">调动分差</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="tel" name="Differ" required="required" pattern="REG_IFNUM" maxlength="2" placeholder="调动学生总分差距" emptytips="分差不能为空" notmatchtips="分差不正确">
+                        </div>
+                        <div class="weui-cell__ft">
+                            <i class="weui-icon-warn"></i>
+                        </div>
+                    </div>
+                </div>*@
             <div class="weui-cells weui-cells_checkbox">
                 <label class="weui-cell weui-check__label" for="IsAbs">
                     <div class="weui-cell__hd">
@@ -440,7 +503,7 @@
                     </div>
                 </label>
             </div>
-            <div class="weui-btn-area">
+            <div class="weui-btn-area" style="margin-bottom:15px;">
                 <a id="regs_master-if" href="javascript:" class="weui-btn weui-btn_primary">修改：调动条件</a>
             </div>
         </form>

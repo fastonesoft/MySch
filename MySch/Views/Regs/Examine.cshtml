@@ -215,7 +215,7 @@
                                             } else {
                                                 //删除
                                                 $($image).remove();
-                                                weui.toast(res.message, 2000);
+                                                weui.toast(res.message, 1500);
                                             }
                                         })
                                     }, function () {
@@ -250,7 +250,7 @@
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
-                                        weui.toast('审核成功', 2000);
+                                        weui.toast('审核成功', 1500);
 
                                         //隐藏
                                         $('#regs_exam_img').hide();

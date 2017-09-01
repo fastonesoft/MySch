@@ -20,7 +20,7 @@ namespace MySch.Controllers.WX
 
         public void Coder(string id, string title)
         {
-            XingCode.CodeOutputStreamRight(360, 260, id, title, 0, BarcodeFormat.QR_CODE);
+            XingCode.CodeOutputStreamRight(360, 300, id, title, 0, BarcodeFormat.QR_CODE);
         }
 
         public void Codem(string id, string title)

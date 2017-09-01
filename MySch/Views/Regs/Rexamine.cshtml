@@ -154,7 +154,7 @@
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
-                                        weui.toast(res.message, 2000);
+                                        weui.toast(res.message, 1500);
                                         //反馈
                                         $('#regs_rexam_stud').hide();
                                         $('#regs_rexam_form').show();
@@ -174,7 +174,7 @@
                                     if (res.error) {
                                         weui.topTips(res.message, 3000);
                                     } else {
-                                        weui.toast('通过复核', 2000);
+                                        weui.toast('通过复核', 1500);
                                         //变更
                                         var item = $('#regs_rexam_studs_oked .weui-form-preview__item:last');
                                         item.find('label').text(res.key);

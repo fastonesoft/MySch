@@ -70,6 +70,8 @@ namespace MySch.Mvvm.School.Student.Action
                         ID = student.ID,
                         IDS = student.IDS,
                         BanIDS = banlist1[i],
+                        Fixed = false,
+                        GroupID = null,
                     };
                     count1++;
                     newban.ToUpdate();
@@ -86,6 +88,8 @@ namespace MySch.Mvvm.School.Student.Action
                         ID = student.ID,
                         IDS = student.IDS,
                         BanIDS = banlist2[i],
+                        Fixed = false,
+                        GroupID = null,
                     };
                     count2++;
                     newban.ToUpdate();
@@ -217,7 +221,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //
                 var res = new VmKeyValue
                 {
-                    Key = stud.StudName,
+                    Key = stud.StudName + " - " + stud.Score,
                     Value = code.ToUrlString(),
                 };
                 return res;
@@ -246,8 +250,8 @@ namespace MySch.Mvvm.School.Student.Action
                 if (movestudent == null) throw new Exception("没有找到编号对应学生信息！");
 
                 //查找：学生调动信息
-                var move = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id2);
-                if (move == null) throw new Exception(movestudent.StudName + "，还没有调动记录！");
+                var move = DataCRUD<StudGradeMove>.Entity(a => a.ID == id2);
+                if (move == null) throw new Exception(movestudent.StudName + "，没有调动记录，或者已调动成功！");
 
                 //检查：调动学生是不是我班的
                 var ban = VBan.GetEntity(a => a.MasterIDS == owner);
@@ -279,7 +283,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //
                 var res = new VmKeyValue
                 {
-                    Key = student.StudName,
+                    Key = student.StudName + "-" + student.Score,
                     Value = code.ToUrlString(),
                 };
                 return res;
@@ -301,6 +305,9 @@ namespace MySch.Mvvm.School.Student.Action
                 var ban = VBan.GetEntity(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你有带班吗？");
                 if (ban.NotFeng) throw new Exception("你有学生跟人换吗？");
+
+                //年级设置
+
                 //调动的“我班”学生信息
                 var stud = VGradeStud.GetEntity(a => a.ID == data.ID && a.IDS == data.IDS && a.BanIDS == ban.IDS);
                 if (stud == null) throw new Exception("不是你班学生，或者信息无法识别！");
@@ -315,14 +322,14 @@ namespace MySch.Mvvm.School.Student.Action
                 if (ban.SameSex)
                 {
                     res.Value = !ban.IsAbs ?
-                        students.Where(a => a.StudSex == stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5) :
-                        students.Where(a => a.StudSex == stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5);
+                        students.Where(a => a.StudSex == stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(ban.TakeNum) :
+                        students.Where(a => a.StudSex == stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(ban.TakeNum);
                 }
                 else
                 {
                     res.Value = !ban.IsAbs ?
-                        students.Where(a => a.StudSex != stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5) :
-                        students.Where(a => a.StudSex != stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(5);
+                        students.Where(a => a.StudSex != stud.StudSex && a.Score >= stud.Score && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(ban.TakeNum) :
+                        students.Where(a => a.StudSex != stud.StudSex && a.Score >= stud.Score - ban.Differ && a.Score <= stud.Score + ban.Differ).OrderBy(a => a.Score).Take(ban.TakeNum);
                 }
                 return res;
             }
@@ -358,6 +365,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //交换两个学生信息
                 if (grade.GoneModel)
                 {
+                    //公共关系，做同组标志
                     var studin = new VmStudGradeBanGone
                     {
                         ID = data.ID,
@@ -369,6 +377,7 @@ namespace MySch.Mvvm.School.Student.Action
                 }
                 else
                 {
+                    //自己调动，做固定标志
                     var studin = new VmStudGradeBanWanted
                     {
                         ID = data.ID,
@@ -378,6 +387,7 @@ namespace MySch.Mvvm.School.Student.Action
                     };
                     studin.ToUpdate();
                 }
+                //交换学生，直接改班号
                 var studout = new VmStudGradeBan
                 {
                     ID = data.ID2,
@@ -481,6 +491,68 @@ namespace MySch.Mvvm.School.Student.Action
 
                 //查询我带的班，调动学生名单
                 return VGradeStud.GetEntitys(a => a.BanIDS == ban.IDS && a.Fixed);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        //调动成功的公共关系
+        public static object MovedGone(string owner)
+        {
+            try
+            {
+                //查询我的班级
+                var ban = VBan.GetEntity(a => a.MasterIDS == owner);
+                if (ban == null) throw new Exception("你还没有带班");
+
+                //查询我带的班，调动成功的公共关系
+                return VGradeStud.GetEntitys(a => a.BanIDS == ban.IDS && !string.IsNullOrEmpty(a.GroupID));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public static VmStudGradeBanInfor MoveInforGet(string owner)
+        {
+            try
+            {
+                //查询我的班级
+                var ban = VBan.GetEntity(a => a.MasterIDS == owner);
+                if (ban == null) throw new Exception("你还没有带班");
+
+                return new VmStudGradeBanInfor
+                {
+                    IsAbs = ban.IsAbs,
+                    SameSex = ban.SameSex,
+                };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static void MoveInforSet(string owner, bool isabs, bool samesex)
+        {
+            try
+            {
+                //查询我的班级
+                var ban = VBan.GetEntity(a => a.MasterIDS == owner);
+                if (ban == null) throw new Exception("你还没有带班");
+
+                //班级信息
+                var infor = new VmStudGradeBanInfor();
+                //变更班级信息
+                infor.ID = ban.ID;
+                infor.IDS = ban.IDS;
+                infor.IsAbs = isabs;
+                infor.SameSex = samesex;
+                infor.ToUpdate();
             }
             catch (Exception e)
             {

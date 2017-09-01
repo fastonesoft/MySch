@@ -26,6 +26,7 @@ namespace MySch.Bll.View
         public bool NotFeng { get; set; }
         public bool OnlyFixed { get; set; }
 
+        public int TakeNum { get; set; }
         public int ChangeNum { get; set; }
         public int Differ { get; set; }
         public bool IsAbs { get; set; }
@@ -69,6 +70,7 @@ namespace MySch.Bll.View
                                        Differ = b.Differ,
                                        IsAbs = b.IsAbs,
                                        SameSex = b.SameSex,
+                                       TakeNum = g.TakeNum,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.IDS)

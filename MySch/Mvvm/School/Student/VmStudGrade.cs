@@ -28,6 +28,8 @@ namespace MySch.Mvvm.School.Student
         public string ID { get; set; }
         public string IDS { get; set; }
         public string BanIDS { get; set; }
+        public bool Fixed { get; set; }
+        public string GroupID { get; set; }
     }
 
     public class VmStudGradeBanWanted : BllEntity<StudGrade>
@@ -44,6 +46,14 @@ namespace MySch.Mvvm.School.Student
         public string IDS { get; set; }
         public string BanIDS { get; set; }
         public string GroupID { get; set; }
+    }
+
+    public class VmStudGradeBanInfor : BllEntity<TBan>
+    {
+        public string ID { get; set; }
+        public string IDS { get; set; }
+        public bool IsAbs { get; set; }
+        public bool SameSex { get; set; }
     }
 
     /// <summary>

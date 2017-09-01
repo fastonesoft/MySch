@@ -51,7 +51,6 @@ namespace MySch.Controllers.WX
                 student.Add(new WX_Menu_Click { name = "🈸报名须知", type = "click", key = "reg_about_1" });
                 student.Add(new WX_Menu_View { name = "🅰报名注册", type = "view", url = reg });
                 student.Add(new WX_Menu_View { name = "🅱绑定学生", type = "view", url = scan });
-                student.Add(new WX_Menu_View { name = "智慧班报名", type = "view", url = baomingurl });
                 menus.Add(student);
                 var teach = new WX_Menu_Sub { name = "教师中心" };
                 teach.Add(new WX_Menu_View { name = "👀材料初审", type = "view", url = exam });

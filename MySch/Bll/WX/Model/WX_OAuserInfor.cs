@@ -317,7 +317,7 @@ namespace MySch.Bll.WX.Model
                 if (!entity.Passed) throw new Exception("帐号未通过审核");
                 if (entity.Fixed) throw new Exception("帐号已冻结");
                 //班主任，设置2
-                if (entity.RoleGroupIDS < 5) throw new Exception("没有审核权限");
+                if (entity.RoleGroupIDS < 2) throw new Exception("没有审核权限");
 
                 //检查有没有班级
                 var ban = DataCRUD<TBan>.Entity(a => a.MasterIDS == unionid);

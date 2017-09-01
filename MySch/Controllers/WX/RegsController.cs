@@ -860,7 +860,56 @@ namespace MySch.Controllers.WX
             }
         }
 
+        ////////////调动参数修改
+        [HttpPost]
+        public ActionResult MaMoveInforSet(bool isabs, bool samesex)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+                ActionStudGrade.MoveInforSet(infor.unionid, isabs, samesex);
+                return Json(new BllError { error = false, message = "班级调动参数已变更" });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
 
+        /////////////////////
+        [HttpPost]
+        public ActionResult MaMoveInforGet()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+                var baninfor = ActionStudGrade.MoveInforGet(infor.unionid);
+
+                return Json(new BllError { error = false, message = baninfor });
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult MaMovedGone()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudGrade.MovedGone(infor.unionid));
+            }
+            catch (Exception e)
+            {
+                return Json(new BllError { error = true, message = e.Message });
+            }
+        }
 
     }
 }
