@@ -1,11 +1,9 @@
 ﻿using MySch.Bll.Entity;
-using MySch.Bll.Func;
-using MySch.Bll.Model;
+using MySch.Core;
 using MySch.Bll.Xue.Model;
 using MySch.Dal;
 using MySch.Helper;
 using MySch.Models;
-using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -178,7 +176,7 @@ namespace MySch.Bll.Xue
                 do
                 {
                     Bitmap dest = HtmlHelp.GetBitmap(validUrl + DateTime.Now.Ticks.ToString(), cookies);
-                    valid = MyImageCode.GetValidedCode(dest, srcBit);
+                    valid = ImageCode.GetValidedCode(dest, srcBit);
 
                     count++;
                     //异常退出
@@ -403,7 +401,7 @@ namespace MySch.Bll.Xue
                     {
                         dest = HtmlHelp.GetBitmap(resp);
                     }
-                    valid = MyImageCode.GetValidedCode(dest, srcBit);
+                    valid = ImageCode.GetValidedCode(dest, srcBit);
                     //循环记录
                     errorcount++;
                     //异常退出

@@ -1,9 +1,9 @@
 ﻿using MySch.Bll;
-using MySch.Bll.Func;
+using MySch.Bll.Custom;
+using MySch.Core;
 using MySch.Dal;
 using MySch.Helper;
 using MySch.Models;
-using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -40,7 +40,7 @@ namespace MySch.Controllers.Stud
             try
             {
                 //提交数据验证不过
-                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
+                if (!ModelState.IsValid) return Json(new ErrorMessage { error = true, message = "提交数据有误" });
 
                 //身份证号检测
                 IDC.Check(que.IDS);
@@ -73,11 +73,11 @@ namespace MySch.Controllers.Stud
                     {
                         dest = HtmlHelp.GetBitmap(resp);
                     }
-                    valid = MyImageCode.GetValidedCode(dest, srcBit);
+                    valid = ImageCode.GetValidedCode(dest, srcBit);
                     //循环记录
                     errorcount++;
                     //异常退出
-                    if (errorcount > 30) return Json(new BllError { error = true, message = "请确认验证码是否变更" });
+                    if (errorcount > 30) return Json(new ErrorMessage { error = true, message = "请确认验证码是否变更" });
                 } while (valid.Length != 5);
 
                 //三、准备Post请求数据
@@ -96,12 +96,12 @@ namespace MySch.Controllers.Stud
                 MatchCollection matchs = regx.Matches(html);
 
                 //如果没有找到数据，则返回提示
-                if (matchs.Count == 0) return Json(new BllError { error = true, message = "无学籍记录！检查身份证与姓名是否正确" });
+                if (matchs.Count == 0) return Json(new ErrorMessage { error = true, message = "无学籍记录！检查身份证与姓名是否正确" });
 
                 //排除重复身份证号
                 string id = matchs[2].Groups[1].ToString();
                 var db = DataCRUD<Student>.Entity(a => a.IDS == id);
-                if (db != null) return Json(new BllError { error = true, message = "该身份证号学籍已注册" });
+                if (db != null) return Json(new ErrorMessage { error = true, message = "该身份证号学籍已注册" });
 
                 //根据返回数据 -> 创建学生报名记录
                 Student stud = new Student();
@@ -124,7 +124,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -145,7 +145,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -157,12 +157,12 @@ namespace MySch.Controllers.Stud
 
             if (db == null)
             {
-                return Json(new BllError { error = true, message = "查询数据出错" });
+                return Json(new ErrorMessage { error = true, message = "查询数据出错" });
             }
             else
             {
                 //已经编号，无需重编
-                //if (db.RegNo != null) return Json(new BllError { error = true, message = "已经编号，无需重编" });
+                //if (db.RegNo != null) return Json(new ErrorMessage { error = true, message = "已经编号，无需重编" });
                 //
                 var res = new StudEditValid { ID = db.ID, Name = db.Name, Memo = db.Memo, SchChoose = db.SchChoose };
                 return View(res);
@@ -177,19 +177,19 @@ namespace MySch.Controllers.Stud
             try
             {
                 ////提交数据验证不过
-                //if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
+                //if (!ModelState.IsValid) return Json(new ErrorMessage { error = true, message = "提交数据有误" });
 
                 ////检测编号
                 //var db = DataCRUD<Student>.Entity(a => a.RegNo == stud.RegNo);
                 //if (db != null)
                 //{
                 //    //不是同一条记录，提示重复
-                //    if (db.ID != stud.ID) return Json(new BllError { error = true, message = "编号不得重复设置！" });
+                //    if (db.ID != stud.ID) return Json(new ErrorMessage { error = true, message = "编号不得重复设置！" });
                 //}
 
                 //查询
                 Student reg = DataCRUD<Student>.Entity(a => a.ID == stud.ID);
-                if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
+                if (reg == null) return Json(new ErrorMessage { error = true, message = "查询数据出错" });
                 //修改
                 reg.Memo = stud.Memo;
                 reg.SchChoose = stud.SchChoose;
@@ -200,7 +200,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -212,7 +212,7 @@ namespace MySch.Controllers.Stud
 
             if (db == null)
             {
-                return Json(new BllError { error = true, message = "查询数据出错" });
+                return Json(new ErrorMessage { error = true, message = "查询数据出错" });
             }
             else
             {
@@ -229,11 +229,11 @@ namespace MySch.Controllers.Stud
             try
             {
                 //提交数据验证不过
-                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
+                if (!ModelState.IsValid) return Json(new ErrorMessage { error = true, message = "提交数据有误" });
 
                 //查询
                 Student reg = DataCRUD<Student>.Entity(a => a.ID == stud.ID);
-                if (reg == null) return Json(new BllError { error = true, message = "查询数据出错" });
+                if (reg == null) return Json(new ErrorMessage { error = true, message = "查询数据出错" });
                 //修改
                 reg.Mobil1 = stud.Mobil1;
                 reg.Mobil2 = stud.Mobil2;
@@ -250,7 +250,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -279,7 +279,7 @@ namespace MySch.Controllers.Stud
             }
             else
             {
-                return Json(new BllError { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
+                return Json(new ErrorMessage { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
             }
         }
 
@@ -297,14 +297,14 @@ namespace MySch.Controllers.Stud
         {
             try
             {
-                if (!ModelState.IsValid) return Json(new BllError { error = true, message = "提交数据有误" });
+                if (!ModelState.IsValid) return Json(new ErrorMessage { error = true, message = "提交数据有误" });
 
                 //身份证号检测
                 IDC.IDS(manu.IDS);
 
                 //检测身份证是否重复
                 var db = DataCRUD<Student>.Entity(a => a.IDS == manu.IDS);
-                if (db != null) return Json(new BllError { error = true, message = "身份证号已注册" });
+                if (db != null) return Json(new ErrorMessage { error = true, message = "身份证号已注册" });
 
                 Student stud = new Student();
                 stud.FromSch = manu.FromSch;
@@ -325,7 +325,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -348,11 +348,11 @@ namespace MySch.Controllers.Stud
                 {
                     DataCRUD<TPrint>.Update(d);
                 }
-                return Json(new BllError { error = false, message = "打印位置已修改，关闭窗口重来！" });
+                return Json(new ErrorMessage { error = false, message = "打印位置已修改，关闭窗口重来！" });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

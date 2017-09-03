@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Bll
+namespace MySch.Core
 {
     public class Setting
     {

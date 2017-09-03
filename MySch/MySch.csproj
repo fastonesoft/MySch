@@ -174,8 +174,8 @@
     <Compile Include="Mvvm\School\Student\Action\ActionStudGrade.cs" />
     <Compile Include="Mvvm\School\Student\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
-    <Compile Include="Bll\Log\BllLog.cs" />
-    <Compile Include="Bll\Retu\StudInfor.cs" />
+    <Compile Include="Bll\Entity\BllLog.cs" />
+    <Compile Include="Bll\Custom\StudInfor.cs" />
     <Compile Include="Bll\WX\Form\FM_StudReg.cs" />
     <Compile Include="Bll\WX\Model\WX_AccessTokenOauth.cs">
       <SubType>Code</SubType>
@@ -205,12 +205,12 @@
     <Compile Include="Bll\BllBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Distinct.cs" />
+    <Compile Include="Core\Distinct.cs" />
     <Compile Include="Bll\Entity\BllPage.cs" />
     <Compile Include="Bll\Entity\BllTheme.cs" />
     <Compile Include="Bll\Entity\BllDatum.cs" />
-    <Compile Include="Bll\Func\IDC.cs" />
-    <Compile Include="Bll\Func\EasyUI.cs" />
+    <Compile Include="Core\IDC.cs" />
+    <Compile Include="Core\EasyUI.cs" />
     <Compile Include="Bll\Entity\BllCome.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -239,27 +239,27 @@
     <Compile Include="Bll\Entity\BllStudentDrop.cs" />
     <Compile Include="Bll\Entity\BllStudentIn.cs" />
     <Compile Include="Bll\Entity\BllTerm.cs" />
-    <Compile Include="Bll\Func\EasyUIpGrid.cs">
+    <Compile Include="Core\EasyUIpGrid.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Func\EasyUITree.cs">
+    <Compile Include="Core\EasyUITree.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Func\Jsons.cs" />
-    <Compile Include="Bll\Func\EasyUICombo.cs" />
-    <Compile Include="Bll\Func\XingCode.cs" />
-    <Compile Include="Bll\Model\BanAdds.cs" />
-    <Compile Include="Bll\Model\Dicts.cs" />
+    <Compile Include="Core\Jsons.cs" />
+    <Compile Include="Core\EasyUICombo.cs" />
+    <Compile Include="Core\XingCode.cs" />
+    <Compile Include="Bll\Custom\BanAdds.cs" />
+    <Compile Include="Core\Dicts.cs" />
     <Compile Include="Bll\Xue\Model\Xue_Add.cs" />
     <Compile Include="Bll\Xue\Model\Xue_Query.cs" />
     <Compile Include="Bll\Xue\Model\Xue_Detail.cs" />
-    <Compile Include="Bll\ReObject.cs" />
-    <Compile Include="Bll\Setting.cs" />
+    <Compile Include="Core\ReObject.cs" />
+    <Compile Include="Core\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Entity\BllAcc.cs" />
-    <Compile Include="Bll\Models.cs" />
+    <Compile Include="Bll\Custom\Models.cs" />
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
@@ -329,13 +329,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ModelsEx\MyImageCode.cs">
+    <Compile Include="Core\ImageCode.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helper\HtmlHelp.cs" />
-    <Compile Include="ModelsEx\MyType.cs" />
+    <Compile Include="Core\MyType.cs" />
     <Compile Include="ModelsEx\MyValid.cs" />
-    <Compile Include="ModelsEx\MyImageValid.cs" />
+    <Compile Include="Core\ImageValid.cs" />
     <Compile Include="Bll\WX\WXApi.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -444,7 +444,6 @@
     <Content Include="Images\logininfo-txt.png" />
     <Content Include="Images\pp0801.png" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\404.png" />
     <Content Include="Images\btnbg.png" />
@@ -588,10 +587,6 @@
     <Content Include="Html\cam.htm" />
     <Content Include="Images\logininfo.psd" />
     <Content Include="Images\logo.psd" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
@@ -745,7 +740,6 @@
     <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Bll\UI\" />
     <Folder Include="Views\Image\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>

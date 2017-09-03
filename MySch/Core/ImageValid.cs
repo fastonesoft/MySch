@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 
-namespace MySch.ModelsEx
+namespace MySch.Core
 {
-    public class MyImageValid
+    public class ImageValid
     {
 
         #region 局部静态变量描述

@@ -1,6 +1,5 @@
 ﻿using MySch.Bll;
-using MySch.Bll.Func;
-using MySch.Bll.Log;
+using MySch.Core;
 using MySch.Bll.WX;
 using MySch.Bll.WX.Model;
 using MySch.Bll.Xue;

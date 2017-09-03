@@ -1,5 +1,7 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Custom;
 using MySch.Bll.WX.Model;
+using MySch.Core;
 using MySch.Mvvm.Web.Role;
 using System;
 using System.Collections.Generic;
@@ -29,7 +31,7 @@ namespace MySch.Filter
                     filterContext.Result = new JsonResult()
                     {
                         JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-                        Data = new BllError { error = true, message = "动作：没有登录，不能进行相关操作！" },
+                        Data = new ErrorMessage { error = true, message = "动作：没有登录，不能进行相关操作！" },
                     };
                 }
 
@@ -68,7 +70,7 @@ namespace MySch.Filter
                 filterContext.Result = new JsonResult()
                 {
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-                    Data = new BllError { error = true, message = e.Message },
+                    Data = new ErrorMessage { error = true, message = e.Message },
                 };
             }
         }

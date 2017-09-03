@@ -1,4 +1,4 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Core;
 using MySch.Dal;
 using MySch.Models;
 using System;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.IO;
+using MySch.Bll.Custom;
 
 namespace MySch.Bll.WX.Model
 {
@@ -141,7 +142,7 @@ namespace MySch.Bll.WX.Model
 
 
         //身份证分类查询图片
-        public static BllError GetImagesTypeByScan(string idc)
+        public static ErrorMessage GetImagesTypeByScan(string idc)
         {
             try
             {
@@ -160,7 +161,7 @@ namespace MySch.Bll.WX.Model
                     resx.Add(upload.ID, upload.UploadType);
                 }
 
-                return new BllError { error = false, message = res };
+                return new ErrorMessage { error = false, message = res };
             }
             catch (Exception e)
             {
@@ -168,13 +169,13 @@ namespace MySch.Bll.WX.Model
             }
         }
 
-        public static BllError GetImagesTypeByIdc(string idc)
+        public static ErrorMessage GetImagesTypeByIdc(string idc)
         {
             try
             {
                 //身份证检测
                 var error = IDC.IDS(idc);
-                if (error.error) return new BllError { error = true, message = new WX_KeyValue { key = "regs_exam_idc", value = error.message } };
+                if (error.error) return new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_exam_idc", value = error.message } };
 
                 return GetImagesTypeByScan(idc);
             }

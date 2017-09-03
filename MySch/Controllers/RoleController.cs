@@ -1,6 +1,8 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Custom;
 using MySch.Bll.Entity;
 using MySch.Bll.WX.Model;
+using MySch.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace MySch.Controllers
             //登录检测
             if (WX_OAuserInfor.HasNoSession())
             {
-                filterContext.Result = Json(new BllError
+                filterContext.Result = Json(new ErrorMessage
                 {
                     error = true,
                     message = "动作：没有登录，不能进行相关操作！"

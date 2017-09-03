@@ -1,26 +1,28 @@
-﻿using System;
+﻿using MySch.Bll;
+using MySch.Bll.Custom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Func
+namespace MySch.Core
 {
     public class IDC
     {
-        public static BllError IDS(string ids)
+        public static ErrorMessage IDS(string ids)
         {
             try
             {
                 Check(ids);
-                return new BllError { error = false, message = "身份证号检测无误！" };
+                return new ErrorMessage { error = false, message = "身份证号检测无误！" };
             }
             catch (Exception e)
             {
-                return new BllError { error = true, message = e.Message };
+                return new ErrorMessage { error = true, message = e.Message };
             }
         }
 
-        public static BllError IDS(string ids, int begin, int end)
+        public static ErrorMessage IDS(string ids, int begin, int end)
         {
             try
             {
@@ -28,11 +30,11 @@ namespace MySch.Bll.Func
                 var year = int.Parse(ids.Substring(6, 4));
                 if (year < begin || year > end) throw new Exception(string.Format("出生年份不在范围【{0}－{1}】", begin, end));
 
-                return new BllError { error = false, message = "身份证号检测无误！" };
+                return new ErrorMessage { error = false, message = "身份证号检测无误！" };
             }
             catch (Exception e)
             {
-                return new BllError { error = true, message = e.Message };
+                return new ErrorMessage { error = true, message = e.Message };
             }
         }
 

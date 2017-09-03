@@ -1,4 +1,4 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Core;
 using MySch.Bll.WX.Model;
 using MySch.Helper;
 using System;

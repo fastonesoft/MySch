@@ -1,4 +1,4 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Core;
 using MySch.Dal;
 using Newtonsoft.Json;
 using System;

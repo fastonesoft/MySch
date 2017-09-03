@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Func
+namespace MySch.Core
 {
     public class EasyUITree
     {

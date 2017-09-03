@@ -7,7 +7,11 @@ using System.Web;
 
 namespace MySch.Models
 {
+    /// <summary>
+    /// TODO，准备要砍掉的东西
+    /// </summary>
     //学籍查询请求所需数据格式
+
     public class StudQueValid
     {
         [DisplayName("姓名")]

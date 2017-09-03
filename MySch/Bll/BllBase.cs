@@ -1,5 +1,5 @@
-﻿using MySch.Bll.Func;
-using MySch.Bll.Model;
+﻿using MySch.Bll.Custom;
+using MySch.Core;
 using MySch.Dal;
 using System;
 using System.Collections.Generic;
@@ -42,6 +42,23 @@ namespace MySch.Bll
             }
         }
 
+        public static BllEntity GetEntity<BllEntity>(string id, string nullMessage)
+        {
+            try
+            {
+                //根据主键查询数据层对象实体
+                var entity = DataCRUD<Entity>.Entity(id);
+                if (entity == null) throw new Exception(nullMessage);
+
+                //再序列化成所要的对象
+                return Jsons.JsonEntity<BllEntity>(entity);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         /// <summary>
         /// JSON方式：将 实体对象 -> 表示数据
         /// 条件Lambda查询获取单一实体对象
@@ -55,6 +72,21 @@ namespace MySch.Bll
             {
                 var entity = DataCRUD<Entity>.Entity(where);
                 if (entity == null) throw new Exception("业务逻辑：无相关记录或存在多个实体！");
+
+                return Jsons.JsonEntity<BllEntity>(entity);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static BllEntity GetEntity<BllEntity>(Expression<Func<Entity, bool>> where, string nullMessage)
+        {
+            try
+            {
+                var entity = DataCRUD<Entity>.Entity(where);
+                if (entity == null) throw new Exception(nullMessage);
 
                 return Jsons.JsonEntity<BllEntity>(entity);
             }

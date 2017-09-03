@@ -8,7 +8,7 @@ using System.Web;
 using ZXing;
 using ZXing.QrCode;
 
-namespace MySch.Bll.Func
+namespace MySch.Core
 {
     public class XingCode
     {

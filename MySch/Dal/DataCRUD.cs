@@ -265,7 +265,7 @@ namespace MySch.Dal
                     }
                     else
                     {
-                        throw new Exception("查询：实体数据出错！");
+                        throw new Exception("数据层：没有找到符合条件的实体数据！");
                     } 
                 }
             }
@@ -288,7 +288,7 @@ namespace MySch.Dal
             }
             catch
             {
-                throw new Exception("数据层：表达式实体查询，出错！");
+                throw new Exception("数据层：读取第一个实体数据出错！");
             }
         }
 
@@ -342,7 +342,7 @@ namespace MySch.Dal
             }
             catch
             {
-                throw new Exception("数据层：分布查询（升），出错！");
+                throw new Exception("数据层：分页查询（升），出错！");
             }
         }
 
@@ -374,7 +374,7 @@ namespace MySch.Dal
             }
             catch
             {
-                throw new Exception("数据层：分布查询（降），出错！");
+                throw new Exception("数据层：分页查询（降），出错！");
             }
         }
 

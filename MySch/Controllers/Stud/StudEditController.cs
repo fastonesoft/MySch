@@ -1,6 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
-using MySch.Bll.Func;
+using MySch.Core;
 using MySch.Bll.View;
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using MySch.Bll.Custom;
 
 namespace MySch.Controllers.Stud
 {
@@ -36,7 +37,7 @@ namespace MySch.Controllers.Stud
                 var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID && a.IDS == entity.IDS);
                 if (db.Fixed)
                 {
-                    return Json(new BllError { error = true, message = "前端：已确认，无法再修改！" });
+                    return Json(new ErrorMessage { error = true, message = "前端：已确认，无法再修改！" });
                 }
                 else
                 {
@@ -45,7 +46,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -62,7 +63,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -76,7 +77,7 @@ namespace MySch.Controllers.Stud
                 {
                     if (db.Fixed)
                     {
-                        return Json(new BllError { error = true, message = "前端：已确认，无须重复提交！" });
+                        return Json(new ErrorMessage { error = true, message = "前端：已确认，无须重复提交！" });
                     }
                     else
                     {
@@ -85,12 +86,12 @@ namespace MySch.Controllers.Stud
                 }
                 else
                 {
-                    return Json(new BllError { error = true, message = "前端：资料未更新，无法确认！" });
+                    return Json(new ErrorMessage { error = true, message = "前端：资料未更新，无法确认！" });
                 }
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -108,7 +109,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -124,7 +125,7 @@ namespace MySch.Controllers.Stud
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

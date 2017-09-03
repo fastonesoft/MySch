@@ -1,4 +1,4 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Core;
 using MySch.Helper;
 using MySch.Mvvm.Login;
 using System;

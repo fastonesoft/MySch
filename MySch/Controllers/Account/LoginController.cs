@@ -1,5 +1,7 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Custom;
 using MySch.Bll.WX.Model;
+using MySch.Core;
 using MySch.Mvvm.Login;
 using System;
 using System.Collections.Generic;
@@ -82,7 +84,7 @@ namespace MySch.Controllers.Account
         {
             Session[Setting.SESSION_LOGIN] = null;
             Session.Abandon();
-            return Json(new BllError { error = false, message = "退出成功" });
+            return Json(new ErrorMessage { error = false, message = "退出成功" });
         }
 
     }

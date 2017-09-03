@@ -1,4 +1,6 @@
-﻿using MySch.Bll.WX.Model;
+﻿using MySch.Bll.Custom;
+using MySch.Bll.WX.Model;
+using MySch.Core;
 using MySch.Models;
 using System;
 using System.Collections.Generic;

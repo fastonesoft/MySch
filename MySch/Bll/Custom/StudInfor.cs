@@ -1,4 +1,4 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Core;
 using MySch.Bll.WX.Model;
 using MySch.Dal;
 using MySch.Models;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Retu
+namespace MySch.Bll.Custom
 {
     public class StudInfor
     {
@@ -49,7 +49,7 @@ namespace MySch.Bll.Retu
             try
             {
                 var error = IDC.IDS(idc);
-                if (error.error) return new BllError { error = true, message = new WX_Key { key = "regs_rexam_idc", value = error.message } };
+                if (error.error) return new ErrorMessage { error = true, message = new WX_Key { key = "regs_rexam_idc", value = error.message } };
 
                 return StudRexamineByScan(idc, rexamuid);
             }

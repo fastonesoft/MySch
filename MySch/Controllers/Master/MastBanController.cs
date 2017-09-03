@@ -1,6 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
-using MySch.Bll.Func;
+using MySch.Core;
 using MySch.Bll.View;
 using MySch.Dal;
 using System;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Dynamic;
+using MySch.Bll.Custom;
 
 namespace MySch.Controllers.Master
 {
@@ -58,7 +59,7 @@ namespace MySch.Controllers.Master
                 var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
                 if (db.Fixed)
                 {
-                    return Json(new BllError { error = true, message = "前端：已确认，无法再修改！" });
+                    return Json(new ErrorMessage { error = true, message = "前端：已确认，无法再修改！" });
                 }
                 else
                 {
@@ -67,7 +68,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -84,7 +85,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -100,12 +101,12 @@ namespace MySch.Controllers.Master
                 }
                 else
                 {
-                    return Json(new BllError { error = true, message = "前端：资料未更新，无法确认！" });
+                    return Json(new ErrorMessage { error = true, message = "前端：资料未更新，无法确认！" });
                 }
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -123,7 +124,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -146,7 +147,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -161,7 +162,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -183,7 +184,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -204,7 +205,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -222,7 +223,7 @@ namespace MySch.Controllers.Master
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

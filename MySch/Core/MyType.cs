@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace MySch.ModelsEx
+namespace MySch.Core
 {
     public class MyType<Entity> where Entity : class
     {

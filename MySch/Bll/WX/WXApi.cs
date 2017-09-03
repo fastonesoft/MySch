@@ -1,20 +1,9 @@
-﻿using MySch.Bll;
-using MySch.Bll.Func;
-using MySch.Bll.WX.Model;
-using MySch.Dal;
-using MySch.Models;
-using MySch.ModelsEx;
+﻿using MySch.Bll.WX.Model;
+using MySch.Core;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Security;
-using System.Xml;
 
 namespace MySch.Bll.WX
 {

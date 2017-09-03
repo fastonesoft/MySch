@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Log
+namespace MySch.Bll.Entity
 {
     public class BllLog
     {

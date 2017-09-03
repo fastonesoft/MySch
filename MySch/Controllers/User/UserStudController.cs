@@ -1,7 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
-using MySch.Bll.Func;
-using MySch.Bll.Model;
+using MySch.Core;
 using MySch.Bll.View;
 using MySch.Bll.Xue;
 using MySch.Bll.Xue.Model;
@@ -10,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MySch.Bll.Custom;
 
 namespace MySch.Controllers.User
 {
@@ -74,7 +74,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -92,7 +92,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -124,7 +124,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -157,7 +157,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -168,7 +168,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
+                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS).OrderBy(a => a.Num);
                 var outs = BllOut.GetEntitys<BllOut>(a => a.AccIDS == login.IDS && a.CanReturn).OrderBy(a => a.IDS);
                 var steps = VStep.GetEntitys(a => a.PartIDS == entity.PartIDS && a.Graduated == false);
 
@@ -181,7 +181,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -204,7 +204,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -215,7 +215,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
+                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS).OrderBy(a => a.Num);
                 var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
@@ -224,11 +224,11 @@ namespace MySch.Controllers.User
                 //可返回
                 if (entity.CanReturn) return View(entity);
                 //不可返回
-                return Json(new BllError { error = true, message = "错误：此类离校学生无法回校！" });
+                return Json(new ErrorMessage { error = true, message = "错误：此类离校学生无法回校！" });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -250,7 +250,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -260,11 +260,11 @@ namespace MySch.Controllers.User
             try
             {
                 var infor = BllGradeBacks.Backs(entitys);
-                return Json(new BllError { error = false, message = infor });
+                return Json(new ErrorMessage { error = false, message = infor });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -293,7 +293,7 @@ namespace MySch.Controllers.User
                 else
                 {
                     //班级
-                    var entitys = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
+                    var entitys = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id).OrderBy(a => a.Num);
                     var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
                     return Json(res);
                 }
@@ -337,7 +337,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -355,7 +355,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -397,11 +397,11 @@ namespace MySch.Controllers.User
                     }
                 }
 
-                return Json(new BllError { error = true, message = string.Format("转换成功{0}个学生资料！", count) });
+                return Json(new ErrorMessage { error = true, message = string.Format("转换成功{0}个学生资料！", count) });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
     }

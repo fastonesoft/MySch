@@ -1,5 +1,5 @@
 ﻿using MySch.Bll.Entity;
-using MySch.Bll.Func;
+using MySch.Core;
 using MySch.Bll.View;
 using MySch.Bll.WX.Model;
 using MySch.Dal;

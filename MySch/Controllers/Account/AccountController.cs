@@ -1,6 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
-using MySch.Bll.Func;
+using MySch.Core;
 using MySch.Bll.WX.Model;
 using MySch.Dal;
 using MySch.Filter;
@@ -11,6 +11,7 @@ using MySch.Mvvm.Web.Role;
 using System;
 using System.Text;
 using System.Web.Mvc;
+using MySch.Bll.Custom;
 
 namespace MySch.Controllers.Account
 {
@@ -23,7 +24,7 @@ namespace MySch.Controllers.Account
             infor.CheckUser();
             if (infor.isteach || infor.istudent)
             {
-                return Json(new BllError { error = true, message = "已登记，无须重复设置" });
+                return Json(new ErrorMessage { error = true, message = "已登记，无须重复设置" });
             }
             else
             {
@@ -39,11 +40,11 @@ namespace MySch.Controllers.Account
 
                 //提交审核
                 infor.AddTeach(tname);
-                return Json(new BllError { error = false, message = tname });
+                return Json(new ErrorMessage { error = false, message = tname });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -58,7 +59,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -74,7 +75,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -89,7 +90,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -104,7 +105,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -119,7 +120,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -134,7 +135,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -152,7 +153,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -168,11 +169,11 @@ namespace MySch.Controllers.Account
                 ViewBag.RoleGroups = EasyUICombo.ToComboJsons<VmRoleGroup>(roles, entity.RoleGroupIDS.ToString());
 
                 entity.ToUpdate(ModelState);
-                return Json(new BllError { error = false });
+                return Json(new ErrorMessage { error = false });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -185,7 +186,7 @@ namespace MySch.Controllers.Account
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -196,11 +197,11 @@ namespace MySch.Controllers.Account
             try
             {
                 entity.ToDelete(ModelState);
-                return Json(new BllError { error = false });
+                return Json(new ErrorMessage { error = false });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

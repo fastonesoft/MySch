@@ -1,4 +1,5 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Custom;
 using MySch.Bll.WX.Model;
 using MySch.Dal;
 using MySch.Filter;
@@ -56,14 +57,14 @@ namespace MySch.Controllers.ST
                     }
                     else
                     {
-                        return Json(new BllError { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
+                        return Json(new ErrorMessage { error = true, message = "查询格式：前缀%*，包含*，后缀*%" });
                     }
                 }
 
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -87,11 +88,11 @@ namespace MySch.Controllers.ST
                 {
                     DataCRUD<TPrint>.Update(d);
                 }
-                return Json(new BllError { error = false, message = "打印位置已修改，关闭窗口重来！" });
+                return Json(new ErrorMessage { error = false, message = "打印位置已修改，关闭窗口重来！" });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

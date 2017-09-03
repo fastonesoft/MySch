@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll
+namespace MySch.Core
 {
     public class ReObject
     {

@@ -1,6 +1,6 @@
 ﻿using MySch.Bll;
 using MySch.Bll.Entity;
-using MySch.Bll.Func;
+using MySch.Core;
 using MySch.Bll.View;
 using MySch.Mvvm.School.Student;
 using MySch.Mvvm.School.Student.Action;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using MySch.Bll.Custom;
 
 namespace MySch.Controllers.User
 {
@@ -39,7 +40,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -61,7 +62,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -85,12 +86,12 @@ namespace MySch.Controllers.User
                     };
                     studgrade.ToUpdate();
                 }
-                return Json(new BllError { error = false, message = name + "已做了同班标志！" });
+                return Json(new ErrorMessage { error = false, message = name + "已做了同班标志！" });
 
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -111,12 +112,12 @@ namespace MySch.Controllers.User
                 };
                 studgrade.ToUpdate();
                 //
-                return Json(new BllError { error = false, message = name + "已取消同班标志！" });
+                return Json(new ErrorMessage { error = false, message = name + "已取消同班标志！" });
 
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -137,12 +138,12 @@ namespace MySch.Controllers.User
                 };
                 studgrade.ToUpdate();
 
-                return Json(new BllError { error = false, message = name + "已设置固定班级标志！" });
+                return Json(new ErrorMessage { error = false, message = name + "已设置固定班级标志！" });
 
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -163,12 +164,12 @@ namespace MySch.Controllers.User
                 };
                 studgrade.ToUpdate();
 
-                return Json(new BllError { error = false, message = name + "已取消固定班级标志！" });
+                return Json(new ErrorMessage { error = false, message = name + "已取消固定班级标志！" });
 
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -187,7 +188,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -206,7 +207,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -225,7 +226,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -235,11 +236,11 @@ namespace MySch.Controllers.User
             try
             {
                 var res = ActionStudGrade.FengBan(id);
-                return Json(new BllError { error = false, message = res });
+                return Json(new ErrorMessage { error = false, message = res });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -316,7 +317,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

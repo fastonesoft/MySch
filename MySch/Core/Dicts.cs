@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace MySch.Bll.Model
+namespace MySch.Core
 {
     public class Dicts
     {

@@ -1,4 +1,4 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Core;
 using MySch.Bll.WX;
 using System;
 using System.Collections.Generic;

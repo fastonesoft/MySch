@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace MySch.Bll.Model
+namespace MySch.Bll.Custom
 {
     public class BanAdds
     {

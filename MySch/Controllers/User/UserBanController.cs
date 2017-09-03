@@ -1,7 +1,7 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Custom;
 using MySch.Bll.Entity;
-using MySch.Bll.Func;
-using MySch.Bll.Model;
+using MySch.Core;
 using MySch.Bll.View;
 using MySch.Mvvm.User;
 using MySch.Mvvm.User.Action;
@@ -36,7 +36,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -56,7 +56,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -78,7 +78,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -100,7 +100,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -125,7 +125,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -171,7 +171,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -193,7 +193,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -215,7 +215,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -251,7 +251,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -266,7 +266,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

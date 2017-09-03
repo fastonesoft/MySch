@@ -6,9 +6,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
 
-namespace MySch.ModelsEx
+namespace MySch.Core
 {
-    public class MyImageCode : IDisposable
+    public class ImageCode : IDisposable
     {
         private int _num;
         private Bitmap _src;
@@ -20,7 +20,7 @@ namespace MySch.ModelsEx
         /// </summary>
         /// <param name="src">源图</param>
         /// <param name="minWidth">最小字符宽度</param>
-        public MyImageCode(Bitmap src, int minWidth)
+        public ImageCode(Bitmap src, int minWidth)
         {
             _src = src;
 
@@ -165,13 +165,13 @@ namespace MySch.ModelsEx
         public static string GetValidedCode(Bitmap dest, Bitmap[] src)
         {
             string code = string.Empty;
-            MyImageCode destBit = new MyImageCode(dest, 1);
+            ImageCode destBit = new ImageCode(dest, 1);
 
             for (int x = 0; x < destBit.BitsNum; x++)
             {
                 for (int y = 0; y < src.Length; y++)
                 {
-                    if (MyImageCode.CompareBits(destBit.Bits[x], src[y]))
+                    if (ImageCode.CompareBits(destBit.Bits[x], src[y]))
                     {
                         code += Convert.ToChar(Convert.ToInt16('a') + y);
                         break;

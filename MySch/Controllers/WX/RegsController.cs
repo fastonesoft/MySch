@@ -1,6 +1,6 @@
 ﻿using MySch.Bll;
-using MySch.Bll.Func;
-using MySch.Bll.Retu;
+using MySch.Bll.Custom;
+using MySch.Core;
 using MySch.Bll.WX;
 using MySch.Bll.WX.Form;
 using MySch.Bll.WX.Model;
@@ -63,7 +63,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -87,7 +87,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -111,7 +111,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -127,14 +127,14 @@ namespace MySch.Controllers.WX
 
                 var error = IDC.IDS(idcu);
                 //返回身份证错误
-                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_reg_idc", value = error.message } });
+                if (error.error) return Json(new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_reg_idc", value = error.message } });
 
                 var name = AutoXue.RegStudent(idcu, mobil1, infor.unionid);
-                return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
+                return Json(new ErrorMessage { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = new WX_KeyValue { value = e.Message } });
+                return Json(new ErrorMessage { error = true, message = new WX_KeyValue { value = e.Message } });
             }
         }
 
@@ -149,11 +149,11 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 var res = WX_UploadImage.SaveImageSelf(mediaID, uploadType, infor.unionid);
-                return Json(new BllError { error = false, message = res });
+                return Json(new ErrorMessage { error = false, message = res });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -191,7 +191,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -211,7 +211,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -230,7 +230,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -245,11 +245,11 @@ namespace MySch.Controllers.WX
                 var user = WX_OAuserInfor.GetFromSession();
 
                 var res = WX_UploadImage.DeleteImage(url);
-                return Json(new BllError { error = false, message = res });
+                return Json(new ErrorMessage { error = false, message = res });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -265,11 +265,11 @@ namespace MySch.Controllers.WX
 
                 //代别人上传
                 var res = WX_UploadImage.SaveImageForOther(mediaID, uploadType, Other);
-                return Json(new BllError { error = false, message = res });
+                return Json(new ErrorMessage { error = false, message = res });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -288,7 +288,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -307,7 +307,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -344,7 +344,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -361,7 +361,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -378,7 +378,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -392,11 +392,11 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 WX_Examine.Roll(id);
-                return Json(new BllError { error = false, message = "复核材料退回" });
+                return Json(new ErrorMessage { error = false, message = "复核材料退回" });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -414,7 +414,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -448,14 +448,14 @@ namespace MySch.Controllers.WX
 
                 var error = IDC.IDS(idcu);
                 //返回身份证错误
-                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_mana_idc", value = error.message } });
+                if (error.error) return Json(new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_mana_idc", value = error.message } });
 
                 var name = AutoXue.RegStudent(idcu, mobil1);
-                return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
+                return Json(new ErrorMessage { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = new WX_KeyValue { value = e.Message } });
+                return Json(new ErrorMessage { error = true, message = new WX_KeyValue { value = e.Message } });
             }
         }
 
@@ -488,14 +488,14 @@ namespace MySch.Controllers.WX
 
                 var error = IDC.IDS(idcu, 2003, 2006);
                 //返回身份证错误
-                if (error.error) return Json(new BllError { error = true, message = new WX_KeyValue { key = "regs_out_idc", value = error.message } });
+                if (error.error) return Json(new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_out_idc", value = error.message } });
 
                 AutoXue.RegStudent(idcu, mobil1, name, school);
-                return Json(new BllError { error = false, message = new WX_KeyValue { key = idcu, value = name } });
+                return Json(new ErrorMessage { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = new WX_KeyValue { value = e.Message } });
+                return Json(new ErrorMessage { error = true, message = new WX_KeyValue { value = e.Message } });
             }
         }
 
@@ -526,11 +526,11 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 var name = StudInfor.BindStudByScan(idc, infor.unionid);
-                return Json(new BllError { error = false, message = name });
+                return Json(new ErrorMessage { error = false, message = name });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -543,11 +543,11 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 StudInfor.UnBindStud(id);
-                return Json(new BllError { error = false, message = "解除绑定成功" });
+                return Json(new ErrorMessage { error = false, message = "解除绑定成功" });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -584,7 +584,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -602,7 +602,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -619,7 +619,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -638,7 +638,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -655,7 +655,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -704,7 +704,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -721,7 +721,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -741,7 +741,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -761,7 +761,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -783,11 +783,11 @@ namespace MySch.Controllers.WX
                     return Json(ActionStudGrade.MoveScanMove(infor.unionid, data));
                 }
 
-                return Json(new BllError { error = true, message = "传输数据有误" });
+                return Json(new ErrorMessage { error = true, message = "传输数据有误" });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -804,7 +804,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -822,7 +822,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -839,7 +839,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -856,7 +856,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -869,11 +869,11 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
                 ActionStudGrade.MoveInforSet(infor.unionid, isabs, samesex);
-                return Json(new BllError { error = false, message = "班级调动参数已变更" });
+                return Json(new ErrorMessage { error = false, message = "班级调动参数已变更" });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -887,11 +887,11 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
                 var baninfor = ActionStudGrade.MoveInforGet(infor.unionid);
 
-                return Json(new BllError { error = false, message = baninfor });
+                return Json(new ErrorMessage { error = false, message = baninfor });
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -907,7 +907,7 @@ namespace MySch.Controllers.WX
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

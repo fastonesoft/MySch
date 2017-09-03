@@ -1,4 +1,5 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Custom;
 using MySch.Bll.Entity;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -45,7 +46,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -67,7 +68,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -85,7 +86,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -103,7 +104,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 
@@ -119,7 +120,7 @@ namespace MySch.Controllers.User
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
 

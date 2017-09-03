@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MySch.Bll.Func
+namespace MySch.Core
 {
     public class EasyUI<Entity> 
     {

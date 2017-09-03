@@ -1,8 +1,7 @@
-﻿using MySch.Bll.Func;
+﻿using MySch.Core;
 using MySch.Dal;
 using MySch.Helper;
 using MySch.Models;
-using MySch.ModelsEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;

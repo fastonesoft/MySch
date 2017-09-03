@@ -1,4 +1,5 @@
 ﻿using MySch.Bll;
+using MySch.Bll.Custom;
 using MySch.Bll.Entity;
 using MySch.Bll.View;
 using System;
@@ -81,7 +82,7 @@ namespace MySch.Controllers.Client
             }
             catch (Exception e)
             {
-                return Json(new BllError { error = true, message = e.Message });
+                return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
     }
