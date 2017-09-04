@@ -15,7 +15,7 @@ namespace MySch.Mvvm.User.Action
             {
                 //当前年度的班级
                 var banstr = string.Empty;
-                using (var db = new MySchContext())
+                using (var db = new BaseContext())
                 {
                     var entitys = from b in db.TBans
                                   join g in db.TGrades on b.GradeIDS equals g.IDS

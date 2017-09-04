@@ -37,7 +37,7 @@ namespace MySch.Core
                 combos.Add(combo);
             }
             //以id排序
-            return combos.OrderBy(a => a.id);
+            return combos;
         }
 
         public static IEnumerable<EasyUICombo> ToCombo<Entity>(IEnumerable<Entity> entitys, string selectedValue)

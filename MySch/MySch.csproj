@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
+    <Compile Include="Controllers\ARoleActionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
@@ -147,7 +148,7 @@
     <Compile Include="Models\KSubBan.cs" />
     <Compile Include="Models\KSubGrade.cs" />
     <Compile Include="Models\KSubTest.cs" />
-    <Compile Include="Models\MySchContext.cs" />
+    <Compile Include="Models\AccContext.cs" />
     <Compile Include="Models\QrAccRoleGroup.cs" />
     <Compile Include="Models\StudCome.cs" />
     <Compile Include="Models\Student.cs" />
@@ -738,6 +739,11 @@
     <Content Include="Views\UserBanst\MasterClass.cshtml" />
     <Content Include="Views\UserGrade\Edit.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\ARoleActions\Create.cshtml" />
+    <Content Include="Views\ARoleActions\Delete.cshtml" />
+    <Content Include="Views\ARoleActions\Details.cshtml" />
+    <Content Include="Views\ARoleActions\Edit.cshtml" />
+    <Content Include="Views\ARoleActions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />

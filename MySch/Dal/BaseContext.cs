@@ -6,7 +6,7 @@ using System.Web;
 
 namespace MySch.Dal
 {
-    public class BaseContext : MySchContext
+    public class BaseContext : AccContext
     {
         public BaseContext()
         {

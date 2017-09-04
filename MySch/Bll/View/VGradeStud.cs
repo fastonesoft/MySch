@@ -79,7 +79,7 @@ namespace MySch.Bll.View
                                        IsCurrent = y.IsCurrent,
                                        Score = gs.Score,
                                        OldBan = gs.OldBan,
-                                       OldBanNum =  gs.OldBan.Substring(0, 2),
+                                       OldBanNum = gs.OldBan.Substring(0, 2),
                                        GroupID = gs.GroupID,
                                        MasterIDS = b.MasterIDS,
                                    })
@@ -92,7 +92,8 @@ namespace MySch.Bll.View
                     }
                     return
                         entitys
-                        .OrderBy(a => a.BanIDS)
+                        .OrderBy(a => a.GradeIDS)
+                        .ThenBy(a => a.BanNum)
                         .ThenByDescending(a => a.StudSex)
                         .ThenByDescending(a => a.Score)
                         .ThenBy(a => a.ID)

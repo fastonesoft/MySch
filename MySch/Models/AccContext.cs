@@ -5,9 +5,9 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class MySchContext : DbContext
+    public partial class AccContext : DbContext
     {
-        public MySchContext()
+        public AccContext()
             : base("name=MySchContext")
         {
         }
