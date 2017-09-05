@@ -33,7 +33,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS);
+                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS).OrderBy(a => a.Num);
                 ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
 
                 return View(entity);

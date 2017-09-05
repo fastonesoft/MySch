@@ -21,7 +21,6 @@ namespace MySch.Controllers
             return View(db.ARoleActions.ToList());
         }
 
-        [Authorize, AuthorizeRole(Role.管理员)]
         // GET: ARoleActions/Details/5
         public ActionResult Details(string id)
         {
