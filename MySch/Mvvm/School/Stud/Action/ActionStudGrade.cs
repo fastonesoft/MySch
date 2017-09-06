@@ -1,16 +1,13 @@
 ﻿using MySch.Bll.Entity;
-using MySch.Core;
 using MySch.Bll.View;
-using MySch.Bll.WX.Model;
 using MySch.Dal;
 using MySch.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
 
-namespace MySch.Mvvm.School.Student.Action
+namespace MySch.Mvvm.School.Stud.Action
 {
     public class ActionStudGrade
     {
@@ -214,7 +211,7 @@ namespace MySch.Mvvm.School.Student.Action
                     ID = move.ID,
                     IDS = move.IDS,
                     BanIDS = move.BanIDS,
-                    OwnerAccIDS = move.OwnerIDS,
+                    OwnerIDS = move.OwnerIDS,
                     Command = "query",
                 };
 
@@ -272,12 +269,12 @@ namespace MySch.Mvvm.School.Student.Action
                     ID = move.ID,
                     IDS = move.IDS,
                     BanIDS = move.BanIDS,
-                    OwnerAccIDS = move.OwnerIDS,
+                    OwnerIDS = move.OwnerIDS,
                     Command = "confirm",
                     ID2 = student.ID,
                     IDS2 = student.IDS,
                     BanIDS2 = student.BanIDS,
-                    OwnerAccIDS2 = owner,
+                    OwnerIDS2 = owner,
                 };
 
                 //
@@ -312,7 +309,7 @@ namespace MySch.Mvvm.School.Student.Action
                 var stud = VGradeStud.GetEntity(a => a.ID == data.ID && a.IDS == data.IDS && a.BanIDS == ban.IDS);
                 if (stud == null) throw new Exception("不是你班学生，或者信息无法识别！");
                 //哪个班的要跟我调
-                var who = VBan.GetEntity(a => a.MasterIDS == data.OwnerAccIDS);
+                var who = VBan.GetEntity(a => a.MasterIDS == data.OwnerIDS);
                 if (who == null) throw new Exception("找不到调动学生的班级");
 
                 var res = new VmKeyValue { Command = data.Command, Key = data.ID };
@@ -345,7 +342,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //身份认定
-                if (data.OwnerAccIDS != owner) throw new Exception("异常数据");
+                if (data.OwnerIDS != owner) throw new Exception("异常数据");
 
                 //公共关系模式
                 var ban = VBan.GetEntity(a => a.IDS == data.BanIDS);
@@ -358,7 +355,7 @@ namespace MySch.Mvvm.School.Student.Action
                     ID = data.ID2,
                     IDS = data.IDS2,
                     BanIDS = data.BanIDS2,
-                    OwnerIDS = data.OwnerAccIDS2,
+                    OwnerIDS = data.OwnerIDS2,
                 };
                 change.ToAdd();
                 //可以保存，开始调动

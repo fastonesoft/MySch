@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MySch.Bll.Xue.Model
+﻿namespace MySch.Mvvm.School.Stud
 {
-    public class Xue_Detail
+    public class VmStudDetail
     {
         public string biaoshima { get; set; }
         public string birth_place { get; set; }

@@ -1,15 +1,13 @@
-﻿using MySch.Bll;
+﻿using MySch.Bll.Custom;
 using MySch.Bll.Entity;
-using MySch.Core;
 using MySch.Bll.View;
-using MySch.Bll.Xue;
-using MySch.Bll.Xue.Model;
+using MySch.Core;
+using MySch.Mvvm.School.Stud;
+using MySch.Mvvm.School.Stud.Action;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using MySch.Bll.Custom;
 
 namespace MySch.Controllers.User
 {
@@ -80,14 +78,14 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(Xue_Add entity)
+        public ActionResult AddToken(BllStudentIn entity)
         {
             try
             {
                 //添加
-                var id = entity.ToAdd(ModelState);
+                entity.ToAdd(ModelState);
                 //查询 视图数据
-                var entitys = VGradeStud.GetEntitys(a => a.ID == id);
+                var entitys = VGradeStud.GetEntitys(a => a.IDC == entity.IDC);
                 return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
             }
             catch (Exception e)
@@ -359,38 +357,32 @@ namespace MySch.Controllers.User
             }
         }
 
-
-
-
-
         [HttpPost]
         public ActionResult GradeCheck(IEnumerable<VGradeStud> rows)
         {
             try
             {
-                var cookies = AutoXue.AutoLogin("http://58.213.155.172/uids/index.jsp",
+                var cookies = ActionStudent.AutoLogin("http://58.213.155.172/uids/index.jsp",
                     "http://58.213.155.172/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
                     "http://58.213.155.172/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
 
                 int count = 0;
                 foreach (var stud in rows)
                 {
-                    var student = AutoXue.GetStudentHtml(stud.StudName, stud.IDC, cookies);
+                    var student = ActionStudent.GetStudentHtml(stud.StudName, stud.IDC, cookies);
 
-                    var xues = Jsons.JsonEntity<IEnumerable<Xue_Detail>>(student);
+                    var xues = Jsons.JsonEntity<IEnumerable<VmStudDetail>>(student);
                     if (xues.Count() != 0)
                     {
-                        Xue_Detail xue = xues.First();
+                        VmStudDetail xue = xues.First();
 
-                        BllStudentIn ins = BllStudentIn.GetEntity<BllStudentIn>(a => a.IDC == stud.IDC);
+                        BllStudentFill ins = BllStudentFill.GetEntity<BllStudentFill>(a => a.IDC == stud.IDC);
                         ins.Name1 = xue.first_guardian_name;
-                        ins.Mobil1 = xue.first_guardian_phone;
                         ins.Name2 = xue.second_guardian_name;
                         ins.Mobil2 = xue.second_guardian_phone;
                         ins.Birth = xue.birth_place;
                         ins.Home = xue.home_address;
 
-                        ins.Checked = true;
                         ins.ToUpdate();
 
                         count++;

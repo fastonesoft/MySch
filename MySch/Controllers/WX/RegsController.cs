@@ -1,21 +1,10 @@
-﻿using MySch.Bll;
-using MySch.Bll.Custom;
-using MySch.Core;
-using MySch.Bll.WX;
-using MySch.Bll.WX.Form;
+﻿using MySch.Bll.Custom;
 using MySch.Bll.WX.Model;
 using MySch.Bll.WX.ViewModel;
-using MySch.Bll.Xue;
-using MySch.Helper;
-using MySch.Models;
-using MySch.Mvvm.School.Student;
-using MySch.Mvvm.School.Student.Action;
+using MySch.Core;
+using MySch.Mvvm.School.Stud;
+using MySch.Mvvm.School.Stud.Action;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MySch.Controllers.WX
@@ -129,7 +118,7 @@ namespace MySch.Controllers.WX
                 //返回身份证错误
                 if (error.error) return Json(new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_reg_idc", value = error.message } });
 
-                var name = AutoXue.RegStudent(idcu, mobil1, infor.unionid);
+                var name = ActionStudent.RegStudent(idcu, mobil1, infor.unionid);
                 return Json(new ErrorMessage { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)
@@ -450,7 +439,7 @@ namespace MySch.Controllers.WX
                 //返回身份证错误
                 if (error.error) return Json(new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_mana_idc", value = error.message } });
 
-                var name = AutoXue.RegStudent(idcu, mobil1);
+                var name = ActionStudent.RegStudent(idcu, mobil1);
                 return Json(new ErrorMessage { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)
@@ -490,7 +479,7 @@ namespace MySch.Controllers.WX
                 //返回身份证错误
                 if (error.error) return Json(new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_out_idc", value = error.message } });
 
-                AutoXue.RegStudent(idcu, mobil1, name, school);
+                ActionStudent.RegStudent(idcu, mobil1, name, school);
                 return Json(new ErrorMessage { error = false, message = new WX_KeyValue { key = idcu, value = name } });
             }
             catch (Exception e)

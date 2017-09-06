@@ -1,16 +1,13 @@
-﻿using MySch.Bll;
+﻿using MySch.Bll.Custom;
 using MySch.Bll.Entity;
-using MySch.Core;
 using MySch.Bll.View;
-using MySch.Mvvm.School.Student;
-using MySch.Mvvm.School.Student.Action;
+using MySch.Core;
+using MySch.Mvvm.School.Stud;
+using MySch.Mvvm.School.Stud.Action;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using MySch.Bll.Custom;
 
 namespace MySch.Controllers.User
 {

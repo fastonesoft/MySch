@@ -1,14 +1,6 @@
-﻿using MySch.Bll;
-using MySch.Core;
-using MySch.Bll.WX;
+﻿using MySch.Bll.WX;
 using MySch.Bll.WX.Model;
-using MySch.Bll.Xue;
-using MySch.Helper;
-using MySch.Models;
-using System;
-using System.Web;
 using System.Web.Mvc;
-using ZXing;
 
 namespace MySch.Controllers.WX
 {

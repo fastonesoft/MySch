@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
+    <Compile Include="Bll\Entity\BllStudentFill.cs" />
     <Compile Include="Controllers\ARoleActionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Models\ADatum.cs" />
@@ -172,8 +173,8 @@
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Models\WxUploadFile.cs" />
-    <Compile Include="Mvvm\School\Student\Action\ActionStudGrade.cs" />
-    <Compile Include="Mvvm\School\Student\VmStudGrade.cs" />
+    <Compile Include="Mvvm\School\Stud\Action\ActionStudGrade.cs" />
+    <Compile Include="Mvvm\School\Stud\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Entity\BllLog.cs" />
     <Compile Include="Bll\Custom\StudInfor.cs" />
@@ -197,7 +198,7 @@
     <Compile Include="Bll\WX\Model\WX_OAuserInfor.cs" />
     <Compile Include="Bll\WX\ViewModel\VmStudEx.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
-    <Compile Include="Bll\Xue\AutoXue.cs">
+    <Compile Include="Mvvm\School\Stud\Action\ActionStudent.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\BllApi.cs">
@@ -251,9 +252,7 @@
     <Compile Include="Core\XingCode.cs" />
     <Compile Include="Bll\Custom\BanAdds.cs" />
     <Compile Include="Core\Dicts.cs" />
-    <Compile Include="Bll\Xue\Model\Xue_Add.cs" />
-    <Compile Include="Bll\Xue\Model\Xue_Query.cs" />
-    <Compile Include="Bll\Xue\Model\Xue_Detail.cs" />
+    <Compile Include="Mvvm\School\Stud\VmStudDetail.cs" />
     <Compile Include="Core\ReObject.cs" />
     <Compile Include="Core\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
