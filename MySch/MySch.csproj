@@ -134,6 +134,7 @@
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
     <Compile Include="Controllers\ARoleActionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\WX\WallController.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
     <Compile Include="Models\ARoleAction.cs" />
@@ -744,6 +745,7 @@
     <Content Include="Views\ARoleActions\Edit.cshtml" />
     <Content Include="Views\ARoleActions\Index.cshtml" />
     <Content Include="Views\UserBanst\StudClass.cshtml" />
+    <Content Include="Views\Wall\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />

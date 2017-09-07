@@ -34,6 +34,12 @@ namespace MySch.Bll.WX.Model
             return oaken;
         }
 
+        public static string OAuthorUrl(string appid, string secret, string code)
+        {
+            return  string.Format("https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code", appid, secret, code);
+
+        }
+
         //获取用户信息
         public static WX_OAuserInfor OAuserInfor(string oaToken, string openid)
         {
