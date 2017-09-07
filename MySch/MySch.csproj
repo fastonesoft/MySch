@@ -743,6 +743,7 @@
     <Content Include="Views\ARoleActions\Details.cshtml" />
     <Content Include="Views\ARoleActions\Edit.cshtml" />
     <Content Include="Views\ARoleActions\Index.cshtml" />
+    <Content Include="Views\UserBanst\StudClass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />

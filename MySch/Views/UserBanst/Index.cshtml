@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -65,6 +64,9 @@
                 masterclass: function () {
                     DataGridRows('#studbanst-grid', '/UserBanst/MasterClass');
                 },
+                studclass: function () {
+                    DataGridRows('#studbanst-grid', '/UserBanst/StudClass');
+                },
                 fengban: function () {
                     var node = $('#studbanst-tree').tree('getSelected');
                     console.log(node);
@@ -122,6 +124,15 @@
                     },
                     {
                         title: '是否固定', field: 'Fixed', halign: 'center', width: 90, sortable: true,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            }
+                        }
+                    },
+                    {
+                        title: '是否择校', field: 'Choose', halign: 'center', width: 90, sortable: true,
                         formatter: function (value, row, index) { },
                         styler: function (value, row, index) {
                             if (value) {
@@ -230,6 +241,8 @@
         <div onclick="studbanst.nowclass();">现班名册...</div>
         <div class="menu-sep"></div>
         <div iconcls="icon-clear" onclick="studbanst.masterclass();">班主任留存...</div>
+        <div class="menu-sep"></div>
+        <div onclick="studbanst.studclass();">班级名条...</div>
     </div>
 
 </body>

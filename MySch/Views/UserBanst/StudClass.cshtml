@@ -9,26 +9,28 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>班主任</title>
+    <title>班级名条</title>
 </head>
 <body>
     <div id="print-nowclass">
         <style type="text/css">
             .nowclass-table { border-left: 1px solid #0094ff; border-top: 1px solid #0094ff; font-size: 14px; }
-                .nowclass-table th { border-bottom: 1px solid #0094ff; border-right: 1px solid #0094ff; text-align: center; }
-                .nowclass-table td { border-bottom: 1px solid #0094ff; border-right: 1px solid #0094ff; text-align: center; }
+            .nowclass-table th { border-bottom: 1px solid #0094ff; border-right: 1px solid #0094ff; text-align: center; }
+            .nowclass-table td { border-bottom: 1px solid #0094ff; border-right: 1px solid #0094ff; text-align: center; }
         </style>
         <div style="height:100%; width:100%; text-align: center;">
             <table border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; font-size: 72px;">
-                <tr><td>班<br />主<br />任</td></tr>
+                <tr><td>班<br />级<br />名<br />条</td></tr>
             </table>
         </div>
         <div style="page-break-after:always; clear:both;"></div>
         @{
-            var studstr = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>\n";
+            var studstr = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>\n";
             var studstrs = string.Empty;
             var studban = string.Empty;
+            var studbaname = Model.Count() > 0 ? Model.First().BanName : "";
             var num = 0;
+            var banstud = 0;
             var count = Model.Count();
             var list = new List<string>();
             foreach (var stud in Model)
@@ -52,16 +54,17 @@
                             rights += list[i];
                         }
                         //打以前的
-                        <div style="height:100%; width:100%;">
+                        <div style="height:50px; text-align: center; font-size: 24px;">@studbaname</div>
+                        <div style="height:95%; width:100%;">
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:left;">
                                 <tbody>
-                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班<br />公共</th><th>固定</th></tr>
+                                    <tr style="height:60px;"><th>序号</th><th>姓名</th><th>性别</th><th>联系电话</th><th>来源</th><th>择校</th></tr>
                                     @Html.Raw(lefts)
                                 </tbody>
                             </table>
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:right;">
                                 <tbody>
-                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班<br />公共</th><th>固定</th></tr>
+                                    <tr style="height:60px;"><th>序号</th><th>姓名</th><th>性别</th><th>联系电话</th><th>来源</th><th>择校</th></tr>
                                     @Html.Raw(rights)
                                 </tbody>
                             </table>
@@ -74,9 +77,13 @@
                         //清除
                         studstrs = string.Empty;
                         list.Clear();
+                        //清除班级计数
+                        banstud = 0;
+                        studbaname = stud.BanName;
                     }
                 }
-                studstrs = string.Format(studstr, stud.BanNum, stud.StudName, stud.StudSex, stud.Score, stud.GradeIDS == "321284020120170107" ? stud.OldBan : stud.OldBanNum, string.IsNullOrEmpty( stud.GroupID) ? "": "√", stud.Fixed? "√" : "");
+                banstud++;
+                studstrs = string.Format(studstr, banstud, stud.StudName, stud.StudSex, stud.Mobil, stud.ComeName == "应届生" ? "" : stud.ComeName.Substring(0, 1), stud.Choose ? "√" : "");
                 list.Add(studstrs);
                 //结束
                 if (num == count)
@@ -96,16 +103,17 @@
                             rights += list[i];
                         }
                         //打以前的
-                        <div style="height:100%; width:100%;">
+                        <div style="height:50px; text-align: center; font-size: 24px;">@studbaname</div>
+                        <div style="height:95%; width:100%;">
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:left;">
                                 <tbody>
-                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班<br />公共</th><th>固定</th></tr>
+                                    <tr style="height:60px;"><th>序号</th><th>姓名</th><th>性别</th><th>联系电话</th><th>来源</th><th>择校</th></tr>
                                     @Html.Raw(lefts)
                                 </tbody>
                             </table>
                             <table class="nowclass-table" border="0" align="center" cellpadding="0" cellspacing="0" style="height:100%; width:45%; float:right;">
                                 <tbody>
-                                    <tr style="height:80px;"><th>现班级</th><th>姓名</th><th>性别</th><th>分班成绩</th><th>录取编号<br />原班级号</th><th>同班<br />公共</th><th>固定</th></tr>
+                                    <tr style="height:60px;"><th>序号</th><th>姓名</th><th>性别</th><th>联系电话</th><th>来源</th><th>择校</th></tr>
                                     @Html.Raw(rights)
                                 </tbody>
                             </table>
@@ -118,7 +126,7 @@
     <script type="text/javascript">
         $(function () {
             //添加对话框
-            DialogShowEx('班主任', 810, 570, function () {
+            DialogShowEx('学生班级', 810, 570, function () {
                 $('#print-nowclass').printDom();
             })
         })

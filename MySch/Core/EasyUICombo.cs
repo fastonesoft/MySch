@@ -36,7 +36,7 @@ namespace MySch.Core
                 //
                 combos.Add(combo);
             }
-            //以id排序
+
             return combos;
         }
 

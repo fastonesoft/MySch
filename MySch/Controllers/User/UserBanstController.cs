@@ -227,6 +227,27 @@ namespace MySch.Controllers.User
             }
         }
 
+
+        [HttpPost]
+        public ActionResult StudClass(IEnumerable<VGradeStud> rows)
+        {
+            try
+            {
+                var entitys = rows
+                    .OrderBy(a => a.BanNum)
+                    .ThenByDescending(a => a.StudSex)
+                    .ThenByDescending(a => a.Score)
+                    .ThenBy(a => a.ID);
+                return View(entitys);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+
+        //分班
         [HttpPost]
         public ActionResult FengBan(string id)
         {
@@ -240,6 +261,7 @@ namespace MySch.Controllers.User
                 return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
+
 
 
 

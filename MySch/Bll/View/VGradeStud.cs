@@ -38,6 +38,8 @@ namespace MySch.Bll.View
         public string OldBanNum { get; set; }
         public string GroupID { get; set; }
         public string MasterIDS { get; set; }
+        public string Mobil { get; set; }
+        public bool Choose { get; set; }
 
         public static IEnumerable<VGradeStud> GetEntitys(Expression<Func<VGradeStud, bool>> where)
         {
@@ -82,6 +84,8 @@ namespace MySch.Bll.View
                                        OldBanNum = gs.OldBan.Substring(0, 2),
                                        GroupID = gs.GroupID,
                                        MasterIDS = b.MasterIDS,
+                                       Mobil = st.Mobil1,
+                                       Choose = gs.Choose,
                                    })
                                    .Where(where)
                                    .ToList();

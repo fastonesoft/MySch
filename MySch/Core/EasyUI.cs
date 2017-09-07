@@ -17,7 +17,7 @@ namespace MySch.Core
             }
             else
             {
-                List<object> objes = new List<object>();
+                List<Entity> objes = new List<Entity>();
                 objes.Add(entity);
                 return new { total = 1, rows = objes };
             }
