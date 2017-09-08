@@ -953,3 +953,41 @@ FROM         dbo.TAcc LEFT OUTER JOIN
                       dbo.ARoleGroup ON dbo.TAcc.RoleGroupIDS = dbo.ARoleGroup.IDS
 go
 
+--上墙 - 用户表
+create table WxAccList
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(20) not null,	--手机号码
+	Name	nvarchar(10) not null,
+	Mobils	nvarchar(10),
+	openid	nvarchar(32),
+	nickname	nvarchar(32),
+	unionid	nvarchar(32),
+	headimgurl	nvarchar(200),
+)
+go
+alter table WxAccList add constraint PK_WxAccList primary key clustered (ID)
+create unique nonclustered index UN_WxAccList_IDS on WxAccList (IDS)
+create unique nonclustered index UN_WxAccList_Name on WxAccList (Name)
+
+--上墙 - 选中用户表
+create table WxAccSelect
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,	--微号码
+	Name	nvarchar(10) not null,
+)
+go
+alter table WxAccList add constraint PK_WxAccList primary key clustered (ID)
+create unique nonclustered index UN_WxAccList_IDS on WxAccList (IDS)
+create unique nonclustered index UN_WxAccList_Name on WxAccList (Name)
+
+
+--上墙 - 用户留言
+create table WxAccSend
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,	--微号码
+	SendMsg	nvarchar(200) not null,	--发送的信息
+)
+go

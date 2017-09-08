@@ -593,6 +593,9 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\校务在线.pubxml" />
+    <Content Include="Images\wall-bg.jpg" />
+    <Content Include="Images\wall-text.png" />
+    <Content Include="Images\wall-trans.png" />
     <Content Include="Images\weblogo.png" />
     <Content Include="Images\wx_no.jpg" />
     <Content Include="Images\wx_yes.jpg" />
@@ -718,7 +721,6 @@
     <Content Include="Views\AdminPage\Edit.cshtml" />
     <Content Include="Views\AdminPage\Index.cshtml" />
     <Content Include="Views\Shared\_Default.cshtml" />
-    <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\UserBan\Adds.cshtml" />
     <Content Include="Views\Regs\Index.cshtml" />
     <Content Include="Views\Regs\Examine.cshtml" />
@@ -746,6 +748,7 @@
     <Content Include="Views\ARoleActions\Index.cshtml" />
     <Content Include="Views\UserBanst\StudClass.cshtml" />
     <Content Include="Views\Wall\Index.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />

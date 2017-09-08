@@ -45,6 +45,9 @@ namespace MySch.Controllers.WX
             {
                 var user = auth.GoneLogin();
 
+                return Content(Jsons.ToJsons(user));
+
+
                 //显示网页
                 return RedirectToAction("Index", "Wall");
             }

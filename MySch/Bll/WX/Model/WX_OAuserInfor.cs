@@ -13,6 +13,7 @@ namespace MySch.Bll.WX.Model
         public string openid { get; set; }
         public string nickname { get; set; }
         public string unionid { get; set; }
+        public string headimgurl { get; set; }
 
         //用户类型
         public string IDS { get; set; }
