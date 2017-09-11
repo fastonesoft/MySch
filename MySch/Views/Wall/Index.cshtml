@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -26,7 +25,7 @@
         #wallfoot { width: 1350px; height: 71px; background-color: rgba(0,0,0,0.5); position: absolute; left: 0px; bottom: 0px; }
         #wallfootico { width: 75px; height: 35px; position: absolute; left: 50%; bottom: 0px; cursor: pointer; }
         .neicon { float: right; margin-right: 20px; }
-            .neicon img { margin-top: 20px; }
+        .neicon img { margin-top: 20px; }
     </style>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
@@ -43,6 +42,27 @@
             });
             $(window).resize();
 
+            //忆中奖的
+            $.post('/Regs/AccPrized', function (resex) {
+
+                if (resex.error) {
+                    $.messager.alert('错误提示', resex.message, 'error');
+                } else {
+                    $('#wallright').empty();
+                    $.each(resex, function () {
+                        var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="background:rgba(255,255,255,0.5); color:white;"><div class="weui-media-box__hd"><img class="weui-media-box__thumb" src="" alt=""></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title"></h4><p class="weui-media-box__desc" style="color:white; text-indent: 20px;"></p></div></a>');
+                        //隐藏
+                        $warn_item.hide();
+                        $warn_item.find('img').attr('src', this.AccImage);
+                        $warn_item.find('h4').text(this.AccName);
+                        $warn_item.prependTo($('#wallright'));
+                        //显示
+                        $warn_item.slideDown(500);
+                    });
+                }
+            });
+
+
             //隐藏
             $('#wallfootico').click(function () {
                 if ($('#wallfoot').is(':visible')) {
@@ -57,20 +77,14 @@
             var arr;
             var start;
             function prize() {
-                for (var i = 1; i <= len; i++) {
-                    $warn_item = $('#wallprize a[order=' + i + ']');
-                    $warn_item.attr('accids', arr[i].AccIDS)
-                    $warn_item.find('img').attr('src', arr[i].AccImage);
-                    $warn_item.find('h4').text(arr[i].AccName);
-                }
             }
             $('#wallprize-start').click(function () {
                 $.post('/Regs/SendMsgShowed', function (res) {
                     //清空
                     $('#wallprize').empty();
-                    len = res.length > 8 ? 8 : res.length;
+                    len = res.length > 6 ? 6 : res.length;
                     //先添加元素
-                    for (var i = 1 ; i <= len; i++) {
+                    for (var i = 0 ; i < len; i++) {
                         var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="background:rgba(255,255,255,0.5); color:white; float:left;"><div class="weui-media-box__hd"><img class="weui-media-box__thumb" src="" alt=""></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title"></h4><p class="weui-media-box__desc" style="color:white; text-indent: 20px;"></p></div></a>');
                         $warn_item.attr('order', i);
                         $warn_item.prependTo($('#wallprize'));
@@ -79,7 +93,31 @@
                     //
                     $('#wallprize').show();
                     //开始
-                    start = window.setInterval(prize, 250);
+                    //start = window.setInterval(prize, 250);
+                    for (var i = 0; i < len; i++) {
+                        $warn_item = $('#wallprize a[order=' + i + ']');
+                        $warn_item.attr('accids', arr[i].WxAccIDS)
+                        $warn_item.find('img').attr('src', arr[i].AccImage);
+                        $warn_item.find('h4').text(arr[i].AccName);
+                    }
+                    //
+                    $.post('/Regs/AccPrize', { entitys: res }, function (resex) {
+                        if (resex.error) {
+                            $.messager.alert('错误提示', resex.message, 'error');
+                        } else {
+                            $('#wallright').empty();
+                            $.each(resex, function () {
+                                var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="background:rgba(255,255,255,0.5); color:white;"><div class="weui-media-box__hd"><img class="weui-media-box__thumb" src="" alt=""></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title"></h4><p class="weui-media-box__desc" style="color:white; text-indent: 20px;"></p></div></a>');
+                                //隐藏
+                                $warn_item.hide();
+                                $warn_item.find('img').attr('src', this.AccImage);
+                                $warn_item.find('h4').text(this.AccName);
+                                $warn_item.prependTo($('#wallright'));
+                                //显示
+                                $warn_item.slideDown(500);
+                            });
+                        }
+                    });
                 });
             });
 
@@ -124,8 +162,8 @@
                         2017教师节庆祝活动
                     </div>
                     <div class="wordNum">
-                        <p>签到：<span id="accnum" class="wordColor">317</span>人</p>
-                        <p>发言：<span id="accsend" class="wordColor">640</span>条</p>
+                        @*<p>签到：<span id="accnum" class="wordColor">317</span>人</p>
+                            <p>发言：<span id="accsend" class="wordColor">640</span>条</p>*@
                     </div>
                 </div>
                 <div style="float: right;">
@@ -141,11 +179,11 @@
 
             <div style="clear:both;"></div>
             <div class="weui-btn-area" style="margin-top: 20px; width: 275px;">
-                <a id="wallprize-start" href="javascript:" class="weui-btn weui-btn_warn">开奖：第一个</a>
+                <a id="wallprize-start" href="javascript:" class="weui-btn weui-btn_warn">开奖</a>
             </div>
             @*<div class="weui-btn-area"style="width: 275px;">
-                <a id="wallprize-stop" href="javascript:" class="weui-btn weui-btn_warn weui-btn_disabled">停</a>
-            </div>*@
+                    <a id="wallprize-stop" href="javascript:" class="weui-btn weui-btn_warn weui-btn_disabled">停</a>
+                </div>*@
 
         </div>
 

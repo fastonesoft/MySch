@@ -1,4 +1,5 @@
 ﻿using MySch.Bll.WX.Model;
+using MySch.Core;
 using MySch.Dal;
 using MySch.Models;
 using System;
@@ -141,6 +142,52 @@ namespace MySch.Mvvm.Wall.Action
                 }
                 //去除中奖的
                 return VqWxAccSend.GetEntitys<VqWxAccSend>(a => a.Showed && !prizestr.Contains(a.WxAccIDS));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static IEnumerable<VqWxAccPrize> AccPrize(IEnumerable<VqWxAccSend> entitys)
+        {
+            try
+            {
+                var inputs = entitys.Take(6);
+
+                //开奖列表
+                foreach (var entity in inputs)
+                {
+                    var action = VmWxAction.GetEntity<VmWxAction>(a => a.IsCurrent, "还没有标识当前活动！");
+                    var prize = VqWxAccPrize.GetEntityOrDefault<VqWxAccPrize>(a => a.WxAccIDS == entity.WxAccIDS);
+                    if (prize == null)
+                    {
+                        var accprize = new VmWxAccPrize
+                        {
+                            ID = Guid.NewGuid().ToString("N"),
+                            IDS = Guid.NewGuid().ToString("N"),
+                            WxAccIDS = entity.WxAccIDS,
+                            WxActionIDS = action.IDS,
+                            WxPrizeIDS = "05",
+                        };
+                        accprize.ToAdd();
+                    }
+                }
+
+                var res = VqWxAccPrize.GetEntitys<VqWxAccPrize>(a => true);
+                throw new Exception(Jsons.ToJsons(res));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static IEnumerable<VqWxAccPrize> AccPrized()
+        {
+            try
+            {
+                return VqWxAccPrize.GetEntitys<VqWxAccPrize>(a => true);
             }
             catch (Exception e)
             {

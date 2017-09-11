@@ -4,8 +4,10 @@ using MySch.Bll.WX.ViewModel;
 using MySch.Core;
 using MySch.Mvvm.School.Stud;
 using MySch.Mvvm.School.Stud.Action;
+using MySch.Mvvm.Wall;
 using MySch.Mvvm.Wall.Action;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace MySch.Controllers.WX
@@ -1015,7 +1017,37 @@ namespace MySch.Controllers.WX
             }
         }
 
+        [HttpPost]
+        public ActionResult AccPrize(IEnumerable<VqWxAccSend> entitys)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
 
+                return Json(ActionWall.AccPrize(entitys));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AccPrized()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionWall.AccPrized());
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
 
     }
 }

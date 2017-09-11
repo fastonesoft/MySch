@@ -26,6 +26,7 @@ namespace MySch.Mvvm.Wall
         public string IDS { get; set; }
         public string ActionName { get; set; }
         public string AccName { get; set; }
+        public string AccImage { get; set; }
         public string PrizeName { get; set; }
     }
 }
