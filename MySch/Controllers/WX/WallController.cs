@@ -10,12 +10,10 @@ namespace MySch.Controllers.WX
 {
     public class WallController : Controller
     {
-        // GET: Wall
         public ActionResult Index()
         {
             try
             {
-                //首页
                 return View();
             }
             catch (Exception e)
@@ -24,38 +22,6 @@ namespace MySch.Controllers.WX
             }
         }
 
-        //请求页
-        public ActionResult Req()
-        {
-            try
-            {
-                var url = WX_Url.MenuView(WX_Const.goneAppID, "http://a.jysycz.cn/wall/login", Guid.NewGuid().ToString("N"));
-                return Redirect(url);
-            }
-            catch (Exception e)
-            {
-                return Content(e.Message);
-            }
-        }
-
-        //回调接口
-        public ActionResult Login(WX_OAuth auth)
-        {
-            try
-            {
-                var user = auth.GoneLogin();
-
-                return Content(Jsons.ToJsons(user));
-
-
-                //显示网页
-                return RedirectToAction("Index", "Wall");
-            }
-            catch (Exception e)
-            {
-                return Content(e.Message);
-            }
-        }
 
     }
 }

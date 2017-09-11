@@ -10,6 +10,8 @@ using System.Web.Mvc;
 
 namespace MySch.Bll
 {
+    public enum OrderType { ASC, DESC }
+
     /// <summary>
     /// 表示层 数据表 基类：功能：查询
     /// 一、提供静态的单个、多重数据记录查询操作
@@ -81,12 +83,41 @@ namespace MySch.Bll
             }
         }
 
+        public static BllEntity GetEntityOrDefault<BllEntity>(Expression<Func<Entity, bool>> where)
+        {
+            try
+            {
+                var entity = DataCRUD<Entity>.Entity(where);
+                return Jsons.JsonEntity<BllEntity>(entity);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         public static BllEntity GetEntity<BllEntity>(Expression<Func<Entity, bool>> where, string nullMessage)
         {
             try
             {
                 var entity = DataCRUD<Entity>.Entity(where);
                 if (entity == null) throw new Exception(nullMessage);
+
+                return Jsons.JsonEntity<BllEntity>(entity);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static BllEntity GetEntityExists<BllEntity>(Expression<Func<Entity, bool>> where, string existMessage)
+        {
+            try
+            {
+                var entity = DataCRUD<Entity>.Entity(where);
+                if (entity != null) throw new Exception(existMessage);
 
                 return Jsons.JsonEntity<BllEntity>(entity);
             }
@@ -196,6 +227,29 @@ namespace MySch.Bll
 
                 //输出：转换成DataGrid的数据
                 return EasyUI<BllEntity>.DataGrids(pages_bll, total);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static object GetDataGridPagesAsc<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize)
+        {
+            try
+            {
+                return GetDataGridPages<BllEntity, Key>(where, order, pageIndex, pageSize, OrderType.ASC);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public static object GetDataGridPagesDesc<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize)
+        {
+            try
+            {
+                return GetDataGridPages<BllEntity, Key>(where, order, pageIndex, pageSize, OrderType.DESC);
             }
             catch (Exception e)
             {

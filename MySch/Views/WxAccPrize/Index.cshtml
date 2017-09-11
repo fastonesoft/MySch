@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+}
+
+
+<table id="WxAccPrize-grid"></table>
+<div id="WxAccPrize-grid-tool">
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <td style="width:5px;"></td>
+                <td>
+                    <span class="textbox">
+                        <input class="textbox-text" id="WxAccPrize-text" style="width:165px;" />
+                    </span>
+                </td>
+                <td style="width:8px;"></td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="WxAccPrize.search();">查询</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="WxAccPrize.reload();">刷新</a>
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript">
+    //点击动作
+    WxAccPrize = {
+        reload: function () {
+            DataGridParams('#WxAccPrize-grid', '/WxAccPrize/DataGrid', {})
+        },
+        search: function () {
+            var text = $('#WxAccPrize-text').val();
+            var param = {
+                text: text,
+            }
+            DataGridSearchParam('#WxAccPrize-text', '#WxAccPrize-grid', '/WxAccPrize/DataGrid', param);
+        },
+    }
+    //数据表格
+    $('#WxAccPrize-grid').datagrid({
+        fit: true,
+        striped: true,
+        rownumbers: true,
+        fitColumns: false,
+        remoteSort: false,
+        singleSelect: true,
+        checkOnSelect: true,
+        url: '/WxAccPrize/DataGrid',
+        loadFilter: function (d) {
+            if (d.error) {
+                $.messager.alert('错误提示', d.message, 'error');
+                return { total: 0, rows: [] };
+            } else {
+                return d;
+            }
+        },
+
+        columns: [[
+            { title: '活动名称', field: 'ActionName', align: 'center', sortable: true, width: 200 },
+            { title: '用户姓名', field: 'AccName', align: 'center', sortable: true, width: 120 },
+            { title: '中奖信息', field: 'PrizeName', align: 'center', sortable: true, width: 120 },
+        ]],
+
+        toolbar: '#WxAccPrize-grid-tool',
+        pagination: true,
+        pageSize: 100,
+        pageList: [100, 200, 500],
+        pageNumber: 1,
+    });
+</script>

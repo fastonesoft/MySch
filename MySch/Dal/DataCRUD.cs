@@ -275,6 +275,30 @@ namespace MySch.Dal
             }
         }
 
+        public static TEntity EntityEx(Expression<Func<TEntity, bool>> where, string nullMessage)
+        {
+            try
+            {
+                using (BaseContext db = new BaseContext())
+                {
+                    var res = db.Set<TEntity>().Where(where);
+                    if (res.Count() == 1)
+                    {
+                        return res.Single();
+                    }
+                    else
+                    {
+                        throw new Exception(nullMessage);
+                    }
+                }
+            }
+            catch
+            {
+                throw new Exception("数据层：表达式实体查询，出错！");
+            }
+        }
+
+
         //第一个
         public static TEntity First(Expression<Func<TEntity, bool>> where)
         {

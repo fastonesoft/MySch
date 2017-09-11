@@ -1,0 +1,41 @@
+﻿@model MySch.Mvvm.Wall.VmWxAccFilt
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Mobils)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Mobils, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Mobils)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+}
+
+<script type="text/javascript">
+    $(function () {
+        DialogDel('过滤删除', 410, 320, '/WxAccFilt/DelToken', '#wxaccfilt-grid');
+    })
+</script>

@@ -1,0 +1,42 @@
+﻿@model MySch.Mvvm.Wall.VmWxAcc
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Mobil)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Mobil, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Mobil)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Mobils)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Mobils, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Mobils)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+        DialogDel('用户删除', 410, 320, '/WxAcc/DelToken', '#wxacc-grid');
+    })
+</script>

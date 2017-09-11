@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+}
+
+
+<table id="wxaccfilt-grid"></table>
+<div id="wxaccfilt-grid-tool">
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="wxaccfilt.add();">添加</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="wxaccfilt.edit();">修改</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-remove" plain="true" onclick="wxaccfilt.del();">删除</a>
+                </td>
+                <td style="width:5px;"></td>
+                <td>
+                    <span class="textbox">
+                        <input class="textbox-text" id="wxaccfilt-text" style="width:165px;" />
+                    </span>
+                </td>
+                <td style="width:8px;"></td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="wxaccfilt.search();">查询</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="wxaccfilt.reload();">刷新</a>
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript">
+    //点击动作
+    wxaccfilt = {
+        reload: function () {
+            DataGridParams('#wxaccfilt-grid', '/WxAccFilt/DataGrid', {})
+        },
+        add: function () {
+            DataGridNone('/WxAccFilt/Add')
+        },
+        edit: function () {
+            DataGridRowID('#wxaccfilt-grid', '/WxAccFilt/Edit')
+        },
+        del: function () {
+            DataGridRowID('#wxaccfilt-grid', '/WxAccFilt/Del')
+        },
+        search: function () {
+            var text = $('#wxaccfilt-text').val();
+            var param = {
+                text: text,
+            }
+            DataGridSearchParam('#wxaccfilt-text', '#wxaccfilt-grid', '/WxAccFilt/DataGrid', param);
+        },
+    }
+    //数据表格
+    $('#wxaccfilt-grid').datagrid({
+        fit: true,
+        striped: true,
+        rownumbers: true,
+        fitColumns: false,
+        remoteSort: false,
+        singleSelect: true,
+        checkOnSelect: true,
+        url: '/WxAccFilt/DataGrid',
+        loadFilter: function (d) {
+            if (d.error) {
+                $.messager.alert('错误提示', d.message, 'error');
+                return { total: 0, rows: [] };
+            } else {
+                return d;
+            }
+        },
+
+        columns: [[
+            { title: '姓名', field: 'Name', align: 'center', sortable: true, width: 100 },
+            { title: '手机号码', field: 'IDS', align: 'center', sortable: true, width: 120 },
+            { title: '短号', field: 'Mobils', align: 'center', sortable: true, width: 100 },
+        ]],
+
+        toolbar: '#wxaccfilt-grid-tool',
+        pagination: true,
+        pageSize: 100,
+        pageList: [100, 200, 500],
+        pageNumber: 1,
+    });
+</script>

@@ -8,10 +8,174 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>2017教师节庆祝活动</title>
+    <style type="text/css">
+        * { margin: 0px; padding: 0px; }
+        body { background-image: url(/Images/wall/wall-bg.jpg); color: white; font-family: arial,"微软雅黑"; }
+        #wrap { width: 100%; height: 100%; background-size: cover; min-width: 2000px; min-height: 775px; position: relative; margin: 0 auto; }
+        #whole { width: 980px; height: auto; margin: 0 auto; }
+        #header { width: 910px; height: 96px; margin: 0 auto; padding-top: 26px; }
+        .wordScroll { width: 576px; height: 96px; text-align: center; background: url(/Images/wall/wall-trans.png) no-repeat center top; float: left; overflow: hidden; cursor: default; }
+        .scrollBox { width: 460px; height: 96px; float: left; line-height: 96px; font-size: 24px; }
+        .wordNum { width: 105px; height: 76px; line-height: 38px; font-size: 16px; margin: 10px 0px; float: right; }
+        .wordColor { color: white; }
+
+        #wallleft { width: 310px; height: 480px; position: absolute; left: 20px; top: 156px; }
+        #wallbody { width: 620px; height: 480px; position: absolute; left: 350px; top: 156px; overflow: hidden; overflow-x: hidden; }
+        #wallright { width: 350px; height: 480px; position: absolute; right: 20px; top: 156px; overflow: scroll; overflow-x: hidden; }
+        #wallfoot { width: 1350px; height: 71px; background-color: rgba(0,0,0,0.5); position: absolute; left: 0px; bottom: 0px; }
+        #wallfootico { width: 75px; height: 35px; position: absolute; left: 50%; bottom: 0px; cursor: pointer; }
+        .neicon { float: right; margin-right: 20px; }
+            .neicon img { margin-top: 20px; }
+    </style>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(window).resize(function () {
+                var awid = $(window).width();
+                var ahei = $(window).height();
+
+                $('#wrap').css({ 'min-height': ahei, 'min-width': awid });
+                $('#wallfoot').css({ 'width': awid });
+            });
+            $(window).resize();
+
+            //隐藏
+            $('#wallfootico').click(function () {
+                if ($('#wallfoot').is(':visible')) {
+                    $('#wallfoot').hide();
+                } else {
+                    $('#wallfoot').show();
+                }
+            });
+
+            //开奖
+            var len;
+            var arr;
+            var start;
+            function prize() {
+                for (var i = 1; i <= len; i++) {
+                    $warn_item = $('#wallprize a[order=' + i + ']');
+                    $warn_item.attr('accids', arr[i].AccIDS)
+                    $warn_item.find('img').attr('src', arr[i].AccImage);
+                    $warn_item.find('h4').text(arr[i].AccName);
+                }
+            }
+            $('#wallprize-start').click(function () {
+                $.post('/Regs/SendMsgShowed', function (res) {
+                    //清空
+                    $('#wallprize').empty();
+                    len = res.length > 8 ? 8 : res.length;
+                    //先添加元素
+                    for (var i = 1 ; i <= len; i++) {
+                        var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="background:rgba(255,255,255,0.5); color:white; float:left;"><div class="weui-media-box__hd"><img class="weui-media-box__thumb" src="" alt=""></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title"></h4><p class="weui-media-box__desc" style="color:white; text-indent: 20px;"></p></div></a>');
+                        $warn_item.attr('order', i);
+                        $warn_item.prependTo($('#wallprize'));
+                    }
+                    arr = res.sort(function () { return Math.random() - 0.5; });
+                    //
+                    $('#wallprize').show();
+                    //开始
+                    start = window.setInterval(prize, 250);
+                });
+            });
+
+            ////停
+            //$('#wallprize-stop').click(function () {
+            //    window.clearInterval(start);
+            //});
+
+
+
+            //上墙
+            function upwall() {
+                $.post('/Regs/SendMsgNotShow', function (res) {
+                    $.each(res, function () {
+                        var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="background:rgba(255,255,255,0.5); color:white;"><div class="weui-media-box__hd"><img class="weui-media-box__thumb" src="" alt=""></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title"></h4><p class="weui-media-box__desc" style="color:white; text-indent: 20px;"></p></div></a>');
+                        //隐藏
+                        $warn_item.hide();
+                        $warn_item.find('img').attr('src', this.AccImage);
+                        $warn_item.find('h4').text(this.AccName + '：');
+                        $warn_item.find('p').text(this.SendMsg);
+                        $warn_item.prependTo($('#wallbody'));
+                        //显示
+                        $warn_item.slideDown(500);
+                    });
+                });
+            }
+            //重复
+            window.setInterval(upwall, 2500);
+
+        });
+    </script>
 </head>
-<body>
-    <div> 
+<body style="margin: 0px; padding: 0px; height: 100%; width: 100%; background-size: 100%;">
+    <div id="wrap">
+        <div id="whole">
+            <div id="header">
+                <div style="float:left">
+                    <span style="display:block;margin-top:20px"><img src="/Images/wall/wall-text.png"></span>
+                </div>
+                <div class="wordScroll">
+                    <div class="scrollBox">
+                        2017教师节庆祝活动
+                    </div>
+                    <div class="wordNum">
+                        <p>签到：<span id="accnum" class="wordColor">317</span>人</p>
+                        <p>发言：<span id="accsend" class="wordColor">640</span>条</p>
+                    </div>
+                </div>
+                <div style="float: right;">
+                    <img src="~/Images/wall/code.png" style="border:none; width: 96px; height: 96px;" />
+                </div>
+            </div>
+        </div>
+
+        <div id="wallleft">
+
+            <div id="wallprize" style="display:none; padding-left: 16px;">
+            </div>
+
+            <div style="clear:both;"></div>
+            <div class="weui-btn-area" style="margin-top: 20px; width: 275px;">
+                <a id="wallprize-start" href="javascript:" class="weui-btn weui-btn_warn">开奖：第一个</a>
+            </div>
+            @*<div class="weui-btn-area"style="width: 275px;">
+                <a id="wallprize-stop" href="javascript:" class="weui-btn weui-btn_warn weui-btn_disabled">停</a>
+            </div>*@
+
+        </div>
+
+        <div id="wallbody">
+
+        </div>
+
+        <div id="wallright">
+
+            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="background:rgba(255,255,255,0.5); color:white;">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" src="~/Images/wall/0.jpg" alt="">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">标题一</h4>
+                    <p class="weui-media-box__desc" style="color:white;">asdfasdfasdfasdfasd</p>
+                </div>
+            </a>
+
+        </div>
+
+        <div id="wallfoot">
+            <a href="javascript:void(0);" class="neicon">
+                <img class="" src="~/Images/wall/wall-code.png">
+            </a>
+        </div>
+        <div id="wallfootico">
+            <img src="~/Images/wall/wall-down.png" />
+        </div>
     </div>
+
 </body>
 </html>

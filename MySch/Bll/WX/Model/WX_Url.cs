@@ -34,6 +34,16 @@ namespace MySch.Bll.WX.Model
             return oaken;
         }
 
+        //获取服务器授权
+        public static WX_AccessToken AccessToken(string appid, string secret)
+        {
+            var url = string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", appid, secret);
+            var jsons = HtmlHelp.GetHtml(url, "UTF-8");
+            var token = Jsons.JsonEntity<WX_AccessToken>(jsons);
+            token.create_time = DateTime.Now;
+            return token;
+        }
+
         //获取用户信息
         public static WX_OAuserInfor OAuserInfor(string oaToken, string openid)
         {
@@ -43,16 +53,6 @@ namespace MySch.Bll.WX.Model
 
             infor.ToSession();
             return infor;
-        }
-
-        //获取服务器授权
-        public static WX_AccessToken AccessToken(string appid, string secret)
-        {
-            var url = string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", appid, secret);
-            var jsons = HtmlHelp.GetHtml(url, "UTF-8");
-            var token = Jsons.JsonEntity<WX_AccessToken>(jsons);
-            token.create_time = DateTime.Now;
-            return token;
         }
 
         //获取媒体文件

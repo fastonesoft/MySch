@@ -10,7 +10,6 @@ namespace MySch.Bll.Custom
     /// <summary>
     /// 数据排序方式
     /// </summary>
-    public enum OrderType { ASC, DESC }
 
     public class LoginModel
     {

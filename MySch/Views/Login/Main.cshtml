@@ -36,6 +36,13 @@
                     <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" id="my_user_logo" /></a>
                 </div>
 
+                @if (ViewBag.ShowMenu)
+                {
+                    <ul class="my-nav">
+                        <li><a href="javascript:void(0);" id="wxwall"><img src="/Images/pp04.png" /><h2>微信上墙</h2></a></li>
+                    </ul>
+                }
+
                 <div class="my-topright">
                     <ul>
                         <li><span style="color:#ed9c30;">@ViewBag.NickName</span></li>
@@ -100,6 +107,19 @@
                                 <li dest="/UserStud/" icon="icon-system"><cite></cite><a href="javascript:void(0);">年度学生</a><i></i></li>
                                 <li dest="/UserHistory/" icon="icon-system"><cite></cite><a href="javascript:void(0);">历年学生</a><i></i></li>
                                 <li dest="/UserBanst/" icon="icon-system"><cite></cite><a href="javascript:void(0);">学生分班</a><i></i></li>
+                            </ul>
+                        </dd>
+                        <dd>
+                            <div class="title">
+                                <img src="/Images/leftico04.png" />上墙设置
+                            </div>
+                            <ul class="my-menuson">
+                                <li dest="/WxAccFilt/" icon="icon-system"><cite></cite><a href="javascript:void(0);">用户过滤</a><i></i></li>
+                                <li dest="/WxAcc/" icon="icon-system"><cite></cite><a href="javascript:void(0);">上墙用户</a><i></i></li>
+                                <li dest="/WxAction/" icon="icon-system"><cite></cite><a href="javascript:void(0);">上墙活动</a><i></i></li>
+                                <li dest="/WxPrize/" icon="icon-system"><cite></cite><a href="javascript:void(0);">上墙奖项</a><i></i></li>
+                                <li dest="/WxAccSend/" icon="icon-system"><cite></cite><a href="javascript:void(0);">上墙留言</a><i></i></li>
+                                <li dest="/WxAccPrize/" icon="icon-system"><cite></cite><a href="javascript:void(0);">中奖用户</a><i></i></li>
                             </ul>
                         </dd>
 
@@ -202,43 +222,10 @@
             });
 
             ////////////////////////////////////////
-
-            //var tab = $('#my-user-tab').tabs('getTab', '用户首页');
-            //$('#my-user-tab').tabs('update', {
-            //    tab: tab,
-            //    options: {
-            //        href: '/account/check'
-            //    },
-            //});
-            //tab.panel('refresh');
-
-            /////////////////////////
-            //$('#my_user_name').click(function () {
-            //    $this = $(this);
-            //    if ($this.hasClass('clicked')) {
-            //        $('#my-user-tab').tabs('select', '用户审核');
-            //        return;
-            //    }
-            //    $this.addClass('clicked');
-
-            //    //添加页面
-            //    easyobj.addTab('#my-user-tab', '用户审核', '/Account/Exam', 'icon-tip')
-            //});
-
-            ///////////////////////
-            //$('#my_user_logo').click(function () {
-            //    $this = $(this);
-            //    if ($this.hasClass('clicked')) {
-            //        $('#my-user-tab').tabs('select', '新生打印');
-            //        return;
-            //    }
-            //    $this.addClass('clicked');
-
-            //    //添加页面
-            //    easyobj.addTab('#my-user-tab', '新生打印', '/stnew/', 'icon-tip')
-            //});
-
-
+            $('#wxwall').click(function () {
+                //window.open("http://localhost:17806/wall/");
+                window.open("http://a.jysycz.cn/wall/");
+            });
 
         })
     </script>

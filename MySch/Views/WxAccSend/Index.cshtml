@@ -1,0 +1,89 @@
+﻿@{
+    Layout = null;
+}
+
+
+<table id="WxAccSend-grid"></table>
+<div id="WxAccSend-grid-tool">
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <td style="width:5px;"></td>
+                <td>
+                    <span class="textbox">
+                        <input class="textbox-text" id="WxAccSend-text" style="width:165px;" />
+                    </span>
+                </td>
+                <td style="width:8px;"></td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="WxAccSend.search();">查询</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="WxAccSend.reload();">刷新</a>
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript">
+    //点击动作
+    WxAccSend = {
+        reload: function () {
+            DataGridParams('#WxAccSend-grid', '/WxAccSend/DataGrid', {})
+        },
+        search: function () {
+            var text = $('#WxAccSend-text').val();
+            var param = {
+                text: text,
+            }
+            DataGridSearchParam('#WxAccSend-text', '#WxAccSend-grid', '/WxAccSend/DataGrid', param);
+        },
+    }
+    //数据表格
+    $('#WxAccSend-grid').datagrid({
+        fit: true,
+        striped: true,
+        rownumbers: true,
+        fitColumns: false,
+        remoteSort: false,
+        singleSelect: true,
+        checkOnSelect: true,
+        url: '/WxAccSend/DataGrid',
+        loadFilter: function (d) {
+            if (d.error) {
+                $.messager.alert('错误提示', d.message, 'error');
+                return { total: 0, rows: [] };
+            } else {
+                return d;
+            }
+        },
+
+        columns: [[
+            { title: '活动名称', field: 'ActionName', align: 'center', sortable: true, width: 200 },
+            { title: '用户姓名', field: 'AccName', align: 'center', sortable: true, width: 120 },
+            {
+                title: '是否上墙', field: 'Showed', halign: 'center', width: 90,
+                formatter: function (value, row, index) { },
+                styler: function (value, row, index) {
+                    if (value) {
+                        return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                    }
+                }
+            },
+            {
+                title: '发送时间', field: 'CreateTime', align: 'center', sortable: true, width: 160,
+                formatter: function (value, row, index) {
+                    return formatDate(value);
+                },
+            },
+            { title: '发送类型', field: 'MsgType', align: 'center', sortable: true, width: 90 },
+            { title: '发送内容', field: 'SendMsg', align: 'left', halign: 'center', sortable: true, width: 420 },
+        ]],
+
+        toolbar: '#WxAccSend-grid-tool',
+        pagination: true,
+        pageSize: 100,
+        pageList: [100, 200, 500],
+        pageNumber: 1,
+    });
+</script>

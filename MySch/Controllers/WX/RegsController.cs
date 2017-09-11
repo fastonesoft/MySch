@@ -4,6 +4,7 @@ using MySch.Bll.WX.ViewModel;
 using MySch.Core;
 using MySch.Mvvm.School.Stud;
 using MySch.Mvvm.School.Stud.Action;
+using MySch.Mvvm.Wall.Action;
 using System;
 using System.Web.Mvc;
 
@@ -664,22 +665,6 @@ namespace MySch.Controllers.WX
             }
         }
 
-        public ActionResult Gone(WX_OAuth auth)
-        {
-            try
-            {
-                var user = auth.GoneLogin();
-                user.codePage = Setting.Url(Request);
-                user.ToSession();
-
-                return View();
-            }
-            catch (Exception e)
-            {
-                return Content(e.Message);
-            }
-        }
-
         //查询学生姓名
         [HttpPost]
         public ActionResult MaSearchStuds(string id)
@@ -899,6 +884,138 @@ namespace MySch.Controllers.WX
                 return Json(new ErrorMessage { error = true, message = e.Message });
             }
         }
+
+        //墙跳转页
+        public ActionResult Req(string id)
+        {
+            try
+            {
+                var url = WX_Url.MenuView(WX_Const.goneAppID, "http://a.jysycz.cn/regs/wall", id);
+                return Redirect(url);
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        //墙页面
+        public ActionResult Wall(WX_OAuth auth)
+        {
+            try
+            {
+                var user = auth.GoneLogin();
+                user.codePage = Setting.Url(Request);
+                user.ToSession();
+
+                //检测二维码
+                //ActionWall.CheckState(auth.state);
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        //查询教师是否注册
+        [HttpPost]
+        public ActionResult TeachReged()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionWall.TeachReged(infor.unionid));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult TeachReg(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionWall.TeachReg(infor, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SendedMsg()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionWall.SendedMsg(infor.unionid));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SendMsg(string id)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionWall.SendMsg(infor.unionid, id));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SendMsgNotShow()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionWall.SendMsgNotShow(5));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SendMsgShowed()
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionWall.SendMsgShowed());
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+
 
     }
 }

@@ -29,6 +29,17 @@ cite { font-style: normal; }
 .form-item-row-line { clear: both; }
 .grid-check-img { width: 15px; height: 12px; border: none; }
 
+.my-nav{float:left;}
+.my-nav li{float:left;width:87px;height:88px; text-align:center;}
+.my-nav li a{display:block;width:87px;height:88px;-moz-transition: none; transition: background-color 0.3s linear; -moz-transition: background-color 0.3s linear; -webkit-transition: background-color 0.3s linear; -o-transition: background-color 0.3s linear; }
+.my-nav li a.selected{background:url(/Images/navbg.png) no-repeat;}
+.my-nav li a:hover{display:block;background:#000;color:#fff;background: none repeat scroll 0% 0% rgb(43, 127, 181);}
+.my-nav li img{margin-top:10px; width:45px; height:45px;}
+.my-nav li a{display:block;}
+.my-nav a h2{font-size:14px;color:#d6e8f1;}
+.my-nav a:hover h2{color:#fff;}
+
+
 /*top.html*/
 .my-header { height: 88px; background: url(/Images/topbg.gif) repeat-x; overflow: hidden; }
 .my-topleft { height: 88px; background: url(/Images/topleft.jpg) no-repeat; float: left; width: 300px; }

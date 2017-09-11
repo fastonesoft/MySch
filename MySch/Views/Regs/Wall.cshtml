@@ -1,0 +1,233 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>微信上墙</title>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //提示
+            var headloading = weui.loading('正在加载...');
+            $.post('/Regs/Jssdk', function (jsres) {
+                if (jsres.error) {
+                    weui.topTips(jsres.message, 3000);
+                } else {
+                    wx.config({
+                        debug: false,
+                        appId: jsres.appid,
+                        timestamp: jsres.timestamp,
+                        nonceStr: jsres.noncestr,
+                        signature: jsres.signature,
+                        jsApiList: [
+                          'hideAllNonBaseMenuItem',
+                        ]
+                    });
+
+                    //查看是否注册
+                    $.post('/Regs/TeachReged', function (res) {
+                        if (res.error) {
+                            weui.topTips(res.message, 3000);
+                        } else {
+                            if (res) {
+                                //设置教师信息
+                                $('#regs_wall-name').text(res.Name);
+                                $('#regs_wall-mobil').text(res.Mobil);
+                                $('#regs_wall-mobils').text(res.Mobils);
+                                //隐藏、显示
+                                $('#regs_wall_form').hide().siblings().show();
+                            } else {
+                                $('#regs_wall_form').show().siblings().hide();
+                            }
+                        }
+                    });
+
+                    //查看是否已有发送的信息
+                    $.post('/Regs/SendedMsg', function (res) {
+                        if (res.error) {
+                            weui.topTips(res.message, 3000);
+                        } else {
+                            $.each(res, function () {
+                                var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-success" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc" style="text-indent: 20px;">信息</p></div></a>');
+                                $warn_item.find('h4').text(this.AccName + '：');
+                                $warn_item.find('p').text(this.SendMsg);
+                                $warn_item.appendTo($('#regs_wall-my_message'));
+                            })
+                        }
+                    });
+
+                    //关闭
+                    headloading.hide();
+                    //显示
+                    $('.regs_wall').show();
+
+
+                    wx.ready(function () {
+                        //隐藏所有非基本菜单项
+                        wx.hideAllNonBaseMenuItem({
+                            success: function () {
+                                //weui.alert('已隐藏所有非基本菜单项');
+                            }
+                        });
+
+
+                        //教师注册
+                        var reg = {
+                            NAME: /^[\u4e00-\u9fa5]{2,4}[A-Z]?$/,
+                        };
+                        weui.form.checkIfBlur('#regs_wall_form', {
+                            regexp: reg
+                        });
+                        $('#regs_wall-teach_reg').click(function () {
+                            weui.form.validate('#regs_wall_form', function (error) {
+                                if (!error) {
+                                    var loading = weui.loading('正在注册...');
+                                    //提交注册
+                                    var name = $('#regs_wall-teach_name').val();
+                                    $.post('/Regs/TeachReg', { id: name }, function (res) {
+                                        if (res.error) {
+                                            weui.topTips(res.message, 3000);
+                                        } else {
+                                            //设置教师信息
+                                            $('#regs_wall-name').text(res.Name);
+                                            $('#regs_wall-mobil').text(res.Mobil);
+                                            $('#regs_wall-mobils').text(res.Mobils);
+                                            //隐藏、显示
+                                            $('#regs_wall_form').hide().siblings().show();
+                                        }
+                                        //关闭
+                                        loading.hide();
+                                    });
+                                }
+                            }, {
+                                regexp: reg
+                            });
+                        });
+
+
+                        //信息发送
+                        var reg1 = {
+                            MSG: /^[\u4e00-\u9fa5]{10,100}$/,
+                        };
+                        weui.form.checkIfBlur('#regs_wall_message', {
+                            regexp: reg
+                        });
+                        $('#regs_wall-message_send').click(function () {
+                            weui.form.validate('#regs_wall_message', function (error) {
+                                if (!error) {
+                                    var loading = weui.loading('正在发送...');
+                                    //提交发送
+                                    var message = $('#regs_wall-message').val();
+                                    $.post('/Regs/SendMsg', { id: message }, function (res) {
+                                        if (res.error) {
+                                            weui.topTips(res.message, 3000);
+                                        } else {
+                                            var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-success" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc" style="text-indent: 20px;">信息</p></div></a>');
+                                            $warn_item.find('h4').text(res.AccName + '：');
+                                            $warn_item.find('p').text(res.SendMsg);
+                                            $warn_item.appendTo($('#regs_wall-my_message'));
+                                            //清空
+                                            $('#regs_wall-message').val('');
+                                        }
+                                        //关闭
+                                        loading.hide();
+                                    });
+                                }
+                            }, {
+                                regexp: reg1
+                            });
+                        });
+
+
+                    });
+
+                    //错误检测
+                    wx.error(function (errores) {
+                        weui.alert(JSON.stringify(errores));
+                    });
+                }
+            })
+        })
+    </script>
+</head>
+<body ontouchstart>
+
+    <div class="regs_wall" style="display:none;">
+
+        <form id="regs_wall_form">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">教师姓名</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" name="TeachName" id="regs_wall-teach_name" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入教师姓名" emptytips="教师姓名不能为空" notmatchtips="教师姓名不正确">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-warn"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-btn-area">
+                <a id="regs_wall-teach_reg" href="javascript:" class="weui-btn weui-btn_primary">注册：教师信息</a>
+            </div>
+        </form>
+
+        <div id="regs_wall_form_message" style="display:none;">
+
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__bd">
+                    <div class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title" id="regs_wall-name">教师姓名</h4>
+                        <p class="weui-media-box__desc">　　手机号码：<span class="regs_wall-mobil" id="regs_wall-mobil" style="color:red;">6</span>，集团短号：<span id="regs_wall-mobils" style="color:blue;">1</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="regs_wall_message">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">活动信息</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="SendMsg" id="regs_wall-message" required="required" pattern="REG_MSG" maxlength="100" placeholder="输入活动信息" emptytips="活动信息不能为空" notmatchtips="活动信息不正确">
+                        </div>
+                        <div class="weui-cell__ft">
+                            <i class="weui-icon-warn"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weui-btn-area">
+                    <a id="regs_wall-message_send" href="javascript:" class="weui-btn weui-btn_primary">上墙：信息发送</a>
+                </div>
+            </form>
+
+
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__bd">
+                    <div class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">我的信息</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__bd" id="regs_wall-my_message">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

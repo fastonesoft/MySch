@@ -10,7 +10,7 @@ using System.Web;
 
 namespace MySch.Mvvm.Login
 {
-    public class WebOAuth
+    public class OAuth
     {
         public string state { get; set; }
         public string code { get; set; }

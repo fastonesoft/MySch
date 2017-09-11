@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+}
+
+
+<table id="wxaction-grid"></table>
+<div id="wxaction-grid-tool">
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="wxaction.add();">添加</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="wxaction.edit();">修改</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-remove" plain="true" onclick="wxaction.del();">删除</a>
+                </td>
+                <td style="width:5px;"></td>
+                <td>
+                    <span class="textbox">
+                        <input class="textbox-text" id="wxaction-text" style="width:165px;" />
+                    </span>
+                </td>
+                <td style="width:8px;"></td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="wxaction.search();">查询</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="wxaction.reload();">刷新</a>
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript">
+    //点击动作
+    wxaction = {
+        reload: function () {
+            DataGridParams('#wxaction-grid', '/WxAction/DataGrid', {})
+        },
+        add: function () {
+            DataGridNone('/WxAction/Add')
+        },
+        edit: function () {
+            DataGridRowID('#wxaction-grid', '/WxAction/Edit')
+        },
+        del: function () {
+            DataGridRowID('#wxaction-grid', '/WxAction/Del')
+        },
+        search: function () {
+            var text = $('#wxaction-text').val();
+            var param = {
+                text: text,
+            }
+            DataGridSearchParam('#wxaction-text', '#wxaction-grid', '/WxAction/DataGrid', param);
+        },
+    }
+    //数据表格
+    $('#wxaction-grid').datagrid({
+        fit: true,
+        striped: true,
+        rownumbers: true,
+        fitColumns: false,
+        remoteSort: false,
+        singleSelect: true,
+        checkOnSelect: true,
+        url: '/WxAction/DataGrid',
+        loadFilter: function (d) {
+            if (d.error) {
+                $.messager.alert('错误提示', d.message, 'error');
+                return { total: 0, rows: [] };
+            } else {
+                return d;
+            }
+        },
+
+        columns: [[
+            { title: '活动名称', field: 'Name', align: 'center', sortable: true, width: 200 },
+            {
+                title: '当前活动', field: 'IsCurrent', halign: 'center', width: 100,
+                formatter: function (value, row, index) { },
+                styler: function (value, row, index) {
+                    if (value) {
+                        return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                    }
+                }
+            },
+        ]],
+
+        toolbar: '#wxaction-grid-tool',
+        pagination: true,
+        pageSize: 100,
+        pageList: [100, 200, 500],
+        pageNumber: 1,
+    });
+</script>

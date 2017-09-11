@@ -1,0 +1,37 @@
+﻿@model MySch.Mvvm.Wall.VmWxAction
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent, new { @disabled = "disabled" })</div>
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+}
+
+<script type="text/javascript">
+    $(function () {
+        DialogDel('活动删除', 410, 320, '/WxAction/DelToken', '#wxaction-grid');
+    })
+</script>

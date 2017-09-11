@@ -1,0 +1,41 @@
+﻿@model MySch.Mvvm.Wall.VmWxPrize
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.IDS)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDS, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDS)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Num)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Num, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Num)
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+}
+
+<script type="text/javascript">
+    $(function () {
+        DialogReload('奖项修改', 410, 320, '/WxPrize/EditToken', '#WxPrize-grid');
+    })
+</script>

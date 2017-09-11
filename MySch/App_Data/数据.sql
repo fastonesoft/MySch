@@ -953,41 +953,143 @@ FROM         dbo.TAcc LEFT OUTER JOIN
                       dbo.ARoleGroup ON dbo.TAcc.RoleGroupIDS = dbo.ARoleGroup.IDS
 go
 
---上墙 - 用户表
-create table WxAccList
+
+
+--过滤表的作用
+--拦截未登记的用户
+--实际上就是教师列表
+--以“姓名”的方式，查找到相应的教师
+--添加到用户表中
+--用户可以“修改”过滤表中复制过来的数据，不反馈给过滤表
+
+--上墙 - 用户过滤表
+create table WxAccFilter
 (
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,	--手机号码
-	Name	nvarchar(10) not null,
+	ID	nvarchar(32) not null,	--编号
+	IDS	nvarchar(32) not null,	--手机号码
+	Name	nvarchar(10) not null,	--姓名
 	Mobils	nvarchar(10),
-	openid	nvarchar(32),
-	nickname	nvarchar(32),
-	unionid	nvarchar(32),
-	headimgurl	nvarchar(200),
 )
 go
-alter table WxAccList add constraint PK_WxAccList primary key clustered (ID)
-create unique nonclustered index UN_WxAccList_IDS on WxAccList (IDS)
-create unique nonclustered index UN_WxAccList_Name on WxAccList (Name)
+alter table WxAccFilter add constraint PK_WxAccFilter primary key clustered (ID)
+create unique nonclustered index UN_WxAccFilter_IDS on WxAccFilter (IDS)
+create unique nonclustered index UN_WxAccFilter_Name on WxAccFilter (Name)
 
---上墙 - 选中用户表
-create table WxAccSelect
+
+--上墙 - 用户表
+create table WxAcc
+(
+	ID	nvarchar(32) not null,	--编号
+	IDS	nvarchar(32) not null,	--unionid
+	Name	nvarchar(10) not null,	--姓名
+	Mobil	nvarchar(32) not null,	--手机号
+	Mobils	nvarchar(10),	--短号
+	openid	nvarchar(32) not null,	--
+	nickname	nvarchar(32) not null,	--昵称
+	headimgurl	nvarchar(200) not null,	--
+)
+go
+alter table WxAcc add constraint PK_WxAcc primary key clustered (ID)
+create unique nonclustered index UN_WxAcc_IDS on WxAcc (IDS)
+create unique nonclustered index UN_WxAcc_Name on WxAcc (Name)
+
+--上墙 - 活动列表
+create table WxAction
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,	--微号码
-	Name	nvarchar(10) not null,
+	IDS	nvarchar(32) not null,	--活动编号 - 20170001
+	Name	nvarchar(20) not null,	--活动名称
+	IsCurrent	bit not null,	--当前活动
 )
 go
-alter table WxAccList add constraint PK_WxAccList primary key clustered (ID)
-create unique nonclustered index UN_WxAccList_IDS on WxAccList (IDS)
-create unique nonclustered index UN_WxAccList_Name on WxAccList (Name)
+alter table WxAction add constraint PK_WxAction primary key clustered (ID)
+create unique nonclustered index UN_WxAction_IDS on WxAction (IDS)
+create unique nonclustered index UN_WxAction_Name on WxAction (Name)
+insert WxAction values (Lower(REPLACE(NEWID(), '-','')), '20170001', '庆祝2017年教师节活动', 1)
 
+--上墙 - 奖项
+create table WxPrize
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,	--奖别：01、02
+	Name	nvarchar(20) not null,
+	Num	int not null,
+)
+go
+alter table WxPrize add constraint PK_WxPrize primary key clustered (ID)
+create unique nonclustered index UN_WxPrize_IDS on WxPrize (IDS)
+create unique nonclustered index UN_WxPrize_Name on WxPrize (Name)
+insert WxPrize values (Lower(REPLACE(NEWID(), '-','')), '01', '特等奖', 1)
+insert WxPrize values (Lower(REPLACE(NEWID(), '-','')), '02', '一等奖', 1)
+insert WxPrize values (Lower(REPLACE(NEWID(), '-','')), '03', '二等奖', 2)
+insert WxPrize values (Lower(REPLACE(NEWID(), '-','')), '04', '三等奖', 3)
+insert WxPrize values (Lower(REPLACE(NEWID(), '-','')), '05', '鼓励奖', 6)
 
 --上墙 - 用户留言
 create table WxAccSend
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,	--微号码
-	SendMsg	nvarchar(200) not null,	--发送的信息
+	IDS	nvarchar(32) not null,	--guid
+	WxAccIDS	nvarchar(32) not null,	--用户帐号
+	WxActionIDS	nvarchar(32) not null,	--活动编号
+	CreateTime	datetime not null,	--创建时间
+	SendMsg	nvarchar(max) not null,	--发送的信息
+	MsgType	nvarchar(20) not null,	--消息类型
+	Showed	bit not null,	--是否已显示
 )
+go
+alter table WxAccSend add constraint PK_WxAccSend primary key clustered (ID)
+create unique nonclustered index UN_WxAccSend_IDS on WxAccSend (IDS)
+alter table WxAccSend add constraint FK_WxAccSend_WxAccIDS foreign key (WxAccIDS) references WxAcc (IDS)
+alter table WxAccSend add constraint FK_WxAccSend_WxActionIDS foreign key (WxActionIDS) references WxAction (IDS)
+
+go
+create view QrWxAccSend
+as
+select 
+  a.*
+  ,AccName = b.Name
+  ,AccImage = b.headimgurl
+  ,ActionName = c.Name
+from WxAccSend a left join WxAcc b
+on a.WxAccIDS = b.IDS
+left join WxAction c
+on a.WxActionIDS = c.IDS
+where c.IsCurrent = 1
+go
+
+--上墙 - 中奖用户表
+create table WxAccPrize
+(
+	ID	nvarchar(32) not null,	--GUID
+	IDS	nvarchar(32) not null,	--用户帐号 - 活动编号 => MD5
+	WxAccIDS	nvarchar(32) not null,	--用户帐号
+	WxActionIDS	nvarchar(32) not null,	--活动编号
+	WxPrizeIDS	nvarchar(32) not null,	--几等奖
+)
+go
+alter table WxAccPrize add constraint PK_WxAccPrize primary key clustered (ID)
+create unique nonclustered index UN_WxAccPrize on WxAccPrize (IDS)
+alter table WxAccPrize add constraint FK_WxAccPrize_WxAccIDS foreign key (WxAccIDS) references WxAcc (IDS)
+alter table WxAccPrize add constraint FK_WxAccPrize_WxActionIDS foreign key (WxActionIDS) references WxAction (IDS)
+alter table WxAccPrize add constraint FK_WxAccPrize_WxPrizeIDS foreign key (WxPrizeIDS) references WxPrize (IDS)
+
+
+go
+--
+create view QrWxAccPrize
+as
+select
+  a.*
+  ,AccName = b.Name
+  ,AccImage = b.headimgurl
+  ,ActionName = c.Name
+  ,PrizeName = d.Name
+from WxAccPrize a left join WxAcc b
+on a.WxAccIDS = b.IDS
+left join WxAction c
+on a.WxActionIDS = c.IDS
+left join WxPrize d
+on a.WxPrizeIDS = d.IDS
+where c.IsCurrent = 1
 go
