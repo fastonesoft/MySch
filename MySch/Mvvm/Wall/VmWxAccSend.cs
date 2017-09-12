@@ -33,9 +33,9 @@ namespace MySch.Mvvm.Wall
     {
         public string ID { get; set; }
         public string IDS { get; set; }
+        public string WxAccIDS { get; set; }
         public string ActionName { get; set; }
         public string AccName { get; set; }
-        public string WxAccIDS { get; set; }
         public string AccImage { get; set; }
         public bool Showed { get; set; }
         public DateTime CreateTime { get; set; }
