@@ -77,6 +77,11 @@ namespace MySch.Bll.WX.Model
             return string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect", appid, redirect_url, state);
         }
 
+        public static string MenuViewNoTouch(string appid, string redirect_url, string state)
+        {
+            return string.Format("https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_base&state={2}#wechat_redirect", appid, redirect_url, state);
+        }
+
         public static WX_Jsticket Jsticket(string token)
         {
             var url = string.Format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi", token);
