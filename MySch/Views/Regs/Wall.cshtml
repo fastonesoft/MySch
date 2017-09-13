@@ -117,7 +117,7 @@
 
                         //信息发送
                         var reg1 = {
-                            MSG: /^[\u4e00-\u9fa5]{10,100}$/,
+                            MSG: /^[\u4E00-\u9FA5\uFE30-\uFFA0\u2010-\u301E]{10,100}$/,
                         };
                         weui.form.checkIfBlur('#regs_wall_message', {
                             regexp: reg
