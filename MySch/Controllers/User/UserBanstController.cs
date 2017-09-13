@@ -246,6 +246,49 @@ namespace MySch.Controllers.User
             }
         }
 
+        //学生照片
+        [HttpPost]
+        public ActionResult StudPhoto(string id, string memo)
+        {
+            try
+            {
+                if (memo == "Part")
+                {
+                    return Json(new ErrorMessage { error = true, message = "要具体到某个年级的学生" });
+                }
+                else
+                {
+                    if (memo == "Grade")
+                    {
+                        var bans = VBan.GetEntitys(a => a.GradeIDS == id).OrderBy(a => a.Num);
+                        var studs = VGradeStud.GetEntitys(a => a.GradeIDS == id && a.InSch)
+                            .OrderBy(a => a.BanNum)
+                            .ThenByDescending(a => a.StudSex)
+                            .ThenByDescending(a => a.Score)
+                            .ThenBy(a => a.ID);
+                        //准备打印数据
+                        ViewBag.Bans = bans;
+                        return View(studs);
+                    }
+                    else
+                    {
+                        var bans = VBan.GetEntitys(a => a.IDS == id);
+                        var studs = VGradeStud.GetEntitys(a => a.BanIDS == id && a.InSch)
+                        .OrderBy(a => a.StudSex)
+                        .ThenByDescending(a => a.Score)
+                        .ThenBy(a => a.ID);
+                        //准备打印数据
+                        ViewBag.Bans = bans;
+                        return View(studs);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
 
         //分班
         [HttpPost]

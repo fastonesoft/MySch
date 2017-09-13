@@ -67,9 +67,17 @@
                 studclass: function () {
                     DataGridRows('#studbanst-grid', '/UserBanst/StudClass');
                 },
+                studphoto: function () {
+                    var node = $('#studbanst-tree').tree('getSelected');
+                    if (!node) {
+                        $.messager.alert('错误提示', '没有选择相应的年级！', 'error');
+                        return false;
+                    }
+                    var param = { id: node.id, memo: node.memo };
+                    DataGridRequest('/UserBanst/StudPhoto', param);
+                },
                 fengban: function () {
                     var node = $('#studbanst-tree').tree('getSelected');
-                    console.log(node);
                     if (!node) {
                         $.messager.alert('错误提示', '没有选择相应的年级！', 'error');
                         return false;
@@ -243,6 +251,8 @@
         <div iconcls="icon-clear" onclick="studbanst.masterclass();">班主任留存...</div>
         <div class="menu-sep"></div>
         <div onclick="studbanst.studclass();">班级名条...</div>
+        <div class="menu-sep"></div>
+        <div onclick="studbanst.studphoto();">学生照片...</div>
     </div>
 
 </body>

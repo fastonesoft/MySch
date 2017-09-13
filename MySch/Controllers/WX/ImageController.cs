@@ -18,16 +18,23 @@ namespace MySch.Controllers.WX
             XingCode.CodeOutputStream(360, 150, id, 0, BarcodeFormat.QR_CODE);
         }
 
+        //右显示
         public void Coder(string id, string title)
         {
             XingCode.CodeOutputStreamRight(360, 300, id, title, 0, BarcodeFormat.QR_CODE);
         }
 
+        //居中显示
         public void Codem(string id, string title)
         {
             XingCode.CodeOutputStreamMid(360, 260, id, title, 0, BarcodeFormat.QR_CODE);
         }
 
+        //条形码
+        public void Code1(string id)
+        {
+            XingCode.CodeOutputStream(170, 30, id,  0, BarcodeFormat.CODE_128);
+        }
 
         //我的关注
         public void MyCode()

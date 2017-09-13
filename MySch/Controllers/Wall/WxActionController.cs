@@ -9,9 +9,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.WX
+namespace MySch.Controllers.Wall
 {
-    public class WxAccController : RoleController
+    public class WxActionController : RoleController
     {
         private WX_OAuserInfor infor = WX_OAuserInfor.GetFromSession();
 
@@ -20,13 +20,47 @@ namespace MySch.Controllers.WX
             return View();
         }
 
+        public ActionResult Add()
+        {
+            try
+            {
+                var login = BllLogin.GetLogin(Session);
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddToken(VmWxAction entity)
+        {
+            try
+            {
+                var login = BllLogin.GetLogin(Session);
+
+                if (entity.IsCurrent) entity.ClearCurrent();
+                entity.ID = Guid.NewGuid().ToString("N");
+                entity.ToAdd(ModelState);
+                return Json(entity);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+
         public ActionResult Edit(string id)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = VmWxAcc.GetEntity<VmWxAcc>(id);
+                var res = VmWxAction.GetEntity<VmWxAction>(id);
                 return View(res);
             }
             catch (Exception e)
@@ -37,12 +71,13 @@ namespace MySch.Controllers.WX
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(VmWxAcc entity)
+        public ActionResult EditToken(VmWxAction entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
+                if (entity.IsCurrent) entity.ClearCurrent();
                 entity.ToUpdate(ModelState);
                 return Json(entity);
             }
@@ -58,7 +93,7 @@ namespace MySch.Controllers.WX
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = VmWxAcc.GetEntity<VmWxAcc>(id);
+                var res = VmWxAction.GetEntity<VmWxAction>(id);
                 return View(res);
             }
             catch (Exception e)
@@ -69,7 +104,7 @@ namespace MySch.Controllers.WX
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(VmWxAcc entity)
+        public ActionResult DelToken(VmWxAction entity)
         {
             try
             {
@@ -90,10 +125,9 @@ namespace MySch.Controllers.WX
         {
             try
             {
-                //可以根据姓名、电话、昵称，查询相关信息
                 var res = string.IsNullOrEmpty(text) ?
-                    VqWxAcc.GetDataGridPagesAsc<VqWxAcc, string>(a => true, a => a.Name, page, rows) :
-                    VqWxAcc.GetDataGridPagesAsc<VqWxAcc, string>(a => a.Name.Contains(text) || a.Mobil.Contains(text) || a.Mobils.Contains(text) || a.nickname.Contains(text), a => a.Name, page, rows);
+                    VqWxAction.GetDataGridPagesAsc<VqWxAction, string>(a => true, a => a.Name, page, rows) :
+                    VqWxAction.GetDataGridPagesAsc<VqWxAction, string>(a => a.Name.Contains(text), a => a.Name, page, rows);
                 return Json(res);
             }
             catch (Exception e)

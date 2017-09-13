@@ -9,7 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.WX
+namespace MySch.Controllers.Wall
 {
     public class WxAccFiltController : RoleController
     {

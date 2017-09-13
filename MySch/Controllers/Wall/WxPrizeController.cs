@@ -9,9 +9,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.WX
+namespace MySch.Controllers.Wall
 {
-    public class WxActionController : RoleController
+    public class WxPrizeController : RoleController
     {
         private WX_OAuserInfor infor = WX_OAuserInfor.GetFromSession();
 
@@ -36,13 +36,12 @@ namespace MySch.Controllers.WX
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(VmWxAction entity)
+        public ActionResult AddToken(VmWxPrize entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
-                if (entity.IsCurrent) entity.ClearCurrent();
                 entity.ID = Guid.NewGuid().ToString("N");
                 entity.ToAdd(ModelState);
                 return Json(entity);
@@ -60,7 +59,7 @@ namespace MySch.Controllers.WX
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = VmWxAction.GetEntity<VmWxAction>(id);
+                var res = VmWxPrize.GetEntity<VmWxPrize>(id);
                 return View(res);
             }
             catch (Exception e)
@@ -71,13 +70,12 @@ namespace MySch.Controllers.WX
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(VmWxAction entity)
+        public ActionResult EditToken(VmWxPrize entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
-                if (entity.IsCurrent) entity.ClearCurrent();
                 entity.ToUpdate(ModelState);
                 return Json(entity);
             }
@@ -93,7 +91,7 @@ namespace MySch.Controllers.WX
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = VmWxAction.GetEntity<VmWxAction>(id);
+                var res = VmWxPrize.GetEntity<VmWxPrize>(id);
                 return View(res);
             }
             catch (Exception e)
@@ -104,7 +102,7 @@ namespace MySch.Controllers.WX
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(VmWxAction entity)
+        public ActionResult DelToken(VmWxPrize entity)
         {
             try
             {
@@ -126,8 +124,8 @@ namespace MySch.Controllers.WX
             try
             {
                 var res = string.IsNullOrEmpty(text) ?
-                    VqWxAction.GetDataGridPagesAsc<VqWxAction, string>(a => true, a => a.Name, page, rows) :
-                    VqWxAction.GetDataGridPagesAsc<VqWxAction, string>(a => a.Name.Contains(text), a => a.Name, page, rows);
+                    VqWxPrize.GetDataGridPagesAsc<VqWxPrize, string>(a => true, a => a.IDS, page, rows) :
+                    VqWxPrize.GetDataGridPagesAsc<VqWxPrize, string>(a => a.Name.Contains(text), a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

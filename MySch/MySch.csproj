@@ -132,15 +132,15 @@
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
-    <Compile Include="Controllers\WX\WxAccPrizeController.cs" />
-    <Compile Include="Controllers\WX\WxAccSendController.cs" />
-    <Compile Include="Controllers\WX\WxPrizeController.cs" />
-    <Compile Include="Controllers\WX\WxActionController.cs" />
-    <Compile Include="Controllers\WX\WxAccFiltController.cs" />
-    <Compile Include="Controllers\WX\WxAccController.cs" />
+    <Compile Include="Controllers\Wall\WxAccPrizeController.cs" />
+    <Compile Include="Controllers\Wall\WxAccSendController.cs" />
+    <Compile Include="Controllers\Wall\WxPrizeController.cs" />
+    <Compile Include="Controllers\Wall\WxActionController.cs" />
+    <Compile Include="Controllers\Wall\WxAccFiltController.cs" />
+    <Compile Include="Controllers\Wall\WxAccController.cs" />
     <Compile Include="Controllers\ARoleActionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\WX\WallController.cs" />
+    <Compile Include="Controllers\Wall\WallController.cs" />
     <Compile Include="Models\AccContext.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
@@ -795,6 +795,7 @@
     <Content Include="Views\WxAccSend\Index.cshtml" />
     <Content Include="Views\WxAccPrize\Index.cshtml" />
     <Content Include="Views\Regs\Wall.cshtml" />
+    <Content Include="Views\UserBanst\StudPhoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />

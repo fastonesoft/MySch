@@ -10,9 +10,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MySch.Controllers.WX
+namespace MySch.Controllers.Wall
 {
-    public class WxAccPrizeController : RoleController
+    public class WxAccSendController : RoleController
     {
         private WX_OAuserInfor infor = WX_OAuserInfor.GetFromSession();
 
@@ -27,8 +27,8 @@ namespace MySch.Controllers.WX
             try
             {
                 var res = string.IsNullOrEmpty(text) ?
-                    VqWxAccPrize.GetDataGridPagesAsc<VqWxAccPrize, string>(a => true, a => a.WxPrizeIDS, page, rows) :
-                    VqWxAccPrize.GetDataGridPagesAsc<VqWxAccPrize, string>(a => a.AccName.Contains(text), a => a.WxPrizeIDS, page, rows);
+                    VqWxAccSend.GetDataGridPagesDesc<VqWxAccSend, DateTime>(a => true, a => a.CreateTime, page, rows) :
+                    VqWxAccSend.GetDataGridPagesDesc<VqWxAccSend, DateTime>(a => a.AccName.Contains(text), a => a.CreateTime, page, rows);
                 return Json(res);
             }
             catch (Exception e)

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MySch.Bll.View.VGradeStud>
+
+@{
+    Layout = null;
+    var bancount = 0;
+    var bans = ViewBag.Bans;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>学生照片</title>
+    <style type="text/css">
+        .stud_photo-ban { font-size: 24px; font-family: '黑体'; }
+        .stud_photo-item { width: 213px; height: 282px; margin: 0px 10px 10px 0px; padding: 10px; float: left; background: #eee; border: 1px solid #808080; border-radius: 10px; }
+        .stud_photo-item-img { width: 212px; height: 212px; border: none; border-radius: 5px; }
+        .stud_photo-item-name { text-align: center; font-size: 16px; font-family: '黑体'; }
+        .stud_photo-item-code { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    @foreach (var ban in bans)
+    {
+        bancount++;
+
+        <div class="stud_photo-ban">@ban.Name</div>
+
+        var count = 0;
+        var studs = Model.Where(a => a.BanIDS == ban.IDS);
+        foreach (var stud in studs)
+        {
+            count++;
+
+            <div class="stud_photo-item">
+                <img class="stud_photo-item-img" src="~/Images/wall/0.jpg" alt="" />
+                <img class="stud_photo-item-code" src="http://a.jysycz.cn/image/code1/@stud.ID" alt="" />
+                <div class="stud_photo-item-name">
+                    <span>@count - @stud.StudName - @stud.StudSex</span>
+                </div>
+            </div>
+        }
+
+        if (bancount != bans.Count())
+        {
+            <div style="clear:both; page-break-after:always;"></div>
+        }
+    }
+
+    <script type="text/javascript">
+        $(function () {
+            //添加对话框
+            DialogShowEx('学生照片', 810, 570, function () {
+                $('#print-nowclass').printDom();
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1093,3 +1093,4 @@ left join WxPrize d
 on a.WxPrizeIDS = d.IDS
 where c.IsCurrent = 1
 go
+
