@@ -132,6 +132,7 @@
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
+    <Compile Include="Bll\Entity\BllUploadImage.cs" />
     <Compile Include="Controllers\Wall\WxAccPrizeController.cs" />
     <Compile Include="Controllers\Wall\WxAccSendController.cs" />
     <Compile Include="Controllers\Wall\WxPrizeController.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Controllers\ARoleActionsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\Wall\WallController.cs" />
+    <Compile Include="Core\ImageDo.cs" />
     <Compile Include="Models\AccContext.cs" />
     <Compile Include="Models\ADatum.cs" />
     <Compile Include="Models\APage.cs" />
@@ -464,6 +466,7 @@
     <Content Include="Content\themes\icons\sum.png" />
     <Content Include="Content\themes\icons\tip.png" />
     <Content Include="Content\themes\icons\undo.png" />
+    <Content Include="Html\touch.html" />
     <Content Include="Images\logininfo-txt.png" />
     <Content Include="Images\pp0801.png" />
     <Content Include="favicon.ico" />

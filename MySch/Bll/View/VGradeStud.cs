@@ -40,6 +40,7 @@ namespace MySch.Bll.View
         public string MasterIDS { get; set; }
         public string Mobil { get; set; }
         public bool Choose { get; set; }
+        public string Memo { get; set; }
 
         public static IEnumerable<VGradeStud> GetEntitys(Expression<Func<VGradeStud, bool>> where)
         {

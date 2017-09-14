@@ -247,7 +247,6 @@ namespace MySch.Controllers.User
         }
 
         //学生照片
-        [HttpPost]
         public ActionResult StudPhoto(string id, string memo)
         {
             try
@@ -266,6 +265,15 @@ namespace MySch.Controllers.User
                             .ThenByDescending(a => a.StudSex)
                             .ThenByDescending(a => a.Score)
                             .ThenBy(a => a.ID);
+                        //准备学生照片
+                        foreach (var stud in studs)
+                        {
+                            var upload = BllUploadImage.GetEntityOrDefault<BllUploadImage>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
+                            if (upload != null)
+                            {
+                                stud.Memo = "/image/cut/" + upload.ID;
+                            }
+                        }
                         //准备打印数据
                         ViewBag.BanTotal = bans.Count();
                         ViewBag.Bans = bans;
@@ -275,9 +283,18 @@ namespace MySch.Controllers.User
                     {
                         var bans = VBan.GetEntitys(a => a.IDS == id);
                         var studs = VGradeStud.GetEntitys(a => a.BanIDS == id && a.InSch)
-                        .OrderBy(a => a.StudSex)
+                        .OrderByDescending(a => a.StudSex)
                         .ThenByDescending(a => a.Score)
                         .ThenBy(a => a.ID);
+                        //准备学生照片
+                        foreach(var stud in studs)
+                        {
+                            var upload = BllUploadImage.GetEntityOrDefault<BllUploadImage>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
+                            if (upload != null)
+                            {
+                                stud.Memo = "/image/cut/" + upload.ID;
+                            }
+                        }
                         //准备打印数据
                         ViewBag.BanTotal = bans.Count();
                         ViewBag.Bans = bans;

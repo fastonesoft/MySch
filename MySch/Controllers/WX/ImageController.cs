@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ZXing;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace MySch.Controllers.WX
 {
@@ -33,7 +35,7 @@ namespace MySch.Controllers.WX
         //条形码
         public void Code1(string id)
         {
-            XingCode.CodeOutputStream(150, 150, id,  0, BarcodeFormat.QR_CODE);
+            XingCode.CodeOutputStream(150, 150, id, 0, BarcodeFormat.QR_CODE);
         }
 
         //我的关注
@@ -60,6 +62,30 @@ namespace MySch.Controllers.WX
         {
             var fileName = "~/Upload/XueImages/" + id + ".jpg";
             XingCode.CodeOutputStream(fileName);
+        }
+
+        //图片裁剪
+        public void Cut(string id)
+        {
+            var fileName = "~/Upload/XueImages/" + id + ".jpg";
+            var bitmap = Bitmap.FromFile(Server.MapPath(fileName));
+
+            using (var output = ImageDo.CutForCustom(bitmap, 90, 120, true))
+            {
+                Response.ContentType = "image/jpeg";
+                output.Save(Response.OutputStream, ImageFormat.Jpeg);
+            }
+        }
+        public void Cut2(string id)
+        {
+            var fileName = "~/Upload/XueImages/" + id + ".jpg";
+            var bitmap = Bitmap.FromFile(Server.MapPath(fileName));
+
+            using (var output = ImageDo.CutForCustom(bitmap, 90, 120, true))
+            {
+                Response.ContentType = "image/jpeg";
+                output.Save(Response.OutputStream, ImageFormat.Jpeg);
+            }
         }
     }
 }

@@ -73,8 +73,7 @@
                         $.messager.alert('错误提示', '没有选择相应的年级！', 'error');
                         return false;
                     }
-                    var param = { id: node.id, memo: node.memo };
-                    DataGridRequest('/UserBanst/StudPhoto', param);
+                    window.open('http://a.jysycz.cn/UserBanst/StudPhoto/?id=' + node.id + '&memo=' + node.memo);
                 },
                 fengban: function () {
                     var node = $('#studbanst-tree').tree('getSelected');
