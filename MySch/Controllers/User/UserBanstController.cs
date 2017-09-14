@@ -267,6 +267,7 @@ namespace MySch.Controllers.User
                             .ThenByDescending(a => a.Score)
                             .ThenBy(a => a.ID);
                         //准备打印数据
+                        ViewBag.BanTotal = bans.Count();
                         ViewBag.Bans = bans;
                         return View(studs);
                     }
@@ -278,6 +279,7 @@ namespace MySch.Controllers.User
                         .ThenByDescending(a => a.Score)
                         .ThenBy(a => a.ID);
                         //准备打印数据
+                        ViewBag.BanTotal = bans.Count();
                         ViewBag.Bans = bans;
                         return View(studs);
                     }

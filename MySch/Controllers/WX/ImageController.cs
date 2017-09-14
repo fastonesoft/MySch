@@ -33,7 +33,7 @@ namespace MySch.Controllers.WX
         //条形码
         public void Code1(string id)
         {
-            XingCode.CodeOutputStream(170, 30, id,  0, BarcodeFormat.CODE_128);
+            XingCode.CodeOutputStream(150, 150, id,  0, BarcodeFormat.QR_CODE);
         }
 
         //我的关注
