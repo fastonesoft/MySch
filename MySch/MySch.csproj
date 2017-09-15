@@ -658,7 +658,6 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Regs\Gone.cshtml" />
     <Content Include="Views\Regs\Mast.cshtml" />
     <Content Include="Views\StudReg\Index.cshtml" />
     <Content Include="Views\UserOut\Edit.cshtml" />
@@ -799,6 +798,7 @@
     <Content Include="Views\WxAccPrize\Index.cshtml" />
     <Content Include="Views\Regs\Wall.cshtml" />
     <Content Include="Views\UserBanst\StudPhoto.cshtml" />
+    <Content Include="Views\Regs\Photo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />

@@ -1,0 +1,164 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>班级照片</title>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //提示
+            var headloading = weui.loading('正在加载...');
+            $.post('/Regs/JssdkEx', function (jsres) {
+                if (jsres.error) {
+                    weui.topTips(jsres.message, 3000);
+                } else {
+                    wx.config({
+                        debug: false,
+                        appId: jsres.appid,
+                        timestamp: jsres.timestamp,
+                        nonceStr: jsres.noncestr,
+                        signature: jsres.signature,
+                        jsApiList: [
+                          'hideAllNonBaseMenuItem',
+                          'chooseImage',
+                          'uploadImage',
+                          'scanQRCode',
+                        ]
+                    });
+
+
+                    //关闭
+                    headloading.hide();
+
+                    wx.ready(function () {
+                        //隐藏所有非基本菜单项
+                        wx.hideAllNonBaseMenuItem({
+                            success: function () {
+                                //weui.alert('已隐藏所有非基本菜单项');
+                            }
+                        });
+
+                        $('.regs_exam_upload .weui-btn').click(function () {
+                            //识别
+                            wx.scanQRCode({
+                                needResult: 1,
+                                desc: 'scanQRCode desc',
+                                success: function (res) {
+                                    var idc = res.resultStr;
+                                    var loading = weui.loading('正在识别...');
+                                    $.post('/Regs/GetImagesTypeByScan', { idc: idc }, function (resex) {
+                                        if (resex.error) {
+                                        } else {
+                                        }
+                                        //关闭
+                                        loading.hide();
+                                    });
+                                }
+                            });
+
+                        });
+
+
+                        var syncUpload = function (localIds, uploadtype) {
+                            var localId = localIds.pop();
+                            wx.uploadImage({
+                                localId: localId,
+                                isShowProgressTips: 1,
+                                success: function (res) {
+                                    //对serverId做处理的代码
+                                    var other = $('#regs_exam_id').val();
+                                    $.post('/Regs/UploadImageOther', { mediaID: res.serverId, uploadType: uploadtype, Other: other }, function (imgres) {
+                                        if (imgres.error) {
+                                            weui.topTips(imgres.message, 3000);
+                                        } else {
+                                            //更新
+                                            var $id = $('#regs_exam_image_' + uploadtype)
+                                            $('<img>').attr('src', '/Image/Uploaded/' + imgres.message).prependTo($id);
+                                        }
+                                    })
+                                    if (localIds.length > 0) {
+                                        syncUpload(localIds, uploadtype);
+                                    }
+                                }
+                            });
+                        }
+
+                        //选择图片，上传
+                        $('.regs_exam_upload .weui-btn').click(function () {
+                            if ($(this).hasClass('weui-btn_disabled')) return;
+                            //分类名称
+                            var name = $(this).attr('uploadtype');
+                            wx.chooseImage({
+                                success: function (res) {
+                                    syncUpload(res.localIds, name);
+                                }
+                            });
+                        });
+
+
+                        //拖动
+                        $(".haorooms_drag").on({
+                            mousedown: function (e) {
+                                var el = $(this);
+                                var os = el.offset(); dx = e.pageX - os.left, dy = e.pageY - os.top;
+                                $(document).on('mousemove.drag', function (e) { el.offset({ top: e.pageY - dy, left: e.pageX - dx }); });
+                            },
+                            mouseup: function (e) {
+                                $(document).off('mousemove.drag');
+                            }
+                        });
+
+                        //错误检测
+                        wx.error(function (errores) {
+                            weui.alert(JSON.stringify(errores));
+                        });
+                    })
+                }
+            })
+        });
+    </script>
+
+    <style type="text/css">
+        .stud_photo { width: 350px; height: 400px; margin: 0 auto; overflow: hidden; }
+        .stud_photo-items { width: 20000px; }
+        .stud_photo-item1 { width: 240px; height: 380px; margin: 5px 10px 0px 0px; float: left; background: #fff; border-radius: 20px; }
+        .stud_photo-item-img1 { width: 240px; height: 320px; border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        .stud_photo-item-name1 { width: 240px; height: 60px; line-height: 48px; text-align: center; font-family: '黑体'; font-size: 18x; }
+    </style>
+</head>
+<body ontouchstart style="background: #ddd;">
+    <div class="weui-btn-area">
+        <a id="regs_photo-scan_student" href="javascript:" class="weui-btn weui-btn_primary">识别：学生信息</a>
+    </div>
+    <div class="stud_photo">
+        <div class="stud_photo-items">
+            <div class="stud_photo-item1">
+                <img class="stud_photo-item-img1" src="~/images/wall/0.jpg" alt="" />
+                <div class="stud_photo-item-name1">
+                    <span>4）01石亮</span>
+                </div>
+            </div>
+            <div class="stud_photo-item1">
+                <img class="stud_photo-item-img1" src="~/images/wall/0.jpg" alt="" />
+                <div class="stud_photo-item-name1">
+                    <span>4）01石亮</span>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</body>
+</html>

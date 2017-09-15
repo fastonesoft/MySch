@@ -27,9 +27,8 @@ namespace MySch.Controllers.WX
                 var outurl = "http://a.jysycz.cn/regs/addout";
                 var houseurl = "http://a.jysycz.cn/regs/house";
                 var masterurl = "http://a.jysycz.cn/regs/mast";
-                var goneurl = "http://a.jysycz.cn/regs/gone";
+                var photourl = "http://a.jysycz.cn/regs/photo";
 
-                var baomingurl = "http://www.jsform.com/web/formview/599f6ceae7aea91ae6bbe5b3";
 
                 var reg = WX_Url.MenuView(appid, regurl, state);
                 var scan = WX_Url.MenuView(appid, scanurl, state);
@@ -39,9 +38,8 @@ namespace MySch.Controllers.WX
                 var addout = WX_Url.MenuView(appid, outurl, state);
                 var house = WX_Url.MenuView(appid, houseurl, state);
                 var master = WX_Url.MenuView(appid, masterurl, state);
-                var gone = WX_Url.MenuView(appid, goneurl, state);
+                var photo = WX_Url.MenuView(appid, photourl, state);
 
-                var baoming = WX_Url.MenuView(appid, baomingurl, state);
 
                 //检测页面、用户
                 var token = WX_AccessToken.GetAccessToken();
@@ -59,9 +57,9 @@ namespace MySch.Controllers.WX
                 teach.Add(new WX_Menu_View { name = "🎅外省添加", type = "view", url = addout });
                 teach.Add(new WX_Menu_View { name = "🏠房产核查", type = "view", url = house });
                 menus.Add(teach);
-                var score = new WX_Menu_Sub { name = "成绩查询" };
+                var score = new WX_Menu_Sub { name = "班级相关" };
                 score.Add(new WX_Menu_View { name = "👐班级主管", type = "view", url = master });
-                score.Add(new WX_Menu_View { name = "💯公共关系", type = "view", url = gone });
+                score.Add(new WX_Menu_View { name = "💯班级照片", type = "view", url = photo });
                 menus.Add(score);
 
                 var res = WX_Url.MenuCreate(token, Jsons.ToConvert(menus));

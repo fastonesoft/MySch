@@ -307,7 +307,7 @@ namespace MySch.Bll.WX.Model
             }
         }
 
-        //班主任，暂时放5
+        //班主任，暂时放2
         public static void CheckExamRoleMs(string unionid)
         {
             try
@@ -334,7 +334,7 @@ namespace MySch.Bll.WX.Model
         }
 
         //备课组长，权限3
-        public static void CheckExamRoleBk(string unionid)
+        public static void CheckExamRoleEx(string unionid)
         {
             try
             {
@@ -355,7 +355,7 @@ namespace MySch.Bll.WX.Model
         }
 
         //年级组长，权限4
-        public static void CheckExamRoleGo(string unionid)
+        public static void CheckExamRoleGrade(string unionid)
         {
             try
             {

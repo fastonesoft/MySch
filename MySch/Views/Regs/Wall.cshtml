@@ -68,9 +68,6 @@
 
                     //关闭
                     headloading.hide();
-                    //显示
-                    $('.regs_wall').show();
-
 
                     wx.ready(function () {
                         //隐藏所有非基本菜单项
@@ -162,14 +159,41 @@
 </head>
 <body ontouchstart>
 
-    <div class="regs_wall" style="display:none;">
+    <form id="regs_wall_form" style="display:none;">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">教师姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="TeachName" id="regs_wall-teach_name" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入教师姓名" emptytips="教师姓名不能为空" notmatchtips="教师姓名不正确">
+                </div>
+                <div class="weui-cell__ft">
+                    <i class="weui-icon-warn"></i>
+                </div>
+            </div>
+        </div>
 
-        <form id="regs_wall_form">
+        <div class="weui-btn-area">
+            <a id="regs_wall-teach_reg" href="javascript:" class="weui-btn weui-btn_primary">注册：教师信息</a>
+        </div>
+    </form>
+
+    <div id="regs_wall_form_message" style="display:none;">
+
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title" id="regs_wall-name">教师姓名</h4>
+                    <p class="weui-media-box__desc">　　手机号码：<span class="regs_wall-mobil" id="regs_wall-mobil" style="color:red;">6</span>，集团短号：<span id="regs_wall-mobils" style="color:blue;">1</span></p>
+                </div>
+            </div>
+        </div>
+
+        <form id="regs_wall_message">
             <div class="weui-cells weui-cells_form">
                 <div class="weui-cell">
-                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">教师姓名</label></div>
+                    <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">活动信息</label></div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" type="text" name="TeachName" id="regs_wall-teach_name" required="required" pattern="REG_NAME" maxlength="4" placeholder="输入教师姓名" emptytips="教师姓名不能为空" notmatchtips="教师姓名不正确">
+                        <input class="weui-input" type="text" name="SendMsg" id="regs_wall-message" required="required" pattern="REG_MSG" maxlength="100" placeholder="输入活动信息" emptytips="活动信息不能为空" notmatchtips="活动信息不正确">
                     </div>
                     <div class="weui-cell__ft">
                         <i class="weui-icon-warn"></i>
@@ -178,53 +202,22 @@
             </div>
 
             <div class="weui-btn-area">
-                <a id="regs_wall-teach_reg" href="javascript:" class="weui-btn weui-btn_primary">注册：教师信息</a>
+                <a id="regs_wall-message_send" href="javascript:" class="weui-btn weui-btn_primary">上墙：信息发送</a>
             </div>
         </form>
 
-        <div id="regs_wall_form_message" style="display:none;">
 
-            <div class="weui-panel weui-panel_access">
-                <div class="weui-panel__bd">
-                    <div class="weui-media-box weui-media-box_text">
-                        <h4 class="weui-media-box__title" id="regs_wall-name">教师姓名</h4>
-                        <p class="weui-media-box__desc">　　手机号码：<span class="regs_wall-mobil" id="regs_wall-mobil" style="color:red;">6</span>，集团短号：<span id="regs_wall-mobils" style="color:blue;">1</span></p>
-                    </div>
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">我的信息</h4>
                 </div>
             </div>
+        </div>
 
-            <form id="regs_wall_message">
-                <div class="weui-cells weui-cells_form">
-                    <div class="weui-cell">
-                        <div class="weui-cell__hd"><label class="weui-label" style="width:90px;">活动信息</label></div>
-                        <div class="weui-cell__bd">
-                            <input class="weui-input" type="text" name="SendMsg" id="regs_wall-message" required="required" pattern="REG_MSG" maxlength="100" placeholder="输入活动信息" emptytips="活动信息不能为空" notmatchtips="活动信息不正确">
-                        </div>
-                        <div class="weui-cell__ft">
-                            <i class="weui-icon-warn"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="weui-btn-area">
-                    <a id="regs_wall-message_send" href="javascript:" class="weui-btn weui-btn_primary">上墙：信息发送</a>
-                </div>
-            </form>
-
-
-            <div class="weui-panel weui-panel_access">
-                <div class="weui-panel__bd">
-                    <div class="weui-media-box weui-media-box_text">
-                        <h4 class="weui-media-box__title">我的信息</h4>
-                    </div>
-                </div>
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd" id="regs_wall-my_message">
             </div>
-
-            <div class="weui-panel weui-panel_access">
-                <div class="weui-panel__bd" id="regs_wall-my_message">
-                </div>
-            </div>
-
         </div>
 
     </div>

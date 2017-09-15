@@ -67,14 +67,7 @@ namespace MySch.Controllers.WX
         //图片裁剪
         public void Cut(string id)
         {
-            var fileName = "~/Upload/XueImages/" + id + ".jpg";
-            var bitmap = Bitmap.FromFile(Server.MapPath(fileName));
-
-            using (var output = ImageDo.CutForCustom(bitmap, 90, 120, true))
-            {
-                Response.ContentType = "image/jpeg";
-                output.Save(Response.OutputStream, ImageFormat.Jpeg);
-            }
+            CutToSize(id, 90, 120);
         }
 
         public void CutToSize(string id , int width, int height)
