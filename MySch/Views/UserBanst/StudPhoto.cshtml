@@ -13,49 +13,52 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>学生照片</title>
+    <style type="text/css">
+        body { margin: 0px; padding: 0px; }
+        .stud_photo-item { width: 200px; height: 120px; margin: 5px 10px 0px 0px; padding: 10px; float: left; background: #eee; border:1px solid #eee; border-radius: 10px; }
+        .stud_photo-item-img { width: 90px; height: 120px; border: none; border-radius: 5px; float: left; }
+        .stud_photo-item-code { width: 90px; height: 90px; float: right; }
+        .stud_photo-item-name { width: 100px; height: 30px; line-height: 30px; text-align: right; font-size: 14px; font-family: '黑体'; float: right; }
+
+        .stud_photo-item1 { width: 150px; height: 240px; margin: 5px 10px 0px 0px; float: left; background: #fff; border-radius: 20px; }
+        .stud_photo-item-img1 { width: 150px; height: 200px; border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        .stud_photo-item-name1 { width: 150px; height: 40px; line-height: 36px; text-align: center; font-family: '黑体'; }
+    </style>
 </head>
+
 <body>
-    <div id="stud_photo">
-        <style type="text/css">
-            .stud_photo-ban { font-size: 16px; font-family: '黑体'; text-align:center; margin-bottom: 20px; }
-            .stud_photo-item { width: 200px; height: 120px; margin: 0px 10px 5px 0px; padding: 10px; float: left; background: #eee; border: 1px solid #808080; border-radius: 10px; }
-            .stud_photo-item-img { width: 90px; height: 120px; border: none; border-radius: 5px; float: left; }
-            .stud_photo-item-code {width: 90px; height: 100px; float: right; }
-            .stud_photo-item-name {width: 100px; text-align:right; font-size: 14px; font-family: '黑体';float: right; }
-        </style>
-        @foreach (var ban in bans)
+    @foreach (var ban in bans)
+    {
+        bancount++;
+
+        var count = 0;
+        var studs = Model.Where(a => a.BanIDS == ban.IDS);
+        foreach (var stud in studs)
         {
-            bancount++;
+            count++;
 
-            var count = 0;
-            var studs = Model.Where(a => a.BanIDS == ban.IDS);
-            foreach (var stud in studs)
-            {
-                count++;
-
-                <div class="stud_photo-item">
-                    <img class="stud_photo-item-img" src="@stud.Memo" alt="" />
-                    <img class="stud_photo-item-code" src="http://a.jysycz.cn/image/code1/@stud.ID" alt="" />
-                    <div class="stud_photo-item-name">
-                        <span>@ban.Num）@count@stud.StudName</span>
-                    </div>
+            <div class="stud_photo-item">
+                <img class="stud_photo-item-img" src="/image/cut/@stud.Memo" alt="" />
+                <img class="stud_photo-item-code" src="/image/code1/@stud.ID" alt="" />
+                <div class="stud_photo-item-name">
+                    <span>@ban.Num）@count@stud.StudName</span>
                 </div>
-            }
+            </div>
 
-            if (bancount != bantotal)
-            {
-                <div style="clear:both; page-break-after:always;"></div>
-            }
+            <div class="stud_photo-item1" style="display: none;">
+                <img class="stud_photo-item-img1" src="/image/CutToSize/?id=@stud.Memo&width=150&height=200" alt="" />
+                <div class="stud_photo-item-name1">
+                    <span>@ban.Num）@count@stud.StudName</span>
+                </div>
+            </div>
+
         }
-    </div>
-    <script type="text/javascript">
-        $(function () {
-            //添加对话框
-            DialogShowEx('学生照片', 810, 570, function () {
-                $('#stud_photo').printDom();
-            })
-        })
-    </script>
+
+        if (bancount != bantotal)
+        {
+            <div style="clear:both; page-break-after:always;"></div>
+        }
+    }
 </body>
 
 </html>

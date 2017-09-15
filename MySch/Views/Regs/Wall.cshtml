@@ -135,7 +135,7 @@
                                             var $warn_item = $('<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding: 5px 15px;"><div class="weui-media-box__hd"><div class="weui-media-box__thumb weui-icon-success" style="font-size: 45px; margin-top:8px;"></div></div><div class="weui-media-box__bd"><h4 class="weui-media-box__title">姓名</h4><p class="weui-media-box__desc" style="text-indent: 20px;">信息</p></div></a>');
                                             $warn_item.find('h4').text(res.AccName + '：');
                                             $warn_item.find('p').text(res.SendMsg);
-                                            $warn_item.appendTo($('#regs_wall-my_message'));
+                                            $warn_item.prependTo($('#regs_wall-my_message'));
                                             //清空
                                             $('#regs_wall-message').val('');
                                         }

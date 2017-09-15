@@ -21,5 +21,7 @@ namespace MySch.Models
         public string Name { get; set; }
 
         public bool IsCurrent { get; set; }
+
+        public bool NeedCheck { get; set; }
     }
 }

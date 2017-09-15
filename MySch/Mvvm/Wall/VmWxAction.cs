@@ -28,6 +28,10 @@ namespace MySch.Mvvm.Wall
         [DisplayName("当前活动")]
         public bool IsCurrent { get; set; }
 
+        [DisplayName("检测当前")]
+        public bool NeedCheck { get; set; }
+
+
         //清除当前
         public void ClearCurrent()
         {
@@ -54,5 +58,6 @@ namespace MySch.Mvvm.Wall
         public string IDS { get; set; }
         public string Name { get; set; }
         public bool IsCurrent { get; set; }
+        public bool NeedCheck { get; set; }
     }
 }

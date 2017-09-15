@@ -11,7 +11,7 @@ using System.Drawing.Imaging;
 
 namespace MySch.Controllers.WX
 {
-    public class ImageController : Controller
+    public class ImageController : RoleController
     {
 
         //文字转二维码
@@ -32,7 +32,7 @@ namespace MySch.Controllers.WX
             XingCode.CodeOutputStreamMid(360, 260, id, title, 0, BarcodeFormat.QR_CODE);
         }
 
-        //条形码
+
         public void Code1(string id)
         {
             XingCode.CodeOutputStream(150, 150, id, 0, BarcodeFormat.QR_CODE);
@@ -76,16 +76,18 @@ namespace MySch.Controllers.WX
                 output.Save(Response.OutputStream, ImageFormat.Jpeg);
             }
         }
-        public void Cut2(string id)
+
+        public void CutToSize(string id , int width, int height)
         {
             var fileName = "~/Upload/XueImages/" + id + ".jpg";
             var bitmap = Bitmap.FromFile(Server.MapPath(fileName));
 
-            using (var output = ImageDo.CutForCustom(bitmap, 90, 120, true))
+            using (var output = ImageDo.CutForCustom(bitmap, width, height, true))
             {
                 Response.ContentType = "image/jpeg";
                 output.Save(Response.OutputStream, ImageFormat.Jpeg);
             }
         }
+
     }
 }

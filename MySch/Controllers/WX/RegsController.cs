@@ -911,7 +911,7 @@ namespace MySch.Controllers.WX
                 user.ToSession();
 
                 //检测二维码
-                //ActionWall.CheckState(auth.state);
+                ActionWall.CheckState(auth.state);
                 return View();
             }
             catch (Exception e)

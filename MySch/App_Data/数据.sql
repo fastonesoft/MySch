@@ -1000,6 +1000,7 @@ create table WxAction
 	IDS	nvarchar(32) not null,	--活动编号 - 20170001
 	Name	nvarchar(20) not null,	--活动名称
 	IsCurrent	bit not null,	--当前活动
+	NeedCheck	bit not null,	--需要检测是否当前活动
 )
 go
 alter table WxAction add constraint PK_WxAction primary key clustered (ID)

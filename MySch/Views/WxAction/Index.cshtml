@@ -87,6 +87,15 @@
                     }
                 }
             },
+            {
+                title: '检测当前', field: 'NeedCheck', halign: 'center', width: 100,
+                formatter: function (value, row, index) { },
+                styler: function (value, row, index) {
+                    if (value) {
+                        return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                    }
+                }
+            },
         ]],
 
         toolbar: '#wxaction-grid-tool',

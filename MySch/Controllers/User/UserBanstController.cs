@@ -271,7 +271,7 @@ namespace MySch.Controllers.User
                             var upload = BllUploadImage.GetEntityOrDefault<BllUploadImage>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
                             if (upload != null)
                             {
-                                stud.Memo = "/image/cut/" + upload.ID;
+                                stud.Memo = upload.ID;
                             }
                         }
                         //准备打印数据
@@ -287,12 +287,12 @@ namespace MySch.Controllers.User
                         .ThenByDescending(a => a.Score)
                         .ThenBy(a => a.ID);
                         //准备学生照片
-                        foreach(var stud in studs)
+                        foreach (var stud in studs)
                         {
                             var upload = BllUploadImage.GetEntityOrDefault<BllUploadImage>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
                             if (upload != null)
                             {
-                                stud.Memo = "/image/cut/" + upload.ID;
+                                stud.Memo = upload.ID;
                             }
                         }
                         //准备打印数据

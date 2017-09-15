@@ -23,8 +23,11 @@
             </span>
             @Html.ValidationMessageFor(a => a.Name)
         </div>
-        <div class="form-item-row">
+        <div class="form-item-row-left">
             <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent)</div>
+        </div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.NeedCheck)：@Html.CheckBoxFor(a => a.NeedCheck)</div>
         </div>
     </div>
     @Html.HiddenFor(a => a.ID)

@@ -16,7 +16,7 @@ namespace MySch.Mvvm.Wall.Action
         {
             try
             {
-                VmWxAction.GetEntity<VmWxAction>(a => a.ID == state && a.IsCurrent, "二维码失效！");
+                VmWxAction.GetEntity<VmWxAction>(a => a.ID == state && a.IsCurrent && a.NeedCheck, "二维码失效！");
             }
             catch (Exception e)
             {
