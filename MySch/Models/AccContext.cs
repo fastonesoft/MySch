@@ -58,6 +58,7 @@ namespace MySch.Models
         public virtual DbSet<QrAccRoleGroup> QrAccRoleGroups { get; set; }
         public virtual DbSet<QrWxAccPrize> QrWxAccPrizes { get; set; }
         public virtual DbSet<QrWxAccSend> QrWxAccSends { get; set; }
+        public virtual DbSet<QrWxStudentUpload> QrWxStudentUploads { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -65,6 +66,10 @@ namespace MySch.Models
                 .HasMany(e => e.TBans)
                 .WithOptional(e => e.TAcc)
                 .HasForeignKey(e => e.MasterIDS);
+
+            modelBuilder.Entity<QrWxStudentUpload>()
+                .Property(e => e.StudSex)
+                .IsUnicode(false);
         }
     }
 }

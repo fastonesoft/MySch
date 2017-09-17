@@ -162,6 +162,7 @@
     <Compile Include="Models\QrAccRoleGroup.cs" />
     <Compile Include="Models\QrWxAccPrize.cs" />
     <Compile Include="Models\QrWxAccSend.cs" />
+    <Compile Include="Models\QrWxStudentUpload.cs" />
     <Compile Include="Models\StudCome.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudGrade.cs" />
@@ -191,6 +192,8 @@
     <Compile Include="Models\WxPrize.cs" />
     <Compile Include="Models\WxUploadFile.cs" />
     <Compile Include="Mvvm\School\Stud\Action\ActionStudGrade.cs" />
+    <Compile Include="Mvvm\School\Stud\Action\ActionStudPhoto.cs" />
+    <Compile Include="Mvvm\School\Stud\VqBanPhotos.cs" />
     <Compile Include="Mvvm\School\Stud\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Entity\BllLog.cs" />

@@ -1006,7 +1006,7 @@ go
 alter table WxAction add constraint PK_WxAction primary key clustered (ID)
 create unique nonclustered index UN_WxAction_IDS on WxAction (IDS)
 create unique nonclustered index UN_WxAction_Name on WxAction (Name)
-insert WxAction values (Lower(REPLACE(NEWID(), '-','')), '20170001', '庆祝2017年教师节活动', 1)
+insert WxAction values (Lower(REPLACE(NEWID(), '-','')), '20170001', '庆祝2017年教师节活动', 1,1)
 
 --上墙 - 奖项
 create table WxPrize
@@ -1094,4 +1094,19 @@ left join WxPrize d
 on a.WxPrizeIDS = d.IDS
 where c.IsCurrent = 1
 go
+
+
+--学生上传图片查询
+--excel
+--substring(start = 1 开始计数)
+--C#是从0开始计数
+create view QrWxStudentUpload
+as 
+SELECT     dbo.WxUploadFile.ID, dbo.WxUploadFile.IDS, dbo.WxUploadFile.FileType, dbo.WxUploadFile.UploadType, dbo.WxUploadFile.CreateTime, dbo.Student.IDC, 
+                      dbo.Student.Name, CASE substring(dbo.student.idc, 17, 1) % 2 WHEN 0 THEN '女' WHEN 1 THEN '男' END AS StudSex, dbo.StudGrade.GradeIDS, 
+                      dbo.StudGrade.BanIDS, dbo.TBan.Num, dbo.StudGrade.InSch, dbo.StudGrade.Score, dbo.StudGrade.ID AS StudGradeID
+FROM         dbo.WxUploadFile INNER JOIN
+                      dbo.Student ON dbo.WxUploadFile.IDS = dbo.Student.IDS INNER JOIN
+                      dbo.StudGrade ON dbo.Student.IDS = dbo.StudGrade.StudIDS INNER JOIN
+                      dbo.TBan ON dbo.StudGrade.BanIDS = dbo.TBan.IDS
 
