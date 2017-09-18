@@ -22,8 +22,8 @@ namespace MySch.Mvvm.School.Stud.Action
                 var index = 0;
                 foreach (var photo in photos)
                 {
+                    if (photo.StudGradeID == id) break;
                     index++;
-                    if (photo.ID == id) break;
                 }
                 //返回数据
                 return new WX_Key { key = new WX_Key { key = index, value = ban.BanIDS }, value = photos };

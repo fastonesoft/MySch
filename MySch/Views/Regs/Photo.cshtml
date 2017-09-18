@@ -37,6 +37,7 @@
 
                     //关闭
                     headloading.hide();
+                    $('#stud_photo-con').show();
 
                     wx.ready(function () {
                         //隐藏所有非基本菜单项
@@ -46,7 +47,7 @@
                             }
                         });
 
-                        $('#regs_photo-scan_student').click(function () {
+                        $('#stud_photo-students, #regs_photo-scan_student').click(function () {
                             //识别
                             wx.scanQRCode({
                                 needResult: 1,
@@ -120,10 +121,6 @@
                             });
                         });
 
-                        //滚动
-                        //var h = $(document).height() - $(window).height();
-                        //$(document).scrollTop(h);
-
                         //错误检测
                         wx.error(function (errores) {
                             weui.alert(JSON.stringify(errores));
@@ -137,20 +134,18 @@
     <style type="text/css">
         img[src=""] { opacity: 0; }
         .stud_photo-item { width: 300px; height: 450px; margin: 20px auto 0px; background: #eee; border-radius: 20px; }
-        .stud_photo-item-img { width: 300px; height: 400px; border-top-left-radius: 20px; border-top-right-radius: 20px; }
-        .stud_photo-item-name { width: 300px; height: 50px; line-height: 50px; text-align: center; font-family: '黑体'; font-size: 22px; background: #fff; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        .stud_photo-item-img { width: 300px; height: 400px; float: left; border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        .stud_photo-item-name { width: 300px; height: 50px; float: left; line-height: 50px; text-align: center; font-family: '黑体'; font-size: 22px; background: #fff; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
     </style>
 </head>
 <body ontouchstart style="background: #ddd;">
-
-    <div id="stud_photo-students">
+    <div id="stud_photo-con" style="display: none;">
+        <div id="stud_photo-students">
+        </div>
+        <div class="weui-btn-area">
+            <a id="regs_photo-scan_student" href="javascript:" class="weui-btn weui-btn_primary">识别：学生信息</a>
+        </div>
     </div>
-
-    <div class="weui-btn-area">
-        <a id="regs_photo-scan_student" href="javascript:" class="weui-btn weui-btn_primary">识别：学生信息</a>
-    </div>
-
-    <input type="hidden" id="stud_photo-BanIDS" />
     <div id="stud_photo-model" style="display: none;">
         <div class="stud_photo-item">
             <img class="stud_photo-item-img" src="" alt="" onerror="this.src = '';" />
@@ -159,6 +154,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="stud_photo-BanIDS" />
 
 </body>
 </html>
