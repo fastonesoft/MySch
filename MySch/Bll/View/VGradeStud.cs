@@ -39,6 +39,10 @@ namespace MySch.Bll.View
         public string GroupID { get; set; }
         public string MasterIDS { get; set; }
         public string Mobil { get; set; }
+        public string Mobil2 { get; set; }
+        public string Name1 { get; set; }
+        public string Name2 { get; set; }
+        public string Home { get; set; }
         public bool Choose { get; set; }
         public string Memo { get; set; }
 
@@ -86,6 +90,10 @@ namespace MySch.Bll.View
                                        GroupID = gs.GroupID,
                                        MasterIDS = b.MasterIDS,
                                        Mobil = st.Mobil1,
+                                       Mobil2 = st.Mobil2,
+                                       Name1 = st.Name1,
+                                       Name2 = st.Name2,
+                                       Home = st.Home,
                                        Choose = gs.Choose,
                                    })
                                    .Where(where)

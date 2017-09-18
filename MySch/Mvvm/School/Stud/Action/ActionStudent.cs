@@ -344,7 +344,7 @@ namespace MySch.Mvvm.School.Stud.Action
             try
             {
                 name = HttpUtility.UrlEncode(name, Encoding.GetEncoding("GBK"));
-                var jsonurl = string.Format("http://58.213.155.172/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, idc);
+                var jsonurl = string.Format("http://xjgl.jse.edu.cn/studman2/studman/historyAct-getHistoryInfo.action?studName={0}&cid={1}", name, idc);
                 return HtmlHelp.GetHtml(jsonurl, cookies, "GBK");
             }
             catch (Exception e)

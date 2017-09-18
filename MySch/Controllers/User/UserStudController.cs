@@ -362,10 +362,10 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var cookies = ActionStudent.AutoLogin("http://58.213.155.172/uids/index.jsp",
-                    "http://58.213.155.172/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
-                    "http://58.213.155.172/uids/login!login.action", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
-
+                var cookies = ActionStudent.AutoLogin("http://xjgl.jse.edu.cn/uids/index.jsp",
+                  "http://xjgl.jse.edu.cn/uids/genImageCode?rnd=" + DateTime.Now.Ticks.ToString(),
+                  "http://xjgl.jse.edu.cn/uids/login.jsp", "c32128441402", "==QTuhWMaVlWoN2MSFXYR1TP");
+                
                 int count = 0;
                 foreach (var stud in rows)
                 {
