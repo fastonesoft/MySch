@@ -47,7 +47,7 @@
                             }
                         });
 
-                        $('#stud_photo-students, #regs_photo-scan_student').click(function () {
+                        $('#regs_photo-scan_student').click(function () {
                             //识别
                             wx.scanQRCode({
                                 needResult: 1,
@@ -67,7 +67,9 @@
                                                 $.each(resex.value, function () {
                                                     count++;
                                                     var $html = $($('#stud_photo-model').html());
-                                                    $html.find('img').attr('src', '/image/cuttosize/?id=' + this.ID + '&width=300&height=400');
+                                                    $html.find('img').attr('imageid', this.ID);
+                                                    $html.find('img').attr('studids', this.IDS);
+                                                    $html.find('img').attr('src', '/image/cuttosize/?id=' + this.ID + '&width=330&height=440');
                                                     $html.find('span').text(this.Num + '）' + count + ' ' + this.Name);
                                                     $html.appendTo($('#stud_photo-students'));
                                                 });
@@ -75,50 +77,78 @@
                                                 $('#stud_photo-BanIDS').val(banids);
                                             }
                                             //同班，跳转
-                                            $(document).scrollTop(resex.key.key * 470);
+                                            $(document).scrollTop(resex.key.key * 515);
                                         }
                                         //关闭
                                         loading.hide();
                                     });
                                 }
                             });
-
                         });
 
 
-                        var syncUpload = function (localIds, uploadtype) {
+                        var syncUpload = function (localIds, userids, domid) {
                             var localId = localIds.pop();
                             wx.uploadImage({
                                 localId: localId,
                                 isShowProgressTips: 1,
                                 success: function (res) {
                                     //对serverId做处理的代码
-                                    var other = $('#regs_exam_id').val();
-                                    $.post('/Regs/UploadImageOther', { mediaID: res.serverId, uploadType: uploadtype, Other: other }, function (imgres) {
+                                    $.post('/Regs/BanPhotoUpload', { mediaID: res.serverId, studIDS: userids }, function (imgres) {
                                         if (imgres.error) {
                                             weui.topTips(imgres.message, 3000);
                                         } else {
                                             //更新
-                                            var $id = $('#regs_exam_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded/' + imgres.message).prependTo($id);
+                                            domid.attr('imageid', imgres);
+                                            domid.attr('studids', userids);
+                                            domid.attr('src', '/image/cuttosize/?id=' + imgres + '&width=330&height=440')
                                         }
                                     })
-                                    if (localIds.length > 0) {
-                                        syncUpload(localIds, uploadtype);
-                                    }
+                                    //上传多个
+                                    //if (localIds.length > 0) {
+                                    //    syncUpload(localIds, uploadtype);
+                                    //}
                                 }
                             });
                         }
 
-                        //选择图片，上传
+                        //图片为空，上传；不空，可以删除
                         $('#stud_photo-students').on('click', 'img', function () {
-                            //分类名称
-                            var name = $(this).attr('uploadtype');
-                            wx.chooseImage({
-                                success: function (res) {
-                                    syncUpload(res.localIds, name);
-                                }
-                            });
+                            //图片不空，可以删除
+                            var imageid = $(this).attr('imageid');
+                            var studids = $(this).attr('studids');
+                            var imageurl = $(this).attr('src');
+                            var $this = $(this);
+                            if (imageurl) {
+                                var gallery = weui.gallery(imageurl, {
+                                    onDelete: function () {
+                                        weui.confirm('　确定删除该照片？', function () {
+                                            gallery.hide();
+                                            var loading = weui.loading('正在删除...');
+                                            $.post('/Regs/BanPhotoDelete', { imageID: imageid, studIDS: studids }, function (res) {
+                                                loading.hide();
+                                                if (res.error) {
+                                                    weui.topTips(res.message, 3000);
+                                                } else {
+                                                    //刷新删除
+                                                    $this.attr('src', '');
+                                                    weui.toast(res.message, 1500);
+                                                }
+                                            })
+                                        }, function () {
+                                            gallery.hide();
+                                        }, { title: '图片删除' });
+                                    }
+                                });
+                            } else {
+                                //图片为空，可以上传
+                                wx.chooseImage({
+                                    success: function (res) {
+                                        syncUpload(res.localIds, studids, $this);
+                                    }
+                                });
+                            }
+
                         });
 
                         //错误检测
@@ -133,9 +163,9 @@
 
     <style type="text/css">
         img[src=""] { opacity: 0; }
-        .stud_photo-item { width: 300px; height: 450px; margin: 20px auto 0px; background: #eee; border-radius: 20px; }
-        .stud_photo-item-img { width: 300px; height: 400px; float: left; border-top-left-radius: 20px; border-top-right-radius: 20px; }
-        .stud_photo-item-name { width: 300px; height: 50px; float: left; line-height: 50px; text-align: center; font-family: '黑体'; font-size: 22px; background: #fff; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        .stud_photo-item { width: 330px; height: 495px; margin: 20px auto 0px; background: #eee; border-radius: 20px; }
+        .stud_photo-item-img { width: 330px; height: 440px; float: left; border-top-left-radius: 20px; border-top-right-radius: 20px; }
+        .stud_photo-item-name { width: 330px; height: 55px; float: left; line-height: 55px; text-align: center; font-family: '黑体'; font-size: 22px; background: #fff; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
     </style>
 </head>
 <body ontouchstart style="background: #ddd;">
@@ -155,6 +185,5 @@
         </div>
     </div>
     <input type="hidden" id="stud_photo-BanIDS" />
-
 </body>
 </html>

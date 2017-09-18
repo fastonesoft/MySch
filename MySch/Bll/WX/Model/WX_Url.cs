@@ -3,6 +3,7 @@ using MySch.Helper;
 using MySch.Mvvm.Login;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -62,7 +63,14 @@ namespace MySch.Bll.WX.Model
             //保存
             using (var web = new WebClient())
             {
-                web.DownloadFile(url, filePath);
+                if (!File.Exists(filePath))
+                {
+                    web.DownloadFile(url, filePath);
+                }
+                else
+                {
+                    throw new Exception("文件名称已存在");
+                } 
             }
         }
 

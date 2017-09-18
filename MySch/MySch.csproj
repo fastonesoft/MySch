@@ -132,7 +132,7 @@
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
-    <Compile Include="Bll\Entity\BllUploadImage.cs" />
+    <Compile Include="Bll\Entity\BllImageUpload.cs" />
     <Compile Include="Controllers\Wall\WxAccPrizeController.cs" />
     <Compile Include="Controllers\Wall\WxAccSendController.cs" />
     <Compile Include="Controllers\Wall\WxPrizeController.cs" />

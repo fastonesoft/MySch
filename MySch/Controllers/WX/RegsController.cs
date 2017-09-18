@@ -60,7 +60,7 @@ namespace MySch.Controllers.WX
         }
 
         [HttpPost]
-        public ActionResult JssdkEx()
+        public ActionResult JssdkMs()
         {
             try
             {
@@ -69,7 +69,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
                 //检测权限
-                WX_OAuserInfor.CheckExamRoleEx(infor.unionid);
+                WX_OAuserInfor.CheckExamRoleMs(infor.unionid);
 
                 //签名算法
                 var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam, infor.examuid, infor.rexamuid);
@@ -84,7 +84,7 @@ namespace MySch.Controllers.WX
         }
 
         [HttpPost]
-        public ActionResult JssdkMs()
+        public ActionResult JssdkEx()
         {
             try
             {
@@ -93,7 +93,7 @@ namespace MySch.Controllers.WX
                 var oaken = WX_AccessTokenOauth.GetSessionToken();
                 var infor = WX_OAuserInfor.GetFromSession();
                 //检测权限
-                WX_OAuserInfor.CheckExamRoleMs(infor.unionid);
+                WX_OAuserInfor.CheckExamRoleEx(infor.unionid);
 
                 //签名算法
                 var signature = new WX_Signature(WX_Const.goneAppID, WX_Jsticket.GetJsticket(token), infor.codePage, infor.idc, infor.name, infor.regno, infor.exam, infor.examuid, infor.rexamuid);
@@ -1099,6 +1099,39 @@ namespace MySch.Controllers.WX
                 var infor = WX_OAuserInfor.GetFromSession();
 
                 return Json(ActionStudPhoto.BanStudents(id));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult BanPhotoUpload(string mediaID, string studIDS)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                return Json(ActionStudPhoto.BanPhotoUpload(mediaID, studIDS));
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult BanPhotoDelete(string imageID, string studIDS)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                ActionStudPhoto.BanPhotoDelete(imageID, studIDS);
+                return Json(new ErrorMessage { error = false, message = "删除成功" });
             }
             catch (Exception e)
             {

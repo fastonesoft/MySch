@@ -268,7 +268,7 @@ namespace MySch.Controllers.User
                         //准备学生照片
                         foreach (var stud in studs)
                         {
-                            var upload = BllUploadImage.GetEntityOrDefault<BllUploadImage>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
+                            var upload = BllImageUpload.GetEntityOrDefault<BllImageUpload>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
                             if (upload != null)
                             {
                                 stud.Memo = upload.ID;
@@ -289,7 +289,7 @@ namespace MySch.Controllers.User
                         //准备学生照片
                         foreach (var stud in studs)
                         {
-                            var upload = BllUploadImage.GetEntityOrDefault<BllUploadImage>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
+                            var upload = BllImageUpload.GetEntityOrDefault<BllImageUpload>(a => a.IDS == stud.StudIDS && a.UploadType == "photo");
                             if (upload != null)
                             {
                                 stud.Memo = upload.ID;

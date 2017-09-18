@@ -70,15 +70,24 @@ namespace MySch.Controllers.WX
             CutToSize(id, 90, 120);
         }
 
-        public void CutToSize(string id , int width, int height)
+        public void CutToSize(string id, int width, int height)
         {
-            var fileName = "~/Upload/XueImages/" + id + ".jpg";
-            var bitmap = Bitmap.FromFile(Server.MapPath(fileName));
-
-            using (var output = ImageDo.CutForCustom(bitmap, width, height, true))
+            try
             {
-                Response.ContentType = "image/jpeg";
-                output.Save(Response.OutputStream, ImageFormat.Jpeg);
+                var fileName = "~/Upload/XueImages/" + id + ".jpg";
+                var bitmap = Bitmap.FromFile(Server.MapPath(fileName));
+
+                using (var output = ImageDo.CutForCustom(bitmap, width, height, true))
+                {
+                    Response.ContentType = "image/jpeg";
+                    output.Save(Response.OutputStream, ImageFormat.Jpeg);
+                }
+
+                bitmap.Dispose();
+            }
+            catch
+            {
+
             }
         }
 

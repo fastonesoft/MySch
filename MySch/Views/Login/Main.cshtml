@@ -30,17 +30,17 @@
 </head>
 <body id="body">
     <div id="my-user-lay" class="my-bodyer">
-        <div data-options="region:'north',border:false" style="height:88px; font-size: 14px;">
-            <div class="my-header noprint">
+        <div data-options="region:'north',border:false" style="height:88px; font-size: 14px;" class="noprint">
+            <div class="my-header">
                 <div class="my-topleft">
                     <a href="javasript:void()"><img src="/Images/logo.png" title="用户首页" id="my_user_logo" /></a>
                 </div>
 
                 @if (ViewBag.ShowMenu)
                 {
-                    <ul class="my-nav">
-                        <li><a href="javascript:void(0);" id="wxwall"><img src="/Images/pp04.png" /><h2>微信上墙</h2></a></li>
-                    </ul>
+                <ul class="my-nav">
+                    <li><a href="javascript:void(0);" id="wxwall"><img src="/Images/pp04.png" /><h2>微信上墙</h2></a></li>
+                </ul>
                 }
 
                 <div class="my-topright">
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div data-options="region:'west',border:false" style="width:187px;">
+        <div data-options="region:'west',border:false" style="width:187px;" class="noprint">
             <div class="left noprint">
                 <div class="my-lefttop"><img src="/Images/m04s.png" />导航菜单</div>
                 <dl class="my-leftmenu" id="my-leftmenu">
@@ -142,7 +142,7 @@
 
         <div data-options="region:'center',border:false">
             <div id="my-user-tab">
-                <div title="用户首页" data-options="iconCls:'icon-tip'" style="padding:8px;">
+                <div title="用户首页" data-options="iconCls:'icon-tip'" style="padding:8px;" class="noprint">
                 </div>
             </div>
         </div>
