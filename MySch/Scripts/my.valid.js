@@ -33,25 +33,23 @@ easyobj = {
         if (tt.tabs('exists', name)) {
             tt.tabs('select', name);
         } else {
-
-            tt.tabs('add', {
-                title: name,
-                href: url,
-                selected: true,
-                closable: true,
-                iconCls: icon || 'icon-tip',
-                style: {
-                    padding: 8
+            //检测是否有权限
+            $.post(url, function (d) {
+                if (d.error) {
+                    $.messager.alert('错误提示', d.message, 'error');
+                } else {
+                    tt.tabs('add', {
+                        title: name,
+                        content: d,
+                        selected: true,
+                        closable: true,
+                        iconCls: icon || 'icon-tip',
+                        style: {
+                            padding: 8
+                        }
+                    });
                 }
-            });
-
-            ////检测是否有权限
-            //$.post(url, function (d) {
-            //    if (d.error) {
-            //        $.messager.alert('错误提示', d.message, 'error');
-            //    } else {
-            //    }
-            //})
+            })
         }
     }
 }
