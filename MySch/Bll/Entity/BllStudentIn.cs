@@ -72,6 +72,8 @@ namespace MySch.Bll.Entity
                 //一、学生库添加
                 ID = Guid.NewGuid().ToString("N");
                 IDS = studs_max_prev + studs_max_order.ToString("D4");
+                AccIDS = grade.AccIDS;
+                StepIDS = grade.StepIDS;
                 base.ToAdd(model);
 
                 //二、年度学生库添加
