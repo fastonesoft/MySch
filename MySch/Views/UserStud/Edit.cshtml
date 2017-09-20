@@ -1,0 +1,37 @@
+﻿@model MySch.Mvvm.School.Stud.VmStudentEdit
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row-left">
+            <div>@Html.LabelFor(a => a.IDC)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.IDC, new { @class = "textbox-text" })
+            </span>
+            @Html.ValidationMessageFor(a => a.IDC)
+        </div>
+        <div class="form-item-row-line"></div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+        //添加对话框
+        DialogEdit('学生修改',  390, 170, '/UserStud/EditToken', '#studins-grid');
+    })
+</script>

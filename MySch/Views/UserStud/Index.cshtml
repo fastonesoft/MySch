@@ -27,8 +27,11 @@
                     }
                     DataGridRequest('/UserStud/Add', param);
                 },
+                getinfor: function () {
+                    DataGridRows('#studins-grid', '/UserStud/GetStudInfor');
+                },
                 edit: function () {
-                    DataGridRows('#studins-grid', '/UserStud/GradeCheck');
+                    DataGridRow('#studins-grid', '/UserStud/Edit');
                 },
                 drop: function () {
                     DataGridRow('#studins-grid', '/UserStud/Drop');
@@ -266,10 +269,12 @@
         <div iconcls="icon-redo" onclick="studins.add();">添加...</div>
     </div>
     <div id="studs-mm-edit" style="width:150px;">
-        <div iconcls="icon-man" onclick="studins.edit();">调取学籍信息...</div>
+        <div iconcls="icon-man" onclick="studins.getinfor();">学籍抓取...</div>
+        <div class="menu-sep"></div>
+        <div onclick="studins.edit();">修改...</div>
         <div class="menu-sep"></div>
         <div>学籍办理...</div>
-    </div>
+  </div>
     <div id="studs-mm-remove" style="width:150px;">
         <div onclick="studins.drop();">休学...</div>
         <div class="menu-sep"></div>

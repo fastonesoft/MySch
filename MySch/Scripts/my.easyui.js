@@ -424,6 +424,7 @@ function DialogEdit(title, width, height, postUrl, gridID) {
                 }
                 //通过验证，修改
                 $.post(postUrl, form.serialize(), function (d) {
+                    console.log(d);
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
                     } else {

@@ -63,9 +63,9 @@ namespace MySch.Bll.Custom
         {
             try
             {
-                //IDC.Check(idc);
+                IDC.Check(idc);
                 //身份证查询
-                var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
+                var entity = DataCRUD<Student>.Entity(a => a.IDC.ToUpper() == idc.ToUpper());
                 if (entity == null) throw new Exception("未知的扫码信息");
                 if (!string.IsNullOrEmpty(entity.RegUID)) throw new Exception(string.Format("【{0}】已经被绑定微信号，不能再绑！", entity.Name));
 
@@ -84,12 +84,36 @@ namespace MySch.Bll.Custom
             }
         }
 
+        public static void BindStudByFind(string idc, string name, string reguid)
+        {
+            try
+            {
+                IDC.Check(idc);
+                //身份证查询
+                var entity = DataCRUD<Student>.Entity(a => a.IDC.ToUpper() == idc.ToUpper() && a.Name == name);
+                if (entity == null) throw new Exception("没有找到身份证号、姓名所对应的学生");
+                if (!string.IsNullOrEmpty(entity.RegUID)) throw new Exception(string.Format("【{0}】已经被绑定微信号，不能再绑！", entity.Name));
+
+                //绑定检测
+                var uid = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
+                if (uid != null) throw new Exception(string.Format("你已经绑定【{0}】，不能再绑！", uid.Name));
+
+                //提交绑定
+                entity.RegUID = reguid;
+                DataCRUD<Student>.Update(entity);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static void UnBindStud(string id)
         {
             try
             {
                 var entity = DataCRUD<Student>.Entity(a => a.IDC == id);
-                if (entity == null) throw new Exception("未知的扫码信息");
+                if (entity == null) throw new Exception("未知的学生信息");
 
                 //检测是否审核
                 if (entity.Examed) throw new Exception(string.Format("【{0}】已经通过审核，不能解除绑定", entity.Name));

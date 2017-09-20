@@ -85,8 +85,40 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var entitys = VGradeStud.GetEntitys(a => a.IDC == entity.IDC);
-                return Json(EasyUI<VGradeStud>.DataGrids(entitys, entitys.Count()));
+                var res = VGradeStud.GetDataGridPages(a => a.IDC == entity.IDC, 1, 1);
+                return Json(res);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(VGradeStud entity)
+        {
+            try
+            {
+                var stud = VmStudentEdit.GetEntity<VmStudentEdit>(a=>a.IDS == entity.StudIDS, "没有找到你要的学生！");
+                return View(stud);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditToken(VmStudentEdit entity)
+        {
+            try
+            {
+                entity.ToUpdate(ModelState);
+                IDC.Check(entity.IDC);
+
+                var res = VGradeStud.GetEntity(a => a.StudIDS == entity.IDS);
+                return Json(res);
             }
             catch (Exception e)
             {
@@ -358,7 +390,7 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult GradeCheck(IEnumerable<VGradeStud> rows)
+        public ActionResult GetStudInfor(IEnumerable<VGradeStud> rows)
         {
             try
             {

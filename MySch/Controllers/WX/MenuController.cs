@@ -47,7 +47,7 @@ namespace MySch.Controllers.WX
                 var menus = new WX_Menu();
                 var student = new WX_Menu_Sub { name = "学生相关" };
                 student.Add(new WX_Menu_Click { name = "🈸报名须知", type = "click", key = "reg_about_1" });
-                student.Add(new WX_Menu_View { name = "🅰报名注册", type = "view", url = reg });
+                student.Add(new WX_Menu_View { name = "🅰学生注册", type = "view", url = reg });
                 student.Add(new WX_Menu_View { name = "🅱绑定学生", type = "view", url = scan });
                 menus.Add(student);
                 var teach = new WX_Menu_Sub { name = "教师中心" };

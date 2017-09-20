@@ -551,6 +551,27 @@ namespace MySch.Controllers.WX
         }
 
         [HttpPost]
+        public ActionResult BindStudByFind(string idc, string name)
+        {
+            try
+            {
+                var oaken = WX_AccessTokenOauth.GetSessionToken();
+                var infor = WX_OAuserInfor.GetFromSession();
+
+                var error = IDC.IDS(idc);
+                //返回身份证错误
+                if (error.error) return Json(new ErrorMessage { error = true, message = new WX_KeyValue { key = "regs_scan_idc", value = error.message } });
+
+                StudInfor.BindStudByFind(idc, name, infor.unionid);
+                return Json(new ErrorMessage { error = false, message = new WX_KeyValue { value = name } });
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = new WX_KeyValue { value = e.Message } });
+            }
+        }
+
+        [HttpPost]
         public ActionResult UnBindStud(string id)
         {
             try

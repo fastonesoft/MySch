@@ -8,7 +8,7 @@ namespace MySch.Models
     public partial class AccContext : DbContext
     {
         public AccContext()
-            : base("name=MySchContextIP")
+            : base("name=AccContext")
         {
         }
 
