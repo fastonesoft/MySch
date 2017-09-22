@@ -19,6 +19,9 @@ namespace MySch.Mvvm.School.Stud.Action
         {
             try
             {
+                //检测是否可以招生
+                if (DataCRUD<TStep>.Count(a => a.CanRecruit) == 0) throw new Exception("报名招生已经结束！");
+
                 if (DataCRUD<Student>.Count(a => a.IDC == idc) > 0) throw new Exception("该身份证号的学生已注册");
                 if (DataCRUD<Student>.Count(a => a.RegUID == reguid) > 0) throw new Exception("一个微信号只能绑定一个身份证");
 

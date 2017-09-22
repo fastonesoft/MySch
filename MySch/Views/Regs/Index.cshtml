@@ -30,9 +30,11 @@
                     } else {
                         //上传资料
                         $('#regs_reged_image').attr('src', '/Image/code/' + jsres.idc);
+                        $('#regs_reged_name').text(jsres.name);
                         $('#regs_examed_name').text(jsres.name);
                         $('#regs_examed_regno').text(jsres.regno);
                         $('#regs_examing_name').text(jsres.name);
+                        $('#regs_reged').fadeIn();
                         if (jsres.exam) {
                             if (jsres.rexamuid == null) {
                                 //正在审核
@@ -41,9 +43,6 @@
                                 //审核通过
                                 $('#regs_examed').fadeIn();
                             }
-                        } else {
-                            //启用
-                            $('#regs_reged').fadeIn();
                         }
                     }
 
@@ -132,6 +131,7 @@
                                             }
                                             weui.topTips(res.message.value, 3000);
                                         } else {
+                                            $('#regs_reged_name').text(res.message.value);
                                             $('#regs_reged_image').attr('src', '/Image/code/' + res.message.key);
                                             $('#regs_reged .weui-btn').removeClass('weui-btn_disabled');
                                             //
@@ -143,69 +143,6 @@
                                 }
                             }, {
                                 regexp: reg
-                            });
-                        });
-
-                        var syncUpload = function (localIds, uploadtype) {
-                            var localId = localIds.pop();
-                            wx.uploadImage({
-                                localId: localId,
-                                isShowProgressTips: 1,
-                                success: function (res) {
-                                    //对serverId做处理的代码
-                                    $.post('/Regs/UploadImageSelf', { mediaID: res.serverId, uploadType: uploadtype }, function (uploadres) {
-                                        if (uploadres.error) {
-                                            weui.topTips(uploadres.message, 3000);
-                                        } else {
-                                            //更新
-                                            var $id = $('#regs_reged_image_' + uploadtype)
-                                            $('<img>').attr('src', '/Image/Uploaded/' + uploadres.message).prependTo($id);
-                                        }
-                                    })
-                                    if (localIds.length > 0) {
-                                        syncUpload(localIds, uploadtype);
-                                    }
-                                }
-                            });
-                        }
-
-                        //选择图片，上传
-                        $('.regs_reged_upload .weui-btn').click(function () {
-                            if ($(this).hasClass('weui-btn_disabled')) return;
-                            //分类名称
-                            var name = $(this).attr('uploadtype');
-                            wx.chooseImage({
-                                success: function (res) {
-                                    syncUpload(res.localIds, name);
-                                }
-                            });
-                        });
-
-                        //图片删除
-                        $('.regs_reged_image').on('click', 'img', function () {
-                            if (jsres.exam) return;
-                            //
-                            var $image = $(this);
-                            var imageurl = $image.attr('src');
-                            var gallery = weui.gallery(imageurl, {
-                                onDelete: function () {
-                                    weui.confirm('　确定删除该图片？', function () {
-                                        gallery.hide();
-                                        var loading = weui.loading('正在删除...');
-                                        $.post('/Regs/DeleteImage', { url: imageurl }, function (delres) {
-                                            loading.hide();
-                                            if (delres.error) {
-                                                weui.topTips(delres.message, 3000);
-                                            } else {
-                                                //删除
-                                                $($image).remove();
-                                                weui.toast(delres.message, 1500);
-                                            }
-                                        })
-                                    }, function () {
-                                        gallery.hide();
-                                    }, { title: '图片删除' });
-                                }
                             });
                         });
 
@@ -228,9 +165,7 @@
         })
     </script>
     <style type="text/css">
-        .regs_reged_image {
-            margin-top: 10px;
-        }
+        .regs_reged_image { margin-top: 10px; }
     </style>
 </head>
 <body ontouchstart>
@@ -263,14 +198,6 @@
             <h2 class="title" style="color:red; margin-top: 20px;">注意：</h2>
             <h2 class="title">　　一个微信账号只能注册一个学生身份证</h2>
         </div>
-        <div class="weui-msg__extra-area">
-            <div class="weui-footer">
-                <p class="weui-footer__links">
-                    <a href="javascript:void(0);" class="weui-footer__link">实验初中</a>
-                </p>
-                <p class="weui-footer__text">Copyright © 2017</p>
-            </div>
-        </div>
     </form>
 
     <div class="weui-msg" id="regs_examed" style="display:none;">
@@ -289,9 +216,18 @@
     </div>
 
     <div class="weui-article" id="regs_reged" style="display:none;">
-        <div class="regs_reged_upload">
-            <img src="" id="regs_reged_image" />
+        <h1 id="regs_reged_name" style="text-align:center;"></h1>
+        <img src="" id="regs_reged_image" />
+    </div>
+
+    <div class="weui-msg__extra-area">
+        <div class="weui-footer">
+            <p class="weui-footer__links">
+                <a href="javascript:void(0);" class="weui-footer__link">实验初中</a>
+            </p>
+            <p class="weui-footer__text">Copyright © 2017</p>
         </div>
     </div>
+
 </body>
 </html>
