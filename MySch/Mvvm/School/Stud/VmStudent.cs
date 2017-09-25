@@ -19,5 +19,14 @@ namespace MySch.Mvvm.School.Stud
         [Required(ErrorMessage = "{0}：不得为空")]
         [RegularExpression(@"^$|^\d{17}[0-9X]$", ErrorMessage = "{0}：为18位数字与X的组合；")]
         public string IDC { get; set; }
+
+        [DisplayName("手机号码")]
+        [Required(ErrorMessage = "{0}：不得为空")]
+        [RegularExpression(@"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[6-9])\d{8}$", ErrorMessage = "{0}：为11位手机号")]
+        public string Mobil1 { get; set; }
+
+        [DisplayName("联系电话")]
+        [RegularExpression(@"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[6-9])\d{8}$", ErrorMessage = "{0}：为11位手机号")]
+        public string Mobil2 { get; set; }
     }
 }
