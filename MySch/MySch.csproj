@@ -135,6 +135,7 @@
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
     <Compile Include="Bll\Entity\BllImageUpload.cs" />
+    <Compile Include="Controllers\Kao\KaoSetController.cs" />
     <Compile Include="Controllers\Wall\WxAccPrizeController.cs" />
     <Compile Include="Controllers\Wall\WxAccSendController.cs" />
     <Compile Include="Controllers\Wall\WxPrizeController.cs" />
@@ -806,6 +807,10 @@
     <Content Include="Views\UserBanst\StudPhoto.cshtml" />
     <Content Include="Views\Regs\Photo.cshtml" />
     <Content Include="Views\UserStud\Edit.cshtml" />
+    <Content Include="Views\KaoSet\Add.cshtml" />
+    <Content Include="Views\KaoSet\Del.cshtml" />
+    <Content Include="Views\KaoSet\Edit.cshtml" />
+    <Content Include="Views\KaoSet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />
