@@ -498,10 +498,11 @@ create table TSub
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
+	AccIDS	nvarchar(32) not null,
 	Value	nvarchar(10) not null,
 	Name	nvarchar(10) not null,
 	SName	nvarchar(1) not null,
-	AccIDS	nvarchar(32) not null,
+	Fixed	bit not null,
 )
 go
 
@@ -509,21 +510,21 @@ alter table TSub add constraint PK_TSub primary key clustered (ID)
 alter table TSub add constraint FK_TSub_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TSub_IDS on TSub (IDS)
 
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '01', '语文', '语', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '02', '数字', '数', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '03', '英语', '英', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '04', '物理', '物', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '05', '化学', '化', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '06', '政治', '政', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '07', '历史', '历', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '08', '地理', '地', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '09', '生物', '生', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840210', '10', '体育', '体', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '11', '音乐', '音', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840212', '12', '美术', '美', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '13', '信息', '信', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '14', '口语', '口', '32128402')
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '15', '听力', '听', '32128402')
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '32128402', '01', '语文', '语', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '32128402', '02', '数字', '数', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '32128402', '03', '英语', '英', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '32128402', '04', '物理', '物', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '32128402', '05', '化学', '化', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '32128402', '06', '政治', '政', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '32128402', '07', '历史', '历', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '32128402', '08', '地理', '地', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '32128402', '09', '生物', '生', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840210', '32128402', '10', '体育', '体', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '32128402', '11', '音乐', '音', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840212', '32128402', '12', '美术', '美', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '32128402', '13', '信息', '信', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '32128402', '14', '口语', '口', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '32128402', '15', '听力', '听', 0)
 
 
 
@@ -746,21 +747,51 @@ insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '32128402'
 create table Kao
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,	--TermIDS + Value
-	TermIDS	nvarchar(20) not null,
+	IDS	nvarchar(32) not null,	--TermIDS + Value
+	TermIDS	nvarchar(32) not null,
 	OwnerIDS	nvarchar(32) not null,
-	KaoTypeIDS	nvarchar(20) not null,
+	KaoTypeIDS	nvarchar(32) not null,
 	CreateTime	datetime not null,
-	Name	nvarchar(20) not null,
+	Name	nvarchar(32) not null,
 	Value	nvarchar(10) not null,
 	KaoCoded	bit not null,
 )
 go
 alter table Kao add constraint PK_Kao primary key clustered (ID)
 alter table Kao add constraint FK_Kao_TermIDS foreign key (TermIDS) references TTerm (IDS)
+alter table Kao add constraint FK_Kao_OwnerIDS foreign key (OwnerIDS) references TAcc (IDS)
+alter table Kao add constraint FK_Kao_KaoTypeIDS foreign key (KaoTypeIDS) references KaoType (IDS)
 create unique nonclustered index UN_Kao_IDS on Kao (IDS)
 
-insert Kao values (Lower(REPLACE(NEWID(), '-','')), '32128402201601001', '学情测试一', '001', '32128402201601', 0)
+--考试学科
+create table KaoSub
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,	--AccIDS + Value
+	AccIDS	nvarchar(32) not null,
+	KaoIDS	nvarchar(32) not null,
+	SubIDS	nvarchar(20) not null,
+
+	Value	nvarchar(20) not null,
+	Fixed	bit not null,
+)
+go
+
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '32128402', '语文', '语', '01', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '32128402', '数学', '数', '02', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '32128402', '英语', '英', '03', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '32128402', '物理', '物', '04', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '32128402', '化学', '化', '05', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '32128402', '政治', '政', '06', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '32128402', '历史', '历', '07', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '32128402', '地理', '地', '08', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '32128402', '生物', '生', '09', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840210', '32128402', '体育', '体', '10', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '32128402', '音乐', '音', '11', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840212', '32128402', '美术', '美', '12', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '32128402', '信息', '信', '13', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '32128402', '听力', '听', '14', 0)
+insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '32128402', '口语', '口', '15', 0)
 
 
 --
