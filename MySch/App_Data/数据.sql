@@ -771,7 +771,9 @@ create table KaoSub
 	AccIDS	nvarchar(32) not null,
 	KaoIDS	nvarchar(32) not null,
 	SubIDS	nvarchar(20) not null,
-
+	AddTotal	bit not null,	--算总分
+	MaxScore	int not null,	--最大分值
+	CanSum	bit not null,	--可以汇总了吗？
 	Value	nvarchar(20) not null,
 	Fixed	bit not null,
 )
