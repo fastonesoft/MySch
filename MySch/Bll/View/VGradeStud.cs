@@ -55,7 +55,7 @@ namespace MySch.Bll.View
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
-                                   join st in db.Students on gs.StudIDS equals st.IDS
+                                   join st in db.Studs on gs.StudIDS equals st.IDS
                                    join c in db.StudComes on gs.ComeIDS equals c.IDS into gs_cs
                                    from gs_c in gs_cs.DefaultIfEmpty()
                                    join o in db.StudOuts on gs.OutIDS equals o.IDS into gs_os

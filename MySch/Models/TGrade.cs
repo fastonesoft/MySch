@@ -9,10 +9,18 @@ namespace MySch.Models
     [Table("TGrade")]
     public partial class TGrade
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TGrade()
+        {
+            StudGrades = new HashSet<StudGrade>();
+            TBans = new HashSet<TBan>();
+        }
+
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 
@@ -39,5 +47,19 @@ namespace MySch.Models
         public bool GoneModel { get; set; }
 
         public string GoneList { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudGrade> StudGrades { get; set; }
+
+        public virtual TAcc TAcc { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBan> TBans { get; set; }
+
+        public virtual TEdu TEdu { get; set; }
+
+        public virtual TStep TStep { get; set; }
+
+        public virtual TYear TYear { get; set; }
     }
 }

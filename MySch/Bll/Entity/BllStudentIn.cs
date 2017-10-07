@@ -2,17 +2,14 @@
 using MySch.Dal;
 using MySch.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MySch.Bll.Entity
 {
-    public class BllStudentIn : BllEntity<Student>
+    public class BllStudentIn : BllEntity<Stud>
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -64,7 +61,7 @@ namespace MySch.Bll.Entity
                 //查询学生信息
                 var grade = VGrade.GetEntity(a => a.IDS == this.GradeIDS);
                 //学生库记录编号
-                var studs = DataCRUD<Student>.Entitys(a => a.StepIDS == grade.StepIDS);
+                var studs = DataCRUD<Stud>.Entitys(a => a.StepIDS == grade.StepIDS);
                 var studs_max = studs.Any() ? studs.Max(a => a.IDS) : grade.StepIDS + "0000";
                 var studs_max_prev = grade.StepIDS;
                 var studs_max_order = int.Parse(studs_max.Substring(studs_max.Length - 4, 4)) + 1;

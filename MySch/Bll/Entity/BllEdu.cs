@@ -12,8 +12,8 @@ namespace MySch.Bll.Entity
 
         [DisplayName("学制代码")]
         [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{2}$", ErrorMessage = "{0}：用2位数字设置；")]
-        public string Value { get; set; }
+        [RegularExpression(@"^\d{1}$", ErrorMessage = "{0}：用1位数字设置；")]
+        public int Value { get; set; }
 
 
         [DisplayName("学制名称")]

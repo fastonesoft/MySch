@@ -131,48 +131,38 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Bll\Entity\BllKaoPlace.cs" />
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
     <Compile Include="Bll\Entity\BllImageUpload.cs" />
-    <Compile Include="Controllers\Kao\KaoSetController.cs" />
+    <Compile Include="Controllers\Kao\KaoPlaceController.cs" />
     <Compile Include="Controllers\Wall\WxAccPrizeController.cs" />
     <Compile Include="Controllers\Wall\WxAccSendController.cs" />
     <Compile Include="Controllers\Wall\WxPrizeController.cs" />
     <Compile Include="Controllers\Wall\WxActionController.cs" />
     <Compile Include="Controllers\Wall\WxAccFiltController.cs" />
     <Compile Include="Controllers\Wall\WxAccController.cs" />
-    <Compile Include="Controllers\ARoleActionsController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\Wall\WallController.cs" />
     <Compile Include="Core\ImageDo.cs" />
     <Compile Include="Models\AccContext.cs" />
-    <Compile Include="Models\ADatum.cs" />
-    <Compile Include="Models\APage.cs" />
-    <Compile Include="Models\ARoleAction.cs" />
-    <Compile Include="Models\ARoleGroup.cs" />
-    <Compile Include="Models\ARoleType.cs" />
-    <Compile Include="Models\ATheme.cs" />
+    <Compile Include="Models\AdminDatum.cs" />
+    <Compile Include="Models\AdminPage.cs" />
+    <Compile Include="Models\AdminTheme.cs" />
     <Compile Include="Models\Kao.cs" />
-    <Compile Include="Models\KRoom.cs" />
-    <Compile Include="Models\KRoomType.cs" />
-    <Compile Include="Models\KScore.cs" />
-    <Compile Include="Models\KScoreDetail.cs" />
-    <Compile Include="Models\KStud.cs" />
-    <Compile Include="Models\KSubBan.cs" />
-    <Compile Include="Models\KSubGrade.cs" />
-    <Compile Include="Models\KSubTest.cs" />
-    <Compile Include="Models\QrAccRoleGroup.cs" />
-    <Compile Include="Models\QrWxAccPrize.cs" />
-    <Compile Include="Models\QrWxAccSend.cs" />
-    <Compile Include="Models\QrWxStudentUpload.cs" />
+    <Compile Include="Models\KaoAnaType.cs" />
+    <Compile Include="Models\KaoPlace.cs" />
+    <Compile Include="Models\KaoScore.cs" />
+    <Compile Include="Models\KaoScoreAna.cs" />
+    <Compile Include="Models\KaoSub.cs" />
+    <Compile Include="Models\KaoType.cs" />
+    <Compile Include="Models\RoleAction.cs" />
+    <Compile Include="Models\RoleGroup.cs" />
+    <Compile Include="Models\RoleType.cs" />
+    <Compile Include="Models\Stud.cs" />
     <Compile Include="Models\StudCome.cs" />
-    <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudGrade.cs" />
-    <Compile Include="Models\StudGradeField.cs" />
     <Compile Include="Models\StudGradeMove.cs" />
-    <Compile Include="Models\StudGradeTable.cs" />
-    <Compile Include="Models\StudGradeType.cs" />
     <Compile Include="Models\StudOut.cs" />
     <Compile Include="Models\TAcc.cs" />
     <Compile Include="Models\TBan.cs" />
@@ -187,6 +177,10 @@
     <Compile Include="Models\TSub.cs" />
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TYear.cs" />
+    <Compile Include="Models\ViAccRoleGroup.cs" />
+    <Compile Include="Models\ViWxAccPrize.cs" />
+    <Compile Include="Models\ViWxAccSend.cs" />
+    <Compile Include="Models\ViWxStudUpload.cs" />
     <Compile Include="Models\WxAcc.cs" />
     <Compile Include="Models\WxAccFilter.cs" />
     <Compile Include="Models\WxAccPrize.cs" />
@@ -194,11 +188,11 @@
     <Compile Include="Models\WxAction.cs" />
     <Compile Include="Models\WxPrize.cs" />
     <Compile Include="Models\WxUploadFile.cs" />
-    <Compile Include="Mvvm\School\Stud\Action\ActionStudGrade.cs" />
-    <Compile Include="Mvvm\School\Stud\Action\ActionStudPhoto.cs" />
-    <Compile Include="Mvvm\School\Stud\VmStudent.cs" />
-    <Compile Include="Mvvm\School\Stud\VqBanPhotos.cs" />
-    <Compile Include="Mvvm\School\Stud\VmStudGrade.cs" />
+    <Compile Include="Mvvm\School\Student\Action\ActionStudGrade.cs" />
+    <Compile Include="Mvvm\School\Student\Action\ActionStudPhoto.cs" />
+    <Compile Include="Mvvm\School\Student\VmStudent.cs" />
+    <Compile Include="Mvvm\School\Student\VqBanPhotos.cs" />
+    <Compile Include="Mvvm\School\Student\VmStudGrade.cs" />
     <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Entity\BllLog.cs" />
     <Compile Include="Bll\Custom\StudInfor.cs" />
@@ -222,7 +216,7 @@
     <Compile Include="Bll\WX\Model\WX_OAuserInfor.cs" />
     <Compile Include="Bll\WX\ViewModel\VmStudEx.cs" />
     <Compile Include="Bll\WX\WXImage.cs" />
-    <Compile Include="Mvvm\School\Stud\Action\ActionStudent.cs">
+    <Compile Include="Mvvm\School\Student\Action\ActionStudent.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\BllApi.cs">
@@ -276,7 +270,7 @@
     <Compile Include="Core\XingCode.cs" />
     <Compile Include="Bll\Custom\BanAdds.cs" />
     <Compile Include="Core\Dicts.cs" />
-    <Compile Include="Mvvm\School\Stud\VmStudDetail.cs" />
+    <Compile Include="Mvvm\School\Student\VmStudDetail.cs" />
     <Compile Include="Core\ReObject.cs" />
     <Compile Include="Core\Setting.cs" />
     <Compile Include="Bll\BllEntity.cs">
@@ -322,11 +316,9 @@
     <Compile Include="Controllers\WX\ImageController.cs" />
     <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
-    <Compile Include="Controllers\Stud\StudEditController.cs" />
     <Compile Include="Controllers\User\UserOutController.cs" />
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\Stud\StudRegController.cs" />
     <Compile Include="Controllers\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -666,7 +658,6 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Regs\Mast.cshtml" />
-    <Content Include="Views\StudReg\Index.cshtml" />
     <Content Include="Views\UserOut\Edit.cshtml" />
     <Content Include="Views\UserStud\Out.cshtml" />
     <Content Include="Web.config" />
@@ -687,11 +678,6 @@
     <Content Include="Views\AdminUser\Add.cshtml" />
     <Content Include="Views\AdminUser\Del.cshtml" />
     <Content Include="Views\AdminUser\Edit.cshtml" />
-    <Content Include="Views\StudReg\Manu.cshtml" />
-    <Content Include="Views\StudReg\Query.cshtml" />
-    <Content Include="Views\StudReg\Edit.cshtml" />
-    <Content Include="Views\StudReg\Reg.cshtml" />
-    <Content Include="Views\StudReg\Print.cshtml" />
     <Content Include="Views\UserEdu\Index.cshtml" />
     <Content Include="Views\UserEdu\Add.cshtml" />
     <Content Include="Views\UserEdu\Del.cshtml" />
@@ -736,9 +722,6 @@
     <Content Include="Views\UserBanst\Change.cshtml" />
     <Content Include="Views\UserStud\Drop.cshtml" />
     <Content Include="Views\UserStud\Back.cshtml" />
-    <Content Include="Views\StudEdit\Index.cshtml" />
-    <Content Include="Views\StudEdit\Edit.cshtml" />
-    <Content Include="Views\StudEdit\Fix.cshtml" />
     <Content Include="Views\MastBan\Index.cshtml" />
     <Content Include="Views\MastStud\Index.cshtml" />
     <Content Include="Views\MastBan\Edit.cshtml" />
@@ -777,7 +760,6 @@
     <Content Include="Views\UserBanst\NowClass.cshtml" />
     <Content Include="Views\UserBanst\MasterClass.cshtml" />
     <Content Include="Views\UserGrade\Edit.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\ARoleActions\Create.cshtml" />
     <Content Include="Views\ARoleActions\Delete.cshtml" />
     <Content Include="Views\ARoleActions\Details.cshtml" />
@@ -807,10 +789,10 @@
     <Content Include="Views\UserBanst\StudPhoto.cshtml" />
     <Content Include="Views\Regs\Photo.cshtml" />
     <Content Include="Views\UserStud\Edit.cshtml" />
-    <Content Include="Views\KaoSet\Add.cshtml" />
-    <Content Include="Views\KaoSet\Del.cshtml" />
-    <Content Include="Views\KaoSet\Edit.cshtml" />
-    <Content Include="Views\KaoSet\Index.cshtml" />
+    <Content Include="Views\KaoPlace\Add.cshtml" />
+    <Content Include="Views\KaoPlace\Del.cshtml" />
+    <Content Include="Views\KaoPlace\Edit.cshtml" />
+    <Content Include="Views\KaoPlace\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />
@@ -821,6 +803,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

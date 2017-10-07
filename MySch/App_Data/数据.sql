@@ -53,34 +53,34 @@ alter table TLog add constraint PK_TLog primary key clustered (GD)
 --权限设置--
 --权限分类
 --  相当于对进行标题分类
-create table ARoleType
+create table RoleType
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
 	Name	nvarchar(20) not null,
 )
 go
-alter table ARoleType add constraint PK_ARoleType primary key clustered (ID)
-create unique nonclustered index UN_ARoleType_IDS on ARoleType (IDS)
-create unique nonclustered index UN_ARoleType_Name on ARoleType (Name)
+alter table RoleType add constraint PK_RoleType primary key clustered (IDS)
+create unique nonclustered index UN_RoleType_ID on RoleType (ID)
+create unique nonclustered index UN_RoleType_Name on RoleType (Name)
 
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '01', '系统设置')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '02', '模板定制')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '03', '权限分配')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '04', '用户管理')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '05', '有客来访')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '06', '教师相关')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '07', '主任工作')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '08', '备课计划')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '09', '年级分工')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '10', '学校安排')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '11', '集团设置')
-insert ARoleType values (Lower(REPLACE(NEWID(), '-','')), '12', '局里有约')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '01', '系统设置')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '02', '模板定制')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '03', '权限分配')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '04', '用户管理')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '05', '有客来访')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '06', '教师相关')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '07', '主任工作')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '08', '备课计划')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '09', '年级分工')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '10', '学校安排')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '11', '集团设置')
+insert RoleType values (Lower(REPLACE(NEWID(), '-','')), '12', '局里有约')
 
 
 --权限内容
 --  用Action自动添加
-create table ARoleAction
+create table RoleAction
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(100) not null,	--url
@@ -89,14 +89,14 @@ create table ARoleAction
 	RoleTypeIDS	nvarchar(20) not null,	--权限分类编号
 )
 go
-alter table ARoleAction add constraint PK_ARoleAction primary key clustered (ID)
-alter table ARoleAction add constraint FK_ARoleAction_RoleTypeIDS foreign key (RoleTypeIDS) references ARoleType (IDS)
-create unique nonclustered index UN_ARoleAction_IDS on ARoleAction (IDS)
-create unique nonclustered index UN_ARoleAction_Name on ARoleAction (Name)
+alter table RoleAction add constraint PK_RoleAction primary key clustered (IDS)
+alter table RoleAction add constraint FK_RoleAction_RoleTypeIDS foreign key (RoleTypeIDS) references RoleType (IDS)
+create unique nonclustered index UN_RoleAction_ID on RoleAction (ID)
+create unique nonclustered index UN_RoleAction_Name on RoleAction (Name)
 
 
 --权限分组
-create table ARoleGroup
+create table RoleGroup
 (
 	ID	nvarchar(32) not null,
 	IDS	int not null,
@@ -105,19 +105,19 @@ create table ARoleGroup
 )
 go
 
-alter table ARoleGroup add constraint PK_ARoleGroup primary key clustered (ID)
-create unique nonclustered index UN_ARoleGroup_IDS on ARoleGroup (IDS)
+alter table RoleGroup add constraint PK_RoleGroup primary key clustered (IDS)
+create unique nonclustered index UN_RoleGroup_ID on RoleGroup (ID)
 
 
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 0, '游客', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 1, '教师', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 2, '班主任', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 3, '备课组长', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 4, '年级组长', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 5, '学校管理员', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 6, '教育集团总长', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 7, '教育局负责人', null)
-insert ARoleGroup values (Lower(REPLACE(NEWID(), '-','')), 99, '系统管理员', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 0, '游客', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 1, '教师', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 2, '班主任', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 3, '备课组长', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 4, '年级组长', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 5, '学校管理员', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 6, '教育集团总长', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 7, '教育局负责人', null)
+insert RoleGroup values (Lower(REPLACE(NEWID(), '-','')), 99, '系统管理员', null)
 
 
 
@@ -144,9 +144,9 @@ create table TAcc
 	ParentID	nvarchar(32),
 )
 go
-alter table TAcc add constraint PK_TAcc primary key clustered (ID)
-alter table TAcc add constraint FK_TAcc_RoleGroupIDS foreign key (RoleGroupIDS) references ARoleGroup (IDS)
-create unique nonclustered index UN_TAcc_IDS on TAcc (IDS)
+alter table TAcc add constraint PK_TAcc primary key clustered (IDS)
+alter table TAcc add constraint FK_TAcc_RoleGroupIDS foreign key (RoleGroupIDS) references RoleGroup (IDS)
+create unique nonclustered index UN_TAcc_ID on TAcc (ID)
 
 --插入管理员
 insert TAcc values ('o47ZhvzWPWSNS26vG_45Fuz5JMZk','admin','系统管理员', 99,'2017-05-10 12:00:00',  1, 0, '471cc448fe732d7b61994e3615f0b1de',  null)
@@ -168,7 +168,7 @@ create table TLogin
 	LoginTime	datetime not null,	--登录时间
 )
 go
-alter table TLogin add constraint PK_TLogin primary key clustered (ID)
+alter table TLogin add constraint PK_TLogin primary key clustered (IDS)
 create index IN_TLogin_Name on TLogin (Name)
 
 --打印位置记录
@@ -199,9 +199,9 @@ create table TEdu
 	AccIDS	nvarchar(32) not null
 )
 go
-alter table TEdu add constraint PK_TEdu primary key clustered (ID)
+alter table TEdu add constraint PK_TEdu primary key clustered (IDS)
 alter table TEdu add constraint FK_TEdu_AccID foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TEdu_IDS on TEdu (IDS)
+create unique nonclustered index UN_TEdu_ID on TEdu (ID)
 
 
 insert TEdu values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '一年级', 1, 0, '32128402')
@@ -226,9 +226,9 @@ create table TPart
 	AccIDS	nvarchar(32) not null
 )
 go
-alter table TPart add constraint PK_TPart primary key clustered (ID)
+alter table TPart add constraint PK_TPart primary key clustered (IDS)
 alter table TPart add constraint FK_TPart_AccID foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TPart_IDS on TPart (IDS)
+create unique nonclustered index UN_TPart_ID on TPart (ID)
 create unique nonclustered index UN_TPart_Name on TPart (Name)
 
 
@@ -236,10 +236,10 @@ insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '实验初�
 insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '二附初中', '02', 1, '32128402')
 insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '二附三水', '03', 1, '32128402')
 insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '天目学校', '04', 1, '32128402')
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '桥头初中', '11', 0, '32128402')
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '张沐初中', '13', 0, '32128402')
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '白米初中', '14', 0, '32128402')
-insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840216', '娄庄中学', '16', 0, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '桥头初中', '11', 1, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '张沐初中', '13', 1, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '白米初中', '14', 1, '32128402')
+insert TPart values (Lower(REPLACE(NEWID(), '-','')), '3212840216', '娄庄中学', '16', 1, '32128402')
 
 
 
@@ -258,10 +258,10 @@ create table TStep
 	AccIDS	nvarchar(32) not null,
 )
 go
-alter table TStep add constraint PK_TStep primary key clustered (ID)
+alter table TStep add constraint PK_TStep primary key clustered (IDS)
 alter table TStep add constraint FK_TStep_PartIDS foreign key (PartIDS) references TPart (IDS)
 alter table TStep add constraint FK_TStep_AccIDS foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TStep_IDS on TStep (IDS)
+create unique nonclustered index UN_TStep_ID on TStep (ID)
 go
 
 --实验
@@ -302,9 +302,9 @@ create table TYear
 	AccIDS	nvarchar(32) not null	--所属学校
 )
 go
-alter table TYear add constraint PK_TYear primary key clustered (ID)
+alter table TYear add constraint PK_TYear primary key clustered (IDS)
 alter table TYear add constraint FK_TYear_AccIDS foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TYear_IDS on TYear (IDS)
+create unique nonclustered index UN_TYear_ID on TYear (ID)
 go
 insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022017', '2017', 1, '32128402')
 insert TYear values (Lower(REPLACE(NEWID(), '-','')), '321284022016', '2016', 0, '32128402')
@@ -331,8 +331,8 @@ create table TSemester
 	Value	nvarchar(2) not null,
 	AccIDS	nvarchar(32) not null,
 )
-alter table TSemester add constraint PK_TSemester primary key clustered (ID)
-create unique nonclustered index UN_TSemester_IDS on TSemester (IDS)
+alter table TSemester add constraint PK_TSemester primary key clustered (IDS)
+create unique nonclustered index UN_TSemester_ID on TSemester (ID)
 go
 insert TSemester values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '第一学期', '01', '32128402')
 insert TSemester values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '第二学期', '02', '32128402')
@@ -349,11 +349,11 @@ create table TTerm
 	AccIDS	nvarchar(32) not null,
 )
 go
-alter table TTerm add constraint PK_TTerm primary key clustered (ID)
+alter table TTerm add constraint PK_TTerm primary key clustered (IDS)
 alter table TTerm add constraint FK_TTerm_AccIDS foreign key (AccIDS) references TAcc (IDS)
 alter table TTerm add constraint FK_TTerm_YearIDS foreign key (YearIDS) references TYear (IDS)
 alter table TTerm add constraint FK_TTerm_SemesterIDS foreign key (SemesterIDS) references TSemester (IDS)
-create unique nonclustered index UN_TTerm_IDS on TTerm (IDS)
+create unique nonclustered index UN_TTerm_ID on TTerm (ID)
 
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402200401', 0, '321284022004', '3212840201', '32128402')
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402200402', 0, '321284022004', '3212840202', '32128402')
@@ -379,9 +379,9 @@ insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201401', 0, '3212
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201402', 0, '321284022014', '3212840202', '32128402')
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201501', 0, '321284022015', '3212840201', '32128402')
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201502', 0, '321284022015', '3212840202', '32128402')
-insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', 1, '321284022016', '3212840201', '32128402')
+insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201601', 0, '321284022016', '3212840201', '32128402')
 
-insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201602', 1, '321284022016', '3212840202', '32128402')
+insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201602', 0, '321284022016', '3212840202', '32128402')
 insert TTerm values (Lower(REPLACE(NEWID(), '-','')), '32128402201701', 1, '321284022017', '3212840201', '32128402')
 
 --年级设置
@@ -399,12 +399,12 @@ create table TGrade
 	GoneList	nvarchar(max),
 )
 go
-alter table TGrade add constraint PK_TGrade primary key clustered (ID)
+alter table TGrade add constraint PK_TGrade primary key clustered (IDS)
 alter table TGrade add constraint FK_TGrade_StepIDS foreign key (StepIDS) references TStep (IDS)
 alter table TGrade add constraint FK_TGrade_YearIDS foreign key (YearIDS) references TYear (IDS)
 alter table TGrade add constraint FK_TGrade_EduIDS foreign key (EduIDS) references TEdu (IDS)
 alter table TGrade add constraint FK_TGrade_AccIDS foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TGrade_IDS on TGrade (IDS)
+create unique nonclustered index UN_TGrade_ID on TGrade (ID)
 --实验
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120170107', '3212840201201701', '321284022017', '3212840207', '32128402', 1, 2, 1, NULL)
 insert TGrade values (Lower(REPLACE(NEWID(), '-','')), '321284020120160108', '3212840201201601', '321284022017', '3212840208', '32128402', 1, 2, 1, NULL)
@@ -474,7 +474,6 @@ create table TBan
 	Num	nvarchar(10) not null,
 	GradeIDS	nvarchar(32) not null,
 	MasterIDS	nvarchar(32),
-	AccIDS	nvarchar(32) not null,
 	NotFeng	bit not null,
 	OnlyFixed	bit not null,
 	ChangeNum	int not null,
@@ -483,11 +482,10 @@ create table TBan
 	SameSex	bit not null,
 )
 go
-alter table TBan add constraint PK_TBan primary key clustered (ID)
+alter table TBan add constraint PK_TBan primary key clustered (IDS)
 alter table TBan add constraint FK_TBan_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
-alter table TBan add constraint FK_TBan_MasterIDS foreign key (MasterIDS) references TAcc (ID)
-alter table TBan add constraint FK_TBan_AccIDS foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TBan_IDS on TBan (IDS)
+alter table TBan add constraint FK_TBan_MasterIDS foreign key (MasterIDS) references TAcc (IDS)
+create unique nonclustered index UN_TBan_ID on TBan (ID)
 
 --2017级
 
@@ -506,9 +504,9 @@ create table TSub
 )
 go
 
-alter table TSub add constraint PK_TSub primary key clustered (ID)
+alter table TSub add constraint PK_TSub primary key clustered (IDS)
 alter table TSub add constraint FK_TSub_AccIDS foreign key (AccIDS) references TAcc (IDS)
-create unique nonclustered index UN_TSub_IDS on TSub (IDS)
+create unique nonclustered index UN_TSub_ID on TSub (ID)
 
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '32128402', '01', '语文', '语', 0)
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '32128402', '02', '数字', '数', 0)
@@ -525,6 +523,7 @@ insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840212', '32128402', '
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '32128402', '13', '信息', '信', 0)
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '32128402', '14', '口语', '口', 0)
 insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '32128402', '15', '听力', '听', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '32128402', '99', '总分', '总', 0)
 
 
 
@@ -541,8 +540,8 @@ create table StudOut
 
 go
 
-alter table StudOut add constraint PK_StudOut primary key clustered (ID)
-create unique nonclustered index UN_StudOut_IDS on StudOut (IDS)
+alter table StudOut add constraint PK_StudOut primary key clustered (IDS)
+create unique nonclustered index UN_StudOut_ID on StudOut (ID)
 
 insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
 insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '升学', '02', 0, '32128402')
@@ -572,8 +571,8 @@ create table StudCome
 
 go
 
-alter table StudCome add constraint PK_StudCome primary key clustered (ID)
-create unique nonclustered index UN_StudCome_IDS on StudCome (IDS)
+alter table StudCome add constraint PK_StudCome primary key clustered (IDS)
+create unique nonclustered index UN_StudCome_ID on StudCome (ID)
 
 insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
 insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
@@ -584,7 +583,7 @@ insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读�
 
 
 --学生表
-create table Student
+create table Stud
 (
 	ID	nvarchar(32) not null,	--唯一编号
 	IDS	nvarchar(32) not null,	--学生编号
@@ -616,12 +615,12 @@ create table Student
 	--
 )
 go
-alter table Student add constraint PK_Student primary key clustered (ID)
-alter table Student add constraint FK_Student_StepIDS foreign key (StepIDS) references TStep (IDS)
-create unique nonclustered index UN_Student_IDS on Student (IDS)
-create unique nonclustered index UN_Student_IDC on Student (IDC)
-create index IN_Student_Name on Student (Name)
-create index IN_Student_RegUID on Student (RegUID)
+alter table Stud add constraint PK_Stud primary key clustered (IDS)
+alter table Stud add constraint FK_Stud_StepIDS foreign key (StepIDS) references TStep (IDS)
+create unique nonclustered index UN_Stud_ID on Stud (ID)
+create unique nonclustered index UN_Stud_IDC on Stud (IDC)
+create index IN_Stud_Name on Stud (Name)
+create index IN_Stud_RegUID on Stud (RegUID)
 
 
 
@@ -647,12 +646,12 @@ create table StudGrade
 )
 go
 
-alter table StudGrade add constraint PK_StudGrade primary key clustered (ID)
+alter table StudGrade add constraint PK_StudGrade primary key clustered (IDS)
 alter table StudGrade add constraint FK_StudGrade_BanIDS foreign key (BanIDS) references TBan (IDS)
-alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) references Student (IDS)
+alter table StudGrade add constraint FK_StudGrade_StudIDS foreign key (StudIDS) references Stud (IDS)
 alter table StudGrade add constraint FK_StudGrade_GradeIDS foreign key (GradeIDS) references TGrade (IDS)
 alter table StudGrade add constraint FK_StudGrade_ComeIDS foreign key (ComeIDS) references StudCome (IDS)
-create unique nonclustered index UN_StudGrade_IDS on StudGrade (IDS)
+create unique nonclustered index UN_StudGrade_ID on StudGrade (ID)
 
 
 --分班中转表
@@ -665,43 +664,11 @@ create table StudGradeMove
 			--两个学生一组，完成检测  
 )
 go
-alter table StudGradeMove add constraint PK_StudGradeMove primary key clustered (ID)
-create unique nonclustered index UN_StudGradeMove_IDS on StudGradeMove (IDS)
+alter table StudGradeMove add constraint PK_StudGradeMove primary key clustered (IDS)
 alter table StudGradeMove add constraint FK_StudGradeMove_BanIDS foreign key (BanIDS) references TBan (IDS)
---alter table StudGradeMove add constraint FK_StudGradeMove_OwnerAccIDS foreign key (OwnerAccIDS) references TAcc (ID)
+alter table StudGradeMove add constraint FK_StudGradeMove_OwnerIDS foreign key (OwnerIDS) references TAcc (IDS)
+create unique nonclustered index UN_StudGradeMove_ID on StudGradeMove (ID)
 
-
---年度学生列表类型
-create table StudGradeType
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,
-	Name	nvarchar(20) not null,	--年度学生列表类型名称
-	AccIDS	nvarchar(32) not null,	--学校编号
-)
-go
-
---年度学生列表
-create table StudGradeTable
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,
-	GradeIDS	nvarchar(32) not null,	--年度编号
-	TableName	nvarchar(20) not null,	--年度学生列表名称
-	TypeIDS	nvarchar(20) not null,	--年度学生列表类型
-	Memo	nvarchar(100),
-)
-go
-
---年度学生明细
-create table StudGradeField
-(
-	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,
-	TableIDS	nvarchar(32) not null,
-	FieldName	nvarchar(20) not null,
-)
-go
 
 
 ----考试相关
@@ -710,31 +677,31 @@ go
 create table KaoPlace
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,	--AccIDS + PlaceNo
+	IDS	nvarchar(32) not null,	--AccIDS + PlaceNo
 	AccIDS	nvarchar(32) not null,
-	PlaceNo	nvarchar(2) not null,
+	PlaceNo	nvarchar(2) not null,	--考场编号
 	Fixed	bit not null,
 )
 go
-alter table KaoPlace add constraint PK_KaoPlace primary key clustered (ID)
-alter table KaoPlace add constraint FK_KaoPlace_AccIDS foreign key (AccIDS) references TAcc (AccIDS)
-create unique nonclustered index UN_KaoPlace_IDS on KaoPlace (IDS)
+alter table KaoPlace add constraint PK_KaoPlace primary key clustered (IDS)
+alter table KaoPlace add constraint FK_KaoPlace_AccIDS foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_KaoPlace_ID on KaoPlace (ID)
 
 
 --考试类型
 create table KaoType
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(20) not null,	--AccIDS + Value
+	IDS	nvarchar(32) not null,	--AccIDS + Value
 	AccIDS	nvarchar(32) not null,
 	Name	nvarchar(20) not null,	--类型名称
 	Value	nvarchar(2) not null,
 	Fixed	bit not null,
 )
 go
-alter table KaoType add constraint PK_KaoType primary key clustered (ID)
-alter table KaoType add constraint FK_KaoType_AccIDS foreign key (AccIDS) references TAcc (AccIDS)
-create unique nonclustered index UN_KaoType_IDS on KaoType (IDS)
+alter table KaoType add constraint PK_KaoType primary key clustered (IDS)
+alter table KaoType add constraint FK_KaoType_AccIDS foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_KaoType_ID on KaoType (ID)
 
 insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '32128402', '周练', '01', 0)
 insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '32128402', '月考', '02', 0)
@@ -747,9 +714,9 @@ insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '32128402'
 create table Kao
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,	--TermIDS + Value
-	TermIDS	nvarchar(32) not null,
-	OwnerIDS	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,	--AccIDS - TermIDS - Value
+	AccIDS	nvarchar(32) not null,
+	TermIDS	nvarchar(20) not null,
 	KaoTypeIDS	nvarchar(32) not null,
 	CreateTime	datetime not null,
 	Name	nvarchar(32) not null,
@@ -757,194 +724,82 @@ create table Kao
 	KaoCoded	bit not null,
 )
 go
-alter table Kao add constraint PK_Kao primary key clustered (ID)
+alter table Kao add constraint PK_Kao primary key clustered (IDS)
+alter table Kao add constraint FK_Kao_AccIDS foreign key (AccIDS) references TAcc (IDS)
 alter table Kao add constraint FK_Kao_TermIDS foreign key (TermIDS) references TTerm (IDS)
-alter table Kao add constraint FK_Kao_OwnerIDS foreign key (OwnerIDS) references TAcc (IDS)
 alter table Kao add constraint FK_Kao_KaoTypeIDS foreign key (KaoTypeIDS) references KaoType (IDS)
-create unique nonclustered index UN_Kao_IDS on Kao (IDS)
+create unique nonclustered index UN_Kao_ID on Kao (ID)
 
 --考试学科
 create table KaoSub
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,	--AccIDS + Value
-	AccIDS	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,	--AccIDS + 
 	KaoIDS	nvarchar(32) not null,
 	SubIDS	nvarchar(20) not null,
 	AddTotal	bit not null,	--算总分
 	MaxScore	int not null,	--最大分值
-	CanSum	bit not null,	--可以汇总了吗？
-	Value	nvarchar(20) not null,
+	CanSum	bit not null,	--可以统计了吗？
 	Fixed	bit not null,
 )
 go
-
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '32128402', '语文', '语', '01', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '32128402', '数学', '数', '02', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '32128402', '英语', '英', '03', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '32128402', '物理', '物', '04', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '32128402', '化学', '化', '05', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '32128402', '政治', '政', '06', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '32128402', '历史', '历', '07', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '32128402', '地理', '地', '08', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '32128402', '生物', '生', '09', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840210', '32128402', '体育', '体', '10', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '32128402', '音乐', '音', '11', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840212', '32128402', '美术', '美', '12', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '32128402', '信息', '信', '13', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '32128402', '听力', '听', '14', 0)
-insert KaoSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '32128402', '口语', '口', '15', 0)
+alter table KaoSub add constraint PK_KaoSub primary key clustered (IDS)
+alter table KaoSub add constraint FK_KaoSub_KaoIDS foreign key (KaoIDS) references Kao (IDS)
+alter table KaoSub add constraint FK_KaoSub_SubIDS foreign key (SubIDS) references TSub (IDS)
+create unique nonclustered index UN_KaoSub_ID on KaoSub (ID)
 
 
---
+--考试成绩
+create table KaoScore
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	KaoSubIDS	nvarchar(32) not null,
+	GradeStudIDS	nvarchar(32) not null,
+	Value	float,
+)
+go
+alter table KaoScore add constraint PK_KaoScore primary key clustered (IDS)
+alter table KaoScore add constraint FK_KaoScore_KaoSubIDS foreign key (KaoSubIDS) references KaoSub (IDS)
+alter table KaoScore add constraint FK_KaoScore_GradeStudIDS foreign key (GradeStudIDS) references StudGrade (IDS)
+create unique nonclustered index UN_KaoScore_ID on KaoScore (ID)
 
-----年级学科（这里的Value、Scoring是统一设置，默认值）
---create table KSubGrade
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(20) not null,
---	GradeIDS	nvarchar(20) not null,
---	SubIDS	nvarchar(20) not null,
---	DefaultValue	int not null,	--学科分值
---	DefaultScoring	bit not null,	--是否记分
---)
---go
+--成绩分析类型
+create table KaoAnaType
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	AccIDS	nvarchar(32) not null,
+	Name	nvarchar(20) not null,
+	Value	nvarchar(2) not null,
+	Fixed	bit not null,
+)
+go
+alter table KaoAnaType add constraint PK_KaoAnaType primary key clustered (IDS)
+alter table KaoAnaType add constraint FK_KaoAnaType_AccIDS foreign key (AccIDS) references TAcc (IDS)
+create unique nonclustered index UN_KaoAnaType_ID on KaoAnaType (ID)
 
---alter table KSubGrade add constraint PK_KSubGrade primary key clustered (ID)
---alter table KSubGrade add constraint FK_KSubGrade_SubIDS foreign key (SubIDS) references TSub (IDS)
---create unique nonclustered index UN_KSubGrade_IDS on KSubGrade (IDS)
+--成绩分析，只是为了做拆线统计用，
+create table KaoScoreAna
+(
+	ID	nvarchar(32) not null,
+	IDS	nvarchar(32) not null,
+	AccIDS	nvarchar(32) not null,	--谁要分析数据
+	KaoAnaIDS	nvarchar(32) not null,
+	KaoScoreIDS	nvarchar(32) not null,
+	AnaResult	int not null,	--分析之后的结果
+)
+go
+alter table KaoScoreAna add constraint PK_KaoScoreAna primary key clustered (IDS)
+alter table KaoScoreAna add constraint FK_KaoScoreAna_AccIDS foreign key (AccIDS) references TAcc (IDS)
+alter table KaoScoreAna add constraint FK_KaoScoreAna_KaoScoreIDS foreign key (KaoScoreIDS) references KaoScore (IDS)
+create unique nonclustered index UN_KaoScoreAna_ID on KaoScoreAna (ID)
 
---insert KSubGrade values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010701', '321284020120160107', '3212840201', 150, 1)
---insert KSubGrade values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010702', '321284020120160107', '3212840202', 150, 1)
---insert KSubGrade values (Lower(REPLACE(NEWID(), '-','')), '32128402012016010703', '321284020120160107', '3212840203', 150, 1)
-
-
-
-
-----班级课任教师
---create table KSubBan
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(32) not null,
---	BanIDS	nvarchar(20) not null,
---	SubGradeIDS	nvarchar(20) not null,
---	AccIDS	nvarchar(32) not null,
---	IsMaster	bit not null,	--是否班主任
---	--是否要增加时间？
---)
---go
-
---alter table KSubBan add constraint PK_KSubBan primary key clustered (ID)
---alter table KSubBan add constraint FK_KSubBan_BanIDS foreign key (BanIDS) references TBan (IDS)
---alter table KSubBan add constraint FK_KSubBan_SubGradeIDS foreign key (SubGradeIDS) references KSubGrade (IDS)
---alter table KSubBan add constraint FK_KSubBan_AccIDS foreign key (AccIDS) references TAcc (IDS)
---create unique nonclustered index UN_KSubBan_IDS on KSubBan (IDS)
-
-
-
-----参加考试学科（这里的Value、Scoring是实际值，Value过滤非法输入）
---create table KSubTest
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(20) not null,
---	KaoIDS	nvarchar(20) not null,
---	SubIDS	nvarchar(20) not null,
---	Value	int not null,
---	Scoring	bit not null,
---)
---go
---alter table KSubTest add constraint PK_KSubTest primary key clustered (ID)
---alter table KSubTest add constraint FK_KSubTest_KaoIDS foreign key (KaoIDS) references Kao (IDS)
---alter table KSubTest add constraint FK_KSubTest_SubIDS foreign key (SubIDS) references TSub (IDS)
---create unique nonclustered index UN_KSubTest_IDS on KSubTest (IDS)
-
-----考场设置分类
---create table KRoomType
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(20) not null,
---	Name	nvarchar(20) not null,	--考场分类名称（初一、初二、初三）
---	Fixed	bit not null,	--是否启用
---)
---go
---alter table KRoomType add constraint PK_KRoomType primary key clustered (ID)
---create unique nonclustered index UN_KRoomType_IDS on KRoomType (IDS)
-
-
-----考场设置
---create table KRoom
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(20) not null,
---	Name	nvarchar(20) not null,	--考场名称
---	Value	nvarchar(5) not null,	--考场编号
---	Hold	int not null,	--考场容纳人数
---	BeginNum	int not null,	--起始号码（默认从1开始编号）
---	TypeIDS	nvarchar(20) not null,	--分类编号
---)
---go
---alter table KRoom add constraint PK_KRoom primary key clustered (ID)
---alter table KRoom add constraint FK_KRoom_TypeIDS foreign key (TypeIDS) references KRoomType (IDS)
---create unique nonclustered index UN_KRoom_IDS on KRoom (IDS)
-
-
-----参加考试的人员设置
---create table KStud
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(20) not null,
---	KaoIDS	nvarchar(20) not null,
---	StudIDS	nvarchar(32) not null,
---	Room	nvarchar(10),
---	Seat	nvarchar(10),
---	Kao	nvarchar(20),
---)
---go
---alter table KStud add constraint PK_KStud primary key clustered (ID)
---alter table KStud add constraint FK_KStud_KaoIDS foreign key (KaoIDS) references Kao (IDS)
---alter table KStud add constraint FK_KStud_StudIDS foreign key (StudIDS) references Student (IDS)
---create unique nonclustered index UN_KStud_IDS on KStud (IDS)
-
-
-----考试成绩
---create table KScore
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(20) not null,
---	KStudIDS	nvarchar(20) not null,
---	KaoIDS	nvarchar(20) not null,
---	SubIDS	nvarchar(20) not null,
---	Value	float,
---	BanIndex	int,
---	GradeIndex	int,
---	GroupIndex	int,
---	TotalIndex	int,
---)
---go
---alter table KScore add constraint PK_KScore primary key clustered (ID)
---alter table KScore add constraint FK_KScore_KStudIDS foreign key (KStudIDS) references KStud (IDS)
---alter table KScore add constraint FK_KScore_KaoIDS foreign key (KaoIDS) references Kao (IDS)
---alter table KScore add constraint FK_KScore_SubIDS foreign key (SubIDS) references TSub (IDS)
---create unique nonclustered index UN_KScore_IDS on KScore (IDS)
-
-----考试成绩明细
---create table KScoreDetail
---(
---	ID	nvarchar(32) not null,
---	IDS	nvarchar(20) not null,
---	ScoreIDS	nvarchar(20) not null,	--成绩编号
---	Name	nvarchar(20) not null,
---	Value	nvarchar(20),
---)
---go
---alter table KScoreDetail add constraint PK_KScoreDetail primary key clustered (ID)
---alter table KScoreDetail add constraint FK_KScoreDetail_ScoreIDS foreign key (ScoreIDS) references KScore (IDS)
---create unique nonclustered index UN_KScoreDetail_IDS on KScoreDetail (IDS)
 
 
 
 --数据访问
-create table ADatum
+create table AdminDatum
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,	--名称，英文
@@ -952,9 +807,9 @@ create table ADatum
 	Command	nvarchar(max) not null,
 )
 go
-alter table ADatum add constraint PK_ADatum primary key clustered (ID)
-create unique nonclustered index UN_ADatum_IDS on ADatum (IDS)
-create unique nonclustered index UN_ADatum_Name on ADatum (Name)
+alter table AdminDatum add constraint PK_AdminDatum primary key clustered (IDS)
+create unique nonclustered index UN_AdminDatum_ID on AdminDatum (ID)
+create unique nonclustered index UN_AdminDatum_Name on AdminDatum (Name)
 
 --select * from dbo.XXX where ID = '{0}'
 --select * from dbo.XXX where ID = '{0}' and IDS = '{1}'
@@ -965,7 +820,7 @@ create unique nonclustered index UN_ADatum_Name on ADatum (Name)
 --AccID参数自动获得
 
 --样式列表
-create table ATheme
+create table AdminTheme
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -973,14 +828,14 @@ create table ATheme
 	IsCurrent	bit not null,
 )
 go
-alter table ATheme add constraint PK_ATheme primary key clustered (ID)
-create unique nonclustered index UN_ATheme_IDS on ATheme (IDS)
-create unique nonclustered index UN_ATheme_Name on ATheme (Name)
+alter table AdminTheme add constraint PK_AdminTheme primary key clustered (IDS)
+create unique nonclustered index UN_AdminTheme_ID on AdminTheme (ID)
+create unique nonclustered index UN_AdminTheme_Name on AdminTheme (Name)
 
 
 
 --页面表
-create table APage
+create table AdminPage
 (
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(20) not null,
@@ -992,8 +847,8 @@ create table APage
 	ParentID	nvarchar(32) not null,
 )
 go
-alter table APage add constraint PK_APage primary key clustered (ID)
-create unique nonclustered index UN_APage_IDS on APage (IDS)
+alter table AdminPage add constraint PK_AdminPage primary key clustered (IDS)
+create unique nonclustered index UN_AdminPage_ID on AdminPage (ID)
 
 
 
@@ -1015,12 +870,12 @@ go
 
 
 --视图
-create view QrAccRoleGroup
+create view ViAccRoleGroup
 as
-SELECT     dbo.TAcc.ID, dbo.TAcc.IDS, dbo.TAcc.Name, dbo.TAcc.RoleGroupIDS, dbo.TAcc.Passed, dbo.TAcc.Fixed, dbo.ARoleGroup.Name AS RoleGroupName, 
+SELECT     dbo.TAcc.ID, dbo.TAcc.IDS, dbo.TAcc.Name, dbo.TAcc.RoleGroupIDS, dbo.TAcc.Passed, dbo.TAcc.Fixed, dbo.RoleGroup.Name AS RoleGroupName, 
                       dbo.TAcc.ParentID
 FROM         dbo.TAcc LEFT OUTER JOIN
-                      dbo.ARoleGroup ON dbo.TAcc.RoleGroupIDS = dbo.ARoleGroup.IDS
+                      dbo.RoleGroup ON dbo.TAcc.RoleGroupIDS = dbo.RoleGroup.IDS
 go
 
 
@@ -1041,8 +896,8 @@ create table WxAccFilter
 	Mobils	nvarchar(10),
 )
 go
-alter table WxAccFilter add constraint PK_WxAccFilter primary key clustered (ID)
-create unique nonclustered index UN_WxAccFilter_IDS on WxAccFilter (IDS)
+alter table WxAccFilter add constraint PK_WxAccFilter primary key clustered (IDS)
+create unique nonclustered index UN_WxAccFilter_ID on WxAccFilter (ID)
 create unique nonclustered index UN_WxAccFilter_Name on WxAccFilter (Name)
 
 
@@ -1059,8 +914,8 @@ create table WxAcc
 	headimgurl	nvarchar(200) not null,	--
 )
 go
-alter table WxAcc add constraint PK_WxAcc primary key clustered (ID)
-create unique nonclustered index UN_WxAcc_IDS on WxAcc (IDS)
+alter table WxAcc add constraint PK_WxAcc primary key clustered (IDS)
+create unique nonclustered index UN_WxAcc_ID on WxAcc (ID)
 create unique nonclustered index UN_WxAcc_Name on WxAcc (Name)
 
 --上墙 - 活动列表
@@ -1073,8 +928,8 @@ create table WxAction
 	NeedCheck	bit not null,	--需要检测是否当前活动
 )
 go
-alter table WxAction add constraint PK_WxAction primary key clustered (ID)
-create unique nonclustered index UN_WxAction_IDS on WxAction (IDS)
+alter table WxAction add constraint PK_WxAction primary key clustered (IDS)
+create unique nonclustered index UN_WxAction_ID on WxAction (ID)
 create unique nonclustered index UN_WxAction_Name on WxAction (Name)
 insert WxAction values (Lower(REPLACE(NEWID(), '-','')), '20170001', '庆祝2017年教师节活动', 1,1)
 
@@ -1087,8 +942,8 @@ create table WxPrize
 	Num	int not null,
 )
 go
-alter table WxPrize add constraint PK_WxPrize primary key clustered (ID)
-create unique nonclustered index UN_WxPrize_IDS on WxPrize (IDS)
+alter table WxPrize add constraint PK_WxPrize primary key clustered (IDS)
+create unique nonclustered index UN_WxPrize_ID on WxPrize (ID)
 create unique nonclustered index UN_WxPrize_Name on WxPrize (Name)
 insert WxPrize values (Lower(REPLACE(NEWID(), '-','')), '01', '特等奖', 1)
 insert WxPrize values (Lower(REPLACE(NEWID(), '-','')), '02', '一等奖', 1)
@@ -1109,13 +964,13 @@ create table WxAccSend
 	Showed	bit not null,	--是否已显示
 )
 go
-alter table WxAccSend add constraint PK_WxAccSend primary key clustered (ID)
-create unique nonclustered index UN_WxAccSend_IDS on WxAccSend (IDS)
+alter table WxAccSend add constraint PK_WxAccSend primary key clustered (IDS)
 alter table WxAccSend add constraint FK_WxAccSend_WxAccIDS foreign key (WxAccIDS) references WxAcc (IDS)
 alter table WxAccSend add constraint FK_WxAccSend_WxActionIDS foreign key (WxActionIDS) references WxAction (IDS)
+create unique nonclustered index UN_WxAccSend_ID on WxAccSend (ID)
 
 go
-create view QrWxAccSend
+create view ViWxAccSend
 as
 select 
   a.*
@@ -1139,16 +994,16 @@ create table WxAccPrize
 	WxPrizeIDS	nvarchar(32) not null,	--几等奖
 )
 go
-alter table WxAccPrize add constraint PK_WxAccPrize primary key clustered (ID)
-create unique nonclustered index UN_WxAccPrize on WxAccPrize (IDS)
+alter table WxAccPrize add constraint PK_WxAccPrize primary key clustered (IDS)
 alter table WxAccPrize add constraint FK_WxAccPrize_WxAccIDS foreign key (WxAccIDS) references WxAcc (IDS)
 alter table WxAccPrize add constraint FK_WxAccPrize_WxActionIDS foreign key (WxActionIDS) references WxAction (IDS)
 alter table WxAccPrize add constraint FK_WxAccPrize_WxPrizeIDS foreign key (WxPrizeIDS) references WxPrize (IDS)
+create unique nonclustered index UN_WxAccPrize_ID on WxAccPrize (ID)
 
 
 go
 --
-create view QrWxAccPrize
+create view ViWxAccPrize
 as
 select
   a.*
@@ -1170,13 +1025,13 @@ go
 --excel
 --substring(start = 1 开始计数)
 --C#是从0开始计数
-create view QrWxStudentUpload
+create view ViWxStudUpload
 as 
-SELECT     dbo.WxUploadFile.ID, dbo.WxUploadFile.IDS, dbo.WxUploadFile.FileType, dbo.WxUploadFile.UploadType, dbo.WxUploadFile.CreateTime, dbo.Student.IDC, 
-                      dbo.Student.Name, CASE substring(dbo.student.idc, 17, 1) % 2 WHEN 0 THEN '女' WHEN 1 THEN '男' END AS StudSex, dbo.StudGrade.GradeIDS, 
+SELECT     dbo.WxUploadFile.ID, dbo.WxUploadFile.IDS, dbo.WxUploadFile.FileType, dbo.WxUploadFile.UploadType, dbo.WxUploadFile.CreateTime, dbo.Stud.IDC, 
+                      dbo.Stud.Name, CASE substring(dbo.Stud.idc, 17, 1) % 2 WHEN 0 THEN '女' WHEN 1 THEN '男' END AS StudSex, dbo.StudGrade.GradeIDS, 
                       dbo.StudGrade.BanIDS, dbo.TBan.Num, dbo.StudGrade.InSch, dbo.StudGrade.Score, dbo.StudGrade.ID AS StudGradeID
 FROM         dbo.WxUploadFile INNER JOIN
-                      dbo.Student ON dbo.WxUploadFile.IDS = dbo.Student.IDS INNER JOIN
-                      dbo.StudGrade ON dbo.Student.IDS = dbo.StudGrade.StudIDS INNER JOIN
+                      dbo.Stud ON dbo.WxUploadFile.IDS = dbo.Stud.IDS INNER JOIN
+                      dbo.StudGrade ON dbo.Stud.IDS = dbo.StudGrade.StudIDS INNER JOIN
                       dbo.TBan ON dbo.StudGrade.BanIDS = dbo.TBan.IDS
 

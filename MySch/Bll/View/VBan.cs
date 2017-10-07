@@ -65,7 +65,6 @@ namespace MySch.Bll.View
                                        IsCurrent = y.IsCurrent,
                                        NotFeng = b.NotFeng,
                                        OnlyFixed = b.OnlyFixed,
-                                       AccIDS = b.AccIDS,
                                        ChangeNum = b.ChangeNum,
                                        Differ = b.Differ,
                                        IsAbs = b.IsAbs,

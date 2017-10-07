@@ -9,10 +9,11 @@ namespace MySch.Models
     [Table("StudGradeMove")]
     public partial class StudGradeMove
     {
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 
@@ -23,5 +24,9 @@ namespace MySch.Models
         [Required]
         [StringLength(32)]
         public string OwnerIDS { get; set; }
+
+        public virtual TBan TBan { get; set; }
+
+        public virtual TAcc TAcc { get; set; }
     }
 }

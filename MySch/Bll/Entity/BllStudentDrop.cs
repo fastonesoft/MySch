@@ -1,17 +1,8 @@
-﻿using MySch.Dal;
-using MySch.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
-using System.Web.Mvc;
+﻿using MySch.Models;
 
 namespace MySch.Bll.Entity
 {
-    public class BllStudentDrop : BllEntity<Student>
+    public class BllStudentDrop : BllEntity<Stud>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

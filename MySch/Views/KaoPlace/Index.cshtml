@@ -1,0 +1,99 @@
+﻿@{
+    Layout = null;
+    //KaoPlace/Index
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>考场设置</title>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //点击动作
+            kaoplaces = {
+                add: function () {
+                    DataGridNone('/KaoPlace/Add');
+                },
+                edit: function () {
+                    DataGridRowID('#kaoplaces-grid', '/KaoPlace/Edit');
+                },
+                del: function () {
+                    DataGridRowID('#kaoplaces-grid', '/KaoPlace/Del');
+                }
+            }
+
+            //数据表格
+            $('#kaoplaces-grid').datagrid({
+                fit: true,
+                striped: true,
+                rownumbers: true,
+                fitColumns: false,
+                remoteSort: false,
+                singleSelect: true,
+                checkOnSelect: true,
+                url: '/KaoPlace/DataGrid',
+                loadFilter: function (d) {
+                    if (d.error) {
+                        $.messager.alert('错误提示', d.message, 'error');
+                        return { total: 0, rows: [] };
+                    } else {
+                        return d;
+                    }
+                },
+
+                columns: [[
+                    { title: '学制名称', field: 'Name', align: 'center', width: 100 },
+                    { title: '学制代码', field: 'Value', align: 'center', width: 100 },
+                    {
+                        title: '是否启用', field: 'Fixed', halign: 'center', width: 100,
+                        formatter: function (value, row, index) { },
+                        styler: function (value, row, index) {
+                            if (value) {
+                                return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
+                            } else {
+                                return "background:url('/Content/themes/icons/ico_del.png') no-repeat center center;";
+                            }
+                        }
+                    }
+                ]],
+
+                toolbar: '#kaoplaces-grid-tool',
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200, 500],
+                pageNumber: 1,
+            });
+        })
+    </script>
+</head>
+<body>
+    <table id="kaoplaces-grid"></table>
+    <div id="kaoplaces-grid-tool">
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="kaoplaces.add();">添加</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="kaoplaces.edit();">修改</a>
+                    </td>
+                    <td>
+                        <div class="datagrid-btn-separator"></div>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="kaoplaces.del();">删除</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>

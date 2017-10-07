@@ -9,10 +9,11 @@ namespace MySch.Models
     [Table("WxAccPrize")]
     public partial class WxAccPrize
     {
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 
@@ -27,5 +28,11 @@ namespace MySch.Models
         [Required]
         [StringLength(32)]
         public string WxPrizeIDS { get; set; }
+
+        public virtual WxAcc WxAcc { get; set; }
+
+        public virtual WxAction WxAction { get; set; }
+
+        public virtual WxPrize WxPrize { get; set; }
     }
 }

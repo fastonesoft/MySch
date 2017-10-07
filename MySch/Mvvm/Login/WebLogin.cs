@@ -60,7 +60,7 @@ namespace MySch.Mvvm.Login
                 var acc = DataCRUD<TAcc>.Entity(a => a.ID == unionid);
                 if (acc == null) {
                     //不是教师
-                    var student = DataCRUD<Student>.Entity(a => a.RegUID == unionid);
+                    var student = DataCRUD<Stud>.Entity(a => a.RegUID == unionid);
                     //
                     username = student == null ? "游客" : student.Name + " 的家长";
                 }

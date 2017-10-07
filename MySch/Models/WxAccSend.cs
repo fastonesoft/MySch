@@ -9,10 +9,11 @@ namespace MySch.Models
     [Table("WxAccSend")]
     public partial class WxAccSend
     {
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 
@@ -34,5 +35,9 @@ namespace MySch.Models
         public string MsgType { get; set; }
 
         public bool Showed { get; set; }
+
+        public virtual WxAcc WxAcc { get; set; }
+
+        public virtual WxAction WxAction { get; set; }
     }
 }

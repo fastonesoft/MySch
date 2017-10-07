@@ -9,10 +9,11 @@ namespace MySch.Models
     [Table("TLogin")]
     public partial class TLogin
     {
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 

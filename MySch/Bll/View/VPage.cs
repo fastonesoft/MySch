@@ -25,7 +25,7 @@ namespace MySch.Bll.View
                 {
                     int total = db.TTerms.Count();
 
-                    var entitys = (from p in db.APages
+                    var entitys = (from p in db.AdminPages
                                    select new VPage
                                    {
                                        ID = p.ID,

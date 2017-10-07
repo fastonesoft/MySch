@@ -18,7 +18,7 @@ namespace MySch.Bll.Custom
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
+                var entity = DataCRUD<Stud>.Entity(a => a.IDC == idc);
                 if (entity == null) throw new Exception("无法识别的扫码信息");
                 if (!entity.Examed) throw new Exception(string.Format("【{0}】还未通过初审，不能进行材料复核", entity.Name));
                 if (!string.IsNullOrEmpty(entity.ExamUIDe)) throw new Exception(string.Format("【{0}】已经通过复核，无须重复操作", entity.Name));
@@ -65,17 +65,17 @@ namespace MySch.Bll.Custom
             {
                 IDC.Check(idc);
                 //身份证查询
-                var entity = DataCRUD<Student>.Entity(a => a.IDC.ToUpper() == idc.ToUpper());
+                var entity = DataCRUD<Stud>.Entity(a => a.IDC.ToUpper() == idc.ToUpper());
                 if (entity == null) throw new Exception("未知的扫码信息");
                 if (!string.IsNullOrEmpty(entity.RegUID)) throw new Exception(string.Format("【{0}】已经被绑定微信号，不能再绑！", entity.Name));
 
                 //绑定检测
-                var uid = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
+                var uid = DataCRUD<Stud>.Entity(a => a.RegUID == reguid);
                 if (uid != null) throw new Exception(string.Format("你已经绑定【{0}】，不能再绑！", uid.Name));
 
                 //提交绑定
                 entity.RegUID = reguid;
-                DataCRUD<Student>.Update(entity);
+                DataCRUD<Stud>.Update(entity);
                 return entity.Name;
             }
             catch (Exception e)
@@ -90,17 +90,17 @@ namespace MySch.Bll.Custom
             {
                 IDC.Check(idc);
                 //身份证查询
-                var entity = DataCRUD<Student>.Entity(a => a.IDC.ToUpper() == idc.ToUpper() && a.Name == name);
+                var entity = DataCRUD<Stud>.Entity(a => a.IDC.ToUpper() == idc.ToUpper() && a.Name == name);
                 if (entity == null) throw new Exception("没有找到身份证号、姓名所对应的学生");
                 if (!string.IsNullOrEmpty(entity.RegUID)) throw new Exception(string.Format("【{0}】已经被绑定微信号，不能再绑！", entity.Name));
 
                 //绑定检测
-                var uid = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
+                var uid = DataCRUD<Stud>.Entity(a => a.RegUID == reguid);
                 if (uid != null) throw new Exception(string.Format("你已经绑定【{0}】，不能再绑！", uid.Name));
 
                 //提交绑定
                 entity.RegUID = reguid;
-                DataCRUD<Student>.Update(entity);
+                DataCRUD<Stud>.Update(entity);
             }
             catch (Exception e)
             {
@@ -112,14 +112,14 @@ namespace MySch.Bll.Custom
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.IDC == id);
+                var entity = DataCRUD<Stud>.Entity(a => a.IDC == id);
                 if (entity == null) throw new Exception("未知的学生信息");
 
                 //检测是否审核
                 if (entity.Examed) throw new Exception(string.Format("【{0}】已经通过审核，不能解除绑定", entity.Name));
 
                 //删除，完成
-                DataCRUD<Student>.Delete(entity);
+                DataCRUD<Stud>.Delete(entity);
             }
             catch (Exception e)
             {

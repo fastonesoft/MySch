@@ -9,10 +9,17 @@ namespace MySch.Models
     [Table("TPart")]
     public partial class TPart
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TPart()
+        {
+            TSteps = new HashSet<TStep>();
+        }
+
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(20)]
         public string IDS { get; set; }
 
@@ -29,5 +36,10 @@ namespace MySch.Models
         [Required]
         [StringLength(32)]
         public string AccIDS { get; set; }
+
+        public virtual TAcc TAcc { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TStep> TSteps { get; set; }
     }
 }

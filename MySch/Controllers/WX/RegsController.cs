@@ -2,8 +2,8 @@
 using MySch.Bll.WX.Model;
 using MySch.Bll.WX.ViewModel;
 using MySch.Core;
-using MySch.Mvvm.School.Stud;
-using MySch.Mvvm.School.Stud.Action;
+using MySch.Mvvm.School.Student;
+using MySch.Mvvm.School.Student.Action;
 using MySch.Mvvm.Wall;
 using MySch.Mvvm.Wall.Action;
 using System;

@@ -43,7 +43,7 @@ namespace MySch.Bll.View
                                    join p in db.TParts on s.PartIDS equals p.IDS
                                    join y in db.TYears on g.YearIDS equals y.IDS
                                    join e in db.TEdus on g.EduIDS equals e.IDS
-                                   join st in db.Students on gs.StudIDS equals st.IDS
+                                   join st in db.Studs on gs.StudIDS equals st.IDS
                                    select new VStudOut
                                    {
                                        ID = gs.ID,
@@ -158,7 +158,7 @@ namespace MySch.Bll.View
                         if (memo == "Grade")
                         {
                             var grade = db.TGrades.Single(a => a.IDS == ids);
-                            var entitys = from s in db.Students
+                            var entitys = from s in db.Studs
                                           where s.StepIDS == grade.StepIDS && !string.IsNullOrEmpty(s.RegNo) && !(from g in db.StudGrades
                                                                                                                   where g.GradeIDS == ids
                                                                                                                   select g.StudIDS).Contains(s.IDS)

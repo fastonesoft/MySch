@@ -9,10 +9,17 @@ namespace MySch.Models
     [Table("StudCome")]
     public partial class StudCome
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public StudCome()
+        {
+            StudGrades = new HashSet<StudGrade>();
+        }
+
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(20)]
         public string IDS { get; set; }
 
@@ -27,5 +34,8 @@ namespace MySch.Models
         [Required]
         [StringLength(32)]
         public string AccIDS { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudGrade> StudGrades { get; set; }
     }
 }

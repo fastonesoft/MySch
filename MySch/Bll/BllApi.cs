@@ -59,21 +59,23 @@ namespace MySch.Bll
                 var obj_props = obj_type.GetProperties();
                 var obj_id = obj_props.FirstOrDefault(a => a.Name == "ID");
                 var obj_ids = obj_props.FirstOrDefault(a => a.Name == "IDS");
+                var obj_id_value = obj_id.GetValue(obj);
                 var obj_ids_value = obj_ids.GetValue(obj);
+                if (obj_id == null) throw new Exception("业务逻辑：未设置GUID索引！");
                 if (obj_ids == null) throw new Exception("业务逻辑：表示数据未设置主键！");
 
                 //根据主键查询数据层对象实体
-                var entity = DataCRUD<Entity>.Entity(obj_id.GetValue(obj));
+                var entity = DataCRUD<Entity>.Entity(obj_ids_value);
                 if (entity == null) throw new Exception("业务逻辑：未查到表示数据对应实体！");
 
                 //反射获取实体对象
                 Type entity_type = entity.GetType();
                 var entity_props = entity_type.GetProperties();
-                var entity_ids = entity_props.FirstOrDefault(a => a.Name == "IDS");
-                var entity_ids_value = entity_ids.GetValue(entity);
+                var entity_id = entity_props.FirstOrDefault(a => a.Name == "ID");
+                var entity_id_value = entity_id.GetValue(entity);
 
                 //检测是否对应
-                if (obj_ids_value.Equals(entity_ids_value))
+                if (obj_id_value.Equals(entity_id_value))
                 {
                     //遍历：表示数据
                     foreach (var obj_p in obj_props)
@@ -121,21 +123,23 @@ namespace MySch.Bll
                 var obj_props = obj_type.GetProperties();
                 var obj_id = obj_props.FirstOrDefault(a => a.Name == "ID");
                 var obj_ids = obj_props.FirstOrDefault(a => a.Name == "IDS");
+                var obj_id_value = obj_id.GetValue(obj);
                 var obj_ids_value = obj_ids.GetValue(obj);
+                if (obj_id == null) throw new Exception("业务逻辑：未设置GUID索引！");
                 if (obj_ids == null) throw new Exception("业务逻辑：表示数据未设置主键！");
 
                 //根据主键查询实体对象
-                var entity = DataCRUD<Entity>.Entity(obj_id.GetValue(obj));
+                var entity = DataCRUD<Entity>.Entity(obj_ids_value);
                 if (entity == null) throw new Exception("业务逻辑：未查到表示数据对应实体！");
 
                 //反射获取实体对象、编号
                 Type entity_type = entity.GetType();
                 var entity_props = entity_type.GetProperties();
-                var entity_ids = entity_props.FirstOrDefault(a => a.Name == "IDS");
-                var entity_ids_value = entity_ids.GetValue(entity);
+                var entity_id = entity_props.FirstOrDefault(a => a.Name == "ID");
+                var entity_id_value = entity_id.GetValue(entity);
 
                 //检测：表示数据、实体对象 编号 是否吻合
-                if (obj_ids_value.Equals(entity_ids_value))
+                if (obj_id_value.Equals(entity_id_value))
                 {
                     //实体对象：删除
                     DataCRUD<Entity>.Delete(entity);

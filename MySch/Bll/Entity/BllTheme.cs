@@ -1,14 +1,10 @@
 ﻿using MySch.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace MySch.Bll.Entity
 {
-    public class BllTheme : BllEntity<ATheme>
+    public class BllTheme : BllEntity<AdminTheme>
     {
         public string ID { get; set; }
 

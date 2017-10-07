@@ -25,7 +25,7 @@ namespace MySch.Mvvm.User
         }
     }
 
-    public class VmRoleGroup : BllEntity<ARoleGroup>
+    public class VmRoleGroup : BllEntity<RoleGroup>
     {
         public string ID { get; set; }
         public int IDS { get; set; }

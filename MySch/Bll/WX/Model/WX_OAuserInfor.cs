@@ -53,7 +53,7 @@ namespace MySch.Bll.WX.Model
                     return;
                 }
                 //家长检测
-                var parent = DataCRUD<Student>.Entity(a => a.RegUID == unionid);
+                var parent = DataCRUD<Stud>.Entity(a => a.RegUID == unionid);
                 if (parent != null)
                 {
                     isteach = false;
@@ -84,7 +84,7 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.RegUID == unionid);
+                var entity = DataCRUD<Stud>.Entity(a => a.RegUID == unionid);
                 if (entity != null)
                 {
                     idc = entity.IDC;
@@ -148,10 +148,15 @@ namespace MySch.Bll.WX.Model
                 var count = DataCRUD<TAcc>.Count(a => a.ID == unionid);
                 if (count > 0) throw new Exception("已经是注册用户");
 
+                //记录
+                var accs = DataCRUD<TAcc>.Entitys(a => a.ParentID == "o47ZhvxoQA9QOOgDSZ5hGaea4xdI");
+                var accs_max = accs.Any() ? accs.Max(a => a.IDS) :  "3212840000";
+                var accs_max_order = int.Parse(accs_max) + 1;
+
                 var teach = new TAcc
                 {
                     ID = unionid,
-                    IDS = Guid.NewGuid().ToString("N"),
+                    IDS = accs_max_order.ToString(),
                     Name = name,
                     RoleGroupIDS = 0,
                     RegTime = DateTime.Now,

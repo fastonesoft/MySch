@@ -54,7 +54,7 @@ namespace MySch.Bll.WX.Model
             try
             {
                 //根据openID读取学生编号
-                var db = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
+                var db = DataCRUD<Stud>.Entity(a => a.RegUID == reguid);
                 if (db == null) throw new Exception("未绑定学生，不能上传");
 
                 //中控token
@@ -87,7 +87,7 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var db = DataCRUD<Student>.Entity(a => a.ID == Other);
+                var db = DataCRUD<Stud>.Entity(a => a.ID == Other);
                 if (db == null) throw new Exception("未查询到当前学生信息");
 
                 //中控token
@@ -120,7 +120,7 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.RegUID == reguid);
+                var entity = DataCRUD<Stud>.Entity(a => a.RegUID == reguid);
                 if (entity == null) throw new Exception("无法查询绑定的学生");
                 //
                 var res = new WX_KeyValue();
@@ -146,7 +146,7 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.IDC == idc);
+                var entity = DataCRUD<Stud>.Entity(a => a.IDC == idc);
                 if (entity == null) throw new Exception("无法识别的扫码信息");
                 if (entity.Examed) throw new Exception(string.Format("【{0}】的资料已通过初审", entity.Name));
 
@@ -193,7 +193,7 @@ namespace MySch.Bll.WX.Model
                 var entity = DataCRUD<WxUploadFile>.Entity(a => a.ID == id);
                 if (entity == null) throw new Exception("没有找到图片对应文件");
                 //检测对应学生是否已审核
-                var stud = DataCRUD<Student>.Entity(a => a.IDS == entity.IDS);
+                var stud = DataCRUD<Stud>.Entity(a => a.IDS == entity.IDS);
                 if (stud == null) throw new Exception("没有找到对应的学生");
                 if (stud.Examed) throw new Exception("已经通过审核，不能删除");
                 return entity;

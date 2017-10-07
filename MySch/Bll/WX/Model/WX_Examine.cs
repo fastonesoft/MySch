@@ -13,14 +13,14 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.ID == id);
+                var entity = DataCRUD<Stud>.Entity(a => a.ID == id);
                 if (entity == null) throw new Exception("未查询到当前学生信息");
 
                 //审核状态提交
                 entity.SchChoose = choose;
                 entity.Examed = true;
                 entity.ExamUID = examuid;
-                DataCRUD<Student>.Update(entity);
+                DataCRUD<Stud>.Update(entity);
 
                 //返回数据
                 return ExamedStuds(examuid);
@@ -37,10 +37,10 @@ namespace MySch.Bll.WX.Model
             try
             {
                 //未审核的人数
-                var count = DataCRUD<Student>.Count(a => a.Examed == false);
+                var count = DataCRUD<Stud>.Count(a => a.Examed == false);
 
                 //获取初审人员列表
-                var entitys = DataCRUD<Student>.Entitys(a => a.Examed && a.ExamUID == examuid && string.IsNullOrEmpty(a.ExamUIDe));
+                var entitys = DataCRUD<Stud>.Entitys(a => a.Examed && a.ExamUID == examuid && string.IsNullOrEmpty(a.ExamUIDe));
                 var keys = from entity in entitys
                            select new WX_Key
                            {
@@ -59,7 +59,7 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                return DataCRUD<Student>.Count(a => a.Examed && a.ExamUIDe == rexamuid);
+                return DataCRUD<Stud>.Count(a => a.Examed && a.ExamUIDe == rexamuid);
             }
             catch (Exception e)
             {
@@ -71,13 +71,13 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.ID == id);
+                var entity = DataCRUD<Stud>.Entity(a => a.ID == id);
                 if (entity == null) throw new Exception("未查询到当前学生信息");
                 if (!entity.Examed) throw new Exception("未通过初审，不能进行复核");
                 if (!string.IsNullOrEmpty(entity.ExamUIDe)) throw new Exception("已经通过复核，无须重复操作");
                 if (entity.ExamUID == examuide) throw new Exception("初审、复核不能同一人进行操作");
 
-                var max = DataCRUD<Student>.Max(a => a.StepIDS == "3212840201201701", a => a.RegNo);
+                var max = DataCRUD<Stud>.Max(a => a.StepIDS == "3212840201201701", a => a.RegNo);
 
                 int kao = string.IsNullOrEmpty(max) ? 1 : int.Parse(max.Substring(0, 2));
                 int seat = string.IsNullOrEmpty(max) ? 0 : int.Parse(max.Substring(2, 2));
@@ -92,7 +92,7 @@ namespace MySch.Bll.WX.Model
                 entity.ExamUIDe = examuide;
                 entity.RegNo = entity.RegNo == null ? kao.ToString().PadLeft(2, '0') + seat.ToString().PadLeft(2, '0') : entity.RegNo;
                 //
-                DataCRUD<Student>.Update(entity);
+                DataCRUD<Stud>.Update(entity);
 
                 return new WX_Key { key = entity.Name, value = entity.RegNo };
             }
@@ -106,14 +106,14 @@ namespace MySch.Bll.WX.Model
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.ID == id);
+                var entity = DataCRUD<Stud>.Entity(a => a.ID == id);
                 if (entity == null) throw new Exception("未查询到当前学生信息");
                 if (!entity.Examed) throw new Exception("未通过初审，不需要退回重审");
 
                 entity.ExamUIDe = null;
                 entity.Examed = false;
                 //
-                DataCRUD<Student>.Update(entity);
+                DataCRUD<Stud>.Update(entity);
             }
             catch (Exception e)
             {

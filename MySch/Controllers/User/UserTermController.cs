@@ -43,7 +43,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllTerm.GetEntity<BllTerm>(id);
+                var entity = BllTerm.GetEntity<BllTerm>(a => a.ID == id);
 
                 var login = BllLogin.GetLogin(Session);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -65,7 +65,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllTerm.GetEntity<BllTerm>(id);
+                var entity = BllTerm.GetEntity<BllTerm>(a => a.ID == id);
 
                 var login = BllLogin.GetLogin(Session);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);

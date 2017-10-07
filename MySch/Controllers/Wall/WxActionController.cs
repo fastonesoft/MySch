@@ -60,7 +60,7 @@ namespace MySch.Controllers.Wall
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = VmWxAction.GetEntity<VmWxAction>(id);
+                var res = VmWxAction.GetEntity<VmWxAction>(a => a.ID == id);
                 return View(res);
             }
             catch (Exception e)
@@ -93,7 +93,7 @@ namespace MySch.Controllers.Wall
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = VmWxAction.GetEntity<VmWxAction>(id);
+                var res = VmWxAction.GetEntity<VmWxAction>(a => a.ID == id);
                 return View(res);
             }
             catch (Exception e)

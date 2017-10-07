@@ -31,7 +31,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllStep.GetEntity<BllStep>(id);
+                var db = BllStep.GetEntity<BllStep>(a => a.ID == id);
 
                 var parts = BllPart.GetEntitys<BllPart>(a => a.IDS == db.PartIDS).OrderBy(a => a.IDS);
                 ViewBag.Parts = EasyUICombo.ToComboJsons(parts, "IDS", "Name", db.PartIDS);
@@ -49,7 +49,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllStep.GetEntity<BllStep>(id);
+                var db = BllStep.GetEntity<BllStep>(a => a.ID == id);
 
                 var parts = BllPart.GetEntitys<BllPart>(a => a.IDS == db.PartIDS).OrderBy(a => a.IDS);
                 ViewBag.Parts = EasyUICombo.ToComboJsons(parts, "IDS", "Name", db.PartIDS);

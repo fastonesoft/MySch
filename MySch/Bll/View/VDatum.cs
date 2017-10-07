@@ -22,7 +22,7 @@ namespace MySch.Bll.View
                 {
                     int total = db.TTerms.Count();
 
-                    var entitys = (from d in db.ADatums
+                    var entitys = (from d in db.AdminDatums
                                    select new VDatum
                                    {
                                        ID = d.ID,

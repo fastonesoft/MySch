@@ -35,7 +35,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllYear.GetEntity<BllYear>(id);
+                var entity = BllYear.GetEntity<BllYear>(a => a.ID == id);
                 return View(entity);
             }
             catch (Exception e)
@@ -49,7 +49,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllYear.GetEntity<BllYear>(id);
+                var entity = BllYear.GetEntity<BllYear>(a => a.ID == id);
                 return View(entity);
             }
             catch (Exception e)
@@ -136,7 +136,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var res = BllYear.GetDataGridPages<BllYear, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllYear.GetDataGridPagesAsc<BllYear, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

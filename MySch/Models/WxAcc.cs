@@ -9,10 +9,18 @@ namespace MySch.Models
     [Table("WxAcc")]
     public partial class WxAcc
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public WxAcc()
+        {
+            WxAccPrizes = new HashSet<WxAccPrize>();
+            WxAccSends = new HashSet<WxAccSend>();
+        }
+
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 
@@ -38,5 +46,11 @@ namespace MySch.Models
         [Required]
         [StringLength(200)]
         public string headimgurl { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WxAccPrize> WxAccPrizes { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WxAccSend> WxAccSends { get; set; }
     }
 }

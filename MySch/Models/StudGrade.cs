@@ -9,10 +9,17 @@ namespace MySch.Models
     [Table("StudGrade")]
     public partial class StudGrade
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public StudGrade()
+        {
+            KaoScores = new HashSet<KaoScore>();
+        }
+
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 
@@ -58,5 +65,16 @@ namespace MySch.Models
         public DateTime? OutTime { get; set; }
 
         public bool InSch { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<KaoScore> KaoScores { get; set; }
+
+        public virtual Stud Stud { get; set; }
+
+        public virtual StudCome StudCome { get; set; }
+
+        public virtual TBan TBan { get; set; }
+
+        public virtual TGrade TGrade { get; set; }
     }
 }

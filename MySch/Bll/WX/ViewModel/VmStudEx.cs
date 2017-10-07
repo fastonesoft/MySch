@@ -24,12 +24,12 @@ namespace MySch.Bll.WX.ViewModel
         {
             try
             {
-                var entity = DataCRUD<Student>.First(a => a.Examed && !string.IsNullOrEmpty(a.ExamUIDe) && !a.Fixed);
+                var entity = DataCRUD<Stud>.First(a => a.Examed && !string.IsNullOrEmpty(a.ExamUIDe) && !a.Fixed);
                 if (entity == null) throw new Exception("房产数据已整理完毕，辛苦了");
 
                 //不让再次搜到
                 entity.Fixed = true;
-                DataCRUD<Student>.Update(entity);
+                DataCRUD<Stud>.Update(entity);
 
                 //构造输出数据
                 return new VmStudEx
@@ -51,7 +51,7 @@ namespace MySch.Bll.WX.ViewModel
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.ID == id);
+                var entity = DataCRUD<Stud>.Entity(a => a.ID == id);
                 if (entity == null) throw new Exception("无法识别的扫码信息");
 
                 var urls = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS && a.UploadType == "house");
@@ -70,7 +70,7 @@ namespace MySch.Bll.WX.ViewModel
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.RegNo == regno && a.StepIDS == "3212840201201701");
+                var entity = DataCRUD<Stud>.Entity(a => a.RegNo == regno && a.StepIDS == "3212840201201701");
                 if (entity == null) throw new Exception("未找到当前录取编号对应的学生信息");
 
                 var urls = DataCRUD<WxUploadFile>.Entitys(a => a.IDS == entity.IDS && (a.UploadType == "house" || a.UploadType == "card"));
@@ -89,16 +89,16 @@ namespace MySch.Bll.WX.ViewModel
         {
             try
             {
-                var entity = DataCRUD<Student>.Entity(a => a.ID == stud.ID);
+                var entity = DataCRUD<Stud>.Entity(a => a.ID == stud.ID);
                 if (entity == null) throw new Exception("错误的提交数据");
 
                 entity.Name1 = stud.Name1;
                 entity.Home = stud.Home;
                 entity.Birth = stud.Birth;
 
-                DataCRUD<Student>.Update(entity);
+                DataCRUD<Stud>.Update(entity);
 
-                return DataCRUD<Student>.Count(a => a.Examed && !string.IsNullOrEmpty(a.ExamUIDe) && !a.Fixed);
+                return DataCRUD<Stud>.Count(a => a.Examed && !string.IsNullOrEmpty(a.ExamUIDe) && !a.Fixed);
             }
             catch (Exception e)
             {
@@ -110,7 +110,7 @@ namespace MySch.Bll.WX.ViewModel
         {
             try
             {
-                return DataCRUD<Student>.Count(a => a.Examed && !string.IsNullOrEmpty(a.ExamUIDe) && !a.Fixed);
+                return DataCRUD<Stud>.Count(a => a.Examed && !string.IsNullOrEmpty(a.ExamUIDe) && !a.Fixed);
             }
             catch (Exception e)
             {

@@ -46,7 +46,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var entity = BllGrade.GetEntity<BllGrade>(id);
+                var entity = BllGrade.GetEntity<BllGrade>(a => a.ID == id);
 
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -70,7 +70,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllGrade.GetEntity<BllGrade>(id);
+                var entity = BllGrade.GetEntity<BllGrade>(a => a.ID == id);
 
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);

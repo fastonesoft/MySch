@@ -31,7 +31,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllTheme.GetEntity<BllTheme>(id);
+                var db = BllTheme.GetEntity<BllTheme>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -45,7 +45,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllTheme.GetEntity<BllTheme>(id);
+                var db = BllTheme.GetEntity<BllTheme>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -131,7 +131,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var res = BllTheme.GetDataGridPages<BllTheme, string>(a => true, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllTheme.GetDataGridPagesAsc<BllTheme, string>(a => true, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

@@ -27,7 +27,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllPart.GetEntity<BllPart>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -41,7 +41,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllPart.GetEntity<BllPart>(id);
+                var db = BllPart.GetEntity<BllPart>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -79,7 +79,6 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;
 
                 entity.ToUpdate(ModelState);
                 return Json(entity);
@@ -115,7 +114,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllPart.GetDataGridPages<BllPart, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows, OrderType.ASC);
+                var res = BllPart.GetDataGridPagesAsc<BllPart, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

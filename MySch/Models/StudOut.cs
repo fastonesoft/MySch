@@ -9,10 +9,11 @@ namespace MySch.Models
     [Table("StudOut")]
     public partial class StudOut
     {
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(20)]
         public string IDS { get; set; }
 

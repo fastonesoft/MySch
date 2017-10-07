@@ -29,7 +29,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllAcc.GetEntity<BllAcc>(id);
+                var db = BllAcc.GetEntity<BllAcc>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -43,7 +43,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllAcc.GetEntity<BllAcc>(id);
+                var db = BllAcc.GetEntity<BllAcc>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)

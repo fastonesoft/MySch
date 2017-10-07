@@ -65,7 +65,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllBan.GetEntity<BllBan>(id);
+                var entity = BllBan.GetEntity<BllBan>(a => a.ID == id);
 
                 var login = BllLogin.GetLogin(Session);
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -87,7 +87,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var entity = BllBan.GetEntity<BllBan>(id);
+                var entity = BllBan.GetEntity<BllBan>(a => a.ID == id);
 
                 var login = BllLogin.GetLogin(Session);
                 var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
@@ -188,7 +188,7 @@ namespace MySch.Controllers.User
                 //更新
                 entity.ToUpdate(ModelState);
                 //查询 视图数据
-                var qentity = BllBan.GetEntity<BllBan>(entity.ID);
+                var qentity = BllBan.GetEntity<BllBan>(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)

@@ -20,7 +20,7 @@ namespace MySch.Mvvm.User.Action
                     var entitys = from b in db.TBans
                                   join g in db.TGrades on b.GradeIDS equals g.IDS
                                   join y in db.TYears on g.YearIDS equals y.IDS
-                                  where b.AccIDS == ids && y.IsCurrent && !string.IsNullOrEmpty(b.MasterIDS)
+                                  where g.AccIDS == ids && y.IsCurrent && !string.IsNullOrEmpty(b.MasterIDS)
                                   select b.MasterIDS;
 
                     //拼接

@@ -1,9 +1,6 @@
 ﻿using MySch.Dal;
 using MySch.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace MySch.Bll.Entity
 {

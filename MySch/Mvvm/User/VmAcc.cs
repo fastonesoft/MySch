@@ -20,10 +20,10 @@ namespace MySch.Mvvm.User
             {
                 int skip = (page - 1) * rows;
                 var entitys = string.IsNullOrEmpty(text) ?
-                    DataCRUD<QrAccRoleGroup>.Entitys(a => a.ParentID == parentid).Skip(skip).Take(rows) :
-                    DataCRUD<QrAccRoleGroup>.Entitys(a => a.ParentID == parentid && a.Name.Contains(text));
+                    DataCRUD<ViAccRoleGroup>.Entitys(a => a.ParentID == parentid).Skip(skip).Take(rows) :
+                    DataCRUD<ViAccRoleGroup>.Entitys(a => a.ParentID == parentid && a.Name.Contains(text));
 
-                return EasyUI<QrAccRoleGroup>.DataGrids(entitys, entitys.Count());
+                return EasyUI<ViAccRoleGroup>.DataGrids(entitys, entitys.Count());
             }
             catch (Exception e)
             {

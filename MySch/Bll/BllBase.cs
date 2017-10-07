@@ -27,22 +27,22 @@ namespace MySch.Bll
         /// <typeparam name="BllEntity"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static BllEntity GetEntity<BllEntity>(string id)
-        {
-            try
-            {
-                //根据主键查询数据层对象实体
-                var entity = DataCRUD<Entity>.Entity(id);
-                if (entity == null) throw new Exception("业务逻辑：未查到主键对应实体！");
+        //public static BllEntity GetEntity<BllEntity>(string id)
+        //{
+        //    try
+        //    {
+        //        //根据主键查询数据层对象实体
+        //        var entity = DataCRUD<Entity>.Entity(id);
+        //        if (entity == null) throw new Exception("业务逻辑：未查到主键对应实体！");
 
-                //再序列化成所要的对象
-                return Jsons.JsonEntity<BllEntity>(entity);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+        //        //再序列化成所要的对象
+        //        return Jsons.JsonEntity<BllEntity>(entity);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //}
 
         public static BllEntity GetEntity<BllEntity>(string id, string nullMessage)
         {
@@ -212,7 +212,7 @@ namespace MySch.Bll
         /// <param name="pageSize">页尺寸</param>
         /// <param name="ordertype">排序方式</param>
         /// <returns></returns>
-        public static object GetDataGridPages<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize, OrderType ordertype)
+        private static object GetDataGridPages<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize, OrderType ordertype)
         {
             try
             {

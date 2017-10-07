@@ -9,10 +9,11 @@ namespace MySch.Models
     [Table("WxAccFilter")]
     public partial class WxAccFilter
     {
+        [Required]
         [StringLength(32)]
         public string ID { get; set; }
 
-        [Required]
+        [Key]
         [StringLength(32)]
         public string IDS { get; set; }
 

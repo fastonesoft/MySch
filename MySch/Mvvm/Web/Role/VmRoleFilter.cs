@@ -21,10 +21,10 @@ namespace MySch.Mvvm.Web.Role
                 //检测IDS是否存在
                 //不存在，添加
                 //  存在，无视
-                var entity = DataCRUD<ARoleAction>.Entity(a => a.IDS == IDS);
+                var entity = DataCRUD<RoleAction>.Entity(a => a.IDS == IDS);
                 if (entity == null)
                 {
-                    var res = new ARoleAction
+                    var res = new RoleAction
                     {
                         ID = Guid.NewGuid().ToString("N"),
                         IDS = this.IDS,
@@ -33,7 +33,7 @@ namespace MySch.Mvvm.Web.Role
                         RoleTypeIDS = this.RoleTypeIDS,
                     };
                     //添加
-                    DataCRUD<ARoleAction>.Add(res);
+                    DataCRUD<RoleAction>.Add(res);
                 }
             }
             catch (Exception e)
