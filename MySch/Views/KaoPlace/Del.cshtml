@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllEdu
+﻿@model MySch.Bll.Entity.BllKaoPlaceEdit
 
 @{
     Layout = null;
@@ -10,18 +10,11 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Name)：</div>
+            <div>@Html.LabelFor(a => a.PlaceNo)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+                @Html.TextBoxFor(a => a.PlaceNo, new { @class = "textbox-text", @readonly = "readonly" })
             </span>
-            @Html.ValidationMessageFor(a => a.Name)
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Value)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text", @readonly = "readonly" })
-            </span>
-            @Html.ValidationMessageFor(a => a.Value)
+            @Html.ValidationMessageFor(a => a.PlaceNo)
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed, new { @disabled = "disabled" })</div>
@@ -34,6 +27,6 @@
 <script type="text/javascript">
     $(function () {
         //删除对话框
-        DialogDel('学制删除', 410, 220, '/UserEdu/DelToken', '#edus-grid');
+        DialogDel('考场删除', 410, 220, '/KaoPlace/DelToken', '#kaoplaces-grid');
     })
 </script>

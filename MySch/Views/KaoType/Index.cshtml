@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //KaoPlace/Index
+    //KaoType/Index
 }
 
 <!DOCTYPE html>
@@ -8,29 +8,29 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>考场设置</title>
+    <title>考试类型</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            kaoplaces = {
+            kaotypes = {
                 add: function () {
-                    DataGridNone('/KaoPlace/Add');
+                    DataGridNone('/KaoType/Add');
                 },
                 adds: function () {
-                    DataGridNone('/KaoPlace/Adds');
+                    DataGridNone('/KaoType/Adds');
                 },
                 edit: function () {
-                    DataGridRowID('#kaoplaces-grid', '/KaoPlace/Edit');
+                    DataGridRowID('#kaotypes-grid', '/KaoType/Edit');
                 },
                 del: function () {
-                    DataGridRowID('#kaoplaces-grid', '/KaoPlace/Del');
+                    DataGridRowID('#kaotypes-grid', '/KaoType/Del');
                 }
             }
 
             //数据表格
-            $('#kaoplaces-grid').datagrid({
+            $('#kaotypes-grid').datagrid({
                 fit: true,
                 striped: true,
                 rownumbers: true,
@@ -38,7 +38,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/KaoPlace/DataGrid',
+                url: '/KaoType/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -49,7 +49,8 @@
                 },
 
                 columns: [[
-                    { title: '考场编号', field: 'PlaceNo', align: 'center', width: 100 },
+                    { title: '类型名称', field: 'Name', align: 'center', width: 100 },
+                    { title: '类型编号', field: 'Value', align: 'center', width: 100 },
                     {
                         title: '是否禁用', field: 'Fixed', halign: 'center', width: 100,
                         formatter: function (value, row, index) { },
@@ -61,7 +62,7 @@
                     }
                 ]],
 
-                toolbar: '#kaoplaces-grid-tool',
+                toolbar: '#kaotypes-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -71,22 +72,19 @@
     </script>
 </head>
 <body>
-    <table id="kaoplaces-grid"></table>
-    <div id="kaoplaces-grid-tool">
+    <table id="kaotypes-grid"></table>
+    <div id="kaotypes-grid-tool">
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="kaoplaces.add();">添加</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="kaotypes.add();">添加</a>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="kaoplaces.adds();">批量添加</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="kaotypes.edit();">修改</a>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="kaoplaces.edit();">修改</a>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="kaoplaces.del();">删除</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="kaotypes.del();">删除</a>
                     </td>
                 </tr>
             </thead>

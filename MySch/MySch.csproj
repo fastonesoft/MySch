@@ -131,11 +131,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Bll\Custom\KaoPlaceAdds.cs" />
+    <Compile Include="Bll\Entity\BllKaoType.cs" />
     <Compile Include="Bll\Entity\BllKaoPlace.cs" />
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
     <Compile Include="Bll\Entity\BllImageUpload.cs" />
+    <Compile Include="Controllers\Kao\KaoTypeController.cs" />
     <Compile Include="Controllers\Kao\KaoPlaceController.cs" />
     <Compile Include="Controllers\Wall\WxAccPrizeController.cs" />
     <Compile Include="Controllers\Wall\WxAccSendController.cs" />
@@ -277,7 +280,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Entity\BllAcc.cs" />
-    <Compile Include="Bll\Custom\Models.cs" />
+    <Compile Include="Bll\Custom\ErrorMessage.cs" />
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
@@ -793,6 +796,11 @@
     <Content Include="Views\KaoPlace\Del.cshtml" />
     <Content Include="Views\KaoPlace\Edit.cshtml" />
     <Content Include="Views\KaoPlace\Index.cshtml" />
+    <Content Include="Views\KaoPlace\Adds.cshtml" />
+    <Content Include="Views\KaoType\Add.cshtml" />
+    <Content Include="Views\KaoType\Del.cshtml" />
+    <Content Include="Views\KaoType\Edit.cshtml" />
+    <Content Include="Views\KaoType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />

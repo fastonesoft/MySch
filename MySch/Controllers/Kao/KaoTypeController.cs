@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MySch.Controllers.Kao
 {
-    public class KaoPlaceController : RoleController
+    public class KaoTypeController : RoleController
     {
         public ActionResult Index()
         {
@@ -21,18 +21,13 @@ namespace MySch.Controllers.Kao
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Adds()
-        {
-            return View();
-        }
 
         [HttpPost]
         public ActionResult Edit(string id)
         {
             try
             {
-                var db = BllKaoPlaceEdit.GetEntity<BllKaoPlaceEdit>(a => a.ID == id);
+                var db = BllKaoType.GetEntity<BllKaoType>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -46,7 +41,7 @@ namespace MySch.Controllers.Kao
         {
             try
             {
-                var db = BllKaoPlaceEdit.GetEntity<BllKaoPlaceEdit>(a => a.ID == id);
+                var db = BllKaoType.GetEntity<BllKaoType>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -57,7 +52,7 @@ namespace MySch.Controllers.Kao
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllKaoPlace entity)
+        public ActionResult AddToken(BllKaoType entity)
         {
             try
             {
@@ -65,7 +60,7 @@ namespace MySch.Controllers.Kao
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = entity.AccIDS + entity.PlaceNo;
+                entity.IDS = entity.AccIDS + entity.Value;
 
                 //添加
                 entity.ToAdd(ModelState);
@@ -79,44 +74,7 @@ namespace MySch.Controllers.Kao
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddsToken(KaoPlaceAdds entity)
-        {
-            try
-            {
-                var login = BllLogin.GetLogin(Session);
-
-                var placestr = string.Empty;
-                for (var i = 1; i <= entity.Num; i++)
-                {
-                    var place = new BllKaoPlace
-                    {
-                        ID = Guid.NewGuid().ToString("N"),
-                        IDS = login.IDS + i.ToString("D2"),
-                        AccIDS = login.IDS,
-                        PlaceNo = i.ToString("D2"),
-                        Fixed = false,
-                    };
-
-                    if (BllKaoPlace.Count(a => a.IDS == place.IDS) == 0)
-                    {
-                        place.ToAdd();
-                        placestr += (place.IDS + ",");
-                    }
-                }
-
-                //返回添加的数据集
-                var res = BllKaoPlace.GetDataGridPagesAsc<BllKaoPlace, string>(a => placestr.Contains(a.IDS), a => a.IDS, 1, 100);
-                return Json(res);
-            }
-            catch (Exception e)
-            {
-                return Json(new ErrorMessage { error = true, message = e.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllKaoPlaceEdit entity)
+        public ActionResult EditToken(BllKaoType entity)
         {
             try
             {
@@ -133,7 +91,7 @@ namespace MySch.Controllers.Kao
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(BllKaoPlaceEdit entity)
+        public ActionResult DelToken(BllKaoType entity)
         {
             try
             {
@@ -155,7 +113,7 @@ namespace MySch.Controllers.Kao
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllKaoPlace.GetDataGridPagesAsc<BllKaoPlace, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
+                var res = BllKaoType.GetDataGridPagesAsc<BllKaoType, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

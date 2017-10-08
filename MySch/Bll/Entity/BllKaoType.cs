@@ -4,34 +4,24 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MySch.Bll.Entity
 {
-    public class BllKaoPlace : BllEntity<KaoPlace>
+    public class BllKaoType : BllEntity<KaoType>
     {
         public string ID { get; set; }
         public string IDS { get; set; }
         public string AccIDS { get; set; }
 
-        [DisplayName("考场编号")]
+        [DisplayName("类型名称")]
+        [Required(ErrorMessage = "{0}不得为空；")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{2,5}$", ErrorMessage = "{0}：2-5个中文字符；")]
+        public string Name { get; set; }
+
+        [DisplayName("类型编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{2}$", ErrorMessage = "{0}：用2位数字设置；")]
-        public string PlaceNo { get; set; }
+        public string Value { get; set; }
 
         [DisplayName("是否禁用")]
         public bool Fixed { get; set; }
-
     }
 
-    public class BllKaoPlaceEdit : BllEntity<KaoPlace>
-    {
-        public string ID { get; set; }
-        public string IDS { get; set; }
-
-        [DisplayName("考场编号")]
-        [Required(ErrorMessage = "{0}不得为空；")]
-        [RegularExpression(@"^\d{2}$", ErrorMessage = "{0}：用2位数字设置；")]
-        public string PlaceNo { get; set; }
-
-        [DisplayName("是否禁用")]
-        public bool Fixed { get; set; }
-
-    }
 }

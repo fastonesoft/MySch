@@ -87,5 +87,19 @@ namespace MySch.Controllers.Account
             return Json(new ErrorMessage { error = false, message = "退出成功" });
         }
 
+        [HttpPost]
+        public ActionResult Refresh()
+        {
+            try
+            {
+                var infor = WX_OAuserInfor.GetFromSession();
+                return Json(infor.nickname);
+            }
+            catch (Exception e)
+            {
+                return Json(new ErrorMessage { error = true, message = e.Message });
+            }
+        }
+
     }
 }

@@ -1,0 +1,40 @@
+﻿@model MySch.Bll.Entity.BllKaoType
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div style="padding:20px 0px 0px 20px;">
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Name)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Name)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Value)：</div>
+            <span class="textbox">
+                @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text", @readonly = "readonly" })
+            </span>
+            @Html.ValidationMessageFor(a => a.Value)
+        </div>
+        <div class="form-item-row">
+            <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
+        </div>
+    </div>
+    @Html.HiddenFor(a => a.ID)
+    @Html.HiddenFor(a => a.IDS)
+    @Html.HiddenFor(a => a.AccIDS)
+}
+
+<script type="text/javascript">
+    $(function () {
+        //修改对话框
+        DialogEdit('类型修改', 410, 220, '/KaoType/EditToken', '#kaotypes-grid');
+    })
+</script>

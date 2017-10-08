@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Custom.BanAdds
+﻿@model MySch.Bll.Custom.KaoPlaceAdds
 
 @{
     Layout = null;
@@ -9,10 +9,6 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.GradeIDS)：</div>
-            <input id="GradeIDS" name="GradeIDS" style="width:210px;" />
-        </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Num)：</div>
             <span class="textbox">
@@ -25,17 +21,7 @@
 
 <script type="text/javascript">
     $(function () {
-        var grades = $.parseJSON('@Html.Raw(ViewBag.Grades)');
-
-        //加载选择框
-        $('#GradeIDS').combobox({
-            valueField: 'id',
-            textField: 'text',
-            data: grades,
-            readonly: true,
-        });
-
         //添加对话框
-        DialogAdds('班级添加', 410, 330, '/UserBan/AddsToken', '#bans-grid');
+        DialogAdds('考场批量添加', 410, 330, '/KaoPlace/AddsToken', '#kaoplaces-grid');
     })
 </script>

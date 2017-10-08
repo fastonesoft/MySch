@@ -1,4 +1,4 @@
-﻿@model MySch.Bll.Entity.BllEdu
+﻿@model MySch.Bll.Entity.BllKaoPlace
 
 @{
     Layout = null;
@@ -10,18 +10,11 @@
     @Html.ValidationSummary(true)
     <div style="padding:20px 0px 0px 20px;">
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Name)：</div>
+            <div>@Html.LabelFor(a => a.PlaceNo)：</div>
             <span class="textbox">
-                @Html.TextBoxFor(a => a.Name, new { @class = "textbox-text" })
+                @Html.TextBoxFor(a => a.PlaceNo, new { @class = "textbox-text" })
             </span>
-            @Html.ValidationMessageFor(a => a.Name)
-        </div>
-        <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.Value)：</div>
-            <span class="textbox">
-                @Html.TextBoxFor(a => a.Value, new { @class = "textbox-text" })
-            </span>
-            @Html.ValidationMessageFor(a => a.Value)
+            @Html.ValidationMessageFor(a => a.PlaceNo)
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.Fixed)：@Html.CheckBoxFor(a => a.Fixed)</div>
@@ -31,15 +24,7 @@
 
 <script type="text/javascript">
     $(function () {
-        //按键：焦点转移
-        $(document).keypress(function (e) {
-            if (e.which == 13) {
-                //错误输入聚焦
-                $('.field-validation-error:first').parent().find('input').focus();
-                return false;
-            }
-        });
         //添加对话框
-        DialogAdd('学制添加', 410, 220, '/UserEdu/AddToken', '#edus-grid');
+        DialogAdd('考场添加', 410, 220, '/KaoPlace/AddToken', '#kaoplaces-grid');
     })
 </script>
