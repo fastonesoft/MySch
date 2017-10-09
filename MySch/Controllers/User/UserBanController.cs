@@ -72,7 +72,7 @@ namespace MySch.Controllers.User
                 var accs = ActAcc.AccBanMaster(login.IDS, entity.MasterIDS, login.unionid);
 
                 ViewBag.Grades = EasyUICombo.ToComboJsons(grades, entity.GradeIDS);
-                ViewBag.Masters = EasyUICombo.ToComboJsons<VqAccBan>(accs, "ID", "Name", entity.MasterIDS);
+                ViewBag.Masters = EasyUICombo.ToComboJsons<VqAccBan>(accs, entity.MasterIDS);
 
                 return View(entity);
             }
@@ -112,7 +112,6 @@ namespace MySch.Controllers.User
             {
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
                 entity.IDS = entity.GradeIDS + entity.Num;
@@ -150,7 +149,6 @@ namespace MySch.Controllers.User
                         Num = i.ToString("D2"),
                         NotFeng = false,
                         OnlyFixed = true,
-                        AccIDS = login.IDS,
                         GradeIDS = entity.GradeIDS,
                         ChangeNum = 10,
                         Differ = 5,
@@ -183,7 +181,6 @@ namespace MySch.Controllers.User
             {
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;
 
                 //更新
                 entity.ToUpdate(ModelState);
@@ -205,7 +202,6 @@ namespace MySch.Controllers.User
             {
                 //设置用户
                 var login = BllLogin.GetLogin(Session);
-                entity.AccIDS = login.IDS;
 
                 //查询 视图数据 保存
                 var qentity = VBan.GetEntity(a => a.ID == entity.ID);

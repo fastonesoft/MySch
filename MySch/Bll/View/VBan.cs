@@ -70,6 +70,7 @@ namespace MySch.Bll.View
                                        IsAbs = b.IsAbs,
                                        SameSex = b.SameSex,
                                        TakeNum = g.TakeNum,
+                                       AccIDS = g.AccIDS,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.IDS)

@@ -24,10 +24,12 @@ namespace MySch.Bll.Entity
         public string MasterIDS { get; set; }
 
         [DisplayName("调动人数")]
+        [Required(ErrorMessage = "{0}不得为空；")]
         [RangeAttribute(0, 99, ErrorMessage = "设定数值必须在{1}-{2}之间")]
         public int ChangeNum { get; set; }
 
         [DisplayName("调动分差")]
+        [Required(ErrorMessage = "{0}不得为空；")]
         [RangeAttribute(0, 20, ErrorMessage = "设定数值必须在{1}-{2}之间")]
         public int Differ { get; set; }
 
@@ -42,8 +44,5 @@ namespace MySch.Bll.Entity
 
         [DisplayName("性别相同")]
         public bool SameSex { get; set; }
-
-        public string AccIDS { get; set; }
-
     }
 }
