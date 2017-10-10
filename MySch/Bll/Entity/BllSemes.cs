@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MySch.Bll.Entity
 {
-    public class BllSemes : BllEntity<TSemester>
+    public class BllTermType : BllEntity<TTermType>
     {
         public string ID { get; set; }
 

@@ -38,10 +38,10 @@ namespace MySch.Models
         public virtual DbSet<TLogin> TLogins { get; set; }
         public virtual DbSet<TPart> TParts { get; set; }
         public virtual DbSet<TPrint> TPrints { get; set; }
-        public virtual DbSet<TSemester> TSemesters { get; set; }
         public virtual DbSet<TStep> TSteps { get; set; }
         public virtual DbSet<TSub> TSubs { get; set; }
         public virtual DbSet<TTerm> TTerms { get; set; }
+        public virtual DbSet<TTermType> TTermTypes { get; set; }
         public virtual DbSet<TYear> TYears { get; set; }
         public virtual DbSet<WxAcc> WxAccs { get; set; }
         public virtual DbSet<WxAccFilter> WxAccFilters { get; set; }
@@ -152,31 +152,13 @@ namespace MySch.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TAcc>()
-                .HasMany(e => e.TGrades)
-                .WithRequired(e => e.TAcc)
-                .HasForeignKey(e => e.AccIDS)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<TAcc>()
                 .HasMany(e => e.TParts)
                 .WithRequired(e => e.TAcc)
                 .HasForeignKey(e => e.AccIDS)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TAcc>()
-                .HasMany(e => e.TSteps)
-                .WithRequired(e => e.TAcc)
-                .HasForeignKey(e => e.AccIDS)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<TAcc>()
                 .HasMany(e => e.TSubs)
-                .WithRequired(e => e.TAcc)
-                .HasForeignKey(e => e.AccIDS)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<TAcc>()
-                .HasMany(e => e.TTerms)
                 .WithRequired(e => e.TAcc)
                 .HasForeignKey(e => e.AccIDS)
                 .WillCascadeOnDelete(false);
@@ -223,12 +205,6 @@ namespace MySch.Models
                 .HasForeignKey(e => e.PartIDS)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<TSemester>()
-                .HasMany(e => e.TTerms)
-                .WithRequired(e => e.TSemester)
-                .HasForeignKey(e => e.SemesterIDS)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<TStep>()
                 .HasMany(e => e.Studs)
                 .WithRequired(e => e.TStep)
@@ -251,6 +227,12 @@ namespace MySch.Models
                 .HasMany(e => e.Kaos)
                 .WithRequired(e => e.TTerm)
                 .HasForeignKey(e => e.TermIDS)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TTermType>()
+                .HasMany(e => e.TTerms)
+                .WithRequired(e => e.TTermType)
+                .HasForeignKey(e => e.TermTypeIDS)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TYear>()

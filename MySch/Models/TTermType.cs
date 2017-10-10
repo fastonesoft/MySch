@@ -6,11 +6,11 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("TSemester")]
-    public partial class TSemester
+    [Table("TTermType")]
+    public partial class TTermType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TSemester()
+        public TTermType()
         {
             TTerms = new HashSet<TTerm>();
         }
@@ -20,8 +20,12 @@ namespace MySch.Models
         public string ID { get; set; }
 
         [Key]
-        [StringLength(20)]
+        [StringLength(32)]
         public string IDS { get; set; }
+
+        [Required]
+        [StringLength(32)]
+        public string AccIDS { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -30,10 +34,6 @@ namespace MySch.Models
         [Required]
         [StringLength(2)]
         public string Value { get; set; }
-
-        [Required]
-        [StringLength(32)]
-        public string AccIDS { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TTerm> TTerms { get; set; }

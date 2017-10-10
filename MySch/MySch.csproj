@@ -178,10 +178,10 @@
     <Compile Include="Models\TLogin.cs" />
     <Compile Include="Models\TPart.cs" />
     <Compile Include="Models\TPrint.cs" />
-    <Compile Include="Models\TSemester.cs" />
     <Compile Include="Models\TStep.cs" />
     <Compile Include="Models\TSub.cs" />
     <Compile Include="Models\TTerm.cs" />
+    <Compile Include="Models\TTermType.cs" />
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Models\ViAccRoleGroup.cs" />
     <Compile Include="Models\ViWxAccPrize.cs" />

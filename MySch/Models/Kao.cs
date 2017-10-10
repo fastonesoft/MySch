@@ -28,7 +28,7 @@ namespace MySch.Models
         public string AccIDS { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(32)]
         public string TermIDS { get; set; }
 
         [Required]
@@ -40,10 +40,6 @@ namespace MySch.Models
         [Required]
         [StringLength(32)]
         public string Name { get; set; }
-
-        [Required]
-        [StringLength(10)]
-        public string Value { get; set; }
 
         public bool KaoCoded { get; set; }
 

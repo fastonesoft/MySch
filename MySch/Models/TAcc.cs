@@ -20,11 +20,8 @@ namespace MySch.Models
             StudGradeMoves = new HashSet<StudGradeMove>();
             TBans = new HashSet<TBan>();
             TEdus = new HashSet<TEdu>();
-            TGrades = new HashSet<TGrade>();
             TParts = new HashSet<TPart>();
-            TSteps = new HashSet<TStep>();
             TSubs = new HashSet<TSub>();
-            TTerms = new HashSet<TTerm>();
             TYears = new HashSet<TYear>();
         }
 
@@ -82,19 +79,10 @@ namespace MySch.Models
         public virtual ICollection<TEdu> TEdus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TGrade> TGrades { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TPart> TParts { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TStep> TSteps { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TSub> TSubs { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TTerm> TTerms { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TYear> TYears { get; set; }

@@ -21,8 +21,12 @@ namespace MySch.Models
         public string ID { get; set; }
 
         [Key]
-        [StringLength(20)]
+        [StringLength(32)]
         public string IDS { get; set; }
+
+        [Required]
+        [StringLength(32)]
+        public string PartIDS { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -36,18 +40,8 @@ namespace MySch.Models
 
         public bool CanRecruit { get; set; }
 
-        [Required]
-        [StringLength(20)]
-        public string PartIDS { get; set; }
-
-        [Required]
-        [StringLength(32)]
-        public string AccIDS { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stud> Studs { get; set; }
-
-        public virtual TAcc TAcc { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TGrade> TGrades { get; set; }

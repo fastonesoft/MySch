@@ -20,29 +20,23 @@ namespace MySch.Models
         public string ID { get; set; }
 
         [Key]
-        [StringLength(20)]
+        [StringLength(32)]
         public string IDS { get; set; }
-
-        public bool IsCurrent { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public string YearIDS { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public string SemesterIDS { get; set; }
 
         [Required]
         [StringLength(32)]
-        public string AccIDS { get; set; }
+        public string YearIDS { get; set; }
+
+        [Required]
+        [StringLength(32)]
+        public string TermTypeIDS { get; set; }
+
+        public bool IsCurrent { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kao> Kaos { get; set; }
 
-        public virtual TAcc TAcc { get; set; }
-
-        public virtual TSemester TSemester { get; set; }
+        public virtual TTermType TTermType { get; set; }
 
         public virtual TYear TYear { get; set; }
     }

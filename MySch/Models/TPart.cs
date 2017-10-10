@@ -20,8 +20,12 @@ namespace MySch.Models
         public string ID { get; set; }
 
         [Key]
-        [StringLength(20)]
+        [StringLength(32)]
         public string IDS { get; set; }
+
+        [Required]
+        [StringLength(32)]
+        public string AccIDS { get; set; }
 
         [Required]
         [StringLength(10)]
@@ -32,10 +36,6 @@ namespace MySch.Models
         public string Value { get; set; }
 
         public bool Fixed { get; set; }
-
-        [Required]
-        [StringLength(32)]
-        public string AccIDS { get; set; }
 
         public virtual TAcc TAcc { get; set; }
 

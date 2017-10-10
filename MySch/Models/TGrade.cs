@@ -25,20 +25,16 @@ namespace MySch.Models
         public string IDS { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(32)]
         public string StepIDS { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(32)]
         public string YearIDS { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string EduIDS { get; set; }
-
-        [Required]
         [StringLength(32)]
-        public string AccIDS { get; set; }
+        public string EduIDS { get; set; }
 
         public bool CanFeng { get; set; }
 
@@ -50,8 +46,6 @@ namespace MySch.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StudGrade> StudGrades { get; set; }
-
-        public virtual TAcc TAcc { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBan> TBans { get; set; }
