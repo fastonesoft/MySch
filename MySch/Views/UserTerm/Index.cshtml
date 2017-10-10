@@ -32,7 +32,8 @@
                 },
                 all: function () {
                     $('#terms-grid').datagrid({
-                        queryParams: {}
+                        url: '/UserTerm/DataGrid',
+                        queryParams: {},
                     });
                 }
             }
@@ -47,7 +48,6 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserTerm/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -61,10 +61,7 @@
                     { title: '年度学期', field: 'Name', align: 'center', width: 150 },
                     {
                         title: '当前学期', field: 'IsCurrent', halign: 'center', width: 100,
-                        formatter: function (value, row, index) {
-                            //不输出任何东西
-                            //return value.ok ? null : value.message;
-                        },
+                        formatter: function (value, row, index) { },
                         styler: function (value, row, index) {
                             if (value) {
                                 return "background:url('/Content/themes/icons/ico_yes.gif') no-repeat center center;";
@@ -99,6 +96,7 @@
                 onClick: function (node) {
                     if (node) {
                         $('#terms-grid').datagrid({
+                            url: '/UserTerm/DataGrid',
                             queryParams: {
                                 id: node.id,
                             }
@@ -111,7 +109,7 @@
 </head>
 <body>
     <div id="terms-lay">
-        <div data-options="region:'west',border:true, title:'年度设置'" style="width:200px;">
+        <div data-options="region:'west',border:true" style="width:200px;">
             <ul id="terms-tree"></ul>
         </div>
         <div data-options="region:'center',border:true">
@@ -124,19 +122,10 @@
                                 <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="terms.add();">添加</a>
                             </td>
                             <td>
-                                <div class="datagrid-btn-separator"></div>
-                            </td>
-                            <td>
                                 <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="terms.edit();">修改</a>
                             </td>
                             <td>
-                                <div class="datagrid-btn-separator"></div>
-                            </td>
-                            <td>
                                 <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="terms.del();">删除</a>
-                            </td>
-                            <td>
-                                <div class="datagrid-btn-separator"></div>
                             </td>
                             <td>
                                 <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-reload" plain="true" onclick="terms.all();">全部</a>

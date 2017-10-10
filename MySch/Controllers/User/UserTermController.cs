@@ -155,9 +155,11 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult MenuTree(string id = null)
+        public ActionResult MenuTree()
         {
-            var entitys = BllYear.GetEntitys<BllYear>(a => true).OrderBy(a => a.IDS);
+            var login = BllLogin.GetLogin(Session);
+
+            var entitys = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
             var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Part");
             return Json(res);
         }

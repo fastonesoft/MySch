@@ -134,12 +134,15 @@
     <Compile Include="Bll\Custom\KaoPlaceAdds.cs" />
     <Compile Include="Bll\Entity\BllKaoType.cs" />
     <Compile Include="Bll\Entity\BllKaoPlace.cs" />
+    <Compile Include="Bll\Entity\BllSub.cs" />
     <Compile Include="Bll\Entity\BllStudentMove.cs" />
     <Compile Include="Bll\Entity\BllGradeBacks.cs" />
     <Compile Include="Bll\Entity\BllStudentFill.cs" />
     <Compile Include="Bll\Entity\BllImageUpload.cs" />
+    <Compile Include="Controllers\Kao\KaoController.cs" />
     <Compile Include="Controllers\Kao\KaoTypeController.cs" />
     <Compile Include="Controllers\Kao\KaoPlaceController.cs" />
+    <Compile Include="Controllers\User\UserSubController.cs" />
     <Compile Include="Controllers\Wall\WxAccPrizeController.cs" />
     <Compile Include="Controllers\Wall\WxAccSendController.cs" />
     <Compile Include="Controllers\Wall\WxPrizeController.cs" />
@@ -801,9 +804,14 @@
     <Content Include="Views\KaoType\Del.cshtml" />
     <Content Include="Views\KaoType\Edit.cshtml" />
     <Content Include="Views\KaoType\Index.cshtml" />
+    <Content Include="Views\UserSub\Add.cshtml" />
+    <Content Include="Views\UserSub\Del.cshtml" />
+    <Content Include="Views\UserSub\Edit.cshtml" />
+    <Content Include="Views\UserSub\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Image\" />
+    <Folder Include="Views\Kao\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>

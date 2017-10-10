@@ -508,22 +508,22 @@ alter table TSub add constraint PK_TSub primary key clustered (IDS)
 alter table TSub add constraint FK_TSub_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TSub_ID on TSub (ID)
 
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '32128402', '01', '语文', '语', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '32128402', '02', '数字', '数', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '32128402', '03', '英语', '英', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '32128402', '04', '物理', '物', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '32128402', '05', '化学', '化', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '32128402', '06', '政治', '政', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '32128402', '07', '历史', '历', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '32128402', '08', '地理', '地', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840209', '32128402', '09', '生物', '生', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840210', '32128402', '10', '体育', '体', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840211', '32128402', '11', '音乐', '音', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840212', '32128402', '12', '美术', '美', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840213', '32128402', '13', '信息', '信', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840214', '32128402', '14', '口语', '口', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840215', '32128402', '15', '听力', '听', 0)
-insert TSub values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '32128402', '99', '总分', '总', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840201', '32128402', '01', '语文', '语', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840202', '32128402', '02', '数字', '数', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840203', '32128402', '03', '英语', '英', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840204', '32128402', '04', '物理', '物', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840205', '32128402', '05', '化学', '化', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840206', '32128402', '06', '政治', '政', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840207', '32128402', '07', '历史', '历', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840208', '32128402', '08', '地理', '地', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840209', '32128402', '09', '生物', '生', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840210', '32128402', '10', '体育', '体', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840211', '32128402', '11', '音乐', '音', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840212', '32128402', '12', '美术', '美', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840213', '32128402', '13', '信息', '信', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840214', '32128402', '14', '口语', '口', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840215', '32128402', '15', '听力', '听', 0)
+insert TSub values (Lower(REPLACE(NEWID(), '-','')), 'SB3212840299', '32128402', '99', '总分', '总', 0)
 
 
 
@@ -543,15 +543,15 @@ go
 alter table StudOut add constraint PK_StudOut primary key clustered (IDS)
 create unique nonclustered index UN_StudOut_ID on StudOut (ID)
 
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '毕业', '01', 0, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '升学', '02', 0, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '休学', '03', 0, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '转出', '04', 0, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '外借', '05', 1, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '辍学', '06', 1, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840207', '流生', '07', 1, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840208', '其他', '08', 1, '32128402')
-insert StudOut values (Lower(REPLACE(NEWID(), '-','')), '3212840299', '临时', '99', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840201', '毕业', '01', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840202', '升学', '02', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840203', '休学', '03', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840204', '转出', '04', 0, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840205', '外借', '05', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840206', '辍学', '06', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840207', '流生', '07', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840208', '其他', '08', 1, '32128402')
+insert StudOut values (Lower(REPLACE(NEWID(), '-','')), 'SO3212840299', '临时', '99', 1, '32128402')
 
 
 
@@ -574,12 +574,12 @@ go
 alter table StudCome add constraint PK_StudCome primary key clustered (IDS)
 create unique nonclustered index UN_StudCome_ID on StudCome (ID)
 
-insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '应届生', '01', '32128402')
-insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '休复生', '02', '32128402')
-insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '借读生', '03', '32128402')
-insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '借考生', '04', '32128402')
-insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '转入生', '05', '32128402')
-insert StudCome values (Lower(REPLACE(NEWID(), '-','')), '3212840206', '重读生', '06', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), 'SC3212840201', '应届生', '01', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), 'SC3212840202', '休复生', '02', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), 'SC3212840203', '借读生', '03', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), 'SC3212840204', '借考生', '04', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), 'SC3212840205', '转入生', '05', '32128402')
+insert StudCome values (Lower(REPLACE(NEWID(), '-','')), 'SC3212840206', '重读生', '06', '32128402')
 
 
 --学生表
@@ -677,7 +677,7 @@ create unique nonclustered index UN_StudGradeMove_ID on StudGradeMove (ID)
 create table KaoPlace
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,	--AccIDS + PlaceNo
+	IDS	nvarchar(32) not null,	--'KP' + AccIDS + PlaceNo
 	AccIDS	nvarchar(32) not null,
 	PlaceNo	nvarchar(2) not null,	--考场编号
 	Fixed	bit not null,
@@ -692,7 +692,7 @@ create unique nonclustered index UN_KaoPlace_ID on KaoPlace (ID)
 create table KaoType
 (
 	ID	nvarchar(32) not null,
-	IDS	nvarchar(32) not null,	--AccIDS + Value
+	IDS	nvarchar(32) not null,	--'KT' + AccIDS + Value
 	AccIDS	nvarchar(32) not null,
 	Name	nvarchar(20) not null,	--类型名称
 	Value	nvarchar(2) not null,
@@ -703,11 +703,11 @@ alter table KaoType add constraint PK_KaoType primary key clustered (IDS)
 alter table KaoType add constraint FK_KaoType_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_KaoType_ID on KaoType (ID)
 
-insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840201', '32128402', '周练', '01', 0)
-insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840202', '32128402', '月考', '02', 0)
-insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840203', '32128402', '统考', '03', 0)
-insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840204', '32128402', '调研', '04', 0)
-insert KaoType values (Lower(REPLACE(NEWID(), '-','')), '3212840205', '32128402', '中考', '05', 0)
+insert KaoType values (Lower(REPLACE(NEWID(), '-','')), 'KT3212840201', '32128402', '周练', '01', 0)
+insert KaoType values (Lower(REPLACE(NEWID(), '-','')), 'KT3212840202', '32128402', '月考', '02', 0)
+insert KaoType values (Lower(REPLACE(NEWID(), '-','')), 'KT3212840203', '32128402', '统考', '03', 0)
+insert KaoType values (Lower(REPLACE(NEWID(), '-','')), 'KT3212840204', '32128402', '调研', '04', 0)
+insert KaoType values (Lower(REPLACE(NEWID(), '-','')), 'KT3212840205', '32128402', '中考', '05', 0)
 
 
 --一、考试

@@ -19,18 +19,18 @@ namespace MySch.Controllers.Account
         {
             try
             {
-                //var infornot = new WX_OAuserInfor
-                //{
-                //    openid = "o47ZhvxoQA9QOOgDSZ5hGaea4xdI",
-                //    unionid = "o47ZhvxoQA9QOOgDSZ5hGaea4xdI",
-                //    nickname = "石亮",
-                //};
-                //infornot.CheckUser();
-                //infornot.ToSession();
-                //ViewBag.ShowMenu = infornot.unionid == "o47ZhvxoQA9QOOgDSZ5hGaea4xdI" || infornot.unionid == "o47ZhvzWPWSNS26vG_45Fuz5JMZk" ? true : false;
-                //ViewBag.UserName = infornot.username;
-                //ViewBag.NickName = infornot.nickname;
-                //return View("Main");
+                var infornot = new WX_OAuserInfor
+                {
+                    openid = "o47ZhvxoQA9QOOgDSZ5hGaea4xdI",
+                    unionid = "o47ZhvxoQA9QOOgDSZ5hGaea4xdI",
+                    nickname = "石亮",
+                };
+                infornot.CheckUser();
+                infornot.ToSession();
+                ViewBag.ShowMenu = infornot.unionid == "o47ZhvxoQA9QOOgDSZ5hGaea4xdI" || infornot.unionid == "o47ZhvzWPWSNS26vG_45Fuz5JMZk" ? true : false;
+                ViewBag.UserName = infornot.username;
+                ViewBag.NickName = infornot.nickname;
+                return View("Main");
 
                 //二维码登录
                 if (WX_OAuserInfor.HasNoSession())

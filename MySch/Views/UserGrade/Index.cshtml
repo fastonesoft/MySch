@@ -36,7 +36,8 @@
                 },
                 all: function () {
                     $('#grades-grid').datagrid({
-                        queryParams: {}
+                        url: '/UserGrade/DataGrid',
+                        queryParams: {},
                     });
                 }
             }
@@ -51,7 +52,6 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/UserGrade/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -111,6 +111,7 @@
                 onClick: function (node) {
                     if (node) {
                         $('#grades-grid').datagrid({
+                            url: '/UserGrade/DataGrid',
                             queryParams: {
                                 id: node.id,
                             }
@@ -123,7 +124,7 @@
 </head>
 <body>
     <div id="grades-lay">
-        <div data-options="region:'west',border:true, title:'校区分级'" style="width:200px;">
+        <div data-options="region:'west',border:true" style="width:200px;">
             <ul id="grades-tree"></ul>
         </div>
         <div data-options="region:'center',border:true">

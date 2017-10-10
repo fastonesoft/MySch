@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    //KaoType/Index
+    //UserSub/Index
 }
 
 <!DOCTYPE html>
@@ -8,26 +8,26 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>考试类型</title>
+    <title>学科设置</title>
 
     <script type="text/javascript">
         $(function () {
 
             //点击动作
-            kaotypes = {
+            usersubs = {
                 add: function () {
-                    DataGridNone('/KaoType/Add');
+                    DataGridNone('/UserSub/Add');
                 },
                 edit: function () {
-                    DataGridRowID('#kaotypes-grid', '/KaoType/Edit');
+                    DataGridRowID('#usersubs-grid', '/UserSub/Edit');
                 },
                 del: function () {
-                    DataGridRowID('#kaotypes-grid', '/KaoType/Del');
+                    DataGridRowID('#usersubs-grid', '/UserSub/Del');
                 }
             }
 
             //数据表格
-            $('#kaotypes-grid').datagrid({
+            $('#usersubs-grid').datagrid({
                 fit: true,
                 striped: true,
                 rownumbers: true,
@@ -35,7 +35,7 @@
                 remoteSort: false,
                 singleSelect: true,
                 checkOnSelect: true,
-                url: '/KaoType/DataGrid',
+                url: '/UserSub/DataGrid',
                 loadFilter: function (d) {
                     if (d.error) {
                         $.messager.alert('错误提示', d.message, 'error');
@@ -46,8 +46,9 @@
                 },
 
                 columns: [[
-                    { title: '类型名称', field: 'Name', align: 'center', width: 100 },
-                    { title: '类型编号', field: 'Value', align: 'center', width: 100 },
+                    { title: '学科名称', field: 'Name', align: 'center', width: 100 },
+                    { title: '学科简称', field: 'SName', align: 'center', width: 100 },
+                    { title: '学科编号', field: 'Value', align: 'center', width: 100 },
                     {
                         title: '是否禁用', field: 'Fixed', halign: 'center', width: 100,
                         formatter: function (value, row, index) { },
@@ -59,7 +60,7 @@
                     }
                 ]],
 
-                toolbar: '#kaotypes-grid-tool',
+                toolbar: '#usersubs-grid-tool',
                 pagination: true,
                 pageSize: 100,
                 pageList: [100, 200, 500],
@@ -69,19 +70,19 @@
     </script>
 </head>
 <body>
-    <table id="kaotypes-grid"></table>
-    <div id="kaotypes-grid-tool">
+    <table id="usersubs-grid"></table>
+    <div id="usersubs-grid-tool">
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="kaotypes.add();">添加</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="usersubs.add();">添加</a>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="kaotypes.edit();">修改</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="usersubs.edit();">修改</a>
                     </td>
                     <td>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="kaotypes.del();">删除</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="usersubs.del();">删除</a>
                     </td>
                 </tr>
             </thead>
