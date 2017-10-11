@@ -26,7 +26,7 @@ namespace MySch.Bll.View
                     int total = db.TTerms.Count();
 
                     var entitys = (from t in db.TTerms
-                                   join s in db.TSemesters on t.SemesterIDS equals s.IDS
+                                   join s in db.TTermTypes on t.TermTypeIDS equals s.IDS
                                    join y in db.TYears on t.YearIDS equals y.IDS
                                    select new VTerm
                                    {

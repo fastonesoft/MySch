@@ -28,7 +28,7 @@ namespace MySch.Controllers.User
                 var semes = BllTermType.GetEntitys<BllTermType>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, id);
-                ViewBag.Semesters = EasyUICombo.ToComboJsons<BllTermType>(semes, null);
+                ViewBag.TermTypes = EasyUICombo.ToComboJsons<BllTermType>(semes, null);
 
                 return View();
             }
@@ -50,7 +50,7 @@ namespace MySch.Controllers.User
                 var semes = BllTermType.GetEntitys<BllTermType>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.Semesters = EasyUICombo.ToComboJsons<BllTermType>(semes, entity.SemesterIDS);
+                ViewBag.TermTypes = EasyUICombo.ToComboJsons<BllTermType>(semes, entity.TermTypeIDS);
 
                 return View(entity);
             }
@@ -72,7 +72,7 @@ namespace MySch.Controllers.User
                 var semes = BllTermType.GetEntitys<BllTermType>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
-                ViewBag.Semesters = EasyUICombo.ToComboJsons<BllTermType>(semes, entity.SemesterIDS);
+                ViewBag.TermTypes = EasyUICombo.ToComboJsons<BllTermType>(semes, entity.TermTypeIDS);
 
                 return View(entity);
             }
@@ -98,7 +98,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 entity.ID = Guid.NewGuid().ToString("N");
-                entity.IDS = "TMT" +  entity.AccIDS + entity.YearIDS.Replace(entity.AccIDS, "") + entity.SemesterIDS.Replace(entity.AccIDS, "");
+                entity.IDS = "TMT" +  entity.AccIDS + entity.YearIDS.Replace(entity.AccIDS, "") + entity.TermTypeIDS.Replace(entity.AccIDS, "");
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据

@@ -23,7 +23,7 @@ namespace MySch.Bll.Entity
         [DisplayName("学期编号")]
         [Required(ErrorMessage = "{0}不得为空；")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "{0}：用10位数字设置；")]
-        public string SemesterIDS { get; set; }
+        public string TermTypeIDS { get; set; }
 
         public string AccIDS { get; set; }
 

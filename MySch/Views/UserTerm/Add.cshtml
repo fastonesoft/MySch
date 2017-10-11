@@ -14,8 +14,8 @@
             <input id="YearIDS" name="YearIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
-            <div>@Html.LabelFor(a => a.SemesterIDS)：</div>
-            <input id="SemesterIDS" name="SemesterIDS" style="width:156px;" />
+            <div>@Html.LabelFor(a => a.TermTypeIDS)：</div>
+            <input id="TermTypeIDS" name="TermTypeIDS" style="width:156px;" />
         </div>
         <div class="form-item-row">
             <div>@Html.LabelFor(a => a.IsCurrent)：@Html.CheckBoxFor(a => a.IsCurrent)</div>
@@ -34,10 +34,10 @@
             }
         });
 
-        var semes = $.parseJSON('@Html.Raw(ViewBag.Semesters)');
+        var semes = $.parseJSON('@Html.Raw(ViewBag.TermTypes)');
         var years = $.parseJSON('@Html.Raw(ViewBag.Years)');
 
-        $('#SemesterIDS').combobox({
+        $('#TermTypeIDS').combobox({
             valueField: 'id',
             textField: 'text',
             data: semes,
