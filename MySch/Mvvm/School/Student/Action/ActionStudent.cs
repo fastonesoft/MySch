@@ -35,7 +35,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //无学生记录
                 if (matchs.Count == 0) throw new Exception("省学籍库无记录，请检查身份证");
 
-                var reg = new BllStudentReg();
+                var reg = new BllStudReg();
                 reg.Memo = matchs[0].Groups[1].ToString();
                 reg.Name = matchs[1].Groups[1].ToString();
                 reg.IDC = matchs[2].Groups[1].ToString();
@@ -81,7 +81,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //无学生记录
                 if (matchs.Count == 0) throw new Exception("省学籍库无记录，请检查身份证");
 
-                var reg = new BllStudentReg();
+                var reg = new BllStudReg();
                 reg.Memo = matchs[0].Groups[1].ToString();
                 reg.Name = matchs[1].Groups[1].ToString();
                 reg.IDC = matchs[2].Groups[1].ToString();
@@ -127,7 +127,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //有学生记录
                 if (matchs.Count != 0) throw new Exception("本省学籍学生不得以外省身份报名！");
 
-                var reg = new BllStudentReg();
+                var reg = new BllStudReg();
                 reg.Memo = "外省";
                 reg.Name = name;
                 reg.IDC = idc;

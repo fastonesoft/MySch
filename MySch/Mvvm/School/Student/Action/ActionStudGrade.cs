@@ -116,7 +116,7 @@ namespace MySch.Mvvm.School.Student.Action
                 if (ban.NotFeng) throw new Exception("你班未参加分班，用不着查找");
 
                 //构建调动学生列表
-                var moves = BllStudentMove.GetEntitys<BllStudentMove>(a => true);
+                var moves = BllStudMove.GetEntitys<BllStudMove>(a => true);
                 var sb = new StringBuilder();
                 foreach (var move in moves)
                 {
@@ -141,7 +141,7 @@ namespace MySch.Mvvm.School.Student.Action
                 var stud = VGradeStud.GetEntity(a => a.InSch && !a.Fixed && string.IsNullOrEmpty(a.GroupID) && a.ID == id);
                 if (stud == null) throw new Exception("异常数据");
                 //是否已在调动
-                var count = BllStudentMove.Count(a => a.ID == id);
+                var count = BllStudMove.Count(a => a.ID == id);
                 if (count != 0) throw new Exception(stud.StudName + "，已经在调动列表当中！");
 
                 //查询一下自已的班
@@ -150,8 +150,8 @@ namespace MySch.Mvvm.School.Student.Action
                 if (ban.NotFeng) throw new Exception("你班未参加分班，用不着查找");
 
                 //统计调动人数
-                var fixedcount = BllGradeStud.Count(a => a.Fixed && a.BanIDS == ban.IDS);
-                var movecount = BllStudentMove.Count(a => a.OwnerIDS == owner);
+                var fixedcount = BllStudGrade.Count(a => a.Fixed && a.BanIDS == ban.IDS);
+                var movecount = BllStudMove.Count(a => a.OwnerIDS == owner);
                 if (fixedcount + movecount >= ban.ChangeNum) throw new Exception("已达到调动人数上限");
 
                 //公共关系模式
@@ -166,7 +166,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //直接设置固定，并给出提示信息
                 if (stud.BanIDS == ban.IDS)
                 {
-                    var studfix = BllGradeStud.GetEntity<BllGradeStud>(a => a.ID == stud.ID);
+                    var studfix = BllStudGrade.GetEntity<BllStudGrade>(a => a.ID == stud.ID);
                     if (studfix == null) throw new Exception("异常数据");
                     //固定
                     studfix.GroupID = Guid.NewGuid().ToString("N");
@@ -175,7 +175,7 @@ namespace MySch.Mvvm.School.Student.Action
                 }
 
                 //添加进调动列表
-                var save = new BllStudentMove
+                var save = new BllStudMove
                 {
                     ID = stud.ID,
                     IDS = stud.IDS,
@@ -198,7 +198,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //查找调动学生信息
-                var move = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id);
+                var move = BllStudMove.GetEntity<BllStudMove>(a => a.ID == id);
                 if (move == null) throw new Exception("没有找到学生的调动信息");
                 if (move.OwnerIDS != owner) throw new Exception("调动中的学生，不是你发起的");
 
@@ -260,7 +260,7 @@ namespace MySch.Mvvm.School.Student.Action
                 if (student == null) throw new Exception("没有找到编号对应学生信息！");
 
                 //查找交换学生是否在调当中
-                var count = BllStudentMove.Count(a => a.ID == id);
+                var count = BllStudMove.Count(a => a.ID == id);
                 if (count != 0) throw new Exception(student.StudName + "，已在调动列表当中");
 
                 //准备查询二维码数据
@@ -350,7 +350,7 @@ namespace MySch.Mvvm.School.Student.Action
                 var stud = VGradeStud.GetEntity(a => a.ID == data.ID);
 
                 //先保存交换学生
-                var change = new BllStudentMove
+                var change = new BllStudMove
                 {
                     ID = data.ID2,
                     IDS = data.IDS2,
@@ -393,7 +393,7 @@ namespace MySch.Mvvm.School.Student.Action
                 };
                 studout.ToUpdate();
                 //准备删除信息
-                var move = new BllStudentMove
+                var move = new BllStudMove
                 {
                     ID = data.ID,
                     IDS = data.IDS,
@@ -422,8 +422,8 @@ namespace MySch.Mvvm.School.Student.Action
                 if (ban == null) throw new Exception("你还没有带班呢");
 
                 //查找你调几个了，
-                var key = BllGradeStud.Count(a => a.Fixed && a.BanIDS == ban.IDS);
-                var value = BllStudentMove.Count(a => a.OwnerIDS == owner);
+                var key = BllStudGrade.Count(a => a.Fixed && a.BanIDS == ban.IDS);
+                var value = BllStudMove.Count(a => a.OwnerIDS == owner);
                 return new VmKeyValue
                 {
                     Command = ban.ChangeNum.ToString(),
@@ -441,7 +441,7 @@ namespace MySch.Mvvm.School.Student.Action
         {
             try
             {
-                var remove = BllStudentMove.GetEntity<BllStudentMove>(a => a.ID == id && a.OwnerIDS == owner);
+                var remove = BllStudMove.GetEntity<BllStudMove>(a => a.ID == id && a.OwnerIDS == owner);
                 if (remove == null) throw new Exception("没有找到你要删除的调动学生");
 
                 remove.ToDelete();
@@ -460,7 +460,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //构建调动学生列表
-                var moves = BllStudentMove.GetEntitys<BllStudentMove>(a => a.OwnerIDS == owner);
+                var moves = BllStudMove.GetEntitys<BllStudMove>(a => a.OwnerIDS == owner);
                 var sb = new StringBuilder();
                 foreach (var move in moves)
                 {

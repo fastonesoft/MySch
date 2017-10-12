@@ -56,7 +56,7 @@ namespace MySch.Controllers.Master
         {
             try
             {
-                var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                var db = BllStud.GetEntity<BllStud>(a => a.IDS == entity.StudIDS);
                 if (db.Fixed)
                 {
                     return Json(new ErrorMessage { error = true, message = "前端：已确认，无法再修改！" });
@@ -74,7 +74,7 @@ namespace MySch.Controllers.Master
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllStudent entity)
+        public ActionResult EditToken(BllStud entity)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace MySch.Controllers.Master
         {
             try
             {
-                var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                var db = BllStud.GetEntity<BllStud>(a => a.IDS == entity.StudIDS);
                 if (db.Checked)
                 {
                     return View(db);
@@ -112,11 +112,11 @@ namespace MySch.Controllers.Master
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FixToken(BllStudent entity)
+        public ActionResult FixToken(BllStud entity)
         {
             try
             {
-                var db = BllStudent.GetEntity<BllStudent>(a => a.ID == entity.ID && a.IDS == entity.IDS);
+                var db = BllStud.GetEntity<BllStud>(a => a.ID == entity.ID && a.IDS == entity.IDS);
 
                 db.Fixed = true;
                 db.ToUpdate();
@@ -136,7 +136,7 @@ namespace MySch.Controllers.Master
             {
                 foreach (var entity in entitys)
                 {
-                    var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                    var db = BllStud.GetEntity<BllStud>(a => a.IDS == entity.StudIDS);
 
                     db.Fixed = false;
                     db.ToUpdate();
@@ -157,7 +157,7 @@ namespace MySch.Controllers.Master
         {
             try
             {
-                var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                var db = BllStud.GetEntity<BllStud>(a => a.IDS == entity.StudIDS);
                 return View(db);
             }
             catch (Exception e)

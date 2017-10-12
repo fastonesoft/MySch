@@ -1027,3 +1027,5 @@ FROM         dbo.WxUploadFile INNER JOIN
                       dbo.StudGrade ON dbo.Stud.IDS = dbo.StudGrade.StudIDS INNER JOIN
                       dbo.TBan ON dbo.StudGrade.BanIDS = dbo.TBan.IDS
 
+go
+

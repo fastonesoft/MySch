@@ -24,11 +24,11 @@ namespace MySch.Controllers.Client
         private HtmlScript Merge(string pageIDS, string whitespace)
         {
             whitespace += "    ";
-            var page = BllPage.GetEntity<BllPage>(a => a.IDS == pageIDS);
+            var page = BllAdminPage.GetEntity<BllAdminPage>(a => a.IDS == pageIDS);
             var html = HttpUtility.UrlDecode(page.Html);
             var script = HttpUtility.UrlDecode(page.Script);
 
-            var subs = BllPage.GetEntitys<BllPage>(a => a.ParentID == page.ID && a.Fixed == false).OrderBy(a => a.IDS);
+            var subs = BllAdminPage.GetEntitys<BllAdminPage>(a => a.ParentID == page.ID && a.Fixed == false).OrderBy(a => a.IDS);
             if (subs.Count() == 0)
             {
                 html = string.Format("\n{2}<!--编码开始 {0}-->\n{1}\n{2}<!--编码结束 {0}-->", page.Name, html, whitespace);
@@ -73,7 +73,7 @@ namespace MySch.Controllers.Client
             {
                 if (id == null)
                 {
-                    var entitys = BllPage.GetEntitys<BllPage>(a => a.Bootup).SingleOrDefault();
+                    var entitys = BllAdminPage.GetEntitys<BllAdminPage>(a => a.Bootup).SingleOrDefault();
                     if (entitys != null) id = entitys.ID;
                 }
 

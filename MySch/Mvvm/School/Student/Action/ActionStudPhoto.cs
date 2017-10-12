@@ -17,7 +17,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
 
-                var ban = BllGradeStud.GetEntity<BllGradeStud>(a => a.ID == id, "无法识别的扫码信息！");
+                var ban = BllStudGrade.GetEntity<BllStudGrade>(a => a.ID == id, "无法识别的扫码信息！");
                 var photos = VqBanPhotos.GetEntitys<VqBanPhotos>(a => a.BanIDS == ban.BanIDS && a.InSch && a.UploadType == "photo")
                     .OrderByDescending(a => a.StudSex)
                     .ThenByDescending(a => a.Score)

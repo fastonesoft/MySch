@@ -24,7 +24,7 @@ namespace MySch.Controllers.Master
         {
             try
             {
-                var db = BllStudent.GetEntity<BllStudent>(a => a.IDS == entity.StudIDS);
+                var db = BllStud.GetEntity<BllStud>(a => a.IDS == entity.StudIDS);
 
                 var res = new List<EasyUIpGrid>();
                 res.Add(EasyUIpGrid.PItem(db, "IDS", "学生编号", "基本信息", ""));

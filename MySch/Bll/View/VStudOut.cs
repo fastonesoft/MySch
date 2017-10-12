@@ -172,7 +172,7 @@ namespace MySch.Bll.View
                             foreach (var entity in entitys)
                             {
                                 grades_max_order++;
-                                BllGradeStud gstud = new BllGradeStud();
+                                BllStudGrade gstud = new BllStudGrade();
                                 gstud.ID = Guid.NewGuid().ToString("N");
                                 gstud.IDS = grades_max_prev + grades_max_order.ToString("D4");
                                 gstud.GradeIDS = ids;

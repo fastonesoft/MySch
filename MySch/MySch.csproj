@@ -135,9 +135,7 @@
     <Compile Include="Bll\Entity\BllKaoType.cs" />
     <Compile Include="Bll\Entity\BllKaoPlace.cs" />
     <Compile Include="Bll\Entity\BllSub.cs" />
-    <Compile Include="Bll\Entity\BllStudentMove.cs" />
-    <Compile Include="Bll\Entity\BllGradeBacks.cs" />
-    <Compile Include="Bll\Entity\BllStudentFill.cs" />
+    <Compile Include="Bll\Entity\BllStudMove.cs" />
     <Compile Include="Bll\Entity\BllImageUpload.cs" />
     <Compile Include="Controllers\Kao\KaoController.cs" />
     <Compile Include="Controllers\Kao\KaoTypeController.cs" />
@@ -199,7 +197,6 @@
     <Compile Include="Mvvm\School\Student\VmStudent.cs" />
     <Compile Include="Mvvm\School\Student\VqBanPhotos.cs" />
     <Compile Include="Mvvm\School\Student\VmStudGrade.cs" />
-    <Compile Include="Bll\Entity\BllStudentReg.cs" />
     <Compile Include="Bll\Entity\BllLog.cs" />
     <Compile Include="Bll\Custom\StudInfor.cs" />
     <Compile Include="Bll\WX\Form\FM_StudReg.cs" />
@@ -232,38 +229,32 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Distinct.cs" />
-    <Compile Include="Bll\Entity\BllPage.cs" />
-    <Compile Include="Bll\Entity\BllTheme.cs" />
-    <Compile Include="Bll\Entity\BllDatum.cs" />
+    <Compile Include="Bll\Entity\BllAdminPage.cs" />
+    <Compile Include="Bll\Entity\BllAdminTheme.cs" />
+    <Compile Include="Bll\Entity\BllAdminDatum.cs" />
     <Compile Include="Core\IDC.cs" />
     <Compile Include="Core\EasyUI.cs" />
-    <Compile Include="Bll\Entity\BllCome.cs">
+    <Compile Include="Bll\Entity\BllStudCome.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Entity\BllBanChange.cs" />
-    <Compile Include="Bll\Entity\BllGradeBack.cs" />
-    <Compile Include="Bll\Entity\BllGradeOut.cs" />
-    <Compile Include="Bll\Entity\BllGradeDrop.cs" />
-    <Compile Include="Bll\Entity\BllGradeStud.cs">
+    <Compile Include="Bll\Entity\BllStudGrade.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Entity\BllOut.cs">
+    <Compile Include="Bll\Entity\BllStudOut.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Entity\BllStudent.cs" />
+    <Compile Include="Bll\Entity\BllStud.cs" />
     <Compile Include="Bll\Entity\BllBan.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Entity\BllGrade.cs" />
-    <Compile Include="Bll\Entity\BllSemes.cs">
+    <Compile Include="Bll\Entity\BllTermType.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\Entity\BllStep.cs" />
     <Compile Include="Bll\Entity\BllPart.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\Entity\BllStudentDrop.cs" />
-    <Compile Include="Bll\Entity\BllStudentIn.cs" />
     <Compile Include="Bll\Entity\BllTerm.cs" />
     <Compile Include="Core\EasyUIpGrid.cs">
       <SubType>Code</SubType>

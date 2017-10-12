@@ -31,7 +31,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllTheme.GetEntity<BllTheme>(a => a.ID == id);
+                var db = BllAdminTheme.GetEntity<BllAdminTheme>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -45,7 +45,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllTheme.GetEntity<BllTheme>(a => a.ID == id);
+                var db = BllAdminTheme.GetEntity<BllAdminTheme>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -56,14 +56,14 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllTheme entity)
+        public ActionResult AddToken(BllAdminTheme entity)
         {
             try
             {
                 //清除当前
                 if (entity.IsCurrent)
                 {
-                    var edits = BllTheme.GetEntitys<BllTheme>(a => a.IsCurrent);
+                    var edits = BllAdminTheme.GetEntitys<BllAdminTheme>(a => a.IsCurrent);
                     foreach (var edit in edits)
                     {
                         edit.IsCurrent = false;
@@ -83,14 +83,14 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllTheme entity)
+        public ActionResult EditToken(BllAdminTheme entity)
         {
             try
             {
                 //清除当前
                 if (entity.IsCurrent)
                 {
-                    var edits = BllTheme.GetEntitys<BllTheme>(a => a.IsCurrent);
+                    var edits = BllAdminTheme.GetEntitys<BllAdminTheme>(a => a.IsCurrent);
                     foreach (var edit in edits)
                     {
                         edit.IsCurrent = false;
@@ -109,13 +109,13 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(BllTheme entity)
+        public ActionResult DelToken(BllAdminTheme entity)
         {
             try
             {
                 //当前判断
                 if (entity.IsCurrent) throw new Exception("表示层：当前模板数据，不能删除！");
-                if (BllPage.Count(a => a.ParentID == entity.ID) > 0) throw new Exception("表示层：模板已设置页面数据，不能删除！");
+                if (BllAdminPage.Count(a => a.ParentID == entity.ID) > 0) throw new Exception("表示层：模板已设置页面数据，不能删除！");
 
                 entity.ToDelete(ModelState);
                 return Json(entity);
@@ -131,7 +131,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var res = BllTheme.GetDataGridPagesAsc<BllTheme, string>(a => true, a => a.IDS, page, rows);
+                var res = BllAdminTheme.GetDataGridPagesAsc<BllAdminTheme, string>(a => true, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

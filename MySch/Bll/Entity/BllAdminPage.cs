@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MySch.Bll.Entity
 {
-    public class BllPage : BllEntity<AdminPage>
+    public class BllAdminPage : BllEntity<AdminPage>
     {
         public string ID { get; set; }
 

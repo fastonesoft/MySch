@@ -30,7 +30,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllDatum.GetEntity<BllDatum>(a => a.ID == id);
+                var db = BllAdminDatum.GetEntity<BllAdminDatum>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -44,7 +44,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllDatum.GetEntity<BllDatum>(a => a.ID == id);
+                var db = BllAdminDatum.GetEntity<BllAdminDatum>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -55,7 +55,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllDatum entity)
+        public ActionResult AddToken(BllAdminDatum entity)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllDatum entity)
+        public ActionResult EditToken(BllAdminDatum entity)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(BllDatum entity)
+        public ActionResult DelToken(BllAdminDatum entity)
         {
             try
             {

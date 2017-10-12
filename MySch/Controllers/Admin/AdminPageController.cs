@@ -27,12 +27,12 @@ namespace MySch.Controllers.Admin
             {
                 if (memo == "Theme")
                 {
-                    var parents = BllTheme.GetEntitys<BllTheme>(a => a.ID == id).OrderBy(a => a.IDS);
+                    var parents = BllAdminTheme.GetEntitys<BllAdminTheme>(a => a.ID == id).OrderBy(a => a.IDS);
                     ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", id);
                 }
                 else
                 {
-                    var parents = BllPage.GetEntitys<BllPage>(a => a.ID == id).OrderBy(a => a.IDS);
+                    var parents = BllAdminPage.GetEntitys<BllAdminPage>(a => a.ID == id).OrderBy(a => a.IDS);
                     ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", id);
                 }
                 return View();
@@ -48,18 +48,18 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllPage.GetEntity<BllPage>(a => a.ID == entity.ID);
+                var db = BllAdminPage.GetEntity<BllAdminPage>(a => a.ID == entity.ID);
                 db.Html = HttpUtility.UrlDecode(db.Html);
                 db.Script = HttpUtility.UrlDecode(db.Script);
 
-                if (BllTheme.Count(a => a.ID == entity.ParentID) != 0)
+                if (BllAdminTheme.Count(a => a.ID == entity.ParentID) != 0)
                 {
-                    var parents = BllTheme.GetEntitys<BllTheme>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
+                    var parents = BllAdminTheme.GetEntitys<BllAdminTheme>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
                     ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", entity.ParentID);
                 }
                 else
                 {
-                    var parents = BllPage.GetEntitys<BllPage>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
+                    var parents = BllAdminPage.GetEntitys<BllAdminPage>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
                     ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", entity.ParentID);
                 }
 
@@ -76,18 +76,18 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var db = BllPage.GetEntity<BllPage>(a => a.ID == entity.ID);
+                var db = BllAdminPage.GetEntity<BllAdminPage>(a => a.ID == entity.ID);
                 db.Html = HttpUtility.UrlDecode(db.Html);
                 db.Script = HttpUtility.UrlDecode(db.Script);
 
-                if (BllTheme.Count(a => a.ID == entity.ParentID) != 0)
+                if (BllAdminTheme.Count(a => a.ID == entity.ParentID) != 0)
                 {
-                    var parents = BllTheme.GetEntitys<BllTheme>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
+                    var parents = BllAdminTheme.GetEntitys<BllAdminTheme>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
                     ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", entity.ParentID);
                 }
                 else
                 {
-                    var parents = BllPage.GetEntitys<BllPage>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
+                    var parents = BllAdminPage.GetEntitys<BllAdminPage>(a => a.ID == entity.ParentID).OrderBy(a => a.IDS);
                     ViewBag.Parents = EasyUICombo.ToComboJsons(parents, "ID", "Name", entity.ParentID);
                 }
 
@@ -101,7 +101,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllPage entity)
+        public ActionResult AddToken(BllAdminPage entity)
         {
             try
             {
@@ -109,9 +109,9 @@ namespace MySch.Controllers.Admin
                 if (entity.Bootup)
                 {
                     //只有第一层的页面才能设置：启动页
-                    if (BllTheme.Count(a => a.ID == entity.ParentID) == 0) throw new Exception("表示层：只有第一层页面才能设置“启动页”！");
+                    if (BllAdminTheme.Count(a => a.ID == entity.ParentID) == 0) throw new Exception("表示层：只有第一层页面才能设置“启动页”！");
 
-                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ParentID == entity.ParentID);
+                    var edits = BllAdminPage.GetEntitys<BllAdminPage>(a => a.Bootup && a.ParentID == entity.ParentID);
                     foreach (var edit in edits)
                     {
                         edit.Bootup = false;
@@ -131,7 +131,7 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllPage entity)
+        public ActionResult EditToken(BllAdminPage entity)
         {
             try
             {
@@ -139,9 +139,9 @@ namespace MySch.Controllers.Admin
                 if (entity.Bootup)
                 {
                     //只有第一层的页面才能设置：启动页
-                    if (BllTheme.Count(a => a.ID == entity.ParentID) == 0) throw new Exception("表示层：只有第一层页面才能设置“启动页”！");
+                    if (BllAdminTheme.Count(a => a.ID == entity.ParentID) == 0) throw new Exception("表示层：只有第一层页面才能设置“启动页”！");
 
-                    var edits = BllPage.GetEntitys<BllPage>(a => a.Bootup && a.ParentID == entity.ParentID);
+                    var edits = BllAdminPage.GetEntitys<BllAdminPage>(a => a.Bootup && a.ParentID == entity.ParentID);
                     foreach (var edit in edits)
                     {
                         edit.Bootup = false;
@@ -160,13 +160,13 @@ namespace MySch.Controllers.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(BllPage entity)
+        public ActionResult DelToken(BllAdminPage entity)
         {
             try
             {
                 //当前判断
                 if (entity.Bootup) throw new Exception("表示层：启动页，不能删除！");
-                if (BllPage.Count(a => a.ParentID == entity.ID) > 0) throw new Exception("表示层：存在子页面数据，不能删除！");
+                if (BllAdminPage.Count(a => a.ParentID == entity.ID) > 0) throw new Exception("表示层：存在子页面数据，不能删除！");
                 //删除数据
                 entity.ToDelete(ModelState);
                 return Json(entity);
@@ -184,19 +184,19 @@ namespace MySch.Controllers.Admin
             if (id == null)
             {
                 //模板
-                var entitys = BllTheme.GetEntitys<BllTheme>(a => true).OrderBy(a => a.IDS);
+                var entitys = BllAdminTheme.GetEntitys<BllAdminTheme>(a => true).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "ID", "Name", "closed", "Theme");
                 return Json(res);
             }
             else
             {
                 //页面
-                var entitys = BllPage.GetEntitys<BllPage>(a => a.ParentID == id).OrderBy(a => a.IDS);
+                var entitys = BllAdminPage.GetEntitys<BllAdminPage>(a => a.ParentID == id).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "ID", "Name", "closed", "Page");
                 //叶子
                 foreach (var r in res)
                 {
-                    r.state = BllPage.Count(a => a.ParentID == r.id) > 0 ? "closed" : "open";
+                    r.state = BllAdminPage.Count(a => a.ParentID == r.id) > 0 ? "closed" : "open";
                 }
                 return Json(res);
             }

@@ -27,7 +27,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllCome.GetEntity<BllCome>(a => a.ID == id);
+                var db = BllStudCome.GetEntity<BllStudCome>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -41,7 +41,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var db = BllCome.GetEntity<BllCome>(a => a.ID == id);
+                var db = BllStudCome.GetEntity<BllStudCome>(a => a.ID == id);
                 return View(db);
             }
             catch (Exception e)
@@ -52,7 +52,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllCome entity)
+        public ActionResult AddToken(BllStudCome entity)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToken(BllCome entity)
+        public ActionResult EditToken(BllStudCome entity)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DelToken(BllCome entity)
+        public ActionResult DelToken(BllStudCome entity)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllCome.GetDataGridPagesAsc<BllCome, string >(a => a.AccIDS == login.IDS,  a => a.IDS, page, rows);
+                var res = BllStudCome.GetDataGridPagesAsc<BllStudCome, string >(a => a.AccIDS == login.IDS,  a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

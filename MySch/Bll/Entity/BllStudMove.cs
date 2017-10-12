@@ -2,7 +2,7 @@
 
 namespace MySch.Bll.Entity
 {
-    public class BllStudentMove : BllEntity<StudGradeMove>
+    public class BllStudMove : BllEntity<StudGradeMove>
     {
         public string ID { get; set; }
 

@@ -29,11 +29,11 @@ namespace MySch.Controllers.User
                 if (memo == "Part")
                 {
                     var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
-                    var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                    var comes = BllStudCome.GetEntitys<BllStudCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                     var bans = new List<VBan>();
                     ViewBag.Grades = EasyUICombo.ToComboJsons<VGrade>(grades, "IDS", "TreeName", null);
                     ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, null);
-                    ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, null);
+                    ViewBag.Comes = EasyUICombo.ToComboJsons<BllStudCome>(comes, null);
                     ViewBag.GradeReadonly = "false";
                     ViewBag.BanReadonly = "false";
                 }
@@ -44,11 +44,11 @@ namespace MySch.Controllers.User
                         var grade = VGrade.GetEntity(a => a.IDS == id);
 
                         var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == grade.PartIDS && a.IsCurrent);
-                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                        var comes = BllStudCome.GetEntitys<BllStudCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                         var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
                         ViewBag.Grades = EasyUICombo.ToComboJsons<VGrade>(grades, "IDS", "TreeName", id);
                         ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
-                        ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.Comes = EasyUICombo.ToComboJsons<BllStudCome>(comes, null);
                         ViewBag.GradeReadonly = "true";
                         ViewBag.BanReadonly = "false";
                     }
@@ -57,12 +57,12 @@ namespace MySch.Controllers.User
                         var ban = VBan.GetEntity(a => a.IDS == id);
 
                         var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == ban.PartIDS && a.IsCurrent);
-                        var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                        var comes = BllStudCome.GetEntitys<BllStudCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                         var bans = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.IDS == id);
 
                         ViewBag.Grades = EasyUICombo.ToComboJsons<VGrade>(grades, "IDS", "TreeName", ban.GradeIDS);
                         ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", id);
-                        ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, null);
+                        ViewBag.Comes = EasyUICombo.ToComboJsons<BllStudCome>(comes, null);
                         ViewBag.GradeReadonly = "true";
                         ViewBag.BanReadonly = "true";
                     }
@@ -78,7 +78,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToken(BllStudentIn entity)
+        public ActionResult AddToken(BllStudIn entity)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace MySch.Controllers.User
         /// <param name="row"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Drop(BllGradeDrop entity)
+        public ActionResult Drop(BllStudDrop entity)
         {
             try
             {
@@ -165,20 +165,20 @@ namespace MySch.Controllers.User
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DropToken(BllGradeDrop entity)
+        public ActionResult DropToken(BllStudDrop entity)
         {
             try
             {
                 //查询“休学”编号
                 var login = BllLogin.GetLogin(Session);
-                var outs = BllOut.GetEntity<BllOut>(a => a.Name == "休学" && a.AccIDS == login.IDS);
+                var outs = BllStudGradeOut.GetEntity<BllStudGradeOut>(a => a.Name == "休学" && a.AccIDS == login.IDS);
                 //一、变更数据 -> 设置不在校、离校状态
                 entity.InSch = false;
                 entity.OutIDS = outs.IDS;
                 entity.OutTime = DateTime.Now;
                 entity.ToUpdate(ModelState);
                 //二、学生库中降级
-                var student = BllStudentDrop.GetEntity<BllStudentDrop>(a => a.IDS == entity.StudIDS);
+                var student = BllStudDrop.GetEntity<BllStudDrop>(a => a.IDS == entity.StudIDS);
                 student.StepIDS = entity.StepIDS;
                 student.ToUpdate();
                 //显示
@@ -192,19 +192,19 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Out(BllGradeOut entity)
+        public ActionResult Out(BllStudGradeOut entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
                 var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS).OrderBy(a => a.Num);
-                var outs = BllOut.GetEntitys<BllOut>(a => a.AccIDS == login.IDS && a.CanReturn).OrderBy(a => a.IDS);
+                var outs = BllStudGradeOut.GetEntitys<BllStudGradeOut>(a => a.AccIDS == login.IDS && a.CanReturn).OrderBy(a => a.IDS);
                 var steps = VStep.GetEntitys(a => a.PartIDS == entity.PartIDS && a.Graduated == false);
 
 
                 ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
-                ViewBag.Outs = EasyUICombo.ToComboJsons<BllOut>(outs, "IDS", "Name", null);
+                ViewBag.Outs = EasyUICombo.ToComboJsons<BllStudGradeOut>(outs, "IDS", "Name", null);
                 ViewBag.Steps = EasyUICombo.ToComboJsons<VStep>(steps, "IDS", "Name", entity.StepIDS);
 
                 return View(entity);
@@ -217,7 +217,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult OutToken(BllGradeOut entity)
+        public ActionResult OutToken(BllStudGradeOut entity)
         {
             try
             {
@@ -239,17 +239,17 @@ namespace MySch.Controllers.User
         }
 
         [HttpPost]
-        public ActionResult Back(BllGradeBack entity)
+        public ActionResult Back(BllStudBack entity)
         {
             try
             {
                 var login = BllLogin.GetLogin(Session);
 
                 var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS).OrderBy(a => a.Num);
-                var comes = BllCome.GetEntitys<BllCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var comes = BllStudCome.GetEntitys<BllStudCome>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", null);
-                ViewBag.Comes = EasyUICombo.ToComboJsons<BllCome>(comes, "IDS", "Name", null);
+                ViewBag.Comes = EasyUICombo.ToComboJsons<BllStudCome>(comes, "IDS", "Name", null);
 
                 //可返回
                 if (entity.CanReturn) return View(entity);
@@ -264,7 +264,7 @@ namespace MySch.Controllers.User
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult BackToken(BllGradeBack entity)
+        public ActionResult BackToken(BllStudBack entity)
         {
             try
             {
@@ -289,7 +289,7 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var infor = BllGradeBacks.Backs(entitys);
+                var infor = BllStudBacks.Backs(entitys);
                 return Json(new ErrorMessage { error = false, message = infor });
             }
             catch (Exception e)
@@ -408,7 +408,7 @@ namespace MySch.Controllers.User
                     {
                         VmStudDetail xue = xues.First();
 
-                        BllStudentFill ins = BllStudentFill.GetEntity<BllStudentFill>(a => a.IDC == stud.IDC);
+                        BllStudFill ins = BllStudFill.GetEntity<BllStudFill>(a => a.IDC == stud.IDC);
                         ins.Name1 = xue.first_guardian_name;
                         ins.Name2 = xue.second_guardian_name;
                         ins.Mobil2 = xue.second_guardian_phone;
