@@ -296,28 +296,28 @@ create table TYear
 	ID	nvarchar(32) not null,
 	IDS	nvarchar(32) not null,	--年度编号 AccIDS + XXXX
 	AccIDS	nvarchar(32) not null,	--所属学校
-	Name	nvarchar(10) not null,	--年度2016
-	IsCurrent	bit not null,	--当前年度
+	Name	int not null,	--年度2016
+	CurrentYear	bit not null,	--当前年度
 )
 go
 alter table TYear add constraint PK_TYear primary key clustered (IDS)
 alter table TYear add constraint FK_TYear_AccIDS foreign key (AccIDS) references TAcc (IDS)
 create unique nonclustered index UN_TYear_ID on TYear (ID)
 go
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022017', '32128402', '2017', 1)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022016', '32128402', '2016', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022015', '32128402', '2015', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022014', '32128402', '2014', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022013', '32128402', '2013', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022012', '32128402', '2012', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022011', '32128402', '2011', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022010', '32128402', '2010', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022009', '32128402', '2009', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022008', '32128402', '2008', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022007', '32128402', '2007', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022006', '32128402', '2006', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022005', '32128402', '2005', 0)
-insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022004', '32128402', '2004', 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022017', '32128402', 2017, 1)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022016', '32128402', 2016, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022015', '32128402', 2015, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022014', '32128402', 2014, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022013', '32128402', 2013, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022012', '32128402', 2012, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022011', '32128402', 2011, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022010', '32128402', 2010, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022009', '32128402', 2009, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022008', '32128402', 2008, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022007', '32128402', 2007, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022006', '32128402', 2006, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022005', '32128402', 2005, 0)
+insert TYear values (Lower(REPLACE(NEWID(), '-','')), 'TY321284022004', '32128402', 2004, 0)
 
 
 --学期设置
@@ -343,7 +343,7 @@ create table TTerm
 	IDS	nvarchar(32) not null,	--学期编号 YearIDS + TTermType.Value
 	YearIDS	nvarchar(32) not null,	--年度编号
 	TermTypeIDS	nvarchar(32) not null,	--学期类型
-	IsCurrent	bit not null,	--当前学期
+	CurrentTerm	bit not null,	--当前学期
 )
 go
 alter table TTerm add constraint PK_TTerm primary key clustered (IDS)
@@ -862,7 +862,7 @@ go
 
 
 --视图
-create view ViAccRoleGroup
+create view ViewAccRoleGroup
 as
 SELECT     dbo.TAcc.ID, dbo.TAcc.IDS, dbo.TAcc.Name, dbo.TAcc.RoleGroupIDS, dbo.TAcc.Passed, dbo.TAcc.Fixed, dbo.RoleGroup.Name AS RoleGroupName, 
                       dbo.TAcc.ParentID
@@ -962,7 +962,7 @@ alter table WxAccSend add constraint FK_WxAccSend_WxActionIDS foreign key (WxAct
 create unique nonclustered index UN_WxAccSend_ID on WxAccSend (ID)
 
 go
-create view ViWxAccSend
+create view ViewWxAccSend
 as
 select 
   a.*
@@ -995,7 +995,7 @@ create unique nonclustered index UN_WxAccPrize_ID on WxAccPrize (ID)
 
 go
 --
-create view ViWxAccPrize
+create view ViewWxAccPrize
 as
 select
   a.*
@@ -1017,7 +1017,7 @@ go
 --excel
 --substring(start = 1 开始计数)
 --C#是从0开始计数
-create view ViWxStudUpload
+create view ViewWxStudUpload
 as 
 SELECT     dbo.WxUploadFile.ID, dbo.WxUploadFile.IDS, dbo.WxUploadFile.FileType, dbo.WxUploadFile.UploadType, dbo.WxUploadFile.CreateTime, dbo.Stud.IDC, 
                       dbo.Stud.Name, CASE substring(dbo.Stud.idc, 17, 1) % 2 WHEN 0 THEN '女' WHEN 1 THEN '男' END AS StudSex, dbo.StudGrade.GradeIDS, 
@@ -1029,3 +1029,58 @@ FROM         dbo.WxUploadFile INNER JOIN
 
 go
 
+--班级查询
+create view ViewSchBan
+as
+SELECT     dbo.TBan.ID, dbo.TBan.IDS, dbo.TBan.Num, dbo.TBan.GradeIDS, dbo.TBan.MasterIDS, dbo.TBan.NotFeng, dbo.TBan.OnlyFixed, 
+                      dbo.TBan.ChangeNum, dbo.TBan.Differ, dbo.TBan.IsAbs, dbo.TBan.SameSex, dbo.TStep.PartIDS, dbo.TGrade.StepIDS, dbo.TGrade.YearIDS, 
+                      dbo.TGrade.EduIDS, TAcc_1.Name AS MasterName, dbo.TAcc.Name AS AccName, dbo.TPart.Name AS PartName, dbo.TStep.Name AS StepName, 
+                      dbo.TPart.Name + ' - ' + dbo.TStep.Name + ' - ' + dbo.TEdu.Name + '（' + dbo.TBan.Num + '）班' AS Name, dbo.TYear.CurrentYear
+FROM         dbo.TPart INNER JOIN
+                      dbo.TBan INNER JOIN
+                      dbo.TGrade ON dbo.TBan.GradeIDS = dbo.TGrade.IDS INNER JOIN
+                      dbo.TYear ON dbo.TGrade.YearIDS = dbo.TYear.IDS INNER JOIN
+                      dbo.TEdu ON dbo.TGrade.EduIDS = dbo.TEdu.IDS INNER JOIN
+                      dbo.TStep ON dbo.TGrade.StepIDS = dbo.TStep.IDS ON dbo.TPart.IDS = dbo.TStep.PartIDS INNER JOIN
+                      dbo.TAcc ON dbo.TPart.AccIDS = dbo.TAcc.IDS LEFT OUTER JOIN
+                      dbo.TAcc AS TAcc_1 ON dbo.TBan.MasterIDS = TAcc_1.IDS
+
+go
+
+
+--年级查询
+create view ViewSchGrade
+as
+SELECT     dbo.TGrade.ID, dbo.TGrade.IDS, dbo.TGrade.StepIDS, dbo.TGrade.YearIDS, dbo.TGrade.EduIDS, dbo.TGrade.CanFeng, dbo.TGrade.TakeNum, 
+                      dbo.TGrade.GoneModel, dbo.TGrade.GoneList, dbo.TStep.PartIDS, dbo.TAcc.Name AS AccName, dbo.TPart.Name AS PartName, 
+                      dbo.TStep.Name AS StepName, dbo.TEdu.Name AS EduName, dbo.TStep.Name + ' - ' + dbo.TEdu.Name AS TreeName, 
+                      dbo.TPart.Name + ' - ' + dbo.TStep.Name + ' - ' + dbo.TEdu.Name AS Name, dbo.TYear.CurrentYear
+FROM         dbo.TGrade INNER JOIN
+                      dbo.TStep ON dbo.TGrade.StepIDS = dbo.TStep.IDS INNER JOIN
+                      dbo.TPart ON dbo.TStep.PartIDS = dbo.TPart.IDS INNER JOIN
+                      dbo.TEdu ON dbo.TGrade.EduIDS = dbo.TEdu.IDS INNER JOIN
+                      dbo.TAcc ON dbo.TPart.AccIDS = dbo.TAcc.IDS INNER JOIN
+                      dbo.TYear ON dbo.TGrade.YearIDS = dbo.TYear.IDS
+
+go
+
+--分级查询
+create view ViewSchStep
+as
+SELECT     dbo.TStep.ID, dbo.TStep.IDS, dbo.TStep.PartIDS, dbo.TStep.Name, dbo.TStep.Value, dbo.TStep.Graduated, dbo.TStep.CanRecruit, dbo.TPart.AccIDS, 
+                      dbo.TPart.Name AS PartName
+FROM         dbo.TStep INNER JOIN
+                      dbo.TPart ON dbo.TStep.PartIDS = dbo.TPart.IDS
+
+go
+
+
+--学期查询
+create view ViewSchTerm
+as
+SELECT     dbo.TTerm.ID, dbo.TTerm.IDS, dbo.TTerm.YearIDS, dbo.TTerm.TermTypeIDS, dbo.TTerm.CurrentTerm, dbo.TYear.Name, dbo.TYear.CurrentYear, 
+                      dbo.TYear.AccIDS, dbo.TTermType.Name AS TypeName
+FROM         dbo.TTerm INNER JOIN
+                      dbo.TYear ON dbo.TTerm.YearIDS = dbo.TYear.IDS INNER JOIN
+                      dbo.TTermType ON dbo.TTerm.TermTypeIDS = dbo.TTermType.IDS
+go

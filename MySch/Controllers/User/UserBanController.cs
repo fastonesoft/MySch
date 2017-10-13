@@ -26,7 +26,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var grades = ViSchGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.ParentID == login.unionid).OrderBy(a => a.IDS);
 
                 ViewBag.Grades = EasyUICombo.ToComboJsons(grades, id);
@@ -46,7 +46,7 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var grades = ViSchGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.ParentID == login.unionid).OrderBy(a => a.IDS);
 
                 ViewBag.Grades = EasyUICombo.ToComboJsons(grades, id);
@@ -68,7 +68,7 @@ namespace MySch.Controllers.User
                 var entity = BllBan.GetEntity<BllBan>(a => a.ID == id);
 
                 var login = BllLogin.GetLogin(Session);
-                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var grades = ViSchGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = ActAcc.AccBanMaster(login.IDS, entity.MasterIDS, login.unionid);
 
                 ViewBag.Grades = EasyUICombo.ToComboJsons(grades, entity.GradeIDS);
@@ -90,7 +90,7 @@ namespace MySch.Controllers.User
                 var entity = BllBan.GetEntity<BllBan>(a => a.ID == id);
 
                 var login = BllLogin.GetLogin(Session);
-                var grades = VGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var grades = ViSchGrade.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
                 var accs = BllAcc.GetEntitys<BllAcc>(a => a.ParentID == login.unionid).OrderBy(a => a.IDS);
 
                 ViewBag.Grades = EasyUICombo.ToComboJsons(grades, entity.GradeIDS);
@@ -119,7 +119,7 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = VBan.GetEntity(a => a.ID == entity.ID);
+                var qentity = ViSchBan.GetEntity(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -164,7 +164,7 @@ namespace MySch.Controllers.User
                 }
 
                 //返回添加的数据集
-                var res = VBan.GetDataGridPages(a => banids.Contains(a.IDS), 1, 100);
+                var res = ViSchBan.GetDataGridPages(a => banids.Contains(a.IDS), 1, 100);
                 return Json(res);
             }
             catch (Exception e)
@@ -204,7 +204,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
 
                 //查询 视图数据 保存
-                var qentity = VBan.GetEntity(a => a.ID == entity.ID);
+                var qentity = ViSchBan.GetEntity(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -228,7 +228,7 @@ namespace MySch.Controllers.User
             }
             else
             {
-                var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent).OrderBy(a => a.IDS);
+                var entitys = ViSchGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "open", "Grade");
                 return Json(res);
             }
@@ -241,8 +241,8 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
                 var res = id == null ?
-                    VBan.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
-                    VBan.GetDataGridPages(a => a.AccIDS == login.IDS && a.GradeIDS == id, page, rows);
+                    ViSchBan.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
+                    ViSchBan.GetDataGridPages(a => a.AccIDS == login.IDS && a.GradeIDS == id, page, rows);
                 return Json(res);
             }
             catch (Exception e)
@@ -257,8 +257,8 @@ namespace MySch.Controllers.User
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var bans = VBan.GetEntitys(a => a.GradeIDS == id);
-                return Json(EasyUICombo.ToCombo<VBan>(bans, "IDS", "TreeName", null));
+                var bans = ViSchBan.GetEntitys(a => a.GradeIDS == id);
+                return Json(EasyUICombo.ToCombo<ViSchBan>(bans, "IDS", "TreeName", null));
             }
             catch (Exception e)
             {

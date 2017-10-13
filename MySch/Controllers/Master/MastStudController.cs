@@ -52,13 +52,13 @@ namespace MySch.Controllers.Master
                 //直接获取：我的学生对应的
                 //校区、年级、班级
                 var login = BllLogin.GetLogin(Session);
-                var bans = VBan.GetEntitys(a => a.MasterIDS == login.IDS);
+                var bans = ViSchBan.GetEntitys(a => a.MasterIDS == login.IDS);
 
 
                 //校区
                 if (id == null)
                 {
-                    var entitys = VBanTree.PartTree(bans);
+                    var entitys = ViBanTree.PartTree(bans);
                     var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Part");
                     return Json(res);
                 }
@@ -67,14 +67,14 @@ namespace MySch.Controllers.Master
                     //年级
                     if (memo == "Part")
                     {
-                        var entitys = VBanTree.GradeTree(bans, id);
+                        var entitys = ViBanTree.GradeTree(bans, id);
                         var res = EasyUITree.ToTree(entitys, "IDS", "Name", "closed", "Grade");
                         return Json(res);
                     }
                     else
                     {
                         //班级
-                        var entitys = VBanTree.BanTree(bans, id);
+                        var entitys = ViBanTree.BanTree(bans, id);
                         var res = EasyUITree.ToTree(entitys, "IDS", "Name", "open", "Class");
                         return Json(res);
                     }
@@ -93,7 +93,7 @@ namespace MySch.Controllers.Master
             {
                 var login = BllLogin.GetLogin(Session);
                 //获取当前帐号所对应的班级
-                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS, "IDS");
+                var bansID = ViSchBan.GetEntitys(a => a.MasterIDS == login.IDS, "IDS");
                 var bantext = string.Join("-", bansID);
 
                 var res = string.IsNullOrEmpty(text) ?

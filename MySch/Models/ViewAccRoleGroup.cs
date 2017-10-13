@@ -6,8 +6,8 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ViWxAccPrize")]
-    public partial class ViWxAccPrize
+    [Table("ViewAccRoleGroup")]
+    public partial class ViewAccRoleGroup
     {
         [Key]
         [Column(Order = 0)]
@@ -21,29 +21,26 @@ namespace MySch.Models
 
         [Key]
         [Column(Order = 2)]
-        [StringLength(32)]
-        public string WxAccIDS { get; set; }
+        [StringLength(20)]
+        public string Name { get; set; }
 
         [Key]
         [Column(Order = 3)]
-        [StringLength(32)]
-        public string WxActionIDS { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int RoleGroupIDS { get; set; }
 
         [Key]
         [Column(Order = 4)]
+        public bool Passed { get; set; }
+
+        [Key]
+        [Column(Order = 5)]
+        public bool Fixed { get; set; }
+
+        [StringLength(20)]
+        public string RoleGroupName { get; set; }
+
         [StringLength(32)]
-        public string WxPrizeIDS { get; set; }
-
-        [StringLength(10)]
-        public string AccName { get; set; }
-
-        [StringLength(200)]
-        public string AccImage { get; set; }
-
-        [StringLength(20)]
-        public string ActionName { get; set; }
-
-        [StringLength(20)]
-        public string PrizeName { get; set; }
+        public string ParentID { get; set; }
     }
 }

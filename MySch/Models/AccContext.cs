@@ -50,10 +50,11 @@ namespace MySch.Models
         public virtual DbSet<WxAction> WxActions { get; set; }
         public virtual DbSet<WxPrize> WxPrizes { get; set; }
         public virtual DbSet<WxUploadFile> WxUploadFiles { get; set; }
-        public virtual DbSet<ViAccRoleGroup> ViAccRoleGroups { get; set; }
-        public virtual DbSet<ViWxAccPrize> ViWxAccPrizes { get; set; }
-        public virtual DbSet<ViWxAccSend> ViWxAccSends { get; set; }
-        public virtual DbSet<ViWxStudUpload> ViWxStudUploads { get; set; }
+        public virtual DbSet<ViewAccRoleGroup> ViewAccRoleGroups { get; set; }
+        public virtual DbSet<ViewBan> ViewBans { get; set; }
+        public virtual DbSet<ViewWxAccPrize> ViewWxAccPrizes { get; set; }
+        public virtual DbSet<ViewWxAccSend> ViewWxAccSends { get; set; }
+        public virtual DbSet<ViewWxStudUpload> ViewWxStudUploads { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -272,7 +273,7 @@ namespace MySch.Models
                 .WithRequired(e => e.WxPrize)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<ViWxStudUpload>()
+            modelBuilder.Entity<ViewWxStudUpload>()
                 .Property(e => e.StudSex)
                 .IsUnicode(false);
         }

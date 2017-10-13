@@ -181,10 +181,11 @@
     <Compile Include="Models\TTerm.cs" />
     <Compile Include="Models\TTermType.cs" />
     <Compile Include="Models\TYear.cs" />
-    <Compile Include="Models\ViAccRoleGroup.cs" />
-    <Compile Include="Models\ViWxAccPrize.cs" />
-    <Compile Include="Models\ViWxAccSend.cs" />
-    <Compile Include="Models\ViWxStudUpload.cs" />
+    <Compile Include="Models\ViewAccRoleGroup.cs" />
+    <Compile Include="Models\ViewBan.cs" />
+    <Compile Include="Models\ViewWxAccPrize.cs" />
+    <Compile Include="Models\ViewWxAccSend.cs" />
+    <Compile Include="Models\ViewWxStudUpload.cs" />
     <Compile Include="Models\WxAcc.cs" />
     <Compile Include="Models\WxAccFilter.cs" />
     <Compile Include="Models\WxAccPrize.cs" />
@@ -278,20 +279,20 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
-    <Compile Include="Bll\View\VBanTree.cs" />
-    <Compile Include="Bll\View\VPage.cs" />
+    <Compile Include="Bll\View\ViBanTree.cs" />
+    <Compile Include="Bll\View\ViPage.cs" />
     <Compile Include="Bll\View\VStudOut.cs" />
     <Compile Include="Bll\View\VGradeStud.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\View\VStudent.cs" />
-    <Compile Include="Bll\View\VBan.cs" />
-    <Compile Include="Bll\View\VGrade.cs" />
-    <Compile Include="Bll\View\VStep.cs">
+    <Compile Include="Bll\View\ViStud.cs" />
+    <Compile Include="Bll\View\ViSchBan.cs" />
+    <Compile Include="Bll\View\ViSchGrade.cs" />
+    <Compile Include="Bll\View\ViSchStep.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bll\View\VDatum.cs" />
-    <Compile Include="Bll\View\VTerm.cs" />
+    <Compile Include="Bll\View\ViSchTerm.cs" />
     <Compile Include="Bll\WX\Model\WX_AccessToken.cs" />
     <Compile Include="Bll\WX\Model\WX_Author.cs" />
     <Compile Include="Bll\WX\Model\WX_Command.cs" />

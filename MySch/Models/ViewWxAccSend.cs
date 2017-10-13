@@ -6,8 +6,8 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ViWxAccSend")]
-    public partial class ViWxAccSend
+    [Table("ViewWxAccSend")]
+    public partial class ViewWxAccSend
     {
         [Key]
         [Column(Order = 0)]

@@ -173,7 +173,7 @@ namespace MySch.Controllers.Master
             {
                 var login = BllLogin.GetLogin(Session);
                 //获取当前帐号所对应的班级
-                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
+                var bansID = ViSchBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
                 var bantext = string.Join("-", bansID);
 
                 var res = string.IsNullOrEmpty(text) ?
@@ -194,7 +194,7 @@ namespace MySch.Controllers.Master
             try
             {
                 var login = BllLogin.GetLogin(Session);
-                var bansID = VBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
+                var bansID = ViSchBan.GetEntitys(a => a.MasterIDS == login.IDS && a.IsCurrent, "IDS");
                 var bantext = string.Join("-", bansID);
 
                 var res = string.IsNullOrEmpty(text) ?

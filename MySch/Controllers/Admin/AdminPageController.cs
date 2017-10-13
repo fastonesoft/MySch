@@ -44,7 +44,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Edit(VPage entity)
+        public ActionResult Edit(ViPage entity)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace MySch.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult Del(VPage entity)
+        public ActionResult Del(ViPage entity)
         {
             try
             {
@@ -209,8 +209,8 @@ namespace MySch.Controllers.Admin
             try
             {
                 var res = id == null ?
-                    VPage.GetDataGridPages(a => true, page, rows) :
-                    VPage.GetDataGridPages(a => a.ParentID == id, page, rows);
+                    ViPage.GetDataGridPages(a => true, page, rows) :
+                    ViPage.GetDataGridPages(a => a.ParentID == id, page, rows);
                 return Json(res);
             }
             catch (Exception e)

@@ -9,7 +9,7 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VStudent 
+    public class ViStud 
     {
         public string ID { get; set; }
         public string IDS { get; set; }
@@ -26,7 +26,7 @@ namespace MySch.Bll.View
 
         public string StepName{get;set;}
 
-        public static IEnumerable<VStudent> GetEntitys(Expression<Func<VStudent, bool>> where)
+        public static IEnumerable<ViStud> GetEntitys(Expression<Func<ViStud, bool>> where)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace MySch.Bll.View
                 {
                     var entitys = (from st in db.Studs
                                    join s in db.TSteps on st.StepIDS equals s.IDS
-                                   select new VStudent
+                                   select new ViStud
                                    {
                                        ID = st.ID,
                                        IDS = st.IDS,
@@ -62,7 +62,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static VStudent GetEntity(Expression<Func<VStudent, bool>> where)
+        public static ViStud GetEntity(Expression<Func<ViStud, bool>> where)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static object GetDataGridPages(Expression<Func<VStudent, bool>> where, int pageIndex, int pageSize)
+        public static object GetDataGridPages(Expression<Func<ViStud, bool>> where, int pageIndex, int pageSize)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace MySch.Bll.View
                 var entitys = GetEntitys(where);
                 var takes = entitys.Skip(skip).Take(pageSize);
 
-                return EasyUI<VStudent>.DataGrids(takes, entitys.Count());
+                return EasyUI<ViStud>.DataGrids(takes, entitys.Count());
             }
             catch (Exception e)
             {

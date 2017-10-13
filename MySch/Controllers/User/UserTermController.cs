@@ -172,8 +172,8 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
 
                 var res = id == null ?
-                    VTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
-                    VTerm.GetDataGridPages(a => a.AccIDS == login.IDS && a.YearIDS == id, page, rows);
+                    ViSchTerm.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
+                    ViSchTerm.GetDataGridPages(a => a.AccIDS == login.IDS && a.YearIDS == id, page, rows);
 
                 return Json(res);
             }

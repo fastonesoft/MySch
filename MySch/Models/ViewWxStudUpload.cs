@@ -6,8 +6,8 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ViWxStudUpload")]
-    public partial class ViWxStudUpload
+    [Table("ViewWxStudUpload")]
+    public partial class ViewWxStudUpload
     {
         [Key]
         [Column(Order = 0)]

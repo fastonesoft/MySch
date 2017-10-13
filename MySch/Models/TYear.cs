@@ -28,9 +28,7 @@ namespace MySch.Models
         [StringLength(32)]
         public string AccIDS { get; set; }
 
-        [Required]
-        [StringLength(10)]
-        public string Name { get; set; }
+        public int Name { get; set; }
 
         public bool IsCurrent { get; set; }
 

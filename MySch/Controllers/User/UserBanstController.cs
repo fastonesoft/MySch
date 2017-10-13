@@ -30,8 +30,8 @@ namespace MySch.Controllers.User
         {
             try
             {
-                var bans = VBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS).OrderBy(a => a.Num);
-                ViewBag.Bans = EasyUICombo.ToComboJsons<VBan>(bans, "IDS", "TreeName", entity.BanIDS);
+                var bans = ViSchBan.GetEntitys(a => a.GradeIDS == entity.GradeIDS).OrderBy(a => a.Num);
+                ViewBag.Bans = EasyUICombo.ToComboJsons<ViSchBan>(bans, "IDS", "TreeName", entity.BanIDS);
 
                 return View(entity);
             }
@@ -259,7 +259,7 @@ namespace MySch.Controllers.User
                 {
                     if (memo == "Grade")
                     {
-                        var bans = VBan.GetEntitys(a => a.GradeIDS == id).OrderBy(a => a.Num);
+                        var bans = ViSchBan.GetEntitys(a => a.GradeIDS == id).OrderBy(a => a.Num);
                         var studs = VGradeStud.GetEntitys(a => a.GradeIDS == id && a.InSch)
                             .OrderBy(a => a.BanNum)
                             .ThenByDescending(a => a.StudSex)
@@ -281,7 +281,7 @@ namespace MySch.Controllers.User
                     }
                     else
                     {
-                        var bans = VBan.GetEntitys(a => a.IDS == id);
+                        var bans = ViSchBan.GetEntitys(a => a.IDS == id);
                         var studs = VGradeStud.GetEntitys(a => a.BanIDS == id && a.InSch)
                         .OrderByDescending(a => a.StudSex)
                         .ThenByDescending(a => a.Score)
@@ -346,14 +346,14 @@ namespace MySch.Controllers.User
                 //年级
                 if (memo == "Part")
                 {
-                    var entitys = VGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
+                    var entitys = ViSchGrade.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
                     var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
                     return Json(res);
                 }
                 else
                 {
                     //班级
-                    var entitys = VBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id).OrderBy(a => a.Num);
+                    var entitys = ViSchBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id).OrderBy(a => a.Num);
                     var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
                     return Json(res);
                 }

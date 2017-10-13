@@ -8,16 +8,16 @@ using System.Web;
 
 namespace MySch.Bll.View
 {
-    public class VTerm
+    public class ViPage
     {
         public string ID { get; set; }
         public string IDS { get; set; }
         public string Name { get; set; }
-        public bool IsCurrent { get; set; }
-        public string YearIDS { get; set; }
-        public string AccIDS { get; set; }
+        public bool Bootup { get; set; }
+        public bool Fixed { get; set; }
+        public string ParentID { get; set; }
 
-        public static IEnumerable<VTerm> GetEntitys(Expression<Func<VTerm, bool>> where)
+        public static IEnumerable<ViPage> GetEntitys(Expression<Func<ViPage, bool>> where)
         {
             try
             {
@@ -25,17 +25,15 @@ namespace MySch.Bll.View
                 {
                     int total = db.TTerms.Count();
 
-                    var entitys = (from t in db.TTerms
-                                   join s in db.TTermTypes on t.TermTypeIDS equals s.IDS
-                                   join y in db.TYears on t.YearIDS equals y.IDS
-                                   select new VTerm
+                    var entitys = (from p in db.AdminPages
+                                   select new ViPage
                                    {
-                                       ID = t.ID,
-                                       IDS = t.IDS,
-                                       Name = y.Name + "年度 - " + s.Name,
-                                       IsCurrent = t.IsCurrent,
-                                       YearIDS = t.YearIDS,
-                                       AccIDS = t.AccIDS,
+                                       ID = p.ID,
+                                       IDS = p.IDS,
+                                       Name = p.Name,
+                                       Bootup = p.Bootup,
+                                       Fixed = p.Fixed,
+                                       ParentID = p.ParentID,
                                    })
                                    .Where(where)
                                    .OrderBy(a => a.IDS)
@@ -49,7 +47,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static VTerm GetEntity(Expression<Func<VTerm, bool>> where)
+        public static ViPage GetEntity(Expression<Func<ViPage, bool>> where)
         {
             try
             {
@@ -62,7 +60,7 @@ namespace MySch.Bll.View
             }
         }
 
-        public static object GetDataGridPages(Expression<Func<VTerm, bool>> where, int pageIndex, int pageSize)
+        public static object GetDataGridPages(Expression<Func<ViPage, bool>> where, int pageIndex, int pageSize)
         {
             try
             {
@@ -71,7 +69,7 @@ namespace MySch.Bll.View
                 var entitys = GetEntitys(where);
                 var takes = entitys.Skip(skip).Take(pageSize);
 
-                return EasyUI<VTerm>.DataGrids(takes, entitys.Count());
+                return EasyUI<ViPage>.DataGrids(takes, entitys.Count());
             }
             catch (Exception e)
             {
