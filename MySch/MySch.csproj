@@ -137,6 +137,7 @@
     <Compile Include="Bll\Entity\BllSub.cs" />
     <Compile Include="Bll\Entity\BllStudMove.cs" />
     <Compile Include="Bll\Entity\BllImageUpload.cs" />
+    <Compile Include="Bll\View\ViDatum.cs" />
     <Compile Include="Controllers\Kao\KaoController.cs" />
     <Compile Include="Controllers\Kao\KaoTypeController.cs" />
     <Compile Include="Controllers\Kao\KaoPlaceController.cs" />
@@ -291,7 +292,6 @@
     <Compile Include="Bll\View\ViSchStep.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bll\View\VDatum.cs" />
     <Compile Include="Bll\View\ViSchTerm.cs" />
     <Compile Include="Bll\WX\Model\WX_AccessToken.cs" />
     <Compile Include="Bll\WX\Model\WX_Author.cs" />

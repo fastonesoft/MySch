@@ -105,7 +105,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var res = VDatum.GetDataGridPages(a => true, page, rows);
+                var res = BllAdminDatum.GetDataGridPagesAsc<BllAdminDatum, string>(a => true, a=>a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)
