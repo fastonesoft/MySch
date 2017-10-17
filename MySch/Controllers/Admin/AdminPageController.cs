@@ -209,8 +209,8 @@ namespace MySch.Controllers.Admin
             try
             {
                 var res = id == null ?
-                    ViPage.GetDataGridPages(a => true, page, rows) :
-                    ViPage.GetDataGridPages(a => a.ParentID == id, page, rows);
+                    ViPage.GetDataGridPages<ViPage, string>(a => true,a=>a.IDS, page, rows) :
+                    ViPage.GetDataGridPages<ViPage,string>(a => a.ParentID == id,a=>a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

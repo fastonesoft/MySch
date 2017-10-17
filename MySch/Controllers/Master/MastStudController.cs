@@ -52,7 +52,7 @@ namespace MySch.Controllers.Master
                 //直接获取：我的学生对应的
                 //校区、年级、班级
                 var login = BllLogin.GetLogin(Session);
-                var bans = ViSchBan.GetEntitys(a => a.MasterIDS == login.IDS);
+                var bans = ViSchBan.GetEntitys<ViSchBan>(a => a.MasterIDS == login.IDS);
 
 
                 //校区

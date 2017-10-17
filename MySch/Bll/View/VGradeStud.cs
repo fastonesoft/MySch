@@ -79,7 +79,6 @@ namespace MySch.Bll.View
                                        OutName = gs_o.Name,
                                        Fixed = gs.Fixed,
                                        InSch = gs.InSch,
-                                       IsCurrent = y.IsCurrent,
                                        Score = gs.Score,
                                        OldBan = gs.OldBan,
                                        OldBanNum = gs.OldBan.Substring(0, 2),

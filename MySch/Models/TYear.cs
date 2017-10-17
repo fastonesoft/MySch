@@ -30,7 +30,7 @@ namespace MySch.Models
 
         public int Name { get; set; }
 
-        public bool IsCurrent { get; set; }
+        public bool CurrentYear { get; set; }
 
         public virtual TAcc TAcc { get; set; }
 

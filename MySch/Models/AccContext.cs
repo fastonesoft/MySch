@@ -8,7 +8,7 @@ namespace MySch.Models
     public partial class AccContext : DbContext
     {
         public AccContext()
-            : base("name=MySchContextIP")
+            : base("name=AccContext")
         {
         }
 
@@ -51,7 +51,11 @@ namespace MySch.Models
         public virtual DbSet<WxPrize> WxPrizes { get; set; }
         public virtual DbSet<WxUploadFile> WxUploadFiles { get; set; }
         public virtual DbSet<ViewAccRoleGroup> ViewAccRoleGroups { get; set; }
-        public virtual DbSet<ViewBan> ViewBans { get; set; }
+        public virtual DbSet<ViewSchBan> ViewSchBans { get; set; }
+        public virtual DbSet<ViewSchGrade> ViewSchGrades { get; set; }
+        public virtual DbSet<ViewSchStep> ViewSchSteps { get; set; }
+        public virtual DbSet<ViewSchTerm> ViewSchTerms { get; set; }
+        public virtual DbSet<ViewStud> ViewStuds { get; set; }
         public virtual DbSet<ViewWxAccPrize> ViewWxAccPrizes { get; set; }
         public virtual DbSet<ViewWxAccSend> ViewWxAccSends { get; set; }
         public virtual DbSet<ViewWxStudUpload> ViewWxStudUploads { get; set; }

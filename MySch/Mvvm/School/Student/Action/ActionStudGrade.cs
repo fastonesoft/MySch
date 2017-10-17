@@ -111,7 +111,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //查询年级
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你还没有带班");
                 if (ban.NotFeng) throw new Exception("你班未参加分班，用不着查找");
 
@@ -145,7 +145,7 @@ namespace MySch.Mvvm.School.Student.Action
                 if (count != 0) throw new Exception(stud.StudName + "，已经在调动列表当中！");
 
                 //查询一下自已的班
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你还没有带班");
                 if (ban.NotFeng) throw new Exception("你班未参加分班，用不着查找");
 
@@ -155,7 +155,7 @@ namespace MySch.Mvvm.School.Student.Action
                 if (fixedcount + movecount >= ban.ChangeNum) throw new Exception("已达到调动人数上限");
 
                 //公共关系模式
-                var grade = ViSchGrade.GetEntity(a => a.IDS == ban.GradeIDS);
+                var grade = ViSchGrade.GetEntity<ViSchGrade>(a => a.IDS == ban.GradeIDS);
                 if (grade.GoneModel)
                 {
                     string glist = string.IsNullOrEmpty(grade.GoneList) ? string.Empty : grade.GoneList;
@@ -251,7 +251,7 @@ namespace MySch.Mvvm.School.Student.Action
                 if (move == null) throw new Exception(movestudent.StudName + "，没有调动记录，或者已调动成功！");
 
                 //检查：调动学生是不是我班的
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (move.BanIDS != ban.IDS) throw new Exception(movestudent.StudName + "，不是我班的！");
 
 
@@ -299,7 +299,7 @@ namespace MySch.Mvvm.School.Student.Action
                 //条件是什么：
                 //  是我的条件下的，你班的学生
                 //一、我的条件
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你有带班吗？");
                 if (ban.NotFeng) throw new Exception("你有学生跟人换吗？");
 
@@ -309,7 +309,7 @@ namespace MySch.Mvvm.School.Student.Action
                 var stud = VGradeStud.GetEntity(a => a.ID == data.ID && a.IDS == data.IDS && a.BanIDS == ban.IDS);
                 if (stud == null) throw new Exception("不是你班学生，或者信息无法识别！");
                 //哪个班的要跟我调
-                var who = ViSchBan.GetEntity(a => a.MasterIDS == data.OwnerIDS);
+                var who = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == data.OwnerIDS);
                 if (who == null) throw new Exception("找不到调动学生的班级");
 
                 var res = new VmKeyValue { Command = data.Command, Key = data.ID };
@@ -345,8 +345,8 @@ namespace MySch.Mvvm.School.Student.Action
                 if (data.OwnerIDS != owner) throw new Exception("异常数据");
 
                 //公共关系模式
-                var ban = ViSchBan.GetEntity(a => a.IDS == data.BanIDS);
-                var grade = ViSchGrade.GetEntity(a => a.IDS == ban.GradeIDS);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.IDS == data.BanIDS);
+                var grade = ViSchGrade.GetEntity<ViSchGrade>(a => a.IDS == ban.GradeIDS);
                 var stud = VGradeStud.GetEntity(a => a.ID == data.ID);
 
                 //先保存交换学生
@@ -418,7 +418,7 @@ namespace MySch.Mvvm.School.Student.Action
         {
             try
             {
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你还没有带班呢");
 
                 //查找你调几个了，
@@ -483,7 +483,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //查询我的班级
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你还没有带班");
 
                 //查询我带的班，调动学生名单
@@ -501,7 +501,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //查询我的班级
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你还没有带班");
 
                 //查询我带的班，调动成功的公共关系
@@ -519,7 +519,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //查询我的班级
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你还没有带班");
 
                 return new VmStudGradeBanInfor
@@ -539,7 +539,7 @@ namespace MySch.Mvvm.School.Student.Action
             try
             {
                 //查询我的班级
-                var ban = ViSchBan.GetEntity(a => a.MasterIDS == owner);
+                var ban = ViSchBan.GetEntity<ViSchBan>(a => a.MasterIDS == owner);
                 if (ban == null) throw new Exception("你还没有带班");
 
                 //班级信息

@@ -31,7 +31,7 @@ namespace MySch.Models
         [StringLength(32)]
         public string TermTypeIDS { get; set; }
 
-        public bool IsCurrent { get; set; }
+        public bool CurrentTerm { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kao> Kaos { get; set; }

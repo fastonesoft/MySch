@@ -111,7 +111,7 @@ namespace MySch.Bll.Entity
                 if (!model.IsValid) throw new Exception("表示层：数据验证无法通过！");
 
                 //查询学生信息
-                var grade = ViSchGrade.GetEntity(a => a.IDS == this.GradeIDS);
+                var grade = ViSchGrade.GetEntity<ViSchGrade>(a => a.IDS == this.GradeIDS);
                 //学生库记录编号
                 var studs = DataCRUD<Stud>.Entitys(a => a.StepIDS == grade.StepIDS);
                 var studs_max = studs.Any() ? studs.Max(a => a.IDS) : grade.StepIDS + "0000";

@@ -12,7 +12,7 @@ namespace MySch.Models
     /// </summary>
     //学籍查询请求所需数据格式
 
-    public class StudQueValid
+    public class StudQueValid1
     {
         [DisplayName("姓名")]
         [Required(ErrorMessage = "{0}：不得为空")]
@@ -26,7 +26,7 @@ namespace MySch.Models
     }
 
     //学籍编号
-    public class StudEditValid
+    public class StudEditValid1
     {
         public string ID { get; set; }
 
@@ -47,7 +47,7 @@ namespace MySch.Models
     }
     
     //学籍手动添加
-    public class StudManuValid
+    public class StudManuValid1
     {
         [DisplayName("身份证号")]
         [Required(ErrorMessage = "{0}：不得为空")]
@@ -71,7 +71,7 @@ namespace MySch.Models
     }
 
     //学籍注册
-    public class StudRegValid
+    public class StudRegValid1
     {
         public string ID { get; set; }
 

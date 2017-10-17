@@ -183,7 +183,11 @@
     <Compile Include="Models\TTermType.cs" />
     <Compile Include="Models\TYear.cs" />
     <Compile Include="Models\ViewAccRoleGroup.cs" />
-    <Compile Include="Models\ViewBan.cs" />
+    <Compile Include="Models\ViewSchBan.cs" />
+    <Compile Include="Models\ViewSchGrade.cs" />
+    <Compile Include="Models\ViewSchStep.cs" />
+    <Compile Include="Models\ViewSchTerm.cs" />
+    <Compile Include="Models\ViewStud.cs" />
     <Compile Include="Models\ViewWxAccPrize.cs" />
     <Compile Include="Models\ViewWxAccSend.cs" />
     <Compile Include="Models\ViewWxStudUpload.cs" />

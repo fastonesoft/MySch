@@ -136,7 +136,7 @@ namespace MySch.Controllers.User
 
                 var login = BllLogin.GetLogin(Session);
 
-                var res = ViSchStep.GetDataGridPages(a => a.AccIDS == login.IDS && a.PartIDS == id, page, rows);
+                var res = ViSchStep.GetDataGridPages<ViSchStep, string>(a => a.AccIDS == login.IDS && a.PartIDS == id, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

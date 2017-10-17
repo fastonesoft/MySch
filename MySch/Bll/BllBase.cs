@@ -212,7 +212,7 @@ namespace MySch.Bll
         /// <param name="pageSize">页尺寸</param>
         /// <param name="ordertype">排序方式</param>
         /// <returns></returns>
-        private static object GetDataGridPages<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize, OrderType ordertype)
+        private static object GetDataGridPagesPrivate<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize, OrderType ordertype)
         {
             try
             {
@@ -234,11 +234,11 @@ namespace MySch.Bll
             }
         }
 
-        public static object GetDataGridPagesAsc<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize)
+        public static object GetDataGridPages<BllEntity, Key>(Expression<Func<Entity, bool>> where, Expression<Func<Entity, Key>> order, int pageIndex, int pageSize)
         {
             try
             {
-                return GetDataGridPages<BllEntity, Key>(where, order, pageIndex, pageSize, OrderType.ASC);
+                return GetDataGridPagesPrivate<BllEntity, Key>(where, order, pageIndex, pageSize, OrderType.ASC);
             }
             catch (Exception e)
             {
@@ -249,7 +249,7 @@ namespace MySch.Bll
         {
             try
             {
-                return GetDataGridPages<BllEntity, Key>(where, order, pageIndex, pageSize, OrderType.DESC);
+                return GetDataGridPagesPrivate<BllEntity, Key>(where, order, pageIndex, pageSize, OrderType.DESC);
             }
             catch (Exception e)
             {
@@ -257,7 +257,7 @@ namespace MySch.Bll
             }
         }
 
-        public static object GetTrees<BllEntity, Key>(Expression<Func<Entity, bool>> where, string ids, string name, string state, string memo) where BllEntity :class
+        public static object GetTrees<BllEntity, Key>(Expression<Func<Entity, bool>> where, string ids, string name, string state, string memo) where BllEntity : class
         {
             var entitys = DataCRUD<Entity>.Entitys(where);
             //转换：实体对象 - 表示数据

@@ -112,7 +112,7 @@ namespace MySch.Controllers.Kao
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllKaoType.GetDataGridPagesAsc<BllKaoType, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
+                var res = BllKaoType.GetDataGridPages<BllKaoType, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

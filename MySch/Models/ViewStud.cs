@@ -6,38 +6,39 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Stud")]
-    public partial class Stud
+    [Table("ViewStud")]
+    public partial class ViewStud
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Stud()
-        {
-            StudGrades = new HashSet<StudGrade>();
-        }
-
-        [Required]
+        [Key]
+        [Column(Order = 0)]
         [StringLength(32)]
         public string ID { get; set; }
 
         [Key]
+        [Column(Order = 1)]
         [StringLength(32)]
         public string IDS { get; set; }
 
-        [Required]
+        [Key]
+        [Column(Order = 2)]
         [StringLength(20)]
         public string IDC { get; set; }
 
-        [Required]
+        [Key]
+        [Column(Order = 3)]
         [StringLength(10)]
         public string Name { get; set; }
 
-        [Required]
+        [Key]
+        [Column(Order = 4)]
         [StringLength(32)]
         public string StepIDS { get; set; }
 
         [StringLength(64)]
         public string FromSch { get; set; }
 
+        [Key]
+        [Column(Order = 5)]
         public bool SchChoose { get; set; }
 
         [StringLength(10)]
@@ -46,6 +47,8 @@ namespace MySch.Models
         [StringLength(32)]
         public string RegUID { get; set; }
 
+        [Key]
+        [Column(Order = 6)]
         public bool Examed { get; set; }
 
         [StringLength(32)]
@@ -72,14 +75,35 @@ namespace MySch.Models
         [StringLength(50)]
         public string Birth { get; set; }
 
+        [Key]
+        [Column(Order = 7)]
         public bool Fixed { get; set; }
 
         [StringLength(50)]
         public string Memo { get; set; }
 
-        public virtual TStep TStep { get; set; }
+        [Key]
+        [Column(Order = 8)]
+        public bool Graduated { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StudGrade> StudGrades { get; set; }
+        [Key]
+        [Column(Order = 9)]
+        [StringLength(10)]
+        public string PartName { get; set; }
+
+        [Key]
+        [Column(Order = 10)]
+        [StringLength(20)]
+        public string StepName { get; set; }
+
+        [Key]
+        [Column(Order = 11)]
+        [StringLength(32)]
+        public string AccIDS { get; set; }
+
+        [Key]
+        [Column(Order = 12)]
+        [StringLength(32)]
+        public string PartIDS { get; set; }
     }
 }

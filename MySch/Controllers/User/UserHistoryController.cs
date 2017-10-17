@@ -34,7 +34,7 @@ namespace MySch.Controllers.User
                 //年级：所有
                 if (memo == "Part")
                 {
-                    var entitys = ViSchStep.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id);
+                    var entitys = ViSchStep.GetEntitys<ViSchStep>(a => a.AccIDS == login.IDS && a.PartIDS == id);
                     var res = EasyUITree.ToTree(entitys, "IDS", "StepName", "closed", "Step");
                     return Json(res);
                 }
@@ -43,14 +43,14 @@ namespace MySch.Controllers.User
                     //分级：不是当年的
                     if (memo == "Step")
                     {
-                        var entitys = ViSchGrade.GetEntitys(a => a.AccIDS == login.IDS && a.StepIDS == id && a.IsCurrent == false);
+                        var entitys = ViSchGrade.GetEntitys<ViSchGrade>(a => a.AccIDS == login.IDS && a.StepIDS == id && a.IsCurrent == false);
                         var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
                         return Json(res);
                     }
                     else
                     {
                         //班级：所有
-                        var entitys = ViSchBan.GetEntitys(a => a.AccIDS == login.IDS && a.GradeIDS == id);
+                        var entitys = ViSchBan.GetEntitys<ViSchBan>(a => a.AccIDS == login.IDS && a.GradeIDS == id);
                         var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "open", "Class");
                         return Json(res);
                     }

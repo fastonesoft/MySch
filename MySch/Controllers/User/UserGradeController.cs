@@ -26,7 +26,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = ViSchStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var steps = ViSchStep.GetEntitys<ViSchStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyUICombo.ToComboJsons<BllEdu>(edus, null);
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, null);
@@ -50,7 +50,7 @@ namespace MySch.Controllers.User
 
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = ViSchStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var steps = ViSchStep.GetEntitys<ViSchStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyUICombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
@@ -75,7 +75,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var edus = BllEdu.GetEntitys<BllEdu>(a => a.AccIDS == login.IDS && a.Fixed).OrderBy(a => a.IDS);
                 var years = BllYear.GetEntitys<BllYear>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
-                var steps = ViSchStep.GetEntitys(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
+                var steps = ViSchStep.GetEntitys<ViSchStep>(a => a.AccIDS == login.IDS).OrderBy(a => a.IDS);
 
                 ViewBag.Edus = EasyUICombo.ToComboJsons<BllEdu>(edus, entity.EduIDS);
                 ViewBag.Years = EasyUICombo.ToComboJsons<BllYear>(years, entity.YearIDS);
@@ -104,7 +104,7 @@ namespace MySch.Controllers.User
                 //添加
                 entity.ToAdd(ModelState);
                 //查询 视图数据
-                var qentity = ViSchGrade.GetEntity(a => a.ID == entity.ID);
+                var qentity = ViSchGrade.GetEntity<ViSchGrade>(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -126,7 +126,7 @@ namespace MySch.Controllers.User
                 //修改
                 entity.ToUpdate(ModelState);
                 //查询 视图数据
-                var qentity = ViSchGrade.GetEntity(a => a.ID == entity.ID);
+                var qentity = ViSchGrade.GetEntity<ViSchGrade>(a => a.ID == entity.ID);
                 return Json(qentity);
             }
             catch (Exception e)
@@ -146,7 +146,7 @@ namespace MySch.Controllers.User
                 entity.AccIDS = login.IDS;
 
                 //查询 视图数据 保存
-                var qentity = ViSchGrade.GetEntity(a => a.ID == entity.ID);
+                var qentity = ViSchGrade.GetEntity<ViSchGrade>(a => a.ID == entity.ID);
                 //删除
                 entity.ToDelete(ModelState);
                 return Json(qentity);
@@ -170,7 +170,7 @@ namespace MySch.Controllers.User
             }
             else
             {
-                var entitys = ViSchStep.GetEntitys(a => a.AccIDS == login.IDS && a.PartIDS == id).OrderBy(a => a.IDS);
+                var entitys = ViSchStep.GetEntitys<ViSchStep>(a => a.AccIDS == login.IDS && a.PartIDS == id).OrderBy(a => a.IDS);
                 var res = EasyUITree.ToTree(entitys, "IDS", "StepName", "open", "Step");
                 return Json(res);
             }
@@ -183,8 +183,8 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
                 var res = id == null ?
-                    ViSchGrade.GetDataGridPages(a => a.AccIDS == login.IDS, page, rows) :
-                    ViSchGrade.GetDataGridPages(a => a.AccIDS == login.IDS && a.StepIDS == id, page, rows);
+                    ViSchGrade.GetDataGridPages<ViSchGrade,string>(a => a.AccIDS == login.IDS,a=>a.IDS, page, rows) :
+                    ViSchGrade.GetDataGridPages<ViSchGrade,string>(a => a.AccIDS == login.IDS && a.StepIDS == id,a=>a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

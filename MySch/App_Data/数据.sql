@@ -603,9 +603,6 @@ create table Stud
 	Fixed	bit not null,	--是否确认
 	--
 	Memo	nvarchar(50),	--备注
-	--
-	AccIDS	nvarchar(32) not null,	--学校编号
-	--
 )
 go
 alter table Stud add constraint PK_Stud primary key clustered (IDS)
@@ -1029,50 +1026,53 @@ FROM         dbo.WxUploadFile INNER JOIN
 
 go
 
---班级查询
-create view ViewSchBan
+
+
+--部门查询
+create view ViewSchPart
 as
-SELECT     dbo.TBan.ID, dbo.TBan.IDS, dbo.TBan.Num, dbo.TBan.GradeIDS, dbo.TBan.MasterIDS, dbo.TBan.NotFeng, dbo.TBan.OnlyFixed, 
-                      dbo.TBan.ChangeNum, dbo.TBan.Differ, dbo.TBan.IsAbs, dbo.TBan.SameSex, dbo.TStep.PartIDS, dbo.TGrade.StepIDS, dbo.TGrade.YearIDS, 
-                      dbo.TGrade.EduIDS, TAcc_1.Name AS MasterName, dbo.TAcc.Name AS AccName, dbo.TPart.Name AS PartName, dbo.TStep.Name AS StepName, 
-                      dbo.TPart.Name + ' - ' + dbo.TStep.Name + ' - ' + dbo.TEdu.Name + '（' + dbo.TBan.Num + '）班' AS Name, dbo.TYear.CurrentYear
+SELECT     dbo.TPart.ID, dbo.TPart.IDS, dbo.TPart.AccIDS, dbo.TPart.Name, dbo.TPart.Value, dbo.TPart.Fixed, dbo.TAcc.Name AS AccName
 FROM         dbo.TPart INNER JOIN
-                      dbo.TBan INNER JOIN
-                      dbo.TGrade ON dbo.TBan.GradeIDS = dbo.TGrade.IDS INNER JOIN
-                      dbo.TYear ON dbo.TGrade.YearIDS = dbo.TYear.IDS INNER JOIN
-                      dbo.TEdu ON dbo.TGrade.EduIDS = dbo.TEdu.IDS INNER JOIN
-                      dbo.TStep ON dbo.TGrade.StepIDS = dbo.TStep.IDS ON dbo.TPart.IDS = dbo.TStep.PartIDS INNER JOIN
-                      dbo.TAcc ON dbo.TPart.AccIDS = dbo.TAcc.IDS LEFT OUTER JOIN
-                      dbo.TAcc AS TAcc_1 ON dbo.TBan.MasterIDS = TAcc_1.IDS
-
-go
-
-
---年级查询
-create view ViewSchGrade
-as
-SELECT     dbo.TGrade.ID, dbo.TGrade.IDS, dbo.TGrade.StepIDS, dbo.TGrade.YearIDS, dbo.TGrade.EduIDS, dbo.TGrade.CanFeng, dbo.TGrade.TakeNum, 
-                      dbo.TGrade.GoneModel, dbo.TGrade.GoneList, dbo.TStep.PartIDS, dbo.TAcc.Name AS AccName, dbo.TPart.Name AS PartName, 
-                      dbo.TStep.Name AS StepName, dbo.TEdu.Name AS EduName, dbo.TStep.Name + ' - ' + dbo.TEdu.Name AS TreeName, 
-                      dbo.TPart.Name + ' - ' + dbo.TStep.Name + ' - ' + dbo.TEdu.Name AS Name, dbo.TYear.CurrentYear
-FROM         dbo.TGrade INNER JOIN
-                      dbo.TStep ON dbo.TGrade.StepIDS = dbo.TStep.IDS INNER JOIN
-                      dbo.TPart ON dbo.TStep.PartIDS = dbo.TPart.IDS INNER JOIN
-                      dbo.TEdu ON dbo.TGrade.EduIDS = dbo.TEdu.IDS INNER JOIN
-                      dbo.TAcc ON dbo.TPart.AccIDS = dbo.TAcc.IDS INNER JOIN
-                      dbo.TYear ON dbo.TGrade.YearIDS = dbo.TYear.IDS
+                      dbo.TAcc ON dbo.TPart.AccIDS = dbo.TAcc.IDS
 
 go
 
 --分级查询
 create view ViewSchStep
 as
-SELECT     dbo.TStep.ID, dbo.TStep.IDS, dbo.TStep.PartIDS, dbo.TStep.Name, dbo.TStep.Value, dbo.TStep.Graduated, dbo.TStep.CanRecruit, dbo.TPart.AccIDS, 
-                      dbo.TPart.Name AS PartName
+SELECT     dbo.TStep.ID, dbo.TStep.IDS, dbo.TStep.PartIDS, dbo.TStep.Name, dbo.TStep.Value, dbo.TStep.Graduated, dbo.TStep.CanRecruit, 
+                      dbo.ViewSchPart.Name AS PartName
 FROM         dbo.TStep INNER JOIN
-                      dbo.TPart ON dbo.TStep.PartIDS = dbo.TPart.IDS
-
+                      dbo.ViewSchPart ON dbo.TStep.PartIDS = dbo.ViewSchPart.IDS
 go
+
+
+
+--年级查询
+create view ViewSchGrade
+as
+SELECT     dbo.TGrade.ID, dbo.TGrade.IDS, dbo.TGrade.StepIDS, dbo.TGrade.YearIDS, dbo.TGrade.EduIDS, dbo.TGrade.CanFeng, dbo.TGrade.TakeNum, 
+                      dbo.TGrade.GoneModel, dbo.TGrade.GoneList, dbo.TEdu.Name AS EduName, dbo.TYear.CurrentYear, dbo.ViewSchStep.Name AS StepName, 
+                      dbo.TYear.Name AS YearName, dbo.ViewSchStep.PartName, 
+                      dbo.ViewSchStep.PartName + ' - ' + dbo.ViewSchStep.Name + ' - ' + dbo.TEdu.Name AS GradeName
+FROM         dbo.TGrade INNER JOIN
+                      dbo.TEdu ON dbo.TGrade.EduIDS = dbo.TEdu.IDS INNER JOIN
+                      dbo.TYear ON dbo.TGrade.YearIDS = dbo.TYear.IDS INNER JOIN
+                      dbo.ViewSchStep ON dbo.TGrade.StepIDS = dbo.ViewSchStep.IDS
+go
+
+
+
+--班级查询
+create view ViewSchBan
+as
+SELECT     dbo.TBan.ID, dbo.TBan.IDS, dbo.TBan.Num, dbo.TBan.GradeIDS, dbo.TBan.MasterIDS, dbo.TBan.NotFeng, dbo.TBan.OnlyFixed, 
+                      dbo.TBan.ChangeNum, dbo.TBan.Differ, dbo.TBan.IsAbs, dbo.TBan.SameSex, TAcc_1.Name AS MasterName, dbo.ViewSchGrade.GradeName
+FROM         dbo.TBan INNER JOIN
+                      dbo.ViewSchGrade ON dbo.TBan.GradeIDS = dbo.ViewSchGrade.IDS LEFT OUTER JOIN
+                      dbo.TAcc AS TAcc_1 ON dbo.TBan.MasterIDS = TAcc_1.IDS
+go
+
 
 
 --学期查询
@@ -1084,3 +1084,15 @@ FROM         dbo.TTerm INNER JOIN
                       dbo.TYear ON dbo.TTerm.YearIDS = dbo.TYear.IDS INNER JOIN
                       dbo.TTermType ON dbo.TTerm.TermTypeIDS = dbo.TTermType.IDS
 go
+
+--学生查询
+create view ViewStud
+as
+SELECT     dbo.Stud.ID, dbo.Stud.IDS, dbo.Stud.IDC, dbo.Stud.Name, dbo.Stud.StepIDS, dbo.Stud.FromSch, dbo.Stud.SchChoose, dbo.Stud.RegNo, 
+                      dbo.Stud.RegUID, dbo.Stud.Examed, dbo.Stud.ExamUID, dbo.Stud.ExamUIDe, dbo.Stud.Mobil1, dbo.Stud.Mobil2, dbo.Stud.Name1, dbo.Stud.Name2, 
+                      dbo.Stud.Home, dbo.Stud.Birth, dbo.Stud.Fixed, dbo.Stud.Memo, dbo.ViewSchStep.Graduated, dbo.ViewSchStep.PartName, 
+                      dbo.ViewSchStep.Name AS StepName, dbo.ViewSchStep.AccIDS, dbo.ViewSchStep.PartIDS
+FROM         dbo.Stud INNER JOIN
+                      dbo.ViewSchStep ON dbo.Stud.StepIDS = dbo.ViewSchStep.IDS
+go
+
