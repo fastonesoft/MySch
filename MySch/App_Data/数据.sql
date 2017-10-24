@@ -1041,7 +1041,7 @@ go
 create view ViewSchStep
 as
 SELECT     dbo.TStep.ID, dbo.TStep.IDS, dbo.TStep.PartIDS, dbo.TStep.Name, dbo.TStep.Value, dbo.TStep.Graduated, dbo.TStep.CanRecruit, 
-                      dbo.ViewSchPart.Name AS PartName
+                      dbo.ViewSchPart.Name AS PartName, dbo.ViewSchPart.AccIDS, dbo.ViewSchPart.AccName
 FROM         dbo.TStep INNER JOIN
                       dbo.ViewSchPart ON dbo.TStep.PartIDS = dbo.ViewSchPart.IDS
 go
@@ -1054,11 +1054,13 @@ as
 SELECT     dbo.TGrade.ID, dbo.TGrade.IDS, dbo.TGrade.StepIDS, dbo.TGrade.YearIDS, dbo.TGrade.EduIDS, dbo.TGrade.CanFeng, dbo.TGrade.TakeNum, 
                       dbo.TGrade.GoneModel, dbo.TGrade.GoneList, dbo.TEdu.Name AS EduName, dbo.TYear.CurrentYear, dbo.ViewSchStep.Name AS StepName, 
                       dbo.TYear.Name AS YearName, dbo.ViewSchStep.PartName, 
-                      dbo.ViewSchStep.PartName + ' - ' + dbo.ViewSchStep.Name + ' - ' + dbo.TEdu.Name AS GradeName
+                      dbo.ViewSchStep.PartName + ' - ' + dbo.ViewSchStep.Name + ' - ' + dbo.TEdu.Name AS GradeName, dbo.ViewSchStep.PartIDS, 
+                      dbo.ViewSchStep.AccIDS, dbo.ViewSchStep.AccName, dbo.ViewSchStep.Graduated
 FROM         dbo.TGrade INNER JOIN
                       dbo.TEdu ON dbo.TGrade.EduIDS = dbo.TEdu.IDS INNER JOIN
                       dbo.TYear ON dbo.TGrade.YearIDS = dbo.TYear.IDS INNER JOIN
                       dbo.ViewSchStep ON dbo.TGrade.StepIDS = dbo.ViewSchStep.IDS
+
 go
 
 
@@ -1067,10 +1069,13 @@ go
 create view ViewSchBan
 as
 SELECT     dbo.TBan.ID, dbo.TBan.IDS, dbo.TBan.Num, dbo.TBan.GradeIDS, dbo.TBan.MasterIDS, dbo.TBan.NotFeng, dbo.TBan.OnlyFixed, 
-                      dbo.TBan.ChangeNum, dbo.TBan.Differ, dbo.TBan.IsAbs, dbo.TBan.SameSex, TAcc_1.Name AS MasterName, dbo.ViewSchGrade.GradeName
+                      dbo.TBan.ChangeNum, dbo.TBan.Differ, dbo.TBan.IsAbs, dbo.TBan.SameSex, TAcc_1.Name AS MasterName, dbo.ViewSchGrade.GradeName, 
+                      dbo.ViewSchGrade.TakeNum, dbo.ViewSchGrade.CurrentYear, dbo.ViewSchGrade.Graduated, dbo.ViewSchGrade.AccIDS, 
+                      dbo.ViewSchGrade.PartIDS
 FROM         dbo.TBan INNER JOIN
                       dbo.ViewSchGrade ON dbo.TBan.GradeIDS = dbo.ViewSchGrade.IDS LEFT OUTER JOIN
                       dbo.TAcc AS TAcc_1 ON dbo.TBan.MasterIDS = TAcc_1.IDS
+
 go
 
 

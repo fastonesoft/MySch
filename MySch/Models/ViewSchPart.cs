@@ -6,8 +6,8 @@ namespace MySch.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ViewSchStep")]
-    public partial class ViewSchStep
+    [Table("ViewSchPart")]
+    public partial class ViewSchPart
     {
         [Key]
         [Column(Order = 0)]
@@ -22,38 +22,24 @@ namespace MySch.Models
         [Key]
         [Column(Order = 2)]
         [StringLength(32)]
-        public string PartIDS { get; set; }
+        public string AccIDS { get; set; }
 
         [Key]
         [Column(Order = 3)]
-        [StringLength(20)]
+        [StringLength(10)]
         public string Name { get; set; }
 
         [Key]
         [Column(Order = 4)]
-        [StringLength(20)]
+        [StringLength(2)]
         public string Value { get; set; }
 
         [Key]
         [Column(Order = 5)]
-        public bool Graduated { get; set; }
+        public bool Fixed { get; set; }
 
         [Key]
         [Column(Order = 6)]
-        public bool CanRecruit { get; set; }
-
-        [Key]
-        [Column(Order = 7)]
-        [StringLength(10)]
-        public string PartName { get; set; }
-
-        [Key]
-        [Column(Order = 8)]
-        [StringLength(32)]
-        public string AccIDS { get; set; }
-
-        [Key]
-        [Column(Order = 9)]
         [StringLength(20)]
         public string AccName { get; set; }
     }

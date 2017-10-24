@@ -53,6 +53,7 @@ namespace MySch.Models
         public virtual DbSet<ViewAccRoleGroup> ViewAccRoleGroups { get; set; }
         public virtual DbSet<ViewSchBan> ViewSchBans { get; set; }
         public virtual DbSet<ViewSchGrade> ViewSchGrades { get; set; }
+        public virtual DbSet<ViewSchPart> ViewSchParts { get; set; }
         public virtual DbSet<ViewSchStep> ViewSchSteps { get; set; }
         public virtual DbSet<ViewSchTerm> ViewSchTerms { get; set; }
         public virtual DbSet<ViewStud> ViewStuds { get; set; }

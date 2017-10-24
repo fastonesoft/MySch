@@ -51,41 +51,50 @@ namespace MySch.Models
 
         [Key]
         [Column(Order = 8)]
-        [StringLength(32)]
-        public string PartIDS { get; set; }
-
-        [Key]
-        [Column(Order = 9)]
-        [StringLength(20)]
-        public string AccName { get; set; }
-
-        [Key]
-        [Column(Order = 10)]
-        [StringLength(10)]
-        public string PartName { get; set; }
-
-        [Key]
-        [Column(Order = 11)]
-        [StringLength(20)]
-        public string StepName { get; set; }
-
-        [Key]
-        [Column(Order = 12)]
         [StringLength(10)]
         public string EduName { get; set; }
 
         [Key]
+        [Column(Order = 9)]
+        public bool CurrentYear { get; set; }
+
+        [Key]
+        [Column(Order = 10)]
+        [StringLength(20)]
+        public string StepName { get; set; }
+
+        [Key]
+        [Column(Order = 11)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int YearName { get; set; }
+
+        [Key]
+        [Column(Order = 12)]
+        [StringLength(10)]
+        public string PartName { get; set; }
+
+        [Key]
         [Column(Order = 13)]
-        [StringLength(33)]
-        public string TreeName { get; set; }
+        [StringLength(46)]
+        public string GradeName { get; set; }
 
         [Key]
         [Column(Order = 14)]
-        [StringLength(46)]
-        public string Name { get; set; }
+        [StringLength(32)]
+        public string PartIDS { get; set; }
 
         [Key]
         [Column(Order = 15)]
-        public bool CurrentYear { get; set; }
+        [StringLength(32)]
+        public string AccIDS { get; set; }
+
+        [Key]
+        [Column(Order = 16)]
+        [StringLength(20)]
+        public string AccName { get; set; }
+
+        [Key]
+        [Column(Order = 17)]
+        public bool Graduated { get; set; }
     }
 }

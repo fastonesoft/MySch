@@ -185,6 +185,7 @@
     <Compile Include="Models\ViewAccRoleGroup.cs" />
     <Compile Include="Models\ViewSchBan.cs" />
     <Compile Include="Models\ViewSchGrade.cs" />
+    <Compile Include="Models\ViewSchPart.cs" />
     <Compile Include="Models\ViewSchStep.cs" />
     <Compile Include="Models\ViewSchTerm.cs" />
     <Compile Include="Models\ViewStud.cs" />

@@ -58,51 +58,35 @@ namespace MySch.Models
         [Column(Order = 9)]
         public bool SameSex { get; set; }
 
-        [Key]
-        [Column(Order = 10)]
-        [StringLength(32)]
-        public string PartIDS { get; set; }
-
-        [Key]
-        [Column(Order = 11)]
-        [StringLength(32)]
-        public string StepIDS { get; set; }
-
-        [Key]
-        [Column(Order = 12)]
-        [StringLength(32)]
-        public string YearIDS { get; set; }
-
-        [Key]
-        [Column(Order = 13)]
-        [StringLength(32)]
-        public string EduIDS { get; set; }
-
         [StringLength(20)]
         public string MasterName { get; set; }
 
         [Key]
+        [Column(Order = 10)]
+        [StringLength(46)]
+        public string GradeName { get; set; }
+
+        [Key]
+        [Column(Order = 11)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int TakeNum { get; set; }
+
+        [Key]
+        [Column(Order = 12)]
+        public bool CurrentYear { get; set; }
+
+        [Key]
+        [Column(Order = 13)]
+        public bool Graduated { get; set; }
+
+        [Key]
         [Column(Order = 14)]
-        [StringLength(20)]
-        public string AccName { get; set; }
+        [StringLength(32)]
+        public string AccIDS { get; set; }
 
         [Key]
         [Column(Order = 15)]
-        [StringLength(10)]
-        public string PartName { get; set; }
-
-        [Key]
-        [Column(Order = 16)]
-        [StringLength(20)]
-        public string StepName { get; set; }
-
-        [Key]
-        [Column(Order = 17)]
-        [StringLength(62)]
-        public string Name { get; set; }
-
-        [Key]
-        [Column(Order = 18)]
-        public bool CurrentYear { get; set; }
+        [StringLength(32)]
+        public string PartIDS { get; set; }
     }
 }
