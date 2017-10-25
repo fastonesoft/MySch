@@ -124,8 +124,8 @@ namespace MySch.Controllers.Wall
             {
                 //可以根据姓名、电话、昵称，查询相关信息
                 var res = string.IsNullOrEmpty(text) ?
-                    VqWxAccFilt.GetDataGridPagesAsc<VqWxAccFilt, string>(a => true, a => a.Name, page, rows) :
-                    VqWxAccFilt.GetDataGridPagesAsc<VqWxAccFilt, string>(a => a.Name.Contains(text) || a.Mobils.Contains(text) || a.IDS.Contains(text), a => a.Name, page, rows);
+                    VqWxAccFilt.GetDataGridPages<VqWxAccFilt, string>(a => true, a => a.Name, page, rows) :
+                    VqWxAccFilt.GetDataGridPages<VqWxAccFilt, string>(a => a.Name.Contains(text) || a.Mobils.Contains(text) || a.IDS.Contains(text), a => a.Name, page, rows);
                 return Json(res);
             }
             catch (Exception e)

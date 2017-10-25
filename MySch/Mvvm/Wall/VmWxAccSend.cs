@@ -29,7 +29,7 @@ namespace MySch.Mvvm.Wall
         public bool Showed { get; set; }
     }
 
-    public class VqWxAccSend : BllBase<ViWxAccSend>
+    public class VqWxAccSend : BllBase<ViewWxAccSend>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

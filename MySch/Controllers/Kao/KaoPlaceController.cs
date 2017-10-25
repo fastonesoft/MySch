@@ -105,7 +105,7 @@ namespace MySch.Controllers.Kao
                 }
 
                 //返回添加的数据集
-                var res = BllKaoPlace.GetDataGridPagesAsc<BllKaoPlace, string>(a => placestr.Contains(a.IDS), a => a.IDS, 1, 100);
+                var res = BllKaoPlace.GetDataGridPages<BllKaoPlace, string>(a => placestr.Contains(a.IDS), a => a.IDS, 1, 100);
                 return Json(res);
             }
             catch (Exception e)
@@ -155,7 +155,7 @@ namespace MySch.Controllers.Kao
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllKaoPlace.GetDataGridPagesAsc<BllKaoPlace, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
+                var res = BllKaoPlace.GetDataGridPages<BllKaoPlace, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

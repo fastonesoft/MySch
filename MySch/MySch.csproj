@@ -285,7 +285,6 @@
     <Compile Include="Bll\Entity\BllEdu.cs" />
     <Compile Include="Bll\Entity\BllLogin.cs" />
     <Compile Include="Bll\Entity\BllYear.cs" />
-    <Compile Include="Bll\View\ViBanTree.cs" />
     <Compile Include="Bll\View\ViPage.cs" />
     <Compile Include="Bll\View\VStudOut.cs" />
     <Compile Include="Bll\View\VGradeStud.cs">
@@ -317,7 +316,6 @@
     <Compile Include="Filter\RoleRecFilter.cs" />
     <Compile Include="Controllers\ST\StNewController.cs" />
     <Compile Include="Controllers\WX\ImageController.cs" />
-    <Compile Include="Controllers\Master\MastStudController.cs" />
     <Compile Include="Controllers\Master\MastBanController.cs" />
     <Compile Include="Controllers\User\UserOutController.cs" />
     <Compile Include="Controllers\Admin\AdminUserController.cs" />
@@ -353,7 +351,6 @@
     </Compile>
     <Compile Include="Helper\HtmlHelp.cs" />
     <Compile Include="Core\MyType.cs" />
-    <Compile Include="ModelsEx\MyValid.cs" />
     <Compile Include="Core\ImageValid.cs" />
     <Compile Include="Bll\WX\WXApi.cs">
       <SubType>Code</SubType>
@@ -726,7 +723,6 @@
     <Content Include="Views\UserStud\Drop.cshtml" />
     <Content Include="Views\UserStud\Back.cshtml" />
     <Content Include="Views\MastBan\Index.cshtml" />
-    <Content Include="Views\MastStud\Index.cshtml" />
     <Content Include="Views\MastBan\Edit.cshtml" />
     <Content Include="Views\MastBan\Fix.cshtml" />
     <Content Include="Views\MastBan\Back.cshtml" />
@@ -809,7 +805,6 @@
   <ItemGroup>
     <Folder Include="Views\Image\" />
     <Folder Include="Views\Kao\" />
-    <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

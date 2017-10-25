@@ -20,7 +20,7 @@ namespace MySch.Mvvm.Wall
         public string WxPrizeIDS { get; set; }
     }
 
-    public class VqWxAccPrize : BllBase<ViWxAccPrize>
+    public class VqWxAccPrize : BllBase<ViewWxAccPrize>
     {
         public string ID { get; set; }
         public string IDS { get; set; }

@@ -26,10 +26,10 @@ namespace MySch.Bll.Entity
         {
             try
             {
-                var years = DataCRUD<TYear>.Entitys(a => a.IsCurrent);
+                var years = DataCRUD<TYear>.Entitys(a => a.CurrentYear);
                 foreach (var year in years)
                 {
-                    year.IsCurrent = false;
+                    year.CurrentYear = false;
                     DataCRUD<TYear>.Update(year);
                 }
             }

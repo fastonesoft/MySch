@@ -124,8 +124,8 @@ namespace MySch.Controllers.Wall
             try
             {
                 var res = string.IsNullOrEmpty(text) ?
-                    VqWxPrize.GetDataGridPagesAsc<VqWxPrize, string>(a => true, a => a.IDS, page, rows) :
-                    VqWxPrize.GetDataGridPagesAsc<VqWxPrize, string>(a => a.Name.Contains(text), a => a.IDS, page, rows);
+                    VqWxPrize.GetDataGridPages<VqWxPrize, string>(a => true, a => a.IDS, page, rows) :
+                    VqWxPrize.GetDataGridPages<VqWxPrize, string>(a => a.Name.Contains(text), a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

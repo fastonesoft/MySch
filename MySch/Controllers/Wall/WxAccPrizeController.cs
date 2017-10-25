@@ -27,8 +27,8 @@ namespace MySch.Controllers.Wall
             try
             {
                 var res = string.IsNullOrEmpty(text) ?
-                    VqWxAccPrize.GetDataGridPagesAsc<VqWxAccPrize, string>(a => true, a => a.WxPrizeIDS, page, rows) :
-                    VqWxAccPrize.GetDataGridPagesAsc<VqWxAccPrize, string>(a => a.AccName.Contains(text), a => a.WxPrizeIDS, page, rows);
+                    VqWxAccPrize.GetDataGridPages<VqWxAccPrize, string>(a => true, a => a.WxPrizeIDS, page, rows) :
+                    VqWxAccPrize.GetDataGridPages<VqWxAccPrize, string>(a => a.AccName.Contains(text), a => a.WxPrizeIDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

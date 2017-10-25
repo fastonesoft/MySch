@@ -113,7 +113,7 @@ namespace MySch.Controllers.User
             {
                 var login = BllLogin.GetLogin(Session);
 
-                var res = BllSub.GetDataGridPagesAsc<BllSub, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
+                var res = BllSub.GetDataGridPages<BllSub, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

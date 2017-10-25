@@ -3,7 +3,7 @@ using MySch.Models;
 
 namespace MySch.Mvvm.School.Student
 {
-    public class VqBanPhotos: BllBase<ViWxStudUpload>
+    public class VqBanPhotos: BllBase<ViewWxStudUpload>
     {
         public string ID { get; set; }
         //StudGrade中的StudIDS，Student中的IDS

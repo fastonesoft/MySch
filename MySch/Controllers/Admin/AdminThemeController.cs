@@ -131,7 +131,7 @@ namespace MySch.Controllers.Admin
         {
             try
             {
-                var res = BllAdminTheme.GetDataGridPagesAsc<BllAdminTheme, string>(a => true, a => a.IDS, page, rows);
+                var res = BllAdminTheme.GetDataGridPages<BllAdminTheme, string>(a => true, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)

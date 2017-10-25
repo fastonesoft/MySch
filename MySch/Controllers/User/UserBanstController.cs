@@ -346,7 +346,7 @@ namespace MySch.Controllers.User
                 //年级
                 if (memo == "Part")
                 {
-                    var entitys = ViSchGrade.GetEntitys<ViSchGrade>(a => a.AccIDS == login.IDS && a.PartIDS == id && a.IsCurrent);
+                    var entitys = ViSchGrade.GetEntitys<ViSchGrade>(a => a.AccIDS == login.IDS && a.PartIDS == id && a.CurrentYear);
                     var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
                     return Json(res);
                 }

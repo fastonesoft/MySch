@@ -43,7 +43,7 @@ namespace MySch.Controllers.User
                     //分级：不是当年的
                     if (memo == "Step")
                     {
-                        var entitys = ViSchGrade.GetEntitys<ViSchGrade>(a => a.AccIDS == login.IDS && a.StepIDS == id && a.IsCurrent == false);
+                        var entitys = ViSchGrade.GetEntitys<ViSchGrade>(a => a.AccIDS == login.IDS && a.StepIDS == id && a.CurrentYear == false);
                         var res = EasyUITree.ToTree(entitys, "IDS", "TreeName", "closed", "Grade");
                         return Json(res);
                     }
