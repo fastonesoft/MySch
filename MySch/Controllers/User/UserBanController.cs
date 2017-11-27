@@ -145,7 +145,7 @@ namespace MySch.Controllers.User
                     var ban = new BllBan
                     {
                         ID = Guid.NewGuid().ToString("N"),
-                        IDS = entity.GradeIDS + i.ToString("D2"),
+                        IDS = "TB" + entity.GradeIDS + i.ToString("D2"),
                         Num = i.ToString("D2"),
                         NotFeng = false,
                         OnlyFixed = true,
@@ -242,7 +242,7 @@ namespace MySch.Controllers.User
                 var login = BllLogin.GetLogin(Session);
                 var res = id == null ?
                     ViSchBan.GetDataGridPages<ViSchBan, string>(a => a.AccIDS == login.IDS, a => a.IDS, page, rows) :
-                    ViSchBan.GetDataGridPages<ViSchBan,string>(a => a.AccIDS == login.IDS && a.GradeIDS == id, a=>a.IDS, page, rows);
+                    ViSchBan.GetDataGridPages<ViSchBan, string>(a => a.AccIDS == login.IDS && a.GradeIDS == id, a => a.IDS, page, rows);
                 return Json(res);
             }
             catch (Exception e)
